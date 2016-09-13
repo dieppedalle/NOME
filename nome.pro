@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     parameterbank.cpp \
     utils.cpp \
     nomeparser.cpp \
-    nomeglwidget.cpp
+    nomeglwidget.cpp \
+    ribbon.cpp
 
 HEADERS  += \
     edge.h \
@@ -64,7 +65,8 @@ HEADERS  += \
     parameterbank.h \
     utils.h \
     nomeparser.h \
-    nomeglwidget.h
+    nomeglwidget.h \
+    ribbon.h
 
 linux{
     LIBS += -lglut -lGLU

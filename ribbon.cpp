@@ -1,3 +1,5 @@
+#include "ribbon.h"
+
 /**
  * @author Andy Wang, UC Berkeley.
  * Copyright 2016 reserve.
@@ -7,13 +9,11 @@
 
 #include "polyline.h"
 
-#if 0
-
 #define PolyLine PolyLine
 
 PolyLine::PolyLine()
 {
-    isLoop = false;
+    isLoop = true;
     vertices.clear();
     user_set_color = false;
     transformations_up.clear();
@@ -166,22 +166,110 @@ void PolyLine::updateCopyForTransform()
     }
 }
 
+vec3 distanceVector(vec3 x, vec3 y){
+    vec3 z;
+    z.x = x.x - y.x;
+    z.y = x.y - y.y;
+    z.z = x.z - y.z;
+    return z;
+}
+
+vec3 scale(vec3 x, float y){
+    vec3 z;
+    z.x = x.x * y;
+    z.y = x.y * y;
+    z.z = x.z * y;
+    return z;
+}
+
+vec3 getNext(vec3 x, vec3 y, vec3 z, vec3 t){
+    vec3 f = scale(normalize(cross(distanceVector(x,y),distanceVector(z,t))),0.4);
+    return f;
+}
+
+void PolyLine::finalize(){
+    ribbonVertices.clear();
+    if(vertices.size() > 0){
+        bool flag = false;
+        bool pass = false;
+        vec3 prev;
+        int l = vertices.size() - 1;
+        for(int i = 0; i < vertices.size(); ++i){
+            vec3 final = getNext(vertices[i%vertices.size()]->position, vertices[(i+1)%vertices.size()]->position, vertices[l%vertices.size()]->position, vertices[i%vertices.size()]->position);
+            if(!flag){
+                prev = final;
+                flag = true;
+            }
+            else{
+                final = reflect(final, prev);
+            }
+            if(std::isnan(final.x) && std::isnan(final.y) && std::isnan(final.z)){
+                final = distanceVector(ribbonVertices[ribbonVertices.size() - 1]->position, vertices[l%vertices.size()]->position);
+            }
+            Vertex* v = new Vertex(vertices[i%vertices.size()]->position.x + final.x,
+                    vertices[i%vertices.size()]->position.y + final.y,
+                    vertices[i%vertices.size()]->position.z + final.z,
+                    vertices[i%vertices.size()]->ID + vertices.size());
+            ribbonVertices.push_back(v);
+            ++l;
+        }
+    }
+}
+
 void PolyLine::drawLineWithCubes(int start_index)
 {
+    GLfloat fcolor[] = {1.0f * color.red() / 255,
+                        1.0f * color.green() / 255,
+                        1.0f * color.blue() / 255,
+                        1.0f * color.alpha() /255};
+    GLfloat acolor[] = {0 / 255,
+                         1.0f - 1.0f * color.green() / 255,
+                         0 / 255,
+                         1.0f - 1.0f * color.alpha() /255};
+    GLfloat bcolor[] = {0 / 255,
+                         1.0f - 1.0f * color.green() / 255,
+                         1.0f - 1.0f * color.blue() / 255,
+                         1.0f - 1.0f * color.alpha() /255};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
+    if(ribbonVertices.size() == 0){
+        finalize();
+    }
     int counter = 0;
     updateCubeSizes();
     for(Vertex*& v : vertices)
     {
         glLoadName(start_index + counter);
-        drawCubeAroundVertex(v, 0.1 * cubeSizes[counter]);
+        drawCubeAroundVertex(v, 0.08 * cubeSizes[counter]);
         counter++;
     }
+    counter = 0;
+    for(Vertex*& v : ribbonVertices)
+    {
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, bcolor);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, bcolor);
+        glBegin(GL_LINE_STRIP);
+        glVertex3f(vertices[counter]->position[0],vertices[counter]->position[1],vertices[counter]->position[2]);
+        glVertex3f(v->position[0],v->position[1],v->position[2]);
+        glEnd();
+        glLoadName(start_index + counter);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, acolor);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, acolor);
+        drawCubeAroundVertex(v, 0.05);
+        counter++;
+    }
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, acolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, acolor);
+    glBegin(GL_LINE_STRIP);
+    for(Vertex*& v : ribbonVertices)
+    {
+        glVertex3f(v->position[0],v->position[1],v->position[2]);
+    }
+    glVertex3f(ribbonVertices[0]->position[0],ribbonVertices[0]->position[1],ribbonVertices[0]->position[2]);
+    glEnd();
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     drawLine(start_index);
-}
-
-void PolyLine::finalize()
-{
-
 }
 
 void PolyLine::drawCubeAroundVertex(Vertex *v, float size)
@@ -305,4 +393,3 @@ Vertex * PolyLine::findVertexInThisPolyline(string name)
     }
     return NULL;
 }
-#endif

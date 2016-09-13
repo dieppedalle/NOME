@@ -5,10 +5,8 @@
  * Advised by Prof. Sequin H. Carlos.
  */
 
-
-#include "ribbon.h"
-
-#if 0
+#ifndef __POLYLINE2_H__
+#define __POLYLINE2_H__
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -23,6 +21,7 @@ class Group;
 class PolyLine {
 public:
     vector<Vertex*> vertices;
+    vector<Vertex*> ribbonVertices;
     bool isLoop;
     QColor color;
     PolyLine();

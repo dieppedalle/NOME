@@ -930,6 +930,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 endPolyLineWhile:
+                newPolyline.finalize();
                 polylines[newPolyline.name] = newPolyline;
             }
             else if((*tIt) == "point")
