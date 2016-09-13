@@ -7,6 +7,7 @@
 
 #include "vertex.h"
 #include "parameter.h"
+#include <random>
 
 Vertex::Vertex()
 {
@@ -18,6 +19,17 @@ Vertex::Vertex()
     isParametric = false;
     before_transform_vertex = NULL;
     source_vertex = NULL;
+}
+
+Vertex* Vertex::clone() const
+{
+    Vertex* v = new Vertex(position.x, position.y, position.z,this->ID ^ gen());
+    v->normal = this->normal;
+    v->oneEdge = this->oneEdge;
+    v->selected = false;
+    v->isParametric = this->isParametric;
+    v->before_transform_vertex = this->before_transform_vertex;
+    v->source_vertex = this->source_vertex;
 }
 
 Vertex::Vertex(float x, float y, float z, unsigned long ID)

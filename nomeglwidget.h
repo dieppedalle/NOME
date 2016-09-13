@@ -207,6 +207,7 @@ private:
      * @brief clearSelection: clear the selected items.
      */
     void clearSelection();
+    void cloneSelection();
     /* A flattened view of meshes in the current scene. */
     vector<Mesh*> global_mesh_list;
     /* A flattened view of polylines in the current scene. */
@@ -311,6 +312,7 @@ public slots:
     /* Receive the signal to clear all selections.
      * Including selected vertices and border. */
     void clearSelectionCalled(bool);
+    void cloneSelectionCalled(bool);
     /* Reset the triangle panelty of zipping function. */
     void resetTrianglePanelty(QString);
     /* @brief mergeCalled: Recieve the signal from control panel to merge. */

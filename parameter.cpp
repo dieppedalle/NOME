@@ -2,6 +2,8 @@
 #include "mesh.h"
 #include "myslider.h"
 
+std::mt19937_64 gen(time(NULL));
+
 Parameter::Parameter()
 {
     this -> name = QString("");

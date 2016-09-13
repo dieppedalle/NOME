@@ -49,6 +49,7 @@ void ControlPanel::buildConnection()
     connect(addBorderButton, SIGNAL(clicked(bool)), canvas, SLOT(addBorderCalled(bool)));
     connect(zipButton, SIGNAL(clicked(bool)), canvas, SLOT(zipToTempCalled(bool)));
     connect(clearSelectionButton,SIGNAL(clicked(bool)), canvas, SLOT(clearSelectionCalled(bool)));
+    connect(cloneSelectionButton,SIGNAL(clicked(bool)), canvas, SLOT(cloneSelectionCalled(bool)));
     //connect(addTempToMasterButton, SIGNAL(clicked(bool)), canvas, SLOT(addTempToMasterCalled(bool)));
     connect(wholeBorderCheck,SIGNAL(clicked(bool)), canvas, SLOT(wholeBorderSelectionChecked(bool)));
     connect(trianglePaneltyEdit, SIGNAL(textChanged(QString)), canvas, SLOT(resetTrianglePanelty(QString)));
@@ -104,6 +105,7 @@ void ControlPanel::setupLayout()
     wholeBorderCheck -> setEnabled(false);
     //addOrClearLayout->addWidget(addTempToMasterButton = new QPushButton(tr("Add to Initial Mesh")));
     addOrClearLayout->addWidget(clearSelectionButton = new QPushButton(tr("Clear Selection")));
+    addOrClearLayout->addWidget(cloneSelectionButton = new QPushButton(tr("Clone Selection")));
     modeLayout -> addWidget(consolidateButton = new QPushButton(tr("Consolidate Temp Mesh")));
     modeLayout -> addWidget(mergeButton = new QPushButton(tr("Merge All")));
     /* Subdivision layout. */

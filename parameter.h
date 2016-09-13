@@ -9,6 +9,8 @@ class Vertex;
 class Transformation;
 using namespace std;
 
+extern std::mt19937_64 gen;
+
 /**
  * @brief The Parameter class. The parameter to control the shape.
  * Every parameter will be controled by a slider bar.

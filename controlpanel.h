@@ -69,6 +69,7 @@ private:
     QHBoxLayout *addOrClearLayout;
     //QPushButton *addTempToMasterButton;
     QPushButton *clearSelectionButton;
+    QPushButton *cloneSelectionButton;
     QVBoxLayout *subdivLayout;
     QVBoxLayout *offsetLayout;
     QVBoxLayout *colorLayout;

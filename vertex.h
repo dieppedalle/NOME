@@ -13,6 +13,7 @@
 #include <vector>
 #include <unordered_map>
 #include "utils.h"
+#include <cstdint>
 
 using namespace glm;
 using namespace std;
@@ -44,7 +45,7 @@ public:
     /* One out-going halfedge of this vertex.*/
     Edge * oneEdge;
     /* A tracking identifier. Generally the index from global vertex list.*/
-    unsigned long ID;
+    std::uint64_t ID;
     /* True if it is the end of any Mobius edge.*/
     bool onMobius;
     /* A pointer to the vertex point in subdivision.*/
@@ -82,6 +83,8 @@ public:
     void setGlobalParameter(unordered_map<string, Parameter> *params);
     /* Update the current position of this vertex.*/
     void update();
+    /* clones vertex */
+    Vertex* clone() const;
 };
 
 #endif // __VERTEX_H__

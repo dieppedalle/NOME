@@ -884,9 +884,29 @@ void SlideGLWidget::clearSelection()
     repaint();
 }
 
+void SlideGLWidget::cloneSelection()
+{
+    for(Vertex* v: temp_mesh.vertList){
+        std::cerr << v->ID << std::endl;
+    }
+    for(Vertex* vertex: mySelect.selectedVertices){
+        Vertex* nv = vertex->clone();
+        temp_mesh.addVertex(nv);
+    }
+    mySelect.clearSelection();
+    border1.clear();
+    border2.clear();
+    repaint();
+}
+
 void SlideGLWidget::clearSelectionCalled(bool)
 {
     clearSelection();
+}
+
+void SlideGLWidget::cloneSelectionCalled(bool)
+{
+    cloneSelection();
 }
 
 void SlideGLWidget::updateGlobalIndexList()

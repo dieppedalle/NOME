@@ -8,6 +8,8 @@
 #include "mesh.h"
 #include "parameter.h"
 #include "group.h"
+#include <unordered_set>
+
 Mesh::Mesh(int type)
 {
     user_set_color = false;
@@ -427,6 +429,11 @@ void Mesh::computeNormals(){
 
 }
 
+inline void drawIndependentVertex(float x, float y, float z){
+    float sz = 0.1;
+    glVertex3f(x, y, z);
+}
+
 void Mesh::drawMesh(int startIndex, bool smoothShading)
 {
     /* The overall mesh color.*/
@@ -439,10 +446,16 @@ void Mesh::drawMesh(int startIndex, bool smoothShading)
                          1.0f - 1.0f * color.green() / 255,
                          1.0f - 1.0f * color.blue() / 255,
                          1.0f - 1.0f * color.alpha() /255};
+    /* The color for individual vertex */
+    GLfloat vcolor[] = {0 / 255,
+                         1.0f * color.green() / 255,
+                         0 / 255,
+                         1.0f - 1.0f * color.alpha() /255};
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     Face * tempFace;
     vector<Face*>::iterator fIt;
+    unordered_set<Vertex*> visited;
     for(fIt = faceList.begin(); fIt < faceList.end(); fIt++)
     {
         tempFace = (*fIt);
@@ -545,6 +558,7 @@ void Mesh::drawMesh(int startIndex, bool smoothShading)
             float y = tempv -> position[1];
             float z = tempv -> position[2];
             //cout<<"x: "<<x<<" y: "<<y<<" z: "<<z<<endl;
+            visited.insert(tempv);
             glVertex3f(x, y, z);
             currEdge = nextEdge;
             //cout<<"Current Vertex ID: "<<tempv -> ID<<endl;
@@ -554,6 +568,17 @@ void Mesh::drawMesh(int startIndex, bool smoothShading)
         {
             glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
             glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
+        }
+    }
+
+    for(Vertex* v: this->vertList){
+        if (visited.find(v) == visited.end()){
+            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, vcolor);
+            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, vcolor);
+            glBegin(GL_POINTS);
+            glNormal3f(v->position[0] * 100, v->position[1] * 100, v->position[2] * 100);
+            drawIndependentVertex(v->position[0], v->position[1], v->position[2]);
+            glEnd();
         }
     }
 }
