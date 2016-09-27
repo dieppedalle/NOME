@@ -1130,6 +1130,86 @@ void Mesh::setTunnelParameterValues(string input)
     }
 }
 
+void Mesh::setRibbonParameterValues(string input)
+{
+    string nextExpression = "";
+    bool expressionMode = false;
+    string number = "";
+    int i = 0;
+    for(char& c : input)
+    {
+        if(c == '{')
+        {
+            expressionMode = true;
+        }
+        else if(c == '}')
+        {
+            expressionMode = false;
+            nextExpression = nextExpression.substr(5);
+            switch(i)
+            {
+            case 0:
+                azimuth_expr = nextExpression;
+                azimuth = evaluate_mesh_expression(azimuth_expr, params, this);
+                break;
+            case 1:
+                twist_expr = nextExpression;
+                twist = evaluate_mesh_expression(twist_expr, params, this);
+                break;
+            case 2:
+                scale_factor_expr = nextExpression;
+                scale_factor = evaluate_mesh_expression(scale_factor_expr, params, this);
+                break;
+            }
+            nextExpression = "";
+            i++;
+        }
+        else if(expressionMode)
+        {
+            nextExpression.push_back(c);
+        }
+        else if(!expressionMode && ((c >= '0' &&  c <= '9') || c == '.' || c == '-' || c == '+'))
+        {
+            number.push_back(c);
+        }
+        else
+        {
+            if(number != "")
+            {
+                switch(i)
+                {
+                case 0:
+                    azimuth = stof(number);
+                    break;
+                case 1:
+                    twist = stof(number);
+                    break;
+                case 2:
+                    scale_factor = stof(number);
+                    break;
+                }
+                number = "";
+                i++;
+            }
+        }
+    }
+    if(number != "")
+    {
+        switch(i)
+        {
+        case 0:
+            azimuth = stof(number);
+            break;
+        case 1:
+            twist = stof(number);
+            break;
+        case 2:
+            scale_factor = stof(number);
+            break;
+        }
+    }
+}
+
 void Mesh::updateFunnel()
 {
     if(n_expr != "")
@@ -1216,6 +1296,14 @@ void Mesh::updateTunnel()
             updateTunnel_ro_ratio_or_h();
         }
     }
+}
+
+
+void Mesh::updateRibbon()
+{
+    std::cout << "lol";
+    makeRibbon();
+    computeNormals();
 }
 
 void Mesh::updateFunnel_n()
@@ -1337,6 +1425,85 @@ void Mesh::makeTunnel()
     }
     addQuadFace(baseCircle[n - 1], baseCircle[0], highCircle[0], highCircle[n - 1]);
     addQuadFace(lowCircle[n - 1], lowCircle[0], baseCircle[0], baseCircle[n - 1]);
+    buildBoundary();
+}
+
+
+void Mesh::makeRibbon()
+{
+    vertList.clear();
+    edgeTable.clear();
+    faceList.clear();
+    int s = polyline->vertices.size();
+
+    for(int i = 0; i < s; ++i){
+        Vertex* nv = new Vertex;
+        nv->ID = i;
+        nv->name = "bc" + to_string(i);
+        nv->position = polyline->vertices[i]->position;
+        //nv->params =  polyline->vertices[i]->params;
+        //nv->influencingParams = polyline->vertices[i]->influencingParams;
+        addVertex(nv);
+    }
+
+    curvature->makeRibbon(this);
+
+    for(int i = 0; i < s; ++i){
+        addQuadFace(vertList[i%s], vertList[(i+1)%s], vertList[s+(i+1)%s], vertList[s+(i)%s]);
+    }
+    this->type = 4;
+    for(Vertex* v: vertList){
+        auto* ptr = (v->params);
+        if(ptr != nullptr){
+            //for(auto& param: *ptr){
+                //param.second.addInfluenceMesh(this);
+            //}
+        }
+    }
+    /*vector<Vertex*> baseCircle;
+    vector<Vertex*> highCircle;
+    vector<Vertex*> lowCircle;
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = new Vertex;
+        newVertex->ID = i;
+        newVertex->name = "bc" + to_string(i);
+        float currAngle = 2.0 * i / n * PI;
+        newVertex -> position = vec3(ro * glm::cos(currAngle),
+                                     ro * glm::sin(currAngle), 0);
+        baseCircle.push_back(newVertex);
+        addVertex(newVertex);
+    }
+    float ri = ro * (1 + ratio);
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = new Vertex;
+        newVertex->ID = i + n;
+        newVertex->name = "hc" + to_string(i);
+        float currAngle = 2.0 * i / n * PI;
+        newVertex -> position = vec3(ri * glm::cos(currAngle),
+                                     ri * glm::sin(currAngle), h);
+        highCircle.push_back(newVertex);
+        addVertex(newVertex);
+    }
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = new Vertex;
+        newVertex->ID = i + 2 * n;
+        newVertex->name = "lc" + to_string(i);
+        float currAngle = 2.0 * i / n * PI;
+        newVertex -> position = vec3(ri * glm::cos(currAngle),
+                                     ri * glm::sin(currAngle), -h);
+        lowCircle.push_back(newVertex);
+        addVertex(newVertex);
+    }
+    for(int i = 0; i < n - 1 ; i++)
+    {
+        addQuadFace(baseCircle[i], baseCircle[i + 1], highCircle[i + 1], highCircle[i]);
+        addQuadFace(lowCircle[i], lowCircle[i + 1], baseCircle[i + 1], baseCircle[i]);
+    }
+    addQuadFace(baseCircle[n - 1], baseCircle[0], highCircle[0], highCircle[n - 1]);
+    addQuadFace(lowCircle[n - 1], lowCircle[0], baseCircle[0], baseCircle[n - 1]);*/
     buildBoundary();
 }
 

@@ -33,8 +33,10 @@
 #include "face.h"
 #include "transformation.h"
 #include "utils.h"
+#include "curvature.h"
 class Parameter;
 class Group;
+class PolyLine;
 
 using namespace std;
 using namespace glm;
@@ -195,16 +197,28 @@ public:
     string ro_expr;
     string ratio_expr;
     string h_expr;
+    string azimuth_expr;
+    string twist_expr;
+    string scale_factor_expr;
+    float azimuth;
+    float twist;
+    float scale_factor;
+    PolyLine* polyline;
+    Curvature* curvature;
     void makeFunnel();
     void makeTunnel();
+    void makeTunnel(const PolyLine&);
+    void makeRibbon();
     void updateFunnel();
     void updateTunnel();
+    void updateRibbon();
     void updateFunnel_n();
     void updateTunnel_n();
     void updateFunnel_ro_ratio_or_h();
     void updateTunnel_ro_ratio_or_h();
     void setFunnelParameterValues(string);
     void setTunnelParameterValues(string);
+    void setRibbonParameterValues(string);
     vector<Parameter*> influencingParams;
     /* Add a parameter that influence this funnel. */
     void addParam(Parameter*);

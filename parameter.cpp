@@ -19,6 +19,7 @@ void Parameter::update()
 {
     for(Mesh*& m : influenceMeshes)
     {
+        std::cout << m->type << std::endl;
         switch(m -> type)
         {
         case 1:
@@ -26,6 +27,9 @@ void Parameter::update()
             break;
         case 2:
             m -> updateTunnel();
+            break;
+        case 4:
+            m -> updateRibbon();
             break;
         }
     }

@@ -459,6 +459,63 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 //newTunnel.computeNormals();
             }
+            else if((*tIt) == "ribbon")
+            {
+                geometrylines.push_back(nextLine);
+                Mesh newTunnel(4);
+                newTunnel.setGlobalParameter(&params);
+                if(++tIt < tokens.end())
+                {
+                    newTunnel.name = (*tIt);
+                }
+                string polyline_name;
+                if(++tIt < tokens.end())
+                {
+                    polyline_name = (*tIt);
+                    newTunnel.polyline = new PolyLine;
+                    for(Vertex* v: polylines[polyline_name].vertices)
+                    {
+                        newTunnel.polyline->addVertex(v);
+                    }
+                }
+                if(++tIt < tokens.end())
+                {
+                    string method = *(tIt);
+                    if(method == "frenetframe"){
+                        newTunnel.curvature = new FrenetSerretFrame;
+                    }else if(method == "minimizetorsion"){
+                        newTunnel.curvature = new MinimumTorsion;
+                    }else{
+                        std::cout << "ERROR: " << method << " is not a valid method to create ribbon! Please specify 'frenetframe' or 'minimizetorsion'." << std::endl;
+                        newTunnel.curvature = new FrenetSerretFrame;
+                    }
+                }
+
+                string ribbon_expression;
+                bool expression_input = false;
+                bool inExpression = false;
+
+                while(++tIt < tokens.end())
+                {
+                    auto t = *(tIt);
+                    if(*(tIt) != "endribbon"){
+                        ribbon_expression += t + " ";
+                    }else{
+                        break;
+                    }
+                }
+                newTunnel.setRibbonParameterValues(ribbon_expression);
+                newTunnel.makeRibbon();
+                if(meshes.find(newTunnel.name) == meshes.end())
+                {
+                    meshes[newTunnel.name] = newTunnel;
+                }
+                else
+                {
+                    cout<<warning(3, lineNumber)<<endl;
+                }
+                //newTunnel.computeNormals();
+            }
             else if((*tIt) == "object")
             {
                 geometrylines.push_back(nextLine);
