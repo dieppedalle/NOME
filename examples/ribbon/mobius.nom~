@@ -1,0 +1,9 @@
+point v1 (0 0 0) endpoint
+point v2 (1 0 0) endpoint
+point v3 (0.5 1.414 0) endpoint
+
+polyline p (v1 v2 v3 v3) endpolyline
+
+ribbon mobius p frenetframe 0 6.283 0.3 endribbon
+
+instance mb mobius endinstance

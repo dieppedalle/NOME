@@ -1,0 +1,18 @@
+bank rib1
+    set     az       0    0   12.4   0.1
+endbank
+
+point v1 (0 0 -0.5) endpoint
+point v2 (-0.2 0.5 0.5) endpoint
+point v3 (0 1 -0.5) endpoint
+point v4 (0.5 1.2 0.5) endpoint
+point v5 (1 1 -0.5) endpoint
+point v6 (1.2 0.5 0.5) endpoint
+point v7 (1 0 -0.5) endpoint
+point v8 (0.5 -0.2 0.5) endpoint
+
+polyline p (v1 v2 v3 v4 v5 v6 v7 v8 v8) endpolyline
+
+ribbon tun1 p frenetframe {expr $rib1_az} 6.283 0.3 endribbon
+
+instance ribbon tun1 endinstance

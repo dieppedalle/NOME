@@ -1,0 +1,11 @@
+point v1 (0 0 0) endpoint
+point v2 (0 1 0) endpoint
+point v3 (0 2 0) endpoint
+point v4 (1 1 0) endpoint
+
+polyline p (v1 v2 v3 v4 v1 v1) endpolyline
+
+ribbon tun1 p frenetframe 0 0 0.3 endribbon
+
+
+instance ribbon tun1 endinstance
