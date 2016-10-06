@@ -3,13 +3,14 @@
 #include "mesh.h"
 float evaluate_expression(string expr, unordered_map<string, Parameter> *params)
 {
-    //cout<<expr<<endl;
+    cout<<expr<<endl;
     vector<string> tokens;
     stack<string> numberStack;
     string number = "";
     string lastNumber = "";
     bool readingFromExpr = false;
     string parameterName = "";
+    string mathematicalFunc;
     for(char& m : expr)
     {
         if(!readingFromExpr && ((m >= '0' && m <= '9') || m == '.'))
@@ -85,6 +86,14 @@ float evaluate_expression(string expr, unordered_map<string, Parameter> *params)
                         break;
                     }
                 }
+                if(mathematicalFunc!=""){
+                    tokens.push_back(mathematicalFunc);
+                }
+            }
+            else{
+                if(m != ' '){
+                    mathematicalFunc += m;
+                }
             }
         }
     }
@@ -107,7 +116,21 @@ float evaluate_expression(string expr, unordered_map<string, Parameter> *params)
     for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
     {
         string token = (*tIt);
-        if(token.size() == 1 && isOperator(token[0]))
+        if(token == "sin"){
+            float x = operands.top();
+            operands.pop();
+            //std::cout << x << std::endl;
+            x = sin(x);
+            operands.push(x);
+        }
+        else if(token == "cos"){
+            float x = operands.top();
+            operands.pop();
+            //std::cout << x << std::endl;
+            x = cos(x);
+            operands.push(x);
+        }
+        else if(token.size() == 1 && isOperator(token[0]))
         {
             float y = operands.top();
             operands.pop();
@@ -136,6 +159,7 @@ float evaluate_mesh_expression(string expr, unordered_map<string, Parameter> *pa
     string lastNumber = "";
     bool readingFromExpr = false;
     string parameterName = "";
+    string mathematicalFunc = "";
     for(char& m : expr)
     {
         if(!readingFromExpr && ((m >= '0' && m <= '9') || m == '.'))
@@ -207,6 +231,15 @@ float evaluate_mesh_expression(string expr, unordered_map<string, Parameter> *pa
                         break;
                     }
                 }
+                if(mathematicalFunc != ""){
+                    tokens.push_back(mathematicalFunc);
+                    mathematicalFunc = "";
+                }
+            }
+            else{
+                if(m != ' '){
+                    mathematicalFunc += m;
+                }
             }
         }
     }
@@ -229,12 +262,27 @@ float evaluate_mesh_expression(string expr, unordered_map<string, Parameter> *pa
     for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
     {
         string token = (*tIt);
-        if(token.size() == 1 && isOperator(token[0]))
+        if(token == "sin"){
+            float x = operands.top();
+            operands.pop();
+            //std::cout << x << std::endl;
+            x = sin(x);
+            operands.push(x);
+        }
+        else if(token == "cos"){
+            float x = operands.top();
+            operands.pop();
+            //std::cout << x << std::endl;
+            x = cos(x);
+            operands.push(x);
+        }
+        else if(token.size() == 1 && isOperator(token[0]))
         {
             float y = operands.top();
             operands.pop();
             float x = operands.top();
             operands.pop();
+            //std::cout << x << std::endl;
             operands.push(getVal(x, y, token[0]));
         }
         else
@@ -672,7 +720,7 @@ float getOneValue(string input)
 
 vec4 getXYZW(string input)
 {
-    cout<<input;
+    //cout<<input;
     string number = "";
     int i = 0;
     float x;
