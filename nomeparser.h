@@ -23,7 +23,8 @@ public:
                       vector<string> &colorlines,
                       vector<string> &banklines,
                       vector<string> &geometrylines,
-                      vector<int> &postProcessingLines);
+                      vector<int> &postProcessingLines,
+                      string& canvas);
 
     void postProcessingWithNome(unordered_map<string, Parameter> &params,
                                 vector<int> &postProcessingLines,

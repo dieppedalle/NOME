@@ -47,6 +47,7 @@ class SlideGLWidget: public QGLWidget
     Q_OBJECT
 
 public:
+    std::string original_file;
     explicit SlideGLWidget(QWidget *parent = 0);
     SlideGLWidget(string name, QWidget *parent = 0);
     SlideGLWidget(Group &group, QWidget *parent = 0);

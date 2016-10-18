@@ -8,7 +8,7 @@
 #include "nomeglwidget.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent), original_file()
 {
     generalSetup();
     makeDefaultMesh();
@@ -16,7 +16,7 @@ SlideGLWidget::SlideGLWidget(QWidget *parent) :
 }
 
 SlideGLWidget::SlideGLWidget(string name, QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent), original_file()
 {
     generalSetup();
     makeSIFMesh(name);
@@ -24,7 +24,7 @@ SlideGLWidget::SlideGLWidget(string name, QWidget *parent) :
 }
 
 SlideGLWidget::SlideGLWidget(Group &group, QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent), original_file()
 {
     generalSetup();
     hierarchical_scene = &group;

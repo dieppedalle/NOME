@@ -1,0 +1,15 @@
+bank v1p
+    set     x      0      -0.5     0.5     0.1
+    set     y      0      -0.5     0.5     0.1
+endbank
+
+point v1 ({expr $v1p_x1} {expr $v1p_y1} 0) endpoint
+point v2 ({expr $v1p_x2} {expr $v1p_y2} 0) endpoint
+point v3 ({expr $v1p_x3} {expr $v1p_y3} 0) endpoint
+point v4 ({expr $v1p_x3} {expr $v1p_y4} 0) endpoint
+point v5 ({expr $v1p_x4} {expr $v1p_y5} 0) endpoint
+point v6 ({expr $v1p_x1} {expr $v1p_y1} 0) endpoint
+
+polyline line1 (v1 v2 v3 v4 v5 v6) endpolyline
+
+instance l1 line1 endinstance

@@ -49,7 +49,7 @@ void MainWindow::save()
     }
     else
     {
-        save_current_status_nome(fileName.toStdString());
+        save_current_status_nome(canvas->original_file, fileName.toStdString());
     }
 }
 
@@ -148,9 +148,12 @@ void MainWindow::createCanvas(QString name)
     }
     else if (name.right(3).toLower() == "nom")
     {
+        std::string orig;
         nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
-                                 colorlines, banklines, geometrylines, postProcessingLines);
+                                 colorlines, banklines, geometrylines, postProcessingLines, orig);
         canvas = new SlideGLWidget(scene);
+        canvas->original_file = orig;
+        std::cout << canvas->original_file << endl;
         canvas -> group_from_consolidate_mesh = &append_scene;
         nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString());
         createSliderPanel(canvas);
@@ -240,14 +243,14 @@ void MainWindow::save_current_status_anom(string out_put_file)
     }
 }
 
-void MainWindow::save_current_status_nome(string out_put_file)
+void MainWindow::save_current_status_nome(string orig, string out_put_file)
 {
     ofstream file(out_put_file);
     if (!file.is_open())
     {
         cout <<"Error: COULD NOT OPEN THE FILE.\n";
     }
-    else
+    /*else
     {
         string bankname = "";
         if(colorlines.size() > 0)
@@ -297,7 +300,8 @@ void MainWindow::save_current_status_nome(string out_put_file)
         {
             file<<line<<'\n';
         }
-    }
+    }*/
+    file << orig << endl;
     if(!(canvas->consolidate_mesh).isEmpty() || (canvas -> deletedFaces).size() > 0)
     {
         file<<"\n##### The following is the saved work of last time. #####\n"<<endl;

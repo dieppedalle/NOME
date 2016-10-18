@@ -1,4 +1,5 @@
 #include "nomeparser.h"
+#include <sstream>
 
 NomeParser::NomeParser()
 {
@@ -130,7 +131,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &colorlines,
                               vector<string> &banklines,
                               vector<string> &geometrylines,
-                              vector<int> &postProcessingLines)
+                              vector<int> &postProcessingLines,
+                              std::string& orig_file)
 {
     banks.clear();
     group.clear();
@@ -140,6 +142,18 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
         cout<<"THE PATH OF MINI SIF FILE IS NOT VAILD.";
         exit(1);
     }
+
+    int length;
+    file.seekg(0, std::ios::end);    // go to the end
+    length = file.tellg();           // report location (this is the length)
+    file.seekg(0, std::ios::beg);    // go back to the beginning
+    char* buffer = new char[length];    // allocate memory for a buffer of appropriate dimension
+    file.read(buffer, length);       // read the whole file into the buffer
+
+    orig_file.append(buffer);
+
+    file.seekg(0);
+
     string nextLine;
     int lineNumber = 1;
     bool createBank = false;
@@ -1491,6 +1505,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
         cout<<"THE PATH OF MINI SIF FILE IS NOT VAILD.";
         exit(1);
     }
+
     string nextLine;
     int lineNumber = 1;
     bool deletePhase = false;

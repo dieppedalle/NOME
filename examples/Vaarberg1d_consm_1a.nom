@@ -1,0 +1,12 @@
+####
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (ifW_hc10 ifM__hc2 ifM_hc2 ifW_hc14 ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance

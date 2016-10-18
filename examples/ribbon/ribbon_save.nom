@@ -1,0 +1,31 @@
+bank rib1
+    set		az		0		0		12.4		0.1		
+endbank
+bank tp2
+    set		n		8		3		10		1		
+    set		ro		1		0.1		1.0		0.1		
+    set		ratio		0		-0.5		0.5		0.1		
+    set		h		0.2		0.1		1.5		0.1		
+endbank
+point v1 (0 0 -0.5) endpoint
+point v2 (-0.2 0.5 0.5) endpoint
+point v3 (0 1 -0.5) endpoint
+point v4 (0.5 1.2 0.5) endpoint
+point v5 (1 1 -0.5) endpoint
+point v6 (1.2 0.5 0.5) endpoint
+point v7 (1 0 -0.5) endpoint
+point v8 (0.5 -0.2 0.5) endpoint
+polyline p (v1 v2 v3 v4 v5 v6 v7 v8 v8) endpolyline
+ribbon tun1 p frenetframe {expr $rib1_az} 6.283 0.3 endribbon
+instance ribbon tun1 endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (ribbon_bs6 ribbon_bs5 ribbon_bs4 ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance

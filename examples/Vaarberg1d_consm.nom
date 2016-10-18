@@ -1,0 +1,228 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface          # Blue
+surface P color (0.5 0 1) endsurface        # Purple
+surface M color (1 0 1) endsurface          # Magenta
+surface W color (0.9 0.9 0.9) endsurface    # White
+surface D color (0.2 0.2 0.2) endsurface    # Dark
+
+bank fL
+    set		num		8		8		16		1		#		number		of		segments		
+    set		rad		1.4		0.1		2.0		0.1		#		circle		radius		
+    set		alfa		0		-20		20		2		#		sampling		angle		
+    set		ratio		-0.2		-0.8		0.8		0.1		#		fractional		flare-out		
+    set		hgt		0.7		0.1		1.5		0.05		#		height		of		each		cone		half		
+    set		ty		1.5		-4		4		0.1		
+    set		tz		3.6		-4		4		0.1		
+    set		rx		-140		-180		180		10		#		rot		around		x		
+endbank
+bank tY
+    set		num		8		3		10		1		#		number		of		segments		
+    set		rad		0.7		0.1		1.0		0.1		#		circle		radius		
+    set		alfa		0		-20		20		2		#		sampling		angle		
+    set		ratio		0.2		-0.8		0.8		0.1		#		fractional		flare-out		
+    set		hgt		0.6		0.1		1.5		0.05		#		height		of		each		cone		half		
+    set		ty		2.6		-4		4		0.1		
+    set		tz		2.3		-4		4		0.1		
+    set		rx		-140		-180		180		10		#		rot		around		x		
+endbank
+bank tC
+    set		num		8		4		10		1		
+    set		rad		0.6		0.1		2.0		0.1		
+    set		ratio		0.2		-0.8		0.8		0.1		
+    set		hgt		0.6		0.1		1.5		0.05		
+    set		ty		1.6		-4		6		0.1		
+    set		tz		1.4		-4		4		0.1		
+endbank
+bank tB
+    set		num		8		4		10		1		
+    set		rad		1.3		0.1		2.0		0.1		
+    set		ratio		-0.1		-0.8		0.8		0.1		
+    set		hgt		0.7		0.1		1.5		0.05		
+    set		ty		4		-4		6		0.1		
+    set		tz		-1		-4		4		0.1		
+endbank
+bank tP
+    set		num		8		4		10		1		
+    set		rad		0.6		0.1		2.0		0.1		
+    set		ratio		0.2		-0.8		0.8		0.1		
+    set		hgt		0.3		0.1		1.5		0.05		
+    set		tx		1.5		-4		4		0.1		
+    set		ty		3.7		-4		4		0.1		
+    set		tz		-0.9		-4		4		0.1		
+    set		rz		-30		-180		180		10		
+endbank
+bank fM
+    set		num		8		4		10		1		
+    set		rad		1		0.1		2.0		0.1		
+    set		ratio		0.4		-0.8		0.8		0.1		
+    set		hgt		0.6		0.1		1.5		0.05		
+    set		tx		2.4		-4		4		0.1		
+    set		ty		3		-4		4		0.1		
+    set		tz		-0.4		-4		4		0.1		
+    set		rz		30		-180		180		10		
+endbank
+bank fR
+    set		num		8		8		16		1		#		number		of		segments		
+    set		rad		2.4		0.1		4.0		0.1		#		circle		radius		
+    set		alfa		0		-20		20		2		#		sampling		angle		
+    set		ratio		-0.4		-0.8		0.8		0.1		#		fractional		flare-out		
+    set		hgt		0.4		0.1		1.5		0.05		#		height		of		each		cone		half		
+    set		tx		3		-4		4		0.1		#		placement		x,y,z		
+    set		ty		1.5		-4		4		0.1		
+    set		tz		0.2		-4		4		0.1		
+    set		rx		-90		-180		180		10		#		rot		around		x		
+    set		rz		20		-180		180		10		#		rot		around		z		
+endbank
+bank fW
+    set		num		16		8		16		1		#		number		of		segments		
+    set		rad		5		1		6		0.1		#		circle		radius		
+    set		alfa		0		-20		20		2		#		sampling		angle		
+    set		ratio		-0.1		-0.8		0.8		0.1		#		fractional		flare-out		
+    set		hgt		0.5		0.1		1.5		0.05		#		height		of		each		cone		half		
+    set		tx		3.9		-4		6		0.1		#		placement		x,y,z		
+    set		ty		0.6		-4		4		0.1		
+    set		tz		-1.9		-4		4		0.1		
+    set		rx		-90		-180		180		10		#		rot		around		x		
+endbank
+bank wrm
+    set		rx		-20		-60		60		5		#		rot		around		x		
+    set		ty		-1.8		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank frt
+    set		rx		25		-60		60		5		#		rot		around		x		
+    set		ty		-1.8		-4		4		0.1		
+    set		tz		-2.5		-4		4		0.1		
+endbank
+funnel fL  ({expr $fL_num} {expr $fL_rad} {expr $fL_ratio} {expr $fL_hgt}) endfunnel
+tunnel tY  ({expr $tY_num} {expr $tY_rad} {expr $tY_ratio} {expr $tY_hgt}) endtunnel
+tunnel tC  ({expr $tC_num} {expr $tC_rad} {expr $tC_ratio} {expr $tC_hgt}) endtunnel
+tunnel tB  ({expr $tB_num} {expr $tB_rad} {expr $tB_ratio} {expr $tB_hgt}) endtunnel
+tunnel tP  ({expr $tP_num} {expr $tP_rad} {expr $tP_ratio} {expr $tP_hgt}) endtunnel
+funnel fM  ({expr $fM_num} {expr $fM_rad} {expr $fM_ratio} {expr $fM_hgt}) endtunnel
+funnel fR  ({expr $fR_num} {expr $fR_rad} {expr $fR_ratio} {expr $fR_hgt}) endfunnel
+funnel fW  ({expr $fW_num} {expr $fW_rad} {expr $fW_ratio} {expr $fW_hgt}) endfunnel
+group front
+    instance ifL fL   surface L  rotate (0 0 1) ({expr $fL_alfa})   rotate (1 0 0) ({expr $fL_rx})            translate (0 {expr $fL_ty} {expr $fL_tz}) endinstance
+    instance itY tY   surface Y  rotate (0 0 1) ({expr $tY_alfa})   rotate (1 0 0) ({expr $tY_rx})            translate (0 {expr $tY_ty} {expr $tY_tz}) endinstance
+    instance itC tC   surface C  rotate (0 0 1) (0)   rotate (0 1 0) (90)     translate (0 {expr $tC_ty} {expr $tC_tz}) endinstance
+endgroup
+group worm
+    instance itB tB   surface B  rotate (0 0 1) (0)   rotate (0 1 0) (90)   rotate (0 0 1) ({expr  $tB_ry})   translate (0 {expr $tB_ty} {expr $tB_tz}) endinstance
+    instance itP tP   surface P  rotate (0 0 1) (0)   rotate (0 1 0) (90)   rotate (0 0 1) ({expr  $tP_rz})   translate ({expr  $tP_tx} {expr $tP_ty} {expr $tP_tz}) endinstance
+    instance itP_ tP  surface P  rotate (0 0 1) (0)   rotate (0 1 0) (90)   rotate (0 0 1) ({expr -$tP_rz})   translate ({expr -$tP_tx} {expr $tP_ty} {expr $tP_tz}) endinstance
+    instance ifM fM   surface M  rotate (0 0 1) (0)   rotate (1 0 0) (90)   rotate (0 0 1) ({expr  $fM_rz})   translate ({expr  $fM_tx} {expr $fM_ty} {expr $fM_tz}) endinstance
+    instance ifM_ fM  surface M  rotate (0 0 1) (0)   rotate (1 0 0) (90)   rotate (0 0 1) ({expr -$fM_rz})   translate ({expr -$fM_tx} {expr $fM_ty} {expr $fM_tz}) endinstance
+    instance ifR fR   surface R  rotate (0 0 1) ({expr $fR_alfa})  rotate (1 0 0) ({expr $fR_rx})  rotate (0 0 1) ({expr  $fR_rz})  translate ({expr  $fR_tx} {expr $fR_ty} {expr $fR_tz}) endinstance
+    instance ifR_ fR  surface R  rotate (0 0 1) ({expr $fR_alfa})  rotate (1 0 0) ({expr $fR_rx})  rotate (0 0 1) ({expr -$fR_rz})  translate ({expr -$fR_tx} {expr $fR_ty} {expr $fR_tz}) endinstance
+endgroup
+group assembly
+instance ifW    fW   surface W  rotate (1 0 0) ({expr $fW_rx})   translate (0  {expr $fW_ty}  {expr $fW_tz})  endinstance
+instance ifront front           rotate (1 0 0) ({expr $frt_rx})  translate (0  {expr $frt_ty} {expr $frt_tz}) endinstance
+instance iworm  worm surface Y           rotate (1 0 0) ({expr $wrm_rx})  translate (0  {expr $wrm_ty} {expr $wrm_tz}) endinstance
+endgroup
+instance iall   assembly     scale ( 0.3 0.3 0.3 )   rotate (1 0 0) (-90)   endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (itY_lc1 itY_lc2 itC_bc4 itC_hc4 ) endface
+    face consolidatedface1 (itY_lc2 itY_lc3 itC_lc4 itC_bc4 ) endface
+    face consolidatedface2 (itY_lc0 itY_lc1 ifL_hc1 ifL_hc0 ) endface
+    face consolidatedface3 (itY_lc7 itY_lc0 ifL_hc0 ifL_hc7 ) endface
+    face consolidatedface4 (ifL_hc7 ifL_hc6 itY_lc6 itY_lc7 ) endface
+    face consolidatedface5 (ifL_hc6 ifL_hc5 itY_lc5 itY_lc6 ) endface
+    face consolidatedface6 (ifL_hc5 ifL_hc4 itY_lc4 itY_lc5 ) endface
+    face consolidatedface7 (ifL_hc4 ifL_hc3 itY_lc3 itY_lc4 ) endface
+    face consolidatedface8 (itC_lc5 itC_lc4 itY_lc3 ifL_hc3 ) endface
+    face consolidatedface9 (ifL_hc1 itY_lc1 itC_hc4 itC_hc5 ) endface
+    face consolidatedface10 (itY_hc3 itY_hc2 itC_bc2 itC_lc2 ) endface
+    face consolidatedface11 (itY_hc2 itY_hc1 itC_hc2 itC_bc2 ) endface
+    face consolidatedface12 (ifW_bc10 ifW_hc10 ifR__hc5 ifR__bc5 ) endface
+    face consolidatedface13 (ifW_hc14 ifW_bc14 ifR_bc7 ifR_hc7 ) endface
+    face consolidatedface14 (ifM__bc2 ifM__bc1 itP__lc5 itP__lc4 ) endface
+    face consolidatedface15 (itP__hc4 itP__hc5 itB_lc5 itB_lc4 ) endface
+    face consolidatedface16 (itB_hc4 itB_hc5 itP_lc5 itP_lc4 ) endface
+    face consolidatedface17 (itP_hc4 itP_hc5 ifM_bc3 ifM_bc2 ) endface
+    face consolidatedface18 (ifM__bc3 ifM__bc2 itP__lc4 itP__lc3 ) endface
+    face consolidatedface19 (itP__hc3 itP__hc4 itB_lc4 itB_lc3 ) endface
+    face consolidatedface20 (itB_hc3 itB_hc4 itP_lc4 itP_lc3 ) endface
+    face consolidatedface21 (itP_hc3 itP_hc4 ifM_bc2 ifM_bc1 ) endface
+    face consolidatedface22 (ifM__bc4 ifM__bc3 itP__lc3 itP__lc2 ) endface
+    face consolidatedface23 (itP__hc2 itP__hc3 itB_lc3 itB_lc2 ) endface
+    face consolidatedface24 (itB_hc2 itB_hc3 itP_lc3 itP_lc2 ) endface
+    face consolidatedface25 (itP_hc2 itP_hc3 ifM_bc1 ifM_bc0 ) endface
+    face consolidatedface26 (ifM__bc5 ifM__bc4 itP__lc2 itP__lc1 ) endface
+    face consolidatedface27 (itP__hc1 itP__hc2 itB_lc2 itB_lc1 ) endface
+    face consolidatedface28 (itB_hc1 itB_hc2 itP_lc2 itP_lc1 ) endface
+    face consolidatedface29 (itP_hc1 itP_hc2 ifM_bc0 ifM_bc7 ) endface
+    face consolidatedface30 (ifM__bc6 ifM__bc5 itP__lc1 itP__lc0 ) endface
+    face consolidatedface31 (itP__hc0 itP__hc1 itB_lc1 itB_lc0 ) endface
+    face consolidatedface32 (itB_hc0 itB_hc1 itP_lc1 itP_lc0 ) endface
+    face consolidatedface33 (itP_hc0 itP_hc1 ifM_bc7 ifM_bc6 ) endface
+    face consolidatedface34 (ifM__bc7 ifM__bc6 itP__lc0 itP__lc7 ) endface
+    face consolidatedface35 (itP__hc7 itP__hc0 itB_lc0 itB_lc7 ) endface
+    face consolidatedface36 (itB_hc7 itB_hc0 itP_lc0 itP_lc7 ) endface
+    face consolidatedface37 (itP_hc7 itP_hc0 ifM_bc6 ifM_bc5 ) endface
+    face consolidatedface38 (ifM__bc0 ifM__bc7 itP__lc7 itP__lc6 ) endface
+    face consolidatedface39 (itP__hc6 itP__hc7 itB_lc7 itB_lc6 ) endface
+    face consolidatedface40 (itB_hc6 itB_hc7 itP_lc7 itP_lc6 ) endface
+    face consolidatedface41 (itP_hc6 itP_hc7 ifM_bc5 ifM_bc4 ) endface
+    face consolidatedface42 (ifM__bc1 ifM__bc0 itP__lc6 itP__lc5 ) endface
+    face consolidatedface43 (itP__hc5 itP__hc6 itB_lc6 itB_lc5 ) endface
+    face consolidatedface44 (itB_hc5 itB_hc6 itP_lc6 itP_lc5 ) endface
+    face consolidatedface45 (itP_hc5 itP_hc6 ifM_bc4 ifM_bc3 ) endface
+    face consolidatedface46 (ifR__hc1 ifR__hc2 ifM__hc6 ifM__hc7 ) endface
+    face consolidatedface47 (ifR__hc2 ifR__hc3 ifM__hc5 ifM__hc6 ) endface
+    face consolidatedface48 (ifR__hc3 ifR__hc4 ifM__hc4 ifM__hc5 ) endface
+    face consolidatedface49 (ifR__hc4 ifR__hc5 ifM__hc3 ifM__hc4 ) endface
+    face consolidatedface50 (ifR__hc5 ifW_hc10 ifM__hc2 ifM__hc3 ) endface
+    face consolidatedface51 (ifM_hc5 ifM_hc6 ifR_hc2 ifR_hc3 ) endface
+    face consolidatedface52 (ifM_hc6 ifM_hc7 ifR_hc1 ifR_hc2 ) endface
+    face consolidatedface53 (ifM_hc7 ifM_hc0 ifR_hc0 ifR_hc1 ) endface
+    face consolidatedface54 (ifM_hc0 ifM_hc1 ifR_hc7 ifR_hc0 ) endface
+    face consolidatedface55 (ifM_hc1 ifM_hc2 ifW_hc14 ifR_hc7 ) endface
+endmesh
+
+##### The deleted faces #####
+delete
+    face ifW_7 endface
+    face ifW_6 endface
+    face ifW_5 endface
+    face ifW_4 endface
+    face ifW_3 endface
+    face ifW_2 endface
+    face ifW_1 endface
+    face ifW_0 endface
+    face ifL_2 endface
+    face ifL_1 endface
+    face ifW_14 endface
+    face ifW_15 endface
+    face ifW_8 endface
+    face ifW_9 endface
+    face ifR_4 endface
+    face ifR_5 endface
+    face ifR_6 endface
+    face ifR__6 endface
+    face ifR__7 endface
+    face ifR__5 endface
+    face itC_7 endface
+    face itC_4 endface
+    face itC_6 endface
+    face itC_5 endface
+    face ifR__0 endface
+    face ifR_3 endface
+enddelete
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance
