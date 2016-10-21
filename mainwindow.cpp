@@ -50,6 +50,7 @@ void MainWindow::save()
     else
     {
         save_current_status_nome(canvas->original_file, fileName.toStdString());
+        //save_current_status_nome(string(), fileName.toStdString());
     }
 }
 
@@ -153,7 +154,7 @@ void MainWindow::createCanvas(QString name)
                                  colorlines, banklines, geometrylines, postProcessingLines, orig);
         canvas = new SlideGLWidget(scene);
         canvas->original_file = orig;
-        std::cout << canvas->original_file << endl;
+        //std::cout << canvas->original_file << endl;
         canvas -> group_from_consolidate_mesh = &append_scene;
         nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString());
         createSliderPanel(canvas);
