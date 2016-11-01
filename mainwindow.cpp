@@ -49,8 +49,17 @@ void MainWindow::save()
     }
     else
     {
-        save_current_status_nome(canvas->original_file, fileName.toStdString());
-        //save_current_status_nome(string(), fileName.toStdString());
+        if(canvas->get_viewer_mode() == 1){
+            if(canvas->merged_mesh.vertList.size() == 0){
+               save_current_status_nome(canvas->original_file, fileName.toStdString());
+            }else{
+                save_current_mesh_nome(fileName.toStdString(), canvas->merged_mesh);
+            }
+        }else if(canvas->get_viewer_mode() == 2){
+            save_current_mesh_nome(fileName.toStdString(), canvas->subdiv_mesh);
+        }else if(canvas->get_viewer_mode() == 3){
+            save_current_mesh_nome(fileName.toStdString(), canvas->offset_mesh);
+        }
     }
 }
 
@@ -356,4 +365,71 @@ void MainWindow::save_current_status_nome(string orig, string out_put_file)
         file<<"\n####Create an instance of the consolidated mesh here.####\n"<<endl;
         file<<"instance cm1 consolidatedmesh endinstance\n";
     }
+}
+
+class TupleMapper
+{
+public:
+    size_t operator () (const tuple<float, float, float>& t) const noexcept
+    {
+        float f0 = get<0>(t);
+        float f1 = get<1>(t);
+        float f2 = get<2>(t);
+        return hash<float>{}(f0) ^ hash<float>{}(f1) ^ hash<float>{}(f2);
+    }
+
+    bool operator () (const tuple<float, float, float>& a, const tuple<float, float, float>& b) const noexcept
+    {
+        return get<0>(a) == get<0>(b) && get<1>(a) == get<1>(b) && get<2>(a) == get<2>(b);
+    }
+};
+
+void MainWindow::save_current_mesh_nome(string output_file, const Mesh& mesh)
+{
+    ofstream file(output_file);
+    if (!file.is_open())
+    {
+        cout <<"Error: COULD NOT OPEN THE FILE.\n";
+    }
+
+    unordered_map<tuple<float,float,float>, int, TupleMapper, TupleMapper> map;
+    int i = 0;
+    file << fixed << setprecision(2);
+    for(Vertex* v: mesh.vertList){
+        map[make_tuple(v->position.x, v->position.y, v->position.z)] = i;
+        file << "point v" << i << " (" << v->position.x << ", " << v->position.y << ", " << v->position.z << ") endpoint" << std::endl;
+        ++i;
+    }
+
+    int j = 0;
+
+    file << "\nmesh mergedmesh" << std::endl;
+
+    for(Face* face: mesh.faceList){
+        Edge * firstEdge = face -> oneEdge;
+        Edge * currEdge = firstEdge;
+        Edge * nextEdge;
+        Vertex * tempv;
+        file << "\tface f" << j << " ( ";
+        do {
+            if(face == currEdge -> fa) {
+                tempv = currEdge -> vb;
+                nextEdge = currEdge -> nextVbFa;
+            } else {
+                if(currEdge -> mobius) {
+                    tempv = currEdge -> vb;
+                    nextEdge = currEdge -> nextVbFb;
+                } else {
+                    tempv = currEdge -> va;
+                    nextEdge = currEdge -> nextVaFb;
+                }
+            }
+            file << "v" << map[make_tuple(tempv->position.x, tempv->position.y, tempv->position.z)] << " ";
+            currEdge = nextEdge;
+        } while (currEdge != firstEdge);
+        file << ") endface" << std::endl;
+        ++j;
+    }
+
+    file << "endmesh\n\ninstance mesh mergedmesh end instance" << std::endl;
 }

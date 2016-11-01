@@ -1005,3 +1005,8 @@ void SlideGLWidget::updateConsolidateMesh()
         }
     }
 }
+
+int SlideGLWidget::get_viewer_mode() const
+{
+    return this->viewer_mode;
+}

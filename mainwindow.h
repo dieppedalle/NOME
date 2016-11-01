@@ -33,6 +33,7 @@ private:
     void createControlPanel(SlideGLWidget *canvas);
     void createSliderPanel(SlideGLWidget * canvas);
     void save_current_status_nome(string orig, string out_put_file);
+    void save_current_mesh_nome(string out_put_file, const Mesh& mesh);
     void save_current_status_anom(string out_put_file);
     QMenu *fileMenu;
     QAction *openAct;

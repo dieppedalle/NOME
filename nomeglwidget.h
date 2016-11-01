@@ -86,6 +86,10 @@ public:
     Mesh merged_mesh;
     /* The current subdivided mesh. */
     Mesh subdiv_mesh;
+    /* A pointer to the offset mesh. */
+    Mesh offset_mesh;
+    /* A pointer to the subdivided offset mesh. */
+    Mesh subdiv_offset_mesh;
     /* The pointer to the whole scene. */
     Group * hierarchical_scene;
     /* A copy of the hierarchical_scene, with all meshes transformed. */
@@ -99,6 +103,8 @@ public:
     /* Record the list of the name of faces deleted by the user.
      * (Not including the consolidated mesh or temprary mesh. */
     vector<string> deletedFaces;
+
+    int get_viewer_mode() const;
 private:
     /* Viewer variables.*/
     enum MODES { MODE_OBJECT, MODE_CAMERA, MODE_LIGHT, MODE_LAST } view_mode;
@@ -138,10 +144,6 @@ private:
      * The index in this vector = subdivision level - 1.
      */
     vector<Mesh> cache_subdivided_meshes;
-    /* A pointer to the offset mesh. */
-    Mesh offset_mesh;
-    /* A pointer to the subdivided offset mesh. */
-    Mesh subdiv_offset_mesh;
     /*
      * Selection object to handle mouse selection.
      * Only works for interactive editing mode.
