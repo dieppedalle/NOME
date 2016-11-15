@@ -372,6 +372,7 @@ class TupleMapper
 public:
     size_t operator () (const tuple<float, float, float>& t) const noexcept
     {
+        // return 0; /* Yes this was once considered in this code base
         float f0 = get<0>(t);
         float f1 = get<1>(t);
         float f2 = get<2>(t);
@@ -380,7 +381,7 @@ public:
 
     bool operator () (const tuple<float, float, float>& a, const tuple<float, float, float>& b) const noexcept
     {
-        return get<0>(a) == get<0>(b) && get<1>(a) == get<1>(b) && get<2>(a) == get<2>(b);
+        return hash<float>{}(get<0>(a)) == hash<float>{}(get<0>(b)) && hash<float>{}(get<1>(a)) == hash<float>{}(get<1>(b)) && hash<float>{}(get<2>(a)) == hash<float>{}(get<2>(b));
     }
 };
 
@@ -394,7 +395,7 @@ void MainWindow::save_current_mesh_nome(string output_file, const Mesh& mesh)
 
     unordered_map<tuple<float,float,float>, int, TupleMapper, TupleMapper> map;
     int i = 0;
-    file << fixed << setprecision(2);
+    file << fixed << precision(4);
     for(Vertex* v: mesh.vertList){
         map[make_tuple(v->position.x, v->position.y, v->position.z)] = i;
         file << "point v" << i << " (" << v->position.x << ", " << v->position.y << ", " << v->position.z << ") endpoint" << std::endl;
@@ -431,5 +432,5 @@ void MainWindow::save_current_mesh_nome(string output_file, const Mesh& mesh)
         ++j;
     }
 
-    file << "endmesh\n\ninstance mesh mergedmesh end instance" << std::endl;
+    file << "endmesh\n\ninstance mesh mergedmesh endinstance" << std::endl;
 }
