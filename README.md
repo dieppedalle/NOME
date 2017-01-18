@@ -15,3 +15,11 @@ Appendix B: User Interface Details
 2. Libraies and Dependcies
 3. Get started programming with NOME
 4. Some suggestions on contributing to NOME project
+
+## Microsoft Windows Libraries and Dependencies
+To install the dependencies on Windows the user needs to download:
+  * Qt (https://www.qt.io/download/) (the open source version is free to download)
+  * GLM (http://glm.g-truc.net/0.9.6/index.html). Download the zip version (currently called glm-0.9.8.3.zip). Unzip the file and navigate inside the glm folder. Place the nested glm folder at the root of the downloaded project. 
+
+To run the project the user needs to open the Qt Creator application from the Windows menu and open the `nome.pro` file from the application. Click on the run button to run the project.
+
