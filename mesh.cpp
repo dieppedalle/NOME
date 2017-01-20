@@ -952,7 +952,7 @@ mat4 Mesh::transformToTop()
     return result;
 }
 
-void Mesh::setFunnelParameterValues(string input)
+void Mesh::setFunnelParameterValues(string input, int lineNumber)
 {
     string nextExpression = "";
     bool expressionMode = false;
@@ -1038,6 +1038,13 @@ void Mesh::setFunnelParameterValues(string input)
             h = stof(number);
             break;
         }
+    }
+    //cout << to_string(i) << endl;
+    if (i >= 5){
+        cout << "Warning: Funnel method at line " + to_string(lineNumber) + " has too many parameters. A funnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+    }
+    else if(i < 4){
+        cout << "Warning: Funnel method at line " + to_string(lineNumber) + " does not have enough parameters. A funnel can only have 4 parameters: n, ro, ratio, and h." << endl;
     }
 }
 

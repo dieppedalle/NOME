@@ -429,7 +429,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     funnel_expression.push_back(' ');
                 }
-                newFunnel.setFunnelParameterValues(funnel_expression);
+                newFunnel.setFunnelParameterValues(funnel_expression, lineNumber);
                 newFunnel.makeFunnel();
                 if(meshes.find(newFunnel.name) == meshes.end())
                 {
@@ -438,6 +438,9 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 else
                 {
                     cout<<warning(3, lineNumber)<<endl;
+                }
+                if(++tIt == tokens.end() || (*tIt) != "endfunnel"){
+                    cout << "Warning: Missing endfunnel on line " + to_string(lineNumber) + "." << endl;
                 }
                 //newFunnel.computeNormals();
             }
