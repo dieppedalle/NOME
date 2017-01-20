@@ -181,6 +181,120 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
             {
                 break;
             }
+            else if(createBank){
+                if((*tIt) == "endbank")
+                {
+                    banklines.push_back(nextLine);
+                    createBank = false;
+                    goto newLineEnd;
+                }
+                else if((*tIt) == "set")
+                {
+                    banklines.push_back(nextLine);
+                    Parameter newParameter;
+                    int i = 0;
+                    //cout << "Hi" << endl;
+                    //cout << nextLine << endl;
+                    while(i < 5) {
+                        if(tIt >= tokens.end() - 1) {
+                            if (i < 2) {
+                                cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameter." << endl;
+                            }
+                            else {
+                                cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameters." << endl;
+                            }
+                            goto newLineEnd;
+                        }
+
+                        string nextToken = *(++tIt);
+                        if(testComments(nextToken)) {
+                            cout<<warning(0, lineNumber)<<endl;
+                            goto newLineEnd;
+                        }
+                        switch(i)
+                        {
+                        case 0:
+                            newParameter.name = banks[banks.size() - 1].name
+                                    + QString::fromStdString("_" + nextToken);
+                            name = nextToken;
+                            break;
+                        case 1:
+                            try
+                            {
+                                newParameter.value = std::stof(nextToken);
+                                break;
+                            }
+                            catch (std::exception e)
+                            {
+                                cout<<warning(1, lineNumber)<<endl;
+                                goto newLineEnd;
+                            }
+                        case 2:
+                            try
+                            {
+                                newParameter.start = std::stof(nextToken);
+                                break;
+                            }
+                            catch (std::exception e)
+                            {
+                                cout<<warning(1, lineNumber)<<endl;
+                                goto newLineEnd;
+                            }
+                        case 3:
+                            try
+                            {
+                                newParameter.end = std::stof(nextToken);
+                                break;
+                            }
+                            catch (std::exception e)
+                            {
+                                cout<<warning(1, lineNumber)<<endl;
+                                goto newLineEnd;
+                            }
+                        case 4:
+                            try
+                            {
+                                newParameter.stepsize = std::stof(nextToken);
+                                break;
+                            }
+                            catch (std::exception e)
+                            {
+                                cout<<warning(1, lineNumber)<<endl;
+                                goto newLineEnd;
+                            }
+                        }
+                        i++;
+                    }
+
+
+
+
+                    //cout << *tIt << endl;
+                    pIt = params.find(newParameter.name.toStdString());
+                    if(pIt == params.end())
+                    {
+                        params[banks[banks.size() - 1].name.toStdString() + "_" + name]
+                                = newParameter;
+                    }
+                    else
+                    {
+                        cout<<warning(2, lineNumber)<<endl;
+                        goto newLineEnd;
+                    }
+                    banks[banks.size() - 1].addParameter(
+                                &params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
+
+                    if(tIt != tokens.end() - 1) {
+                        cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It has too many parameters." << endl;
+                        goto newLineEnd;
+                    }
+                    //goto newLineEnd;
+                }
+                else {
+                    cout << "Warning: Wrong method at line " + to_string(lineNumber) + ". The method can only be a set, or you forgot to write endbank at the end of the bank." << endl;
+                    goto newLineEnd;
+                }
+            }
             else if((*tIt) == "bank")
             {
                 banklines.push_back(nextLine);
@@ -194,114 +308,6 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 banks.push_back(newBank);
                 createBank = true;
                 goto newLineEnd;
-            }
-            else if((*tIt) == "endbank")
-            {
-                banklines.push_back(nextLine);
-                createBank = false;
-                goto newLineEnd;
-            }
-            else if(createBank && (*tIt) == "set")
-            {
-                banklines.push_back(nextLine);
-                Parameter newParameter;
-                int i = 0;
-                //cout << "Hi" << endl;
-                //cout << nextLine << endl;
-                while(i < 5) {
-                    if(tIt >= tokens.end() - 1) {
-                        if (i < 2) {
-                            cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameter." << endl;
-                        }
-                        else {
-                            cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameters." << endl;
-                        }
-                        goto newLineEnd;
-                    }
-
-                    string nextToken = *(++tIt);
-                    if(testComments(nextToken)) {
-                        cout<<warning(0, lineNumber)<<endl;
-                        goto newLineEnd;
-                    }
-                    switch(i)
-                    {
-                    case 0:
-                        newParameter.name = banks[banks.size() - 1].name
-                                + QString::fromStdString("_" + nextToken);
-                        name = nextToken;
-                        break;
-                    case 1:
-                        try
-                        {
-                            newParameter.value = std::stof(nextToken);
-                            break;
-                        }
-                        catch (std::exception e)
-                        {
-                            cout<<warning(1, lineNumber)<<endl;
-                            goto newLineEnd;
-                        }
-                    case 2:
-                        try
-                        {
-                            newParameter.start = std::stof(nextToken);
-                            break;
-                        }
-                        catch (std::exception e)
-                        {
-                            cout<<warning(1, lineNumber)<<endl;
-                            goto newLineEnd;
-                        }
-                    case 3:
-                        try
-                        {
-                            newParameter.end = std::stof(nextToken);
-                            break;
-                        }
-                        catch (std::exception e)
-                        {
-                            cout<<warning(1, lineNumber)<<endl;
-                            goto newLineEnd;
-                        }
-                    case 4:
-                        try
-                        {
-                            newParameter.stepsize = std::stof(nextToken);
-                            break;
-                        }
-                        catch (std::exception e)
-                        {
-                            cout<<warning(1, lineNumber)<<endl;
-                            goto newLineEnd;
-                        }
-                    }
-                    i++;
-                }
-
-
-
-
-                //cout << *tIt << endl;
-                pIt = params.find(newParameter.name.toStdString());
-                if(pIt == params.end())
-                {
-                    params[banks[banks.size() - 1].name.toStdString() + "_" + name]
-                            = newParameter;
-                }
-                else
-                {
-                    cout<<warning(2, lineNumber)<<endl;
-                    goto newLineEnd;
-                }
-                banks[banks.size() - 1].addParameter(
-                            &params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
-
-                if(tIt != tokens.end() - 1) {
-                    cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It has too many parameters." << endl;
-                    goto newLineEnd;
-                }
-                //goto newLineEnd;
             }
             else if((*tIt) == "surface")
             {
