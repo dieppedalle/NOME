@@ -206,11 +206,19 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 banklines.push_back(nextLine);
                 Parameter newParameter;
                 int i = 0;
+                //cout << "Hi" << endl;
+                //cout << nextLine << endl;
                 while(i < 5) {
                     if(tIt >= tokens.end() - 1) {
-                        cout<<warning(0, lineNumber)<<endl;
+                        if (i < 2) {
+                            cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameter." << endl;
+                        }
+                        else {
+                            cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameters." << endl;
+                        }
                         goto newLineEnd;
                     }
+
                     string nextToken = *(++tIt);
                     if(testComments(nextToken)) {
                         cout<<warning(0, lineNumber)<<endl;
@@ -270,6 +278,11 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     i++;
                 }
+
+
+
+
+                //cout << *tIt << endl;
                 pIt = params.find(newParameter.name.toStdString());
                 if(pIt == params.end())
                 {
@@ -283,6 +296,12 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 banks[banks.size() - 1].addParameter(
                             &params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
+
+                if(tIt != tokens.end() - 1) {
+                    cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It has too many parameters." << endl;
+                    goto newLineEnd;
+                }
+                //goto newLineEnd;
             }
             else if((*tIt) == "surface")
             {

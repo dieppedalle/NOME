@@ -11,6 +11,7 @@ surface B color (0 0 1) endsurface          # Blue
 
 bank cubeP
     set     l       1       0.5       1.5      0.1
+    hehfh
 endbank
 
 point XYZ  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr $cubeP_l} ) endpoint
@@ -22,7 +23,7 @@ point XBC  ( {expr $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) e
 #point ABZ  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) endpoint
 #point ABC  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
 
-face c1   (XYZ XBZ XBC XYC) surface G endface
+face c1   (XYZ XBZ XBC XYC fh) surface G endface
 #face c2   (XYZ XYC AYC AYZ ) surface U endface
 #face c3   (AYZ AYC ABC ABZ ) endface
 #face c4   (ABZ ABC XBC XBZ ) endface
@@ -32,4 +33,4 @@ face c1   (XYZ XBZ XBC XYC) surface G endface
 #object cube (c1 c2 c3 c4 c5 c6) endobject
 object cube (c1) endobject
 
-instance cube1 cube surface B 
+instance cube1 cube surface B endinstance
