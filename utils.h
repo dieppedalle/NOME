@@ -28,7 +28,7 @@ float evaluate_vertex_expression(string expr,
                                  unordered_map<string, Parameter> *params,
                                  Vertex * t);
 
-QColor evaluate_color_expression(string expr);
+QColor evaluate_color_expression(string expr, int lineNumber);
 
 float getParameterValue(string name,
                         unordered_map<string, Parameter> *params);

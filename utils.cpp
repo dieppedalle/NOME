@@ -729,7 +729,7 @@ vec4 getXYZW(string input)
 }
 
 
-QColor evaluate_color_expression(string input)
+QColor evaluate_color_expression(string input, int lineNumber)
 {
     float r, b, g;
     string number = "";
@@ -777,6 +777,12 @@ QColor evaluate_color_expression(string input)
         }
         number = "";
         i++;
+    }
+    if (i >= 4){
+        cout << "Warning: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+    }
+    else if(i < 3){
+        cout << "Warning: Color method at line " + to_string(lineNumber) + " does not have enough parameters. A color is encoded in 3 values: red, green, and blue." << endl;
     }
     //cout<<r<<" "<<g<<" "<<b<<endl;
     return QColor(255*r, 255*g, 255*b);

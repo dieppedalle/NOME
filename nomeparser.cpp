@@ -277,7 +277,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
 
                         cout << "Warning: The set at line " + to_string(lineNumber) + " with name " + newParameter.name.toStdString() + " has already been defined."  << endl;
-                        cout<<warning(2, lineNumber)<<endl;
+                        //cout<<warning(2, lineNumber)<<endl;
                         goto newLineEnd;
                     }
                     banks[banks.size() - 1].addParameter(
@@ -303,6 +303,9 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         newBank.setName(QString::fromStdString(*tIt));
                     }
+                }
+                else {
+                    cout << "Warning: The bank at line " + to_string(lineNumber) + " does not have a name." << endl;
                 }
                 banks.push_back(newBank);
                 createBank = true;
@@ -374,7 +377,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     color_expression.push_back(' ');
                 }
                 colordone:
-                new_color = evaluate_color_expression(color_expression);
+                new_color = evaluate_color_expression(color_expression, lineNumber);
                 user_defined_colors[color_name] = new_color;
 
                 if(++tIt == tokens.end() || (*tIt) != "endsurface"){
@@ -1583,7 +1586,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     color_expression.push_back(' ');
                 }
                 colordone:
-                new_color = evaluate_color_expression(color_expression);
+                new_color = evaluate_color_expression(color_expression, lineNumber);
                 user_defined_colors[color_name] = new_color;
                 goto newLineEnd;
             }

@@ -11,7 +11,6 @@ surface B color (0 0 1) endsurface          # Blue
 
 bank cubeP
     set     l       1       0.5       1.5      0.1
-    set     l       1       0.5       1.5      0.1
 endbank
 
 point XYZ  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr $cubeP_l} ) endpoint
