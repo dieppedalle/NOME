@@ -123,6 +123,7 @@ string warning(int type, int lineNumber)
     return "";
 }
 
+
 void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               unordered_map<string, Parameter> &params,
                               Group &group,
@@ -351,6 +352,11 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 colordone:
                 new_color = evaluate_color_expression(color_expression);
                 user_defined_colors[color_name] = new_color;
+
+                if(++tIt == tokens.end() || (*tIt) != "endsurface"){
+                    cout << "Warning: Missing endsurface on line " + to_string(lineNumber) + "." << endl;
+                }
+
                 goto newLineEnd;
             }
             else if((*tIt) == "funnel")
@@ -607,6 +613,10 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout<<warning(3, lineNumber)<<endl;
                 }
+
+                if(++tIt == tokens.end() || (*tIt) != "endobject"){
+                    cout << "Warning: Missing endobject on line " + to_string(lineNumber) + "." << endl;
+                }
             }
             else if((*tIt) == "face" && (!deletePhase) && (!constructingMesh))
             {
@@ -714,10 +724,10 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 if(++tIt == tokens.end() || (*tIt) != "endface"){
-                    cout << "Missing endface on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Warning: Missing endface on line " + to_string(lineNumber) + "." << endl;
                 }
 
-                cout << *tIt << endl;
+                //cout << *tIt << endl;
             }
             else if((*tIt) == "face" && deletePhase)
             {
@@ -1423,7 +1433,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 current_mesh_name = "";
             }
             else{
-                cout<< "Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." <<endl;
+                cout<< "Warning: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." <<endl;
             }
         }
         newLineEnd:
