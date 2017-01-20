@@ -266,9 +266,6 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         i++;
                     }
 
-
-
-
                     //cout << *tIt << endl;
                     pIt = params.find(newParameter.name.toStdString());
                     if(pIt == params.end())
@@ -278,6 +275,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     else
                     {
+
+                        cout << "Warning: The set at line " + to_string(lineNumber) + " with name " + newParameter.name.toStdString() + " has already been defined."  << endl;
                         cout<<warning(2, lineNumber)<<endl;
                         goto newLineEnd;
                     }
