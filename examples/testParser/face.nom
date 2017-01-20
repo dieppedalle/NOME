@@ -3,14 +3,11 @@
 #surface O color (0.9 0.6 0) endsurface      # Orange
 #surface Y color (1 1 0) endsurface          # Yellow
 #surface L color (0.6 0.8 0) endsurface      # Lime
-surface G color (0 0.9 0)         # Green
+surface G color (0 0.9 0) endsurface      # Green
 #surface A color (0 0.9 0.7) endsurface      # Aqua
 #surface C color (0 1 1) endsurface          # Cyan
 #surface U color (0 0.5 1) endsurface        # Uniform
 surface B color (0 0 1) endsurface          # Blue
-
-hello
-dffy
 
 bank cubeP
     set     l       1       0.5       1.5      0.1
@@ -35,4 +32,4 @@ face c1   (XYZ XBZ XBC XYC) surface G endface
 #object cube (c1 c2 c3 c4 c5 c6) endobject
 object cube (c1) endobject
 
-instance cube1 cube surface B endinstance
+instance cube1 cube surface B 

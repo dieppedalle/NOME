@@ -1013,6 +1013,10 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 endPointWhile:
                 newVertex->setGlobalParameter(&params);
                 newVertex->setVertexParameterValues(xyz);
+                //cout << *tIt << endl;
+                if((*tIt) != "endpoint"){
+                    cout << "Warning: Missing endpoint on line " + to_string(lineNumber) + "." << endl;
+                }
             }
             else if((*tIt) == "group")
             {
@@ -1364,6 +1368,11 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         group.addPolyline(newPolyline);
                     }
                 }
+
+                if((*tIt) != "endinstance"){
+                    cout << "Warning: Missing endinstance on line " + to_string(lineNumber) + "." << endl;
+                }
+
             }
             else if(*tIt == "delete")
             {
