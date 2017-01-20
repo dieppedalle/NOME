@@ -132,6 +132,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &geometrylines,
                               vector<int> &postProcessingLines)
 {
+
     banks.clear();
     group.clear();
     ifstream file(input);
@@ -164,6 +165,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
     string current_mesh_name = "";
     while(std::getline(file, nextLine))
     {
+        //std::cout << nextLine << '\n';
+        //std::cout << "Hello" << '\n';
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -172,6 +175,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
         vector<string>::iterator tIt;
         for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
         {
+            //std::cout << *tIt << '\n';
             if(testComments(*tIt))
             {
                 break;
@@ -606,6 +610,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
             else if((*tIt) == "face" && (!deletePhase) && (!constructingMesh))
             {
+
                 geometrylines.push_back(nextLine);
                 Face * newFace = new Face;
                 if((++tIt) < tokens.end()) {
@@ -707,6 +712,12 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         newFace -> user_defined_color = true;
                     }
                 }
+
+                if(++tIt == tokens.end() || (*tIt) != "endface"){
+                    cout << "Missing endface on line " + to_string(lineNumber) + "." << endl;
+                }
+
+                cout << *tIt << endl;
             }
             else if((*tIt) == "face" && deletePhase)
             {
@@ -969,7 +980,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         else if(c == ')' && !inExpression)
                         {
                             makingXYZ = false;
-                            goto endPointWhile;
+                            //goto endPointWhile;
                         }
                         else if(makingXYZ)
                         {
@@ -1410,6 +1421,9 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     geometrylines.push_back(nextLine);
                 }
                 current_mesh_name = "";
+            }
+            else{
+                cout<< "Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." <<endl;
             }
         }
         newLineEnd:
