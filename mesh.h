@@ -204,7 +204,7 @@ public:
     void updateFunnel_ro_ratio_or_h();
     void updateTunnel_ro_ratio_or_h();
     void setFunnelParameterValues(string, int);
-    void setTunnelParameterValues(string);
+    void setTunnelParameterValues(string, int);
     vector<Parameter*> influencingParams;
     /* Add a parameter that influence this funnel. */
     void addParam(Parameter*);

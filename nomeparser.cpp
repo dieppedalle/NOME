@@ -198,11 +198,12 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     while(i < 5) {
                         if(tIt >= tokens.end() - 1) {
                             if (i < 2) {
-                                cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameter." << endl;
+                                cout << "Error: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameter." << endl;
                             }
                             else {
-                                cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameters." << endl;
+                                cout << "Error: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameters." << endl;
                             }
+
                             goto newLineEnd;
                         }
 
@@ -487,7 +488,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     tunnel_expression.push_back(' ');
                 }
-                newTunnel.setTunnelParameterValues(tunnel_expression);
+                newTunnel.setTunnelParameterValues(tunnel_expression, lineNumber);
                 newTunnel.makeTunnel();
                 if(meshes.find(newTunnel.name) == meshes.end())
                 {
@@ -497,6 +498,9 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout<<warning(3, lineNumber)<<endl;
                 }
+                /*if(++tIt == tokens.end() || (*tIt) != "endtunnel"){
+                    cout << "Warning: Missing endtunnel on line " + to_string(lineNumber) + "." << endl;
+                }*/
                 //newTunnel.computeNormals();
             }
             else if((*tIt) == "object")

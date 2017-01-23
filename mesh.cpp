@@ -1048,7 +1048,7 @@ void Mesh::setFunnelParameterValues(string input, int lineNumber)
     }
 }
 
-void Mesh::setTunnelParameterValues(string input)
+void Mesh::setTunnelParameterValues(string input, int lineNumber)
 {
     string nextExpression = "";
     bool expressionMode = false;
@@ -1134,6 +1134,13 @@ void Mesh::setTunnelParameterValues(string input)
             h = stof(number);
             break;
         }
+    }
+    //cout << to_string(i) << endl;
+    if (i >= 5){
+        cout << "Warning: Tunnel method at line " + to_string(lineNumber) + " has too many parameters. A tunnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+    }
+    else if(i < 4){
+        cout << "Warning: Tunnel method at line " + to_string(lineNumber) + " does not have enough parameters. A tunnel can only have 4 parameters: n, ro, ratio, and h." << endl;
     }
 }
 

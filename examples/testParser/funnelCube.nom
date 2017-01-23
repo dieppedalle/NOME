@@ -18,7 +18,7 @@ bank fp
 endbank
 
 #funnel fun ({expr $fp_n} {expr $fp_ro} {expr $fp_ratio} {expr $fp_h}) endfunnel
-funnel fun ({expr $fp_n} {expr $fp_ro} {expr $fp_ratio} {expr $fp_h}) endfunnel
+tunnel fun ({expr $fp_n} {expr $fp_ro} {expr $fp_ratio} {expr $fp_h}) endtunnel
 #funnel fun ({expr $fp_n} 0.4 -0.2 0.2) endfunnel
 
 group cubeMadeByFunnel
