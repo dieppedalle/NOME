@@ -952,7 +952,7 @@ mat4 Mesh::transformToTop()
     return result;
 }
 
-void Mesh::setFunnelParameterValues(string input, int lineNumber)
+int Mesh::setFunnelParameterValues(string input, int lineNumber)
 {
     string nextExpression = "";
     bool expressionMode = false;
@@ -1041,10 +1041,12 @@ void Mesh::setFunnelParameterValues(string input, int lineNumber)
     }
     //cout << to_string(i) << endl;
     if (i >= 5){
-        cout << "Warning: Funnel method at line " + to_string(lineNumber) + " has too many parameters. A funnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+        cout << "Error: Funnel method at line " + to_string(lineNumber) + " has too many parameters. A funnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+        return 1;
     }
     else if(i < 4){
-        cout << "Warning: Funnel method at line " + to_string(lineNumber) + " does not have enough parameters. A funnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+        cout << "Error: Funnel method at line " + to_string(lineNumber) + " does not have enough parameters. A funnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+        return 1;
     }
 }
 
@@ -1137,10 +1139,10 @@ void Mesh::setTunnelParameterValues(string input, int lineNumber)
     }
     //cout << to_string(i) << endl;
     if (i >= 5){
-        cout << "Warning: Tunnel method at line " + to_string(lineNumber) + " has too many parameters. A tunnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+        cout << "Error: Tunnel method at line " + to_string(lineNumber) + " has too many parameters. A tunnel can only have 4 parameters: n, ro, ratio, and h." << endl;
     }
     else if(i < 4){
-        cout << "Warning: Tunnel method at line " + to_string(lineNumber) + " does not have enough parameters. A tunnel can only have 4 parameters: n, ro, ratio, and h." << endl;
+        cout << "Error: Tunnel method at line " + to_string(lineNumber) + " does not have enough parameters. A tunnel can only have 4 parameters: n, ro, ratio, and h." << endl;
     }
 }
 

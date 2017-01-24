@@ -164,6 +164,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     unordered_map<string, QColor> user_defined_colors;
     unordered_map<string, QColor>::iterator colorIt;
     string current_mesh_name = "";
+    int isError = 0;
     while(std::getline(file, nextLine))
     {
         //std::cout << nextLine << '\n';
@@ -434,7 +435,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     funnel_expression.push_back(' ');
                 }
-                newFunnel.setFunnelParameterValues(funnel_expression, lineNumber);
+
+                isError = newFunnel.setFunnelParameterValues(funnel_expression, lineNumber);
+                if (isError == 1){
+                    return 1;
+                }
+
                 newFunnel.makeFunnel();
                 if(meshes.find(newFunnel.name) == meshes.end())
                 {
@@ -519,7 +525,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         newMesh.name = *tIt;
                     }
-                        else
+                    else
                     {
                         cout<<warning(3, lineNumber)<<endl;
                         goto newLineEnd;
@@ -529,6 +535,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 bool addingFace = false;
                 while(++tIt < tokens.end())
                 {
+
+                    if((*tIt == "endobject"))
+                    {
+                        cout << "Error: Missing list of faces between () in object generator on line " + to_string(lineNumber) + "." << endl;
+                        return 1;
+                    }
                     for(char& c : (*tIt))
                     {
                         if(c == '(')
@@ -537,12 +549,17 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         else if(c == ')')
                         {
+                            //cout << faceInside << endl;
                             addingFace = false;
                             if(faceInside != "")
                             {
+
                                 faceIt = global_faces.find(faceInside);
+
                                 if(faceIt == global_faces.end())
                                 {
+                                    cout << "Error: Incorrect face name in object generator on line " + to_string(lineNumber) + ". The face " + faceInside + " has never been created." << endl;
+                                    return 1;
                                     cout<<warning(23, lineNumber);
                                 }
                                 else
@@ -587,18 +604,24 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 }
                                 faceInside = "";
                             }
+
                             goto endAddingFaceInMesh;
                         }
                         else if(addingFace)
                         {
                             faceInside.push_back(c);
                         }
+
                     }
                     if(faceInside != "")
                     {
+                        //cout << faceInside << endl;
+
                         faceIt = global_faces.find(faceInside);
                         if(faceIt == global_faces.end())
                         {
+                            cout << "Error: Incorrect face name in object generator on line " + to_string(lineNumber) + ". The face " + faceInside + " has never been created." << endl;
+                            return 1;
                             cout<<warning(23, lineNumber);
                         }
                         else
@@ -702,6 +725,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 vertIt = global_vertices.find(vertInside);
                                 if(vertIt == global_vertices.end())
                                 {
+                                    cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                                    return 1;
                                     cout<<warning(21, lineNumber);
                                 }
                                 else
@@ -722,6 +747,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         vertIt = global_vertices.find(vertInside);
                         if(vertIt == global_vertices.end())
                         {
+                            cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                            return 1;
                             cout<<warning(21, lineNumber);
                         }
                         else
@@ -749,6 +776,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         else
                         {
+                            cout << "Error: Incorrect surface name in face generator on line " + to_string(lineNumber) + ". The surface " + color_name + " has never been created." << endl;
+                            return 1;
                             cout<<warning(22, lineNumber)<<endl;
                         }
                     }
