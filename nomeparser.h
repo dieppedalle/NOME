@@ -16,7 +16,7 @@ class NomeParser
 {
 public:
     NomeParser();
-    void makeWithNome(vector<ParameterBank> &banks,
+    int makeWithNome(vector<ParameterBank> &banks,
                       unordered_map<string, Parameter> &params,
                       Group &group,
                       string input,

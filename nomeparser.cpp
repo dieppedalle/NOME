@@ -124,7 +124,7 @@ string warning(int type, int lineNumber)
 }
 
 
-void NomeParser::makeWithNome(vector<ParameterBank> &banks,
+int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               unordered_map<string, Parameter> &params,
                               Group &group,
                               string input,
@@ -203,7 +203,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             else {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It only has " + to_string(i) + " parameters." << endl;
                             }
-
+                            return 1;
                             goto newLineEnd;
                         }
 
@@ -277,21 +277,23 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     else
                     {
 
-                        cout << "Warning: The set at line " + to_string(lineNumber) + " with name " + newParameter.name.toStdString() + " has already been defined."  << endl;
-                        //cout<<warning(2, lineNumber)<<endl;
+                        cout << "Error: The set at line " + to_string(lineNumber) + " with name " + newParameter.name.toStdString() + " has already been defined."  << endl;
+                        return 1;
                         goto newLineEnd;
                     }
                     banks[banks.size() - 1].addParameter(
                                 &params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
 
                     if(tIt != tokens.end() - 1) {
-                        cout << "Warning: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It has too many parameters." << endl;
+                        cout << "Error: The set at line " + to_string(lineNumber) + " does not have 5 parameters. It has too many parameters." << endl;
+                        return 1;
                         goto newLineEnd;
                     }
                     //goto newLineEnd;
                 }
                 else {
-                    cout << "Warning: Wrong method at line " + to_string(lineNumber) + ". The method can only be a set, or you forgot to write endbank at the end of the bank." << endl;
+                    cout << "Error: Wrong method at line " + to_string(lineNumber) + ". The method can only be a set, or you forgot to write endbank at the end of the bank." << endl;
+                    return 1;
                     goto newLineEnd;
                 }
             }
@@ -306,7 +308,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 else {
-                    cout << "Warning: The bank at line " + to_string(lineNumber) + " does not have a name." << endl;
+                    cout << "Error: The bank at line " + to_string(lineNumber) + " does not have a name." << endl;
+                    return 1;
                 }
                 banks.push_back(newBank);
                 createBank = true;
@@ -382,7 +385,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 user_defined_colors[color_name] = new_color;
 
                 if(++tIt == tokens.end() || (*tIt) != "endsurface"){
-                    cout << "Warning: Missing endsurface on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Error: Missing endsurface on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
                 }
 
                 goto newLineEnd;
@@ -441,7 +445,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout<<warning(3, lineNumber)<<endl;
                 }
                 if(++tIt == tokens.end() || (*tIt) != "endfunnel"){
-                    cout << "Warning: Missing endfunnel on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Error: Missing endfunnel on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
                 }
                 //newFunnel.computeNormals();
             }
@@ -499,7 +504,7 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout<<warning(3, lineNumber)<<endl;
                 }
                 /*if(++tIt == tokens.end() || (*tIt) != "endtunnel"){
-                    cout << "Warning: Missing endtunnel on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Error: Missing endtunnel on line " + to_string(lineNumber) + "." << endl;
                 }*/
                 //newTunnel.computeNormals();
             }
@@ -649,7 +654,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 if(++tIt == tokens.end() || (*tIt) != "endobject"){
-                    cout << "Warning: Missing endobject on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Error: Missing endobject on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
                 }
             }
             else if((*tIt) == "face" && (!deletePhase) && (!constructingMesh))
@@ -755,10 +761,12 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         newFace -> color = color;
                         newFace -> user_defined_color = true;
                     }
+                    ++tIt;
                 }
-
-                if(++tIt == tokens.end() || (*tIt) != "endface"){
-                    cout << "Warning: Missing endface on line " + to_string(lineNumber) + "." << endl;
+                //cout << *tIt << endl;
+                if(tIt == tokens.end() || (*tIt) != "endface"){
+                    cout << "Error: Missing endface on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
                 }
 
                 //cout << *tIt << endl;
@@ -1049,7 +1057,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 newVertex->setVertexParameterValues(xyz);
                 //cout << *tIt << endl;
                 if((*tIt) != "endpoint"){
-                    cout << "Warning: Missing endpoint on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Error: Missing endpoint on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
                 }
             }
             else if((*tIt) == "group")
@@ -1404,7 +1413,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 if((*tIt) != "endinstance"){
-                    cout << "Warning: Missing endinstance on line " + to_string(lineNumber) + "." << endl;
+                    cout << "Error: Missing endinstance on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
                 }
 
             }
@@ -1476,7 +1486,8 @@ void NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 current_mesh_name = "";
             }
             else{
-                cout<< "Warning: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." <<endl;
+                cout<< "Error: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." <<endl;
+                return 1;
             }
         }
         newLineEnd:

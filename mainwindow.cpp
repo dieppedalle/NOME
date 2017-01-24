@@ -148,8 +148,22 @@ void MainWindow::createCanvas(QString name)
     }
     else if (name.right(3).toLower() == "nom")
     {
-        nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
+        int error = 0;
+        error = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines);
+
+        if (error == 1){
+            slider_panels.clear();
+            banklines.clear();
+            colorlines.clear();
+            geometrylines.clear();
+            postProcessingLines.clear();
+            banks.clear();
+            params.clear();
+
+            return;
+        }
+
         canvas = new SlideGLWidget(scene);
         canvas -> group_from_consolidate_mesh = &append_scene;
         nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString());
@@ -162,6 +176,7 @@ void MainWindow::createCanvas(QString name)
     {
         cout<<"File type not supported!";
     }
+
 }
 
 void MainWindow::createSliderPanel(SlideGLWidget * canvas)
