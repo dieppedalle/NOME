@@ -77,7 +77,7 @@ public:
     /* A pointer to the global parameter. */
     unordered_map<string, Parameter> *params;
     /* Set the parameters for this vertex. */
-    void setVertexParameterValues(string);
+    int setVertexParameterValues(string, int);
     /* Set the global parameter pointer for this vertex. */
     void setGlobalParameter(unordered_map<string, Parameter> *params);
     /* Update the current position of this vertex.*/

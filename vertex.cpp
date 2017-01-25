@@ -36,7 +36,7 @@ void Vertex::addParam(Parameter* param)
     influencingParams.push_back(param);
 }
 
-void Vertex::setVertexParameterValues(string input)
+int Vertex::setVertexParameterValues(string input, int lineNumber)
 {
     float x, y, z;
     string nextExpression = "";
@@ -52,19 +52,36 @@ void Vertex::setVertexParameterValues(string input)
         else if(c == '}')
         {
             expressionMode = false;
+            //cout << nextExpression << endl;
             switch(i)
             {
             case 0:
                 x_expr = nextExpression.substr(5);
                 x = evaluate_vertex_expression(x_expr, params, this);
+                //cout << x << endl;
+                if (isnan(x)){
+                    cout << "Error: Point method at line " + to_string(lineNumber) + " has the parameter " + x_expr + " from a bank that has not been defined." << endl;
+                    return 1;
+                }
+
                 break;
             case 1:
                 y_expr = nextExpression.substr(5);
                 y = evaluate_vertex_expression(y_expr, params, this);
+                if (isnan(y)){
+                    cout << "Error: Point method at line " + to_string(lineNumber) + " has the parameter " + y_expr + " from a bank that has not been defined." << endl;
+                    return 1;
+                }
+
                 break;
             case 2:
                 z_expr = nextExpression.substr(5);
                 z = evaluate_vertex_expression(z_expr, params, this);
+                if (isnan(z)){
+                    cout << "Error: Point method at line " + to_string(lineNumber) + " has the parameter " + z_expr + " from a bank that has not been defined." << endl;
+                    return 1;
+                }
+
                 break;
             }
             nextExpression = "";
@@ -99,6 +116,7 @@ void Vertex::setVertexParameterValues(string input)
                 i++;
             }
         }
+
     }
     if(number != "")
     {
@@ -115,8 +133,18 @@ void Vertex::setVertexParameterValues(string input)
             break;
         }
     }
+
+    if (i > 3){
+        cout << "Error: Point method at line " + to_string(lineNumber) + " has too many parameters. A point can only have 3 parameters: x, y, and z." << endl;
+        return 1;
+    }
+    else if(i <= 2){
+        cout << "Error: Point method at line " + to_string(lineNumber) + " does not have enough parameters. A point can only have 3 parameters: x, y, and z." << endl;
+        return 1;
+    }
     isParametric = x_expr != "" || y_expr != "" || z_expr != "";
     position = vec3(x, y, z);
+    return 0;
 }
 
 void Vertex::setGlobalParameter(unordered_map<string, Parameter> *params)

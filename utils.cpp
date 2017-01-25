@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "transformation.h"
 #include "mesh.h"
+#include <math.h>
 float evaluate_expression(string expr, unordered_map<string, Parameter> *params)
 {
     //cout<<expr<<endl;
@@ -384,34 +385,43 @@ float evaluate_vertex_expression(string expr,
     string lastNumber = "";
     bool readingFromExpr = false;
     string parameterName = "";
+    //cout << expr << endl;
+    //cout << "===" << endl;
     for(char& m : expr)
     {
+
         if(!readingFromExpr && ((m >= '0' && m <= '9') || m == '.'))
         {
             number.push_back(m);
         } else if(m == '$')
         {
             readingFromExpr = true;
-        }
-        else if(readingFromExpr && !(m == ' ' || m == '(' || m ==')' || isOperator(m)))
+        } else if(readingFromExpr && !(m == ' ' || m == '(' || m ==')' || isOperator(m)))
         {
             parameterName.push_back(m);
         }
         else
+
         {
             if(number != "")
             {
+
                 tokens.push_back(number);
                 lastNumber = number;
                 number = "";
             } else if(parameterName != "")
             {
-                string value = to_string(getVertexParameterValue(parameterName, params, v));
+                float valueFloat = getVertexParameterValue(parameterName, params, v);
+                if (valueFloat == NAN){
+                    return NAN;
+                }
+                string value = to_string(valueFloat);
                 tokens.push_back(value);
                 lastNumber = value;
                 parameterName = "";
                 readingFromExpr = false;
             }
+
             if(isOperator(m))
             {
                 if(lastNumber == "") {
@@ -433,15 +443,13 @@ float evaluate_vertex_expression(string expr,
                 string newString = "";
                 newString.push_back(m);
                 numberStack.push(newString);
-            }
-            else if(m == '(')
+            } else if(m == '(')
             {
                 string newString = "";
                 newString.push_back(m);
                 numberStack.push(newString);
                 lastNumber = "";
-            }
-            else if(m == ')')
+            } else if(m == ')')
             {
                 while(numberStack.size() > 0) {
                     string last = numberStack.top();
@@ -457,13 +465,21 @@ float evaluate_vertex_expression(string expr,
                 }
             }
         }
+
     }
+
     if(number != "")
     {
         tokens.push_back(number);
     } else if(parameterName != "")
     {
-        string value = to_string(getVertexParameterValue(parameterName, params, v));
+        float valueFloat = getVertexParameterValue(parameterName, params, v);
+        if (valueFloat == NAN){
+            return NAN;
+        }
+
+        string value = to_string(valueFloat);
+
         tokens.push_back(value);
         lastNumber = value;
     }
@@ -494,6 +510,7 @@ float evaluate_vertex_expression(string expr,
     {
         return 0.0f;
     }
+
     return operands.top();
 }
 
@@ -550,8 +567,7 @@ float getVertexParameterValue(string name,
     pIt = params -> find(name);
     if(pIt == params -> end())
     {
-        std::cout<<"Warning: Parameter " + name + " has not be defined yet.";
-        return 0.0f;
+        return NAN;
     }
     v -> addParam(&(pIt -> second));
     return (pIt -> second).getValue();
@@ -672,7 +688,7 @@ float getOneValue(string input)
 
 vec4 getXYZW(string input)
 {
-    cout<<input;
+    //cout<<input;
     string number = "";
     int i = 0;
     float x;
@@ -780,9 +796,11 @@ QColor evaluate_color_expression(string input, int lineNumber)
     }
     if (i >= 4){
         cout << "Warning: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+        return QColor();
     }
     else if(i < 3){
         cout << "Warning: Color method at line " + to_string(lineNumber) + " does not have enough parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+        return QColor();
     }
     //cout<<r<<" "<<g<<" "<<b<<endl;
     return QColor(255*r, 255*g, 255*b);
