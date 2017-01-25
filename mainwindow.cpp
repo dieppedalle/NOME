@@ -148,19 +148,20 @@ void MainWindow::createCanvas(QString name)
     }
     else if (name.right(3).toLower() == "nom")
     {
+        slider_panels.clear();
+        banklines.clear();
+        colorlines.clear();
+        geometrylines.clear();
+        postProcessingLines.clear();
+        banks.clear();
+        params.clear();
+        //=======
+
         int error = 0;
         error = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines);
 
         if (error == 1){
-            slider_panels.clear();
-            banklines.clear();
-            colorlines.clear();
-            geometrylines.clear();
-            postProcessingLines.clear();
-            banks.clear();
-            params.clear();
-
             return;
         }
 

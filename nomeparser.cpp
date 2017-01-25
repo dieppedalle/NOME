@@ -228,6 +228,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             }
                             catch (std::exception e)
                             {
+                                cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
+                                return 1;
                                 cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
@@ -239,6 +241,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             }
                             catch (std::exception e)
                             {
+                                cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
+                                return 1;
                                 cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
@@ -250,6 +254,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             }
                             catch (std::exception e)
                             {
+                                cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
+                                return 1;
                                 cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
@@ -261,6 +267,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             }
                             catch (std::exception e)
                             {
+                                cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
+                                return 1;
                                 cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }

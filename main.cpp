@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
     //SlideGLWidget s;
     //s.show();
     MainWindow window;
+    window.setGeometry(200,200,320,100);
     window.show();
+
     return a.exec();
 }

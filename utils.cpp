@@ -525,7 +525,7 @@ float getParameterValue(string name, unordered_map<string, Parameter> *params)
     pIt = params -> find(name);
     if(pIt == params -> end())
     {
-        std::cout<<"Warning: Parameter " + name + " has not be defined yet.";
+        std::cout<<"Error: Parameter " + name + " has not be defined yet.";
         return 0.0f;
     }
     return (pIt -> second).getValue();
@@ -537,7 +537,7 @@ float getMeshParameterValue(string name, unordered_map<string, Parameter> *param
     pIt = params -> find(name);
     if(pIt == params -> end())
     {
-        std::cout<<"Warning: Parameter " + name + " has not be defined yet.";
+        std::cout<<"Error: Parameter " + name + " has not be defined yet.";
         return 0.0f;
     }
     mesh -> addParam(&(pIt -> second));
@@ -552,7 +552,7 @@ float getTransformationParameterValue(string name,
     pIt = params -> find(name);
     if(pIt == params -> end())
     {
-        std::cout<<"Warning: Parameter " + name + " has not be defined yet.";
+        std::cout<<"Error: Parameter " + name + " has not be defined yet.";
         return 0.0f;
     }
     t -> addParam(&(pIt -> second));
@@ -795,11 +795,11 @@ QColor evaluate_color_expression(string input, int lineNumber)
         i++;
     }
     if (i >= 4){
-        cout << "Warning: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+        cout << "Error: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
         return QColor();
     }
     else if(i < 3){
-        cout << "Warning: Color method at line " + to_string(lineNumber) + " does not have enough parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+        cout << "Error: Color method at line " + to_string(lineNumber) + " does not have enough parameters. A color is encoded in 3 values: red, green, and blue." << endl;
         return QColor();
     }
     //cout<<r<<" "<<g<<" "<<b<<endl;
