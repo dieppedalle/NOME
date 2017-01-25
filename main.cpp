@@ -9,13 +9,17 @@
 #include "nomeglwidget.h"
 #include <QApplication>
 
+
+
 int main(int argc, char *argv[])
 {
+    cout << "Welcome to NOME!" << endl;
+
     QApplication a(argc, argv);
     //SlideGLWidget s;
     //s.show();
     MainWindow window;
-    window.setGeometry(200,200,320,100);
+    window.setGeometry(200,200,400,100);
     window.show();
 
     return a.exec();

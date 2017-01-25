@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = slide2016
 TEMPLATE = app
 CONFIG += c++11
+CONFIG += console
 
 SOURCES += main.cpp\
     edge.cpp \
