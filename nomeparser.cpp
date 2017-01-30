@@ -165,6 +165,9 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     unordered_map<string, QColor>::iterator colorIt;
     string current_mesh_name = "";
     int isError = 0;
+    char* p;
+    long converted;
+
     while(std::getline(file, nextLine))
     {
         //std::cout << nextLine << '\n';
@@ -216,6 +219,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         switch(i)
                         {
                         case 0:
+
+
                             newParameter.name = banks[banks.size() - 1].name
                                     + QString::fromStdString("_" + nextToken);
                             name = nextToken;
@@ -223,6 +228,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         case 1:
                             try
                             {
+                                converted = strtod(nextToken.c_str(), &p);
+
+                                if (*p){
+                                    cout << "Error: The set at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
+                                    return 1;
+                                }
+
                                 newParameter.value = std::stof(nextToken);
                                 break;
                             }
@@ -236,6 +248,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         case 2:
                             try
                             {
+                                converted = strtod(nextToken.c_str(), &p);
+
+                                if (*p){
+                                    cout << "Error: The set at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
+                                    return 1;
+                                }
                                 newParameter.start = std::stof(nextToken);
                                 break;
                             }
@@ -249,6 +267,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         case 3:
                             try
                             {
+                                converted = strtod(nextToken.c_str(), &p);
+
+                                if (*p){
+                                    cout << "Error: The set at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
+                                    return 1;
+                                }
                                 newParameter.end = std::stof(nextToken);
                                 break;
                             }
@@ -262,6 +286,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         case 4:
                             try
                             {
+                                converted = strtod(nextToken.c_str(), &p);
+
+                                if (*p){
+                                    cout << "Error: The set at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
+                                    return 1;
+                                }
+
                                 newParameter.stepsize = std::stof(nextToken);
                                 break;
                             }
