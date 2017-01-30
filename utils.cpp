@@ -770,10 +770,9 @@ QColor evaluate_color_expression(string input, int lineNumber)
     float r, b, g;
     string number = "";
     int i = 0;
-    //cout << input << endl;
 
     vector<string> sep = split(input, ' ');
-    //cout << sep.size() << endl;
+
     if (sep.size() >= 4){
         cout << "Error: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
         return QColor();
@@ -817,60 +816,7 @@ QColor evaluate_color_expression(string input, int lineNumber)
             b = stof(sep[i]);
             break;
         }
-       //cout << sep[i] << endl;
     }
 
-
-    /*if (!isdigit(c)){
-        cout << c << endl;
-        cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format. The RGB values need to be 3 number."  << endl;
-        return 1;
-    }*/
-    for(char& c : input)
-    {
-        if(((c >= '0' &&  c <= '9') || c == '.' || c == '-' || c == '+'))
-        {
-            number.push_back(c);
-        }
-        else
-        {
-            if(number != "")
-            {
-                switch(i)
-                {
-                case 0:
-                    r = stof(number);
-                    break;
-                case 1:
-                    g = stof(number);
-                    break;
-                case 2:
-                    b = stof(number);
-                    break;
-                }
-                number = "";
-                i++;
-            }
-        }
-    }
-    if(number != "")
-    {
-        switch(i)
-        {
-        case 0:
-            r = stof(number);
-            break;
-        case 1:
-            g = stof(number);
-            break;
-        case 2:
-            b = stof(number);
-            break;
-        }
-        number = "";
-        i++;
-    }
-
-    //cout<<r<<" "<<g<<" "<<b<<endl;
     return QColor(255*r, 255*g, 255*b);
 }
