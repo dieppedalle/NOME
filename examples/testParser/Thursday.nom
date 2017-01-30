@@ -1,0 +1,62 @@
+#### Some Surface colors #############################
+surface R color (1 0 0) endsurface          # Red
+surface G color (0 1 0) endsurface          # Red
+surface B color (0 0 1) endsurface          # Red
+
+bank fp
+    set     n       8       3       100      1
+    set     ro      0.4     0.1     1.0     0.1
+    set     ratio   -0.2    -0.5    0.5     0.1
+    set     h       0.2     0.1     1.5     0.1
+    set     z       0    -360   360     1
+endbank
+
+#right top me
+point X11  ( 1.4 -0.15 1.65) endpoint
+point X10  ( 1.4 -0.8 1.9) endpoint
+point X9  ( 1.4 -1.45 1.65) endpoint
+point X8  ( 1.4 -1.7 1) endpoint
+point X7  ( 1 -1.2 -0.4) endpoint
+point X6  ( 0 -0.9 -0.8) endpoint #
+point X5  ( -0.65 -0.63 -0.8) endpoint
+point X4  ( -0.9 0 -0.8) endpoint
+point X0  ( -0.65 0.63 -0.8) endpoint
+point X1  ( 0 0.9 -0.8) endpoint #
+point X2  ( 1 0.6 -0.4) endpoint
+point X3  ( 1.4 0.1 1) endpoint
+
+point Y1  ( 0 -0.75 1.5) endpoint
+point Y2  ( -0.65 -0.5 1.0) endpoint
+point Y3  ( -0.9 0 0.1) endpoint
+point Y4  ( -0.65 0.63 0.1) endpoint
+point Y5  ( 0 0.9 0.1) endpoint
+point Y6  ( 0.65 0.63 0.1) endpoint
+point Y7  ( 0.9 0 0.1) endpoint
+point Y8  ( 0.9 -0.8 0.1) endpoint
+point Y9  ( 0.9 -1.45 0.35) endpoint
+point Y10  ( 0.9 -1.7 1) endpoint
+point Y11  ( 0.9 -1.45 1.65) endpoint
+point Y12  ( 0.9 -0.8 1.9) endpoint
+
+# subdivisions, diameter, inclined, width
+funnel fun (8 0.4 0 0.7) endfunnel
+funnel bigFunnel (8 0.9 0 0.1) endfunnel
+funnel bigFunnelBack (8 0.9 0 0.1) endfunnel
+
+polyline poly (X11 X10 X9 X8 X7 X6 X5 X4 X0 X1 X2 X3) isloop endpolyline
+polyline poly2 (Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 Y9 Y10 Y11 Y12) isloop endpolyline
+
+# right top
+group finalShape
+    instance poly2 poly translate (0 0 0) endinstance
+    instance poly3 poly2 translate (0 0 0) endinstance
+    instance fun2 fun translate (0 0 -0.7) surface R endinstance
+    instance fun3 fun rotate (0 1 0) (90) translate (0.8 -0.8 0.95) surface R endinstance
+    instance bigFun bigFunnel translate (0 0 0) surface G endinstance
+    instance bigFunBack bigFunnelBack translate (0 0 -0.85) surface B endinstance
+
+    instance bigFun2 bigFunnel rotate (0 1 0) (90) translate (0.8 -0.8 1) surface G endinstance
+    instance bigFunBack2 bigFunnelBack rotate (0 1 0) (90) translate (1.4 -0.8 1) surface B endinstance
+endgroup
+
+instance cf finalShape endinstance

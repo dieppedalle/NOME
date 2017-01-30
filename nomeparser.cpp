@@ -350,14 +350,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     if((*tIt) != "color")
                     {
-                        cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format. The color keyword needs to be inserted before the rgb value."  << endl;
+                        cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                         cout<<warning(17, lineNumber)<<endl;
                     }
                 }
                 else
                 {
-                    cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format. The color keyword needs to be inserted before the rgb value."  << endl;
+                    cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                     cout<<warning(17, lineNumber)<<endl;
                 }
@@ -434,6 +434,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         else if(c == ')' && !inExpression)
                         {
                             expression_input = false;
+
+                            //cout << *tIt << endl;
+                            if(++tIt == tokens.end() || (*tIt) != "endfunnel"){
+                                cout << "Error: Missing endfunnel on line " + to_string(lineNumber) + "." << endl;
+                                return 1;
+                            }
                         }
                         else if(c == '#')
                         {
@@ -471,10 +477,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     return 1;
                     cout<<warning(3, lineNumber)<<endl;
                 }
-                if(++tIt == tokens.end() || (*tIt) != "endfunnel"){
-                    cout << "Error: Missing endfunnel on line " + to_string(lineNumber) + "." << endl;
-                    return 1;
-                }
+
                 //newFunnel.computeNormals();
             }
             else if((*tIt) == "tunnel")
@@ -1039,6 +1042,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 if(*tIt == "isloop")
                                 {
                                     newPolyline.isLoop = true;
+                                    ++tIt;
                                 }
                             }
                             goto endPolyLineWhile;
@@ -1048,6 +1052,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             vertInside.push_back(c);
                         }
                     }
+
                     if(vertInside != "")
                     {
                         vertIt = global_vertices.find(vertInside);
@@ -1064,7 +1069,23 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         vertInside = "";
                     }
                 }
+
                 endPolyLineWhile:
+                if(vertInside != "")
+                {
+                    vertIt = global_vertices.find(vertInside);
+                    if(vertIt == global_vertices.end())
+                    {
+                        cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                        return 1;
+                        cout<<warning(14, lineNumber);
+                    }
+                    else
+                    {
+                        newPolyline.addVertex(vertIt -> second);
+                    }
+                    vertInside = "";
+                }
 
                 if((*tIt) != "endpolyline"){
                     cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;
@@ -1231,7 +1252,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         else
                         {
-                            cout << "Error: The polyline " + className + " at line " + to_string(lineNumber) + " has never been created."  << endl;
+                            cout << "Error: The object " + className + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
                             cout<<warning(5, lineNumber)<<endl;
                         }
@@ -1413,7 +1434,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         Transformation t(4, &params, xyzw);
                         transformations_up.push_back(t);
                     }
-                    if(*tIt == "surface")
+                    else if(*tIt == "surface")
                     {
                         string color_name;
                         if(++tIt < tokens.end())
@@ -1438,6 +1459,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             return 1;
                             cout<<warning(18, lineNumber)<<endl;
                         }
+                    }
+                    else {
+                        cout << "Error: The instance at line " + to_string(lineNumber) + " has the parameter " + *tIt + " which is incorrect."  << endl;
+                        return 1;
                     }
                 }
                 if(currentGroup != "")

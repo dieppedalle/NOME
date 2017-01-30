@@ -1,0 +1,117 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface G color (0 1 0) endsurface          # Red
+surface B color (0 0 1) endsurface          # Red
+
+bank fp
+    set		n		8		3		100		1		
+    set		ro		0.4		0.1		1.0		0.1		
+    set		ratio		-0.2		-0.5		0.5		0.1		
+    set		h		0.2		0.1		1.5		0.1		
+    set		z		0		-360		360		1		
+endbank
+point X11  ( 1.5 -0.15 1.65) endpoint
+point X10  ( 1.5 -0.8 1.9) endpoint
+point X9  ( 1.5 -1.45 1.65) endpoint
+point X8  ( 1.5 -1.7 1) endpoint
+point X7  ( 1 -1.2 -0.4) endpoint
+point X6  ( 0 -0.9 -0.7) endpoint #
+point X5  ( -0.65 -0.63 -0.7) endpoint
+point X4  ( -0.9 0 -0.7) endpoint
+point X0  ( -0.65 0.63 -0.7) endpoint
+point X1  ( 0 0.9 -0.7) endpoint #
+point X2  ( 1 0.6 -0.4) endpoint
+point X3  ( 1.5 0.1 1) endpoint
+point Y1  ( 0 -0.75 1.5) endpoint
+point Y2  ( -0.65 -0.5 1.0) endpoint
+point Y3  ( -0.9 0 0) endpoint
+point Y4  ( -0.65 0.63 0) endpoint
+point Y5  ( 0 0.9 0) endpoint
+point Y6  ( 0.65 0.63 0) endpoint
+point Y7  ( 0.8 0 0) endpoint
+point Y8  ( 0.8 -0.8 0) endpoint
+point Y9  ( 0.8 -1.45 0.35) endpoint
+point Y10  ( 0.8 -1.7 1) endpoint
+point Y11  ( 0.8 -1.45 1.65) endpoint
+point Y12  ( 0.8 -0.8 1.9) endpoint
+point Z0  ( 0 -0.4 0.2) endpoint
+point Z1  ( 0.1 -0.43 0.7) endpoint
+point Z2  ( 0.6 -0.45 1) endpoint
+point F1  ( 0.5 -0.05 -0.6) endpoint
+point F2  ( 0.9 -0.35 -0.3) endpoint
+point F3  ( 1.2 -0.6 0.1) endpoint
+funnel fun (8 0.4 0 0.7) endfunnel
+funnel bigFunnel (8 0.9 0 0.1) endfunnel
+funnel bigFunnelBack (8 0.9 0 0.1) endfunnel
+polyline poly4 (Z0 Z1 Z2) endpolyline
+polyline poly6 (F1 F2 F3) endpolyline
+polyline poly (X11 X10 X9 X8 X7 X6 X5 X4 X0 X1 X2 X3) isloop endpolyline
+polyline poly1 (Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 Y9 Y10 Y11 Y12) isloop endpolyline
+group finalShape
+    instance poly2 poly translate (0 0 0) endinstance
+    instance poly3 poly1 translate (0 0 0) endinstance
+    instance poly5 poly4 translate (0 0 0) endinstance
+    instance poly7 poly6 translate (0 0 0) endinstance
+    instance fun2 fun translate (0 0 -0.7) surface R endinstance
+    instance fun3 fun rotate (0 1 0) (90) translate (0.8 -0.8 0.95) surface R endinstance
+endgroup
+instance cf finalShape endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (cf_poly3_Y5 fun2_hc2 fun2_hc3 cf_poly3_Y4 ) endface
+    face consolidatedface1 (cf_poly3_Y5 cf_poly3_Y6 fun2_hc1 fun2_hc2 ) endface
+    face consolidatedface2 (cf_poly3_Y4 fun2_hc3 fun2_hc4 cf_poly3_Y3 ) endface
+    face consolidatedface3 (fun2_hc4 fun2_hc5 cf_poly3_Y3 ) endface
+    face consolidatedface4 (cf_poly3_Y6 fun2_hc1 fun2_hc0 cf_poly3_Y7 ) endface
+    face consolidatedface5 (cf_poly3_Y3 fun2_hc5 fun2_hc6 cf_poly5_Z0 ) endface
+    face consolidatedface6 (cf_poly3_Y3 cf_poly3_Y2 cf_poly5_Z1 cf_poly5_Z0 ) endface
+    face consolidatedface7 (cf_poly3_Y2 cf_poly3_Y1 cf_poly5_Z2 cf_poly5_Z1 ) endface
+    face consolidatedface8 (cf_poly3_Y1 cf_poly3_Y12 fun3_bc3 cf_poly5_Z2 ) endface
+    face consolidatedface9 (fun3_bc3 fun3_bc2 cf_poly5_Z2 ) endface
+    face consolidatedface10 (fun2_hc7 fun2_hc6 cf_poly5_Z0 ) endface
+    face consolidatedface11 (cf_poly3_Y12 fun3_bc3 fun3_bc4 ) endface
+    face consolidatedface12 (cf_poly3_Y12 cf_poly3_Y11 fun3_bc5 fun3_bc4 ) endface
+    face consolidatedface13 (fun3_bc5 fun3_bc6 cf_poly3_Y10 cf_poly3_Y11 ) endface
+    face consolidatedface14 (fun3_bc6 fun3_bc7 cf_poly3_Y9 cf_poly3_Y10 ) endface
+    face consolidatedface15 (fun3_bc7 cf_poly3_Y9 cf_poly3_Y8 fun3_bc0 ) endface
+    face consolidatedface16 (fun3_bc1 fun3_bc0 cf_poly3_Y8 ) endface
+    face consolidatedface17 (fun2_hc0 cf_poly3_Y7 fun2_hc7 ) endface
+    face consolidatedface18 (cf_poly3_Y7 cf_poly5_Z0 fun2_hc7 ) endface
+    face consolidatedface19 (cf_poly3_Y7 cf_poly5_Z0 cf_poly5_Z1 ) endface
+    face consolidatedface20 (fun3_bc2 cf_poly3_Y7 cf_poly5_Z2 ) endface
+    face consolidatedface21 (cf_poly3_Y7 cf_poly5_Z1 cf_poly5_Z2 ) endface
+    face consolidatedface22 (cf_poly3_Y8 cf_poly3_Y7 fun3_bc1 ) endface
+    face consolidatedface23 (fun3_bc2 cf_poly3_Y7 fun3_bc1 ) endface
+    face consolidatedface24 (fun3_hc4 cf_poly2_X10 cf_poly2_X11 fun3_hc3 ) endface
+    face consolidatedface25 (cf_poly2_X11 fun3_hc3 fun3_hc2 cf_poly2_X3 ) endface
+    face consolidatedface26 (cf_poly2_X10 fun3_hc4 fun3_hc5 cf_poly2_X9 ) endface
+    face consolidatedface27 (fun3_hc5 fun3_hc6 cf_poly2_X8 cf_poly2_X9 ) endface
+    face consolidatedface28 (fun3_hc6 fun3_hc7 cf_poly2_X7 cf_poly2_X8 ) endface
+    face consolidatedface29 (fun3_hc0 cf_poly7_F3 cf_poly2_X7 fun3_hc7 ) endface
+    face consolidatedface30 (cf_poly2_X7 cf_poly7_F3 cf_poly7_F2 cf_poly2_X6 ) endface
+    face consolidatedface31 (cf_poly2_X3 fun3_hc2 fun3_hc1 ) endface
+    face consolidatedface32 (fun3_hc1 fun3_hc0 cf_poly7_F3 ) endface
+    face consolidatedface33 (cf_poly2_X3 fun3_hc1 cf_poly7_F3 ) endface
+    face consolidatedface34 (cf_poly2_X3 cf_poly7_F3 cf_poly2_X2 ) endface
+    face consolidatedface35 (cf_poly7_F3 cf_poly2_X2 cf_poly7_F2 ) endface
+    face consolidatedface36 (cf_poly7_F1 fun2_bc0 fun2_bc7 ) endface
+    face consolidatedface37 (cf_poly2_X5 fun2_bc5 fun2_bc4 cf_poly2_X4 ) endface
+    face consolidatedface38 (fun2_bc3 fun2_bc4 cf_poly2_X4 cf_poly2_X0 ) endface
+    face consolidatedface39 (fun2_bc2 fun2_bc3 cf_poly2_X0 cf_poly2_X1 ) endface
+    face consolidatedface40 (fun2_bc1 fun2_bc2 cf_poly2_X1 ) endface
+    face consolidatedface41 (cf_poly2_X2 fun2_bc1 cf_poly2_X1 ) endface
+    face consolidatedface42 (cf_poly7_F1 fun2_bc1 fun2_bc0 ) endface
+    face consolidatedface43 (cf_poly2_X2 cf_poly7_F1 fun2_bc1 ) endface
+    face consolidatedface44 (cf_poly2_X2 cf_poly7_F2 cf_poly7_F1 ) endface
+    face consolidatedface45 (fun2_bc6 cf_poly2_X6 cf_poly2_X5 fun2_bc5 ) endface
+    face consolidatedface46 (fun2_bc6 cf_poly2_X6 fun2_bc7 ) endface
+    face consolidatedface47 (cf_poly7_F1 cf_poly2_X6 cf_poly7_F2 ) endface
+    face consolidatedface48 (cf_poly7_F1 cf_poly2_X6 fun2_bc7 ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance

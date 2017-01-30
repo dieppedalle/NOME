@@ -2,6 +2,7 @@
 #include "transformation.h"
 #include "mesh.h"
 #include <math.h>
+#include <sstream>
 float evaluate_expression(string expr, unordered_map<string, Parameter> *params)
 {
     //cout<<expr<<endl;
@@ -745,11 +746,86 @@ vec4 getXYZW(string input)
 }
 
 
+
+//=========================================================
+// Split function has been taken from the following website
+// http://code.runnable.com/VHb0hWMZp-ws1gAr/splitting-a-string-into-a-vector-for-c%2B%2B
+vector<string> split(string str, char delimiter) {
+  vector<string> internal;
+  stringstream ss(str); // Turn the string into a stream.
+  string tok;
+
+  while(getline(ss, tok, delimiter)) {
+    internal.push_back(tok);
+  }
+
+  return internal;
+}
+
+
+//=========================================================
+
 QColor evaluate_color_expression(string input, int lineNumber)
 {
     float r, b, g;
     string number = "";
     int i = 0;
+    //cout << input << endl;
+
+    vector<string> sep = split(input, ' ');
+    //cout << sep.size() << endl;
+    if (sep.size() >= 4){
+        cout << "Error: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+        return QColor();
+    }
+    else if(sep.size() < 3){
+        cout << "Error: Color method at line " + to_string(lineNumber) + " does not have enough parameters. A color is encoded in 3 values: red, green, and blue." << endl;
+        return QColor();
+    }
+
+    char* p;
+    long converted;
+
+    for(int i = 0; i < sep.size(); ++i){
+        switch(i)
+        {
+        case 0:
+            converted = strtod(sep[i].c_str(), &p);
+
+            if (*p){
+                cout << "Error: Color method at line " + to_string(lineNumber) + " does not have the correct format. The RGB values need to be 3 number."  << endl;
+                return QColor();
+            }
+            r = stof(sep[i]);
+            break;
+        case 1:
+            converted = strtod(sep[i].c_str(), &p);
+
+            if (*p){
+                cout << "Error: Color method at line " + to_string(lineNumber) + " does not have the correct format. The RGB values need to be 3 number."  << endl;
+                return QColor();
+            }
+            g = stof(sep[i]);
+            break;
+        case 2:
+            converted = strtod(sep[i].c_str(), &p);
+
+            if (*p){
+                cout << "Error: Color method at line " + to_string(lineNumber) + " does not have the correct format. The RGB values need to be 3 number."  << endl;
+                return QColor();
+            }
+            b = stof(sep[i]);
+            break;
+        }
+       //cout << sep[i] << endl;
+    }
+
+
+    /*if (!isdigit(c)){
+        cout << c << endl;
+        cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format. The RGB values need to be 3 number."  << endl;
+        return 1;
+    }*/
     for(char& c : input)
     {
         if(((c >= '0' &&  c <= '9') || c == '.' || c == '-' || c == '+'))
@@ -794,14 +870,7 @@ QColor evaluate_color_expression(string input, int lineNumber)
         number = "";
         i++;
     }
-    if (i >= 4){
-        cout << "Error: Color method at line " + to_string(lineNumber) + " has too many parameters. A color is encoded in 3 values: red, green, and blue." << endl;
-        return QColor();
-    }
-    else if(i < 3){
-        cout << "Error: Color method at line " + to_string(lineNumber) + " does not have enough parameters. A color is encoded in 3 values: red, green, and blue." << endl;
-        return QColor();
-    }
+
     //cout<<r<<" "<<g<<" "<<b<<endl;
     return QColor(255*r, 255*g, 255*b);
 }
