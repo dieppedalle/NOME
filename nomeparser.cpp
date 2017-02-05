@@ -1070,7 +1070,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             addingVert = false;
                             if(++tIt < tokens.end() && (*tIt) != "endpolyline")
                             {
-                                if(*tIt == "isloop")
+                                if(*tIt == "closed")
                                 {
                                     newPolyline.isLoop = true;
                                     ++tIt;

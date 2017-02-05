@@ -12,6 +12,8 @@ TARGET = slide2016
 TEMPLATE = app
 CONFIG += c++11
 CONFIG += console
+CONFIG += static
+
 
 SOURCES += main.cpp\
     edge.cpp \
