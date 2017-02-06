@@ -196,6 +196,9 @@ void SlideGLWidget::mouse_select(int x, int y)
     hits = glRenderMode(GL_RENDER);
     //cout<<posX<<" "<<posY<<" "<<posZ<<endl;
     //mySelect.list_hits(hits, buff);
+    //cout << "HHHHH" << endl;
+    //cout << selection_mode << endl;
+
     if(selection_mode == 0)
     {
         mySelect.selectFace(global_mesh_list,

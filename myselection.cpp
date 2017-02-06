@@ -211,6 +211,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
         {
             endOfMesh = globalPolylineNameIndexList[0];
         }
+        cout << hits << endl;
         for (int i = 0; i < hits; i++) {
             int currentID = names[i * 4 + 3];
             Face * workFace = NULL;
@@ -219,6 +220,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
             vector<PolyLine*>::iterator pIt;
             vector<int>::iterator nIt;
             /* Select a point on the polyline has a priority. */
+
             if(currentID >= endOfMesh)
             {
                 for(pIt = globalPolylineList.begin(),
@@ -286,6 +288,8 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
             }
         }
         getSelectedVertex:
+
+        //cout << selectedVertex -> selected << endl;
         if(selectedVertex -> source_vertex != NULL)
         {
             selectedVertex = selectedVertex -> source_vertex;
@@ -390,6 +394,7 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                                     GLint hits, GLuint *names,
                                     GLdouble posX, GLdouble posY, GLdouble posZ)
 {
+
     if(hits > 0) {
         vec3 hit_position = vec3(posX, posY, posZ);
         float min_distance = 500000.0;

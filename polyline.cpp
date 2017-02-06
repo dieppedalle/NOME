@@ -169,7 +169,7 @@ void PolyLine::drawLineWithCubes(int start_index)
     for(Vertex*& v : vertices)
     {
         glLoadName(start_index + counter);
-        drawCubeAroundVertex(v, 0.1 * cubeSizes[counter]);
+        //drawCubeAroundVertex(v, 0.1 * cubeSizes[counter]);
         counter++;
     }
     drawLine(start_index);
