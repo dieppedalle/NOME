@@ -23,7 +23,7 @@ point Y  ( 2 2 2) endpoint
 point Z  ( 2 3 4) endpoint
 
 # tunnel tun (8 0.4 0 0) endtunnel
-funnel fun ({expr $fp_n} {expr $fp_ro} {expr $fp_ratio} {expr $fp_h}) endfunnel
+tunnel fun ({expr $fp_n} {expr $fp_ro} {expr $fp_ratio} {expr $fp_h}) endfunnel
 
 polyline poly (X Y Z ) endpolyline
 

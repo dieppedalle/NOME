@@ -190,6 +190,7 @@ void Mesh::addQuadFace(Vertex * v1, Vertex * v2, Vertex * v3, Vertex * v4) {
 }
 
 void Mesh::addPolygonFace(vector<Vertex*> vertices, bool reverseOrder) {
+
     if(vertices.size() < 3) {
         cout<<"A face have at least 3 vertices"<<endl;
         return;
@@ -1410,7 +1411,7 @@ bool Mesh::deleteFaceInThisMesh(string name)
 {
     for(Face*& f: faceList)
     {
-        cout<<f->name<<" ";
+        //cout<<f->name<<" ";
         if(f->name == name)
         {
             deleteFace(f);

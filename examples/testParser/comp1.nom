@@ -1,0 +1,91 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface        # Blue
+surface M color (1 0 1) endsurface        # Magenta
+surface W color (1 1 1) endsurface        # White
+
+bank cubeP
+    set		l		1		1		10		1
+endbank
+bank rim  ## the rim of the connecting Dyck disks:
+    set		num		10		3		20		1
+    set		rad		1		0.1		2.0		0.1
+    set		ratio		-0.2		-0.4		-0.0		0.1
+    set		hgt		0		-0.1		0.1		0.1
+    set		sx		4		1		8		0.1
+    set		sy		2		1		4		0.1
+    set		rz		45		-90		90		1
+    set		tay		1.5		0		6		0.1
+endbank
+bank tun  ## the punch-through connections from one disk to the next
+    set		num		6		3		16		1
+    set		rad		0.8		0.1		2.0		0.1
+    set		ratio		0		-0.8		0.8		0.1
+    set		hgt		1		0.5		2.5		0.1
+    set		sa		1		1		8		0.1
+    set		rz		45		-90		90		1
+    set		txb		1.5		0		6		0.1
+endbank
+point XYZ  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr $cubeP_l} ) endpoint
+point XYC  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
+point XBZ  ( {expr $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) endpoint
+point XBC  ( {expr $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
+point AYZ  ( {expr -1.0 * $cubeP_l}  {expr $cubeP_l}  {expr $cubeP_l} ) endpoint
+point AYC  ( {expr -1.0 * $cubeP_l}  {expr $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
+point ABZ  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) endpoint
+point ABC  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
+face c1   (XYZ XBZ XBC XYC ) surface G endface
+face c2   (XYZ XYC AYC AYZ ) surface U endface
+face c3   (AYZ AYC ABC ABZ ) endface
+face c4   (ABZ ABC XBC XBZ ) endface
+face c5   (XYZ AYZ ABZ XBZ ) surface C endface
+face c6   (XYC XBC ABC AYC ) endface
+object cube (c1 c2 c3 c4 c5 c6) endobject
+point ooo  ( 0 0 0 ) endpoint
+point xoo  ( 1 0 0 ) endpoint
+point oyo  ( 0 1 0 ) endpoint
+point ooz  ( 0 0 1 ) endpoint
+ polyline xaxis  (ooo xoo ) endpolyline
+ polyline yaxis  (ooo oyo ) endpolyline
+ polyline zaxis  (ooo ooz ) endpolyline
+   instance xa xaxis  surface R  endinstance
+   instance ya yaxis  surface B  endinstance
+   instance za zaxis  surface G  endinstance
+ polyline ubend  (XBZ XYZ XYC XBC ) endpolyline
+   instance u0 ubend  surface W    endinstance
+   instance u1 ubend  surface W  rotate (0 0 1 )(90 )  endinstance
+   instance u2 ubend  surface W  rotate (0 0 1 )(180 )  endinstance
+   instance u3 ubend  surface W  rotate (0 0 1 )(270 )  endinstance
+funnel  rimo  ({expr $rim_num} {expr $rim_rad} {expr $rim_ratio} {expr $rim_hgt}) endfunnel
+instance rimo1  rimo   surface C   scale ({expr $rim_sx} {expr $rim_sy} 1)   rotate (0 0 1)({expr $rim_rz})  translate ({expr -$rim_tay} {expr $rim_tay} 0)     endinstance
+instance rimo2  rimo   surface A   scale ({expr $rim_sx} {expr $rim_sy} 1)   rotate (0 0 1)({expr $rim_rz})  translate ({expr -$rim_tay} {expr $rim_tay} 0)  rotate (1 1 1)(120)  endinstance
+instance rimo3  rimo   surface U   scale ({expr $rim_sx} {expr $rim_sy} 1)   rotate (0 0 1)({expr $rim_rz})  translate ({expr -$rim_tay} {expr $rim_tay} 0)  rotate (1 1 1)(240)  endinstance
+funnel  tuni  ({expr $tun_num} {expr $tun_rad} {expr $tun_ratio} {expr $tun_hgt}) endfunnel
+instance tuni0  tuni   surface Y  translate (0 0 {expr -0.5*$tun_hgt})  scale ({expr $tun_sa} {expr $tun_sa} {expr $tun_sa})   rotate (0 0 1)({expr $tun_rz})  rotate (1 -1 0)(90)   translate ({expr $tun_txb} {expr -$tun_txb} 0)      endinstance
+instance tuni0  tuni   surface L  translate (0 0 {expr -0.5*$tun_hgt})  scale ({expr $tun_sa} {expr $tun_sa} {expr $tun_sa})   rotate (0 0 1)({expr $tun_rz})  rotate (1 -1 0)(90)   translate ({expr $tun_txb} {expr -$tun_txb} 0)   rotate (1 1 1)(120)     endinstance
+instance tuni0  tuni   surface O  translate (0 0 {expr -0.5*$tun_hgt})  scale ({expr $tun_sa} {expr $tun_sa} {expr $tun_sa})   rotate (0 0 1)({expr $tun_rz})  rotate (1 -1 0)(90)   translate ({expr $tun_txb} {expr -$tun_txb} 0)   rotate (1 1 1)(240)     endinstance
+
+# manually added faces:   >>>  What do I have to do so that I can actually make use of these hierachical vertex names?  <<<<<<<<<<<<<
+    face f0 (tuni0_hc5 tuni0_hc0 rimo2_hc3 rimo2_hc4 ) endface
+    face f1 (tuni0_hc4 tuni0_hc5 rimo2_hc4 rimo2_hc5 ) endface
+    face f2 (tuni0_hc3 tuni0_hc4 rimo2_hc5 rimo2_hc6 ) endface
+    face f3 (tuni0_hc2 tuni0_hc3 rimo2_hc6 rimo2_hc7 ) endface
+#    face f4 (tuni0_hc0 tuni0_hc1 rimo2_hc2 rimo2_hc3 ) endface
+
+#    face f5 (rimo3_hc3 rimo3_hc2 tuni0_bc3 tuni0_bc2 ) endface
+    face f6 (rimo3_hc2 rimo3_hc1 tuni0_bc4 tuni0_bc3 ) endface
+    face f7 (rimo3_hc1 rimo3_hc0 tuni0_bc5 tuni0_bc4 ) endface
+    face f8 (rimo3_hc0 rimo3_hc9 tuni0_bc0 tuni0_bc5 ) endface
+    face f9 (rimo3_hc9 rimo3_hc8 tuni0_bc1 tuni0_bc0 ) endface
+
+object patch (f0 f1 f2 f3  f6 f7 f8 f9) endobject
+
+instance cm0 patch  endinstance
+instance cm1 patch   rotate (1 1 1)(120)  endinstance

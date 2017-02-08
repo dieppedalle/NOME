@@ -558,10 +558,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 newTunnel.setTunnelParameterValues(tunnel_expression, lineNumber);
                 newTunnel.makeTunnel();
                 //*************
-                cout << newTunnel.vertList.size() << endl;
+                /*cout << newTunnel.vertList.size() << endl;
                 for (int i=0; i <newTunnel.vertList.size(); i++){
                     cout << newTunnel.vertList[i] << endl;
-                }
+                }*/
                 //*************
                 if(meshes.find(newTunnel.name) == meshes.end())
                 {
@@ -1868,7 +1868,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
 
                     if(!testComments(*tIt))
                     {
-                        cout << *tIt << endl;
+                        
                         faceIt = global_faces.find(*tIt);
                         if(faceIt == global_faces.end())
                         {

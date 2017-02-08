@@ -211,7 +211,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
         {
             endOfMesh = globalPolylineNameIndexList[0];
         }
-        cout << hits << endl;
+        //cout << hits << endl;
         for (int i = 0; i < hits; i++) {
             int currentID = names[i * 4 + 3];
             Face * workFace = NULL;
