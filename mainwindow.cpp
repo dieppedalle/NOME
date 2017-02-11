@@ -161,6 +161,7 @@ void MainWindow::createCanvas(QString name)
         error = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines);
 
+
         if (error == 1){
             return;
         }

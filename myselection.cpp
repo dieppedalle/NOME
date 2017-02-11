@@ -394,7 +394,6 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                                     GLint hits, GLuint *names,
                                     GLdouble posX, GLdouble posY, GLdouble posZ)
 {
-
     if(hits > 0) {
         vec3 hit_position = vec3(posX, posY, posZ);
         float min_distance = 500000.0;
@@ -512,6 +511,7 @@ void MySelection::selectPartialBorder(vector<Mesh*> &globalMeshList,
         vec3 hit_position = vec3(posX, posY, posZ);
         float min_distance = 500000.0;
         Vertex * selectedVertex;
+
         for (int i = 0; i < hits; i++) {
             int currentID = names[i * 4 + 3];
             Face * workFace;
@@ -712,12 +712,14 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                                     GLint hits, GLuint *names,
                                     GLdouble posX, GLdouble posY, GLdouble posZ)
 {
+    //cout << "HELLO" << endl;
     if(hits > 0) {
         vec3 hit_position = vec3(posX, posY, posZ);
         float min_distance = 500000.0;
         Vertex * selectedVertex = NULL;
         for (int i = 0; i < hits; i++) {
             int currentID = names[i * 4 + 3];
+            //cout << currentID << endl;
             Face * workFace = NULL;
             vector<Mesh*>::iterator mIt;
             vector<int>::iterator nIt;
@@ -727,6 +729,7 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                 Mesh *currMesh = (*mIt);
                 if(currentID < (currMesh -> faceList).size() + (*nIt))
                 {
+
                     workFace = currMesh -> faceList[currentID - (*nIt)];
                     break;
                 }
@@ -763,6 +766,7 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                 cout<<"Please click on a face."<<endl;
             }
         }
+        // cout << selectedVertex << endl;
         // Test is this point is on border. If yes, find the startingEdge.
         if(selectedVertex != NULL) {
             Edge * firstEdge = selectedVertex -> oneEdge;

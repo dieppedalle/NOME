@@ -8,7 +8,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = slide2016
+TARGET = NOME
 TEMPLATE = app
 CONFIG += c++11
 CONFIG += static
@@ -81,4 +81,5 @@ mac{
 win32{
     LIBS += -lopengl32 -lglu32 -lglut32
     INCLUDEPATH = $$PWD/../include
+    RC_ICONS += nomeIcon.ico
 }

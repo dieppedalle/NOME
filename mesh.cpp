@@ -1276,6 +1276,7 @@ void Mesh::makeFunnel()
         Vertex * newVertex = new Vertex;
         newVertex->ID = i;
         newVertex->name = "bc" + to_string(i);
+        //cout << newVertex->name << endl;
         float currAngle = 2.0 * i / n * PI;
         newVertex -> position = vec3(ro * glm::cos(currAngle),
                                      ro * glm::sin(currAngle), 0);
@@ -1318,6 +1319,7 @@ void Mesh::makeTunnel()
         Vertex * newVertex = new Vertex;
         newVertex->ID = i;
         newVertex->name = "bc" + to_string(i);
+
         float currAngle = 2.0 * i / n * PI;
         newVertex -> position = vec3(ro * glm::cos(currAngle),
                                      ro * glm::sin(currAngle), 0);
@@ -1399,6 +1401,8 @@ Vertex * Mesh::findVertexInThisMesh(string name)
 {
     for(Vertex*& v: vertList)
     {
+        //cout << v->name << endl;
+        //cout << name << endl;
         if(v->name == name)
         {
             return v;
