@@ -2111,6 +2111,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 {
                     if(!testComments(*tIt))
                     {
+                        //className = *tIt;
                         cout << className << endl;
                     }
                 }
