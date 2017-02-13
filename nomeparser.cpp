@@ -123,6 +123,48 @@ string warning(int type, int lineNumber)
     return "";
 }
 
+char * convertFileToString(string input){
+    FILE *fileParser;
+    char *buffer;
+    int size;
+
+    fileParser = fopen(input.c_str(), "r");
+    if (fileParser == NULL) return NULL;
+
+    fseek(fileParser, 0, SEEK_END);
+    size = ftell(fileParser);
+    fseek(fileParser, 0, SEEK_SET);
+    buffer = (char *) malloc(size);
+
+    char c = getc(fileParser);
+    int i = 0;
+    while (c != EOF){
+        if (c == '#'){
+            while (c != '\n' && c != EOF){
+                c = getc(fileParser);
+            }
+        }
+        else{
+            if (c == '(' || c == ')' || c == '{' || c == '}' || c == '\n'){
+                size += 2;
+                realloc(buffer, size);
+                buffer[i] = ' ';
+                i++;
+                buffer[i] = c;
+                i++;
+                buffer[i] = ' ';
+                i++;
+            }
+            else{
+                buffer[i] = c;
+                i++;
+            }
+            c = getc(fileParser);
+        }
+    }
+
+    return buffer;
+}
 
 int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               unordered_map<string, Parameter> &params,
@@ -167,8 +209,32 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     char* p;
     long converted;
 
+    //====
+    char * inputString;
+
+    inputString = convertFileToString(input);
+    //cout << inputString << endl;
+
+    char * pch;
+
+    pch = strtok(inputString , " ");
+
+    int lineNumberN = 1;
+    while (pch != NULL)
+    {
+        if (strcmp(pch, "\n")==0){
+            lineNumberN++;
+        }
+        printf ("%s\n",pch);
+        pch = strtok (NULL, " ");
+    }
+    cout << lineNumberN << endl;
+    //====
+
     while(std::getline(file, nextLine))
     {
+        //cout << nextLine << endl;
+        //cout << "JJDJJF" << endl;
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -239,7 +305,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
-                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         case 2:
@@ -258,7 +323,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
-                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         case 3:
@@ -277,7 +341,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
-                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         case 4:
@@ -297,7 +360,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
-                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         }
@@ -373,7 +435,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The surface at line " + to_string(lineNumber) + " does not have a name."  << endl;
                     return 1;
-                    cout<<warning(17, lineNumber)<<endl;
                 }
                 if(++tIt < tokens.end())
                 {
@@ -381,14 +442,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
                         return 1;
-                        cout<<warning(17, lineNumber)<<endl;
                     }
                 }
                 else
                 {
                     cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
                     return 1;
-                    cout<<warning(17, lineNumber)<<endl;
                 }
                 string color_expression;
                 bool expression_input = false;
@@ -504,7 +563,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The funnel at line " + to_string(lineNumber) + " with name " + newFunnel.name + " has already been created."  << endl;
                     return 1;
-                    cout<<warning(3, lineNumber)<<endl;
                 }
 
 
@@ -569,7 +627,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The tunnel at line " + to_string(lineNumber) + " with name " + newTunnel.name + " has already been created."  << endl;
                     return 1;
-                    cout<<warning(3, lineNumber)<<endl;
                 }
                 /*if(++tIt == tokens.end() || (*tIt) != "endtunnel"){
                     cout << "Error: Missing endtunnel on line " + to_string(lineNumber) + "." << endl;
@@ -622,7 +679,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 {
                                     cout << "Error: Incorrect face name in object generator on line " + to_string(lineNumber) + ". The face " + faceInside + " has never been created." << endl;
                                     return 1;
-                                    cout<<warning(23, lineNumber);
                                 }
                                 else
                                 {
@@ -684,7 +740,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect face name in object generator on line " + to_string(lineNumber) + ". The face " + faceInside + " has never been created." << endl;
                             return 1;
-                            cout<<warning(23, lineNumber);
                         }
                         else
                         {
@@ -737,7 +792,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The mesh " + newMesh.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                     return 1;
-                    cout<<warning(3, lineNumber)<<endl;
                 }
 
                 if(++tIt == tokens.end() || (*tIt) != "endobject"){
@@ -762,7 +816,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The face " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                             return 1;
-                            cout<<warning(20, lineNumber)<<endl;
                         }
                     }
                     else
@@ -796,7 +849,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 {
                                     cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                                     return 1;
-                                    cout<<warning(21, lineNumber);
                                 }
                                 else
                                 {
@@ -827,7 +879,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                             return 1;
-                            cout<<warning(21, lineNumber);
                         }
                         else
                         {
@@ -857,14 +908,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect surface name in face generator on line " + to_string(lineNumber) + ". The surface " + color_name + " has never been created." << endl;
                             return 1;
-                            cout<<warning(22, lineNumber)<<endl;
                         }
                     }
                     else
                     {
                         cout << "Error: The surface at line " + to_string(lineNumber) + "does not have any name."  << endl;
                         return 1;
-                        cout<<warning(22, lineNumber)<<endl;
                     }
                     if(foundColor)
                     {
@@ -917,7 +966,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The face " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                             return 1;
-                            cout<<warning(20, lineNumber)<<endl;
                         }
                     }
                     else
@@ -947,7 +995,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 {
                                     cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                                     return 1;
-                                    cout<<warning(21, lineNumber);
                                 }
                                 else
                                 {
@@ -969,7 +1016,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
-                            cout<<warning(21, lineNumber);
                         }
                         else
                         {
@@ -1033,14 +1079,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
-                            cout<<warning(22, lineNumber)<<endl;
                         }
                     }
                     else
                     {
                         cout << "Error: The surface at line " + to_string(lineNumber) + " does not have a name."  << endl;
                         return 1;
-                        cout<<warning(22, lineNumber)<<endl;
                     }
                     if(foundColor)
                     {
@@ -1067,7 +1111,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: The polyline " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                         return 1;
-                        cout<<warning(13, lineNumber)<<endl;
                     }
                 }
                 else
@@ -1110,7 +1153,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                             return 1;
-                            cout<<warning(14, lineNumber);
                         }
                         else
                         {
@@ -1128,7 +1170,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                         return 1;
-                        cout<<warning(14, lineNumber);
                     }
                     else
                     {
@@ -1196,7 +1237,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Point " + *tIt + " on line " + to_string(lineNumber) + " has already been created." << endl;
                             return 1;
-                            cout<<warning(11, lineNumber)<<endl;
                         }
                     }
                     else
@@ -1338,7 +1378,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The object " + className + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
-                            cout<<warning(5, lineNumber)<<endl;
                         }
                     }
                 }
@@ -1534,14 +1573,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                                 return 1;
-                                cout<<warning(18, lineNumber)<<endl;
                             }
                         }
                         else
                         {
                             cout << "Error: The surface " + *tIt + " at line " + to_string(lineNumber) + " is missing a name."  << endl;
                             return 1;
-                            cout<<warning(18, lineNumber)<<endl;
                         }
                     }
                     else {
@@ -1659,7 +1696,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: The mesh at line " + to_string(lineNumber) + " does not have a name."  << endl;
                         return 1;
-                        cout<<warning(26, lineNumber);
                         goto newLineEnd;
                     }
                 }
@@ -1677,7 +1713,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The mesh " + newMesh.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                     return 1;
-                    cout<<warning(3, lineNumber)<<endl;
                 }
                 goto newLineEnd;
             }
