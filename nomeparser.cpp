@@ -123,29 +123,50 @@ string warning(int type, int lineNumber)
     return "";
 }
 
-char * convertFileToString(string input){
+char * convertFileToString(string fileName){
+    /*
+     * convertFileToString
+     * Input: fileName as a string
+     * Output: Returns the content of the file as a string with comments removed and
+     * space next to parenthesis (to later be able to tokenize the string according to spaces)
+     */
+    // Create variables for opening file
     FILE *fileParser;
     char *buffer;
     int size;
 
-    fileParser = fopen(input.c_str(), "r");
+    // Opens the file
+    fileParser = fopen(fileName.c_str(), "r");
     if (fileParser == NULL) return NULL;
 
+    // Get the size of the file
     fseek(fileParser, 0, SEEK_END);
     size = ftell(fileParser);
     fseek(fileParser, 0, SEEK_SET);
-    buffer = (char *) malloc(size);
 
+    // Initialize our buffer string
+    buffer = (char *) calloc(size, sizeof(char));
+    memset( buffer, '\0', size );
+
+    // Keep track of the previous and current character
+    char previousC = ' ';
     char c = getc(fileParser);
+
+    int numberOfline = 1;
     int i = 0;
+
+    // Iterate through the file
     while (c != EOF){
+        // Check for comments using #
         if (c == '#'){
             while (c != '\n' && c != EOF){
                 c = getc(fileParser);
             }
         }
         else{
+            // Check for parenthesis and add space in between them
             if (c == '(' || c == ')' || c == '{' || c == '}' || c == '\n'){
+                // Change the size of the buffer as we are adding 2 space characters
                 size += 2;
                 realloc(buffer, size);
                 buffer[i] = ' ';
@@ -154,15 +175,43 @@ char * convertFileToString(string input){
                 i++;
                 buffer[i] = ' ';
                 i++;
+
+                previousC = c;
+                c = getc(fileParser);
+                // Check if the ( is in fact a comment
+                if ((c == '*') && (previousC == '(')){
+                    buffer[i] = ' ';
+                    i--;
+                    buffer[i] = ' ';
+                    i--;
+                    size -= 1;
+                    realloc(buffer, size);
+                    while ((previousC != '*') || (c != ')')){
+                        if (c == '\n'){
+                            buffer[i] = '\n';
+                            i++;
+                        }
+                        else if (c == EOF){
+                            return NULL;
+                        }
+                        previousC = c;
+                        c = getc(fileParser);
+                    }
+                    c = getc(fileParser);
+
+                }
             }
             else{
                 buffer[i] = c;
                 i++;
-            }
-            c = getc(fileParser);
-        }
-    }
+                c = getc(fileParser);
 
+            }
+        }
+
+    }
+    buffer[i] = '\0';
+    //cout << buffer << endl;
     return buffer;
 }
 
@@ -212,29 +261,36 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     //====
     char * inputString;
 
+    // Reads the input file
     inputString = convertFileToString(input);
-    //cout << inputString << endl;
-
-    char * pch;
-
-    pch = strtok(inputString , " ");
-
-    int lineNumberN = 1;
-    while (pch != NULL)
-    {
-        if (strcmp(pch, "\n")==0){
-            lineNumberN++;
-        }
-        printf ("%s\n",pch);
-        pch = strtok (NULL, " ");
+    if (inputString == NULL){
+        cout << "Error: Missing *) closing comment." << endl;
+        return 1;
     }
-    cout << lineNumberN << endl;
+
+    char * token;
+
+    token = strtok(inputString , " ");
+
+    int lineNumberFile = 1;
+    while (token != NULL)
+    {
+        if (strcmp(token, "\n")==0){
+            lineNumberFile++;
+        }
+        else {
+            cout << token << endl;
+        }
+
+        token = strtok (NULL, " ");
+    }
+
+    cout << lineNumberFile << endl;
     //====
 
     while(std::getline(file, nextLine))
     {
-        //cout << nextLine << endl;
-        //cout << "JJDJJF" << endl;
+
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -243,7 +299,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
         vector<string>::iterator tIt;
         for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
         {
-            //std::cout << *tIt << '\n';
             if(testComments(*tIt))
             {
                 break;

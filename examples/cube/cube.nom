@@ -9,6 +9,7 @@ surface C color (0 1 1) endsurface          # Cyan
 surface U color (0 0.5 1) endsurface        # Uniform
 surface B color (0 0 1) endsurface          # Blue
 
+
 bank cubeP
     set     l       1       0.5       1.5      0.1
 endbank
