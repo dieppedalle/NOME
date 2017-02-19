@@ -56,7 +56,9 @@ int Vertex::setVertexParameterValues(string input, int lineNumber)
             switch(i)
             {
             case 0:
+
                 x_expr = nextExpression.substr(5);
+
                 x = evaluate_vertex_expression(x_expr, params, this);
                 //cout << x << endl;
                 if (isnan(x)){
@@ -143,6 +145,7 @@ int Vertex::setVertexParameterValues(string input, int lineNumber)
         return 1;
     }
     isParametric = x_expr != "" || y_expr != "" || z_expr != "";
+
     position = vec3(x, y, z);
     return 0;
 }
