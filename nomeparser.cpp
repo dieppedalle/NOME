@@ -134,10 +134,10 @@ char * convertFileToString(string fileName){
      */
     // Create variables for opening file
     FILE *fileParser;
-    char *buffer = "";
+    //char *buffer = "";
     int size;
 
-    //std::string buffer = "";
+    std::string buffer = "";
 
     // Opens the file
     fileParser = fopen(fileName.c_str(), "r");
@@ -149,8 +149,8 @@ char * convertFileToString(string fileName){
     fseek(fileParser, 0, SEEK_SET);
 
     // Initialize our buffer string
-    buffer = (char *) calloc(size, sizeof(char));
-    memset( buffer, 0, size * sizeof(char));
+    //buffer = (char *) calloc(size, sizeof(char));
+    //memset( buffer, 0, size * sizeof(char));
 
     // Keep track of the previous and current character
     char previousC = ' ';
@@ -171,28 +171,28 @@ char * convertFileToString(string fileName){
             // Check for parenthesis and add space in between them
             if (c == '(' || c == ')' || c == '{' || c == '}' || c == '\n'){
                 // Change the size of the buffer as we are adding 2 space characters
-                size += 2;
-                realloc(buffer, size * sizeof(char));
-                buffer[i] = ' ';
+                //size += 2;
+                //realloc(buffer, size * sizeof(char));
+                buffer.push_back(' ');
                 i++;
-                buffer[i] = c;
+                buffer.push_back(c);
                 i++;
-                buffer[i] = ' ';
+                buffer.push_back(' ');
                 i++;
 
                 previousC = c;
                 c = getc(fileParser);
                 // Check if the ( is in fact a comment
                 if ((c == '*') && (previousC == '(')){
-                    buffer[i] = ' ';
+                    buffer.push_back(' ');
                     i--;
-                    buffer[i] = ' ';
+                    buffer.push_back(' ');
                     i--;
                     size -= 1;
-                    realloc(buffer, size * sizeof(char));
+                    //realloc(buffer, size * sizeof(char));
                     while ((previousC != '*') || (c != ')')){
                         if (c == '\n'){
-                            buffer[i] = '\n';
+                            buffer.push_back(' ');
                             i++;
                         }
                         else if (c == EOF){
@@ -206,7 +206,7 @@ char * convertFileToString(string fileName){
                 }
             }
             else{
-                buffer[i] = c;
+                buffer.push_back(c);
                 i++;
                 c = getc(fileParser);
 
@@ -214,9 +214,11 @@ char * convertFileToString(string fileName){
         }
 
     }
-    buffer[i] = '\0';
-    cout << buffer << endl;
-    return buffer;
+
+    char * S = new char[buffer.length() + 1];
+    std::strcpy(S,buffer.c_str());
+
+    return S;
 }
 
 typedef struct {
@@ -1798,6 +1800,176 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
 
         }
+        else if(strcmp("mesh", currentToken.value) == 0){
+            Mesh newMesh(0);
+            currentToken = tokens.dequeue();
+            if(currentToken.lineNumber == -1){
+                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                return 1;
+            }
+
+            newMesh.name = currentToken.value;
+            newMesh.setGlobalParameter(&params);
+
+            if(meshes.find(newMesh.name) == meshes.end())
+            {
+                meshes[newMesh.name] = newMesh;
+                current_mesh_name = newMesh.name;
+            }
+            else
+            {
+                cout << "Error: The mesh " + newMesh.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                return 1;
+            }
+
+            currentToken = tokens.dequeue();
+            if(currentToken.lineNumber == -1){
+                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                return 1;
+            }
+
+            while (strcmp("face", currentToken.value) == 0){
+                Face * newFace = new Face;
+
+                currentToken = tokens.dequeue();
+                if(currentToken.lineNumber == -1){
+                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    return 1;
+                }
+
+                faceIt = global_faces.find(currentToken.value);
+
+                if(faceIt == global_faces.end())
+                {
+                    newFace -> name = currentToken.value;
+                    global_faces[currentToken.value] = newFace;
+                }
+                else
+                {
+                    cout << "Error: The face " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been created."  << endl;
+                    return 1;
+                }
+
+                string vertInside = "";
+                bool addingVert = false;
+                vector<Vertex*> vertices;
+                vertices.clear();
+
+                currentToken = tokens.dequeue();
+                if(currentToken.lineNumber == -1){
+                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    return 1;
+                }
+
+                if(strcmp(currentToken.value,  "(") != 0){
+                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    return 1;
+                }
+
+                currentToken = tokens.dequeue();
+                if(currentToken.lineNumber == -1){
+                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    return 1;
+                }
+
+                while (strcmp(currentToken.value,  ")") != 0){
+                    vertIt = global_vertices.find(currentToken.value);
+
+                    if(vertIt == global_vertices.end()){
+                        cout << "Error: Incorrect vertex name in face generator on line " + to_string(currentToken.lineNumber) + ". The vertex " + currentToken.value + " has never been created." << endl;
+                        return 1;
+                    }
+                    else{
+                        vertices.push_back(vertIt -> second);
+                    }
+
+                    currentToken = tokens.dequeue();
+                    if(currentToken.lineNumber == -1){
+                        cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        return 1;
+                    }
+
+                }
+
+                vector<Vertex*> mappedVertices;
+                mappedVertices.clear();
+                bool foundVertex;
+                for(Vertex * vs : vertices)
+                {
+                    foundVertex = false;
+                    for(Vertex * v : meshes[current_mesh_name].vertList)
+                    {
+                        if(v -> source_vertex == vs)
+                        {
+                            foundVertex = true;
+                            mappedVertices.push_back(v);
+                            break;
+                        }
+                    }
+                    if(!foundVertex)
+                    {
+                        Vertex * newVertex = new Vertex;
+                        newVertex -> isParametric = vs -> isParametric;
+                        newVertex -> position = vs -> position;
+                        newVertex -> ID = meshes[current_mesh_name].vertList.size();
+                        newVertex -> source_vertex = vs;
+                        newVertex -> name = vs -> name;
+                        newVertex -> x_expr = vs -> x_expr;
+                        newVertex -> y_expr = vs -> y_expr;
+                        newVertex -> z_expr = vs -> z_expr;
+                        newVertex -> influencingParams = vs -> influencingParams;
+                        newVertex -> params = vs -> params;
+                        meshes[current_mesh_name].addVertex(newVertex);
+                        mappedVertices.push_back(newVertex);
+                    }
+                }
+                meshes[current_mesh_name].addPolygonFace(mappedVertices);
+                meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
+                        -> name = newFace -> name;
+
+                currentToken = tokens.dequeue();
+                if(currentToken.lineNumber == -1){
+                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    return 1;
+                }
+
+                if(strcmp(currentToken.value,  "surface") != 0)
+                {
+                    string color_name = "";
+                    QColor color;
+                    bool foundColor = false;
+
+                    currentToken = tokens.dequeue();
+                    if(currentToken.lineNumber == -1){
+                        cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        return 1;
+                    }
+
+                    color_name = currentToken.value;
+                    colorIt = user_defined_colors.find(color_name);
+
+                    if(colorIt != user_defined_colors.end())
+                    {
+                        foundColor = true;
+                        color = colorIt -> second;
+                    }
+                    else
+                    {
+                        cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
+                        return 1;
+                    }
+
+                    if(foundColor)
+                    {
+                        meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
+                                -> color = color;
+                        meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
+                                -> user_defined_color = true;
+                    }
+                }
+                delete newFace;
+            }
+        }
         else{
             cout << currentToken.value;
             currentToken = tokens.dequeue();
@@ -2492,15 +2664,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 //cout << *tIt << endl;
             }*/
-            else if((*tIt) == "face" && deletePhase)
+            /*else if((*tIt) == "face" && deletePhase)
             {
                 postProcessingLines.push_back(lineNumber);
-                /* Hmm, this is weird, I did not do anything here!
-                   Except putting the delte into postProcessingLines.
-                */
+
                 goto newLineEnd;
-            }
-            else if((*tIt) == "face" && constructingMesh)
+            }*/
+            /*else if((*tIt) == "face" && constructingMesh)
             {
                 if(current_mesh_name == "")
                 {
@@ -2657,7 +2827,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 delete newFace;
-            }
+            }*/
             /*else if((*tIt) == "polyline")
             {
                 geometrylines.push_back(nextLine);
@@ -3190,7 +3360,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
             }*/
-            else if(*tIt == "delete")
+            /*else if(*tIt == "delete")
             {
                 postProcessingLines.push_back(lineNumber);
                 deletePhase = true;
@@ -3201,8 +3371,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 postProcessingLines.push_back(lineNumber);
                 deletePhase = false;
                 goto newLineEnd;
-            }
-            else if(*tIt == "mesh")
+            }*/
+            /*else if(*tIt == "mesh")
             {
                 constructingMesh = true;
                 Mesh newMesh(0);
@@ -3258,7 +3428,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     geometrylines.push_back(nextLine);
                 }
                 current_mesh_name = "";
-            }
+            }*/
             else{
                 //cout<< "Error: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." << endl;
                 //return 1;
