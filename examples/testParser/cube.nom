@@ -40,7 +40,7 @@ point ABZ  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) e
 point ABC  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
 
 
-face c1   (XYZ XBZ XBC XYC ) surface A endface
+face c1   (XYZ XBZ XBC XYC ) endface
 face c2   (XYZ XYC AYC AYZ ) endface
 face c3   (AYZ AYC ABC ABZ ) endface
 face c4   (ABZ ABC XBC XBZ ) endface
