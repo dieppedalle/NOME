@@ -2757,7 +2757,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 endAddingVertInFace1:
-                /* Add this face to the current mesh now.*/
                 vector<Vertex*> mappedVertices;
                 mappedVertices.clear();
                 bool foundVertex;
