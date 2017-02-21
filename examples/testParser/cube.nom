@@ -9,6 +9,22 @@ surface C color (0 1 1) endsurface          # Cyan
 surface U color (0 0.5 1) endsurface        # Uniform
 surface B color (0 0 1) endsurface          # Blue
 
+bank fp
+    set     n       8       3       100      1
+    set     ro      0.4     0.1     1.0     0.1
+    set     ratio   -0.2    -0.5    0.5     0.1
+    set     h       0.2     0.1     1.5     0.1
+    set     z       0    -360   360     1
+endbank
+
+bank tp
+    set     n       8       3       100      1
+    set     ro      0.4     0.1     1.0     0.1
+    set     ratio   -0.2    -0.5    0.5     0.1
+    set     h       0.2     0.1     1.5     0.1
+    set     z       0    -360   360     1
+endbank
+
 
 bank cubeP
     set     l       1       0.5       1.5     0.1
@@ -31,8 +47,6 @@ face c4   (ABZ ABC XBC XBZ ) endface
 face c5   (XYZ AYZ ABZ XBZ ) endface
 face c6   (XYC XBC ABC AYC ) endface
 
-
-polyline dgdgfg (XYC XBC ABC AYC) endpolyline
 
 object cube (c1 c2 c3 c4 c5 c6) endobject
 
