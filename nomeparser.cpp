@@ -124,204 +124,6 @@ string warning(int type, int lineNumber)
 }
 
 
-
-char * convertFileToString(string fileName){
-    /*
-     * convertFileToString
-     * Input: fileName as a string
-     * Output: Returns the content of the file as a string with comments removed and
-     * space next to parenthesis (to later be able to tokenize the string according to spaces)
-     */
-    // Create variables for opening file
-    FILE *fileParser;
-    //char *buffer = "";
-    int size;
-
-    std::string buffer = "";
-
-    // Opens the file
-    fileParser = fopen(fileName.c_str(), "r");
-    if (fileParser == NULL) return NULL;
-
-    // Get the size of the file
-    fseek(fileParser, 0, SEEK_END);
-    size = ftell(fileParser);
-    fseek(fileParser, 0, SEEK_SET);
-
-    // Initialize our buffer string
-    //buffer = (char *) calloc(size, sizeof(char));
-    //memset( buffer, 0, size * sizeof(char));
-
-    // Keep track of the previous and current character
-    char previousC = ' ';
-    char c = getc(fileParser);
-
-    int numberOfline = 1;
-    int i = 0;
-
-    // Iterate through the file
-    while (c != EOF){
-        // Check for comments using #
-        if (c == '#'){
-            while (c != '\n' && c != EOF){
-                c = getc(fileParser);
-            }
-        }
-        else{
-            // Check for parenthesis and add space in between them
-            if (c == '(' || c == ')' || c == '{' || c == '}' || c == '\n'){
-                // Change the size of the buffer as we are adding 2 space characters
-
-                buffer.push_back(' ');
-                i++;
-                buffer.push_back(c);
-                i++;
-                buffer.push_back(' ');
-                i++;
-
-                previousC = c;
-                c = getc(fileParser);
-                // Check if the ( is in fact a comment
-                if ((c == '*') && (previousC == '(')){
-                    buffer.pop_back();
-                    i--;
-                    buffer.pop_back();
-                    i--;
-                    size -= 1;
-                    //realloc(buffer, size * sizeof(char));
-                    while ((previousC != '*') || (c != ')')){
-                        if (c == '\n'){
-                            buffer.push_back(' ');
-                            i++;
-                        }
-                        else if (c == EOF){
-                            return NULL;
-                        }
-                        previousC = c;
-                        c = getc(fileParser);
-                    }
-                    c = getc(fileParser);
-
-                }
-            }
-            else{
-                buffer.push_back(c);
-                i++;
-                c = getc(fileParser);
-
-            }
-        }
-
-    }
-
-    char * S = new char[buffer.length() + 1];
-    std::strcpy(S,buffer.c_str());
-
-    return S;
-}
-
-typedef struct {
-    char *value;
-    int lineNumber;
-} token;
-
-struct node{
-    char *value;
-    int lineNumber;
-    struct node *next;
-};
-
-class Queue{
-    private:
-        node *rear;
-        node *front;
-    public:
-        Queue();
-        void enqueue(char * value, int lineNumber);
-        token dequeue();
-        void display();
-
-};
-
-Queue::Queue(){
-    rear = NULL;
-    front = NULL;
-}
-
-void Queue::enqueue(char * value, int lineNumber){
-    node *temp = new node;
-
-    temp->value = value;
-    temp->lineNumber = lineNumber;
-    temp->next = NULL;
-    if(front == NULL){
-        front = temp;
-    }else{
-        rear->next = temp;
-    }
-    rear = temp;
-
-}
-
-token Queue::dequeue(){
-    node *temp = new node;
-    token returnData = {"", -1};
-    if(front == NULL){
-        return returnData;
-    }else{
-        temp = front;
-        front = front->next;
-        returnData = {temp->value, temp->lineNumber};
-        delete temp;
-        return returnData;
-    }
-}
-
-void Queue::display(){
-    node *p = new node;
-    p = front;
-    if(front == NULL){
-        cout<<"\nNothing to Display\n";
-    }else{
-        while(p != NULL){
-            cout<< p->value << endl;
-            cout<< p->lineNumber << endl;
-            p = p->next;
-        }
-    }
-}
-
-Queue tokenize(char *inputString){
-    char * token;
-    token = strtok(inputString , " \t");
-
-    int lineNumberFile = 1;
-    Queue tokens = Queue();
-
-    while (token != NULL)
-    {
-        if (strcmp(token, "\n")==0){
-            lineNumberFile++;
-        }
-        else{
-            tokens.enqueue(token, lineNumberFile);
-
-        }
-
-        token = strtok (NULL, " \t");
-    }
-    return tokens;
-}
-
-int isReserved(std::vector<std::string> mylist, const std::string &myinput){
-    if (std::find(std::begin(mylist), std::end(mylist), myinput) != std::end(mylist)){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-}
-
 int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               unordered_map<string, Parameter> &params,
                               Group &group,
@@ -331,7 +133,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &geometrylines,
                               vector<int> &postProcessingLines)
 {
-
     banks.clear();
     group.clear();
     ifstream file(input);
@@ -366,1728 +167,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     char* p;
     long converted;
 
-    //====
-
-    std::vector<std::string> reservedWords{"#", "\n", "point", "endpoint", "surface",
-                                   "endsurface", "face", "endface", "object",
-                                   "endobject", "bank", "endbank", "mesh",
-                                   "endmesh", "tunnel", "endtunnel", "funnel",
-                                   "endfunnel", "polyline", "endpolyline","instance"
-                                   "endinstance", "delete", "enddelete", "group",
-                                   "endgroup", "translate", "rotate", "mirror"};
-
-    char * inputString;
-
-    // Reads the input file and tokenizes it
-    inputString = convertFileToString(input);
-    if (inputString == NULL){
-        cout << "Error: Missing *) closing comment." << endl;
-        return 1;
-    }
-
-    Queue tokens = tokenize(inputString);
-
-    // Convert string to tokens
-    token currentToken = tokens.dequeue();
-
-    while (currentToken.lineNumber != -1){
-        if(strcmp("surface", currentToken.value) == 0) {
-            string color_name;
-            QColor new_color;
-
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            color_name = currentToken.value;
-            colorIt = user_defined_colors.find(color_name);
-
-            if((colorIt != user_defined_colors.end()) || (isReserved(reservedWords, color_name) == 1)){
-                cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(color_name);
-
-            currentToken = tokens.dequeue();
-
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "color") != 0){
-                cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            char * e;
-            double r = std::strtod(currentToken.value, &e);
-
-
-            if (*e != '\0')
-            {
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            double g = std::strtod(currentToken.value, &e);
-
-            if (*e != '\0')
-            {
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            double b = std::strtod(currentToken.value, &e);
-
-            if (*e != '\0')
-            {
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-            new_color = QColor(255*r, 255*g, 255*b);
-            if (!new_color.isValid()){
-                return 1;
-            }
-
-            user_defined_colors[color_name] = new_color;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  ")") != 0){
-                cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "endsurface") != 0){
-                cout << "Error: Missing endsurface on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-
-        }
-        else if (strcmp("bank", currentToken.value) == 0) {
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-            reservedWords.push_back(currentToken.value);
-
-            ParameterBank newBank;
-            newBank.setName(QString::fromStdString(currentToken.value));
-            banks.push_back(newBank);
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-            while (strcmp(currentToken.value,  "endbank") != 0){
-                Parameter newParameter;
-                //cout << "HELLO" << endl;
-
-                if (strcmp(currentToken.value,  "set") != 0){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                string strToken = currentToken.value;
-
-                newParameter.name = banks[banks.size() - 1].name + QString::fromStdString("_" + strToken);
-
-                if(isReserved(reservedWords, newParameter.name.toUtf8().constData()) == 1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                    return 1;
-                }
-                reservedWords.push_back(newParameter.name.toUtf8().constData());
-
-                name = currentToken.value;
-
-
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                char * e;
-                double convertedValue;
-                convertedValue = std::strtod(currentToken.value, &e);
-
-                if (*e != '\0')
-                {
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-                newParameter.value = convertedValue;
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                convertedValue = std::strtod(currentToken.value, &e);
-
-                if (*e != '\0')
-                {
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                newParameter.start = convertedValue;
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                convertedValue = std::strtod(currentToken.value, &e);
-
-                if (*e != '\0')
-                {
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                newParameter.end = convertedValue;
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                convertedValue = std::strtod(currentToken.value, &e);
-
-                if (*e != '\0')
-                {
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                newParameter.stepsize = convertedValue;
-
-                pIt = params.find(newParameter.name.toStdString());
-                if(pIt == params.end())
-                {
-                    params[banks[banks.size() - 1].name.toStdString() + "_" + name] = newParameter;
-                }
-                else
-                {
-                    cout << "Error: The set at line " + to_string(lineNumber) + " with name " + newParameter.name.toStdString() + " has already been defined."  << endl;
-                    return 1;
-                }
-                banks[banks.size() - 1].addParameter(&params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-            currentToken = tokens.dequeue();
-
-        }
-        else if (strcmp("point", currentToken.value) == 0) {
-            Vertex * newVertex = new Vertex;
-            currentToken = tokens.dequeue();
-
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            vertIt = global_vertices.find(currentToken.value);
-            if(vertIt == global_vertices.end()){
-                newVertex -> name = currentToken.value;
-                global_vertices[currentToken.value] = newVertex;
-            }
-            else
-            {
-                cout << "Error: Point " << currentToken.value << " on line " << to_string(currentToken.lineNumber) << " has already been created." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            string xyz;
-            while (strcmp(currentToken.value,  ")") != 0){
-                xyz.append(currentToken.value);
-                //xyz.push_back(currentToken.value);
-                xyz.push_back(' ');
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            newVertex->setGlobalParameter(&params);
-            isError = 0;
-            isError = newVertex->setVertexParameterValues(xyz, currentToken.lineNumber);
-
-            if (isError == 1){
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "endpoint") != 0){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-        }
-        else if (strcmp("face", currentToken.value) == 0){
-            Face * newFace = new Face;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            faceIt = global_faces.find(currentToken.value);
-            if(faceIt == global_faces.end())
-            {
-                newFace -> name = currentToken.value;
-                global_faces[currentToken.value] = newFace;
-            }
-            else
-            {
-                cout << "Error: The face " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been defined."  << endl;
-                return 1;
-            }
-
-            string vertInside = "";
-            bool addingVert = false;
-            vector<Vertex*> vertices;
-            vertices.clear();
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            while (strcmp(currentToken.value,  ")") != 0){
-                vertIt = global_vertices.find(currentToken.value);
-
-                if(vertIt == global_vertices.end()){
-                    cout << "Error: Incorrect vertex name in face generator on line " + to_string(currentToken.lineNumber) + ". The vertex " + currentToken.value + " has never been created." << endl;
-                    return 1;
-                }
-                else{
-                    vertices.push_back(vertIt -> second);
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-            map_face_vertices[newFace] = vertices;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp("surface", currentToken.value) == 0)
-            {
-                string color_name = "";
-                QColor color;
-                bool foundColor = false;
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                color_name = currentToken.value;
-                colorIt = user_defined_colors.find(color_name);
-                if(colorIt != user_defined_colors.end())
-                {
-                    foundColor = true;
-                    color = colorIt -> second;
-                }
-                else
-                {
-                    cout << "Error: Incorrect surface name in face generator on line " + to_string(currentToken.lineNumber) + ". The surface " + color_name + " has never been defined." << endl;
-                    return 1;
-                }
-                if(foundColor)
-                {
-                    newFace -> color = color;
-                    newFace -> user_defined_color = true;
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            if (strcmp("endface", currentToken.value) != 0){
-                cout << "Error: Missing endface on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-        }
-        else if (strcmp("polyline", currentToken.value) == 0){
-            PolyLine newPolyline;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            lineIt = polylines.find(currentToken.value);
-
-            if(lineIt == polylines.end())
-            {
-                newPolyline.name = currentToken.value;
-            }
-            else
-            {
-                cout << "Error: The polyline " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been created."  << endl;
-                return 1;
-            }
-
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-            while (strcmp(currentToken.value,  ")") != 0){
-                vertIt = global_vertices.find(currentToken.value);
-                if(vertIt == global_vertices.end())
-                {
-                    cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(currentToken.lineNumber) + ". The vertex " + currentToken.value + " has never been created." << endl;
-                    return 1;
-                }
-                else
-                {
-                    newPolyline.addVertex(vertIt -> second);
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "closed") != 0){
-                newPolyline.isLoop = true;
-            }
-
-            if(strcmp(currentToken.value,  "endpolyline") != 0){
-                cout << "Error: Missing endpolyline on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            polylines[newPolyline.name] = newPolyline;
-
-            currentToken = tokens.dequeue();
-
-        }
-        else if (strcmp("tunnel", currentToken.value) == 0){
-            Mesh newTunnel(2);
-            newTunnel.setGlobalParameter(&params);
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            newTunnel.name = currentToken.value;
-
-            string tunnel_expression;
-            bool expression_input = false;
-            bool inExpression = false;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            while (strcmp(currentToken.value,  ")") != 0){
-                tunnel_expression.append(currentToken.value);
-                tunnel_expression.push_back(' ');
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            newTunnel.setTunnelParameterValues(tunnel_expression, currentToken.lineNumber);
-            newTunnel.makeTunnel();
-
-            if(meshes.find(newTunnel.name) == meshes.end())
-            {
-                meshes[newTunnel.name] = newTunnel;
-            }
-            else
-            {
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " with name " + newTunnel.name + " has already been created."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if (strcmp("endtunnel", currentToken.value) != 0){
-                cout << "Error: Missing endtunnel on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-        }
-        else if (strcmp("funnel", currentToken.value) == 0){
-            Mesh newFunnel(1);
-            newFunnel.setGlobalParameter(&params);
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            newFunnel.name = (currentToken.value);
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            string funnel_expression;
-            bool expression_input = false;
-            bool inExpression = false;
-
-            if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            while (strcmp(currentToken.value,  ")") != 0){
-                funnel_expression.append(currentToken.value);
-                funnel_expression.push_back(' ');
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            newFunnel.setFunnelParameterValues(funnel_expression, currentToken.lineNumber);
-            if (isError == 1){
-                return 1;
-            }
-            newFunnel.makeFunnel();
-
-            if(meshes.find(newFunnel.name) == meshes.end())
-            {
-                meshes[newFunnel.name] = newFunnel;
-            }
-            else
-            {
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " with name " + newFunnel.name + " has already been created."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if (strcmp("endfunnel", currentToken.value) != 0){
-                cout << "Error: Missing endfunnel on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-
-        }
-        else if(strcmp("group", currentToken.value) == 0)
-        {
-            Group newGroup;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The group at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            newGroup.setName(currentToken.value);
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The group at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            groups[newGroup.name] = newGroup;
-            currentGroup = newGroup.name;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The group at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-            while (strcmp(currentToken.value,  "instance") == 0){
-                string instanceName;
-                Mesh newMesh;
-                Group newGroup;
-                PolyLine newPolyline;
-                string className;
-                bool findMesh = false;
-                bool findGroup = false;
-                bool findPolyline = false;
-                bool foundColor = false;
-                QColor color;
-
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                instanceName = currentToken.value;
-
-                if(isReserved(reservedWords, currentToken.value) == 1){
-                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                    return 1;
-                }
-
-                reservedWords.push_back(currentToken.value);
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                className = currentToken.value;
-
-                // Check what type of object
-                meshIt = meshes.find(className);
-                if(meshIt != meshes.end())
-                {
-                    newMesh = (meshIt -> second).makeCopy(instanceName);
-                    findMesh = true;
-                }
-                else
-                {
-                    groupIt = groups.find(className);
-                    if(groupIt != groups.end())
-                    {
-                        newGroup = (groupIt -> second).makeCopy(instanceName);
-                        findGroup = true;
-                    }
-                    else
-                    {
-                        lineIt = polylines.find(className);
-                        if(lineIt != polylines.end())
-                        {
-                            newPolyline = (lineIt -> second).makeCopy(instanceName);
-                            findPolyline = true;
-                        }
-                        else
-                        {
-                            cout << "Error: The instance " + className + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
-                            return 1;
-                        }
-                    }
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                vector<Transformation> transformations_up;
-                while(strcmp(currentToken.value,  "endinstance") != 0)
-                {
-                    if(strcmp(currentToken.value,  "rotate") == 0)
-                    {
-                        string xyz;
-                        string angle;
-                        bool makingXYZ = false;
-                        bool makingAngle = false;
-                        bool doneXYZ = false;
-                        bool inExpression = false;
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        if(strcmp(currentToken.value,  "(") != 0)
-                        {
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-
-                        while (strcmp(currentToken.value,  ")") != 0){
-                            xyz.append(currentToken.value);
-
-                            currentToken = tokens.dequeue();
-                            if(currentToken.lineNumber == -1){
-                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                                return 1;
-                            }
-                            xyz.push_back(' ');
-                        }
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-
-
-                        if(strcmp(currentToken.value,  "(") != 0)
-                        {
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-
-                        while (strcmp(currentToken.value,  ")") != 0){
-                            angle.append(currentToken.value);
-
-                            currentToken = tokens.dequeue();
-                            if(currentToken.lineNumber == -1){
-                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                                return 1;
-                            }
-                            angle.push_back(' ');
-                        }
-                        Transformation t(1, &params, xyz, angle);
-                        transformations_up.push_back(t);
-                    }
-                    else if(strcmp(currentToken.value,  "translate") == 0 || strcmp(currentToken.value,  "scale") == 0)
-                    {
-                        bool isTranslate = false;
-                        if(strcmp(currentToken.value,  "translate") == 0)
-                        {
-                            isTranslate = true;
-                        }
-
-                        string xyz = "";
-                        bool makingXYZ = false;
-                        bool inExpression = false;
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        if(strcmp(currentToken.value,  "(") != 0)
-                        {
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        while (strcmp(currentToken.value,  ")") != 0){
-                            xyz.append(currentToken.value);
-
-                            currentToken = tokens.dequeue();
-                            if(currentToken.lineNumber == -1){
-                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                                return 1;
-                            }
-                            xyz.push_back(' ');
-                        }
-
-                        if(isTranslate)
-                        {
-                            Transformation t(3,&params, xyz);
-                            transformations_up.push_back(t);
-                        }
-                        else
-                        {
-                            Transformation t(2, &params, xyz);
-                            transformations_up.push_back(t);
-                        }
-                    }
-                    else if(strcmp(currentToken.value,  "mirror") == 0)
-                    {
-                        string xyzw = "";
-                        bool makingXYZW = false;
-                        bool inExpression = false;
-
-                        if(strcmp(currentToken.value,  "(") != 0)
-                        {
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        while (strcmp(currentToken.value,  ")") != 0){
-                            xyzw.append(currentToken.value);
-
-                            currentToken = tokens.dequeue();
-                            if(currentToken.lineNumber == -1){
-                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                                return 1;
-                            }
-                            xyzw.push_back(' ');
-                        }
-
-                        Transformation t(4, &params, xyzw);
-                        transformations_up.push_back(t);
-                    }
-                    else if(strcmp(currentToken.value,  "surface") == 0)
-                    {
-                        string color_name;
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-
-                        color_name = currentToken.value;
-                        colorIt = user_defined_colors.find(color_name);
-                        if(colorIt != user_defined_colors.end())
-                        {
-                            color = colorIt -> second;
-                            foundColor = true;
-                        }
-                        else
-                        {
-                            cout << "Error: The instance " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
-                            return 1;
-                        }
-
-                    }
-                    else {
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " has the parameter " + currentToken.value + " which is incorrect."  << endl;
-                        return 1;
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-                }
-
-                if(findMesh)
-                {
-                    newMesh.setTransformation(transformations_up);
-                    if(foundColor)
-                    {
-                        newMesh.setColor(color);
-                        newMesh.user_set_color = true;
-                    }
-
-                    groups[currentGroup].addMesh(newMesh);
-                }
-                else if(findGroup)
-                {
-                    newGroup.setTransformation(transformations_up);
-                    if(foundColor)
-                    {
-                        newGroup.setColor(color);
-                        newGroup.user_set_color = true;
-                    }
-                    groups[currentGroup].addGroup(newGroup);
-                }
-                else if(findPolyline)
-                {
-                    newPolyline.setTransformation(transformations_up);
-                    if(foundColor)
-                    {
-                        newPolyline.setColor(color);
-                        newPolyline.user_set_color = true;
-                    }
-                    groups[currentGroup].addPolyline(newPolyline);
-                }
-
-                if(strcmp(currentToken.value,  "endinstance") != 0){
-                    cout << "Error: Missing endinstance on line " + to_string(currentToken.lineNumber) + "." << endl;
-                    return 1;
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-            }
-            if(strcmp(currentToken.value,  "endgroup") != 0){
-                cout << "Error: Missing endgroup on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-            currentToken = tokens.dequeue();
-
-        }
-        else if(strcmp("instance", currentToken.value) == 0)
-        {
-            string instanceName;
-            Mesh newMesh;
-            Group newGroup;
-            PolyLine newPolyline;
-            string className;
-            bool findMesh = false;
-            bool findGroup = false;
-            bool findPolyline = false;
-            bool foundColor = false;
-            QColor color;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            instanceName = currentToken.value;
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            className = currentToken.value;
-
-            // Check what type of object
-            meshIt = meshes.find(className);
-
-            if(meshIt != meshes.end())
-            {
-                newMesh = (meshIt -> second).makeCopy(instanceName);
-                findMesh = true;
-            }
-            else
-            {
-                groupIt = groups.find(className);
-                if(groupIt != groups.end())
-                {
-                    newGroup = (groupIt -> second).makeCopy(instanceName);
-                    findGroup = true;
-                }
-                else
-                {
-                    lineIt = polylines.find(className);
-                    if(lineIt != polylines.end())
-                    {
-                        newPolyline = (lineIt -> second).makeCopy(instanceName);
-                        findPolyline = true;
-                    }
-                    else
-                    {
-                        cout << "Error: The instance " + className + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
-                        return 1;
-                    }
-                }
-            }
-
-
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-
-            vector<Transformation> transformations_up;
-            while(strcmp(currentToken.value,  "endinstance") != 0)
-            {
-                if(strcmp(currentToken.value,  "rotate") == 0)
-                {
-                    string xyz;
-                    string angle;
-                    bool makingXYZ = false;
-                    bool makingAngle = false;
-                    bool doneXYZ = false;
-                    bool inExpression = false;
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    if(strcmp(currentToken.value,  "(") != 0)
-                    {
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-
-                    while (strcmp(currentToken.value,  ")") != 0){
-                        xyz.append(currentToken.value);
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-                        xyz.push_back(' ');
-                    }
-
-                    if(strcmp(currentToken.value,  "(") != 0)
-                    {
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    while (strcmp(currentToken.value,  ")") != 0){
-                        angle.append(currentToken.value);
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-                        angle.push_back(' ');
-                    }
-                    Transformation t(1, &params, xyz, angle);
-                    transformations_up.push_back(t);
-                }
-                else if(strcmp(currentToken.value,  "translate") == 0 || strcmp(currentToken.value,  "scale") == 0)
-                {
-                    bool isTranslate = false;
-                    if(strcmp(currentToken.value,  "translate") == 0)
-                    {
-                        isTranslate = true;
-                    }
-
-                    string xyz = "";
-                    bool makingXYZ = false;
-                    bool inExpression = false;
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    if(strcmp(currentToken.value,  "(") != 0)
-                    {
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    while (strcmp(currentToken.value,  ")") != 0){
-                        xyz.append(currentToken.value);
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-                        xyz.push_back(' ');
-                    }
-
-                    if(isTranslate)
-                    {
-                        Transformation t(3,&params, xyz);
-                        transformations_up.push_back(t);
-                    }
-                    else
-                    {
-                        Transformation t(2, &params, xyz);
-                        transformations_up.push_back(t);
-                    }
-                }
-                else if(strcmp(currentToken.value,  "mirror") == 0)
-                {
-                    string xyzw = "";
-                    bool makingXYZW = false;
-                    bool inExpression = false;
-
-                    if(strcmp(currentToken.value,  "(") != 0)
-                    {
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    while (strcmp(currentToken.value,  ")") != 0){
-                        xyzw.append(currentToken.value);
-
-                        currentToken = tokens.dequeue();
-                        if(currentToken.lineNumber == -1){
-                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                            return 1;
-                        }
-                        xyzw.push_back(' ');
-                    }
-
-                    Transformation t(4, &params, xyzw);
-                    transformations_up.push_back(t);
-                }
-                else if(strcmp(currentToken.value,  "surface") == 0)
-                {
-                    string color_name;
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    color_name = currentToken.value;
-                    colorIt = user_defined_colors.find(color_name);
-                    if(colorIt != user_defined_colors.end())
-                    {
-                        color = colorIt -> second;
-                        foundColor = true;
-                    }
-                    else
-                    {
-                        cout << "Error: The instance " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
-                        return 1;
-                    }
-
-                }
-                else {
-                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " has the parameter " + currentToken.value + " which is incorrect."  << endl;
-                    return 1;
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            if(findMesh)
-            {
-                newMesh.setTransformation(transformations_up);
-                if(foundColor)
-                {
-                    newMesh.setColor(color);
-                    newMesh.user_set_color = true;
-                }
-                group.addMesh(newMesh);
-            }
-            else if(findGroup)
-            {
-                newGroup.setTransformation(transformations_up);
-                if(foundColor)
-                {
-                    newGroup.setColor(color);
-                    newGroup.user_set_color = true;
-                }
-                group.addGroup(newGroup);
-            }
-            else if(findPolyline)
-            {
-                newPolyline.setTransformation(transformations_up);
-                if(foundColor)
-                {
-                    newPolyline.setColor(color);
-                    newPolyline.user_set_color = true;
-                }
-                group.addPolyline(newPolyline);
-            }
-
-            if(strcmp(currentToken.value,  "endinstance") != 0){
-                cout << "Error: Missing endinstance on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-
-        }
-        else if(strcmp("object", currentToken.value) == 0){
-            Mesh newMesh(0);
-            newMesh.setGlobalParameter(&params);
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            newMesh.name = currentToken.value;
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            string faceInside = "";
-            bool addingFace = false;
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "(") != 0)
-            {
-                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-
-
-            while (strcmp(currentToken.value,  ")") != 0){
-                //cout << currentToken.value << endl;
-                faceIt = global_faces.find(currentToken.value);
-
-                if(faceIt == global_faces.end())
-                {
-                    cout << "Error: Incorrect face name in object generator on line " + to_string(currentToken.lineNumber) + ". The face " + faceInside + " has never been created." << endl;
-                    return 1;
-                }
-                else
-                {
-                    Vertex * foundVertex;
-                    vector<Vertex*> vertices;
-                    for(Vertex * vc : map_face_vertices[(faceIt -> second)])
-                    {
-                        foundVertex = NULL;
-                        for(Vertex * v : newMesh.vertList)
-                        {
-                            if(v -> source_vertex == vc)
-                            {
-                                foundVertex = v;
-                                vertices.push_back(v);
-                            }
-                        }
-                        if(foundVertex == NULL)
-                        {
-                            Vertex * newVertex = new Vertex;
-                            newVertex -> isParametric = vc -> isParametric;
-                            newVertex -> position = vc -> position;
-                            newVertex -> ID = newMesh.vertList.size();
-                            newVertex -> source_vertex = vc;
-                            newVertex -> name = vc -> name;
-                            newVertex -> x_expr = vc -> x_expr;
-                            newVertex -> y_expr = vc -> y_expr;
-                            newVertex -> z_expr = vc -> z_expr;
-                            newVertex -> influencingParams = vc -> influencingParams;
-                            newVertex -> params = vc -> params;
-                            newMesh.addVertex(newVertex);
-                            vertices.push_back(newVertex);
-                        }
-                    }
-                    newMesh.addPolygonFace(vertices);
-                    newMesh.faceList[newMesh.faceList.size()-1]->user_defined_color = faceIt -> second -> user_defined_color;
-                    if(faceIt -> second -> user_defined_color)
-                    {
-                        newMesh.faceList[newMesh.faceList.size()-1]->color = faceIt -> second -> color;
-                    }
-                    newMesh.faceList[newMesh.faceList.size()-1] -> name = faceIt -> second -> name;
-                }
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-            }
-
-            if(meshes.find(newMesh.name) == meshes.end())
-            {
-                meshes[newMesh.name] = newMesh;
-            }
-            else
-            {
-                cout << "Error: The object " + newMesh.name + " at line " + to_string(currentToken.lineNumber) + " has already been created."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            if(strcmp(currentToken.value,  "endobject") != 0){
-                cout << "Error: Missing endobject on line " + to_string(currentToken.lineNumber) + "." << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-
-
-        }
-        else if(strcmp("mesh", currentToken.value) == 0){
-            Mesh newMesh(0);
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            newMesh.name = currentToken.value;
-            newMesh.setGlobalParameter(&params);
-
-            if(isReserved(reservedWords, currentToken.value) == 1){
-                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
-                return 1;
-            }
-
-            reservedWords.push_back(currentToken.value);
-
-            if(meshes.find(newMesh.name) == meshes.end())
-            {
-                meshes[newMesh.name] = newMesh;
-                current_mesh_name = newMesh.name;
-            }
-            else
-            {
-                cout << "Error: The mesh " + newMesh.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
-                return 1;
-            }
-
-            currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
-
-            while (strcmp("face", currentToken.value) == 0){
-                Face * newFace = new Face;
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                faceIt = global_faces.find(currentToken.value);
-
-                if(faceIt == global_faces.end())
-                {
-                    newFace -> name = currentToken.value;
-                    global_faces[currentToken.value] = newFace;
-                }
-                else
-                {
-                    cout << "Error: The mesh " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been created."  << endl;
-                    return 1;
-                }
-
-                string vertInside = "";
-                bool addingVert = false;
-                vector<Vertex*> vertices;
-                vertices.clear();
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                if(strcmp(currentToken.value,  "(") != 0){
-                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-                while (strcmp(currentToken.value,  ")") != 0){
-                    vertIt = global_vertices.find(currentToken.value);
-
-                    if(vertIt == global_vertices.end()){
-                        cout << "Error: Incorrect vertex name in face generator on line " + to_string(currentToken.lineNumber) + ". The vertex " + currentToken.value + " has never been created." << endl;
-                        return 1;
-                    }
-                    else{
-                        vertices.push_back(vertIt -> second);
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                }
-
-                vector<Vertex*> mappedVertices;
-                mappedVertices.clear();
-                bool foundVertex;
-                for(Vertex * vs : vertices)
-                {
-                    foundVertex = false;
-
-                    for(Vertex * v : meshes[current_mesh_name].vertList)
-                    {
-                        if(v -> source_vertex == vs)
-                        {
-                            foundVertex = true;
-                            mappedVertices.push_back(v);
-                            break;
-                        }
-                    }
-                    if(!foundVertex)
-                    {
-                        Vertex * newVertex = new Vertex;
-                        newVertex -> isParametric = vs -> isParametric;
-                        newVertex -> position = vs -> position;
-                        newVertex -> ID = meshes[current_mesh_name].vertList.size();
-                        newVertex -> source_vertex = vs;
-                        newVertex -> name = vs -> name;
-                        newVertex -> x_expr = vs -> x_expr;
-                        newVertex -> y_expr = vs -> y_expr;
-                        newVertex -> z_expr = vs -> z_expr;
-                        newVertex -> influencingParams = vs -> influencingParams;
-                        newVertex -> params = vs -> params;
-                        meshes[current_mesh_name].addVertex(newVertex);
-                        mappedVertices.push_back(newVertex);
-                    }
-                }
-                meshes[current_mesh_name].addPolygonFace(mappedVertices);
-                meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
-                        -> name = newFace -> name;
-
-                currentToken = tokens.dequeue();
-                if(currentToken.lineNumber == -1){
-                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                    return 1;
-                }
-
-
-                if(strcmp(currentToken.value,  "surface") == 0)
-                {
-                    string color_name = "";
-                    QColor color;
-                    bool foundColor = false;
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-
-                    color_name = currentToken.value;
-                    colorIt = user_defined_colors.find(color_name);
-
-                    if(colorIt != user_defined_colors.end())
-                    {
-                        foundColor = true;
-                        color = colorIt -> second;
-                    }
-                    else
-                    {
-                        cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
-                        return 1;
-                    }
-
-                    if(foundColor)
-                    {
-                        meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
-                                -> color = color;
-                        meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
-                                -> user_defined_color = true;
-                    }
-
-                    currentToken = tokens.dequeue();
-                    if(currentToken.lineNumber == -1){
-                        cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                        return 1;
-                    }
-                }
-                if(strcmp(currentToken.value,  "endface") != 0){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " is missing endface."  << endl;
-                    return 1;
-                }
-
-                delete newFace;
-
-                currentToken = tokens.dequeue();
-            }
-
-            if(strcmp(currentToken.value,  "endmesh") != 0){
-                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " is missing endmesh."  << endl;
-                return 1;
-            }
-            currentToken = tokens.dequeue();
-        }
-        else{
-            cout << "Error: The method " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " is not defined."  << endl;
-            return 1;
-            currentToken = tokens.dequeue();
-        }
-
-    }
-
-
-
-    /*while(std::getline(file, nextLine))
+    while(std::getline(file, nextLine))
     {
-
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -2096,14 +177,15 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
         vector<string>::iterator tIt;
         for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
         {
+            //std::cout << *tIt << '\n';
             if(testComments(*tIt))
             {
                 break;
-            }*/
-            /*else if(createBank){
+            }
+            else if(createBank){
                 if((*tIt) == "endbank")
                 {
-                    //banklines.push_back(nextLine);
+                    banklines.push_back(nextLine);
                     createBank = false;
                     goto newLineEnd;
                 }
@@ -2157,6 +239,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
+                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         case 2:
@@ -2175,6 +258,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
+                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         case 3:
@@ -2193,6 +277,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
+                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         case 4:
@@ -2212,6 +297,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The set at line " + to_string(lineNumber) + " has the parameter " + nextToken + " that is not a number." << endl;
                                 return 1;
+                                cout<<warning(1, lineNumber)<<endl;
                                 goto newLineEnd;
                             }
                         }
@@ -2248,8 +334,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     return 1;
                     goto newLineEnd;
                 }
-            }*/
-            /*else if((*tIt) == "bank")
+            }
+            else if((*tIt) == "bank")
             {
                 banklines.push_back(nextLine);
                 ParameterBank newBank;
@@ -2266,11 +352,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 banks.push_back(newBank);
                 createBank = true;
                 goto newLineEnd;
-            }*/
-            /*else if((*tIt) == "surface")
+            }
+            else if((*tIt) == "surface")
             {
                 colorlines.push_back(nextLine);
-
                 string color_name;
                 QColor new_color;
                 if(++tIt < tokens.end())
@@ -2288,6 +373,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The surface at line " + to_string(lineNumber) + " does not have a name."  << endl;
                     return 1;
+                    cout<<warning(17, lineNumber)<<endl;
                 }
                 if(++tIt < tokens.end())
                 {
@@ -2295,12 +381,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
                         return 1;
+                        cout<<warning(17, lineNumber)<<endl;
                     }
                 }
                 else
                 {
                     cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " does not have the correct format."  << endl;
                     return 1;
+                    cout<<warning(17, lineNumber)<<endl;
                 }
                 string color_expression;
                 bool expression_input = false;
@@ -2351,8 +439,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 goto newLineEnd;
-            }*/
-            /*else if((*tIt) == "funnel")
+            }
+            else if((*tIt) == "funnel")
             {
                 geometrylines.push_back(nextLine);
                 Mesh newFunnel(1);
@@ -2416,12 +504,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The funnel at line " + to_string(lineNumber) + " with name " + newFunnel.name + " has already been created."  << endl;
                     return 1;
+                    cout<<warning(3, lineNumber)<<endl;
                 }
 
 
                 //newFunnel.computeNormals();
-            }*/
-            /*else if((*tIt) == "tunnel")
+            }
+            else if((*tIt) == "tunnel")
             {
                 geometrylines.push_back(nextLine);
                 Mesh newTunnel(2);
@@ -2467,7 +556,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 newTunnel.setTunnelParameterValues(tunnel_expression, lineNumber);
                 newTunnel.makeTunnel();
                 //*************
-
+                /*cout << newTunnel.vertList.size() << endl;
+                for (int i=0; i <newTunnel.vertList.size(); i++){
+                    cout << newTunnel.vertList[i] << endl;
+                }*/
                 //*************
                 if(meshes.find(newTunnel.name) == meshes.end())
                 {
@@ -2477,11 +569,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The tunnel at line " + to_string(lineNumber) + " with name " + newTunnel.name + " has already been created."  << endl;
                     return 1;
+                    cout<<warning(3, lineNumber)<<endl;
                 }
-
+                /*if(++tIt == tokens.end() || (*tIt) != "endtunnel"){
+                    cout << "Error: Missing endtunnel on line " + to_string(lineNumber) + "." << endl;
+                }*/
                 //newTunnel.computeNormals();
-            }*/
-            /*else if((*tIt) == "object")
+            }
+            else if((*tIt) == "object")
             {
                 geometrylines.push_back(nextLine);
                 Mesh newMesh(0);
@@ -2527,6 +622,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 {
                                     cout << "Error: Incorrect face name in object generator on line " + to_string(lineNumber) + ". The face " + faceInside + " has never been created." << endl;
                                     return 1;
+                                    cout<<warning(23, lineNumber);
                                 }
                                 else
                                 {
@@ -2588,6 +684,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect face name in object generator on line " + to_string(lineNumber) + ". The face " + faceInside + " has never been created." << endl;
                             return 1;
+                            cout<<warning(23, lineNumber);
                         }
                         else
                         {
@@ -2640,14 +737,15 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The mesh " + newMesh.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                     return 1;
+                    cout<<warning(3, lineNumber)<<endl;
                 }
 
                 if(++tIt == tokens.end() || (*tIt) != "endobject"){
                     cout << "Error: Missing endobject on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
-            }*/
-            /*else if((*tIt) == "face" && (!deletePhase) && (!constructingMesh))
+            }
+            else if((*tIt) == "face" && (!deletePhase) && (!constructingMesh))
             {
                 geometrylines.push_back(nextLine);
                 Face * newFace = new Face;
@@ -2664,6 +762,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The face " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                             return 1;
+                            cout<<warning(20, lineNumber)<<endl;
                         }
                     }
                     else
@@ -2697,6 +796,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 {
                                     cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                                     return 1;
+                                    cout<<warning(21, lineNumber);
                                 }
                                 else
                                 {
@@ -2714,11 +814,20 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     if(vertInside != "")
                     {
+                        //99999
+                        /*banks[banks.size() - 1].name + QString::fromStdString("_" + nextToken)
+                        for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it )
+                          {
+                            cout << " " << it->first << ":" << it->second;
+                            cout << endl;
+                          }*/
+                        //999999
                         vertIt = global_vertices.find(vertInside);
                         if(vertIt == global_vertices.end())
                         {
                             cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                             return 1;
+                            cout<<warning(21, lineNumber);
                         }
                         else
                         {
@@ -2748,12 +857,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect surface name in face generator on line " + to_string(lineNumber) + ". The surface " + color_name + " has never been created." << endl;
                             return 1;
+                            cout<<warning(22, lineNumber)<<endl;
                         }
                     }
                     else
                     {
                         cout << "Error: The surface at line " + to_string(lineNumber) + "does not have any name."  << endl;
                         return 1;
+                        cout<<warning(22, lineNumber)<<endl;
                     }
                     if(foundColor)
                     {
@@ -2769,14 +880,16 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 //cout << *tIt << endl;
-            }*/
-            /*else if((*tIt) == "face" && deletePhase)
+            }
+            else if((*tIt) == "face" && deletePhase)
             {
                 postProcessingLines.push_back(lineNumber);
-
+                /* Hmm, this is weird, I did not do anything here!
+                   Except putting the delte into postProcessingLines.
+                */
                 goto newLineEnd;
-            }*/
-            /*else if((*tIt) == "face" && constructingMesh)
+            }
+            else if((*tIt) == "face" && constructingMesh)
             {
                 if(current_mesh_name == "")
                 {
@@ -2804,6 +917,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The face " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                             return 1;
+                            cout<<warning(20, lineNumber)<<endl;
                         }
                     }
                     else
@@ -2833,6 +947,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 {
                                     cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                                     return 1;
+                                    cout<<warning(21, lineNumber);
                                 }
                                 else
                                 {
@@ -2854,6 +969,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
+                            cout<<warning(21, lineNumber);
                         }
                         else
                         {
@@ -2863,6 +979,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 endAddingVertInFace1:
+                /* Add this face to the current mesh now.*/
                 vector<Vertex*> mappedVertices;
                 mappedVertices.clear();
                 bool foundVertex;
@@ -2916,12 +1033,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
+                            cout<<warning(22, lineNumber)<<endl;
                         }
                     }
                     else
                     {
                         cout << "Error: The surface at line " + to_string(lineNumber) + " does not have a name."  << endl;
                         return 1;
+                        cout<<warning(22, lineNumber)<<endl;
                     }
                     if(foundColor)
                     {
@@ -2932,8 +1051,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 delete newFace;
-            }*/
-            /*else if((*tIt) == "polyline")
+            }
+            else if((*tIt) == "polyline")
             {
                 geometrylines.push_back(nextLine);
                 PolyLine newPolyline;
@@ -2948,6 +1067,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: The polyline " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                         return 1;
+                        cout<<warning(13, lineNumber)<<endl;
                     }
                 }
                 else
@@ -2990,6 +1110,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                             return 1;
+                            cout<<warning(14, lineNumber);
                         }
                         else
                         {
@@ -3007,6 +1128,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                         return 1;
+                        cout<<warning(14, lineNumber);
                     }
                     else
                     {
@@ -3015,7 +1137,39 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     vertInside = "";
                 }
 
-
+                //=========================================
+                /*if(*tIt == "surface")
+                {
+                    string color_name;
+                    bool foundColor = false;
+                    QColor color;
+                    if(++tIt < tokens.end())
+                    {
+                        color_name = *tIt;
+                        colorIt = user_defined_colors.find(color_name);
+                        if(colorIt != user_defined_colors.end())
+                        {
+                            color = colorIt -> second;
+                            foundColor = true;
+                        }
+                        else
+                        {
+                            cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
+                            return 1;
+                            cout<<warning(18, lineNumber)<<endl;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Error: The surface " + *tIt + " at line " + to_string(lineNumber) + " is missing a name."  << endl;
+                        return 1;
+                        cout<<warning(18, lineNumber)<<endl;
+                    }
+                    cout << "HELLO" << endl;
+                    newPolyline.setColor(color);
+                    ++tIt;
+                }*/
+                //=========================================
 
                 if((*tIt) != "endpolyline"){
                     cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;
@@ -3024,8 +1178,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 polylines[newPolyline.name] = newPolyline;
 
-            }*/
-            /*else if((*tIt) == "point")
+            }
+            else if((*tIt) == "point")
             {
                 geometrylines.push_back(nextLine);
                 Vertex * newVertex = new Vertex;
@@ -3042,6 +1196,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: Point " + *tIt + " on line " + to_string(lineNumber) + " has already been created." << endl;
                             return 1;
+                            cout<<warning(11, lineNumber)<<endl;
                         }
                     }
                     else
@@ -3098,8 +1253,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout << "Error: Missing endpoint on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
-            }*/
-            /*else if((*tIt) == "group")
+            }
+            else if((*tIt) == "group")
             {
                 geometrylines.push_back(nextLine);
                 Group newGroup;
@@ -3183,6 +1338,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The object " + className + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
+                            cout<<warning(5, lineNumber)<<endl;
                         }
                     }
                 }
@@ -3378,12 +1534,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                                 return 1;
+                                cout<<warning(18, lineNumber)<<endl;
                             }
                         }
                         else
                         {
                             cout << "Error: The surface " + *tIt + " at line " + to_string(lineNumber) + " is missing a name."  << endl;
                             return 1;
+                            cout<<warning(18, lineNumber)<<endl;
                         }
                     }
                     else {
@@ -3464,8 +1622,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     return 1;
                 }
 
-            }*/
-            /*else if(*tIt == "delete")
+            }
+            else if(*tIt == "delete")
             {
                 postProcessingLines.push_back(lineNumber);
                 deletePhase = true;
@@ -3476,8 +1634,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 postProcessingLines.push_back(lineNumber);
                 deletePhase = false;
                 goto newLineEnd;
-            }*/
-            /*else if(*tIt == "mesh")
+            }
+            else if(*tIt == "mesh")
             {
                 constructingMesh = true;
                 Mesh newMesh(0);
@@ -3501,6 +1659,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     {
                         cout << "Error: The mesh at line " + to_string(lineNumber) + " does not have a name."  << endl;
                         return 1;
+                        cout<<warning(26, lineNumber);
                         goto newLineEnd;
                     }
                 }
@@ -3518,6 +1677,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 {
                     cout << "Error: The mesh " + newMesh.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                     return 1;
+                    cout<<warning(3, lineNumber)<<endl;
                 }
                 goto newLineEnd;
             }
@@ -3533,16 +1693,24 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     geometrylines.push_back(nextLine);
                 }
                 current_mesh_name = "";
-            }*/
-            /*else{
-                //cout<< "Error: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." << endl;
-                //return 1;
+            }
+            else{
+                cout<< "Error: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." << endl;
+                return 1;
             }
         }
         newLineEnd:
         lineNumber++;
-    }*/
+    }
     group.mapFromParameters();
+
+    /*for ( auto it = meshes.begin(); it != meshes.end(); ++it ){
+        cout << (*it).first << endl;
+        cout << (*it).second.name << endl;
+        cout << "JJJJ" << endl;
+    }*/
+
+    //cout << "HIIII" << endl;
 }
 
 void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
@@ -3551,7 +1719,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                                         Group &group,
                                         string input)
 {
-    //cout << global_faces << endl;
     //cout << "HI" << endl;
     //cout << postProcessingLines << endl;
     /*for(int i : postProcessingLines){
@@ -3853,7 +2020,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     foundVertex = false;
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
-                        cout << "HI" << endl;
                         //cout << v->ID << endl;
                         if(v -> source_vertex == vs)
                         {
@@ -3877,7 +2043,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         newVertex -> influencingParams = vs -> influencingParams;
                         newVertex -> params = vs -> params;
                         meshes[current_mesh_name].addVertex(newVertex);
-
                         mappedVertices.push_back(newVertex);
                     }
                 }
