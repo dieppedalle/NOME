@@ -171,8 +171,7 @@ char * convertFileToString(string fileName){
             // Check for parenthesis and add space in between them
             if (c == '(' || c == ')' || c == '{' || c == '}' || c == '\n'){
                 // Change the size of the buffer as we are adding 2 space characters
-                //size += 2;
-                //realloc(buffer, size * sizeof(char));
+
                 buffer.push_back(' ');
                 i++;
                 buffer.push_back(c);
@@ -184,9 +183,9 @@ char * convertFileToString(string fileName){
                 c = getc(fileParser);
                 // Check if the ( is in fact a comment
                 if ((c == '*') && (previousC == '(')){
-                    buffer.push_back(' ');
+                    buffer.pop_back();
                     i--;
-                    buffer.push_back(' ');
+                    buffer.pop_back();
                     i--;
                     size -= 1;
                     //realloc(buffer, size * sizeof(char));
@@ -294,7 +293,7 @@ void Queue::display(){
 
 Queue tokenize(char *inputString){
     char * token;
-    token = strtok(inputString , " ");
+    token = strtok(inputString , " \t");
 
     int lineNumberFile = 1;
     Queue tokens = Queue();
@@ -309,7 +308,7 @@ Queue tokenize(char *inputString){
 
         }
 
-        token = strtok (NULL, " ");
+        token = strtok (NULL, " \t");
     }
     return tokens;
 }
@@ -399,7 +398,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have a name."  << endl;
+                cout << "Error: The surface at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -410,6 +409,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
                 return 1;
             }
+
             reservedWords.push_back(color_name);
 
             currentToken = tokens.dequeue();
@@ -559,7 +559,15 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 newParameter.name = banks[banks.size() - 1].name + QString::fromStdString("_" + strToken);
 
+                if(isReserved(reservedWords, newParameter.name.toUtf8().constData()) == 1){
+                    cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                    return 1;
+                }
+                reservedWords.push_back(newParameter.name.toUtf8().constData());
+
                 name = currentToken.value;
+
+
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
@@ -652,9 +660,16 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             currentToken = tokens.dequeue();
 
             if(currentToken.lineNumber == -1){
-                cout << "Error: The bank at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
 
             vertIt = global_vertices.find(currentToken.value);
             if(vertIt == global_vertices.end()){
@@ -727,6 +742,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
+
             faceIt = global_faces.find(currentToken.value);
             if(faceIt == global_faces.end())
             {
@@ -735,7 +758,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
             else
             {
-                cout << "Error: The face " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been created."  << endl;
+                cout << "Error: The face " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been defined."  << endl;
                 return 1;
             }
 
@@ -807,7 +830,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 else
                 {
-                    cout << "Error: Incorrect surface name in face generator on line " + to_string(currentToken.lineNumber) + ". The surface " + color_name + " has never been created." << endl;
+                    cout << "Error: Incorrect surface name in face generator on line " + to_string(currentToken.lineNumber) + ". The surface " + color_name + " has never been defined." << endl;
                     return 1;
                 }
                 if(foundColor)
@@ -836,9 +859,16 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
 
             lineIt = polylines.find(currentToken.value);
 
@@ -885,14 +915,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
             }
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The polyline at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -916,9 +946,16 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
 
             newTunnel.name = currentToken.value;
 
@@ -928,18 +965,18 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             if(strcmp(currentToken.value,  "(") != 0){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -949,7 +986,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The tunnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
             }
@@ -991,6 +1028,21 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 return 1;
             }
 
+            newFunnel.name = (currentToken.value);
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
+
+            currentToken = tokens.dequeue();
+            if(currentToken.lineNumber == -1){
+                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                return 1;
+            }
+
             string funnel_expression;
             bool expression_input = false;
             bool inExpression = false;
@@ -1012,7 +1064,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
             }
@@ -1054,18 +1106,25 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The group at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             newGroup.setName(currentToken.value);
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The group at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
 
             groups[newGroup.name] = newGroup;
             currentGroup = newGroup.name;
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The funnel at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The group at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -1085,15 +1144,22 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
                 instanceName = currentToken.value;
 
+                if(isReserved(reservedWords, currentToken.value) == 1){
+                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                    return 1;
+                }
+
+                reservedWords.push_back(currentToken.value);
+
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
@@ -1124,7 +1190,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         else
                         {
-                            cout << "Error: The object " + className + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
+                            cout << "Error: The instance " + className + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
                             return 1;
                         }
                     }
@@ -1132,7 +1198,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
@@ -1150,19 +1216,19 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
                         if(strcmp(currentToken.value,  "(") != 0)
                         {
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
@@ -1172,7 +1238,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                             currentToken = tokens.dequeue();
                             if(currentToken.lineNumber == -1){
-                                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                                 return 1;
                             }
                             xyz.push_back(' ');
@@ -1180,7 +1246,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
@@ -1188,13 +1254,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         if(strcmp(currentToken.value,  "(") != 0)
                         {
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
@@ -1204,7 +1270,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                             currentToken = tokens.dequeue();
                             if(currentToken.lineNumber == -1){
-                                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                                 return 1;
                             }
                             angle.push_back(' ');
@@ -1226,19 +1292,19 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
                         if(strcmp(currentToken.value,  "(") != 0)
                         {
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
@@ -1247,7 +1313,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                             currentToken = tokens.dequeue();
                             if(currentToken.lineNumber == -1){
-                                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                                 return 1;
                             }
                             xyz.push_back(' ');
@@ -1272,13 +1338,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         if(strcmp(currentToken.value,  "(") != 0)
                         {
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
@@ -1287,7 +1353,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                             currentToken = tokens.dequeue();
                             if(currentToken.lineNumber == -1){
-                                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                                 return 1;
                             }
                             xyzw.push_back(' ');
@@ -1302,7 +1368,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
 
@@ -1315,7 +1381,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         else
                         {
-                            cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
+                            cout << "Error: The instance " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
                             return 1;
                         }
 
@@ -1327,7 +1393,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
                 }
@@ -1371,7 +1437,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
@@ -1398,15 +1464,22 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             instanceName = currentToken.value;
 
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
+
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -1438,7 +1511,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     else
                     {
-                        cout << "Error: The object " + className + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
+                        cout << "Error: The instance " + className + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
                         return 1;
                     }
                 }
@@ -1448,7 +1521,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -1468,19 +1541,19 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
                     if(strcmp(currentToken.value,  "(") != 0)
                     {
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1490,7 +1563,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
                         xyz.push_back(' ');
@@ -1498,13 +1571,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     if(strcmp(currentToken.value,  "(") != 0)
                     {
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1513,7 +1586,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
                         angle.push_back(' ');
@@ -1535,19 +1608,19 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
                     if(strcmp(currentToken.value,  "(") != 0)
                     {
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1556,7 +1629,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
                         xyz.push_back(' ');
@@ -1581,13 +1654,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     if(strcmp(currentToken.value,  "(") != 0)
                     {
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1596,7 +1669,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         currentToken = tokens.dequeue();
                         if(currentToken.lineNumber == -1){
-                            cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                            cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                             return 1;
                         }
                         xyzw.push_back(' ');
@@ -1611,7 +1684,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The instance at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1624,7 +1697,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     else
                     {
-                        cout << "Error: The surface " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
+                        cout << "Error: The instance " + color_name + " at line " + to_string(currentToken.lineNumber) + " has never been created."  << endl;
                         return 1;
                     }
 
@@ -1687,30 +1760,37 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             newMesh.name = currentToken.value;
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
 
             string faceInside = "";
             bool addingFace = false;
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             if(strcmp(currentToken.value,  "(") != 0)
             {
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -1767,7 +1847,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
             }
@@ -1778,13 +1858,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
             else
             {
-                cout << "Error: The mesh " + newMesh.name + " at line " + to_string(currentToken.lineNumber) + " has already been created."  << endl;
+                cout << "Error: The object " + newMesh.name + " at line " + to_string(currentToken.lineNumber) + " has already been created."  << endl;
                 return 1;
             }
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The object at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -1794,22 +1874,26 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
 
             currentToken = tokens.dequeue();
-            if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
-                return 1;
-            }
+
 
         }
         else if(strcmp("mesh", currentToken.value) == 0){
             Mesh newMesh(0);
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
             newMesh.name = currentToken.value;
             newMesh.setGlobalParameter(&params);
+
+            if(isReserved(reservedWords, currentToken.value) == 1){
+                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " has already been defined."  << endl;
+                return 1;
+            }
+
+            reservedWords.push_back(currentToken.value);
 
             if(meshes.find(newMesh.name) == meshes.end())
             {
@@ -1824,7 +1908,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
             currentToken = tokens.dequeue();
             if(currentToken.lineNumber == -1){
-                cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                 return 1;
             }
 
@@ -1833,7 +1917,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The point at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
@@ -1846,7 +1930,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 else
                 {
-                    cout << "Error: The face " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been created."  << endl;
+                    cout << "Error: The mesh " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " has already been created."  << endl;
                     return 1;
                 }
 
@@ -1857,18 +1941,18 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
                 if(strcmp(currentToken.value,  "(") != 0){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
@@ -1885,7 +1969,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1897,6 +1981,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 for(Vertex * vs : vertices)
                 {
                     foundVertex = false;
+
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
                         if(v -> source_vertex == vs)
@@ -1929,11 +2014,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 currentToken = tokens.dequeue();
                 if(currentToken.lineNumber == -1){
-                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                    cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                     return 1;
                 }
 
-                if(strcmp(currentToken.value,  "surface") != 0)
+
+                if(strcmp(currentToken.value,  "surface") == 0)
                 {
                     string color_name = "";
                     QColor color;
@@ -1941,7 +2027,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                     currentToken = tokens.dequeue();
                     if(currentToken.lineNumber == -1){
-                        cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
                         return 1;
                     }
 
@@ -1966,12 +2052,32 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
                                 -> user_defined_color = true;
                     }
+
+                    currentToken = tokens.dequeue();
+                    if(currentToken.lineNumber == -1){
+                        cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " does not have the correct format."  << endl;
+                        return 1;
+                    }
                 }
+                if(strcmp(currentToken.value,  "endface") != 0){
+                    cout << "Error: The face at line " + to_string(currentToken.lineNumber) + " is missing endface."  << endl;
+                    return 1;
+                }
+
                 delete newFace;
+
+                currentToken = tokens.dequeue();
             }
+
+            if(strcmp(currentToken.value,  "endmesh") != 0){
+                cout << "Error: The mesh at line " + to_string(currentToken.lineNumber) + " is missing endmesh."  << endl;
+                return 1;
+            }
+            currentToken = tokens.dequeue();
         }
         else{
-            cout << currentToken.value;
+            cout << "Error: The method " << currentToken.value << " at line " << to_string(currentToken.lineNumber) << " is not defined."  << endl;
+            return 1;
             currentToken = tokens.dequeue();
         }
 
@@ -1979,7 +2085,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
 
 
-    while(std::getline(file, nextLine))
+    /*while(std::getline(file, nextLine))
     {
 
         istringstream iss(nextLine);
@@ -1993,7 +2099,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             if(testComments(*tIt))
             {
                 break;
-            }
+            }*/
             /*else if(createBank){
                 if((*tIt) == "endbank")
                 {
@@ -3428,23 +3534,15 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 current_mesh_name = "";
             }*/
-            else{
+            /*else{
                 //cout<< "Error: Method " + *tIt + " at line " + to_string(lineNumber) + " is not defined." << endl;
                 //return 1;
             }
         }
         newLineEnd:
         lineNumber++;
-    }
-    group.mapFromParameters();
-
-    /*for ( auto it = meshes.begin(); it != meshes.end(); ++it ){
-        cout << (*it).first << endl;
-        cout << (*it).second.name << endl;
-        cout << "JJJJ" << endl;
     }*/
-
-    //cout << "HIIII" << endl;
+    group.mapFromParameters();
 }
 
 void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
@@ -3453,6 +3551,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                                         Group &group,
                                         string input)
 {
+    //cout << global_faces << endl;
     //cout << "HI" << endl;
     //cout << postProcessingLines << endl;
     /*for(int i : postProcessingLines){
@@ -3754,6 +3853,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     foundVertex = false;
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
+                        cout << "HI" << endl;
                         //cout << v->ID << endl;
                         if(v -> source_vertex == vs)
                         {
@@ -3777,6 +3877,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         newVertex -> influencingParams = vs -> influencingParams;
                         newVertex -> params = vs -> params;
                         meshes[current_mesh_name].addVertex(newVertex);
+
                         mappedVertices.push_back(newVertex);
                     }
                 }
