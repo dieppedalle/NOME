@@ -131,7 +131,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &colorlines,
                               vector<string> &banklines,
                               vector<string> &geometrylines,
-                              vector<int> &postProcessingLines)
+                              vector<int> &postProcessingLines,
+                              vector<string> &postProcessingLinesString)
 {
     banks.clear();
     group.clear();
@@ -884,6 +885,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if((*tIt) == "face" && deletePhase)
             {
                 postProcessingLines.push_back(lineNumber);
+                postProcessingLinesString.push_back(nextLine);
                 /* Hmm, this is weird, I did not do anything here!
                    Except putting the delte into postProcessingLines.
                 */
@@ -899,6 +901,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 else if(current_mesh_name == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
+                    postProcessingLinesString.push_back(nextLine);
                     goto newLineEnd;
                 }
                 geometrylines.push_back(nextLine);
@@ -1306,6 +1309,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 if(className == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
+                    postProcessingLinesString.push_back(nextLine);
                     goto newLineEnd;
                 }
                 else
@@ -1626,12 +1630,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if(*tIt == "delete")
             {
                 postProcessingLines.push_back(lineNumber);
+                postProcessingLinesString.push_back(nextLine);
                 deletePhase = true;
                 goto newLineEnd;
             }
             else if(*tIt == "enddelete")
             {
                 postProcessingLines.push_back(lineNumber);
+                postProcessingLinesString.push_back(nextLine);
                 deletePhase = false;
                 goto newLineEnd;
             }
@@ -1645,6 +1651,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         if(*tIt == "consolidatedmesh")
                         {
                             postProcessingLines.push_back(lineNumber);
+                            postProcessingLinesString.push_back(nextLine);
                             current_mesh_name = "consolidatedmesh";
                             goto newLineEnd;
                         }
@@ -1687,6 +1694,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 if(current_mesh_name == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
+                    postProcessingLinesString.push_back(nextLine);
                 }
                 else
                 {
@@ -1717,7 +1725,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                                         vector<int> &postProcessingLines,
                                         SlideGLWidget *canvas,
                                         Group &group,
-                                        string input)
+                                        string input, vector<string> &postProcessingLinesString)
 {
     //cout << "HI" << endl;
     //cout << postProcessingLines << endl;
@@ -1844,6 +1852,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 if((++tIt) < tokens.end()) {
                     if(!testComments(*tIt))
                     {
+
                         if(*tIt != "consolidatedmesh")
                         {
                             cout<<"Error: there is a bug in the program. Check!"<<endl;
@@ -1919,6 +1928,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     cout<<"Error: there is a bug in the program. Check!"<<endl;
                     goto newLineEnd;
                 }
+
                 //cout << "HI" << endl;
                 Face * newFace = new Face;
                 if((++tIt) < tokens.end()) {
@@ -2111,16 +2121,18 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 {
                     if(!testComments(*tIt))
                     {
-                        //className = *tIt;
-                        cout << className << endl;
+                        className = *tIt;
+                        //cout << className << endl;
                     }
                 }
                 else
                 {
                     cout<<warning(6, lineNumber)<<endl;
                 }
+
                 if(className != "consolidatedmesh")
                 {
+                    //cout << "HELLO" << endl;
                     cout<<"Error: there is a bug in the program. Check!"<<endl;
                     goto newLineEnd;
                 }
@@ -2356,6 +2368,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
     newLineEnd:
     lineNumber++;
     }
+
     canvas -> set_to_editing_mode(true);
     canvas -> updateFromSavedMesh();
 }
