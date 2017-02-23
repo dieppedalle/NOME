@@ -42,13 +42,14 @@ face c3   (AYZ AYC ABC ABZ ) endface
 face c4   (ABZ ABC XBC XBZ ) endface
 
 face c5   (XYZ1 XYC AYC AYZ1) surface U endface
+face c6   (ABC AYC AYZ1) surface U endface
 
 face c11   (XYZ2 XBZ2 XBC2 XYC2 ) surface G endface
 face c21   (XYZ2 XYC2 AYC2 AYZ2 ) surface U endface
 face c31   (AYZ2 AYC2 ABC2 ABZ2 ) endface
 face c41   (ABZ2 ABC2 XBC2 XBZ2 ) endface
 
-object cube (c1 c2 c3 c4 c5) endobject
+object cube (c1 c2 c3 c4 c5 c6) endobject
 
 object circle (c11 c21 c31 c41) endobject
 

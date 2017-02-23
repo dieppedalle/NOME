@@ -320,7 +320,6 @@ void MainWindow::save_current_status_nome(string out_put_file)
         for(string& line : postProcessingLinesString)
         {
             file<< line <<'\n';
-            cout << line << endl;
         }
     }
 
