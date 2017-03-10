@@ -32,14 +32,14 @@ bank cubeP
     set     l       1       0.5       1.5     0.1
 endbank
 
-point XYZ  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr $cubeP_l} ) endpoint
-point XYC  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
-point XBZ  ( {expr $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) endpoint
-point XBC  ( {expr $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
-point AYZ  ( {expr -1.0 * $cubeP_l}  {expr $cubeP_l}  {expr $cubeP_l} ) endpoint
-point AYC  ( {expr -1.0 * $cubeP_l}  {expr $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
-point ABZ  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) endpoint
-point ABC  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
+point XYZ  ( {expr $cubeP.l}  {expr $cubeP.l}  {expr $cubeP.l} ) endpoint
+point XYC  ( {expr $cubeP.l}  {expr $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
+point XBZ  ( {expr $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr $cubeP.l} ) endpoint
+point XBC  ( {expr $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
+point AYZ  ( {expr -1.0 * $cubeP.l}  {expr $cubeP.l}  {expr $cubeP.l} ) endpoint
+point AYC  ( {expr -1.0 * $cubeP.l}  {expr $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
+point ABZ  ( {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr $cubeP.l} ) endpoint
+point ABC  ( {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
 
 
 face c1   (XYZ XBZ XBC XYC ) endface

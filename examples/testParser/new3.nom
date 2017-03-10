@@ -1,0 +1,207 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface        # Blue
+surface M color (1 0 1) endsurface        # Magenta
+surface W color (1 1 1) endsurface        # White
+
+bank p1
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		8		4		12		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p2
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		6		2		10		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p3
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		4		0		8		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p4
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		2		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p5
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		0		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p6
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		-2		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p7
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		-4		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p8
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		-6		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p9
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		-8		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+point ooo  ( 0 0 0 ) endpoint
+point xoo  ( 1 0 0 ) endpoint
+point oyo  ( 0 1 0 ) endpoint
+point ooz  ( 0 0 1 ) endpoint
+ polyline xaxis  (ooo xoo ) endpolyline
+ polyline yaxis  (ooo oyo ) endpolyline
+ polyline zaxis  (ooo ooz ) endpolyline
+group coord_axes
+   instance xa xaxis  surface R  endinstance
+   instance ya yaxis  surface B  endinstance
+   instance za zaxis  surface G  endinstance
+endgroup
+instance axes coord_axes  scale (1.5 1.5 1.5 )  endinstance
+  point iyz  ( 0  1  1 ) endpoint
+  point ibz  ( 0 -1  1 ) endpoint
+  point ibc  ( 0 -1 -1 ) endpoint
+  point iyc  ( 0  1 -1 ) endpoint
+  point oyz  ( 0  2  2 ) endpoint
+  point obz  ( 0 -2  2 ) endpoint
+  point obc  ( 0 -2 -2 ) endpoint
+  point oyc  ( 0  2 -2 ) endpoint
+  polyline pL  (iyz ibz ibc iyc  oyc oyz obz obc ) endpolyline
+  instance pL0 pL  scale ( {expr $p1_scl} {expr $p1_scl} {expr $p1_scl} )  translate (1 0 0)    rotate (1 0 0)({expr $p1_rx})  rotate (0 1 0)({expr $p1_ry})  rotate (0 0 1)({expr $p1_rz})   translate ({expr $p1_tx} {expr $p1_ty} {expr $p1_tz} )    endinstance 
+  instance pL1 pL  scale ( {expr $p1_scl} {expr $p1_scl} {expr $p1_scl} )   rotate (1 0 0)({expr $p1_rx})  rotate (0 1 0)({expr $p1_ry})  rotate (0 0 1)({expr $p1_rz})    translate ({expr $p1_tx} {expr $p1_ty} {expr $p1_tz} )    endinstance 
+  instance pL2 pL  scale ( {expr $p2_scl} {expr $p2_scl} {expr $p2_scl} )   rotate (1 0 0)({expr $p2_rx})  rotate (0 1 0)({expr $p2_ry})  rotate (0 0 1)({expr $p2_rz})    translate ({expr $p2_tx} {expr $p2_ty} {expr $p2_tz} )    endinstance 
+  instance pL3 pL  scale ( {expr $p3_scl} {expr $p3_scl} {expr $p3_scl} )   rotate (1 0 0)({expr $p3_rx})  rotate (0 1 0)({expr $p3_ry})  rotate (0 0 1)({expr $p3_rz})    translate ({expr $p3_tx} {expr $p3_ty} {expr $p3_tz} )    endinstance 
+  instance pL4 pL  scale ( {expr $p4_scl} {expr $p4_scl} {expr $p4_scl} )   rotate (1 0 0)({expr $p4_rx})  rotate (0 1 0)({expr $p4_ry})  rotate (0 0 1)({expr $p4_rz})    translate ({expr $p4_tx} {expr $p4_ty} {expr $p4_tz} )    endinstance 
+  instance pL5 pL  scale ( {expr $p5_scl} {expr $p5_scl} {expr $p5_scl} )   rotate (1 0 0)({expr $p5_rx})  rotate (0 1 0)({expr $p5_ry})  rotate (0 0 1)({expr $p5_rz})    translate ({expr $p5_tx} {expr $p5_ty} {expr $p5_tz} )    endinstance 
+  instance pL6 pL  scale ( {expr $p6_scl} {expr $p6_scl} {expr $p6_scl} )   rotate (1 0 0)({expr $p6_rx})  rotate (0 1 0)({expr $p6_ry})  rotate (0 0 1)({expr $p6_rz})    translate ({expr $p6_tx} {expr $p6_ty} {expr $p6_tz} )    endinstance 
+  instance pL7 pL  scale ( {expr $p7_scl} {expr $p7_scl} {expr $p7_scl} )   rotate (1 0 0)({expr $p7_rx})  rotate (0 1 0)({expr $p7_ry})  rotate (0 0 1)({expr $p7_rz})    translate ({expr $p7_tx} {expr $p7_ty} {expr $p7_tz} )    endinstance 
+  instance pL8 pL  scale ( {expr $p8_scl} {expr $p8_scl} {expr $p8_scl} )   rotate (1 0 0)({expr $p8_rx})  rotate (0 1 0)({expr $p8_ry})  rotate (0 0 1)({expr $p8_rz})    translate ({expr $p8_tx} {expr $p8_ty} {expr $p8_tz} )    endinstance 
+  instance pL9 pL  scale ( {expr $p9_scl} {expr $p9_scl} {expr $p9_scl} )   rotate (1 0 0)({expr $p9_rx})  rotate (0 1 0)({expr $p9_ry})  rotate (0 0 1)({expr $p9_rz})    translate ({expr $p9_tx} {expr $p9_ty} {expr $p9_tz} )    endinstance 
+  instance pLX pL  scale ( {expr $p9_scl} {expr $p9_scl} {expr $p9_scl} )  translate (-1 0 0)   rotate (1 0 0)({expr $p9_rx})  rotate (0 1 0)({expr $p9_ry})  rotate (0 0 1)({expr $p9_rz})    translate ({expr $p9_tx} {expr $p9_ty} {expr $p9_tz} )    endinstance 
+
+mesh consolidatedmesh
+    face consolidatedface1 (_pL1_iyc _pL1_ibc _pL1_ibz _pL1_iyz )   surface O  endface
+    face consolidatedface2 (_pL2_iyz _pL2_ibz _pL2_ibc _pL2_iyc )   surface O  endface
+    face consolidatedface3 (_pL3_iyc _pL3_ibc _pL3_ibz _pL3_iyz )   surface O  endface
+    face consolidatedface4 (_pL4_iyz _pL4_ibz _pL4_ibc _pL4_iyc )   surface O  endface
+    face consolidatedface5 (_pL5_iyc _pL5_ibc _pL5_ibz _pL5_iyz )   surface O  endface
+    face consolidatedface6 (_pL6_iyz _pL6_ibz _pL6_ibc _pL6_iyc )   surface O  endface
+    face consolidatedface7 (_pL7_iyc _pL7_ibc _pL7_ibz _pL7_iyz )   surface O  endface
+    face consolidatedface8 (_pL8_iyz _pL8_ibz _pL8_ibc _pL8_iyc )   surface O  endface
+    face consolidatedface9 (_pL9_iyc _pL9_ibc _pL9_ibz _pL9_iyz )   surface O  endface
+
+    face consolidatedface12 (_pL2_iyc _pL2_ibc _pL1_ibc _pL1_iyc )   surface C  endface
+    face consolidatedface21 (_pL2_ibz _pL2_iyz _pL1_iyz _pL1_ibz )   surface C  endface
+    face consolidatedface34 (_pL4_iyc _pL4_ibc _pL3_ibc _pL3_iyc )   surface C  endface
+    face consolidatedface43 (_pL4_ibz _pL4_iyz _pL3_iyz _pL3_ibz )   surface C  endface
+    face consolidatedface56 (_pL6_iyc _pL6_ibc _pL5_ibc _pL5_iyc )   surface C  endface
+    face consolidatedface65 (_pL6_ibz _pL6_iyz _pL5_iyz _pL5_ibz )   surface C  endface
+    face consolidatedface78 (_pL8_iyc _pL8_ibc _pL7_ibc _pL7_iyc )   surface C  endface
+    face consolidatedface87 (_pL8_ibz _pL8_iyz _pL7_iyz _pL7_ibz )   surface C  endface
+
+    face consolidatedface23 (_pL2_ibc _pL2_ibz _pL3_ibz _pL3_ibc )   surface U  endface
+    face consolidatedface32 (_pL2_iyz _pL2_iyc _pL3_iyc _pL3_iyz )   surface U  endface
+    face consolidatedface45 (_pL4_ibc _pL4_ibz _pL5_ibz _pL5_ibc )   surface U  endface
+    face consolidatedface54 (_pL4_iyz _pL4_iyc _pL5_iyc _pL5_iyz )   surface U  endface
+    face consolidatedface67 (_pL6_ibc _pL6_ibz _pL7_ibz _pL7_ibc )   surface U  endface
+    face consolidatedface76 (_pL6_iyz _pL6_iyc _pL7_iyc _pL7_iyz )   surface U  endface
+    face consolidatedface89 (_pL8_ibc _pL8_ibz _pL9_ibz _pL9_ibc )   surface U  endface
+    face consolidatedface98 (_pL8_iyz _pL8_iyc _pL9_iyc _pL9_iyz )   surface U  endface
+
+    face consolidatedface01a (_pL0_oyz _pL0_oyc _pL1_iyc _pL1_iyz )   surface L  endface
+    face consolidatedface01b (_pL0_obc _pL0_obz _pL1_ibz _pL1_ibc )   surface L  endface
+
+    face consolidatedface12a (_pL0_oyz _pL1_iyz _pL2_iyz _pL2_oyz )   surface L  endface
+    face consolidatedface12b (_pL1_iyc _pL0_oyc _pL2_oyc _pL2_iyc )   surface L  endface
+    face consolidatedface12c (_pL1_ibz _pL0_obz _pL2_obz _pL2_ibz )   surface L  endface
+    face consolidatedface12d (_pL0_obc _pL1_ibc _pL2_ibc _pL2_obc )   surface L  endface
+
+    face consolidatedface23a (_pL2_oyz _pL2_iyz _pL3_iyz _pL3_oyz )   surface L  endface
+    face consolidatedface23b (_pL2_iyc _pL2_oyc _pL3_oyc _pL3_iyc )   surface L  endface
+    face consolidatedface23c (_pL2_ibz _pL2_obz _pL3_obz _pL3_ibz )   surface L  endface
+    face consolidatedface23d (_pL2_obc _pL2_ibc _pL3_ibc _pL3_obc )   surface L  endface
+
+    face consolidatedface34a (_pL3_oyz _pL3_iyz _pL4_iyz _pL4_oyz )   surface L  endface
+    face consolidatedface34b (_pL3_iyc _pL3_oyc _pL4_oyc _pL4_iyc )   surface L  endface
+    face consolidatedface34c (_pL3_ibz _pL3_obz _pL4_obz _pL4_ibz )   surface L  endface
+    face consolidatedface34d (_pL3_obc _pL3_ibc _pL4_ibc _pL4_obc )   surface L  endface
+
+    face consolidatedface45a (_pL4_oyz _pL4_iyz _pL5_iyz _pL5_oyz )   surface L  endface
+    face consolidatedface45b (_pL4_iyc _pL4_oyc _pL5_oyc _pL5_iyc )   surface L  endface
+    face consolidatedface45c (_pL4_ibz _pL4_obz _pL5_obz _pL5_ibz )   surface L  endface
+    face consolidatedface45d (_pL4_obc _pL4_ibc _pL5_ibc _pL5_obc )   surface L  endface
+
+    face consolidatedface56a (_pL5_oyz _pL5_iyz _pL6_iyz _pL6_oyz )   surface L  endface
+    face consolidatedface56b (_pL5_iyc _pL5_oyc _pL6_oyc _pL6_iyc )   surface L  endface
+    face consolidatedface56c (_pL5_ibz _pL5_obz _pL6_obz _pL6_ibz )   surface L  endface
+    face consolidatedface56d (_pL5_obc _pL5_ibc _pL6_ibc _pL6_obc )   surface L  endface
+
+    face consolidatedface67a (_pL6_oyz _pL6_iyz _pL7_iyz _pL7_oyz )   surface L  endface
+    face consolidatedface67b (_pL6_iyc _pL6_oyc _pL7_oyc _pL7_iyc )   surface L  endface
+    face consolidatedface67c (_pL6_ibz _pL6_obz _pL7_obz _pL7_ibz )   surface L  endface
+    face consolidatedface67d (_pL6_obc _pL6_ibc _pL7_ibc _pL7_obc )   surface L  endface
+
+    face consolidatedface78a (_pL7_oyz _pL7_iyz _pL8_iyz _pL8_oyz )   surface L  endface
+    face consolidatedface78b (_pL7_iyc _pL7_oyc _pL8_oyc _pL8_iyc )   surface L  endface
+    face consolidatedface78c (_pL7_ibz _pL7_obz _pL8_obz _pL8_ibz )   surface L  endface
+    face consolidatedface78d (_pL7_obc _pL7_ibc _pL8_ibc _pL8_obc )   surface L  endface
+
+    face consolidatedface89a (_pL8_oyz _pL8_iyz _pL9_iyz _pLX_oyz )   surface L  endface
+    face consolidatedface89b (_pL8_iyc _pL8_oyc _pLX_oyc _pL9_iyc )   surface L  endface
+    face consolidatedface89c (_pL8_ibz _pL8_obz _pLX_obz _pL9_ibz )   surface L  endface
+    face consolidatedface89d (_pL8_obc _pL8_ibc _pL9_ibc _pLX_obc )   surface L  endface
+
+    face consolidatedface9Xa (_pL9_ibc _pL9_iyc _pLX_oyc _pLX_obc )   surface L  endface
+    face consolidatedface9Xb (_pL9_iyz _pL9_ibz _pLX_obz _pLX_oyz )   surface L  endface
+
+endmesh
+instance cm1 consolidatedmesh endinstance
+
+

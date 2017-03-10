@@ -9,7 +9,7 @@ surface C color (0 1 1) endsurface          # Cyan
 surface U color (0 0.5 1) endsurface        # Uniform
 surface B color (0 0 1) endsurface          # Blue
 
-##### The Parameter Banks ##### 
+##### The Parameter Banks #####
 bank outerFrontFunnelBank
     set     ro      1       0.8     1.3     0.1
     set     ratio   0.1    -0.5     0.5     0.1
@@ -108,7 +108,7 @@ funnel frontFunnel (8 {expr $frontFunnelBank_ro} {expr $frontFunnelBank_ratio} {
 
 tunnel frontBottomTunnel (8 {expr $frontBottomTunnelBank_ro} {expr $frontBottomTunnelBank_ratio} {expr $frontBottomTunnelBank_h}) endtunnel
 
-funnel backBottomFunnel (8 {expr $backBottomFunnelBank_ro} {expr $backBottomFunnelBank_ratio} {expr $backBottomFunnelBank_h}) endtunnel
+funnel backBottomFunnel (8 {expr $backBottomFunnelBank_ro} {expr $backBottomFunnelBank_ratio} {expr $backBottomFunnelBank_h}) endfunnel
 
 funnel backTopFunnel (8 {expr $backTopFunnelBank_ro} {expr $backTopFunnelBank_ratio} {expr $backTopFunnelBank_h}) endtunnel
 

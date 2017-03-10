@@ -220,7 +220,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
 
                             newParameter.name = banks[banks.size() - 1].name
-                                    + QString::fromStdString("_" + nextToken);
+                                    + QString::fromStdString("." + nextToken);
                             name = nextToken;
                             break;
                         case 1:
@@ -309,7 +309,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     pIt = params.find(newParameter.name.toStdString());
                     if(pIt == params.end())
                     {
-                        params[banks[banks.size() - 1].name.toStdString() + "_" + name]
+                        params[banks[banks.size() - 1].name.toStdString() + "." + name]
                                 = newParameter;
                     }
                     else
@@ -320,7 +320,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         goto newLineEnd;
                     }
                     banks[banks.size() - 1].addParameter(
-                                &params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
+                                &params[banks[banks.size() - 1].name.toStdString() + "." + name]);
 
 
                     if((tIt != tokens.end() - 1) && !testComments(*(tIt+1))) {
@@ -816,7 +816,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     if(vertInside != "")
                     {
                         //99999
-                        /*banks[banks.size() - 1].name + QString::fromStdString("_" + nextToken)
+                        /*banks[banks.size() - 1].name + QString::fromStdString("." + nextToken)
                         for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it )
                           {
                             cout << " " << it->first << ":" << it->second;

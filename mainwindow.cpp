@@ -297,7 +297,7 @@ void MainWindow::save_current_status_nome(string out_put_file)
                 {
                     if(i == 2)
                     {
-                        file << params[bankname + "_" + tokens[1]].value;
+                        file << params[bankname + "." + tokens[1]].value;
                     }
                     else
                     {
