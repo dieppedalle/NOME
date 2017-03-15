@@ -23,13 +23,42 @@ point AYC  ( {expr -1.0 * $cubeP_l}  {expr $cubeP_l}  {expr -1.0 * $cubeP_l} ) e
 point ABZ  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr $cubeP_l} ) endpoint
 point ABC  ( {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l}  {expr -1.0 * $cubeP_l} ) endpoint
 
+
+point XYZ2  ( 1.5 1.5 1.5 ) endpoint
+point XYC2  ( 1.5 1.5 -1.5 ) endpoint
+point XBZ2  ( 1.5  -1.5 1.5 ) endpoint
+point XBC2  ( 1.5  -1.5  -1.5 ) endpoint
+point AYZ2  ( -1.5  1.5 1.5 ) endpoint
+point AYC2  ( -1.5  1.5  -1.5 ) endpoint
+point ABZ2  ( -1.5  -1.5  1.5 ) endpoint
+point ABC2  ( -1.5  -1.5  -1.5 ) endpoint
+
+point XYZ1  ( {expr $cubeP_l}  {expr $cubeP_l}  {expr -4 + $cubeP_l} ) endpoint
+point AYZ1  ( {expr -1.0 * $cubeP_l}  {expr $cubeP_l}  {expr -4 + $cubeP_l} ) endpoint
+
 face c1   (XYZ XBZ XBC XYC ) surface G endface
 face c2   (XYZ XYC AYC AYZ ) surface U endface
 face c3   (AYZ AYC ABC ABZ ) endface
 face c4   (ABZ ABC XBC XBZ ) endface
-face c5   (XYZ AYZ ABZ XBZ ) endface
-face c6   (XYC XBC ABC AYC ) endface
+
+face c5   (XYZ1 XYC AYC AYZ1) surface U endface
+face c6   (ABC AYC AYZ1) surface U endface
+
+face c11   (XYZ2 XBZ2 XBC2 XYC2 ) surface G endface
+face c21   (XYZ2 XYC2 AYC2 AYZ2 ) surface U endface
+face c31   (AYZ2 AYC2 ABC2 ABZ2 ) endface
+face c41   (ABZ2 ABC2 XBC2 XBZ2 ) endface
 
 object cube (c1 c2 c3 c4 c5 c6) endobject
 
+object circle (c11 c21 c31 c41) endobject
+
 instance cube1 cube surface B endinstance
+
+instance cube2 cube translate (0 4 0) surface B endinstance
+
+instance cube3 cube translate (0 0 5) surface B  endinstance
+
+instance cube4 cube translate (0 4 5) surface B endinstance
+
+instance cube5 circle translate (0 0 8) surface B endinstance

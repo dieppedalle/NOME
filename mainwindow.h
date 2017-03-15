@@ -51,6 +51,7 @@ private:
     vector<string> banklines;
     vector<string> geometrylines;
     vector<int> postProcessingLines;
+    vector<string> postProcessingLinesString;
 private slots:
     void open();
     void save();

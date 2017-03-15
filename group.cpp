@@ -139,30 +139,30 @@ void Group::updateGroupElementName()
         {
             if(this -> parent != NULL)
             {
-                (*mIt).name = this->name + "_" + (*mIt).name;
+                (*mIt).name = this->name + "." + (*mIt).name;
             }
             for(Vertex*& v : (*mIt).vertList)
             {
-                v -> name = (*mIt).name + "_" + v -> name;
+                v -> name = (*mIt).name + "." + v -> name;
             }
             for(Face*& f : (*mIt).faceList)
             {
                 if(f -> name == "")
                 {
-                    f -> name = (*mIt).name + "_" + to_string(f -> id);
+                    f -> name = (*mIt).name + "." + to_string(f -> id);
                 }
                 else
                 {
-                    f -> name = (*mIt).name + "_" + f -> name;
+                    f -> name = (*mIt).name + "." + f -> name;
                 }
             }
         }
         for(pIt = myPolylines.begin(); pIt < myPolylines.end(); pIt++)
         {
-            (*pIt).name = this -> name + "_" + (*pIt).name;
+            (*pIt).name = this -> name + "." + (*pIt).name;
             for(Vertex*& v: (*pIt).vertices)
             {
-                v -> name = (*pIt).name + "_" + v -> name;
+                v -> name = (*pIt).name + "." + v -> name;
             }
         }
     }

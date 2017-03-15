@@ -131,9 +131,9 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &colorlines,
                               vector<string> &banklines,
                               vector<string> &geometrylines,
-                              vector<int> &postProcessingLines)
+                              vector<int> &postProcessingLines,
+                              vector<string> &postProcessingLinesString)
 {
-
     banks.clear();
     group.clear();
     ifstream file(input);
@@ -170,8 +170,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
     while(std::getline(file, nextLine))
     {
-        //std::cout << nextLine << '\n';
-        //std::cout << "Hello" << '\n';
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -222,7 +220,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
 
                             newParameter.name = banks[banks.size() - 1].name
-                                    + QString::fromStdString("_" + nextToken);
+                                    + QString::fromStdString("." + nextToken);
                             name = nextToken;
                             break;
                         case 1:
@@ -311,7 +309,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     pIt = params.find(newParameter.name.toStdString());
                     if(pIt == params.end())
                     {
-                        params[banks[banks.size() - 1].name.toStdString() + "_" + name]
+                        params[banks[banks.size() - 1].name.toStdString() + "." + name]
                                 = newParameter;
                     }
                     else
@@ -322,7 +320,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         goto newLineEnd;
                     }
                     banks[banks.size() - 1].addParameter(
-                                &params[banks[banks.size() - 1].name.toStdString() + "_" + name]);
+                                &params[banks[banks.size() - 1].name.toStdString() + "." + name]);
 
 
                     if((tIt != tokens.end() - 1) && !testComments(*(tIt+1))) {
@@ -510,6 +508,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout<<warning(3, lineNumber)<<endl;
                 }
 
+
                 //newFunnel.computeNormals();
             }
             else if((*tIt) == "tunnel")
@@ -558,10 +557,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 newTunnel.setTunnelParameterValues(tunnel_expression, lineNumber);
                 newTunnel.makeTunnel();
                 //*************
-                cout << newTunnel.vertList.size() << endl;
+                /*cout << newTunnel.vertList.size() << endl;
                 for (int i=0; i <newTunnel.vertList.size(); i++){
                     cout << newTunnel.vertList[i] << endl;
-                }
+                }*/
                 //*************
                 if(meshes.find(newTunnel.name) == meshes.end())
                 {
@@ -749,7 +748,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
             else if((*tIt) == "face" && (!deletePhase) && (!constructingMesh))
             {
-
                 geometrylines.push_back(nextLine);
                 Face * newFace = new Face;
                 if((++tIt) < tokens.end()) {
@@ -788,18 +786,15 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         else if(c == ')')
                         {
                             addingVert = false;
+                            //cout << "FHHG" << endl;
+                            //cout << vertInside << endl;
                             if(vertInside != "")
                             {
+                                //cout << "GHHGHG" << endl;
                                 vertIt = global_vertices.find(vertInside);
+
                                 if(vertIt == global_vertices.end())
                                 {
-                                    //+++++++++++++++++
-                                    /*vertIt = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
-                                    if(!(canvas -> master_mesh.isEmpty())) /* Dealing with recovery of SIF.
-                                    {
-                                        vertIt = (canvas -> master_mesh.findVertexInThisMesh(vertInside));
-                                    }*/
-                                    //=================
                                     cout << "Error: Incorrect vertex name in face generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                                     return 1;
                                     cout<<warning(21, lineNumber);
@@ -817,8 +812,17 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             vertInside.push_back(c);
                         }
                     }
+
                     if(vertInside != "")
                     {
+                        //99999
+                        /*banks[banks.size() - 1].name + QString::fromStdString("." + nextToken)
+                        for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it )
+                          {
+                            cout << " " << it->first << ":" << it->second;
+                            cout << endl;
+                          }*/
+                        //999999
                         vertIt = global_vertices.find(vertInside);
                         if(vertIt == global_vertices.end())
                         {
@@ -835,6 +839,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 endAddingVertInFace:
                 map_face_vertices[newFace] = vertices;
+
                 if(++tIt < tokens.end() && (*tIt) == "surface")
                 {
                     string color_name = "";
@@ -880,6 +885,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if((*tIt) == "face" && deletePhase)
             {
                 postProcessingLines.push_back(lineNumber);
+                postProcessingLinesString.push_back(nextLine);
                 /* Hmm, this is weird, I did not do anything here!
                    Except putting the delte into postProcessingLines.
                 */
@@ -895,6 +901,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 else if(current_mesh_name == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
+                    postProcessingLinesString.push_back(nextLine);
                     goto newLineEnd;
                 }
                 geometrylines.push_back(nextLine);
@@ -1133,6 +1140,133 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     vertInside = "";
                 }
 
+                //=========================================
+                /*if(*tIt == "surface")
+                {
+                    string color_name;
+                    bool foundColor = false;
+                    QColor color;
+                    if(++tIt < tokens.end())
+                    {
+                        color_name = *tIt;
+                        colorIt = user_defined_colors.find(color_name);
+                        if(colorIt != user_defined_colors.end())
+                        {
+                            color = colorIt -> second;
+                            foundColor = true;
+                        }
+                        else
+                        {
+                            cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
+                            return 1;
+                            cout<<warning(18, lineNumber)<<endl;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Error: The surface " + *tIt + " at line " + to_string(lineNumber) + " is missing a name."  << endl;
+                        return 1;
+                        cout<<warning(18, lineNumber)<<endl;
+                    }
+                    cout << "HELLO" << endl;
+                    newPolyline.setColor(color);
+                    ++tIt;
+                }*/
+                //=========================================
+
+                if((*tIt) != "endpolyline"){
+                    cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
+                }
+
+                polylines[newPolyline.name] = newPolyline;
+
+            }
+            else if((*tIt) == "bspline3")
+            {
+                geometrylines.push_back(nextLine);
+                PolyLine newPolyline;
+                if((++tIt) < tokens.end() && !testComments(*tIt))
+                {
+                    lineIt = polylines.find(*tIt);
+                    if(lineIt == polylines.end())
+                    {
+                        newPolyline.name = *tIt;
+                    }
+                    else
+                    {
+                        cout << "Error: The bspline3 " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                        return 1;
+                        cout<<warning(13, lineNumber)<<endl;
+                    }
+                }
+                else
+                {
+                    cout<<warning(12, lineNumber)<<endl;
+                }
+                string vertInside = "";
+                bool addingVert = false;
+                while(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                {
+                    for(char& c : (*tIt))
+                    {
+                        if(c == '(')
+                        {
+                            addingVert = true;
+                        }
+                        else if(c == ')')
+                        {
+                            addingVert = false;
+                            if(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                            {
+                                if(*tIt == "closed")
+                                {
+                                    newPolyline.isLoop = true;
+                                    ++tIt;
+                                }
+                            }
+                            goto endPolyLineWhile;
+                        }
+                        else if(addingVert)
+                        {
+                            vertInside.push_back(c);
+                        }
+                    }
+
+                    if(vertInside != "")
+                    {
+                        vertIt = global_vertices.find(vertInside);
+                        if(vertIt == global_vertices.end())
+                        {
+                            cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                            return 1;
+                            cout<<warning(14, lineNumber);
+                        }
+                        else
+                        {
+                            newPolyline.addVertex(vertIt -> second);
+                        }
+                        vertInside = "";
+                    }
+                }
+
+                endPolyLineWhile:
+                if(vertInside != "")
+                {
+                    vertIt = global_vertices.find(vertInside);
+                    if(vertIt == global_vertices.end())
+                    {
+                        cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                        return 1;
+                        cout<<warning(14, lineNumber);
+                    }
+                    else
+                    {
+                        newPolyline.addVertex(vertIt -> second);
+                    }
+                    vertInside = "";
+                }
+
                 if((*tIt) != "endpolyline"){
                     cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;
                     return 1;
@@ -1268,6 +1402,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 if(className == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
+                    postProcessingLinesString.push_back(nextLine);
                     goto newLineEnd;
                 }
                 else
@@ -1521,6 +1656,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             newMesh.setColor(color);
                             newMesh.user_set_color = true;
                         }
+
                         groups[currentGroup].addMesh(newMesh);
                     }
                     else if(findGroup)
@@ -1587,12 +1723,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if(*tIt == "delete")
             {
                 postProcessingLines.push_back(lineNumber);
+                postProcessingLinesString.push_back(nextLine);
                 deletePhase = true;
                 goto newLineEnd;
             }
             else if(*tIt == "enddelete")
             {
                 postProcessingLines.push_back(lineNumber);
+                postProcessingLinesString.push_back(nextLine);
                 deletePhase = false;
                 goto newLineEnd;
             }
@@ -1606,6 +1744,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         if(*tIt == "consolidatedmesh")
                         {
                             postProcessingLines.push_back(lineNumber);
+                            postProcessingLinesString.push_back(nextLine);
                             current_mesh_name = "consolidatedmesh";
                             goto newLineEnd;
                         }
@@ -1648,6 +1787,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 if(current_mesh_name == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
+                    postProcessingLinesString.push_back(nextLine);
                 }
                 else
                 {
@@ -1664,14 +1804,26 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
         lineNumber++;
     }
     group.mapFromParameters();
+
+    /*for ( auto it = meshes.begin(); it != meshes.end(); ++it ){
+        cout << (*it).first << endl;
+        cout << (*it).second.name << endl;
+        cout << "JJJJ" << endl;
+    }*/
+
 }
 
 void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                                         vector<int> &postProcessingLines,
                                         SlideGLWidget *canvas,
                                         Group &group,
-                                        string input)
+                                        string input, vector<string> &postProcessingLinesString)
 {
+    //cout << "HI" << endl;
+    //cout << postProcessingLines << endl;
+    /*for(int i : postProcessingLines){
+      cout << "i = " << i << endl;
+    }*/
     if(postProcessingLines.size() == 0)
     {
         return;
@@ -1696,6 +1848,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
     unordered_map<string, Face*>::iterator faceIt;
     while(std::getline(file, nextLine))
     {
+        //cout << "JJJ" << endl;
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -1710,7 +1863,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             else if((*tIt) == "surface")
             {
-                //cout<<nextLine<<endl;
+                //cout<<*tIt<<endl;
                 string color_name;
                 QColor new_color;
                 if(++tIt < tokens.end())
@@ -1785,17 +1938,20 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             if((*tIt) == "mesh")
             {
+                //cout << "HELLL:" << endl;
                 restoreConsolidatedMesh = true;
                 Mesh newMesh(0);
                 if((++tIt) < tokens.end()) {
                     if(!testComments(*tIt))
                     {
+
                         if(*tIt != "consolidatedmesh")
                         {
                             cout<<"Error: there is a bug in the program. Check!"<<endl;
                             goto newLineEnd;
                         }
                         newMesh.name = *tIt;
+                        //cout << params << endl;
                         newMesh.setGlobalParameter(&params);
                     }
                     else
@@ -1809,6 +1965,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     cout<<warning(26, lineNumber)<<endl;
                     goto newLineEnd;
                 }
+
                 if(meshes.find(newMesh.name) == meshes.end())
                 {
                     meshes[newMesh.name] = newMesh;
@@ -1863,12 +2020,14 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     cout<<"Error: there is a bug in the program. Check!"<<endl;
                     goto newLineEnd;
                 }
+
+                //cout << "HI" << endl;
                 Face * newFace = new Face;
                 if((++tIt) < tokens.end()) {
 
                     if(!testComments(*tIt))
                     {
-                        cout << *tIt << endl;
+
                         faceIt = global_faces.find(*tIt);
                         if(faceIt == global_faces.end())
                         {
@@ -1889,6 +2048,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 bool addingVert = false;
                 vector<Vertex*> vertices;
                 vertices.clear();
+
                 while(++tIt < tokens.end() && (*tIt) != "endface")
                 {
                     for(char & c: (*tIt))
@@ -1907,7 +2067,9 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                                 Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
                                 if(!(canvas -> master_mesh.isEmpty())) /* Dealing with recovery of SIF.*/
                                 {
+                                    //cout << vertInside << endl;
                                     v = (canvas -> master_mesh.findVertexInThisMesh(vertInside));
+
                                 }
                                 if(v == NULL)
                                 {
@@ -1960,6 +2122,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     foundVertex = false;
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
+                        //cout << v->ID << endl;
                         if(v -> source_vertex == vs)
                         {
                             foundVertex = true;
@@ -1985,6 +2148,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         mappedVertices.push_back(newVertex);
                     }
                 }
+                //cout << mappedVertices << endl;
                 meshes[current_mesh_name].addPolygonFace(mappedVertices);
                 meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
                         -> name = newFace -> name;
@@ -2021,9 +2185,12 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     }
                 }
                 delete newFace;
+
+
             }
             else if((*tIt) == "instance")
             {
+                //cout << "MMNN" << endl;
                 string instanceName;
                 Mesh newMesh;
                 string className;
@@ -2041,19 +2208,23 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 {
                     cout<<warning(5, lineNumber)<<endl;
                 }
+
                 if((++tIt) < tokens.end())
                 {
                     if(!testComments(*tIt))
                     {
                         className = *tIt;
+                        //cout << className << endl;
                     }
                 }
                 else
                 {
                     cout<<warning(6, lineNumber)<<endl;
                 }
+
                 if(className != "consolidatedmesh")
                 {
+                    //cout << "HELLO" << endl;
                     cout<<"Error: there is a bug in the program. Check!"<<endl;
                     goto newLineEnd;
                 }
@@ -2289,6 +2460,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
     newLineEnd:
     lineNumber++;
     }
+
     canvas -> set_to_editing_mode(true);
     canvas -> updateFromSavedMesh();
 }
@@ -2298,6 +2470,7 @@ void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
                                 SlideGLWidget* canvas,
                                 string input)
 {
+
     ifstream file(input);
     if (!file.good())
     {
@@ -2406,6 +2579,8 @@ void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
             }
             else if((*tIt) == "instance")
             {
+
+                //cout << "HELFFD" << endl;
                 string instanceName;
                 Mesh newMesh;
                 string className;

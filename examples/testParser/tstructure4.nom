@@ -1,0 +1,113 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface        # Blue
+surface M color (1 0 1) endsurface        # Magenta
+surface W color (1 1 1) endsurface        # White
+
+bank p1
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		8		4		12		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p2
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		6		2		10		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p3
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		4		0		8		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+bank p4
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		2		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
+endbank
+point ooo  ( 0 0 0 ) endpoint
+point xoo  ( 1 0 0 ) endpoint
+point oyo  ( 0 1 0 ) endpoint
+point ooz  ( 0 0 1 ) endpoint
+ polyline xaxis  (ooo xoo ) endpolyline
+ polyline yaxis  (ooo oyo ) endpolyline
+ polyline zaxis  (ooo ooz ) endpolyline
+group coord_axes
+   instance xa xaxis  surface R  endinstance
+   instance ya yaxis  surface B  endinstance
+   instance za zaxis  surface G  endinstance
+endgroup
+instance axes coord_axes  scale (1.5 1.5 1.5 )  endinstance
+  point iyz  ( 0  1  1 ) endpoint
+  point ibz  ( 0 -1  1 ) endpoint
+  point ibc  ( 0 -1 -1 ) endpoint
+  point iyc  ( 0  1 -1 ) endpoint
+  point oyz  ( 0  2  2 ) endpoint
+  point obz  ( 0 -2  2 ) endpoint
+  point obc  ( 0 -2 -2 ) endpoint
+  point oyc  ( 0  2 -2 ) endpoint
+  polyline oL  (  obz obc oyc oyz ) endpolyline
+  face iF (iyz ibz ibc iyc )  surface A  endface
+  object ob (iF ) endobject
+group innplane0
+  instance ob0 ob endinstance
+  instance oL0 oL endinstance
+endgroup
+group innplane1
+  instance ob1 ob endinstance
+  instance oL1 oL endinstance
+endgroup
+group innplane2
+  instance ob2 ob endinstance
+  instance oL2 oL endinstance
+endgroup
+group innplane3
+  instance ob3 ob endinstance
+  instance oL3 oL endinstance
+endgroup
+group innplane4
+  instance ob4 ob endinstance
+  instance oL4 oL endinstance
+endgroup
+  instance pL0 innplane0  scale ( {expr $p1_scl} {expr $p1_scl} {expr $p1_scl} )  translate (1 0 0)   rotate (1 0 0)({expr $p1_rx})  rotate (0 1 0)({expr $p1_ry})  rotate (0 0 1)({expr $p1_rz})   translate ({expr $p1_tx} {expr $p1_ty} {expr $p1_tz} )    endinstance
+  instance pL1 innplane1  scale ( {expr $p1_scl} {expr $p1_scl} {expr $p1_scl} )   rotate (1 0 0)({expr $p1_rx})  rotate (0 1 0)({expr $p1_ry})  rotate (0 0 1)({expr $p1_rz})    translate ({expr $p1_tx} {expr $p1_ty} {expr $p1_tz} )    endinstance
+  instance pL2 innplane2  scale ( {expr $p2_scl} {expr $p2_scl} {expr $p2_scl} )   rotate (1 0 0)({expr $p2_rx})  rotate (0 1 0)({expr $p2_ry})  rotate (0 0 1)({expr $p2_rz})    translate ({expr $p2_tx} {expr $p2_ty} {expr $p2_tz} )    endinstance
+  instance pL3 innplane3  scale ( {expr $p3_scl} {expr $p3_scl} {expr $p3_scl} )   rotate (1 0 0)({expr $p3_rx})  rotate (0 1 0)({expr $p3_ry})  rotate (0 0 1)({expr $p3_rz})    translate ({expr $p3_tx} {expr $p3_ty} {expr $p3_tz} )    endinstance
+  instance pL4 innplane4  scale ( {expr $p4_scl} {expr $p4_scl} {expr $p4_scl} )   rotate (1 0 0)({expr $p4_rx})  rotate (0 1 0)({expr $p4_ry})  rotate (0 0 1)({expr $p4_rz})    translate ({expr $p4_tx} {expr $p4_ty} {expr $p4_tz} )    endinstance
+mesh consolidatedmesh
+    face consolidatedface0 (pL4_oL4_oyz ob3_iyz ob3_iyc pL4_oL4_oyc ) endface
+endmesh
+instance cm1 consolidatedmesh endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (ob2_iyz ob2_iyc pL1_oL1_oyc pL1_oL1_oyz ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance

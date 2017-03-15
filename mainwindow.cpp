@@ -83,6 +83,7 @@ void MainWindow::close()
         colorlines.clear();
         geometrylines.clear();
         postProcessingLines.clear();
+        postProcessingLinesString.clear();
         banks.clear();
         params.clear();
     }
@@ -153,13 +154,14 @@ void MainWindow::createCanvas(QString name)
         colorlines.clear();
         geometrylines.clear();
         postProcessingLines.clear();
+        postProcessingLinesString.clear();
         banks.clear();
         params.clear();
         //=======
 
         int error = 0;
         error = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
-                                 colorlines, banklines, geometrylines, postProcessingLines);
+                                 colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString);
 
         if (error == 1){
             return;
@@ -167,7 +169,8 @@ void MainWindow::createCanvas(QString name)
 
         canvas = new SlideGLWidget(scene);
         canvas -> group_from_consolidate_mesh = &append_scene;
-        nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString());
+
+        nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString);
         createSliderPanel(canvas);
         canvas -> move(0, 50);
         canvas -> show();
@@ -294,7 +297,7 @@ void MainWindow::save_current_status_nome(string out_put_file)
                 {
                     if(i == 2)
                     {
-                        file << params[bankname + "_" + tokens[1]].value;
+                        file << params[bankname + "." + tokens[1]].value;
                     }
                     else
                     {
@@ -313,7 +316,16 @@ void MainWindow::save_current_status_nome(string out_put_file)
         {
             file<<line<<'\n';
         }
+
+        for(string& line : postProcessingLinesString)
+        {
+            file<< line <<'\n';
+        }
     }
+
+
+
+
     if(!(canvas->consolidate_mesh).isEmpty() || (canvas -> deletedFaces).size() > 0)
     {
         file<<"\n##### The following is the saved work of last time. #####\n"<<endl;
