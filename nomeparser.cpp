@@ -1217,7 +1217,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         else if(c == ')')
                         {
                             addingVert = false;
-                            if(++tIt < tokens.end() && (*tIt) != "endpolyline")
+                            if(++tIt < tokens.end() && (*tIt) != "endbspline3")
                             {
                                 if(*tIt == "closed")
                                 {
