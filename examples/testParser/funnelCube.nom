@@ -21,10 +21,10 @@ endbank
 
 point X  ( -2 1 2) endpoint
 point Y  ( 2 2 2) endpoint
-point Z  ( 2 3 4) endpoint
+point Z  ( {expr $fp.n} 3 4) endpoint
 
 # tunnel tun (8 0.4 0 0) endtunnel
-tunnel fun ({expr $fp_n} {expr $fp_ro} {expr $fp_ratio} {expr $fp_h}) endtunnel
+tunnel fun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endtunnel
 
 polyline poly (X Y Z ) endpolyline
 

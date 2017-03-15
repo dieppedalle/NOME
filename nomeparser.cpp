@@ -1718,7 +1718,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
         cout << "JJJJ" << endl;
     }*/
 
-    //cout << "HIIII" << endl;
 }
 
 void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
