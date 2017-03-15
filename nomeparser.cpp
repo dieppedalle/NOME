@@ -1182,6 +1182,99 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 polylines[newPolyline.name] = newPolyline;
 
             }
+            else if((*tIt) == "bspline3")
+            {
+                geometrylines.push_back(nextLine);
+                PolyLine newPolyline;
+                if((++tIt) < tokens.end() && !testComments(*tIt))
+                {
+                    lineIt = polylines.find(*tIt);
+                    if(lineIt == polylines.end())
+                    {
+                        newPolyline.name = *tIt;
+                    }
+                    else
+                    {
+                        cout << "Error: The bspline3 " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                        return 1;
+                        cout<<warning(13, lineNumber)<<endl;
+                    }
+                }
+                else
+                {
+                    cout<<warning(12, lineNumber)<<endl;
+                }
+                string vertInside = "";
+                bool addingVert = false;
+                while(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                {
+                    for(char& c : (*tIt))
+                    {
+                        if(c == '(')
+                        {
+                            addingVert = true;
+                        }
+                        else if(c == ')')
+                        {
+                            addingVert = false;
+                            if(++tIt < tokens.end() && (*tIt) != "endpolyline")
+                            {
+                                if(*tIt == "closed")
+                                {
+                                    newPolyline.isLoop = true;
+                                    ++tIt;
+                                }
+                            }
+                            goto endPolyLineWhile;
+                        }
+                        else if(addingVert)
+                        {
+                            vertInside.push_back(c);
+                        }
+                    }
+
+                    if(vertInside != "")
+                    {
+                        vertIt = global_vertices.find(vertInside);
+                        if(vertIt == global_vertices.end())
+                        {
+                            cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                            return 1;
+                            cout<<warning(14, lineNumber);
+                        }
+                        else
+                        {
+                            newPolyline.addVertex(vertIt -> second);
+                        }
+                        vertInside = "";
+                    }
+                }
+
+                endPolyLineWhile:
+                if(vertInside != "")
+                {
+                    vertIt = global_vertices.find(vertInside);
+                    if(vertIt == global_vertices.end())
+                    {
+                        cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                        return 1;
+                        cout<<warning(14, lineNumber);
+                    }
+                    else
+                    {
+                        newPolyline.addVertex(vertIt -> second);
+                    }
+                    vertInside = "";
+                }
+
+                if((*tIt) != "endpolyline"){
+                    cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
+                }
+
+                polylines[newPolyline.name] = newPolyline;
+
+            }
             else if((*tIt) == "point")
             {
                 geometrylines.push_back(nextLine);
