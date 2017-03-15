@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     parameterbank.cpp \
     utils.cpp \
     nomeparser.cpp \
-    nomeglwidget.cpp
+    nomeglwidget.cpp \
+    bspline.cpp
 
 HEADERS  += \
     edge.h \
@@ -67,7 +68,8 @@ HEADERS  += \
     parameterbank.h \
     utils.h \
     nomeparser.h \
-    nomeglwidget.h
+    nomeglwidget.h \
+    bspline.h
 
 linux{
     LIBS += -lglut -lGLU
