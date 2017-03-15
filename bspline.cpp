@@ -3,22 +3,42 @@
  * Advised by Prof. Sequin H. Carlos.
  */
 
-#include bspline.h
+#include "bspline.h"
 
-BSpline::BSpline(PolyLine *p, int mode, int segments)
+BSpline::BSpline(void)
 {
-	/** mode = 0 for open bspline
-		mode = 1 for closed bspline 
-		segments = no points in between every 4 control points to define the bspline 
-	**/
 	PolyLine();
-	proxy = p->vertices;
-	color = p->color;
 	vertices.clear();
-	cubic(mode, segments);
 }
 
-void BSpline::cubic(int mode, int segments)
+void BSpline::set_proxy(PolyLine* p)
+{
+    proxy = p->vertices;
+    color = p->color;
+}
+
+void BSpline::set_mode(int a)
+{
+    mode = a;
+}
+
+void BSpline::set_segments(int a)
+{
+    segments = a;
+}
+
+int BSpline::get_mode()
+{
+    return mode;
+}
+
+int BSpline::get_segments()
+{
+    return segments;
+}
+
+
+void BSpline::cubic()
 {
 	//mode = 0 -> open, mode = 1 -> closed curve
 	//segments = curve segments to define bspline
@@ -56,13 +76,8 @@ void BSpline::cubic(int mode, int segments)
 			float y = t0[t] * position_a[1] + t1[t] * position_b[1] + t2[t] * position_c[1] + t3[t] * position_d[1];
 			float z = t0[t] * position_a[2] + t1[t] * position_b[2] + t2[t] * position_c[2] + t3[t] * position_d[2];
 
-			Vertex* v1 = new Vertex;
-			v1 -> ID = j + t; //this is a filler
+            Vertex* v1 = new Vertex(x, y, z, j+t);
 	        v1 -> name = j + t; //this is a filler
-
-	        float points[3] = {x, y, z};
-	        v1 -> position = points;
-
 	        addVertex(v1);
 		}
 
@@ -90,13 +105,8 @@ void BSpline::cubic(int mode, int segments)
 				float z1 = t0[s] * a0[2] + t1[s] * a1[2] + t2[s] * a2[2] + t3[s] * a3[2];
 
 
-				Vertex* v2 = new Vertex;
-				v2 -> ID = k + s + j; //this is a filler
-		        v2 -> name = k + s + j; //this is a filler
-
-		        float points1[3] = {x1, y1, z1};
-		        v2 -> position = points1;
-
+                Vertex* v2 = new Vertex(x1, y1, z1, k+s);
+                v2 -> name = k + s; //this is a filler
 		        addVertex(v2);
 			}
 
@@ -107,6 +117,4 @@ void BSpline::cubic(int mode, int segments)
 			vIt2++;
 		}
 	}
-
-	return true;
 }

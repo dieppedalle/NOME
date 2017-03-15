@@ -3,8 +3,8 @@
  * Advised by Prof. Sequin H. Carlos.
  */
 
-#ifndef __POLYLINE_H__
-#define __POLYLINE_H__
+#ifndef __BSPLINE_H__
+#define __BSPLINE_H__
 ;
 #include <vector>
 #include <glm/glm.hpp>
@@ -20,12 +20,21 @@ class Group;
 class BSpline : PolyLine {
 public:
     vector<Vertex*> proxy;
+    BSpline();
+    int mode;
+    int segments;
 
-    //Bspline constructor: pass in a polyline, the order of the desired bspline, and mode, where mode = 0 is an open curve, mode = 1 a closed curve
-    BSpline(PolyLine p, int order, int segments);
+    //setters
+    void set_mode(int);
+    void set_segments(int);
+    void set_proxy(PolyLine*);
+
+    //getters
+    int get_mode();
+    int get_segments();
 
     //constructs a cubic bspline
-    void BSpline::cubic(int mode, int segments);
+    void cubic();
 };
 
 #endif // __BSPLINE_H__
