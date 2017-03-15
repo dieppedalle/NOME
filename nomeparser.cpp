@@ -1185,13 +1185,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if((*tIt) == "bspline3")
             {
                 geometrylines.push_back(nextLine);
-                PolyLine newPolyline;
+                BSpline newBSpline;
                 if((++tIt) < tokens.end() && !testComments(*tIt))
                 {
                     lineIt = polylines.find(*tIt);
                     if(lineIt == polylines.end())
                     {
-                        newPolyline.name = *tIt;
+                        newBSpline.name = *tIt;
                     }
                     else
                     {
@@ -1221,7 +1221,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             {
                                 if(*tIt == "closed")
                                 {
-                                    newPolyline.isLoop = true;
+                                    newBSpline.isLoop = true;
                                     ++tIt;
                                 }
                             }
@@ -1244,13 +1244,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         else
                         {
-                            newPolyline.addVertex(vertIt -> second);
+                            newBSpline.addVertex(vertIt -> second);
                         }
                         vertInside = "";
                     }
                 }
 
-                endPolyLineWhile:
+                endBSplineWhile:
                 if(vertInside != "")
                 {
                     vertIt = global_vertices.find(vertInside);
@@ -1262,17 +1262,17 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     else
                     {
-                        newPolyline.addVertex(vertIt -> second);
+                        newBSpline.set_proxy(vertIt -> second);
                     }
                     vertInside = "";
                 }
 
-                if((*tIt) != "endpolyline"){
+                if((*tIt) != "endbspline3"){
                     cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
-
-                polylines[newPolyline.name] = newPolyline;
+                newBSpline.cubic();
+                polylines[newBSpline.name] = newBSpline;
 
             }
             else if((*tIt) == "point")

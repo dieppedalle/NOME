@@ -6,6 +6,7 @@
 #include "nomeglwidget.h"
 #include "mesh.h"
 #include "polyline.h"
+#include "bspline.h"
 #include "group.h"
 #include "utils.h"
 #include <string>

@@ -25,6 +25,7 @@ INPUT(
 ./debug\utils.o
 ./debug\nomeparser.o
 ./debug\nomeglwidget.o
+./debug\bspline.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o

@@ -25,6 +25,7 @@ INPUT(
 ./release\utils.o
 ./release\nomeparser.o
 ./release\nomeglwidget.o
+./release\bspline.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o
