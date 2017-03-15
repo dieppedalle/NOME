@@ -11,9 +11,15 @@ BSpline::BSpline(void)
 	vertices.clear();
 }
 
+<<<<<<< HEAD
 void BSpline::set_proxy(vector<Vertex*> v)
 {
     proxy = v;
+=======
+void BSpline::set_proxy(Vertex *v)
+{
+    proxy.push_back(v);
+>>>>>>> 9bf4ac4fb100b4f2516f171f2c82b1cf08527a24
 }
 
 void BSpline::set_mode(int a)

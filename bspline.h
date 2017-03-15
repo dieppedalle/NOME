@@ -27,7 +27,9 @@ public:
     //setters
     void set_mode(int);
     void set_segments(int);
+
     void set_proxy(vector<Vertex*>);
+
 
     //getters
     int get_mode();
