@@ -1225,7 +1225,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                     ++tIt;
                                 }
                             }
-                            goto endPolyLineWhile;
+                            goto endBSplineWhile;
                         }
                         else if(addingVert)
                         {

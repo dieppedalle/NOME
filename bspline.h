@@ -17,7 +17,7 @@ using namespace glm;
 class Group;
 //////////////////////////////////////////////////////////////////////
 // B-Spline Class -- B-Spline is list of vertices, subclass of PolyLine
-class BSpline : PolyLine {
+class BSpline : public PolyLine {
 public:
     vector<Vertex*> proxy;
     BSpline();
@@ -27,9 +27,7 @@ public:
     //setters
     void set_mode(int);
     void set_segments(int);
-
     void set_proxy(Vertex*);
-
 
     //getters
     int get_mode();
