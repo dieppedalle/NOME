@@ -11,10 +11,9 @@ BSpline::BSpline(void)
 	vertices.clear();
 }
 
-void BSpline::set_proxy(PolyLine* p)
+void BSpline::set_proxy(vector<Vertex*> v)
 {
-    proxy = p->vertices;
-    color = p->color;
+    proxy = v;
 }
 
 void BSpline::set_mode(int a)
