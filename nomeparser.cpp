@@ -507,12 +507,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     return 1;
                     cout<<warning(3, lineNumber)<<endl;
                 }
-
-
-                //newFunnel.computeNormals();
             }
             else if((*tIt) == "tunnel")
             {
+
                 geometrylines.push_back(nextLine);
                 Mesh newTunnel(2);
                 newTunnel.setGlobalParameter(&params);
@@ -554,14 +552,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     tunnel_expression.push_back(' ');
                 }
+
                 newTunnel.setTunnelParameterValues(tunnel_expression, lineNumber);
+
                 newTunnel.makeTunnel();
-                //*************
-                /*cout << newTunnel.vertList.size() << endl;
-                for (int i=0; i <newTunnel.vertList.size(); i++){
-                    cout << newTunnel.vertList[i] << endl;
-                }*/
-                //*************
+
+
                 if(meshes.find(newTunnel.name) == meshes.end())
                 {
                     meshes[newTunnel.name] = newTunnel;
@@ -572,10 +568,187 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     return 1;
                     cout<<warning(3, lineNumber)<<endl;
                 }
-                /*if(++tIt == tokens.end() || (*tIt) != "endtunnel"){
-                    cout << "Error: Missing endtunnel on line " + to_string(lineNumber) + "." << endl;
-                }*/
-                //newTunnel.computeNormals();
+            }
+            else if((*tIt) == "circle")
+            {
+                geometrylines.push_back(nextLine);
+
+                PolyLine newPolyline;
+                newPolyline.isLoop = true;
+                newPolyline.isCircle = true;
+
+                if((++tIt) < tokens.end() && !testComments(*tIt))
+                {
+                    lineIt = polylines.find(*tIt);
+                    if(lineIt == polylines.end())
+                    {
+                        newPolyline.name = *tIt;
+                    }
+                    else
+                    {
+                        cout << "Error: The polyline " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                        return 1;
+                        cout<<warning(13, lineNumber)<<endl;
+                    }
+                }
+                else
+                {
+                    cout<<warning(12, lineNumber)<<endl;
+                }
+
+
+                string tunnel_expression;
+                bool expression_input = false;
+                bool inExpression = false;
+                while(++tIt < tokens.end())
+                {
+                    for(char& c : (*tIt))
+                    {
+                        if(c == '(' && !inExpression)
+                        {
+                            expression_input = true;
+                        }
+                        else if(c == ')' && !inExpression)
+                        {
+                            expression_input = false;
+                        }
+                        else if(c == '#')
+                        {
+                            goto newLineEnd;
+                        }
+                        else if(expression_input)
+                        {
+                            tunnel_expression.push_back(c);
+                        }
+                        if(c == '{')
+                        {
+                            inExpression = true;
+                        }
+                        else if(c == '}')
+                        {
+                            inExpression = false;
+                        }
+                    }
+                    tunnel_expression.push_back(' ');
+                }
+
+                int n;
+                float ro;
+                float ratio;
+                float h;
+                string n_expr;
+                string ro_expr;
+                string ratio_expr;
+                string h_expr;
+                //--------
+                string nextExpression = "";
+                bool expressionMode = false;
+                string number = "";
+                int i = 0;
+                for(char& c : tunnel_expression)
+                {
+
+                    if(c == '{')
+                    {
+                        expressionMode = true;
+                    }
+                    else if(c == '}')
+                    {
+                        expressionMode = false;
+                        switch(i)
+                        {
+                        case 0:
+                            n_expr = nextExpression.substr(5);
+                            n = evaluate_expression(n_expr, &params);
+                            break;
+                        case 1:
+                            ro_expr = nextExpression.substr(5);
+                            ro = evaluate_expression(ro_expr, &params);
+                            break;
+                        }
+                        nextExpression = "";
+                        i++;
+                    }
+                    else if(expressionMode)
+                    {
+                        nextExpression.push_back(c);
+                    }
+                    else if(!expressionMode && ((c >= '0' &&  c <= '9') || c == '.' || c == '-' || c == '+'))
+                    {
+                        number.push_back(c);
+                    }
+                    else
+                    {
+                        if(number != "")
+                        {
+                            switch(i)
+                            {
+                            case 0:
+                                n = stoi(number);
+                                break;
+                            case 1:
+                                ro = stof(number);
+                                break;
+                            }
+                            number = "";
+                            i++;
+                        }
+                    }
+                }
+                if(number != "")
+                {
+                    switch(i)
+                    {
+                    case 0:
+                        n = stoi(number);
+                        break;
+                    case 1:
+                        ro = stof(number);
+                        break;
+                    }
+                }
+
+                if (i >= 3){
+                    cout << "Error: Circle method at line " + to_string(lineNumber) + " has too many parameters. A circle can only have 2 parameters: n, and ro." << endl;
+                    return 1;
+                }
+                else if(i < 2){
+                    cout << "Error: Circle method at line " + to_string(lineNumber) + " does not have enough parameters. A circle can only have 2 parameters: n, and ro." << endl;
+                    return 1;
+                }
+
+                //=======================
+                // Creating the vertices
+                //=======================
+                //cout << n << endl;
+                if(n < 3) {
+                    cout << "Error: Circle method at line " + to_string(lineNumber) + " needs to have a n parameter that is higher than 2." << endl;
+                    return 1;
+                }
+                vector<Vertex*> vertList;
+                vector<Face*> faceList;
+                unordered_map<Vertex*, vector<Edge*> > edgeTable;
+                vertList.clear();
+                edgeTable.clear();
+                faceList.clear();
+                vector<Vertex*> baseCircle;
+                vector<Vertex*> highCircle;
+                vector<Vertex*> lowCircle;
+                for(int i = 0; i < n; i++)
+                {
+                    Vertex * newVertex = new Vertex;
+                    newVertex->ID = i;
+                    newVertex->name = "bc" + to_string(i);
+
+                    float currAngle = 2.0 * i / n * PI;
+                    newVertex -> position = vec3(ro * glm::cos(currAngle),
+                                                 ro * glm::sin(currAngle), 0);
+                    baseCircle.push_back(newVertex);
+                    newPolyline.addVertex(newVertex);
+                }
+
+                polylines[newPolyline.name] = newPolyline;
+
             }
             else if((*tIt) == "object")
             {
@@ -1139,40 +1312,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     vertInside = "";
                 }
-
-                //=========================================
-                /*if(*tIt == "surface")
-                {
-                    string color_name;
-                    bool foundColor = false;
-                    QColor color;
-                    if(++tIt < tokens.end())
-                    {
-                        color_name = *tIt;
-                        colorIt = user_defined_colors.find(color_name);
-                        if(colorIt != user_defined_colors.end())
-                        {
-                            color = colorIt -> second;
-                            foundColor = true;
-                        }
-                        else
-                        {
-                            cout << "Error: The surface " + color_name + " at line " + to_string(lineNumber) + " has never been created."  << endl;
-                            return 1;
-                            cout<<warning(18, lineNumber)<<endl;
-                        }
-                    }
-                    else
-                    {
-                        cout << "Error: The surface " + *tIt + " at line " + to_string(lineNumber) + " is missing a name."  << endl;
-                        return 1;
-                        cout<<warning(18, lineNumber)<<endl;
-                    }
-                    cout << "HELLO" << endl;
-                    newPolyline.setColor(color);
-                    ++tIt;
-                }*/
-                //=========================================
 
                 if((*tIt) != "endpolyline"){
                     cout << "Error: Missing endpolyline on line " + to_string(lineNumber) + "." << endl;

@@ -1305,6 +1305,64 @@ void Mesh::makeFunnel()
 
 void Mesh::makeTunnel()
 {
+    //cout << n << endl;
+    if(n < 3) {
+        return;
+    }
+    vertList.clear();
+    edgeTable.clear();
+    faceList.clear();
+    vector<Vertex*> baseCircle;
+    vector<Vertex*> highCircle;
+    vector<Vertex*> lowCircle;
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = new Vertex;
+        newVertex->ID = i;
+        newVertex->name = "bc" + to_string(i);
+
+        float currAngle = 2.0 * i / n * PI;
+        newVertex -> position = vec3(ro * glm::cos(currAngle),
+                                     ro * glm::sin(currAngle), 0);
+        baseCircle.push_back(newVertex);
+        addVertex(newVertex);
+    }
+    float ri = ro * (1 + ratio);
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = new Vertex;
+        newVertex->ID = i + n;
+        newVertex->name = "hc" + to_string(i);
+        float currAngle = 2.0 * i / n * PI;
+        newVertex -> position = vec3(ri * glm::cos(currAngle),
+                                     ri * glm::sin(currAngle), h);
+        highCircle.push_back(newVertex);
+        addVertex(newVertex);
+    }
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = new Vertex;
+        newVertex->ID = i + 2 * n;
+        newVertex->name = "lc" + to_string(i);
+        float currAngle = 2.0 * i / n * PI;
+        newVertex -> position = vec3(ri * glm::cos(currAngle),
+                                     ri * glm::sin(currAngle), -h);
+        lowCircle.push_back(newVertex);
+        addVertex(newVertex);
+    }
+    for(int i = 0; i < n - 1 ; i++)
+    {
+        addQuadFace(baseCircle[i], baseCircle[i + 1], highCircle[i + 1], highCircle[i]);
+        addQuadFace(lowCircle[i], lowCircle[i + 1], baseCircle[i + 1], baseCircle[i]);
+    }
+    addQuadFace(baseCircle[n - 1], baseCircle[0], highCircle[0], highCircle[n - 1]);
+    addQuadFace(lowCircle[n - 1], lowCircle[0], baseCircle[0], baseCircle[n - 1]);
+    buildBoundary();
+}
+
+void Mesh::makeTunnel2()
+{
+    cout << n << endl;
     if(n < 3) {
         return;
     }

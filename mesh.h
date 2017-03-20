@@ -197,6 +197,7 @@ public:
     string h_expr;
     void makeFunnel();
     void makeTunnel();
+    void makeTunnel2();
     void updateFunnel();
     void updateTunnel();
     void updateFunnel_n();

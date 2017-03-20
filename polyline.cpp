@@ -9,6 +9,7 @@
 
 PolyLine::PolyLine()
 {
+    isCircle = false;
     isLoop = false;
     vertices.clear();
     user_set_color = false;

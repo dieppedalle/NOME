@@ -21,6 +21,7 @@ class Group;
 class PolyLine {
 public:
     vector<Vertex*> vertices;
+    bool isCircle;
     bool isLoop;
     QColor color;
     PolyLine();

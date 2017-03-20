@@ -37,6 +37,7 @@ void Parameter::update()
     {
         v -> update();
     }
+
 }
 
 void Parameter::addInfluenceMesh(Mesh * mesh)
