@@ -17,19 +17,10 @@ void BSpline::set_proxy(Vertex *v)
     proxy.push_back(v);
 }
 
-void BSpline::set_mode(int a)
-{
-    mode = a;
-}
 
 void BSpline::set_segments(int a)
 {
     segments = a;
-}
-
-int BSpline::get_mode()
-{
-    return mode;
 }
 
 int BSpline::get_segments()
@@ -37,84 +28,81 @@ int BSpline::get_segments()
     return segments;
 }
 
+float BSpline::basis(float i, float k, float t)
+{
+    //calculate basis function, i = control point index, k = order, t = variable parameter
+    if (k <= 0.0)
+    {
+        return 0.0;
+    }
+
+    if (k == 1.0)
+    {
+        if ((t < i + 1.0) && (t >= i))
+        {
+            return 1.0;
+        }
+        return 0.0;
+    }
+
+    float a = (t - i)/(k - 1.0);
+    float b = (i + k - t)/(k -1.0);
+
+    a = a * basis(i, k-1.0, t);
+    b = b * basis(i+1.0, k-1.0, t);
+
+    return a + b;
+
+}
+
+void BSpline::calculate (int order)
+{
+    //calculate bspline for general order bspline, order>=2 is enforced
+    if (order >= 2)
+    {
+        //clear all vertices just in case
+        vertices.clear();
+
+        //add first order-1 points to end of loop if a closed spline is desired
+        if (isLoop)
+        {
+            vector<Vertex*>::iterator iter;
+            iter = proxy.begin();
+            for (int x = 0; x < order - 1; x++)
+            {
+                proxy.push_back(*iter);
+                iter++;
+            }
+        }
+
+        int lim = order + proxy.size();
+        int add = lim/segments;
+
+        //calculate bspline at each t
+        for (int t = 1; t <= lim; t = t + add)
+        {
+            float x = 0;
+            float y = 0;
+            float z = 0;
+
+            for (int i = 1; i <= proxy.size(); i++)
+            {
+                float temp = basis((float) i, (float) order, (float) t);
+                vec3 pos = proxy[i-1] -> position;
+
+                x = x + (temp * pos[0]);
+                y = y + (temp * pos[1]);
+                z = z + (temp * pos[2]);
+            }
+
+            addVertex(new Vertex(x, y, z, t));
+
+        }
+    }
+}
+
 
 void BSpline::cubic()
 {
-	//mode = 0 -> open, mode = 1 -> closed curve
-	//segments = curve segments to define bspline
-	int i = vertices.size() - 3;
-	isLoop = false;
-
-	float t0[segments];
-	float t1[segments];
-	float t2[segments];
-	float t3[segments];
-
-	vector<Vertex*>::iterator vIt;
-	vIt = proxy.begin();
-
-	//create coefficients for the 4 control points at each iteration for no. of segments
-	for (int a = 0; a < segments; a++)
-	{
-		t0[a] = (1 - (3*a) + (3 * (a * a)) - (a * a * a)) / 6;
-		t1[a] = (4 - (6 * (a * a)) + (3 * (a* a * a))) / 6;
-		t2[a] = (1 + (3*a) + (3 * (a * a)) - (3 * (a * a * a))) / 6;
-		t3[a] = (a * a * a) / 6;
-	}
-
-	//first loop around all the points to create bspline with segment number of points, all the way up to no. control points-3
-	for (int j = 0; j < i; j++)
-	{
-		vec3 position_a = (*vIt) -> position;
-		vec3 position_b = (*vIt + 1) -> position;
-		vec3 position_c = (*vIt + 2) -> position;
-		vec3 position_d = (*vIt + 3) -> position;
-
-		for (int t = 0; t < segments; t++)
-		{
-			float x = t0[t] * position_a[0] + t1[t] * position_b[0] + t2[t] * position_c[0] + t3[t] * position_d[0];
-			float y = t0[t] * position_a[1] + t1[t] * position_b[1] + t2[t] * position_c[1] + t3[t] * position_d[1];
-			float z = t0[t] * position_a[2] + t1[t] * position_b[2] + t2[t] * position_c[2] + t3[t] * position_d[2];
-
-            Vertex* v1 = new Vertex(x, y, z, j+t);
-	        v1 -> name = j + t; //this is a filler
-	        addVertex(v1);
-		}
-
-		vIt++;
-	}
-
-	//closing the loop in case the bspline is closed
-	if (mode == 1)
-	{
-		isLoop = true;
-		vector<Vertex*>::iterator vIt2;
-		vIt2 = proxy.begin();
-
-		vec3 a0 = (*vIt) -> position;
-		vec3 a1 = (*vIt + 1) -> position;
-		vec3 a2 = (*vIt + 2) -> position;
-		vec3 a3 = (*vIt2) -> position;
-
-		for (int k = 0; k < 3; k++)
-		{
-			for (int s = 0; s < segments; s++)
-			{
-				float x1 = t0[s] * a0[0] + t1[s] * a1[0] + t2[s] * a2[0] + t3[s] * a3[0];
-				float y1 = t0[s] * a0[1] + t1[s] * a1[1] + t2[s] * a2[1] + t3[s] * a3[1];
-				float z1 = t0[s] * a0[2] + t1[s] * a1[2] + t2[s] * a2[2] + t3[s] * a3[2];
-
-
-                Vertex* v2 = new Vertex(x1, y1, z1, k+s);
-                v2 -> name = k + s; //this is a filler
-		        addVertex(v2);
-			}
-
-			a0 = a1;
-			a1 = a2;
-			a2 = a3;
-			a3 = (*vIt2 + 1) -> position;
-			vIt2++;
-		}
-	}
+    calculate(4);
 }

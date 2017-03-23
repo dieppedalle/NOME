@@ -21,17 +21,18 @@ class BSpline : public PolyLine {
 public:
     vector<Vertex*> proxy;
     BSpline();
-    int mode;
     int segments;
 
     //setters
-    void set_mode(int);
     void set_segments(int);
     void set_proxy(Vertex*);
 
     //getters
-    int get_mode();
     int get_segments();
+
+    //calculate
+    float basis(float, float, float);
+    void calculate(int);
 
     //constructs a cubic bspline
     void cubic();
