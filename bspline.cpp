@@ -63,7 +63,7 @@ void BSpline::calculate (int order)
         //clear all vertices just in case
         vertices.clear();
 
-        //add first order-1 points to end of loop if a closed spline is desired
+        /**add first order-1 points to end of loop if a closed spline is desired
         if (isLoop)
         {
             vector<Vertex*>::iterator iter;
@@ -73,13 +73,15 @@ void BSpline::calculate (int order)
                 proxy.push_back(*iter);
                 iter++;
             }
-        }
+        }**/
 
-        int lim = order + proxy.size();
-        int add = lim/segments;
+        //https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node4.html
+
+        float lim = order + proxy.size();
+        float add = lim/segments;
 
         //calculate bspline at each t
-        for (int t = 1; t <= lim; t = t + add)
+        for (float t = 1; t <= lim; t = t + add)
         {
             float x = 0;
             float y = 0;
@@ -99,6 +101,7 @@ void BSpline::calculate (int order)
 
         }
     }
+    cout << lim << endl;
 }
 
 
