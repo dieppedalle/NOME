@@ -28,30 +28,34 @@ int BSpline::get_segments()
     return segments;
 }
 
-float BSpline::basis(float i, float k, float t)
+float BSpline::basis(int i, int k, float t)
 {
     //calculate basis function, i = control point index, k = order, t = variable parameter
-    if (k <= 0.0)
+    if (k <= 0)
     {
-        return 0.0;
+        return 0;
     }
 
-    if (k == 1.0)
+    else if (k == 1)
     {
-        if ((t < i + 1.0) && (t >= i))
+        int comp = (int) floor(t);
+
+        if ((comp < i + 1) && (comp >= i))
         {
-            return 1.0;
+            return 1;
         }
-        return 0.0;
+        return 0;
     }
 
-    float a = (t - i)/(k - 1.0);
-    float b = (i + k - t)/(k -1.0);
+    else {
+        float a = (t - i)/(k - 1.0);
+        float b = (i + k - t)/(k - 1.0);
 
-    a = a * basis(i, k-1.0, t);
-    b = b * basis(i+1.0, k-1.0, t);
+        a = a * basis(i, k-1, t);
+        b = b * basis(i+1, k-1, t);
 
-    return a + b;
+        return a + b;
+    }
 
 }
 
@@ -77,19 +81,22 @@ void BSpline::calculate (int order)
 
         //https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node4.html
 
-        float lim = order + proxy.size();
-        float add = lim/segments;
+        float lim = order + proxy.size() - 2;
+        float add = lim/(segments + 2);
 
         //calculate bspline at each t
-        for (float t = 1; t <= lim; t = t + add)
+        for (float t = 2.0; t <= lim; t = t + add)
         {
             float x = 0;
             float y = 0;
             float z = 0;
 
+            cout << t << endl;
+
             for (int i = 1; i <= proxy.size(); i++)
             {
-                float temp = basis((float) i, (float) order, (float) t);
+                float temp = basis(i, order, t);
+                cout << temp << endl;
                 vec3 pos = proxy[i-1] -> position;
 
                 x = x + (temp * pos[0]);
@@ -101,7 +108,6 @@ void BSpline::calculate (int order)
 
         }
     }
-    cout << lim << endl;
 }
 
 
