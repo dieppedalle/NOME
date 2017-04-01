@@ -20,6 +20,10 @@ float evaluate_mesh_expression(string expr,
                                unordered_map<string, Parameter> *params,
                                Mesh * mesh);
 
+float evaluate_polyline_expression(string expr,
+                               unordered_map<string, Parameter> *params,
+                               PolyLine * polyline);
+
 float evaluate_transformation_expression(string expr,
                                unordered_map<string, Parameter> *params,
                                Transformation * t);
@@ -36,6 +40,10 @@ float getParameterValue(string name,
 float getMeshParameterValue(string name,
                             unordered_map<string, Parameter> *params,
                             Mesh * mesh);
+
+float getPolyLineParameterValue(string name,
+                            unordered_map<string, Parameter> *params,
+                            PolyLine * polyline);
 
 float getTransformationParameterValue(string name,
                                       unordered_map<string, Parameter> *params,

@@ -364,9 +364,20 @@ void Group::mapFromParameters()
             }
         }
     }
+
     vector<PolyLine>::iterator pIt;
     for(pIt = myPolylines.begin(); pIt < myPolylines.end(); pIt++)
     {
+        //cout << "HHH" << endl;
+        /* JUST ADDED */
+        vector<Parameter*> params = (*pIt).influencingParams;
+        for(Parameter*& p : params)
+        {
+            //cout << "JJJ" << endl;
+            p->addInfluencePolyline(&(*pIt));
+        }
+        /**/
+
         for(Vertex*& v : (*pIt).vertices)
         {
             vector<Parameter*> params = v -> influencingParams;

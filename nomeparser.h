@@ -12,6 +12,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "bspline.h"
+
 class NomeParser
 {
 public:

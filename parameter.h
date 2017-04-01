@@ -6,6 +6,7 @@
 class MySlider;
 class Mesh;
 class Vertex;
+class PolyLine;
 class Transformation;
 using namespace std;
 
@@ -28,11 +29,13 @@ public:
     /* A list of objects to update when changing value of this parameter. */
     vector<Vertex*> influenceVertices;
     vector<Mesh*> influenceMeshes;
+    vector<PolyLine*> influencePolylines;
     vector<Transformation*> influenceTransformations;
     void update();
     void addInfluenceMesh(Mesh * mesh);
     void addInfluenceTransformation(Transformation *t);
     void addInfluenceVertex(Vertex * vertex);
+    void addInfluencePolyline(PolyLine * polyline);
     void changeParameterValue(float value);
 };
 

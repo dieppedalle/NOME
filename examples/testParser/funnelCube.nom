@@ -7,31 +7,28 @@ bank fp
     set     ro      0.4     0.1     1.0     0.1
     set     ratio   -0.2    -0.5    0.5     0.1
     set     h       0.2     0.1     1.5     0.1
-    set     z       0    -360   360     1
-endbank
-
-bank tp
-    set     n       8       3       100      1
-    set     ro      0.4     0.1     1.0     0.1
-    set     ratio   -0.2    -0.5    0.5     0.1
-    set     h       0.2     0.1     1.5     0.1
-    set     z       0    -360   360     1
+    set     z       8       3       100      1
 endbank
 
 
-point X  ( -2 1 2) endpoint
-point Y  ( 2 2 2) endpoint
-point Z  ( {expr $fp.n} 3 4) endpoint
+
+point X  ( 1 1 1) endpoint
+point Y  ( 2 -2 2) endpoint
+point Z  ( 0 0 0) endpoint
 
 # tunnel tun (8 0.4 0 0) endtunnel
 tunnel tun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endtunnel
 funnel fun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endfunnel
 #circle circle1 (8 0.4) endtunnel
-circle circle1 (10 1.0) endtunnel
+#circle circle1 ({expr $fp.n } {expr $fp.ro }) endtunnel
+
+face c1   (X Y Z ) endface
+
 
 group finalShape
-    instance tun2 circle1 translate (0 0 0) surface U endinstance
+    #instance tun2 circle1 translate (0 0 0) surface U endinstance
     instance tun3 tun translate (0 0 0) rotate (0 1 0) (90) translate (0.6 -0.6 0.6) surface U endinstance
+    instance tun4 tun translate (0 0 0) rotate (0 1 0) (90) translate (2 -0.6 0.6) surface U endinstance
 endgroup
 
 instance cf finalShape endinstance

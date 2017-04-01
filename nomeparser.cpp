@@ -552,7 +552,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     tunnel_expression.push_back(' ');
                 }
-
+                //cout << tunnel_expression << endl;
                 newTunnel.setTunnelParameterValues(tunnel_expression, lineNumber);
 
                 newTunnel.makeTunnel();
@@ -576,6 +576,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 PolyLine newPolyline;
                 newPolyline.isLoop = true;
                 newPolyline.isCircle = true;
+                newPolyline.setGlobalParameter(&params);
 
                 if((++tIt) < tokens.end() && !testComments(*tIt))
                 {
@@ -632,14 +633,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     tunnel_expression.push_back(' ');
                 }
 
-                int n;
+                /*int n;
                 float ro;
-                float ratio;
-                float h;
+
                 string n_expr;
-                string ro_expr;
-                string ratio_expr;
-                string h_expr;
+                string ro_expr;*/
+
                 //--------
                 string nextExpression = "";
                 bool expressionMode = false;
@@ -658,12 +657,12 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         switch(i)
                         {
                         case 0:
-                            n_expr = nextExpression.substr(5);
-                            n = evaluate_expression(n_expr, &params);
+                            newPolyline.n_expr = nextExpression.substr(5);
+                            newPolyline.n = evaluate_polyline_expression(newPolyline.n_expr, &params, &newPolyline);
                             break;
                         case 1:
-                            ro_expr = nextExpression.substr(5);
-                            ro = evaluate_expression(ro_expr, &params);
+                            newPolyline.ro_expr = nextExpression.substr(5);
+                            newPolyline.ro = evaluate_polyline_expression(newPolyline.ro_expr, &params, &newPolyline);
                             break;
                         }
                         nextExpression = "";
@@ -684,10 +683,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             switch(i)
                             {
                             case 0:
-                                n = stoi(number);
+                                newPolyline.n = stoi(number);
                                 break;
                             case 1:
-                                ro = stof(number);
+                                newPolyline.ro = stof(number);
                                 break;
                             }
                             number = "";
@@ -700,10 +699,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     switch(i)
                     {
                     case 0:
-                        n = stoi(number);
+                        newPolyline.n = stoi(number);
                         break;
                     case 1:
-                        ro = stof(number);
+                        newPolyline.ro = stof(number);
                         break;
                     }
                 }
@@ -721,7 +720,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 // Creating the vertices
                 //=======================
                 //cout << n << endl;
-                if(n < 3) {
+                if(newPolyline.n < 3) {
                     cout << "Error: Circle method at line " + to_string(lineNumber) + " needs to have a n parameter that is higher than 2." << endl;
                     return 1;
                 }
@@ -734,15 +733,15 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 vector<Vertex*> baseCircle;
                 vector<Vertex*> highCircle;
                 vector<Vertex*> lowCircle;
-                for(int i = 0; i < n; i++)
+                for(int i = 0; i < newPolyline.n; i++)
                 {
                     Vertex * newVertex = new Vertex;
                     newVertex->ID = i;
                     newVertex->name = "bc" + to_string(i);
 
-                    float currAngle = 2.0 * i / n * PI;
-                    newVertex -> position = vec3(ro * glm::cos(currAngle),
-                                                 ro * glm::sin(currAngle), 0);
+                    float currAngle = 2.0 * i / newPolyline.n * PI;
+                    newVertex -> position = vec3(newPolyline.ro * glm::cos(currAngle),
+                                                 newPolyline.ro * glm::sin(currAngle), 0);
                     baseCircle.push_back(newVertex);
                     newPolyline.addVertex(newVertex);
                 }
@@ -1232,6 +1231,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             {
                 geometrylines.push_back(nextLine);
                 PolyLine newPolyline;
+                newPolyline.setGlobalParameter(&params);
                 if((++tIt) < tokens.end() && !testComments(*tIt))
                 {
                     lineIt = polylines.find(*tIt);
@@ -1319,6 +1319,103 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 polylines[newPolyline.name] = newPolyline;
+
+            }
+            else if((*tIt) == "bspline3")
+            {
+                geometrylines.push_back(nextLine);
+                BSpline newBSpline;
+                newBSpline.set_segments(6);
+                if((++tIt) < tokens.end() && !testComments(*tIt))
+                {
+                    lineIt = polylines.find(*tIt);
+                    if(lineIt == polylines.end())
+                    {
+                        newBSpline.name = *tIt;
+                    }
+                    else
+                    {
+                        cout << "Error: The bspline3 " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                        return 1;
+                        cout<<warning(13, lineNumber)<<endl;
+                    }
+                }
+                else
+                {
+                    cout<<warning(12, lineNumber)<<endl;
+                }
+                string vertInside = "";
+                bool addingVert = false;
+                while(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                {
+                    for(char& c : (*tIt))
+                    {
+                        if(c == '(')
+                        {
+                            addingVert = true;
+                        }
+                        else if(c == ')')
+                        {
+                            addingVert = false;
+                            if(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                            {
+                                if(*tIt == "closed")
+                                {
+                                    newBSpline.isLoop = true;
+                                    //newBSpline.set_mode(1);
+                                    ++tIt;
+                                }
+                            }
+                            goto endBSplineWhile;
+                        }
+                        else if(addingVert)
+                        {
+                            vertInside.push_back(c);
+                        }
+                    }
+
+                    if(vertInside != "")
+                    {
+                        vertIt = global_vertices.find(vertInside);
+                        if(vertIt == global_vertices.end())
+                        {
+                            cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                            return 1;
+                            cout<<warning(14, lineNumber);
+                        }
+                        else
+                        {
+                            newBSpline.set_proxy(vertIt -> second);
+                        }
+                        vertInside = "";
+                    }
+                }
+
+                endBSplineWhile:
+                if(vertInside != "")
+                {
+                    vertIt = global_vertices.find(vertInside);
+                    if(vertIt == global_vertices.end())
+                    {
+                        cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                        return 1;
+                        cout<<warning(14, lineNumber);
+                    }
+                    else
+                    {
+                        newBSpline.set_proxy(vertIt -> second);
+                    }
+                    vertInside = "";
+                }
+
+                if((*tIt) != "endbspline3"){
+                    cout << "Error: Missing endbspline3 on line " + to_string(lineNumber) + "." << endl;
+                    return 1;
+                }
+                //newBSpline.addVertex(vertIt -> second);
+                //newBSpline.addVertex(vertIt -> second);
+                newBSpline.cubic();
+                polylines[newBSpline.name] = newBSpline;
 
             }
             else if((*tIt) == "point")

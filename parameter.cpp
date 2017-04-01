@@ -1,11 +1,13 @@
 #include "parameter.h"
 #include "mesh.h"
 #include "myslider.h"
+#include "polyline.h"
 
 Parameter::Parameter()
 {
     this -> name = QString("");
     influenceMeshes.clear();
+    influencePolylines.clear();
     influenceVertices.clear();
     influenceTransformations.clear();
 }
@@ -17,6 +19,7 @@ float Parameter::getValue()
 
 void Parameter::update()
 {
+    //cout << "HELLO" << endl;
     for(Mesh*& m : influenceMeshes)
     {
         switch(m -> type)
@@ -28,6 +31,11 @@ void Parameter::update()
             m -> updateTunnel();
             break;
         }
+    }
+    for(PolyLine*& p : influencePolylines)
+    {
+        //cout << "Update polyline" << endl;
+        p -> updateCircle();
     }
     for(Transformation*& t : influenceTransformations)
     {
@@ -43,6 +51,11 @@ void Parameter::update()
 void Parameter::addInfluenceMesh(Mesh * mesh)
 {
     influenceMeshes.push_back(mesh);
+}
+
+void Parameter::addInfluencePolyline(PolyLine * polyline)
+{
+    influencePolylines.push_back(polyline);
 }
 
 void Parameter::addInfluenceTransformation(Transformation * t)

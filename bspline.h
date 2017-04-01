@@ -1,0 +1,41 @@
+/**
+ * UC Berkeley, NOME project.
+ * Advised by Prof. Sequin H. Carlos.
+ */
+
+#ifndef __BSPLINE_H__
+#define __BSPLINE_H__
+;
+#include <vector>
+#include <glm/glm.hpp>
+#include "mesh.h"
+#include "transformation.h"
+#include "polyline.h"
+using namespace std;
+using namespace glm;
+
+class Group;
+//////////////////////////////////////////////////////////////////////
+// B-Spline Class -- B-Spline is list of vertices, subclass of PolyLine
+class BSpline : public PolyLine {
+public:
+    vector<Vertex*> proxy;
+    BSpline();
+    int segments;
+
+    //setters
+    void set_segments(int);
+    void set_proxy(Vertex*);
+
+    //getters
+    int get_segments();
+
+    //calculate
+    float basis(float, float, float);
+    void calculate(int);
+
+    //constructs a cubic bspline
+    void cubic();
+};
+
+#endif // __BSPLINE_H__

@@ -24,6 +24,19 @@ public:
     bool isCircle;
     bool isLoop;
     QColor color;
+    vector<Parameter*> influencingParams;
+
+    int n;
+    float ro;
+
+    string n_expr;
+    string ro_expr;
+
+    unordered_map<string, Parameter> *params;
+
+    /* Set the global parameter pointer for this mesh. */
+
+
     PolyLine();
     /**
      * @brief drawLine: Draw this polyline in OpenGL
@@ -36,6 +49,8 @@ public:
      * buffer.
      */
     void drawLineWithCubes(int start_index = 0);
+
+    void setGlobalParameter(unordered_map<string, Parameter> *params);
     // Return the skewness of points in this polyline.
     /**
      * @brief skewness: Find the skeness of all points.
@@ -46,6 +61,8 @@ public:
      * @brief clear: clear this Polyline.
      */
     void clear();
+
+    void updateCircle();
     /**
      * @brief isEmpty: Find if this line is empty.
      * @return indicator of this polyline is empty.
@@ -60,6 +77,8 @@ public:
      * @param t: The transformation for this polyline.
      */
     void transform(Transformation* t);
+
+    void addParam(Parameter*);
     /* Check if this polyline is empty.*/
     bool isEmpty();
     /* Set the color of this mesh. */
