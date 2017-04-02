@@ -12,40 +12,40 @@ surface M color (1 0 1) endsurface        # Magenta
 surface W color (1 1 1) endsurface        # White
 
 bank p1
-    set		scl		1		0.5		4		0.1
-    set		rx		0		-90		90		1
-    set		ry		0		-90		90		1
-    set		rz		0		-90		90		1
-    set		tx		8		4		12		0.1
-    set		ty		0		-4		4		0.1
-    set		tz		0		-4		4		0.1
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		8		4		12		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
 endbank
 bank p2
-    set		scl		1		0.5		4		0.1
-    set		rx		0		-90		90		1
-    set		ry		0		-90		90		1
-    set		rz		0		-90		90		1
-    set		tx		6		2		10		0.1
-    set		ty		0		-4		4		0.1
-    set		tz		0		-4		4		0.1
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		6		2		10		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
 endbank
 bank p3
-    set		scl		1		0.5		4		0.1
-    set		rx		0		-90		90		1
-    set		ry		0		-90		90		1
-    set		rz		0		-90		90		1
-    set		tx		4		0		8		0.1
-    set		ty		0		-4		4		0.1
-    set		tz		0		-4		4		0.1
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		4		0		8		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
 endbank
 bank p4
-    set		scl		1		0.5		4		0.1
-    set		rx		0		-90		90		1
-    set		ry		0		-90		90		1
-    set		rz		0		-90		90		1
-    set		tx		2		-2		6		0.1
-    set		ty		0		-4		4		0.1
-    set		tz		0		-4		4		0.1
+    set		scl		1		0.5		4		0.1		
+    set		rx		0		-90		90		1		
+    set		ry		0		-90		90		1		
+    set		rz		0		-90		90		1		
+    set		tx		2		-2		6		0.1		
+    set		ty		0		-4		4		0.1		
+    set		tz		0		-4		4		0.1		
 endbank
 point ooo  ( 0 0 0 ) endpoint
 point xoo  ( 1 0 0 ) endpoint
@@ -84,12 +84,11 @@ endgroup
 ##### The following is the saved work of last time. #####
 
 ##### The added faces. #####
-#mesh consolidatedmesh
-#    face consolidatedface0 (ob1.iyz ob1.iyc ob1.iyc ob1.iyz ) endface
-#    face consolidatedface1 (pL3.oL1.oyz pL3.oL1.obz pL2.oL1.obz pL2.oL1.oyz ) endface
-#    face consolidatedface2 (ob1.iyz ob1.iyc pL0.oL1.oyc pL0.oL1.oyz ) endface
-#endmesh
+mesh consolidatedmesh
+    face consolidatedface0 (pL4.ob1.iyz pL3.ob1.iyz pL3.ob1.ibz pL4.ob1.ibz ) endface
+    face consolidatedface1 (pL2.oL1.oyz pL2.ob1.iyz pL1.ob1.iyz pL1.oL1.oyz ) endface
+endmesh
 
 ####Create an instance of the consolidated mesh here.####
 
-#instance cm1 consolidatedmesh endinstance
+instance cm1 consolidatedmesh endinstance

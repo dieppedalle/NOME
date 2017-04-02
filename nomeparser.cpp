@@ -1530,6 +1530,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     if(!testComments(*tIt))
                     {
                         instanceName = *tIt;
+                        //cout << instanceName << endl;
                     }
                 } else {
                     cout<<warning(5, lineNumber)<<endl;
@@ -1553,6 +1554,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     geometrylines.push_back(nextLine);
                 }
                 meshIt = meshes.find(className);
+                //cout << className << endl;
                 if(meshIt != meshes.end())
                 {
                     newMesh = (meshIt -> second).makeCopy(instanceName);
@@ -1560,9 +1562,11 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 else
                 {
+
                     groupIt = groups.find(className);
                     if(groupIt != groups.end())
                     {
+                        //cout << instanceName << endl;
                         newGroup = (groupIt -> second).makeCopy(instanceName);
                         findGroup = true;
                     }
@@ -1946,13 +1950,31 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
         newLineEnd:
         lineNumber++;
     }
+
     group.mapFromParameters();
 
-    /*for ( auto it = meshes.begin(); it != meshes.end(); ++it ){
+    /*for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it ){
         cout << (*it).first << endl;
-        cout << (*it).second.name << endl;
+        cout << "JJJJ" << endl;
+    }
+
+    for ( auto it = meshes.begin(); it != meshes.end(); ++it ){
+        cout << (*it).first << endl;
+        for ( auto tt = (*it).second.vertList.begin(); tt != (*it).second.vertList.end(); ++tt ){
+            cout << (*tt)->name << endl;
+            cout << "HELLO" << endl;
+        }
         cout << "JJJJ" << endl;
     }*/
+
+    /*for ( auto it = groups.begin(); it != groups.end(); ++it ){
+        for ( auto mt = (*it).second.myMeshes.begin(); mt != (*it).second.myMeshes.end(); ++mt ){
+            cout << (*mt).name << endl;
+        }
+        cout << (*it).first << endl;
+        cout << "JJJJ" << endl;
+    }*/
+
 
 }
 
@@ -1962,11 +1984,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                                         Group &group,
                                         string input, vector<string> &postProcessingLinesString)
 {
-    //cout << "HI" << endl;
-    //cout << postProcessingLines << endl;
-    //for(int i : postProcessingLines){
-    //  cout << "i = " << i << endl;
-    //}
     if(postProcessingLines.size() == 0)
     {
         return;
@@ -1991,7 +2008,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
     unordered_map<string, Face*>::iterator faceIt;
     while(std::getline(file, nextLine))
     {
-        //cout << "JJJ" << endl;
         istringstream iss(nextLine);
         vector<string> tokens;
         copy(istream_iterator<string>(iss),
@@ -2006,7 +2022,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             else if((*tIt) == "surface")
             {
-                //cout<<*tIt<<endl;
                 string color_name;
                 QColor new_color;
                 if(++tIt < tokens.end())
@@ -2081,7 +2096,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             if((*tIt) == "mesh")
             {
-                //cout << "HELLL:" << endl;
                 restoreConsolidatedMesh = true;
                 Mesh newMesh(0);
                 if((++tIt) < tokens.end()) {
@@ -2260,8 +2274,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 bool foundVertex;
                 for(Vertex * vs : vertices)
                 {
-
-                    //cout << current_mesh_name << endl;
                     foundVertex = false;
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
@@ -2291,7 +2303,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         mappedVertices.push_back(newVertex);
                     }
                 }
-                //cout << mappedVertices << endl;
+
                 meshes[current_mesh_name].addPolygonFace(mappedVertices);
                 meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
                         -> name = newFace -> name;
@@ -2333,7 +2345,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             else if((*tIt) == "instance")
             {
-                //cout << "MMNN" << endl;
                 string instanceName;
                 Mesh newMesh;
                 string className;

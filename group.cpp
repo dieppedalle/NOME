@@ -133,30 +133,33 @@ void Group::updateGroupElementName()
     vector<Mesh>::iterator mIt;
     vector<PolyLine>::iterator pIt;
     vector<Group>::iterator gIt;
+
     if(this -> name != "" || this -> parent == NULL)
     {
         for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
         {
+            //cout << (*mIt).name << endl;
             if(this -> parent != NULL)
             {
                 (*mIt).name = this->name + "." + (*mIt).name;
             }
             for(Vertex*& v : (*mIt).vertList)
             {
-                v -> name = (*mIt).name + "." + v -> name;
+                v -> name = this->name + "."  + (*mIt).name + "." + v -> name;
             }
             for(Face*& f : (*mIt).faceList)
             {
                 if(f -> name == "")
                 {
-                    f -> name = (*mIt).name + "." + to_string(f -> id);
+                    f -> name = this->name + "."  + (*mIt).name + "." + to_string(f -> id);
                 }
                 else
                 {
-                    f -> name = (*mIt).name + "." + f -> name;
+                    f -> name = this->name + "."  + (*mIt).name + "." + f -> name;
                 }
             }
         }
+
         for(pIt = myPolylines.begin(); pIt < myPolylines.end(); pIt++)
         {
             (*pIt).name = this -> name + "." + (*pIt).name;
@@ -227,11 +230,13 @@ Group Group::makeCopy(string copy_group_name)
     {
         newGroup.name = copy_group_name;
     }
+    //cout << newGroup.name << endl;
     vector<Mesh>::iterator mIt;
     vector<Group>::iterator gIt;
     vector<PolyLine>::iterator pIt;
     for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
     {
+        //cout << (*mIt).name << endl;
         Mesh newMesh = (*mIt).makeCopy();
         newMesh.transformations_up = (*mIt).transformations_up;
         newMesh.user_set_color = (*mIt).user_set_color;
@@ -240,6 +245,7 @@ Group Group::makeCopy(string copy_group_name)
     }
     for(pIt = myPolylines.begin(); pIt < myPolylines.end(); pIt++)
     {
+        //cout << "HI" << endl;
         PolyLine newPolyline = (*pIt).makeCopy();
         newPolyline.transformations_up = (*pIt).transformations_up;
         newPolyline.user_set_color = (*pIt).user_set_color;
