@@ -1964,9 +1964,9 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
 {
     //cout << "HI" << endl;
     //cout << postProcessingLines << endl;
-    /*for(int i : postProcessingLines){
-      cout << "i = " << i << endl;
-    }*/
+    //for(int i : postProcessingLines){
+    //  cout << "i = " << i << endl;
+    //}
     if(postProcessingLines.size() == 0)
     {
         return;
