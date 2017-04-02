@@ -5,6 +5,30 @@ NomeParser::NomeParser()
 
 }
 
+Vertex *searchForString(Group group, string searchFor){
+    for ( auto at = group.subgroups.begin(); at != group.subgroups.end(); ++at ){
+        for ( auto it = at->myMeshes.begin(); it != at->myMeshes.end(); ++it ){
+            for ( auto tt = (*it).vertList.begin(); tt != (*it).vertList.end(); ++tt ){
+                std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
+                if (searchFor.compare(currentString) == 0){
+                    return *tt;
+                }
+                cout << currentString << endl;
+            }
+        }
+
+        for ( auto it = at->myPolylines.begin(); it != at->myPolylines.end(); ++it ){
+            for ( auto tt = (*it).vertices.begin(); tt != (*it).vertices.end(); ++tt ){
+                std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
+                if (searchFor.compare(currentString) == 0){
+                    return *tt;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
 bool testComments(string token)
 {
     if(token[0] == '#') {
@@ -1104,6 +1128,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 bool addingVert = false;
                 vector<Vertex*> vertices;
                 vertices.clear();
+
                 while(++tIt < tokens.end() && (*tIt) != "endface")
                 {
                     for(char & c: (*tIt))
@@ -1120,6 +1145,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 vertIt = global_vertices.find(vertInside);
                                 if(vertIt == global_vertices.end())
                                 {
+
                                     cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                                     return 1;
                                     cout<<warning(21, lineNumber);
@@ -1144,7 +1170,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
-                            cout<<warning(21, lineNumber);
                         }
                         else
                         {
@@ -1970,13 +1995,32 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     /*for ( auto it = groups.begin(); it != groups.end(); ++it ){
         for ( auto mt = (*it).second.myMeshes.begin(); mt != (*it).second.myMeshes.end(); ++mt ){
             cout << (*mt).name << endl;
+            for ( auto tt = (*mt).vertList.begin(); tt != (*mt).vertList.end(); ++tt ){
+                cout << (*tt)->name << endl;
+            }
         }
         cout << (*it).first << endl;
-        cout << "JJJJ" << endl;
+    }*/
+    /*for ( auto it = (*group).begin(); it != (*group).end(); ++it ){
+        for ( auto mt = (*it).second.myMeshes.begin(); mt != (*it).second.myMeshes.end(); ++mt ){
+            cout << (*mt).name << endl;
+            for ( auto tt = (*mt).vertList.begin(); tt != (*mt).vertList.end(); ++tt ){
+                cout << (*tt)->name << endl;
+            }
+        }
+        cout << (*it).first << endl;
     }*/
 
 
+    cout << searchForString(group, "cf.tun3.lc7") << endl;
+
+
+
+
+
 }
+
+
 
 void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                                         vector<int> &postProcessingLines,
