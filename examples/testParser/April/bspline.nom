@@ -1,0 +1,30 @@
+#### Some Surface colors #############################
+surface U color (1 0 0) endsurface          # Red
+
+
+bank fp
+    set     n       8       3       100      1
+    set     ro      0.4     0.1     1.0     0.1
+    set     ratio   -0.2    -0.5    0.5     0.1
+    set     h       0.2     0.1     1.5     0.1
+    set     z       0    -360   360     1
+endbank
+
+
+point X  ( 1 1 1) endpoint
+point Y  ( 2 -2 2) endpoint
+point Z  ( 0 0 0) endpoint
+
+tunnel tun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endtunnel
+
+
+bspline3 test (X Y Z) endbspline3
+
+group finalShape
+    instance test2 test translate (0 0 0) endinstance
+    instance tun3 tun translate (0 0 0) rotate (0 1 0) (90) translate (0.6 -0.6 0.6) surface U endinstance
+endgroup
+
+
+
+instance cf finalShape endinstance

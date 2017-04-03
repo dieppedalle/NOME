@@ -91,12 +91,12 @@ void BSpline::calculate (int order)
             float y = 0;
             float z = 0;
 
-            cout << t << endl;
+            //cout << t << endl;
 
             for (int i = 1; i <= proxy.size(); i++)
             {
                 float temp = basis(i, order, t);
-                cout << temp << endl;
+                //cout << temp << endl;
                 vec3 pos = proxy[i-1] -> position;
 
                 x = x + (temp * pos[0]);

@@ -1,0 +1,106 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface        # Blue
+surface M color (1 0 1) endsurface        # Magenta
+surface W color (1 1 1) endsurface        # White
+
+bank p1
+    set		scl		1		0.5		4		0.1
+    set		rx		0		-90		90		1
+    set		ry		0		-90		90		1
+    set		rz		0		-90		90		1
+    set		tx		8		4		12		0.1
+    set		ty		0		-4		4		0.1
+    set		tz		0		-4		4		0.1
+endbank
+bank p2
+    set		scl		1		0.5		4		0.1
+    set		rx		0		-90		90		1
+    set		ry		0		-90		90		1
+    set		rz		0		-90		90		1
+    set		tx		6		2		10		0.1
+    set		ty		0		-4		4		0.1
+    set		tz		0		-4		4		0.1
+endbank
+bank p3
+    set		scl		1		0.5		4		0.1
+    set		rx		0		-90		90		1
+    set		ry		0		-90		90		1
+    set		rz		0		-90		90		1
+    set		tx		4		0		8		0.1
+    set		ty		0		-4		4		0.1
+    set		tz		0		-4		4		0.1
+endbank
+bank p4
+    set		scl		1		0.5		4		0.1
+    set		rx		0		-90		90		1
+    set		ry		0		-90		90		1
+    set		rz		0		-90		90		1
+    set		tx		2		-2		6		0.1
+    set		ty		0		-4		4		0.1
+    set		tz		0		-4		4		0.1
+endbank
+point ooo  ( 0 0 0 ) endpoint
+point xoo  ( 1 0 0 ) endpoint
+point oyo  ( 0 1 0 ) endpoint
+point ooz  ( 0 0 1 ) endpoint
+ polyline xaxis  (ooo xoo ) endpolyline
+ polyline yaxis  (ooo oyo ) endpolyline
+ polyline zaxis  (ooo ooz ) endpolyline
+group coord_axes
+   instance xa xaxis  surface R  endinstance
+   instance ya yaxis  surface B  endinstance
+   instance za zaxis  surface G  endinstance
+endgroup
+instance axes coord_axes  scale (1.5 1.5 1.5 )  endinstance
+  point iyz  ( 0  1  1 ) endpoint
+  point ibz  ( 0 -1  1 ) endpoint
+  point ibc  ( 0 -1 -1 ) endpoint
+  point iyc  ( 0  1 -1 ) endpoint
+  point oyz  ( 0  2  2 ) endpoint
+  point obz  ( 0 -2  2 ) endpoint
+  point obc  ( 0 -2 -2 ) endpoint
+  point oyc  ( 0  2 -2 ) endpoint
+  polyline oL  (  obz obc oyc oyz ) endpolyline
+  face iF (iyz ibz ibc iyc )  surface A  endface
+  object ob (iF ) endobject
+
+group innplane0
+  instance ob0 ob endinstance
+  instance oL0 oL endinstance
+endgroup
+
+group innplane1
+  instance ob1 ob endinstance
+  instance oL1 oL endinstance
+endgroup
+
+group innplane2
+  instance ob2 ob endinstance
+  instance oL2 oL endinstance
+endgroup
+
+group innplane3
+  instance ob3 ob endinstance
+  instance oL3 oL endinstance
+endgroup
+
+group innplane4
+  instance ob4 ob endinstance
+  instance oL4 oL endinstance
+endgroup
+
+  instance pL0 innplane0  scale ( {expr $p1.scl} {expr $p1.scl} {expr $p1.scl} )  translate (1 0 0)   rotate (1 0 0)({expr $p1.rx})  rotate (0 1 0)({expr $p1.ry})  rotate (0 0 1)({expr $p1.rz})   translate ({expr $p1.tx} {expr $p1.ty} {expr $p1.tz} )    endinstance
+  instance pL1 innplane1  scale ( {expr $p1.scl} {expr $p1.scl} {expr $p1.scl} )   rotate (1 0 0)({expr $p1.rx})  rotate (0 1 0)({expr $p1.ry})  rotate (0 0 1)({expr $p1.rz})    translate ({expr $p1.tx} {expr $p1.ty} {expr $p1.tz} )    endinstance
+  instance pL2 innplane2  scale ( {expr $p2.scl} {expr $p2.scl} {expr $p2.scl} )   rotate (1 0 0)({expr $p2.rx})  rotate (0 1 0)({expr $p2.ry})  rotate (0 0 1)({expr $p2.rz})    translate ({expr $p2.tx} {expr $p2.ty} {expr $p2.tz} )    endinstance
+  instance pL3 innplane3  scale ( {expr $p3.scl} {expr $p3.scl} {expr $p3.scl} )   rotate (1 0 0)({expr $p3.rx})  rotate (0 1 0)({expr $p3.ry})  rotate (0 0 1)({expr $p3.rz})    translate ({expr $p3.tx} {expr $p3.ty} {expr $p3.tz} )    endinstance
+  instance pL4 innplane4  scale ( {expr $p4.scl} {expr $p4.scl} {expr $p4.scl} )   rotate (1 0 0)({expr $p4.rx})  rotate (0 1 0)({expr $p4.ry})  rotate (0 0 1)({expr $p4.rz})    translate ({expr $p4.tx} {expr $p4.ty} {expr $p4.tz} )    endinstance
+
+##### The following is the saved work of last time. #####

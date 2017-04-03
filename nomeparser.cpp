@@ -626,8 +626,10 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 bool inExpression = false;
                 while(++tIt < tokens.end())
                 {
+
                     for(char& c : (*tIt))
                     {
+
                         if(c == '(' && !inExpression)
                         {
                             expression_input = true;
@@ -644,7 +646,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             tunnel_expression.push_back(c);
                         }
-                        if(c == '{')
+                        else if(c == '{')
                         {
                             inExpression = true;
                         }
@@ -652,9 +654,16 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             inExpression = false;
                         }
+                        else {
+                            if (*tIt != "endcircle"){
+                                cout << "Error: Circle method at line " + to_string(lineNumber) + " is missing endcircle." << endl;
+                                return 1;
+                            }
+                        }
                     }
                     tunnel_expression.push_back(' ');
                 }
+                //cout << *tIt << endl;
 
                 /*int n;
                 float ro;
@@ -667,6 +676,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 bool expressionMode = false;
                 string number = "";
                 int i = 0;
+
                 for(char& c : tunnel_expression)
                 {
 
@@ -1165,10 +1175,20 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     if(vertInside != "")
                     {
                         vertIt = global_vertices.find(vertInside);
+
+
                         if(vertIt == global_vertices.end())
                         {
+                            group.mapFromParameters();
+                            Vertex * foundVertex = searchForString(group, vertInside);
+                            //cout << foundVertex << endl;
+                            if (foundVertex==NULL){
                             cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
+                            }
+                            else{
+                                vertices.push_back(foundVertex);
+                            }
                         }
                         else
                         {
@@ -1976,6 +1996,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     }
 
     group.mapFromParameters();
+
 
     /*for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it ){
         cout << (*it).first << endl;
