@@ -13,7 +13,6 @@ Vertex *searchForString(Group group, string searchFor){
                 if (searchFor.compare(currentString) == 0){
                     return *tt;
                 }
-                cout << currentString << endl;
             }
         }
 
@@ -2012,7 +2011,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     }*/
 
 
-    cout << searchForString(group, "cf.tun3.lc7") << endl;
+    //cout << searchForString(group, "cf.tun3.lc7") << endl;
 
 
 
