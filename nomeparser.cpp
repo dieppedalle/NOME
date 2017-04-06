@@ -457,7 +457,9 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 user_defined_colors[color_name] = new_color;
 
-                if(++tIt == tokens.end() || (*tIt) != "endsurface"){
+                tIt++;
+
+                if(tIt == tokens.end() || (*tIt) != "endsurface"){
                     cout << "Error: Missing endsurface on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
@@ -1387,7 +1389,24 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 else
                 {
                     cout<<warning(12, lineNumber)<<endl;
+                    return 1;
                 }
+
+                tIt++;
+
+                if(*tIt == "slices"){
+                    cout << *tIt << endl;
+                }
+                else{
+                    cout << "Error: The bspline3 " + newBSpline.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                    return 1;
+                }
+
+                tIt++;
+
+                int segments = atoi((*tIt).c_str());
+                newBSpline.set_segments(segments);
+
                 string vertInside = "";
                 bool addingVert = false;
                 while(++tIt < tokens.end() && (*tIt) != "endbspline3")

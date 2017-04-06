@@ -1,0 +1,116 @@
+##  TDyckcons1_rename.nom
+## renaming the consolidate stuff ...
+
+
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface          # Blue
+surface P color (0.5 0 1) endsurface        # Purple
+surface M color (1 0 1) endsurface          # Magenta
+surface W color (1 1 1) endsurface          # White
+
+bank rim  ## the rim of the connecting Dyck disks:
+    set		num		24		12		24		1		#		number		of		segments
+    set		rad		1		0.1		2.0		0.1		#		circle		radius
+    set		sx		2.4		1		8		0.1
+    set		sy		2.4		1		4		0.1
+    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		rx		45		0		90		0.5		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		ry		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		tx		3		0		6		0.1
+endbank
+
+bank cir  ## the punch-through connections from one disk to the next
+    set		num		12		6		16		1		#		number		of		segments
+    set		rad		0.5		0.1		1.0		0.1		#		circle		radius
+    set		tr		1		0		1		0.1
+    set		tz		0.9		0		1		0.1
+    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		rp		-9		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		rn		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+endbank
+
+bank pad  ## the central quad patch -- made as a circle, so that it shows up in consolidated mesh!
+    set		num		4		4		4		1		#		number		of		segments
+    set		rad		0.25		0.1		0.5		0.05		#		circle		radius
+    set		rz		45		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+endbank
+
+circle  rimo  ( {expr $rim.num} {expr $rim.rad} ) endcircle
+circle  circ  ( {expr $cir.num} {expr $cir.rad} ) endcircle
+circle  sadl  ( {expr $pad.num} {expr $pad.rad} ) endcircle
+
+group dk
+instance s0  sadl    rotate (0 0 1)({expr $pad.rz})    endinstance
+
+instance r0  rimo    rotate (0 0 1)({expr $rim.rz})   scale ({expr $rim.sx} {expr $rim.sy} 1)    endinstance
+
+instance c0  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr $cir.rp})  rotate (1 -1 0)({expr $cir.rn})   translate ( {expr  $cir.tr} 0  {expr  $cir.tz} )    endinstance
+instance c1  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.rp})  rotate (1 -1 0)({expr -$cir.rn})   translate (0  {expr $cir.tr}   {expr -$cir.tz})     endinstance
+instance c2  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr $cir.rp})  rotate (1 -1 0)({expr $cir.rn})   translate ( {expr -$cir.tr} 0  {expr  $cir.tz} )    endinstance
+instance c3  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.rp})  rotate (1 -1 0)({expr -$cir.rn})   translate (0  {expr -$cir.tr}  {expr -$cir.tz})     endinstance
+endgroup
+
+instance disk dk    endinstance
+
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh conmesh
+    face conface0 (disk.c1.bc9 disk.c1.bc8 disk.s0.bc1 disk.s0.bc0 ) endface
+    face conface1 (disk.s0.bc1 disk.c2.bc0 disk.c2.bc11 disk.s0.bc2 ) endface
+    face conface2 (disk.s0.bc2 disk.c3.bc3 disk.c3.bc2 disk.s0.bc3 ) endface
+    face conface3 (disk.s0.bc3 disk.c0.bc6 disk.c0.bc5 disk.s0.bc0 ) endface
+    face conface4 (disk.c1.bc7 disk.c2.bc1 disk.c2.bc0 disk.s0.bc1 disk.c1.bc8 ) endface
+    face conface5 (disk.c2.bc10 disk.c3.bc4 disk.c3.bc3 disk.s0.bc2 disk.c2.bc11 ) endface
+    face conface6 (disk.c3.bc1 disk.c0.bc7 disk.c0.bc6 disk.s0.bc3 disk.c3.bc2 ) endface
+    face conface7 (disk.c0.bc4 disk.c1.bc10 disk.c1.bc9 disk.s0.bc0 disk.c0.bc5 ) endface
+    face conface8 (disk.s0.bc0 disk.s0.bc1 disk.s0.bc2 disk.s0.bc3 ) endface
+    face conface9 (disk.c0.bc3 disk.c1.bc11 disk.c1.bc10 disk.c0.bc4 ) endface
+    face conface10 (disk.c1.bc6 disk.c2.bc2 disk.c2.bc1 disk.c1.bc7 ) endface
+    face conface11 (disk.c2.bc9 disk.c3.bc5 disk.c3.bc4 disk.c2.bc10 ) endface
+    face conface12 (disk.c3.bc0 disk.c0.bc8 disk.c0.bc7 disk.c3.bc1 ) endface
+    face conface13 (disk.c0.bc0 disk.c0.bc11 disk.r0.bc23 disk.r0.bc0 ) endface
+    face conface14 (disk.c0.bc1 disk.c0.bc0 disk.r0.bc0 disk.r0.bc1 ) endface
+    face conface15 (disk.c0.bc2 disk.c0.bc1 disk.r0.bc1 disk.r0.bc2 ) endface
+    face conface16 (disk.c0.bc11 disk.c0.bc10 disk.r0.bc22 disk.r0.bc23 ) endface
+    face conface17 (disk.c0.bc10 disk.c0.bc9 disk.r0.bc21 disk.r0.bc22 ) endface
+    face conface18 (disk.c1.bc3 disk.c1.bc2 disk.r0.bc5 disk.r0.bc6 ) endface
+    face conface19 (disk.c1.bc4 disk.c1.bc3 disk.r0.bc6 disk.r0.bc7 ) endface
+    face conface20 (disk.c1.bc5 disk.c1.bc4 disk.r0.bc7 disk.r0.bc8 ) endface
+    face conface21 (disk.c1.bc2 disk.c1.bc1 disk.r0.bc4 disk.r0.bc5 ) endface
+    face conface22 (disk.c1.bc1 disk.c1.bc0 disk.r0.bc3 disk.r0.bc4 ) endface
+    face conface23 (disk.c2.bc6 disk.c2.bc5 disk.r0.bc11 disk.r0.bc12 ) endface
+    face conface24 (disk.c2.bc5 disk.c2.bc4 disk.r0.bc10 disk.r0.bc11 ) endface
+    face conface25 (disk.c2.bc4 disk.c2.bc3 disk.r0.bc9 disk.r0.bc10 ) endface
+    face conface26 (disk.c2.bc7 disk.c2.bc6 disk.r0.bc12 disk.r0.bc13 ) endface
+    face conface27 (disk.c2.bc8 disk.c2.bc7 disk.r0.bc13 disk.r0.bc14 ) endface
+    face conface28 (disk.c3.bc9 disk.c3.bc8 disk.r0.bc17 disk.r0.bc18 ) endface
+    face conface29 (disk.c3.bc10 disk.c3.bc9 disk.r0.bc18 disk.r0.bc19 ) endface
+    face conface30 (disk.c3.bc11 disk.c3.bc10 disk.r0.bc19 disk.r0.bc20 ) endface
+    face conface31 (disk.c3.bc8 disk.c3.bc7 disk.r0.bc16 disk.r0.bc17 ) endface
+    face conface32 (disk.c3.bc7 disk.c3.bc6 disk.r0.bc15 disk.r0.bc16 ) endface
+    face conface33 (disk.r0.bc20 disk.r0.bc21 disk.c0.bc9 disk.c0.bc8 disk.c3.bc0 disk.c3.bc11 ) endface
+    face conface34 (disk.r0.bc2 disk.r0.bc3 disk.c1.bc0 disk.c1.bc11 disk.c0.bc3 disk.c0.bc2 ) endface
+    face conface35 (disk.r0.bc8 disk.r0.bc9 disk.c2.bc3 disk.c2.bc2 disk.c1.bc6 disk.c1.bc5 ) endface
+    face conface36 (disk.r0.bc14 disk.r0.bc15 disk.c3.bc6 disk.c3.bc5 disk.c2.bc9 disk.c2.bc8 ) endface
+endmesh
+
+####Create an instance of the con mesh here.####
+
+instance cmx conmesh   surface Y  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )      endinstance
+#instance cma conmesh   surface L  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (0 0 1)(180)     endinstance
+
+#instance cmy conmesh   surface U  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)     endinstance
+#instance cmb conmesh   surface U rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)  rotate (1 0 0)(180)     endinstance
+
+#instance cmz conmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)    endinstance
+#instance cmc conmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)  rotate (1 0 0)(180)     endinstance
