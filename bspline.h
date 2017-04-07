@@ -31,7 +31,7 @@ public:
     int get_segments();
 
     //calculate
-    float basis(float, float, float);
+    float basis(int, int, float);
     void calculate(int);
 
     //constructs a cubic bspline

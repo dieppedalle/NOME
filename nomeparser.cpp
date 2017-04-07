@@ -1152,7 +1152,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             {
                 geometrylines.push_back(nextLine);
                 BSpline newBSpline;
-                newBSpline.set_segments(6);
+                newBSpline.set_segments(8);
                 if((++tIt) < tokens.end() && !testComments(*tIt))
                 {
                     lineIt = polylines.find(*tIt);
@@ -1189,7 +1189,6 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                                 if(*tIt == "closed")
                                 {
                                     newBSpline.isLoop = true;
-                                    newBSpline.set_mode(1);
                                     ++tIt;
                                 }
                             }
@@ -1239,8 +1238,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout << "Error: Missing endbspline3 on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
-                //newBSpline.addVertex(vertIt -> second);
-                //newBSpline.addVertex(vertIt -> second);
+                newBSpline.isLoop = false;
                 newBSpline.cubic();
                 polylines[newBSpline.name] = newBSpline;
 
