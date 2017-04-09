@@ -120,16 +120,34 @@ void PolyLine::setGlobalParameter(unordered_map<string, Parameter> *params)
 
 void PolyLine::updateCircle()
 {
-    vertices.clear();
+
 
     if(n_expr != ""){
-        n = int(evaluate_expression(n_expr, params));
+        int new_n = int(evaluate_expression(n_expr, params));
+        if(new_n != n)
+        {
+            vertices.clear();
+            n = new_n;
+            updateCircle_n();
+        }
+
+
     }
 
     if(ro_expr != ""){
-        ro = float(evaluate_expression(ro_expr, params));
+        float new_ro = float(evaluate_expression(ro_expr, params));
+        if(new_ro != ro)
+        {
+            ro = new_ro;
+            updateCircle_ro();
+        }
     }
 
+
+}
+
+void PolyLine::updateCircle_n()
+{
     if(n < 3) {
         cout << "Error: Circle method needs to have a n parameter that is higher than 2." << endl;
         //return 1;
@@ -156,6 +174,72 @@ void PolyLine::updateCircle()
         addVertex(newVertex);
     }
 }
+
+void PolyLine::getVertexNormal(Vertex * currVert){
+    Edge * firstEdge = currVert -> oneEdge;
+    if(firstEdge == NULL) {
+        //cout<<"Lonely vertex without any adjacent edges"<<endl;
+        return;
+    }
+    Edge * currEdge = firstEdge;
+    Face * currFace = currEdge -> fa;
+    vec3 avgNorm(0, 0, 0);
+    int mobiusCounter = 0;
+    do {
+        if(mobiusCounter % 2 == 0) {
+            avgNorm += currFace -> normal;
+        } else {
+            avgNorm -= currFace -> normal;
+        }
+        if(currEdge -> mobius) {
+            mobiusCounter += 1;
+        }
+        currFace = currEdge -> theOtherFace(currFace);
+        if(currFace == NULL) { //If the face is NULL, need to skip this face
+            Edge * nextEdge = currEdge -> nextEdge(currVert, currFace);
+            if(nextEdge -> va == currEdge -> va || nextEdge -> vb == currEdge -> vb) {
+                mobiusCounter += 1;
+            }
+            currEdge = nextEdge;
+            currFace = currEdge -> theOtherFace(currFace);
+        }
+        currEdge = currEdge -> nextEdge(currVert, currFace);
+    } while ( currEdge != firstEdge);
+    //if(currVert -> onMobius) {
+    //cout<<"The value of avgNorm is :"<<avgNorm[0]<<" "<<avgNorm[1]<<" "<<avgNorm[2]<<endl;
+    //cout<<"The position of this vertex is :"<<currVert -> position[0]<<" "<<currVert -> position[1]<<" "<<currVert -> position[2]<<endl;
+    //}//cout<<"ID: "<<currVert -> ID <<" has "<<mobiusCounter<<" mConter"<<endl;
+    currVert -> normal = normalize(avgNorm);
+}
+
+void PolyLine::computeNormals(){
+    vector<Vertex*>::iterator vIt;
+
+    //cout << "HELLO" << endl;
+
+    //cout << vertices.size() << endl;
+    for(vIt = vertices.begin(); vIt != vertices.end(); vIt++) {
+        //cout<<"Now calculating vertex with ID: ";
+        getVertexNormal(*vIt);
+    }
+
+}
+
+void PolyLine::updateCircle_ro()
+{
+    for(int i = 0; i < n; i++)
+    {
+        Vertex * newVertex = vertices[i];
+
+        float currAngle = 2.0 * i / n * PI;
+        //cout << n << endl;
+        newVertex -> position = vec3(ro * glm::cos(currAngle),
+                                     ro * glm::sin(currAngle), 0);
+    }
+
+    computeNormals();
+}
+
 
 PolyLine PolyLine::makeCopy(string copy_polyline_name)
 {

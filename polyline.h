@@ -112,6 +112,12 @@ public:
     void drawVertices();
     /* Find a vertex in this polyline given its name. */
     Vertex * findVertexInThisPolyline(string name);
+
+    void updateCircle_n();
+    void updateCircle_ro();
+
+    void getVertexNormal(Vertex * currVert);
+    void computeNormals();
 };
 
 #endif // __POLYLINE_H__

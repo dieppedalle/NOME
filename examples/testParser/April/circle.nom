@@ -28,7 +28,9 @@ circle circle1 ({expr $circle.n } {expr $circle.ro}) endcircle
 
 group finalShape
     instance tun2 circle1 translate (0 0 0) surface U endinstance
+    instance tun4 circle1 translate (0 0 2) surface U endinstance
     instance tun3 tun translate (0 0 0) rotate (0 1 0) (90) translate (0.6 -0.6 0.6) surface U endinstance
+    instance tun5 tun translate (0 0 0) rotate (0 1 0) (90) translate (2 -0.6 0.6) surface U endinstance
 endgroup
 
 

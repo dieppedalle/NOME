@@ -1416,6 +1416,7 @@ debug/moc_mainwindow.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QMainWindow \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
+		bspline.h \
 		sliderpanel.h \
 		myslider.h \
 		mainwindow.h \
@@ -3346,6 +3347,7 @@ debug/main.o: main.cpp mainwindow.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
+		bspline.h \
 		sliderpanel.h \
 		myslider.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QApplication
@@ -11319,6 +11321,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
+		bspline.h \
 		sliderpanel.h \
 		myslider.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
@@ -13648,7 +13651,8 @@ debug/parameter.o: parameter.cpp parameter.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QVBoxLayout
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
+		polyline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\parameter.o parameter.cpp
 
 debug/myslider.o: myslider.cpp myslider.h \
@@ -14373,7 +14377,8 @@ debug/utils.o: utils.cpp utils.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglversion.h \
 		face.h \
 		edge.h \
-		vertex.h
+		vertex.h \
+		polyline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\utils.o utils.cpp
 
 debug/nomeparser.o: nomeparser.cpp nomeparser.h \
@@ -14962,7 +14967,8 @@ debug/nomeparser.o: nomeparser.cpp nomeparser.h \
 		stl.h \
 		offset.h \
 		zipper.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QMessageBox
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QMessageBox \
+		bspline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\nomeparser.o nomeparser.cpp
 
 debug/nomeglwidget.o: nomeglwidget.cpp nomeglwidget.h \
