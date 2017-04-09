@@ -22,16 +22,19 @@ public:
     vector<Vertex*> proxy;
     BSpline();
     int segments;
+    int order;
 
     //setters
     void set_segments(int);
     void set_proxy(Vertex*);
+    void set_order(int);
 
     //getters
     int get_segments();
+    int get_order();
 
     //calculate
-    float basis(float, float, float);
+    float basis(int, int, float);
     void calculate(int);
 
     //constructs a cubic bspline

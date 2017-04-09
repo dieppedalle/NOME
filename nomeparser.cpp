@@ -1367,11 +1367,13 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 polylines[newPolyline.name] = newPolyline;
 
             }
-            else if((*tIt) == "bspline3")
+            else if((*tIt).substr (0,7) == "bspline")
             {
                 geometrylines.push_back(nextLine);
                 BSpline newBSpline;
-                newBSpline.set_segments(6);
+                //newBSpline.set_segments(6);
+                newBSpline.set_order(stoi((*tIt).substr(7)));
+
                 if((++tIt) < tokens.end() && !testComments(*tIt))
                 {
                     lineIt = polylines.find(*tIt);
@@ -1381,7 +1383,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                     else
                     {
-                        cout << "Error: The bspline3 " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                        cout << "Error: The bspline " + *tIt + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                         return 1;
                         cout<<warning(13, lineNumber)<<endl;
                     }
@@ -1394,11 +1396,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 tIt++;
 
-                if(*tIt == "slices"){
-                    cout << *tIt << endl;
-                }
-                else{
-                    cout << "Error: The bspline3 " + newBSpline.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
+                if(*tIt != "slices"){
+                    cout << "Error: The bspline " + newBSpline.name + " at line " + to_string(lineNumber) + " has already been created."  << endl;
                     return 1;
                 }
 
@@ -1409,7 +1408,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 string vertInside = "";
                 bool addingVert = false;
-                while(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                while(++tIt < tokens.end() && (*tIt) != "endbspline" + std::to_string(newBSpline.get_order()))
                 {
                     for(char& c : (*tIt))
                     {
@@ -1420,7 +1419,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         else if(c == ')')
                         {
                             addingVert = false;
-                            if(++tIt < tokens.end() && (*tIt) != "endbspline3")
+                            if(++tIt < tokens.end() && (*tIt) != "endbspline" + std::to_string(newBSpline.get_order()))
                             {
                                 if(*tIt == "closed")
                                 {
@@ -1460,7 +1459,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     vertIt = global_vertices.find(vertInside);
                     if(vertIt == global_vertices.end())
                     {
-                        cout << "Error: Incorrect vertex name in polyline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
+                        cout << "Error: Incorrect vertex name in bspline generator on line " + to_string(lineNumber) + ". The vertex " + vertInside + " has never been created." << endl;
                         return 1;
                         cout<<warning(14, lineNumber);
                     }
@@ -1471,8 +1470,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     vertInside = "";
                 }
 
-                if((*tIt) != "endbspline3"){
-                    cout << "Error: Missing endbspline3 on line " + to_string(lineNumber) + "." << endl;
+                if(tIt == tokens.end() || (*tIt) != "endbspline" + std::to_string(newBSpline.get_order())){
+                    cout << "Error: Missing endbspline" + std::to_string(newBSpline.get_order()) + " on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
                 //newBSpline.addVertex(vertIt -> second);

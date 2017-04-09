@@ -9,6 +9,7 @@ BSpline::BSpline(void)
 {
     PolyLine();
     vertices.clear();
+    set_order(4);
 }
 
 
@@ -23,20 +24,30 @@ void BSpline::set_segments(int a)
     segments = a;
 }
 
+void BSpline::set_order(int a)
+{
+    order = a;
+}
+
 int BSpline::get_segments()
 {
     return segments;
 }
 
-float BSpline::basis(float i, float k, float t)
+int BSpline::get_order()
+{
+    return order;
+}
+
+float BSpline::basis(int i, int k, float t)
 {
     //calculate basis function, i = control point index, k = order, t = variable parameter
-    if (k <= 0)
+    if (k < 0)
     {
         return 0;
     }
 
-    else if (k == 1)
+    else if (k == 0)
     {
         int comp = (int) floor(t);
 
@@ -48,8 +59,8 @@ float BSpline::basis(float i, float k, float t)
     }
 
     else {
-        float a = (t - i)/(k - 1.0);
-        float b = (i + k - t)/(k - 1.0);
+        float a = (t - i)/k;
+        float b = (i + k + 1 - t)/k;
 
         a = a * basis(i, k-1, t);
         b = b * basis(i+1, k-1, t);
@@ -82,10 +93,10 @@ void BSpline::calculate (int order)
         //https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node4.html
 
         float lim = order + proxy.size() - 2;
-        float add = lim/(segments + 2);
+        float add = lim/(segments + order + 1);
 
         //calculate bspline at each t
-        for (float t = 2.0; t <= lim; t = t + add)
+        for (float t = order + 1; t <= lim; t = t + add)
         {
             float x = 0;
             float y = 0;
@@ -113,5 +124,6 @@ void BSpline::calculate (int order)
 
 void BSpline::cubic()
 {
-    calculate(4);
+    //calculate(4);
+    calculate(get_order());
 }
