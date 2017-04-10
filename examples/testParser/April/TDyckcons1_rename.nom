@@ -17,30 +17,30 @@ surface M color (1 0 1) endsurface          # Magenta
 surface W color (1 1 1) endsurface          # White
 
 bank rim  ## the rim of the connecting Dyck disks:
-    set		num		24		12		24		1		#		number		of		segments
-    set		rad		1		0.1		2.0		0.1		#		circle		radius
-    set		sx		2.4		1		8		0.1
-    set		sy		2.4		1		4		0.1
-    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
-    set		rx		45		0		90		0.5		#		alfa		azimuth		for		line-up		into		slanted		ribbon
-    set		ry		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
-    set		tx		3		0		6		0.1
+    set		num		24		12		24		1		#		number		of		segments		
+    set		rad		1		0.1		2.0		0.1		#		circle		radius		
+    set		sx		2.4		1		8		0.1		
+    set		sy		2.4		1		4		0.1		
+    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon		
+    set		rx		45		0		90		0.5		#		alfa		azimuth		for		line-up		into		slanted		ribbon		
+    set		ry		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon		
+    set		tx		3		0		6		0.1		
 endbank
 
 bank cir  ## the punch-through connections from one disk to the next
-    set		num		12		6		16		1		#		number		of		segments
-    set		rad		0.5		0.1		1.0		0.1		#		circle		radius
-    set		tr		1		0		1		0.1
-    set		tz		0.9		0		1		0.1
-    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
-    set		rp		-9		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
-    set		rn		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		num		12		6		16		1		#		number		of		segments		
+    set		rad		0.5		0.1		1.0		0.1		#		circle		radius		
+    set		tr		1		0		1		0.1		
+    set		tz		0.9		0		1		0.1		
+    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon		
+    set		rp		-9		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon		
+    set		rn		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon		
 endbank
 
 bank pad  ## the central quad patch -- made as a circle, so that it shows up in consolidated mesh!
-    set		num		4		4		4		1		#		number		of		segments
-    set		rad		0.25		0.1		0.5		0.05		#		circle		radius
-    set		rz		45		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		num		4		4		4		1		#		number		of		segments		
+    set		rad		0.25		0.1		0.5		0.05		#		circle		radius		
+    set		rz		45		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon		
 endbank
 
 circle  rimo  ( {expr $rim.num} {expr $rim.rad} ) endcircle
@@ -107,10 +107,12 @@ endmesh
 ####Create an instance of the con mesh here.####
 
 instance cmx conmesh   surface Y  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )      endinstance
-#instance cma conmesh   surface L  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (0 0 1)(180)     endinstance
+instance cma conmesh   surface L  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (0 0 1)(180)     endinstance
 
-#instance cmy conmesh   surface U  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)     endinstance
-#instance cmb conmesh   surface U rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)  rotate (1 0 0)(180)     endinstance
+instance cmy conmesh   surface U  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)     endinstance
+instance cmb conmesh   surface U rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)  rotate (1 0 0)(180)     endinstance
 
-#instance cmz conmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)    endinstance
-#instance cmc conmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)  rotate (1 0 0)(180)     endinstance
+instance cmz conmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)    endinstance
+instance cmc conmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)  rotate (1 0 0)(180)     endinstance
+
+

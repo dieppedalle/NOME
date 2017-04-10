@@ -6,11 +6,20 @@ NomeParser::NomeParser()
 }
 
 Vertex *searchForString(Group group, string searchFor){
-    for ( auto at = group.subgroups.begin(); at != group.subgroups.end(); ++at ){
+    Group hierarchical_scene_transformed;
+    hierarchical_scene_transformed = group.makeCopyForTransform();
+    hierarchical_scene_transformed.flattenedMeshes();
+    hierarchical_scene_transformed.flattenedPolylines();
+
+    for ( auto at = hierarchical_scene_transformed.subgroups.begin(); at != hierarchical_scene_transformed.subgroups.end(); ++at ){
         for ( auto it = at->myMeshes.begin(); it != at->myMeshes.end(); ++it ){
             for ( auto tt = (*it).vertList.begin(); tt != (*it).vertList.end(); ++tt ){
                 std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
+
                 if (searchFor.compare(currentString) == 0){
+                    cout << currentString << endl;
+                    cout << (*it).transformations_up.size() << endl;
+
                     return *tt;
                 }
             }
