@@ -68,7 +68,7 @@ void BSpline::calculate (int order)
         //clear all vertices just in case
         vertices.clear();
 
-        /**add first order-1 points to end of loop if a closed spline is desired
+        //add first order-1 points to end of loop if a closed spline is desired
         if (isLoop)
         {
             vector<Vertex*>::iterator iter;
@@ -78,7 +78,7 @@ void BSpline::calculate (int order)
                 proxy.push_back(*iter);
                 iter++;
             }
-        }**/
+        }
 
         //https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node4.html
 
