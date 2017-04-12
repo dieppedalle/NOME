@@ -1,4 +1,5 @@
 #include "nomeparser.h"
+#include <tuple>
 
 NomeParser::NomeParser()
 {
@@ -6,19 +7,19 @@ NomeParser::NomeParser()
 }
 
 Vertex *searchForString(Group group, string searchFor){
-    Group hierarchical_scene_transformed;
-    hierarchical_scene_transformed = group.makeCopyForTransform();
-    hierarchical_scene_transformed.flattenedMeshes();
-    hierarchical_scene_transformed.flattenedPolylines();
+    //Group hierarchical_scene_transformed;
+    //hierarchical_scene_transformed = group.makeCopyForTransform();
+    //hierarchical_scene_transformed.flattenedMeshes();
+    //hierarchical_scene_transformed.flattenedPolylines();
 
-    for ( auto at = hierarchical_scene_transformed.subgroups.begin(); at != hierarchical_scene_transformed.subgroups.end(); ++at ){
+    for ( auto at = group.subgroups.begin(); at != group.subgroups.end(); ++at ){
         for ( auto it = at->myMeshes.begin(); it != at->myMeshes.end(); ++it ){
             for ( auto tt = (*it).vertList.begin(); tt != (*it).vertList.end(); ++tt ){
                 std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
 
                 if (searchFor.compare(currentString) == 0){
-                    cout << currentString << endl;
-                    cout << (*it).transformations_up.size() << endl;
+                    //cout << currentString << endl;
+                    //cout << (*tt)->name << endl;
 
                     return *tt;
                 }
@@ -1111,7 +1112,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             {
                 if(current_mesh_name == "")
                 {
-                    cout<<warning(27, lineNumber)<<endl;
+                    cout << warning(27, lineNumber) << endl;
                     goto newLineEnd;
                 }
                 else if(current_mesh_name == "consolidatedmesh")
@@ -1146,6 +1147,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 string vertInside = "";
                 bool addingVert = false;
+                //vector<tuple<int, Vertex*>> vertices;
                 vector<Vertex*> vertices;
                 vertices.clear();
 
@@ -1216,6 +1218,11 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 for(Vertex * vs : vertices)
                 {
                     foundVertex = false;
+                    cout << "+++++++" << endl;
+                    cout << vs->name << endl;
+
+
+
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
                         if(v -> source_vertex == vs)
@@ -1225,6 +1232,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             break;
                         }
                     }
+
                     if(!foundVertex)
                     {
                         Vertex * newVertex = new Vertex;
@@ -1238,6 +1246,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         newVertex -> z_expr = vs -> z_expr;
                         newVertex -> influencingParams = vs -> influencingParams;
                         newVertex -> params = vs -> params;
+
+                        cout << current_mesh_name << endl;
                         meshes[current_mesh_name].addVertex(newVertex);
                         mappedVertices.push_back(newVertex);
                     }

@@ -28,6 +28,8 @@ SlideGLWidget::SlideGLWidget(Group &group, QWidget *parent) :
 {
     generalSetup();
     hierarchical_scene = &group;
+
+    cout << "HI" << endl;
     makeSLFMesh();
     updateGlobalIndexList();
 }

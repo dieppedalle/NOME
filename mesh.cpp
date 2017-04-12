@@ -1459,7 +1459,8 @@ Vertex * Mesh::findVertexInThisMesh(string name)
 {
     for(Vertex*& v: vertList)
     {
-        //cout << v->name << endl;
+
+        cout << v->name << endl;
         //cout << name << endl;
         if(v->name == name)
         {

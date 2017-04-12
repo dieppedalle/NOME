@@ -1,0 +1,74 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface          # Blue
+surface P color (0.5 0 1) endsurface        # Purple
+surface M color (1 0 1) endsurface          # Magenta
+surface W color (1 1 1) endsurface          # White
+
+bank rim  ## the rim of the connecting Dyck disks:
+    set		num		20		12		24		1		#		number		of		segments		
+    set		rad		1		0.1		2.0		0.1		#		circle		radius		
+    set		sx		2.4		1		8		0.1		
+    set		sy		2.4		1		4		0.1		
+    set		rz		0		-90		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon		
+    set		tx		2.4		0		4		0.1		
+    set		ry		-120		-150		-90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon		
+    set		ty		3		0		8		0.1		
+endbank
+
+bank cir  ## the punch-through connections from one disk to the next
+    set		num		12		6		16		1		#		number		of		segments		
+    set		rad		0.6		0.1		1.0		0.1		#		circle		radius		
+    set		ry		-15		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon		
+    set		rx		20		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon		
+    set		tz		1		0		2		0.1		
+    set		tx		1		0		2		0.1		
+endbank
+
+circle  rimo  ( {expr $rim.num} {expr $rim.rad} ) endcircle
+circle  circ  ( {expr $cir.num} {expr $cir.rad} ) endcircle
+
+group disk
+instance r0  rimo     scale ({expr $rim.sx} {expr $rim.sy} 1)    endinstance
+instance c0  circ      rotate (0 1 0)({expr $cir.ry})  rotate (1 0 0)({expr  $cir.rx})   translate ( {expr  $cir.tx}  0  {expr  $cir.tz} )    endinstance
+instance c1  circ      rotate (0 1 0)({expr $cir.ry})  rotate (1 0 0)({expr -$cir.rx})   translate ( {expr -$cir.tx}  0  {expr -$cir.tz} )    endinstance
+endgroup
+
+instance d disk endinstance
+
+mesh conmesh
+    face conface0 (d.c1.bc11 d.c0.bc6 d.c0.bc5 d.c1.bc0 ) endface
+    face conface1 (d.r0.bc0 d.c0.bc0 d.c0.bc11 d.r0.bc19 ) endface
+    face conface2 (d.c1.bc5 d.r0.bc9 d.r0.bc10 d.c1.bc6 ) endface
+    face conface3 (d.r0.bc4 d.r0.bc5 d.c1.bc1 d.c1.bc0 d.c0.bc5 d.c0.bc4 ) endface
+    face conface4 (d.c0.bc6 d.c1.bc11 d.c1.bc10 d.r0.bc14 d.r0.bc15 d.c0.bc7 ) endface
+    face conface5 (d.c0.bc0 d.r0.bc0 d.r0.bc1 d.c0.bc1 ) endface
+    face conface6 (d.c0.bc1 d.r0.bc1 d.r0.bc2 d.c0.bc2 ) endface
+    face conface7 (d.c0.bc2 d.r0.bc2 d.r0.bc3 d.c0.bc3 ) endface
+    face conface8 (d.c0.bc3 d.r0.bc3 d.r0.bc4 d.c0.bc4 ) endface
+    face conface9 (d.c1.bc1 d.r0.bc5 d.r0.bc6 d.c1.bc2 ) endface
+    face conface10 (d.c1.bc2 d.r0.bc6 d.r0.bc7 d.c1.bc3 ) endface
+    face conface11 (d.c1.bc3 d.r0.bc7 d.r0.bc8 d.c1.bc4 ) endface
+    face conface12 (d.c1.bc4 d.r0.bc8 d.r0.bc9 d.c1.bc5 ) endface
+    face conface13 (d.c1.bc6 d.r0.bc10 d.r0.bc11 d.c1.bc7 ) endface
+    face conface14 (d.c1.bc7 d.r0.bc11 d.r0.bc12 d.c1.bc8 ) endface
+    face conface15 (d.c1.bc8 d.r0.bc12 d.r0.bc13 d.c1.bc9 ) endface
+    face conface16 (d.c1.bc9 d.r0.bc13 d.r0.bc14 d.c1.bc10 ) endface
+    face conface17 (d.c0.bc7 d.r0.bc15 d.r0.bc16 d.c0.bc8 ) endface
+    face conface18 (d.c0.bc8 d.r0.bc16 d.r0.bc17 d.c0.bc9 ) endface
+    face conface19 (d.c0.bc9 d.r0.bc17 d.r0.bc18 d.c0.bc10 ) endface
+    face conface20 (d.c0.bc10 d.r0.bc18 d.r0.bc19 d.c0.bc11 ) endface
+endmesh
+
+instance cm0 conmesh   surface Y   rotate (0 0 1)( {expr $rim.rz} )    translate ( {expr $rim.tx}  {expr $rim.ty}  0 )  rotate (0 1 0)( {expr $rim.ry} )  endinstance
+instance cm1 conmesh   surface L   rotate (0 0 1)( {expr $rim.rz} )    translate ( {expr $rim.tx}  {expr $rim.ty}  0 )  rotate (0 1 0)( {expr $rim.ry} )    rotate (0 0 1)(60)     endinstance
+instance cm2 conmesh   surface G   rotate (0 0 1)( {expr $rim.rz} )    translate ( {expr $rim.tx}  {expr $rim.ty}  0 )  rotate (0 1 0)( {expr $rim.ry} )    rotate (0 0 1)(120)     endinstance
+instance cm3 conmesh   surface A   rotate (0 0 1)( {expr $rim.rz} )    translate ( {expr $rim.tx}  {expr $rim.ty}  0 )  rotate (0 1 0)( {expr $rim.ry} )    rotate (0 0 1)(180)     endinstance
+

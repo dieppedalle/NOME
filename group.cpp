@@ -305,8 +305,10 @@ void Group::updateCopyForTransform()
     vector<Mesh>::iterator mIt;
     vector<Group>::iterator gIt;
     vector<PolyLine>::iterator pIt;
+    //cout << "HELLO" << endl;
     for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
     {
+        //cout << (*mIt).name << endl;
         (*mIt).updateCopyForTransform();
     }
     for(pIt = myPolylines.begin(); pIt < myPolylines.end(); pIt++)
