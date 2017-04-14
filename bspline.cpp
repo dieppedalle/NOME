@@ -78,35 +78,50 @@ void BSpline::calculate (int order)
         //clear all vertices just in case
         vertices.clear();
 
-        /*if (isLoop)
+        //add first order-1 points to end of loop if a closed spline is desired
+        if (isLoop)
         {
             vector<Vertex*>::iterator iter;
             iter = proxy.begin();
             for (int x = 0; x < order - 1; x++)
             {
-                proxy.push_back(*iter);
+                vec3 position1 = (*iter)->position;
+                proxy.push_back(new Vertex(position1[0], position1[1], position1[2], 100+x));
                 iter++;
             }
-        }*/
-
-        //https://www.cl.cam.ac.uk/teaching/2000/AGraphHCI/SMEG/node4.html
+        }
 
         float lim = order + proxy.size() - 2;
-        float add = (lim - (order + 1))/(segments);
+        float add = (lim - order - 1)/(segments);
+
+        if (isLoop) {
+            lim = lim - order + 1;
+            add = (lim - order - 1)/(segments);
+        }
+
+        float upper;
+
+        //rounding error correction, 0.01 is a delta value for error
+        if (!isLoop) {
+            upper = lim + 0.01;
+        }
+        else {
+            upper = lim - 0.01;
+        }
+
+
 
         //calculate bspline at each t
-        for (float t = order + 1; t <= lim + 0.001; t = t + add)
+        for (float t = order + 1; t <= upper; t = t + add)
         {
             float x = 0;
             float y = 0;
             float z = 0;
 
-            //cout << t << endl;
-
             for (int i = 1; i <= proxy.size(); i++)
             {
                 float temp = basis(i, order, t);
-                //cout << temp << endl;
+
                 vec3 pos = proxy[i-1] -> position;
 
                 x = x + (temp * pos[0]);
@@ -115,13 +130,14 @@ void BSpline::calculate (int order)
             }
 
             addVertex(new Vertex(x, y, z, t));
+
         }
+
     }
 }
 
 
 void BSpline::cubic()
 {
-    //calculate(4);
     calculate(get_order());
 }

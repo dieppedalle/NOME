@@ -1190,16 +1190,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                         if(vertIt == global_vertices.end())
                         {
-                            group.mapFromParameters();
-                            Vertex * foundVertex = searchForString(group, vertInside);
-                            //cout << foundVertex << endl;
-                            if (foundVertex==NULL){
                             cout << "Error: The vertex " + vertInside + " at line " + to_string(lineNumber) + " has never been created."  << endl;
                             return 1;
-                            }
-                            else{
-                                vertices.push_back(foundVertex);
-                            }
                         }
                         else
                         {
@@ -2453,6 +2445,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 {
                     cout<<warning(5, lineNumber)<<endl;
                 }
+                //cout << instanceName << endl;
 
                 if((++tIt) < tokens.end())
                 {

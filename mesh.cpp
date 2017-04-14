@@ -745,6 +745,7 @@ Mesh Mesh::makeCopy(string copy_mesh_name) {
 
 Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
     Mesh newMesh;
+    //cout << copy_mesh_name << endl;
     if(copy_mesh_name == "")
     {
         newMesh.name = this->name;
@@ -792,7 +793,8 @@ Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
             {
                 Vertex * vertCopy = new Vertex;
                 vertCopy -> ID = tempv -> ID;
-                vertCopy -> name = tempv  -> name;
+                vertCopy -> name = copy_mesh_name + tempv  -> name;
+                cout << vertCopy -> name << endl;
                 vertCopy -> position = tempv -> position;
                 vertCopy -> source_vertex = tempv -> source_vertex;
                 newMesh.addVertex(vertCopy);
