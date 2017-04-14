@@ -108,6 +108,7 @@ void MySelection::selectFace(vector<Mesh*> &globalMeshList,
                     mIt < globalMeshList.end(); mIt++, nIt++)
                 {
                     Mesh *currMesh = (*mIt);
+
                     if(currentID < (currMesh -> faceList).size() + (*nIt))
                     {
                         workFace = currMesh -> faceList[currentID - (*nIt)];
@@ -202,6 +203,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
                                GLint hits, GLuint *names,
                                GLdouble posX, GLdouble posY, GLdouble posZ)
 {
+    //cout << "HELLO" << endl;
     if(hits > 0) {
         vec3 hit_position = vec3(posX, posY, posZ);
         float min_distance = 500000.0;
@@ -223,6 +225,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
 
             if(currentID >= endOfMesh)
             {
+
                 for(pIt = globalPolylineList.begin(),
                     nIt = globalPolylineNameIndexList.begin();
                     pIt < globalPolylineList.end(); pIt++, nIt++)
@@ -258,6 +261,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
                         break;
                     }
                 }
+
                 if(workFace != NULL)
                 {
                     Edge * firstEdge = workFace -> oneEdge;
@@ -289,11 +293,12 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
         }
         getSelectedVertex:
 
-        //cout << selectedVertex -> selected << endl;
-        if(selectedVertex -> source_vertex != NULL)
+        //cout << selectedVertex -> name << endl;
+        //cout << selectedVertex -> source_vertex -> name << endl;
+        /*if(selectedVertex -> source_vertex != NULL)
         {
             selectedVertex = selectedVertex -> source_vertex;
-        }
+        }*/
         if(selectedVertex -> selected) {
             selectedVertex -> selected = false;
             vector<Vertex*>::iterator vIt;

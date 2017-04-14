@@ -17,8 +17,8 @@ Vertex *searchForString(Group group, string searchFor){
                 std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
 
                 if (searchFor.compare(currentString) == 0){
-                    cout << currentString << endl;
-                    cout << (*it).transformations_up.size() << endl;
+                    //cout << currentString << endl;
+                    //cout << (*it).transformations_up.size() << endl;
 
                     return *tt;
                 }
@@ -2682,6 +2682,8 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         newMesh.setColor(color);
                         newMesh.user_set_color = true;
                     }
+                    //cout << newMesh.vertList.size() << endl;
+
                     group.addMesh(newMesh);
                 }
                 else

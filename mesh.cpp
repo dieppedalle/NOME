@@ -794,7 +794,7 @@ Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
                 Vertex * vertCopy = new Vertex;
                 vertCopy -> ID = tempv -> ID;
                 vertCopy -> name = copy_mesh_name + tempv  -> name;
-                cout << vertCopy -> name << endl;
+                //cout << vertCopy -> name << endl;
                 vertCopy -> position = tempv -> position;
                 vertCopy -> source_vertex = tempv -> source_vertex;
                 newMesh.addVertex(vertCopy);
@@ -803,6 +803,7 @@ Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
             }
             else
             {
+                //cout << o2cIt -> second -> name << endl;
                 vertices.push_back(o2cIt -> second);
             }
             currEdge = nextEdge;
@@ -818,6 +819,11 @@ Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
         newMesh.faceList[newMesh.faceList.size() - 1] -> name
                 = (*fIt) -> name;
     }
+    /*cout << newMesh.vertList.size() << endl;
+    for ( auto it = newMesh.vertList.begin(); it != newMesh.vertList.end(); ++it ){
+        cout << (*it)->name << endl;
+    }*/
+
     newMesh.buildBoundary();
     newMesh.computeNormals();
     newMesh.color = QColor(255, 69, 0);
