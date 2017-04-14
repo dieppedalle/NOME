@@ -195,6 +195,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     string name = "";
     unordered_map<string, QColor> user_defined_colors;
     unordered_map<string, QColor>::iterator colorIt;
+    vector<string> listMeshesToConsolidate;
     string current_mesh_name = "";
     int isError = 0;
     char* p;
@@ -1114,8 +1115,9 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout<<warning(27, lineNumber)<<endl;
                     goto newLineEnd;
                 }
-                else if(current_mesh_name == "consolidatedmesh")
+                else if (std::find(listMeshesToConsolidate.begin(), listMeshesToConsolidate.end(), current_mesh_name) != listMeshesToConsolidate.end())
                 {
+                    //listMeshesToConsolidate
                     postProcessingLines.push_back(lineNumber);
                     postProcessingLinesString.push_back(nextLine);
                     goto newLineEnd;
@@ -1606,7 +1608,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 } else {
                     cout<<warning(6, lineNumber)<<endl;
                 }
-                if(className == "consolidatedmesh")
+                //cout << className << endl;
+                if (std::find(listMeshesToConsolidate.begin(), listMeshesToConsolidate.end(), className) != listMeshesToConsolidate.end())
                 {
                     postProcessingLines.push_back(lineNumber);
                     postProcessingLinesString.push_back(nextLine);
@@ -1946,16 +1949,22 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             }
             else if(*tIt == "mesh")
             {
+
                 constructingMesh = true;
                 Mesh newMesh(0);
                 if((++tIt) < tokens.end()) {
                     if(!testComments(*tIt))
                     {
-                        if(*tIt == "consolidatedmesh")
+                        //cout << (std::find(listMeshesToConsolidate.begin(), listMeshesToConsolidate.end(), *tIt) != listMeshesToConsolidate.end()) << endl;
+                        //cout << *tIt << endl;
+                        if(*tIt != "")
                         {
+                            listMeshesToConsolidate.push_back(*tIt);
                             postProcessingLines.push_back(lineNumber);
                             postProcessingLinesString.push_back(nextLine);
-                            current_mesh_name = "consolidatedmesh";
+
+                            current_mesh_name = *tIt;
+                            //current_mesh_name = "consolidatedmesh";
                             goto newLineEnd;
                         }
                         else
@@ -1994,7 +2003,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if(*tIt == "endmesh")
             {
                 constructingMesh = false;
-                if(current_mesh_name == "consolidatedmesh")
+                if (std::find(listMeshesToConsolidate.begin(), listMeshesToConsolidate.end(), current_mesh_name) != listMeshesToConsolidate.end())
+                //if(current_mesh_name == "consolidatedmesh")
                 {
                     postProcessingLines.push_back(lineNumber);
                     postProcessingLinesString.push_back(nextLine);
@@ -2184,12 +2194,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 if((++tIt) < tokens.end()) {
                     if(!testComments(*tIt))
                     {
-
-                        if(*tIt != "consolidatedmesh")
-                        {
-                            cout<<"Error: there is a bug in the program. Check!"<<endl;
-                            goto newLineEnd;
-                        }
                         newMesh.name = *tIt;
                         //cout << params << endl;
                         newMesh.setGlobalParameter(&params);
@@ -2255,13 +2259,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             else if((*tIt) == "face" && restoreConsolidatedMesh)
             {
-                if(current_mesh_name != "consolidatedmesh")
-                {
-                    cout<<"Error: there is a bug in the program. Check!"<<endl;
-                    goto newLineEnd;
-                }
-
-                //cout << "HI" << endl;
                 Face * newFace = new Face;
                 if((++tIt) < tokens.end()) {
 
@@ -2460,21 +2457,13 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     cout<<warning(6, lineNumber)<<endl;
                 }
 
-                if(className != "consolidatedmesh")
+                meshIt = meshes.find(className);
+                if(meshIt != meshes.end())
                 {
-                    //cout << "HELLO" << endl;
-                    cout<<"Error: there is a bug in the program. Check!"<<endl;
-                    goto newLineEnd;
+                    newMesh = (meshIt -> second).makeCopyForTempMesh(instanceName);
+                    findMesh = true;
                 }
-                else
-                {
-                    meshIt = meshes.find(className);
-                    if(meshIt != meshes.end())
-                    {
-                        newMesh = (meshIt -> second).makeCopyForTempMesh(instanceName);
-                        findMesh = true;
-                    }
-                }
+
                 vector<Transformation> transformations_up;
                 while(++tIt < tokens.end() && (*tIt) != "endinstance")
                 {
@@ -2693,7 +2682,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             else
             {
-                cout<<nextLine<<endl;
+                //cout<<nextLine<<endl;
                 goto newLineEnd;
             }
         }

@@ -1,0 +1,39 @@
+#### Some Surface colors #####
+surface U color (1 0 0) endsurface          # Red
+
+bank fp
+    set		n		8		3		100		1		
+    set		ro		0.4		0.1		1.0		0.1		
+    set		ratio		-0.2		-0.5		0.5		0.1		
+    set		h		0.2		0.1		1.5		0.1		
+    set		z		0		-360		360		1		
+endbank
+bank circle
+    set		n		8		3		100		1		
+    set		ro		0.4		0.1		1.0		0.1		
+endbank
+point X  ( 1 1 1) endpoint
+point Y  ( 2 -2 2) endpoint
+point Z  ( 0 0 0) endpoint
+tunnel tun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endtunnel
+circle circle1 ({expr $circle.n } {expr $circle.ro}) endcircle
+group finalShape
+    instance tun3 tun translate (0 0 0) rotate (0 1 0) (90) translate (0.6 -0.6 0.6) surface U endinstance
+    instance tun5 tun translate (0 0 0) rotate (0 1 0) (90) translate (2 -0.6 0.6) surface U endinstance
+endgroup
+instance cf finalShape endinstance
+mesh consolidatedmesh
+    face consolidatedface0 (cf.tun3.hc4 cf.tun5.lc4 cf.tun5.lc3 cf.tun3.hc3 ) endface
+endmesh
+instance cm1 consolidatedmesh endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (cf.tun3.hc3 cf.tun3.hc2 cf.tun5.lc2 cf.tun5.lc3 ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance

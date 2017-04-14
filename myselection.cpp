@@ -382,8 +382,7 @@ void MySelection::selectVertex(vector<Mesh*> &globalMeshList,
             }
             selectedVertices.erase(vIt);
             cout<<"Unselected Vertex: "<<selectedVertex -> name<<endl;
-            cout<<"You have "<<selectedVertices.size()
-            <<" vertices selected."<<endl;
+            cout<<"You have "<<selectedVertices.size() <<" vertices selected."<<endl;
         } else {
             selectedVertex -> selected = true;
             selectedVertices.push_back(selectedVertex);

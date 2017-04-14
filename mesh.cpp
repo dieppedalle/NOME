@@ -650,6 +650,7 @@ void Mesh::setTransformation(vector<Transformation> new_transforms)
 Mesh Mesh::makeCopy(string copy_mesh_name) {
     //cout<<"Creating a copy of the current map.\n";
     Mesh newMesh;
+
     if(copy_mesh_name == "")
     {
         newMesh.name = this->name;
