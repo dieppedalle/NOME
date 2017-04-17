@@ -5,37 +5,6 @@ NomeParser::NomeParser()
 
 }
 
-Vertex *searchForString(Group group, string searchFor){
-    Group hierarchical_scene_transformed;
-    hierarchical_scene_transformed = group.makeCopyForTransform();
-    hierarchical_scene_transformed.flattenedMeshes();
-    hierarchical_scene_transformed.flattenedPolylines();
-
-    for ( auto at = hierarchical_scene_transformed.subgroups.begin(); at != hierarchical_scene_transformed.subgroups.end(); ++at ){
-        for ( auto it = at->myMeshes.begin(); it != at->myMeshes.end(); ++it ){
-            for ( auto tt = (*it).vertList.begin(); tt != (*it).vertList.end(); ++tt ){
-                std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
-
-                if (searchFor.compare(currentString) == 0){
-                    //cout << currentString << endl;
-                    //cout << (*it).transformations_up.size() << endl;
-
-                    return *tt;
-                }
-            }
-        }
-
-        for ( auto it = at->myPolylines.begin(); it != at->myPolylines.end(); ++it ){
-            for ( auto tt = (*it).vertices.begin(); tt != (*it).vertices.end(); ++tt ){
-                std::string currentString = (*at).name + "." + (*it).name + "." + (*tt)->name;
-                if (searchFor.compare(currentString) == 0){
-                    return *tt;
-                }
-            }
-        }
-    }
-    return NULL;
-}
 
 bool testComments(string token)
 {
@@ -2191,8 +2160,6 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
             }
             if((*tIt) == "mesh")
             {
-                //canvas -> set_to_editing_mode(true);
-                //canvas -> updateFromSavedMesh();
                 restoreConsolidatedMesh = true;
                 Mesh newMesh(0);
                 if((++tIt) < tokens.end()) {
@@ -2712,7 +2679,6 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                 //canvas -> set_to_editing_mode(true);
                 //canvas -> updateFromSavedMesh();
 
-                //cout << "KKK" << endl;
             }
             else
             {
@@ -2723,16 +2689,9 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
     newLineEnd:
     lineNumber++;
     }
-    /*cout << canvas->group_from_consolidate_mesh->myMeshes.size() << endl;
-    for (Mesh m: canvas->group_from_consolidate_mesh->myMeshes){
-        cout << m.name << endl;
-    }*/
+
     canvas -> set_to_editing_mode(true);
     canvas -> updateFromSavedMesh();
-    /*cout << canvas->group_from_consolidate_mesh->myMeshes.size() << endl;
-    for (Mesh m: canvas->group_from_consolidate_mesh->myMeshes){
-        cout << m.name << endl;
-    }*/
 }
 
 void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
