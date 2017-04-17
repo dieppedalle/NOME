@@ -170,7 +170,13 @@ void MainWindow::createCanvas(QString name)
         canvas = new SlideGLWidget(scene);
         canvas -> group_from_consolidate_mesh = &append_scene;
 
-        nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString);
+        error = nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString);
+
+        if (error == 1){
+            return;
+        }
+
+
         createSliderPanel(canvas);
         canvas -> move(0, 50);
         canvas -> show();

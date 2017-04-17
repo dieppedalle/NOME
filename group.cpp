@@ -37,16 +37,19 @@ void Group::addPolyline(PolyLine &polyline)
 
 vector<Mesh*> Group::flattenedMeshes()
 {
-    vector<Mesh*> result;
+    vector<Mesh*> result = {};
     vector<Mesh>::iterator mIt;
     for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
     {
+        if (std::find(alreadyFlattened.begin(), alreadyFlattened.end(), (*mIt).name) == alreadyFlattened.end()){
         for(Transformation& transformUp : (*mIt).transformations_up)
         {
             (*mIt).transform(&transformUp);
         }
         (*mIt).computeNormals();
         result.push_back(&(*mIt));
+        alreadyFlattened.push_back((*mIt).name);
+        }
     }
     vector<Group>::iterator gIt;
     for(gIt = subgroups.begin(); gIt < subgroups.end(); gIt++)

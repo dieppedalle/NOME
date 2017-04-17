@@ -15,6 +15,7 @@
 #include <vector>
 #include <unordered_map>
 #include <QColor>
+#include <string>
 
 class Group
 {
@@ -24,6 +25,8 @@ public:
     vector<Group> subgroups;
     /* A list of mesh under this group. */
     vector<Mesh> myMeshes;
+
+    vector<string> alreadyFlattened;
     /* A list of polyline under this group. */
     vector<PolyLine> myPolylines;
     /* The color of this group. */

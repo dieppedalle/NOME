@@ -98,7 +98,7 @@ public:
     /* Record the list of the name of faces deleted by the user.
      * (Not including the consolidated mesh or temprary mesh. */
     vector<string> deletedFaces;
-private:
+public:
     /* Viewer variables.*/
     enum MODES { MODE_OBJECT, MODE_CAMERA, MODE_LIGHT, MODE_LAST } view_mode;
     mat4 transforms[MODE_LAST];

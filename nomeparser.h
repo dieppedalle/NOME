@@ -28,7 +28,7 @@ public:
                       vector<int> &postProcessingLines,
                       vector<string> &postProcessingLinesString);
 
-    void postProcessingWithNome(unordered_map<string, Parameter> &params,
+    int postProcessingWithNome(unordered_map<string, Parameter> &params,
                                 vector<int> &postProcessingLines,
                                 SlideGLWidget * canvas,
                                 Group &group,

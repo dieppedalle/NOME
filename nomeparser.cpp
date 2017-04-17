@@ -2071,7 +2071,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
 
 
-void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
+int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                                         vector<int> &postProcessingLines,
                                         SlideGLWidget *canvas,
                                         Group &group,
@@ -2079,7 +2079,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
 {
     if(postProcessingLines.size() == 0)
     {
-        return;
+        return 0;
     }
     ifstream file(input);
     if (!file.good())
@@ -2099,6 +2099,8 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
     unordered_map<string, Mesh>::iterator meshIt;
     unordered_map<string, Face*> global_faces;
     unordered_map<string, Face*>::iterator faceIt;
+
+
     while(std::getline(file, nextLine))
     {
         istringstream iss(nextLine);
@@ -2189,6 +2191,8 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
             }
             if((*tIt) == "mesh")
             {
+                //canvas -> set_to_editing_mode(true);
+                //canvas -> updateFromSavedMesh();
                 restoreConsolidatedMesh = true;
                 Mesh newMesh(0);
                 if((++tIt) < tokens.end()) {
@@ -2310,6 +2314,8 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                                 }
                                 if(v == NULL)
                                 {
+                                    //v = group.findVertexInThisGroup(vertInside);
+                                    //cout << "HELLO" << endl;
                                     cout<<warning(9, lineNumber)<<endl;
                                 }
                                 else
@@ -2330,13 +2336,38 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                     if(vertInside != "")
                     {
                         Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
+
                         if(!(canvas -> master_mesh.isEmpty())) /* Dealing with recovery of SIF.*/
                         {
                             v = (canvas -> master_mesh.findVertexInThisMesh(vertInside));
                         }
+
+                        //cout << "===" << endl;
+                        //cout << canvas->hierarchical_scene_transformed.myMeshes.size() << endl;
+                        //cout << canvas->hierarchical_scene_transformed.myPolylines.size() << endl;
+                        //cout << canvas->hierarchical_scene_transformed.subgroups.size() << endl;
+
+
                         if(v == NULL)
                         {
-                            cout<<warning(9, lineNumber)<<endl;
+                            /*for (Mesh m: canvas->group_from_consolidate_mesh->myMeshes){
+                                cout << m.name << endl;
+                            }*/
+
+                            canvas -> set_to_editing_mode(true);
+                            canvas -> updateFromSavedMesh();
+                            v = canvas->group_from_consolidate_mesh->findVertexInThisGroup(vertInside);
+                            //cout << v->name << endl;
+                            //cout << canvas->hierarchical_scene_transformed.myMeshes.size() << endl;
+                            //v = group.findVertexInThisGroup(vertInside);
+                            //cout << v->name << endl;
+                            if(v == NULL)
+                            {
+                            //    cout << "LLLLL" << endl;
+                                cout<<warning(9, lineNumber)<<endl;
+                                return 1;
+                            }
+                            vertices.push_back(v);
                         }
                         else
                         {
@@ -2344,8 +2375,6 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         }
                         vertInside = "";
                     }
-
-                    //cout << vertices << endl;
                 }
                 endAddingVertInFace:
                 /* Add this face to the current mesh.*/
@@ -2354,6 +2383,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 bool foundVertex;
                 for(Vertex * vs : vertices)
                 {
+                    //cout << vs->name << endl;
                     foundVertex = false;
                     for(Vertex * v : meshes[current_mesh_name].vertList)
                     {
@@ -2671,7 +2701,7 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                         newMesh.setColor(color);
                         newMesh.user_set_color = true;
                     }
-                    //cout << newMesh.vertList.size() << endl;
+                    //cout << newMesh.name << endl;
 
                     group.addMesh(newMesh);
                 }
@@ -2679,6 +2709,10 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
                 {
                     cout<<"Error: there is a bug in the program. Check!"<<endl;
                 }
+                //canvas -> set_to_editing_mode(true);
+                //canvas -> updateFromSavedMesh();
+
+                //cout << "KKK" << endl;
             }
             else
             {
@@ -2689,9 +2723,16 @@ void NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params
     newLineEnd:
     lineNumber++;
     }
-
+    /*cout << canvas->group_from_consolidate_mesh->myMeshes.size() << endl;
+    for (Mesh m: canvas->group_from_consolidate_mesh->myMeshes){
+        cout << m.name << endl;
+    }*/
     canvas -> set_to_editing_mode(true);
     canvas -> updateFromSavedMesh();
+    /*cout << canvas->group_from_consolidate_mesh->myMeshes.size() << endl;
+    for (Mesh m: canvas->group_from_consolidate_mesh->myMeshes){
+        cout << m.name << endl;
+    }*/
 }
 
 void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
@@ -2787,6 +2828,7 @@ void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
                     tIt++;
                     if(tIt >= tokens.end() || testComments(*tIt))
                     {
+
                         cout<<warning(9, lineNumber)<<endl;
                     }
                     Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(*tIt);
@@ -2796,6 +2838,7 @@ void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
                     }
                     if(v == NULL)
                     {
+
                         cout<<warning(9, lineNumber);
                     }
                     else
@@ -3028,7 +3071,9 @@ void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
                     newMesh.setTransformation(transformations_up);
                     group.addMesh(newMesh);
                 }
+                canvas -> updateFromSavedMesh();
             }
+
         }
         newLineEnd:
         lineNumber++;

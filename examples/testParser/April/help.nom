@@ -22,7 +22,6 @@ bank rim  ## the rim of the connecting Dyck disks:
     set		ry		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
     set		tx		3		0		6		0.1
 endbank
-
 bank cir  ## the punch-through connections from one disk to the next
     set		num		12		6		16		1		#		number		of		segments
     set		rad		0.5		0.1		1.0		0.1		#		circle		radius
@@ -32,31 +31,20 @@ bank cir  ## the punch-through connections from one disk to the next
     set		rp		-9		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
     set		rn		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
 endbank
-
 bank pad  ## the central quad patch -- made as a circle, so that it shows up in consolidated mesh!
     set		num		4		4		4		1		#		number		of		segments
     set		rad		0.25		0.1		0.5		0.05		#		circle		radius
     set		rz		45		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
 endbank
-
 circle  rimo  ( {expr $rim.num} {expr $rim.rad} ) endcircle
 circle  circ  ( {expr $cir.num} {expr $cir.rad} ) endcircle
 circle  sadl  ( {expr $pad.num} {expr $pad.rad} ) endcircle
-
-
 instance s0  sadl    rotate (0 0 1)({expr $pad.rz})    endinstance
-
 instance r0  rimo    rotate (0 0 1)({expr $rim.rz})   scale ({expr $rim.sx} {expr $rim.sy} 1)    endinstance
-
 instance c0  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr $cir.rp})  rotate (1 -1 0)({expr $cir.rn})   translate ( {expr  $cir.tr} 0  {expr  $cir.tz} )    endinstance
 instance c1  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.rp})  rotate (1 -1 0)({expr -$cir.rn})   translate (0  {expr $cir.tr}   {expr -$cir.tz})     endinstance
 instance c2  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr $cir.rp})  rotate (1 -1 0)({expr $cir.rn})   translate ( {expr -$cir.tr} 0  {expr  $cir.tz} )    endinstance
 instance c3  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.rp})  rotate (1 -1 0)({expr -$cir.rn})   translate (0  {expr -$cir.tr}  {expr -$cir.tz})     endinstance
-
-
-##### The following is the saved work of last time. #####
-
-##### The added faces. #####
 mesh consolidatedmesh
     face consolidatedface0 (.c1.bc9 .c1.bc8 .s0.bc1 .s0.bc0 ) endface
     face consolidatedface1 (.s0.bc1 .c2.bc0 .c2.bc11 .s0.bc2 ) endface
@@ -96,14 +84,31 @@ mesh consolidatedmesh
     face consolidatedface35 (.r0.bc8 .r0.bc9 .c2.bc3 .c2.bc2 .c1.bc6 .c1.bc5 ) endface
     face consolidatedface36 (.r0.bc14 .r0.bc15 .c3.bc6 .c3.bc5 .c2.bc9 .c2.bc8 ) endface
 endmesh
+instance cmx consolidatedmesh   surface Y  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )      endinstance
+instance cma consolidatedmesh   surface L  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (0 0 1)(180)     endinstance
+instance cmy consolidatedmesh   surface U  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)     endinstance
+instance cmb consolidatedmesh   surface U rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)  rotate (1 0 0)(180)     endinstance
+instance cmz consolidatedmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)    endinstance
+instance cmc consolidatedmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)  rotate (1 0 0)(180)     endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh2
+    face aconsolidatedface0 (cmz.c2.bc8 cmz.c2.bc7 cma.c0.bc1 cma.c0.bc0 ) endface
+    face bconsolidatedface1 (cmz.c2.bc9 cmz.c2.bc8 cma.c0.bc0 cma.c0.bc11 ) endface
+    face cconsolidatedface2 (cmz.c2.bc7 cmz.c2.bc6 cma.c0.bc2 cma.c0.bc1 ) endface
+    face dconsolidatedface3 (cmz.c2.bc10 cmz.c2.bc9 cma.c0.bc11 cma.c0.bc10 ) endface
+    face econsolidatedface4 (cmz.c2.bc6 cmz.c2.bc5 cma.c0.bc3 cma.c0.bc2 ) endface
+    face fconsolidatedface5 (cmz.c2.bc11 cmz.c2.bc10 cma.c0.bc10 cma.c0.bc9 ) endface
+    face gconsolidatedface6 (cmz.c2.bc5 cmz.c2.bc4 cma.c0.bc4 cma.c0.bc3 ) endface
+    face hconsolidatedface7 (cmz.c2.bc0 cmz.c2.bc11 cma.c0.bc9 cma.c0.bc8 ) endface
+    face iconsolidatedface8 (cmz.c2.bc4 cmz.c2.bc3 cma.c0.bc5 cma.c0.bc4 ) endface
+    face jconsolidatedface9 (cmz.c2.bc1 cmz.c2.bc0 cma.c0.bc8 cma.c0.bc7 ) endface
+    face kconsolidatedface10 (cmz.c2.bc3 cmz.c2.bc2 cma.c0.bc6 cma.c0.bc5 ) endface
+    face lconsolidatedface11 (cmz.c2.bc2 cmz.c2.bc1 cma.c0.bc7 cma.c0.bc6 ) endface
+endmesh
 
 ####Create an instance of the consolidated mesh here.####
 
-instance cmx consolidatedmesh   surface Y  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )      endinstance
-instance cma consolidatedmesh   surface L  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (0 0 1)(180)     endinstance
-
-instance cmy consolidatedmesh   surface U  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)     endinstance
-instance cmb consolidatedmesh   surface U rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)  rotate (1 0 0)(180)     endinstance
-
-instance cmz consolidatedmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)    endinstance
-instance cmc consolidatedmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)  rotate (1 0 0)(180)     endinstance
+instance cm1 consolidatedmesh2 endinstance

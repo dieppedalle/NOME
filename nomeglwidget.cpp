@@ -968,7 +968,7 @@ void SlideGLWidget::updateSavedConsolidatedMesh()
 void SlideGLWidget::updateFromSavedMesh()
 {
     consolidate_mesh.computeNormals();
-    //cout << consolidate_mesh.vertList.size() << endl;
+
     vector<Mesh*> append_list = group_from_consolidate_mesh -> flattenedMeshes();
 
     global_mesh_list.pop_back();
@@ -979,6 +979,12 @@ void SlideGLWidget::updateFromSavedMesh()
     {
         set_to_editing_mode(true);
     }
+
+    /*for (Mesh* mesh : global_mesh_list){
+        cout << mesh->name << endl;
+        cout << mesh->vertList.size() << endl;
+    }*/
+
     repaint();
 }
 
