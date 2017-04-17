@@ -21,6 +21,9 @@ class BSpline : public PolyLine {
 public:
     vector<Vertex*> proxy;
     BSpline();
+
+    string segments_expr;
+
     int segments;
     int order;
 
@@ -28,6 +31,8 @@ public:
     void set_segments(int);
     void set_proxy(Vertex*);
     void set_order(int);
+
+    void updateBSpline();
 
     //getters
     int get_segments();

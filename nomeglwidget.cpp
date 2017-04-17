@@ -96,9 +96,11 @@ void SlideGLWidget::makeSLFMesh()
 
 void SlideGLWidget::transform_meshes_in_scene()
 {
+    //cout << "MMM" << endl;
     hierarchical_scene_transformed.updateCopyForTransform();
     global_mesh_list = hierarchical_scene_transformed.flattenedMeshes();
     global_polyline_list = hierarchical_scene_transformed.flattenedPolylines();
+
     global_mesh_list.push_back(&consolidate_mesh);
     global_mesh_list.push_back(&temp_mesh);
 }
@@ -918,7 +920,6 @@ void SlideGLWidget::resetTrianglePanelty(QString new_value)
 
 void SlideGLWidget::paramValueChanged(float)
 {
-
     if(hierarchical_scene_transformed.in_editing_mode)
     {
         transform_meshes_in_scene();
@@ -927,6 +928,7 @@ void SlideGLWidget::paramValueChanged(float)
     {
         makeSLFMesh();
     }
+
     updateTempMesh();
     updateConsolidateMesh();
     updateSavedConsolidatedMesh();
@@ -969,7 +971,7 @@ void SlideGLWidget::updateFromSavedMesh()
 {
     consolidate_mesh.computeNormals();
 
-    vector<Mesh*> append_list = group_from_consolidate_mesh -> flattenedMeshes();
+    vector<Mesh*> append_list = group_from_consolidate_mesh -> flattenedMeshesTemp();
 
     global_mesh_list.pop_back();
     global_mesh_list.insert(global_mesh_list.end(), append_list.begin(), append_list.end());
@@ -979,11 +981,6 @@ void SlideGLWidget::updateFromSavedMesh()
     {
         set_to_editing_mode(true);
     }
-
-    /*for (Mesh* mesh : global_mesh_list){
-        cout << mesh->name << endl;
-        cout << mesh->vertList.size() << endl;
-    }*/
 
     repaint();
 }

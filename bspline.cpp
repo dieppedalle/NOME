@@ -12,6 +12,23 @@ BSpline::BSpline(void)
     set_order(4);
 }
 
+void BSpline::updateBSpline()
+{
+
+
+    if(segments_expr != ""){
+        int new_segments = int(evaluate_expression(segments_expr, params));
+        if(new_segments != segments)
+        {
+            vertices.clear();
+            segments = new_segments;
+
+            cubic();
+        }
+
+
+    }
+}
 
 void BSpline::set_proxy(Vertex *v)
 {

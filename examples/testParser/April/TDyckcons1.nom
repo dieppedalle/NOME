@@ -58,43 +58,43 @@ instance c3  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.
 
 ##### The added faces. #####
 mesh consolidatedmesh
-    face consolidatedface0 (.c1.bc9 .c1.bc8 .s0.bc1 .s0.bc0 ) endface
-    face consolidatedface1 (.s0.bc1 .c2.bc0 .c2.bc11 .s0.bc2 ) endface
-    face consolidatedface2 (.s0.bc2 .c3.bc3 .c3.bc2 .s0.bc3 ) endface
-    face consolidatedface3 (.s0.bc3 .c0.bc6 .c0.bc5 .s0.bc0 ) endface
-    face consolidatedface4 (.c1.bc7 .c2.bc1 .c2.bc0 .s0.bc1 .c1.bc8 ) endface
-    face consolidatedface5 (.c2.bc10 .c3.bc4 .c3.bc3 .s0.bc2 .c2.bc11 ) endface
-    face consolidatedface6 (.c3.bc1 .c0.bc7 .c0.bc6 .s0.bc3 .c3.bc2 ) endface
-    face consolidatedface7 (.c0.bc4 .c1.bc10 .c1.bc9 .s0.bc0 .c0.bc5 ) endface
-    face consolidatedface8 (.s0.bc0 .s0.bc1 .s0.bc2 .s0.bc3 ) endface
-    face consolidatedface9 (.c0.bc3 .c1.bc11 .c1.bc10 .c0.bc4 ) endface
-    face consolidatedface10 (.c1.bc6 .c2.bc2 .c2.bc1 .c1.bc7 ) endface
-    face consolidatedface11 (.c2.bc9 .c3.bc5 .c3.bc4 .c2.bc10 ) endface
-    face consolidatedface12 (.c3.bc0 .c0.bc8 .c0.bc7 .c3.bc1 ) endface
-    face consolidatedface13 (.c0.bc0 .c0.bc11 .r0.bc23 .r0.bc0 ) endface
-    face consolidatedface14 (.c0.bc1 .c0.bc0 .r0.bc0 .r0.bc1 ) endface
-    face consolidatedface15 (.c0.bc2 .c0.bc1 .r0.bc1 .r0.bc2 ) endface
-    face consolidatedface16 (.c0.bc11 .c0.bc10 .r0.bc22 .r0.bc23 ) endface
-    face consolidatedface17 (.c0.bc10 .c0.bc9 .r0.bc21 .r0.bc22 ) endface
-    face consolidatedface18 (.c1.bc3 .c1.bc2 .r0.bc5 .r0.bc6 ) endface
-    face consolidatedface19 (.c1.bc4 .c1.bc3 .r0.bc6 .r0.bc7 ) endface
-    face consolidatedface20 (.c1.bc5 .c1.bc4 .r0.bc7 .r0.bc8 ) endface
-    face consolidatedface21 (.c1.bc2 .c1.bc1 .r0.bc4 .r0.bc5 ) endface
-    face consolidatedface22 (.c1.bc1 .c1.bc0 .r0.bc3 .r0.bc4 ) endface
-    face consolidatedface23 (.c2.bc6 .c2.bc5 .r0.bc11 .r0.bc12 ) endface
-    face consolidatedface24 (.c2.bc5 .c2.bc4 .r0.bc10 .r0.bc11 ) endface
-    face consolidatedface25 (.c2.bc4 .c2.bc3 .r0.bc9 .r0.bc10 ) endface
-    face consolidatedface26 (.c2.bc7 .c2.bc6 .r0.bc12 .r0.bc13 ) endface
-    face consolidatedface27 (.c2.bc8 .c2.bc7 .r0.bc13 .r0.bc14 ) endface
-    face consolidatedface28 (.c3.bc9 .c3.bc8 .r0.bc17 .r0.bc18 ) endface
-    face consolidatedface29 (.c3.bc10 .c3.bc9 .r0.bc18 .r0.bc19 ) endface
-    face consolidatedface30 (.c3.bc11 .c3.bc10 .r0.bc19 .r0.bc20 ) endface
-    face consolidatedface31 (.c3.bc8 .c3.bc7 .r0.bc16 .r0.bc17 ) endface
-    face consolidatedface32 (.c3.bc7 .c3.bc6 .r0.bc15 .r0.bc16 ) endface
-    face consolidatedface33 (.r0.bc20 .r0.bc21 .c0.bc9 .c0.bc8 .c3.bc0 .c3.bc11 ) endface
-    face consolidatedface34 (.r0.bc2 .r0.bc3 .c1.bc0 .c1.bc11 .c0.bc3 .c0.bc2 ) endface
-    face consolidatedface35 (.r0.bc8 .r0.bc9 .c2.bc3 .c2.bc2 .c1.bc6 .c1.bc5 ) endface
-    face consolidatedface36 (.r0.bc14 .r0.bc15 .c3.bc6 .c3.bc5 .c2.bc9 .c2.bc8 ) endface
+    face consolidatedface0 (c1.bc9 c1.bc8 s0.bc1 s0.bc0 ) endface
+    face consolidatedface1 (s0.bc1 c2.bc0 c2.bc11 s0.bc2 ) endface
+    face consolidatedface2 (s0.bc2 c3.bc3 c3.bc2 s0.bc3 ) endface
+    face consolidatedface3 (s0.bc3 c0.bc6 c0.bc5 s0.bc0 ) endface
+    face consolidatedface4 (c1.bc7 c2.bc1 c2.bc0 s0.bc1 c1.bc8 ) endface
+    face consolidatedface5 (c2.bc10 c3.bc4 c3.bc3 s0.bc2 c2.bc11 ) endface
+    face consolidatedface6 (c3.bc1 c0.bc7 c0.bc6 s0.bc3 c3.bc2 ) endface
+    face consolidatedface7 (c0.bc4 c1.bc10 c1.bc9 s0.bc0 c0.bc5 ) endface
+    face consolidatedface8 (s0.bc0 s0.bc1 s0.bc2 s0.bc3 ) endface
+    face consolidatedface9 (c0.bc3 c1.bc11 c1.bc10 c0.bc4 ) endface
+    face consolidatedface10 (c1.bc6 c2.bc2 c2.bc1 c1.bc7 ) endface
+    face consolidatedface11 (c2.bc9 c3.bc5 c3.bc4 c2.bc10 ) endface
+    face consolidatedface12 (c3.bc0 c0.bc8 c0.bc7 c3.bc1 ) endface
+    face consolidatedface13 (c0.bc0 c0.bc11 r0.bc23 r0.bc0 ) endface
+    face consolidatedface14 (c0.bc1 c0.bc0 r0.bc0 r0.bc1 ) endface
+    face consolidatedface15 (c0.bc2 c0.bc1 r0.bc1 r0.bc2 ) endface
+    face consolidatedface16 (c0.bc11 c0.bc10 r0.bc22 r0.bc23 ) endface
+    face consolidatedface17 (c0.bc10 c0.bc9 r0.bc21 r0.bc22 ) endface
+    face consolidatedface18 (c1.bc3 c1.bc2 r0.bc5 r0.bc6 ) endface
+    face consolidatedface19 (c1.bc4 c1.bc3 r0.bc6 r0.bc7 ) endface
+    face consolidatedface20 (c1.bc5 c1.bc4 r0.bc7 r0.bc8 ) endface
+    face consolidatedface21 (c1.bc2 c1.bc1 r0.bc4 r0.bc5 ) endface
+    face consolidatedface22 (c1.bc1 c1.bc0 r0.bc3 r0.bc4 ) endface
+    face consolidatedface23 (c2.bc6 c2.bc5 r0.bc11 r0.bc12 ) endface
+    face consolidatedface24 (c2.bc5 c2.bc4 r0.bc10 r0.bc11 ) endface
+    face consolidatedface25 (c2.bc4 c2.bc3 r0.bc9 r0.bc10 ) endface
+    face consolidatedface26 (c2.bc7 c2.bc6 r0.bc12 r0.bc13 ) endface
+    face consolidatedface27 (c2.bc8 c2.bc7 r0.bc13 r0.bc14 ) endface
+    face consolidatedface28 (c3.bc9 c3.bc8 r0.bc17 r0.bc18 ) endface
+    face consolidatedface29 (c3.bc10 c3.bc9 r0.bc18 r0.bc19 ) endface
+    face consolidatedface30 (c3.bc11 c3.bc10 r0.bc19 r0.bc20 ) endface
+    face consolidatedface31 (c3.bc8 c3.bc7 r0.bc16 r0.bc17 ) endface
+    face consolidatedface32 (c3.bc7 c3.bc6 r0.bc15 r0.bc16 ) endface
+    face consolidatedface33 (r0.bc20 r0.bc21 c0.bc9 c0.bc8 c3.bc0 c3.bc11 ) endface
+    face consolidatedface34 (r0.bc2 r0.bc3 c1.bc0 c1.bc11 c0.bc3 c0.bc2 ) endface
+    face consolidatedface35 (r0.bc8 r0.bc9 c2.bc3 c2.bc2 c1.bc6 c1.bc5 ) endface
+    face consolidatedface36 (r0.bc14 r0.bc15 c3.bc6 c3.bc5 c2.bc9 c2.bc8 ) endface
 endmesh
 
 ####Create an instance of the consolidated mesh here.####

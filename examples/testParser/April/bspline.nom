@@ -26,6 +26,10 @@ point p4 ( 2.2  0 0) endpoint
 point p5 ( 0  2.2 0) endpoint
 point p6 (-2.2  0 0) endpoint
 
+bank circle
+    set     n       8       3       100      1
+endbank
+
 polyline pol (p0 p1 p2 p3 p4 p5 p6) endpolyline
 instance polA pol surface R endinstance
 

@@ -39,16 +39,54 @@ vector<Mesh*> Group::flattenedMeshes()
 {
     vector<Mesh*> result = {};
     vector<Mesh>::iterator mIt;
+    //cout << "+++++" << endl;
     for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
     {
-        if (std::find(alreadyFlattened.begin(), alreadyFlattened.end(), (*mIt).name) == alreadyFlattened.end()){
-        for(Transformation& transformUp : (*mIt).transformations_up)
+        //cout << mIt->name << endl;
+        //if (std::find(alreadyFlattened.begin(), alreadyFlattened.end(), (*mIt).name) == alreadyFlattened.end()){
+            for(Transformation& transformUp : (*mIt).transformations_up)
+            {
+                (*mIt).transform(&transformUp);
+            }
+            (*mIt).computeNormals();
+            result.push_back(&(*mIt));
+            alreadyFlattened.push_back((*mIt).name);
+        //}
+    }
+    vector<Group>::iterator gIt;
+    for(gIt = subgroups.begin(); gIt < subgroups.end(); gIt++)
+    {
+        vector<Mesh*> flattenedFromThisSubGroup = (*gIt).flattenedMeshes();
+        vector<Mesh*>::iterator mpIt;
+        for(mpIt = flattenedFromThisSubGroup.begin();
+            mpIt < flattenedFromThisSubGroup.end(); mpIt++)
         {
-            (*mIt).transform(&transformUp);
+            for(Transformation& transformUp : (*gIt).transformations_up)
+            {
+                (**mpIt).transform(&transformUp);
+            }
+            result.push_back(*mpIt);
         }
-        (*mIt).computeNormals();
-        result.push_back(&(*mIt));
-        alreadyFlattened.push_back((*mIt).name);
+    }
+    return result;
+}
+
+vector<Mesh*> Group::flattenedMeshesTemp()
+{
+    vector<Mesh*> result = {};
+    vector<Mesh>::iterator mIt;
+    //cout << "+++++" << endl;
+    for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
+    {
+        //cout << mIt->name << endl;
+        if (std::find(alreadyFlattened.begin(), alreadyFlattened.end(), (*mIt).name) == alreadyFlattened.end()){
+            for(Transformation& transformUp : (*mIt).transformations_up)
+            {
+                (*mIt).transform(&transformUp);
+            }
+            (*mIt).computeNormals();
+            result.push_back(&(*mIt));
+            alreadyFlattened.push_back((*mIt).name);
         }
     }
     vector<Group>::iterator gIt;
@@ -141,6 +179,7 @@ void Group::updateGroupElementName()
     {
         for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
         {
+            //cout << "OOOO" << endl;
             //cout << (*mIt).name << endl;
             if(this -> parent != NULL)
             {
@@ -165,7 +204,13 @@ void Group::updateGroupElementName()
 
         for(pIt = myPolylines.begin(); pIt < myPolylines.end(); pIt++)
         {
-            (*pIt).name = this -> name + "." + (*pIt).name;
+            if (this -> name == ""){
+                (*pIt).name = (*pIt).name;
+            }
+            else{
+                (*pIt).name = this -> name + "." + (*pIt).name;
+            }
+
             for(Vertex*& v: (*pIt).vertices)
             {
                 v -> name = (*pIt).name + "." + v -> name;

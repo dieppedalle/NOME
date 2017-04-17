@@ -53,6 +53,8 @@ public:
      * @return all meshes under this group as a list.
      */
     vector<Mesh*> flattenedMeshes();
+
+    vector<Mesh*> flattenedMeshesTemp();
     /**
      * @brief flattenedPolylines: A flattened view of polylines in this group.
      * @return all polylines under this group as a list.

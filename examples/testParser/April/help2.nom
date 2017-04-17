@@ -1,0 +1,246 @@
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface          # Blue
+surface P color (0.5 0 1) endsurface        # Purple
+surface M color (1 0 1) endsurface          # Magenta
+surface W color (1 1 1) endsurface          # White
+
+bank rim  ## the rim of the connecting Dyck disks:
+    set		num		24		12		24		1		#		number		of		segments
+    set		rad		1		0.1		2.0		0.1		#		circle		radius
+    set		sx		2.4		1		8		0.1
+    set		sy		2.4		1		4		0.1
+    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		rx		45		0		90		0.5		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		ry		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		tx		3		0		6		0.1
+endbank
+bank cir  ## the punch-through connections from one disk to the next
+    set		num		12		6		16		1		#		number		of		segments
+    set		rad		0.5		0.1		1.0		0.1		#		circle		radius
+    set		tr		1		0		1		0.1
+    set		tz		0.9		0		1		0.1
+    set		rz		15		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+    set		rp		-9		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		rn		0		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+endbank
+bank pad  ## the central quad patch -- made as a circle, so that it shows up in consolidated mesh!
+    set		num		4		4		4		1		#		number		of		segments
+    set		rad		0.25		0.1		0.5		0.05		#		circle		radius
+    set		rz		45		0		90		1		#		alfa		azimuth		for		line-up		into		slanted		ribbon
+endbank
+circle  rimo  ( {expr $rim.num} {expr $rim.rad} ) endcircle
+circle  circ  ( {expr $cir.num} {expr $cir.rad} ) endcircle
+circle  sadl  ( {expr $pad.num} {expr $pad.rad} ) endcircle
+instance s0  sadl    rotate (0 0 1)({expr $pad.rz})    endinstance
+instance r0  rimo    rotate (0 0 1)({expr $rim.rz})   scale ({expr $rim.sx} {expr $rim.sy} 1)    endinstance
+instance c0  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr $cir.rp})  rotate (1 -1 0)({expr $cir.rn})   translate ( {expr  $cir.tr} 0  {expr  $cir.tz} )    endinstance
+instance c1  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.rp})  rotate (1 -1 0)({expr -$cir.rn})   translate (0  {expr $cir.tr}   {expr -$cir.tz})     endinstance
+instance c2  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr $cir.rp})  rotate (1 -1 0)({expr $cir.rn})   translate ( {expr -$cir.tr} 0  {expr  $cir.tz} )    endinstance
+instance c3  circ    rotate (0 0 1)({expr $cir.rz})  rotate (1 1 0)({expr -$cir.rp})  rotate (1 -1 0)({expr -$cir.rn})   translate (0  {expr -$cir.tr}  {expr -$cir.tz})     endinstance
+mesh consolidatedmesh
+    face consolidatedface0 (c1.bc9 c1.bc8 s0.bc1 s0.bc0 ) endface
+    face consolidatedface1 (s0.bc1 c2.bc0 c2.bc11 s0.bc2 ) endface
+    face consolidatedface2 (s0.bc2 c3.bc3 c3.bc2 s0.bc3 ) endface
+    face consolidatedface3 (s0.bc3 c0.bc6 c0.bc5 s0.bc0 ) endface
+    face consolidatedface4 (c1.bc7 c2.bc1 c2.bc0 s0.bc1 c1.bc8 ) endface
+    face consolidatedface5 (c2.bc10 c3.bc4 c3.bc3 s0.bc2 c2.bc11 ) endface
+    face consolidatedface6 (c3.bc1 c0.bc7 c0.bc6 s0.bc3 c3.bc2 ) endface
+    face consolidatedface7 (c0.bc4 c1.bc10 c1.bc9 s0.bc0 c0.bc5 ) endface
+    face consolidatedface8 (s0.bc0 s0.bc1 s0.bc2 s0.bc3 ) endface
+    face consolidatedface9 (c0.bc3 c1.bc11 c1.bc10 c0.bc4 ) endface
+    face consolidatedface10 (c1.bc6 c2.bc2 c2.bc1 c1.bc7 ) endface
+    face consolidatedface11 (c2.bc9 c3.bc5 c3.bc4 c2.bc10 ) endface
+    face consolidatedface12 (c3.bc0 c0.bc8 c0.bc7 c3.bc1 ) endface
+    face consolidatedface13 (c0.bc0 c0.bc11 r0.bc23 r0.bc0 ) endface
+    face consolidatedface14 (c0.bc1 c0.bc0 r0.bc0 r0.bc1 ) endface
+    face consolidatedface15 (c0.bc2 c0.bc1 r0.bc1 r0.bc2 ) endface
+    face consolidatedface16 (c0.bc11 c0.bc10 r0.bc22 r0.bc23 ) endface
+    face consolidatedface17 (c0.bc10 c0.bc9 r0.bc21 r0.bc22 ) endface
+    face consolidatedface18 (c1.bc3 c1.bc2 r0.bc5 r0.bc6 ) endface
+    face consolidatedface19 (c1.bc4 c1.bc3 r0.bc6 r0.bc7 ) endface
+    face consolidatedface20 (c1.bc5 c1.bc4 r0.bc7 r0.bc8 ) endface
+    face consolidatedface21 (c1.bc2 c1.bc1 r0.bc4 r0.bc5 ) endface
+    face consolidatedface22 (c1.bc1 c1.bc0 r0.bc3 r0.bc4 ) endface
+    face consolidatedface23 (c2.bc6 c2.bc5 r0.bc11 r0.bc12 ) endface
+    face consolidatedface24 (c2.bc5 c2.bc4 r0.bc10 r0.bc11 ) endface
+    face consolidatedface25 (c2.bc4 c2.bc3 r0.bc9 r0.bc10 ) endface
+    face consolidatedface26 (c2.bc7 c2.bc6 r0.bc12 r0.bc13 ) endface
+    face consolidatedface27 (c2.bc8 c2.bc7 r0.bc13 r0.bc14 ) endface
+    face consolidatedface28 (c3.bc9 c3.bc8 r0.bc17 r0.bc18 ) endface
+    face consolidatedface29 (c3.bc10 c3.bc9 r0.bc18 r0.bc19 ) endface
+    face consolidatedface30 (c3.bc11 c3.bc10 r0.bc19 r0.bc20 ) endface
+    face consolidatedface31 (c3.bc8 c3.bc7 r0.bc16 r0.bc17 ) endface
+    face consolidatedface32 (c3.bc7 c3.bc6 r0.bc15 r0.bc16 ) endface
+    face consolidatedface33 (r0.bc20 r0.bc21 c0.bc9 c0.bc8 c3.bc0 c3.bc11 ) endface
+    face consolidatedface34 (r0.bc2 r0.bc3 c1.bc0 c1.bc11 c0.bc3 c0.bc2 ) endface
+    face consolidatedface35 (r0.bc8 r0.bc9 c2.bc3 c2.bc2 c1.bc6 c1.bc5 ) endface
+    face consolidatedface36 (r0.bc14 r0.bc15 c3.bc6 c3.bc5 c2.bc9 c2.bc8 ) endface
+endmesh
+instance cmx consolidatedmesh   surface Y  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )      endinstance
+instance cma consolidatedmesh   surface L  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (0 0 1)(180)     endinstance
+instance cmy consolidatedmesh   surface U  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)     endinstance
+instance cmb consolidatedmesh   surface U rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(120)  rotate (1 0 0)(180)     endinstance
+instance cmz consolidatedmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)    endinstance
+instance cmc consolidatedmesh   surface G  rotate (0 0 1)(45)  translate ( {expr $rim.tx} 0 0 )  rotate (1 0 0)( {expr $rim.rx} )  rotate (1 1 1)(-120)  rotate (1 0 0)(180)     endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh aconsolidatedmesh
+    face aconsolidatedface0 (cmz.c2.bc8 cmz.c2.bc7 cma.c0.bc1 cma.c0.bc0 ) endface
+    face aconsolidatedface1 (cmz.c2.bc9 cmz.c2.bc8 cma.c0.bc0 cma.c0.bc11 ) endface
+    face aconsolidatedface2 (cmz.c2.bc7 cmz.c2.bc6 cma.c0.bc2 cma.c0.bc1 ) endface
+    face aconsolidatedface3 (cmz.c2.bc10 cmz.c2.bc9 cma.c0.bc11 cma.c0.bc10 ) endface
+    face aconsolidatedface4 (cmz.c2.bc6 cmz.c2.bc5 cma.c0.bc3 cma.c0.bc2 ) endface
+    face aconsolidatedface5 (cmz.c2.bc11 cmz.c2.bc10 cma.c0.bc10 cma.c0.bc9 ) endface
+    face aconsolidatedface6 (cmz.c2.bc5 cmz.c2.bc4 cma.c0.bc4 cma.c0.bc3 ) endface
+    face aconsolidatedface7 (cmz.c2.bc0 cmz.c2.bc11 cma.c0.bc9 cma.c0.bc8 ) endface
+    face aconsolidatedface8 (cmz.c2.bc4 cmz.c2.bc3 cma.c0.bc5 cma.c0.bc4 ) endface
+    face aconsolidatedface9 (cmz.c2.bc1 cmz.c2.bc0 cma.c0.bc8 cma.c0.bc7 ) endface
+    face aconsolidatedface10 (cmz.c2.bc3 cmz.c2.bc2 cma.c0.bc6 cma.c0.bc5 ) endface
+    face aconsolidatedface11 (cmz.c2.bc2 cmz.c2.bc1 cma.c0.bc7 cma.c0.bc6 ) endface
+    face aconsolidatedface12 (cmz.c0.bc10 cmz.c0.bc11 cmy.c1.bc10 cmy.c1.bc9 ) endface
+    face aconsolidatedface13 (cmz.c0.bc9 cmz.c0.bc10 cmy.c1.bc9 cmy.c1.bc8 ) endface
+    face aconsolidatedface14 (cmz.c0.bc11 cmz.c0.bc0 cmy.c1.bc11 cmy.c1.bc10 ) endface
+    face aconsolidatedface15 (cmz.c0.bc8 cmz.c0.bc9 cmy.c1.bc8 cmy.c1.bc7 ) endface
+    face aconsolidatedface16 (cmz.c0.bc0 cmz.c0.bc1 cmy.c1.bc0 cmy.c1.bc11 ) endface
+    face aconsolidatedface17 (cmz.c0.bc7 cmz.c0.bc8 cmy.c1.bc7 cmy.c1.bc6 ) endface
+    face aconsolidatedface18 (cmz.c0.bc1 cmz.c0.bc2 cmy.c1.bc1 cmy.c1.bc0 ) endface
+    face aconsolidatedface19 (cmz.c0.bc6 cmz.c0.bc7 cmy.c1.bc6 cmy.c1.bc5 ) endface
+    face aconsolidatedface20 (cmz.c0.bc2 cmz.c0.bc3 cmy.c1.bc2 cmy.c1.bc1 ) endface
+    face aconsolidatedface21 (cmz.c0.bc5 cmz.c0.bc6 cmy.c1.bc5 cmy.c1.bc4 ) endface
+    face aconsolidatedface22 (cmz.c0.bc3 cmz.c0.bc4 cmy.c1.bc3 cmy.c1.bc2 ) endface
+    face aconsolidatedface23 (cmz.c0.bc4 cmz.c0.bc5 cmy.c1.bc4 cmy.c1.bc3 ) endface
+    face aconsolidatedface24 (cmy.c3.bc8 cmy.c3.bc9 cma.c2.bc9 cma.c2.bc8 ) endface
+    face aconsolidatedface25 (cmy.c3.bc7 cmy.c3.bc8 cma.c2.bc8 cma.c2.bc7 ) endface
+    face aconsolidatedface26 (cmy.c3.bc9 cmy.c3.bc10 cma.c2.bc10 cma.c2.bc9 ) endface
+    face aconsolidatedface27 (cmy.c3.bc6 cmy.c3.bc7 cma.c2.bc7 cma.c2.bc6 ) endface
+    face aconsolidatedface28 (cmy.c3.bc10 cmy.c3.bc11 cma.c2.bc11 cma.c2.bc10 ) endface
+    face aconsolidatedface29 (cmy.c3.bc5 cmy.c3.bc6 cma.c2.bc6 cma.c2.bc5 ) endface
+    face aconsolidatedface30 (cmy.c3.bc11 cmy.c3.bc0 cma.c2.bc0 cma.c2.bc11 ) endface
+    face aconsolidatedface31 (cmy.c3.bc4 cmy.c3.bc5 cma.c2.bc5 cma.c2.bc4 ) endface
+    face aconsolidatedface32 (cmy.c3.bc0 cmy.c3.bc1 cma.c2.bc1 cma.c2.bc0 ) endface
+    face aconsolidatedface33 (cmy.c3.bc3 cmy.c3.bc4 cma.c2.bc4 cma.c2.bc3 ) endface
+    face aconsolidatedface34 (cmy.c3.bc1 cmy.c3.bc2 cma.c2.bc2 cma.c2.bc1 ) endface
+    face aconsolidatedface35 (cmy.c3.bc2 cmy.c3.bc3 cma.c2.bc3 cma.c2.bc2 ) endface
+    face aconsolidatedface36 (cma.c1.bc11 cma.c1.bc0 cmb.c3.bc7 cmb.c3.bc8 ) endface
+    face aconsolidatedface37 (cma.c1.bc10 cma.c1.bc11 cmb.c3.bc8 cmb.c3.bc9 ) endface
+    face aconsolidatedface38 (cma.c1.bc0 cma.c1.bc1 cmb.c3.bc6 cmb.c3.bc7 ) endface
+    face aconsolidatedface39 (cma.c1.bc9 cma.c1.bc10 cmb.c3.bc9 cmb.c3.bc10 ) endface
+    face aconsolidatedface40 (cma.c1.bc1 cma.c1.bc2 cmb.c3.bc5 cmb.c3.bc6 ) endface
+    face aconsolidatedface41 (cma.c1.bc8 cma.c1.bc9 cmb.c3.bc10 cmb.c3.bc11 ) endface
+    face aconsolidatedface42 (cma.c1.bc2 cma.c1.bc3 cmb.c3.bc4 cmb.c3.bc5 ) endface
+    face aconsolidatedface43 (cma.c1.bc7 cma.c1.bc8 cmb.c3.bc11 cmb.c3.bc0 ) endface
+    face aconsolidatedface44 (cma.c1.bc3 cma.c1.bc4 cmb.c3.bc3 cmb.c3.bc4 ) endface
+    face aconsolidatedface45 (cma.c1.bc6 cma.c1.bc7 cmb.c3.bc0 cmb.c3.bc1 ) endface
+    face aconsolidatedface46 (cma.c1.bc4 cma.c1.bc5 cmb.c3.bc2 cmb.c3.bc3 ) endface
+    face aconsolidatedface47 (cma.c1.bc5 cma.c1.bc6 cmb.c3.bc1 cmb.c3.bc2 ) endface
+    face aconsolidatedface48 (cma.c3.bc8 cma.c3.bc9 cmc.c2.bc10 cmc.c2.bc9 ) endface
+    face aconsolidatedface49 (cma.c3.bc7 cma.c3.bc8 cmc.c2.bc9 cmc.c2.bc8 ) endface
+    face aconsolidatedface50 (cma.c3.bc9 cma.c3.bc10 cmc.c2.bc11 cmc.c2.bc10 ) endface
+    face aconsolidatedface51 (cma.c3.bc6 cma.c3.bc7 cmc.c2.bc8 cmc.c2.bc7 ) endface
+    face aconsolidatedface52 (cma.c3.bc10 cma.c3.bc11 cmc.c2.bc0 cmc.c2.bc11 ) endface
+    face aconsolidatedface53 (cma.c3.bc5 cma.c3.bc6 cmc.c2.bc7 cmc.c2.bc6 ) endface
+    face aconsolidatedface54 (cma.c3.bc11 cma.c3.bc0 cmc.c2.bc1 cmc.c2.bc0 ) endface
+    face aconsolidatedface55 (cma.c3.bc4 cma.c3.bc5 cmc.c2.bc6 cmc.c2.bc5 ) endface
+    face aconsolidatedface56 (cma.c3.bc0 cma.c3.bc1 cmc.c2.bc2 cmc.c2.bc1 ) endface
+    face aconsolidatedface57 (cma.c3.bc3 cma.c3.bc4 cmc.c2.bc5 cmc.c2.bc4 ) endface
+    face aconsolidatedface58 (cma.c3.bc1 cma.c3.bc2 cmc.c2.bc3 cmc.c2.bc2 ) endface
+    face aconsolidatedface59 (cma.c3.bc2 cma.c3.bc3 cmc.c2.bc4 cmc.c2.bc3 ) endface
+    face aconsolidatedface60 (cmc.c0.bc0 cmc.c0.bc11 cmb.c1.bc10 cmb.c1.bc11 ) endface
+    face aconsolidatedface61 (cmc.c0.bc1 cmc.c0.bc0 cmb.c1.bc11 cmb.c1.bc0 ) endface
+    face aconsolidatedface62 (cmc.c0.bc11 cmc.c0.bc10 cmb.c1.bc9 cmb.c1.bc10 ) endface
+    face aconsolidatedface63 (cmc.c0.bc2 cmc.c0.bc1 cmb.c1.bc0 cmb.c1.bc1 ) endface
+    face aconsolidatedface64 (cmc.c0.bc10 cmc.c0.bc9 cmb.c1.bc8 cmb.c1.bc9 ) endface
+    face aconsolidatedface65 (cmc.c0.bc3 cmc.c0.bc2 cmb.c1.bc1 cmb.c1.bc2 ) endface
+    face aconsolidatedface66 (cmc.c0.bc9 cmc.c0.bc8 cmb.c1.bc7 cmb.c1.bc8 ) endface
+    face aconsolidatedface67 (cmc.c0.bc4 cmc.c0.bc3 cmb.c1.bc2 cmb.c1.bc3 ) endface
+    face aconsolidatedface68 (cmc.c0.bc8 cmc.c0.bc7 cmb.c1.bc6 cmb.c1.bc7 ) endface
+    face aconsolidatedface69 (cmc.c0.bc5 cmc.c0.bc4 cmb.c1.bc3 cmb.c1.bc4 ) endface
+    face aconsolidatedface70 (cmc.c0.bc7 cmc.c0.bc6 cmb.c1.bc5 cmb.c1.bc6 ) endface
+    face aconsolidatedface71 (cmc.c0.bc6 cmc.c0.bc5 cmb.c1.bc4 cmb.c1.bc5 ) endface
+    face aconsolidatedface72 (cmb.c2.bc9 cmb.c2.bc8 cmz.c3.bc7 cmz.c3.bc8 ) endface
+    face aconsolidatedface73 (cmb.c2.bc10 cmb.c2.bc9 cmz.c3.bc8 cmz.c3.bc9 ) endface
+    face aconsolidatedface74 (cmb.c2.bc8 cmb.c2.bc7 cmz.c3.bc6 cmz.c3.bc7 ) endface
+    face aconsolidatedface75 (cmb.c2.bc11 cmb.c2.bc10 cmz.c3.bc9 cmz.c3.bc10 ) endface
+    face aconsolidatedface76 (cmb.c2.bc7 cmb.c2.bc6 cmz.c3.bc5 cmz.c3.bc6 ) endface
+    face aconsolidatedface77 (cmb.c2.bc0 cmb.c2.bc11 cmz.c3.bc10 cmz.c3.bc11 ) endface
+    face aconsolidatedface78 (cmb.c2.bc6 cmb.c2.bc5 cmz.c3.bc4 cmz.c3.bc5 ) endface
+    face aconsolidatedface79 (cmb.c2.bc1 cmb.c2.bc0 cmz.c3.bc11 cmz.c3.bc0 ) endface
+    face aconsolidatedface80 (cmb.c2.bc5 cmb.c2.bc4 cmz.c3.bc3 cmz.c3.bc4 ) endface
+    face aconsolidatedface81 (cmb.c2.bc2 cmb.c2.bc1 cmz.c3.bc0 cmz.c3.bc1 ) endface
+    face aconsolidatedface82 (cmb.c2.bc4 cmb.c2.bc3 cmz.c3.bc2 cmz.c3.bc3 ) endface
+    face aconsolidatedface83 (cmb.c2.bc3 cmb.c2.bc2 cmz.c3.bc1 cmz.c3.bc2 ) endface
+    face aconsolidatedface84 (cmb.c0.bc1 cmb.c0.bc0 cmx.c2.bc9 cmx.c2.bc8 ) endface
+    face aconsolidatedface85 (cmb.c0.bc2 cmb.c0.bc1 cmx.c2.bc8 cmx.c2.bc7 ) endface
+    face aconsolidatedface86 (cmb.c0.bc0 cmb.c0.bc11 cmx.c2.bc10 cmx.c2.bc9 ) endface
+    face aconsolidatedface87 (cmb.c0.bc3 cmb.c0.bc2 cmx.c2.bc7 cmx.c2.bc6 ) endface
+    face aconsolidatedface88 (cmb.c0.bc11 cmb.c0.bc10 cmx.c2.bc11 cmx.c2.bc10 ) endface
+    face aconsolidatedface89 (cmb.c0.bc4 cmb.c0.bc3 cmx.c2.bc6 cmx.c2.bc5 ) endface
+    face aconsolidatedface90 (cmb.c0.bc10 cmb.c0.bc9 cmx.c2.bc0 cmx.c2.bc11 ) endface
+    face aconsolidatedface91 (cmb.c0.bc5 cmb.c0.bc4 cmx.c2.bc5 cmx.c2.bc4 ) endface
+    face aconsolidatedface92 (cmb.c0.bc9 cmb.c0.bc8 cmx.c2.bc1 cmx.c2.bc0 ) endface
+    face aconsolidatedface93 (cmb.c0.bc6 cmb.c0.bc5 cmx.c2.bc4 cmx.c2.bc3 ) endface
+    face aconsolidatedface94 (cmb.c0.bc8 cmb.c0.bc7 cmx.c2.bc2 cmx.c2.bc1 ) endface
+    face aconsolidatedface95 (cmb.c0.bc7 cmb.c0.bc6 cmx.c2.bc3 cmx.c2.bc2 ) endface
+    face aconsolidatedface96 (cmx.c0.bc0 cmx.c0.bc11 cmz.c1.bc11 cmz.c1.bc0 ) endface
+    face aconsolidatedface97 (cmx.c0.bc1 cmx.c0.bc0 cmz.c1.bc0 cmz.c1.bc1 ) endface
+    face aconsolidatedface98 (cmx.c0.bc11 cmx.c0.bc10 cmz.c1.bc10 cmz.c1.bc11 ) endface
+    face aconsolidatedface99 (cmx.c0.bc2 cmx.c0.bc1 cmz.c1.bc1 cmz.c1.bc2 ) endface
+    face aconsolidatedface100 (cmx.c0.bc10 cmx.c0.bc9 cmz.c1.bc9 cmz.c1.bc10 ) endface
+    face aconsolidatedface101 (cmx.c0.bc3 cmx.c0.bc2 cmz.c1.bc2 cmz.c1.bc3 ) endface
+    face aconsolidatedface102 (cmx.c0.bc9 cmx.c0.bc8 cmz.c1.bc8 cmz.c1.bc9 ) endface
+    face aconsolidatedface103 (cmx.c0.bc4 cmx.c0.bc3 cmz.c1.bc3 cmz.c1.bc4 ) endface
+    face aconsolidatedface104 (cmx.c0.bc8 cmx.c0.bc7 cmz.c1.bc7 cmz.c1.bc8 ) endface
+    face aconsolidatedface105 (cmx.c0.bc5 cmx.c0.bc4 cmz.c1.bc4 cmz.c1.bc5 ) endface
+    face aconsolidatedface106 (cmx.c0.bc7 cmx.c0.bc6 cmz.c1.bc6 cmz.c1.bc7 ) endface
+    face aconsolidatedface107 (cmx.c0.bc6 cmx.c0.bc5 cmz.c1.bc5 cmz.c1.bc6 ) endface
+    face aconsolidatedface108 (cmx.c1.bc1 cmx.c1.bc2 cmy.c0.bc1 cmy.c0.bc0 ) endface
+    face aconsolidatedface109 (cmx.c1.bc0 cmx.c1.bc1 cmy.c0.bc0 cmy.c0.bc11 ) endface
+    face aconsolidatedface110 (cmx.c1.bc2 cmx.c1.bc3 cmy.c0.bc2 cmy.c0.bc1 ) endface
+    face aconsolidatedface111 (cmx.c1.bc11 cmx.c1.bc0 cmy.c0.bc11 cmy.c0.bc10 ) endface
+    face aconsolidatedface112 (cmx.c1.bc3 cmx.c1.bc4 cmy.c0.bc3 cmy.c0.bc2 ) endface
+    face aconsolidatedface113 (cmx.c1.bc10 cmx.c1.bc11 cmy.c0.bc10 cmy.c0.bc9 ) endface
+    face aconsolidatedface114 (cmx.c1.bc4 cmx.c1.bc5 cmy.c0.bc4 cmy.c0.bc3 ) endface
+    face aconsolidatedface115 (cmx.c1.bc9 cmx.c1.bc10 cmy.c0.bc9 cmy.c0.bc8 ) endface
+    face aconsolidatedface116 (cmx.c1.bc5 cmx.c1.bc6 cmy.c0.bc5 cmy.c0.bc4 ) endface
+    face aconsolidatedface117 (cmx.c1.bc8 cmx.c1.bc9 cmy.c0.bc8 cmy.c0.bc7 ) endface
+    face aconsolidatedface118 (cmx.c1.bc6 cmx.c1.bc7 cmy.c0.bc6 cmy.c0.bc5 ) endface
+    face aconsolidatedface119 (cmx.c1.bc7 cmx.c1.bc8 cmy.c0.bc7 cmy.c0.bc6 ) endface
+    face aconsolidatedface120 (cmc.c3.bc8 cmc.c3.bc9 cmy.c2.bc9 cmy.c2.bc8 ) endface
+    face aconsolidatedface121 (cmc.c3.bc7 cmc.c3.bc8 cmy.c2.bc8 cmy.c2.bc7 ) endface
+    face aconsolidatedface122 (cmc.c3.bc9 cmc.c3.bc10 cmy.c2.bc10 cmy.c2.bc9 ) endface
+    face aconsolidatedface123 (cmc.c3.bc6 cmc.c3.bc7 cmy.c2.bc7 cmy.c2.bc6 ) endface
+    face aconsolidatedface124 (cmc.c3.bc10 cmc.c3.bc11 cmy.c2.bc11 cmy.c2.bc10 ) endface
+    face aconsolidatedface125 (cmc.c3.bc5 cmc.c3.bc6 cmy.c2.bc6 cmy.c2.bc5 ) endface
+    face aconsolidatedface126 (cmc.c3.bc11 cmc.c3.bc0 cmy.c2.bc0 cmy.c2.bc11 ) endface
+    face aconsolidatedface127 (cmc.c3.bc4 cmc.c3.bc5 cmy.c2.bc5 cmy.c2.bc4 ) endface
+    face aconsolidatedface128 (cmc.c3.bc0 cmc.c3.bc1 cmy.c2.bc1 cmy.c2.bc0 ) endface
+    face aconsolidatedface129 (cmc.c3.bc3 cmc.c3.bc4 cmy.c2.bc4 cmy.c2.bc3 ) endface
+    face aconsolidatedface130 (cmc.c3.bc1 cmc.c3.bc2 cmy.c2.bc2 cmy.c2.bc1 ) endface
+    face aconsolidatedface131 (cmc.c3.bc2 cmc.c3.bc3 cmy.c2.bc3 cmy.c2.bc2 ) endface
+    face aconsolidatedface132 (cmx.c3.bc8 cmx.c3.bc9 cmc.c1.bc10 cmc.c1.bc11 ) endface
+    face aconsolidatedface133 (cmx.c3.bc7 cmx.c3.bc8 cmc.c1.bc11 cmc.c1.bc0 ) endface
+    face aconsolidatedface134 (cmx.c3.bc9 cmx.c3.bc10 cmc.c1.bc9 cmc.c1.bc10 ) endface
+    face aconsolidatedface135 (cmx.c3.bc6 cmx.c3.bc7 cmc.c1.bc0 cmc.c1.bc1 ) endface
+    face aconsolidatedface136 (cmx.c3.bc10 cmx.c3.bc11 cmc.c1.bc8 cmc.c1.bc9 ) endface
+    face aconsolidatedface137 (cmx.c3.bc5 cmx.c3.bc6 cmc.c1.bc1 cmc.c1.bc2 ) endface
+    face aconsolidatedface138 (cmx.c3.bc11 cmx.c3.bc0 cmc.c1.bc7 cmc.c1.bc8 ) endface
+    face aconsolidatedface139 (cmx.c3.bc4 cmx.c3.bc5 cmc.c1.bc2 cmc.c1.bc3 ) endface
+    face aconsolidatedface140 (cmx.c3.bc0 cmx.c3.bc1 cmc.c1.bc6 cmc.c1.bc7 ) endface
+    face aconsolidatedface141 (cmx.c3.bc3 cmx.c3.bc4 cmc.c1.bc3 cmc.c1.bc4 ) endface
+    face aconsolidatedface142 (cmx.c3.bc1 cmx.c3.bc2 cmc.c1.bc5 cmc.c1.bc6 ) endface
+    face aconsolidatedface143 (cmx.c3.bc2 cmx.c3.bc3 cmc.c1.bc4 cmc.c1.bc5 ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 aconsolidatedmesh endinstance

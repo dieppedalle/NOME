@@ -1374,9 +1374,36 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 tIt++;
+                /*string currentExpression = "";
+                int isDone = 0;
+                if ((*tIt)[0] = '{'){
 
-                int segments = atoi((*tIt).c_str());
-                newBSpline.set_segments(segments);
+                    while (isDone != 0){
+
+                        if (isDone == 1){
+                            break;
+                        }
+                        for(char& c : (*tIt)) {
+                            if(c == '}')
+                            {
+                                currentExpression += c;
+                                isDone = 1;
+                                break;
+                            }
+                            else{
+                                currentExpression += c;
+                            }
+                        }
+                        tIt++;
+                    }
+                    cout << currentExpression << endl;
+                }
+                else{*/
+                    int segments = atoi((*tIt).c_str());
+                    newBSpline.set_segments(segments);
+                //}
+
+                //cout << currentExpression << endl;
 
                 string vertInside = "";
                 bool addingVert = false;
