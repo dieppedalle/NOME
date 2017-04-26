@@ -8,7 +8,9 @@ class Mesh;
 class Vertex;
 class PolyLine;
 class Transformation;
+class BSpline;
 using namespace std;
+
 
 /**
  * @brief The Parameter class. The parameter to control the shape.

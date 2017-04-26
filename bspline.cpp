@@ -96,7 +96,7 @@ void BSpline::calculate (int order)
         vertices.clear();
 
         //add first order-1 points to end of loop if a closed spline is desired
-        if (isLoop)
+        /*if (isLoop)
         {
             vector<Vertex*>::iterator iter;
             iter = proxy.begin();
@@ -106,30 +106,34 @@ void BSpline::calculate (int order)
                 proxy.push_back(new Vertex(position1[0], position1[1], position1[2], 100+x));
                 iter++;
             }
-        }
+        }*/
 
         float lim = order + proxy.size() - 2;
         float add = (lim - order - 1)/(segments);
 
-        if (isLoop) {
-            lim = lim - order + 1;
-            add = (lim - order - 1)/(segments);
-        }
+        int realLimit = segments;
+        /*if (isLoop) {
+            lim = proxy.size() - 1;
+            add = ((float) proxy.size() - 2 - order - 1)/(segments);
+
+            realLimit = segments-1;
+        }*/
 
         float upper;
 
         //rounding error correction, 0.01 is a delta value for error
-        if (!isLoop) {
+        /*if (!isLoop) {
             upper = lim + 0.01;
         }
         else {
             upper = lim - 0.01;
-        }
+        }*/
 
-
+        float t = order + 1;
 
         //calculate bspline at each t
-        for (float t = order + 1; t <= upper; t = t + add)
+        for (int vertexNumber = 0; vertexNumber <= realLimit; vertexNumber++)//{
+        //for (float t = order + 1; t <= upper; t = t + add)
         {
             float x = 0;
             float y = 0;
@@ -147,9 +151,9 @@ void BSpline::calculate (int order)
             }
 
             addVertex(new Vertex(x, y, z, t));
-
+            t = t + add;
         }
-
+        //cout << hola << endl;
     }
 }
 

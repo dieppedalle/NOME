@@ -1,4 +1,4 @@
-#### Some Surface colors #############################
+#### Some Surface colors #####
 surface O color (1 0 0) endsurface          # Red
 surface H color (0.9 0.6 0) endsurface      # Orange
 surface Y color (1 1 1) endsurface          # Yellow
@@ -9,29 +9,23 @@ surface C color (0 1 1) endsurface          # Cyan
 surface U color (0 0.5 1) endsurface        # Uniform
 surface B color (0 0 1) endsurface          # Blue
 
-
-
 bank fp
-    set     n       8       3       100      1
-    set     ro      0.4     0.1     1.0     0.1
-    set     ratio   -0.2    -0.5    0.5     0.1
-    set     h       0.2     0.1     1.5     0.1
-    set     z       0    -360   360     1
+    set		n		8		3		100		1		
+    set		ro		0.4		0.1		1.0		0.1		
+    set		ratio		-0.2		-0.5		0.5		0.1		
+    set		h		0.2		0.1		1.5		0.1		
+    set		z		0		-360		360		1		
 endbank
-
 bank tp
-    set     n       8       3       100      1
-    set     ro      0.4     0.1     1.0     0.1
-    set     ratio   -0.2    -0.5    0.5     0.1
-    set     h       0.2     0.1     1.5     0.1
-    set     z       0    -360   360     1
+    set		n		8		3		100		1		
+    set		ro		0.4		0.1		1.0		0.1		
+    set		ratio		-0.2		-0.5		0.5		0.1		
+    set		h		0.2		0.1		1.5		0.1		
+    set		z		0		-360		360		1		
 endbank
-
-
 bank cubeP
-    set     l       1       0.5       1.5     0.1
+    set		l		1		0.5		1.5		0.1		
 endbank
-
 point XYZ  ( {expr $cubeP.l}  {expr $cubeP.l}  {expr $cubeP.l} ) endpoint
 point XYC  ( {expr $cubeP.l}  {expr $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
 point XBZ  ( {expr $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr $cubeP.l} ) endpoint
@@ -40,17 +34,23 @@ point AYZ  ( {expr -1.0 * $cubeP.l}  {expr $cubeP.l}  {expr $cubeP.l} ) endpoint
 point AYC  ( {expr -1.0 * $cubeP.l}  {expr $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
 point ABZ  ( {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr $cubeP.l} ) endpoint
 point ABC  ( {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l}  {expr -1.0 * $cubeP.l} ) endpoint
-
-
 face c1   (XYZ XBZ XBC XYC ) endface
 face c2   (XYZ XYC AYC AYZ ) endface
 face c3   (AYZ AYC ABC ABZ ) endface
 face c4   (ABZ ABC XBC XBZ ) endface
 face c5   (XYZ AYZ ABZ XBZ ) endface
 face c6   (XYC XBC ABC AYC ) endface
-
-
 object cube (c1 c2 c3 c4 c5 c6) endobject
-
 instance cube1 cube endinstance
 instance cube1 cube translate (0 4 0) endinstance
+
+##### The following is the saved work of last time. #####
+
+##### The added faces. #####
+mesh consolidatedmesh
+    face consolidatedface0 (.cube1.AYZ .cube1.ABZ .cube1.XBZ .cube1.XYZ ) endface
+endmesh
+
+####Create an instance of the consolidated mesh here.####
+
+instance cm1 consolidatedmesh endinstance

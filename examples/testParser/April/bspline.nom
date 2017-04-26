@@ -17,14 +17,14 @@ surface P color (0.5 0 1) endsurface
 surface M color (1 0 1) endsurface
 surface W color (1 1 1) endsurface
 
-point p0 ( 2  0 0) endpoint
-point p1 ( 0  2 0) endpoint
-point p2 (-2  0 0) endpoint
-point p3 ( 0 -2 0) endpoint
+point p0 (2 0 0) endpoint
+point p1 (0 2 0) endpoint
+point p2 (-2 0 0) endpoint
+point p3 (0 -2 0) endpoint
 
-point p4 ( 2.2  0 0) endpoint
-point p5 ( 0  2.2 0) endpoint
-point p6 (-2.2  0 0) endpoint
+point p4 (2.2 0 0) endpoint
+point p5 (0 2.2 0) endpoint
+point p6 (-2.2 0 0) endpoint
 
 bank circle
     set     n       8       3       100      1
@@ -33,7 +33,10 @@ endbank
 polyline pol (p0 p1 p2 p3 p4 p5 p6) endpolyline
 instance polA pol surface R endinstance
 
-bspline4 bsp slices 9 (p0 p1 p2 p3 p4 p5 p6) endbspline4
+#bspline4 bsp slices 9 (p0 p1 p2 p3 p4 p5 p6) endbspline4
 # bspline3 bsp slices 24 (p0 p1 p2 p3 ) closed endbspline3
+# bspline9 bsp slices {expr $circle.n } (p0 p1 p2 p3 p4 p5 p6) closed endbspline9
+# bspline9 bsp slices 20 (p0 p1 p2 p3 p4 p5 p6) endbspline9
+bspline4 bsp slices 10 (p0 p1 p2 p3 p4 p5 p6) endbspline4
 
 instance bspA bsp surface Y endinstance

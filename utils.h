@@ -24,6 +24,10 @@ float evaluate_polyline_expression(string expr,
                                unordered_map<string, Parameter> *params,
                                PolyLine * polyline);
 
+float evaluate_bspline_expression(string expr,
+                               unordered_map<string, Parameter> *params,
+                               BSpline * bspline);
+
 float evaluate_transformation_expression(string expr,
                                unordered_map<string, Parameter> *params,
                                Transformation * t);

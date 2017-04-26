@@ -20,7 +20,7 @@ point Z  ( 0 0 0) endpoint
 tunnel tun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endtunnel
 funnel fun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endfunnel
 #circle circle1 (8 0.4) endtunnel
-circle circle1 ({expr $fp.n } {expr $fp.ro }) endtunnel
+circle circle1 ({expr $fp.n } {expr $fp.ro }) endcircle
 
 face c1   (X Y Z ) endface
 

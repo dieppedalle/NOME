@@ -1376,10 +1376,11 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 tIt++;
                 /*string currentExpression = "";
                 int isDone = 0;
-                if ((*tIt)[0] = '{'){
-
-                    while (isDone != 0){
-
+                //cout << *tIt << endl;
+                if ((*tIt)[0] == '{'){
+                    //cout << *tIt << endl;
+                    while (isDone == 0){
+                        //cout << currentExpression << endl;
                         if (isDone == 1){
                             break;
                         }
@@ -1396,9 +1397,51 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         tIt++;
                     }
-                    cout << currentExpression << endl;
+
+                    //==============
+                    bool expressionMode;
+                    string nextExpression ="";
+                    string number = "";
+                    for(char& c : currentExpression)
+                    {
+
+                        if(c == '{')
+                        {
+                            expressionMode = true;
+                        }
+                        else if(c == '}')
+                        {
+                            expressionMode = false;
+
+                            newBSpline.segments_expr = nextExpression.substr(5);
+                            cout << newBSpline.segments_expr << endl;
+                            newBSpline.segments = evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline);
+                            //cout << newBSpline.segments << endl;
+                            nextExpression = "";
+                        }
+                        else if(expressionMode)
+                        {
+                            nextExpression.push_back(c);
+                        }
+                        else if(!expressionMode && ((c >= '0' &&  c <= '9') || c == '.' || c == '-' || c == '+'))
+                        {
+                            number.push_back(c);
+                        }
+                        else
+                        {
+                            if(number != "")
+                            {
+                                //newPolyline.n = stoi(number);
+
+                                number = "";
+                                //i++;
+                            }
+                        }
+                    }
+                    //cout << currentExpression << endl;
                 }
                 else{*/
+                    //cout << *tIt << endl;
                     int segments = atoi((*tIt).c_str());
                     newBSpline.set_segments(segments);
                 //}

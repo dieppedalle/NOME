@@ -10,6 +10,7 @@
 
 #include "mesh.h"
 #include "polyline.h"
+#include "bspline.h"
 #include "transformation.h"
 #include "merge.h"
 #include <vector>

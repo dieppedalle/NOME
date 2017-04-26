@@ -2,6 +2,7 @@
 #include "mesh.h"
 #include "myslider.h"
 #include "polyline.h"
+#include "bspline.h"
 
 Parameter::Parameter()
 {
