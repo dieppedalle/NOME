@@ -32,12 +32,14 @@ public:
     vector<Vertex*> influenceVertices;
     vector<Mesh*> influenceMeshes;
     vector<PolyLine*> influencePolylines;
+    vector<PolyLine*> influenceBSpline;
     vector<Transformation*> influenceTransformations;
     void update();
     void addInfluenceMesh(Mesh * mesh);
     void addInfluenceTransformation(Transformation *t);
     void addInfluenceVertex(Vertex * vertex);
     void addInfluencePolyline(PolyLine * polyline);
+    void addInfluenceBSpline(BSpline * polyline);
     void changeParameterValue(float value);
 };
 

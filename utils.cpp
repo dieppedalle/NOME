@@ -262,13 +262,14 @@ float evaluate_mesh_expression(string expr, unordered_map<string, Parameter> *pa
 
 float evaluate_bspline_expression(string expr, unordered_map<string, Parameter> *params, BSpline * bspline)
 {
-    //cout<<expr<<endl;
     vector<string> tokens;
     stack<string> numberStack;
     string number = "";
     string lastNumber = "";
     bool readingFromExpr = false;
     string parameterName = "";
+    //cout << "KKKKKK" << endl;
+    //cout << expr << endl;
     for(char& m : expr)
     {
         if(!readingFromExpr && ((m >= '0' && m <= '9') || m == '.'))
@@ -291,6 +292,7 @@ float evaluate_bspline_expression(string expr, unordered_map<string, Parameter> 
                 number = "";
             } else if(parameterName != "")
             {
+                //cout << parameterName << endl;
                 string value = to_string(getPolyLineParameterValue(parameterName, params, bspline));
 
                 tokens.push_back(value);
@@ -345,6 +347,7 @@ float evaluate_bspline_expression(string expr, unordered_map<string, Parameter> 
             }
         }
     }
+
     if(number != "")
     {
         tokens.push_back(number);
@@ -360,10 +363,14 @@ float evaluate_bspline_expression(string expr, unordered_map<string, Parameter> 
         tokens.push_back(numberStack.top());
         numberStack.pop();
     }
+
+
+
     stack<float> operands;
     vector<string>::iterator tIt;
     for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
     {
+        //cout << *tIt << endl;
         string token = (*tIt);
         if(token.size() == 1 && isOperator(token[0]))
         {
@@ -485,6 +492,7 @@ float evaluate_polyline_expression(string expr, unordered_map<string, Parameter>
         tokens.push_back(numberStack.top());
         numberStack.pop();
     }
+
     stack<float> operands;
     vector<string>::iterator tIt;
     for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
@@ -507,6 +515,7 @@ float evaluate_polyline_expression(string expr, unordered_map<string, Parameter>
     {
         return 0.0f;
     }
+
     return operands.top();
 }
 

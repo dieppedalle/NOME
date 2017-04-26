@@ -427,6 +427,7 @@ void Group::mapFromParameters()
         vector<Parameter*> params = (*pIt).influencingParams;
         for(Parameter*& p : params)
         {
+            //cout << (pIt)->name << endl;
             //cout << "JJJ" << endl;
             p->addInfluencePolyline(&(*pIt));
         }

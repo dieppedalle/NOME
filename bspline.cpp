@@ -16,6 +16,7 @@ void BSpline::updateBSpline()
 {
 
 
+    cout << "HELLO" << endl;
     if(segments_expr != ""){
         int new_segments = int(evaluate_expression(segments_expr, params));
         if(new_segments != segments)

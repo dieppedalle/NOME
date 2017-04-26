@@ -1374,13 +1374,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
 
                 tIt++;
-                /*string currentExpression = "";
+                string currentExpression = "";
                 int isDone = 0;
-                //cout << *tIt << endl;
+                //cout << "========" << endl;
                 if ((*tIt)[0] == '{'){
                     //cout << *tIt << endl;
                     while (isDone == 0){
-                        //cout << currentExpression << endl;
+
+
                         if (isDone == 1){
                             break;
                         }
@@ -1397,6 +1398,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         tIt++;
                     }
+                    //cout << currentExpression << endl;
 
                     //==============
                     bool expressionMode;
@@ -1413,10 +1415,14 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             expressionMode = false;
 
-                            newBSpline.segments_expr = nextExpression.substr(5);
-                            cout << newBSpline.segments_expr << endl;
-                            newBSpline.segments = evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline);
-                            //cout << newBSpline.segments << endl;
+                            newBSpline.segments_expr = nextExpression.substr(4);
+                            //cout << nextExpression.substr(4) << endl;
+                            //cout << newBSpline.segments_expr << endl;
+                            //cout << "HELLO" << endl;
+                            //newBSpline.segments = int(evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline));
+                            newBSpline.set_segments(int(evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline)));
+                            //cout << "MMMM" << endl;
+                            //cout << evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline) << endl;
                             nextExpression = "";
                         }
                         else if(expressionMode)
@@ -1431,26 +1437,26 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         {
                             if(number != "")
                             {
-                                //newPolyline.n = stoi(number);
-
                                 number = "";
-                                //i++;
                             }
                         }
                     }
+
                     //cout << currentExpression << endl;
                 }
-                else{*/
+                else{
                     //cout << *tIt << endl;
                     int segments = atoi((*tIt).c_str());
                     newBSpline.set_segments(segments);
-                //}
-
-                //cout << currentExpression << endl;
+                    ++tIt;
+                }
+                //cout << "IIII" << endl;
+                //cout << *tIt << endl;
+                //cout << newBSpline.get_segments() << endl;
 
                 string vertInside = "";
                 bool addingVert = false;
-                while(++tIt < tokens.end() && (*tIt) != "endbspline" + std::to_string(newBSpline.get_order()))
+                while(tIt < tokens.end() && (*tIt) != "endbspline" + std::to_string(newBSpline.get_order()))
                 {
                     for(char& c : (*tIt))
                     {
@@ -1493,6 +1499,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                         }
                         vertInside = "";
                     }
+                    ++tIt;
                 }
 
                 endBSplineWhile:
@@ -1520,6 +1527,8 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 //newBSpline.addVertex(vertIt -> second);
                 newBSpline.cubic();
                 polylines[newBSpline.name] = newBSpline;
+
+                //cout << ((polylines[newBSpline.name]))->get_segments() << endl;
 
             }
             else if((*tIt) == "point")

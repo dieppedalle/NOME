@@ -9,6 +9,7 @@ Parameter::Parameter()
     this -> name = QString("");
     influenceMeshes.clear();
     influencePolylines.clear();
+    influenceBSpline.clear();
     influenceVertices.clear();
     influenceTransformations.clear();
 }
@@ -33,11 +34,23 @@ void Parameter::update()
             break;
         }
     }
+    //cout << influencePolylines.size() << endl;
     for(PolyLine*& p : influencePolylines)
     {
+        //std::cout << typeid(p).name() << '\n';
+        //cout << BSpline(p).segments << endl;
         //cout << "Update polyline" << endl;
         p -> updateCircle();
     }
+
+    /*for(PolyLine*& p : influenceBSpline)
+    {
+        //cout << p->segments << endl;
+        //cout << "Update polyline" << endl;
+        //p -> updateCircle();
+        cout << "OOOO" << endl;
+    }*/
+
     for(Transformation*& t : influenceTransformations)
     {
         t -> update();
@@ -58,6 +71,12 @@ void Parameter::addInfluencePolyline(PolyLine * polyline)
 {
     influencePolylines.push_back(polyline);
 }
+
+void Parameter::addInfluenceBSpline(BSpline * polyline)
+{
+    influenceBSpline.push_back(polyline);
+}
+
 
 void Parameter::addInfluenceTransformation(Transformation * t)
 {
