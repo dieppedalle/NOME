@@ -89,51 +89,27 @@ float BSpline::basis(int i, int k, float t)
 
 void BSpline::calculate (int order)
 {
+    int degree = order - 1;
     //calculate bspline for general order bspline, order>=2 is enforced
     if (order >= 2)
     {
         //clear all vertices just in case
         vertices.clear();
 
-        //add first order-1 points to end of loop if a closed spline is desired
-        /*if (isLoop)
-        {
-            vector<Vertex*>::iterator iter;
-            iter = proxy.begin();
-            for (int x = 0; x < order - 1; x++)
-            {
-                vec3 position1 = (*iter)->position;
-                proxy.push_back(new Vertex(position1[0], position1[1], position1[2], 100+x));
-                iter++;
-            }
-        }*/
 
-        float lim = order + proxy.size() - 2;
-        float add = (lim - order - 1)/(segments);
+        float lim = degree + proxy.size() - 2;
+        //float add = (lim - degree - 1)/(segments);
+        float add = ((float) (proxy.size() - degree))/(segments);
+        //cout << add << endl;
 
         int realLimit = segments;
-        /*if (isLoop) {
-            lim = proxy.size() - 1;
-            add = ((float) proxy.size() - 2 - order - 1)/(segments);
-
-            realLimit = segments-1;
-        }*/
 
         float upper;
 
-        //rounding error correction, 0.01 is a delta value for error
-        /*if (!isLoop) {
-            upper = lim + 0.01;
-        }
-        else {
-            upper = lim - 0.01;
-        }*/
-
-        float t = order + 1;
+        float t = degree + 1;
 
         //calculate bspline at each t
         for (int vertexNumber = 0; vertexNumber <= realLimit; vertexNumber++)//{
-        //for (float t = order + 1; t <= upper; t = t + add)
         {
             float x = 0;
             float y = 0;
@@ -141,19 +117,20 @@ void BSpline::calculate (int order)
 
             for (int i = 1; i <= proxy.size(); i++)
             {
-                float temp = basis(i, order, t);
+                float temp = basis(i, degree, t);
 
                 vec3 pos = proxy[i-1] -> position;
 
                 x = x + (temp * pos[0]);
                 y = y + (temp * pos[1]);
                 z = z + (temp * pos[2]);
-            }
 
-            addVertex(new Vertex(x, y, z, t));
+            }
+            Vertex* newBSplineVertex = new Vertex(x, y, z, t);
+            newBSplineVertex -> name = std::to_string(vertexNumber);
+            addVertex(newBSplineVertex);
             t = t + add;
         }
-        //cout << hola << endl;
     }
 }
 
