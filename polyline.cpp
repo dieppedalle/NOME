@@ -118,9 +118,132 @@ void PolyLine::setGlobalParameter(unordered_map<string, Parameter> *params)
     this -> params = params;
 }
 
+float PolyLine::basis(int i, int k, float t)
+{
+    //calculate basis function, i = control point index, k = order, t = variable parameter
+    if (k < 0)
+    {
+        return 0;
+    }
+
+    else if (k == 0)
+    {
+        int comp = (int) floor(t);
+
+        if ((comp < i + 1) && (comp >= i))
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    else {
+        float a = (t - i)/k;
+        float b = (i + k + 1 - t)/k;
+
+        a = a * basis(i, k-1, t);
+        b = b * basis(i+1, k-1, t);
+
+        return a + b;
+    }
+
+}
+
+void PolyLine::calculate (int order)
+{
+    int degree = order - 1;
+    //calculate bspline for general order bspline, order>=2 is enforced
+    if (order >= 2)
+    {
+        //clear all vertices just in case
+        vertices.clear();
+
+
+        float lim = degree + proxy.size() - 2;
+
+        float add = ((float) (proxy.size() - degree))/(segments);
+
+        int realLimit = segments;
+
+        float upper;
+
+        float t = degree + 1;
+
+        //calculate bspline at each t
+        for (int vertexNumber = 0; vertexNumber <= realLimit; vertexNumber++)//{
+        {
+            float x = 0;
+            float y = 0;
+            float z = 0;
+
+            for (int i = 1; i <= proxy.size(); i++)
+            {
+                float temp = basis(i, degree, t);
+
+                vec3 pos = proxy[i-1] -> position;
+
+                x = x + (temp * pos[0]);
+                y = y + (temp * pos[1]);
+                z = z + (temp * pos[2]);
+
+            }
+            Vertex* newBSplineVertex = new Vertex(x, y, z, t);
+            newBSplineVertex -> name = std::to_string(vertexNumber);
+            addVertex(newBSplineVertex);
+            t = t + add;
+        }
+    }
+}
+
+void PolyLine::cubic()
+{
+    calculate(order);
+}
+
+void PolyLine::set_proxy(Vertex *v)
+{
+    proxy.push_back(v);
+}
+
+
+void PolyLine::set_segments(int a)
+{
+    segments = a;
+}
+
+void PolyLine::set_order(int a)
+{
+    order = a;
+}
+
+int PolyLine::get_segments()
+{
+    return segments;
+}
+
+int PolyLine::get_order()
+{
+    return order;
+}
+
+
 void PolyLine::updateCircle()
 {
 
+    //cout << int(evaluate_expression(segments_expr, params)) << endl;
+    //cout << this->segments << endl;
+    //cout << this->segments_expr << endl;
+    if (segments_expr != ""){
+        int new_segments = int(evaluate_expression(segments_expr, params));
+        if(new_segments != segments)
+        {
+            vertices.clear();
+            segments = new_segments;
+            //cout << "PPPP" << endl;
+            calculate(order);
+            //updateCircle_n();
+        }
+    }
 
     if(n_expr != ""){
         int new_n = int(evaluate_expression(n_expr, params));
@@ -261,6 +384,10 @@ PolyLine PolyLine::makeCopy(string copy_polyline_name)
     newPolyline.n = n;
     newPolyline.ro_expr = ro_expr;
     newPolyline.ro = ro;
+    newPolyline.segments = segments;
+    newPolyline.segments_expr = segments_expr;
+    newPolyline.order = order;
+    newPolyline.proxy = proxy;
 
     for(Vertex*& v: vertices)
     {
@@ -289,6 +416,11 @@ PolyLine PolyLine::makeCopyForTransform()
     newPolyline.name = this -> name;
     newPolyline.isLoop = this->isLoop;
     newPolyline.color = color;
+    newPolyline.segments = segments;
+    newPolyline.segments_expr = segments_expr;
+    newPolyline.order = order;
+    newPolyline.proxy = proxy;
+
     for(Vertex*& v: vertices)
     {
         Vertex* newVertex = new Vertex;

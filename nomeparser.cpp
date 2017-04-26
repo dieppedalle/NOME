@@ -1342,7 +1342,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
             else if((*tIt).substr (0,7) == "bspline")
             {
                 geometrylines.push_back(nextLine);
-                BSpline newBSpline;
+                PolyLine newBSpline;
                 //newBSpline.set_segments(6);
                 newBSpline.set_order(stoi((*tIt).substr(7)));
 
@@ -1420,7 +1420,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                             //cout << newBSpline.segments_expr << endl;
                             //cout << "HELLO" << endl;
                             //newBSpline.segments = int(evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline));
-                            newBSpline.set_segments(int(evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline)));
+                            newBSpline.set_segments(int(evaluate_polyline_expression(newBSpline.segments_expr, &params, &newBSpline)));
                             //cout << "MMMM" << endl;
                             //cout << evaluate_bspline_expression(newBSpline.segments_expr, &params, &newBSpline) << endl;
                             nextExpression = "";
@@ -1523,13 +1523,9 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     cout << "Error: Missing endbspline" + std::to_string(newBSpline.get_order()) + " on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
-                //newBSpline.addVertex(vertIt -> second);
-                //newBSpline.addVertex(vertIt -> second);
+
                 newBSpline.cubic();
                 polylines[newBSpline.name] = newBSpline;
-
-                //cout << ((polylines[newBSpline.name]))->get_segments() << endl;
-
             }
             else if((*tIt) == "point")
             {

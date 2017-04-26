@@ -23,6 +23,12 @@ public:
     vector<Vertex*> vertices;
     bool isCircle;
     bool isLoop;
+
+    vector<Vertex*> proxy;
+    string segments_expr;
+    int segments;
+    int order;
+
     QColor color;
     vector<Parameter*> influencingParams;
 
@@ -36,6 +42,15 @@ public:
 
     /* Set the global parameter pointer for this mesh. */
 
+    void calculate (int order);
+    float basis(int i, int k, float t);
+
+    void cubic();
+    void set_proxy(Vertex *v);
+    void set_segments(int a);
+    void set_order(int a);
+    int get_segments();
+    int get_order();
 
     PolyLine();
     /**

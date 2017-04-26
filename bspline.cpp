@@ -15,8 +15,6 @@ BSpline::BSpline(void)
 void BSpline::updateBSpline()
 {
 
-
-    cout << "HELLO" << endl;
     if(segments_expr != ""){
         int new_segments = int(evaluate_expression(segments_expr, params));
         if(new_segments != segments)
@@ -99,9 +97,8 @@ void BSpline::calculate (int order)
 
 
         float lim = degree + proxy.size() - 2;
-        //float add = (lim - degree - 1)/(segments);
+
         float add = ((float) (proxy.size() - degree))/(segments);
-        //cout << add << endl;
 
         int realLimit = segments;
 
@@ -138,5 +135,5 @@ void BSpline::calculate (int order)
 
 void BSpline::cubic()
 {
-    calculate(get_order());
+    calculate(order);
 }

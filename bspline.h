@@ -19,13 +19,13 @@ class Group;
 // B-Spline Class -- B-Spline is list of vertices, subclass of PolyLine
 class BSpline : public PolyLine {
 public:
-    vector<Vertex*> proxy;
+    //vector<Vertex*> proxy;
     BSpline();
 
-    string segments_expr;
+    //string segments_expr;
 
-    int segments;
-    int order;
+    //int segments;
+    //int order;
 
     //setters
     void set_segments(int);
