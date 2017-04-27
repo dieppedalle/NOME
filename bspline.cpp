@@ -89,6 +89,7 @@ float BSpline::basis(int i, int k, float t)
 void BSpline::calculate (int order)
 {
     int degree = order - 1;
+
     //calculate bspline for general order bspline, order>=2 is enforced
     if (order >= 2)
     {

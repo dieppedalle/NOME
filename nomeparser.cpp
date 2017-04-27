@@ -1456,6 +1456,9 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
 
                 string vertInside = "";
                 bool addingVert = false;
+
+
+
                 while(tIt < tokens.end() && (*tIt) != "endbspline" + std::to_string(newBSpline.get_order()))
                 {
                     for(char& c : (*tIt))
@@ -1519,12 +1522,19 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     vertInside = "";
                 }
 
+
                 if(tIt == tokens.end() || (*tIt) != "endbspline" + std::to_string(newBSpline.get_order())){
                     cout << "Error: Missing endbspline" + std::to_string(newBSpline.get_order()) + " on line " + to_string(lineNumber) + "." << endl;
                     return 1;
                 }
 
+                if (newBSpline.order > newBSpline.proxy.size()){
+                    cout << "Error: BSpline on line " <<  lineNumber << ", order (" << newBSpline.order << ") must be <= #controlpoints (" << newBSpline.proxy.size() << ")" << endl;
+                    return 1;
+                }
+
                 newBSpline.cubic();
+
                 polylines[newBSpline.name] = newBSpline;
             }
             else if((*tIt) == "point")

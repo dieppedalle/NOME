@@ -1,0 +1,103 @@
+
+###  five scaled Dyck disks with connections and with blob!  ##
+
+#### Some Surface colors #####
+surface R color (1 0 0) endsurface          # Red
+surface O color (0.9 0.6 0) endsurface      # Orange
+surface Y color (1 1 0) endsurface          # Yellow
+surface L color (0.6 0.8 0) endsurface      # Lime
+surface G color (0 0.9 0) endsurface        # Green
+surface A color (0 0.9 0.7) endsurface      # Aqua
+surface C color (0 1 1) endsurface          # Cyan
+surface U color (0 0.5 1) endsurface        # Uniform
+surface B color (0 0 1) endsurface          # Blue
+surface P color (0.5 0 1) endsurface        # Purple
+surface M color (1 0 1) endsurface          # Magenta
+surface W color (1 1 1) endsurface          # White
+
+bank rim  ## the rim of the connecting Dyck disks:
+    set		num		20		12		24		1		#		number	of	segments
+    set		rad		1		0.1		2.0		0.1		#		circle	radius
+    set		wid		0.1		-0.2		0.2		0.02		#		rim-width
+    set		sx		2.4		1		3		0.1
+    set		sy		1.6		1		2		0.1
+    set		rz		-30		-90		90		1		#		alfa	azimuth	for	line-up	into	slanted	ribbon
+    set		rx		-24		-90		0		1		#		angle against circle
+    set		tx		2.36		1		3		0.02
+    set		ry		-60		-90		-30		1		#		slant	angle	for	smooth	connection	into	slanted	ribbon
+    set		ty		1.5		0		2		0.1
+    set		tz		0		-4		2		0.1
+endbank
+
+funnel  rimo  ( {expr $rim.num} {expr $rim.rad}  {expr $rim.wid}  0.0 ) endfunnel
+
+bank cir  ## the punch-through connections from one disk to the next
+    set		num		12		6		16		1		#		number		of		segments
+    set		rad		0.6		0.1		1.0		0.1		#		circle		radius
+    set		ry		6		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		rx		-24		-90		90		1		#		slant		angle		for		smooth		connection		into		slanted		ribbon
+    set		tz		0.7		0		2		0.1
+    set		tx		0.7		0		2		0.1
+endbank
+
+circle  circ  ( {expr $cir.num} {expr $cir.rad} ) endcircle
+
+funnel horizon (8 2 1 0 ) endfunnel
+#  segments; rim-radius; radial extent; cone-height.  ## >> do not put on above line!
+
+instance hh horizon surface O  endinstance
+## for debug / alignment only;  turn off for final sculpture.
+
+group disk
+  instance r0  rimo  surface W   scale ({expr $rim.sx} {expr $rim.sy} 1)    endinstance
+  instance c0  circ      rotate (0 1 0)({expr $cir.ry})  rotate (1 0 0)({expr  $cir.rx})   translate ( {expr  $cir.tx}  0  {expr -$cir.tz} )    endinstance
+  instance c1  circ      rotate (0 1 0)({expr $cir.ry})  rotate (1 0 0)({expr -$cir.rx})   translate ( {expr -$cir.tx}  0  {expr  $cir.tz} )    endinstance
+endgroup
+
+## some disk transformations here.  These will be interactively changable.  ( The one in the instances of "conmesh are not !! )
+instance d disk  rotate (0 0 1)( {expr $rim.rz} )   translate ( {expr $rim.tx} 0 0)  rotate (1 0 0)({expr $rim.rx})  rotate (0 1 0)({expr $rim.ry})    endinstance
+
+
+point ooo  ( 0 0 0 ) endpoint
+point xoo  ( 1 0 0 ) endpoint
+point oyo  ( 0 1 0 ) endpoint
+point ooz  ( 0 0 1 ) endpoint
+ polyline xaxis  (ooo xoo ) endpolyline
+ polyline yaxis  (ooo oyo ) endpolyline
+ polyline zaxis  (ooo ooz ) endpolyline
+#group coord_axes
+   instance xa xaxis  surface R  endinstance
+   instance ya yaxis  surface B  endinstance
+   instance za zaxis  surface G  endinstance
+#endgroup
+
+mesh conmesh
+    face conface0 (d.c1.bc11 d.c0.bc6 d.c0.bc5 d.c1.bc0 ) endface
+    face conface1 (d.r0.bc0 d.c0.bc0 d.c0.bc11 d.r0.bc19 ) endface
+    face conface2 (d.c1.bc5 d.r0.bc9 d.r0.bc10 d.c1.bc6 ) endface
+    face conface3 (d.r0.bc4 d.r0.bc5 d.c1.bc1 d.c1.bc0 d.c0.bc5 d.c0.bc4 ) endface
+    face conface4 (d.c0.bc6 d.c1.bc11 d.c1.bc10 d.r0.bc14 d.r0.bc15 d.c0.bc7 ) endface
+    face conface5 (d.c0.bc0 d.r0.bc0 d.r0.bc1 d.c0.bc1 ) endface
+    face conface6 (d.c0.bc1 d.r0.bc1 d.r0.bc2 d.c0.bc2 ) endface
+    face conface7 (d.c0.bc2 d.r0.bc2 d.r0.bc3 d.c0.bc3 ) endface
+    face conface8 (d.c0.bc3 d.r0.bc3 d.r0.bc4 d.c0.bc4 ) endface
+    face conface9 (d.c1.bc1 d.r0.bc5 d.r0.bc6 d.c1.bc2 ) endface
+    face conface10 (d.c1.bc2 d.r0.bc6 d.r0.bc7 d.c1.bc3 ) endface
+    face conface11 (d.c1.bc3 d.r0.bc7 d.r0.bc8 d.c1.bc4 ) endface
+    face conface12 (d.c1.bc4 d.r0.bc8 d.r0.bc9 d.c1.bc5 ) endface
+    face conface13 (d.c1.bc6 d.r0.bc10 d.r0.bc11 d.c1.bc7 ) endface
+    face conface14 (d.c1.bc7 d.r0.bc11 d.r0.bc12 d.c1.bc8 ) endface
+    face conface15 (d.c1.bc8 d.r0.bc12 d.r0.bc13 d.c1.bc9 ) endface
+    face conface16 (d.c1.bc9 d.r0.bc13 d.r0.bc14 d.c1.bc10 ) endface
+    face conface17 (d.c0.bc7 d.r0.bc15 d.r0.bc16 d.c0.bc8 ) endface
+    face conface18 (d.c0.bc8 d.r0.bc16 d.r0.bc17 d.c0.bc9 ) endface
+    face conface19 (d.c0.bc9 d.r0.bc17 d.r0.bc18 d.c0.bc10 ) endface
+    face conface20 (d.c0.bc10 d.r0.bc18 d.r0.bc19 d.c0.bc11 ) endface
+endmesh
+
+instance cm0 conmesh   surface Y  scale (1.21 1.21 1.21)     translate ( 0  {expr $rim.ty}  {expr $rim.tz} )   rotate (0 0 1)(-10)    endinstance
+instance cm1 conmesh   surface L  scale (1.1 1.1 1.1)        translate ( 0  {expr $rim.ty}  {expr $rim.tz} )   rotate (0 0 1)( 60)    endinstance
+instance cm2 conmesh   surface G  scale (1.0 1.0 1.0)        translate ( 0  {expr $rim.ty}  {expr $rim.tz} )   rotate (0 0 1)(125)    endinstance
+instance cm3 conmesh   surface A  scale (0.909 0.909 0.909)  translate ( 0  {expr $rim.ty}  {expr $rim.tz} )   rotate (0 0 1)(185)    endinstance
+instance cm3 conmesh   surface U  scale (0.826 0.826 0.826)  translate ( 0  {expr $rim.ty}  {expr $rim.tz} )   rotate (0 0 1)(240)    endinstance
+## the transformations here are currently NOT interactive!

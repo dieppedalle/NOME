@@ -151,7 +151,20 @@ float PolyLine::basis(int i, int k, float t)
 
 void PolyLine::calculate (int order)
 {
+    //cout << "MMM" << endl;
     int degree = order - 1;
+    int originalSize =proxy.size();
+    vector<Vertex*> proxyLoop = proxy;
+    int segmentLoop = segments;
+
+    if (isLoop == true){
+        for (int i = 0; i < order; i++){
+            proxyLoop.push_back(proxy.at(i));
+        }
+        segmentLoop -= 1;
+    }
+
+
     //calculate bspline for general order bspline, order>=2 is enforced
     if (order >= 2)
     {
@@ -161,9 +174,9 @@ void PolyLine::calculate (int order)
 
         float lim = degree + proxy.size() - 2;
 
-        float add = ((float) (proxy.size() - degree))/(segments);
+        float add = ((float) (proxy.size() - degree))/(segmentLoop);
 
-        int realLimit = segments;
+        int realLimit = segmentLoop;
 
         float upper;
 
@@ -176,11 +189,11 @@ void PolyLine::calculate (int order)
             float y = 0;
             float z = 0;
 
-            for (int i = 1; i <= proxy.size(); i++)
+            for (int i = 1; i <= proxyLoop.size(); i++)
             {
                 float temp = basis(i, degree, t);
 
-                vec3 pos = proxy[i-1] -> position;
+                vec3 pos = proxyLoop[i-1] -> position;
 
                 x = x + (temp * pos[0]);
                 y = y + (temp * pos[1]);
@@ -197,6 +210,7 @@ void PolyLine::calculate (int order)
 
 void PolyLine::cubic()
 {
+    //cout << "LLLL" << endl;
     calculate(order);
 }
 
