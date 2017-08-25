@@ -36,6 +36,7 @@ void SlideGLWidget::generalSetup()
 {
     startTimer(0);
     cameraDistance = 4;
+    centerX = centerY = centerZ = 0;
     last_mx = last_my = cur_mx = cur_my = 0;
     arcball_on = false;
     wireframe = false;
@@ -353,7 +354,7 @@ void SlideGLWidget::paintGL()
                  1.0f * backColor.alpha() / 255);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    gluLookAt(0, 0, cameraDistance, 0, 0, 0, 0, 1, 0);
+    gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
     switch(viewer_mode)
     {
@@ -457,6 +458,18 @@ void SlideGLWidget::keyPressEvent(QKeyEvent* event)
         break;
     case Qt::Key_O:
         zoom_out();
+        break;
+    case Qt::Key_Left:
+        centerX -= 1;
+        break;
+    case Qt::Key_Right:
+        centerX += 1;
+        break;
+    case Qt::Key_Down:
+        centerY -= 1;
+        break;
+    case Qt::Key_Up:
+        centerY += 1;
         break;
     case Qt::Key_S:
         if (smoothshading)

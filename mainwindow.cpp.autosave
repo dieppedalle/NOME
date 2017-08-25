@@ -331,7 +331,7 @@ void MainWindow::save_current_status_nome(string out_put_file)
     }
 
     //cout << (canvas -> group_from_consolidate_mesh)->myMeshes.size() << endl;
-    cout << (canvas -> group_from_consolidate_mesh)->myMeshes[0].name << endl;
+    //cout << (canvas -> group_from_consolidate_mesh)->myMeshes[0].name << endl;
     //cout << (canvas -> group_from_consolidate_mesh)->subgroups.size() << endl;
     //for(Vertex * v : (canvas -> group_from_consolidate_mesh)->myMeshes[0].vertList)
     //{

@@ -21,13 +21,16 @@ tunnel tun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endtunnel
 funnel fun ({expr $fp.n } {expr $fp.ro} {expr $fp.ratio} {expr $fp.h}) endfunnel
 #circle circle1 (8 0.4) endtunnel
 circle circle1 ({expr $fp.n } {expr $fp.ro }) endcircle
+circle circle2 ({expr $fp.n } {expr $fp.ro }) endcircle
+circle circle3 ({expr $fp.n } {expr $fp.ro }) endcircle
 
 face c1   (X Y Z ) endface
 
 
 group finalShape
-    instance tun2 circle1 translate (0 0 0) surface U endinstance
-    instance tun3 tun translate (0 0 0) rotate (0 1 0) (90) translate (0.6 -0.6 0.6) surface U endinstance
+    instance tun2 circle1 translate (0 0 1) surface U endinstance
+    instance tun3 circle1 translate (0 0 -1) surface U endinstance
+    instance tun4 circle1 translate (0 0 0) surface U endinstance
 endgroup
 
 instance cf finalShape endinstance

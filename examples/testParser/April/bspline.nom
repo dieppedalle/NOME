@@ -33,14 +33,10 @@ endbank
 polyline pol (p0 p1 p2 p3 p4 p5 p6) endpolyline
 instance polA pol surface R endinstance
 
-circle circle1 ({expr $circle.n } 7) endcircle
+#circle circle1 ({expr $circle.n } 7) endcircle
 
 
 #bspline4 bsp slices 9 (p0 p1 p2 p3 p4 p5 p6) endbspline4
-# bspline3 bsp slices 24 (p0 p1 p2 p3 ) closed endbspline3
-# bspline9 bsp slices {expr $circle.n } (p0 p1 p2 p3 p4 p5 p6) closed endbspline9
-# bspline9 bsp slices 20 (p0 p1 p2 p3 p4 p5 p6) endbspline9
-bspline7 bsp slices {expr $circle.n } (p0 p1 p2 p3 p4 p5 p6) closed endbspline7
-#bspline5 bsp slices {expr $circle.n } (p0 p1 p2 p3 p4 p5 p6) closed endbspline5
+bspline5 bsp slices {expr $circle.n } (p0 p1 p2 p3 p4 p5 p6) endbspline5
 
 instance bspA bsp surface Y endinstance

@@ -91,6 +91,7 @@ public:
     Group hierarchical_scene_transformed;
     /* The group from saved consolidate mesh. It is created from aslf file. */
     Group * group_from_consolidate_mesh;
+
     /* Update the canvas after reading in the aslf file. */
     void updateFromSavedMesh();
     /* Set the in_editing_mode of scene shown and all leave meshes.*/
@@ -103,6 +104,7 @@ public:
     enum MODES { MODE_OBJECT, MODE_CAMERA, MODE_LIGHT, MODE_LAST } view_mode;
     mat4 transforms[MODE_LAST];
     float cameraDistance;
+    float centerX, centerY, centerZ;
     /* Support arcball feature.*/
     int last_mx, last_my, cur_mx, cur_my;
     /* Support arcball feature. */

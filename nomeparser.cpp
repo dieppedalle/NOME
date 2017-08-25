@@ -2163,6 +2163,7 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
              istream_iterator<string>(),
              back_inserter(tokens));
         vector<string>::iterator tIt;
+
         for(tIt = tokens.begin(); tIt < tokens.end(); tIt++)
         {
             if((*tIt) != "surface" && lineNumber != (*fileLineIter))
@@ -2367,7 +2368,6 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                                 if(v == NULL)
                                 {
                                     //v = group.findVertexInThisGroup(vertInside);
-                                    //cout << "HELLO" << endl;
                                     cout<<warning(9, lineNumber)<<endl;
                                 }
                                 else
@@ -2388,7 +2388,13 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                     if(vertInside != "")
                     {
                         Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
-
+                        //cout << v << endl;
+                        if (v == NULL){
+                            //cout << group.findVertexInThisGroup(vertInside)->name << endl;
+                            v = group.findVertexInThisGroup(vertInside);
+                            //cout << "HELLO" << endl;
+                        }
+                        //cout << v->name << endl;
                         if(!(canvas -> master_mesh.isEmpty())) /* Dealing with recovery of SIF.*/
                         {
                             v = (canvas -> master_mesh.findVertexInThisMesh(vertInside));
@@ -2753,7 +2759,7 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                         newMesh.setColor(color);
                         newMesh.user_set_color = true;
                     }
-                    //cout << newMesh.name << endl;
+                    cout << newMesh.name << endl;
 
                     group.addMesh(newMesh);
                 }
