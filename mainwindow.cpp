@@ -330,15 +330,19 @@ void MainWindow::save_current_status_nome(string out_put_file)
         }
     }
 
+    for(unordered_map<string, Mesh>::iterator iter = canvas->meshes.begin(); iter != canvas->meshes.end(); ++iter)
+    {
+        cout << iter->first << endl;
+    }
     //cout << (canvas -> group_from_consolidate_mesh)->myMeshes.size() << endl;
-    cout << (canvas -> group_from_consolidate_mesh)->myMeshes[0].name << endl;
+    //cout << (canvas -> group_from_consolidate_mesh)->myMeshes[0].name << endl;
     //cout << (canvas -> group_from_consolidate_mesh)->subgroups.size() << endl;
     //for(Vertex * v : (canvas -> group_from_consolidate_mesh)->myMeshes[0].vertList)
     //{
     //    cout << v->name << endl;
     //}
     //canvas -> master_mesh.findVertexInThisMesh();
-
+    std::string consolidatedMeshName;
     if(!(canvas->consolidate_mesh).isEmpty() || (canvas -> deletedFaces).size() > 0)
     {
         file<<"\n##### The following is the saved work of last time. #####\n"<<endl;
@@ -346,7 +350,25 @@ void MainWindow::save_current_status_nome(string out_put_file)
     if(!(canvas->consolidate_mesh).isEmpty())
     {
         file<<"##### The added faces. #####\n";
-        file<<"mesh consolidatedmesh\n";
+
+        int meshNumber = 0;
+        bool foundAvailableMeshName = false;
+
+
+        while (!foundAvailableMeshName){
+            consolidatedMeshName = "consolidatedmesh";
+            consolidatedMeshName += std::to_string(meshNumber);
+
+            for(Vertex * v : (canvas -> group_from_consolidate_mesh)->myMeshes[0].vertList)
+            {
+                if (consolidatedMeshName.compare(v->name) != 0){
+                    foundAvailableMeshName = true;
+                    break;
+                }
+            }
+            meshNumber += 1;
+        }
+        file<<"mesh " + consolidatedMeshName + "\n";
         int counter = 0;
         for(Face*& face: (canvas->consolidate_mesh).faceList)
         {
@@ -390,6 +412,26 @@ void MainWindow::save_current_status_nome(string out_put_file)
     if(!(canvas->consolidate_mesh).isEmpty())
     {
         file<<"\n####Create an instance of the consolidated mesh here.####\n"<<endl;
-        file<<"instance cm1 consolidatedmesh endinstance\n";
+
+        int instanceNumber = 0;
+        bool foundAvailableInstanceName = false;
+        std::string instanceName;
+        while (!foundAvailableInstanceName){
+            instanceName = "cm";
+            instanceName += std::to_string(instanceNumber);
+
+            int numberInstances = (canvas -> group_from_consolidate_mesh)->myMeshes.size();
+            int i = 0;
+
+            while (i < numberInstances){
+                if (instanceName.compare((canvas -> group_from_consolidate_mesh)->myMeshes[i].name) != 0){
+                    foundAvailableInstanceName = true;
+                    break;
+                }
+                i += 1;
+            }
+            instanceNumber += 1;
+        }
+        file<<"instance " + instanceName + " " + consolidatedMeshName + " endinstance\n";
     }
 }

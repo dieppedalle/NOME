@@ -2267,9 +2267,9 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                     goto newLineEnd;
                 }
 
-                if(meshes.find(newMesh.name) == meshes.end())
+                if(canvas->meshes.find(newMesh.name) == canvas->meshes.end())
                 {
-                    meshes[newMesh.name] = newMesh;
+                    canvas->meshes[newMesh.name] = newMesh;
                     current_mesh_name = newMesh.name;
                 }
                 else
@@ -2323,15 +2323,34 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                     {
 
                         faceIt = global_faces.find(*tIt);
-                        if(faceIt == global_faces.end())
+
+                        bool sameFaceName = false;
+                        int i = 0;
+                        while (i < canvas->meshes[current_mesh_name].faceList.size()){
+                            if ((*tIt).compare(canvas->meshes[current_mesh_name].faceList[i] -> name) == 0){
+                                sameFaceName  = true;
+                            }
+                            i++;
+                        }
+
+                        if (sameFaceName){
+                            cout<<warning(20, lineNumber)<<endl;
+                            return 1;
+                        }
+                        newFace -> name = *tIt;
+                        global_faces[*tIt] = newFace;
+
+                        /*if(faceIt == global_faces.end())
                         {
                             newFace -> name = *tIt;
                             global_faces[*tIt] = newFace;
                         }
                         else
                         {
+
+                            cout << "OOOPS" << endl;
                             cout<<warning(20, lineNumber)<<endl;
-                        }
+                        }*/
                     }
                     else
                     {
@@ -2443,7 +2462,7 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                 {
                     //cout << vs->name << endl;
                     foundVertex = false;
-                    for(Vertex * v : meshes[current_mesh_name].vertList)
+                    for(Vertex * v : canvas->meshes[current_mesh_name].vertList)
                     {
                         //cout << v->ID << endl;
                         if(v -> source_vertex == vs)
@@ -2459,7 +2478,7 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                         Vertex * newVertex = new Vertex;
                         newVertex -> isParametric = vs -> isParametric;
                         newVertex -> position = vs -> position;
-                        newVertex -> ID = meshes[current_mesh_name].vertList.size();
+                        newVertex -> ID = canvas->meshes[current_mesh_name].vertList.size();
                         newVertex -> source_vertex = vs;
                         newVertex -> name = vs -> name;
                         newVertex -> x_expr = vs -> x_expr;
@@ -2467,13 +2486,13 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                         newVertex -> z_expr = vs -> z_expr;
                         newVertex -> influencingParams = vs -> influencingParams;
                         newVertex -> params = vs -> params;
-                        meshes[current_mesh_name].addVertex(newVertex);
+                        canvas->meshes[current_mesh_name].addVertex(newVertex);
                         mappedVertices.push_back(newVertex);
                     }
                 }
 
-                meshes[current_mesh_name].addPolygonFace(mappedVertices);
-                meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
+                canvas->meshes[current_mesh_name].addPolygonFace(mappedVertices);
+                canvas->meshes[current_mesh_name].faceList[canvas->meshes[current_mesh_name].faceList.size() - 1]
                         -> name = newFace -> name;
 
                 if(++tIt < tokens.end() && (*tIt) == "surface")
@@ -2501,9 +2520,9 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                     }
                     if(foundColor)
                     {
-                        meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
+                        canvas->meshes[current_mesh_name].faceList[canvas->meshes[current_mesh_name].faceList.size() - 1]
                                 -> color = color;
-                        meshes[current_mesh_name].faceList[meshes[current_mesh_name].faceList.size() - 1]
+                        canvas->meshes[current_mesh_name].faceList[canvas->meshes[current_mesh_name].faceList.size() - 1]
                                 -> user_defined_color = true;
                     }
                 }
@@ -2545,8 +2564,8 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                     cout<<warning(6, lineNumber)<<endl;
                 }
 
-                meshIt = meshes.find(className);
-                if(meshIt != meshes.end())
+                meshIt = canvas->meshes.find(className);
+                if(meshIt != canvas->meshes.end())
                 {
                     newMesh = (meshIt -> second).makeCopyForTempMesh(instanceName);
                     findMesh = true;
@@ -2753,13 +2772,13 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                 }
                 if(findMesh)
                 {
+
                     newMesh.setTransformation(transformations_up);
                     if(foundColor)
                     {
                         newMesh.setColor(color);
                         newMesh.user_set_color = true;
                     }
-                    cout << newMesh.name << endl;
 
                     group.addMesh(newMesh);
                 }

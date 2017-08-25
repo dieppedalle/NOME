@@ -92,6 +92,8 @@ public:
     /* The group from saved consolidate mesh. It is created from aslf file. */
     Group * group_from_consolidate_mesh;
 
+    unordered_map<string, Mesh> meshes;
+
     /* Update the canvas after reading in the aslf file. */
     void updateFromSavedMesh();
     /* Set the in_editing_mode of scene shown and all leave meshes.*/

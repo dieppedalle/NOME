@@ -78,7 +78,6 @@ vector<Mesh*> Group::flattenedMeshesTemp()
     //cout << "+++++" << endl;
     for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
     {
-        //cout << mIt->name << endl;
         if (std::find(alreadyFlattened.begin(), alreadyFlattened.end(), (*mIt).name) == alreadyFlattened.end()){
             for(Transformation& transformUp : (*mIt).transformations_up)
             {

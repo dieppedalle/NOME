@@ -812,6 +812,8 @@ Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
             currEdge = nextEdge;
         } while (currEdge != firstEdge);
         newMesh.addPolygonFace(vertices);
+
+        //cout << newMesh.faceList.size() << endl;
         newMesh.faceList[newMesh.faceList.size() - 1] -> user_defined_color
                 = (*fIt) -> user_defined_color;
         if((*fIt) -> user_defined_color)
@@ -819,8 +821,11 @@ Mesh Mesh::makeCopyForTempMesh(string copy_mesh_name) {
             newMesh.faceList[newMesh.faceList.size() - 1] -> color
                     = (*fIt) -> color;
         }
+        //cout << "NEW MESH" << endl;
+        //cout << copy_mesh_name << endl;
         newMesh.faceList[newMesh.faceList.size() - 1] -> name
-                = (*fIt) -> name;
+                = copy_mesh_name + "." + (*fIt) -> name;
+
     }
     /*cout << newMesh.vertList.size() << endl;
     for ( auto it = newMesh.vertList.begin(); it != newMesh.vertList.end(); ++it ){
