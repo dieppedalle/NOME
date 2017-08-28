@@ -2376,7 +2376,6 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
 
                             if(vertInside != "")
                             {
-                                //cout << vertInside << endl;
                                 Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
                                 if(!(canvas -> master_mesh.isEmpty())) /* Dealing with recovery of SIF.*/
                                 {
@@ -2407,10 +2406,13 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                     if(vertInside != "")
                     {
                         Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
-                        //cout << v << endl;
+
                         if (v == NULL){
                             //cout << group.findVertexInThisGroup(vertInside)->name << endl;
+                            //v = (canvas -> consolidate_mesh).findVertexInThisGroup(vertInside);
                             v = group.findVertexInThisGroup(vertInside);
+                            //cout << "FOUND" << endl;
+                            //cout << v->name << endl;
                             //cout << "HELLO" << endl;
                         }
                         //cout << v->name << endl;
@@ -2786,9 +2788,10 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                 {
                     cout<<"Error: there is a bug in the program. Check!"<<endl;
                 }
+                //cout << "MESH UPDATED" << endl;
+                //cout << newMesh.name << endl;
                 //canvas -> set_to_editing_mode(true);
                 //canvas -> updateFromSavedMesh();
-
             }
             else
             {
@@ -2947,6 +2950,7 @@ void NomeParser::appendWithANOM(unordered_map<string, Parameter> &params,
                 }
                 if(className == "consolidatemesh")
                 {
+
                     newMesh = (canvas -> consolidate_mesh).makeCopyForTempMesh(instanceName);
                 }
                 else

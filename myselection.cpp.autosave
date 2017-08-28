@@ -743,6 +743,7 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
             /* Select a point on the polyline has a priority. */
 
             if(currentID < endOfMesh) {
+                // =======BORDER SELECTION ======
                 for(mIt = globalMeshList.begin(), nIt = globalNameIndexList.begin();
                     mIt != globalMeshList.end(); mIt ++, nIt++)
                 {
@@ -781,6 +782,7 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                         currEdge = nextEdge;
                     } while (currEdge != firstEdge);
                 }
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 // Test is this point is on border. If yes, find the startingEdge.
                 if(selectedVertex != NULL) {
@@ -845,6 +847,7 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                 }
             }
             else{
+                // =======CIRCLE SELECTION ======
                 Vertex *workVertex = NULL;
                 //float min_distance = 500000.0;
                 vector<PolyLine*>::iterator pIt;
@@ -863,6 +866,8 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                     break;
                   }
                 }
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                
                 if(selectedVertex -> selected) {
 
                   vector<Vertex*>::iterator vIt;

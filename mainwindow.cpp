@@ -325,23 +325,10 @@ void MainWindow::save_current_status_nome(string out_put_file)
 
         for(string& line : postProcessingLinesString)
         {
-            //cout << line << endl;
             file<< line <<'\n';
         }
     }
 
-    for(unordered_map<string, Mesh>::iterator iter = canvas->meshes.begin(); iter != canvas->meshes.end(); ++iter)
-    {
-        cout << iter->first << endl;
-    }
-    //cout << (canvas -> group_from_consolidate_mesh)->myMeshes.size() << endl;
-    //cout << (canvas -> group_from_consolidate_mesh)->myMeshes[0].name << endl;
-    //cout << (canvas -> group_from_consolidate_mesh)->subgroups.size() << endl;
-    //for(Vertex * v : (canvas -> group_from_consolidate_mesh)->myMeshes[0].vertList)
-    //{
-    //    cout << v->name << endl;
-    //}
-    //canvas -> master_mesh.findVertexInThisMesh();
     std::string consolidatedMeshName;
     if(!(canvas->consolidate_mesh).isEmpty() || (canvas -> deletedFaces).size() > 0)
     {
@@ -359,13 +346,16 @@ void MainWindow::save_current_status_nome(string out_put_file)
             consolidatedMeshName = "consolidatedmesh";
             consolidatedMeshName += std::to_string(meshNumber);
 
-            for(Vertex * v : (canvas -> group_from_consolidate_mesh)->myMeshes[0].vertList)
-            {
-                if (consolidatedMeshName.compare(v->name) != 0){
-                    foundAvailableMeshName = true;
-                    break;
-                }
+            if ((canvas -> group_from_consolidate_mesh)->myMeshes.size() == 0){
+                foundAvailableMeshName = true;
+                break;
             }
+
+            if (canvas->meshes.find(consolidatedMeshName) == canvas->meshes.end()){
+                foundAvailableMeshName = true;
+                break;
+            }
+
             meshNumber += 1;
         }
         file<<"mesh " + consolidatedMeshName + "\n";
@@ -423,10 +413,15 @@ void MainWindow::save_current_status_nome(string out_put_file)
             int numberInstances = (canvas -> group_from_consolidate_mesh)->myMeshes.size();
             int i = 0;
 
+            if ((canvas -> group_from_consolidate_mesh)->myMeshes.size() == 0){
+                foundAvailableInstanceName = true;
+                break;
+            }
+
+            foundAvailableInstanceName = true;
             while (i < numberInstances){
-                if (instanceName.compare((canvas -> group_from_consolidate_mesh)->myMeshes[i].name) != 0){
-                    foundAvailableInstanceName = true;
-                    break;
+                if (instanceName.compare((canvas -> group_from_consolidate_mesh)->myMeshes[i].name) == 0){
+                    foundAvailableInstanceName = false;
                 }
                 i += 1;
             }

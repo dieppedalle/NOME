@@ -75,9 +75,9 @@ vector<Mesh*> Group::flattenedMeshesTemp()
 {
     vector<Mesh*> result = {};
     vector<Mesh>::iterator mIt;
-    //cout << "+++++" << endl;
     for(mIt = myMeshes.begin(); mIt < myMeshes.end(); mIt++)
     {
+        //cout << (*mIt).name << endl;
         if (std::find(alreadyFlattened.begin(), alreadyFlattened.end(), (*mIt).name) == alreadyFlattened.end()){
             for(Transformation& transformUp : (*mIt).transformations_up)
             {
@@ -91,6 +91,7 @@ vector<Mesh*> Group::flattenedMeshesTemp()
     vector<Group>::iterator gIt;
     for(gIt = subgroups.begin(); gIt < subgroups.end(); gIt++)
     {
+        cout << "JJJJ" << endl;
         vector<Mesh*> flattenedFromThisSubGroup = (*gIt).flattenedMeshes();
         vector<Mesh*>::iterator mpIt;
         for(mpIt = flattenedFromThisSubGroup.begin();
@@ -469,8 +470,11 @@ void Group::mapFromParameters()
 
 Vertex* Group::findVertexInThisGroup(string name)
 {
+    //cout << "SEARCH FOR" << endl;
+    //cout << name << endl;
     for(Mesh &mesh : myMeshes)
     {
+        //cout << mesh.name << endl;
         Vertex *v = mesh.findVertexInThisMesh(name);
         if(v != NULL)
         {
