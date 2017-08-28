@@ -727,22 +727,36 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
         float min_distance = 500000.0;
         Vertex * selectedVertex = NULL;
         int endOfMesh = INT_MAX;
+        // 0 nothing
+        // 1 selecting border
+        // 2 selecting circle
+        int typeSelection = 0;
+
+        // Border selection
+        //cout << currentID << endl;
+        Face * workFace = NULL;
+        vector<Mesh*>::iterator mIt;
+        vector<int>::iterator nIt;
+
+        // Circle selection
+        Vertex *workVertex = NULL;
+        //float min_distance = 500000.0;
+        vector<PolyLine*>::iterator pIt;
+        vector<Vertex*> verticesSelected;
 
         if(globalPolylineNameIndexList.size() > 0){
             endOfMesh = globalPolylineNameIndexList[0];
         }
 
         for (int i = 0; i < hits; i++) {
-            cout << "HITS" << endl;
-            cout << hits << endl;
+            //cout << "HITS" << endl;
+            //cout << hits << endl;
             int currentID = names[i * 4 + 3];
-            //cout << currentID << endl;
-            Face * workFace = NULL;
-            vector<Mesh*>::iterator mIt;
-            vector<int>::iterator nIt;
+
             /* Select a point on the polyline has a priority. */
 
             if(currentID < endOfMesh) {
+                // =======BORDER SELECTION ======
                 for(mIt = globalMeshList.begin(), nIt = globalNameIndexList.begin();
                     mIt != globalMeshList.end(); mIt ++, nIt++)
                 {
@@ -777,78 +791,17 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                         if(new_distance < min_distance) {
                             min_distance = new_distance;
                             selectedVertex = tempv;
+                            typeSelection = 1;
                         }
                         currEdge = nextEdge;
                     } while (currEdge != firstEdge);
                 }
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-                // Test is this point is on border. If yes, find the startingEdge.
-                if(selectedVertex != NULL) {
-                    Edge * firstEdge = selectedVertex -> oneEdge;
-                    Edge * currEdge = firstEdge;
-                    Face * currFace = currEdge -> fb;
-                    Edge * nextEdge;
-                    do {
-                        if(currFace == NULL) {
-                            break;
-                        } else {
-                            nextEdge = currEdge -> nextEdge(selectedVertex, currFace);
-                            currFace = nextEdge -> theOtherFace(currFace);
-                        }
-                        currEdge = nextEdge;
-                    } while (currEdge != firstEdge);
-                    if(currFace != NULL) {
-                        cout<<"Your selected vertex is not on the border."
-                        <<" Current Selection Cancelled.\n";
-                        return;
-                    }
-                    if(selectedVertex -> selected) {
-                        cout<<"Unselecting all points on this border.\n";
-                        selectedVertices.clear();
-                        Vertex * nextVert = selectedVertex;
-                        Edge * nextBorderEdge = currEdge;
-                        do {
-                            nextVert -> selected = false;
-                            //cout<<nextVert -> ID;
-                            if(nextVert == nextBorderEdge -> va) {
-                                nextBorderEdge = nextBorderEdge -> nextVaFb;
-                            } else {
-                                nextBorderEdge = nextBorderEdge -> nextVbFb;
-                            }
-                            if(nextBorderEdge -> va == nextVert) {
-                                nextVert = nextBorderEdge -> vb;
-                            } else {
-                                nextVert = nextBorderEdge -> va;
-                            }
-                        } while (nextVert != selectedVertex);
-                    } else {
-                        Vertex * nextVert = selectedVertex;
-                        Edge * nextBorderEdge = currEdge;
-                        do {
-                            selectedVertices.push_back(nextVert);
-                            nextVert -> selected = true;
-                            //cout<<nextVert -> ID;
-                            if(nextVert == nextBorderEdge -> va) {
-                                nextBorderEdge = nextBorderEdge -> nextVaFb;
-                            } else {
-                                nextBorderEdge = nextBorderEdge -> nextVbFb;
-                            }
-                            if(nextBorderEdge -> va == nextVert) {
-                                nextVert = nextBorderEdge -> vb;
-                            } else {
-                                nextVert = nextBorderEdge -> va;
-                            }
-                        } while (nextVert != selectedVertex);
-                        cout<<"You have selected "<<selectedVertices.size()
-                        <<" points on this border.\n";
-                    }
-                }
+
             }
             else{
-                Vertex *workVertex = NULL;
-                //float min_distance = 500000.0;
-                vector<PolyLine*>::iterator pIt;
-                vector<Vertex*> verticesSelected;
+                // =======CIRCLE SELECTION ======
                 for(pIt = globalPolylineList.begin(), nIt = globalPolylineNameIndexList.begin(); pIt < globalPolylineList.end(); pIt++, nIt++) {
                   PolyLine *currLine = (*pIt);
                   if(currentID < (currLine -> vertices).size() + (*nIt)) {
@@ -859,40 +812,110 @@ void MySelection::selectWholeBorder(vector<Mesh*> &globalMeshList,
                       min_distance = new_distance;
                       selectedVertex = workVertex;
                       verticesSelected = currLine -> vertices;
+                      typeSelection = 2;
                     }
                     break;
                   }
                 }
-                if(selectedVertex -> selected) {
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-                  vector<Vertex*>::iterator vIt;
-                  vector<Vertex*>::iterator vertexIt;
-                  for(vertexIt=verticesSelected.begin() ; vertexIt < verticesSelected.end(); vertexIt++) {
-                      //selectedVertex -> selected = false;
-                      for(vIt = selectedVertices.begin(); vIt < selectedVertices.end(); vIt ++) {
-                        Vertex *currentVertex = (*vertexIt);
-                        currentVertex -> selected = false;
-                        if((*vIt) == currentVertex) {
-                          break;
-                        }
-                      }
-                      selectedVertices.erase(vIt);
-                      cout<<"Unselected Vertex: "<<selectedVertex -> name<<endl;
-                      cout<<"You have "<<selectedVertices.size() <<" vertices selected."<< endl;
-                  }
-                } else {
-                  //selectedVertex -> selected = true;
-                  vector<Vertex*>::iterator vertexIt;
-                  for(vertexIt=verticesSelected.begin() ; vertexIt < verticesSelected.end(); vertexIt++) {
-                      Vertex *currentVertex = (*vertexIt);
-                      currentVertex -> selected = true;
-                      selectedVertices.push_back(currentVertex);
-                  }
-                  //selectedVertices.push_back(selectedVertex);
-                  cout<<"Selected Vertex: "<<selectedVertex -> name<<endl;
-                  cout<<"You have "<<selectedVertices.size() <<" vertices selected."<<endl;
+
+
+            }
+        }
+
+        if (typeSelection == 1){
+            // Test is this point is on border. If yes, find the startingEdge.
+            if(selectedVertex != NULL) {
+                Edge * firstEdge = selectedVertex -> oneEdge;
+                Edge * currEdge = firstEdge;
+                Face * currFace = currEdge -> fb;
+                Edge * nextEdge;
+                do {
+                    if(currFace == NULL) {
+                        break;
+                    } else {
+                        nextEdge = currEdge -> nextEdge(selectedVertex, currFace);
+                        currFace = nextEdge -> theOtherFace(currFace);
+                    }
+                    currEdge = nextEdge;
+                } while (currEdge != firstEdge);
+                if(currFace != NULL) {
+                    cout<<"Your selected vertex is not on the border."
+                    <<" Current Selection Cancelled.\n";
+                    return;
                 }
+                if(selectedVertex -> selected) {
+                    cout<<"Unselecting all points on this border.\n";
+                    selectedVertices.clear();
+                    Vertex * nextVert = selectedVertex;
+                    Edge * nextBorderEdge = currEdge;
+                    do {
+                        nextVert -> selected = false;
+                        //cout<<nextVert -> ID;
+                        if(nextVert == nextBorderEdge -> va) {
+                            nextBorderEdge = nextBorderEdge -> nextVaFb;
+                        } else {
+                            nextBorderEdge = nextBorderEdge -> nextVbFb;
+                        }
+                        if(nextBorderEdge -> va == nextVert) {
+                            nextVert = nextBorderEdge -> vb;
+                        } else {
+                            nextVert = nextBorderEdge -> va;
+                        }
+                    } while (nextVert != selectedVertex);
+                } else {
+                    Vertex * nextVert = selectedVertex;
+                    Edge * nextBorderEdge = currEdge;
+                    do {
+                        selectedVertices.push_back(nextVert);
+                        nextVert -> selected = true;
+                        //cout<<nextVert -> ID;
+                        if(nextVert == nextBorderEdge -> va) {
+                            nextBorderEdge = nextBorderEdge -> nextVaFb;
+                        } else {
+                            nextBorderEdge = nextBorderEdge -> nextVbFb;
+                        }
+                        if(nextBorderEdge -> va == nextVert) {
+                            nextVert = nextBorderEdge -> vb;
+                        } else {
+                            nextVert = nextBorderEdge -> va;
+                        }
+                    } while (nextVert != selectedVertex);
+                    cout<<"You have selected "<<selectedVertices.size()
+                    <<" points on this border.\n";
+                }
+            }
+        }
+        else if (typeSelection == 2){
+            if(selectedVertex -> selected) {
 
+              vector<Vertex*>::iterator vIt;
+              vector<Vertex*>::iterator vertexIt;
+              for(vertexIt=verticesSelected.begin() ; vertexIt < verticesSelected.end(); vertexIt++) {
+                  //selectedVertex -> selected = false;
+                  for(vIt = selectedVertices.begin(); vIt < selectedVertices.end(); vIt ++) {
+                    Vertex *currentVertex = (*vertexIt);
+                    currentVertex -> selected = false;
+                    if((*vIt) == currentVertex) {
+                      break;
+                    }
+                  }
+                  selectedVertices.erase(vIt);
+                  cout<<"Unselected Vertex: "<<selectedVertex -> name<<endl;
+                  cout<<"You have "<<selectedVertices.size() <<" vertices selected."<< endl;
+              }
+            } else {
+              //selectedVertex -> selected = true;
+              vector<Vertex*>::iterator vertexIt;
+              for(vertexIt=verticesSelected.begin() ; vertexIt < verticesSelected.end(); vertexIt++) {
+                  Vertex *currentVertex = (*vertexIt);
+                  currentVertex -> selected = true;
+                  selectedVertices.push_back(currentVertex);
+              }
+              //selectedVertices.push_back(selectedVertex);
+              cout<<"Selected Vertex: "<<selectedVertex -> name<<endl;
+              cout<<"You have "<<selectedVertices.size() <<" vertices selected."<<endl;
             }
         }
 
