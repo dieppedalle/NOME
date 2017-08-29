@@ -59,6 +59,7 @@ private:
     QRadioButton *faceModeButton;
     QRadioButton *borderModeButton;
     QPushButton *addFaceButton;
+    QPushButton *addPolylineButton;
     QPushButton *deleteFaceButton;
     QPushButton *addBorderButton;
     QPushButton *zipButton;
@@ -67,6 +68,10 @@ private:
     QHBoxLayout *zipOptionsLayout;
     QLineEdit *trianglePaneltyEdit;
     QHBoxLayout *addOrClearLayout;
+    // Group Faces line
+    QHBoxLayout *groupFacesLayout;
+    QLineEdit *meshNameEdit;
+    QPushButton *groupFacesButton;
     //QPushButton *addTempToMasterButton;
     QPushButton *clearSelectionButton;
     QVBoxLayout *subdivLayout;
