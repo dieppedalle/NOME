@@ -474,7 +474,6 @@ Vertex* Group::findVertexInThisGroup(string name)
     //cout << name << endl;
     for(Mesh &mesh : myMeshes)
     {
-        //cout << mesh.name << endl;
         Vertex *v = mesh.findVertexInThisMesh(name);
         if(v != NULL)
         {

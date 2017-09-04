@@ -124,6 +124,51 @@ string warning(int type, int lineNumber)
     return "";
 }
 
+std::vector<std::string> reservedWords{"#", "\n", "point", "endpoint", "surface",
+                                   "endsurface", "face", "endface", "object",
+                                   "endobject", "bank", "endbank", "mesh",
+                                   "endmesh", "tunnel", "endtunnel", "funnel",
+                                   "endfunnel", "polyline", "endpolyline","instance"
+                                   "endinstance", "delete", "enddelete", "group",
+                                   "endgroup", "translate", "rotate", "mirror"};
+
+
+
+int parser(string fileName){
+    FILE *fileParser;
+    int size;
+    std::string buffer = "";
+    // Opens the file
+    fileParser = fopen(fileName.c_str(), "r");
+    if (fileParser == NULL) return NULL;
+
+    char previousC = ' ';
+    char c = getc(fileParser);
+
+    // Iterate through the file
+    while (c != EOF){
+        // Check for comments using #
+        if (c == '#'){
+            while (c != '\n' && c != EOF){
+                c = getc(fileParser);
+            }
+        }
+        else if (c == '('){
+            previousC = c;
+            c = getc(fileParser);
+            // Check if the ( is in fact a comment
+            if ((c == '*') && (previousC == '(')){
+                cout << "COMMENT" << endl;
+            }
+        }
+        else{
+            c = getc(fileParser);
+        }
+
+    }
+
+    return 0;
+}
 
 int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               unordered_map<string, Parameter> &params,
@@ -133,8 +178,11 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &banklines,
                               vector<string> &geometrylines,
                               vector<int> &postProcessingLines,
-                              vector<string> &postProcessingLinesString)
+                              vector<string> &postProcessingLinesString,
+                              unordered_map<string, Vertex*> &global_vertices)
 {
+    parser(input);
+    //cout << input << endl;
     banks.clear();
     group.clear();
     ifstream file(input);
@@ -154,7 +202,7 @@ int NomeParser::makeWithNome(vector<ParameterBank> &banks,
     unordered_map<string, Mesh>::iterator meshIt;
     unordered_map<string, Group> groups;
     unordered_map<string, Group>::iterator groupIt;
-    unordered_map<string, Vertex*> global_vertices;
+    //unordered_map<string, Vertex*> global_vertices;
     unordered_map<string, Vertex*>::iterator vertIt;
     unordered_map<string, PolyLine> polylines;
     unordered_map<string, PolyLine>::iterator lineIt;
@@ -2129,7 +2177,7 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                                         vector<int> &postProcessingLines,
                                         SlideGLWidget *canvas,
                                         Group &group,
-                                        string input, vector<string> &postProcessingLinesString)
+                                        string input, vector<string> &postProcessingLinesString, unordered_map<string, Vertex*> &global_vertices)
 {
     if(postProcessingLines.size() == 0)
     {
@@ -2386,7 +2434,19 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                                 if(v == NULL)
                                 {
                                     //v = group.findVertexInThisGroup(vertInside);
-                                    cout<<warning(9, lineNumber)<<endl;
+
+                                    unordered_map<string, Vertex*>::iterator vertIt;
+                                    vertIt = global_vertices.find(vertInside);
+
+                                    if(vertIt != global_vertices.end())
+                                    {
+                                        v=vertIt -> second;
+                                    }
+                                    else
+                                    {
+                                        cout<<warning(9, lineNumber)<<endl;
+                                        return 1;
+                                    }
                                 }
                                 else
                                 {
@@ -2442,9 +2502,18 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                             //cout << v->name << endl;
                             if(v == NULL)
                             {
-                            //    cout << "LLLLL" << endl;
-                                cout<<warning(9, lineNumber)<<endl;
-                                return 1;
+                                unordered_map<string, Vertex*>::iterator vertIt;
+                                vertIt = global_vertices.find(vertInside);
+
+                                if(vertIt != global_vertices.end())
+                                {
+                                    v=vertIt -> second;
+                                }
+                                else
+                                {
+                                    cout<<warning(9, lineNumber)<<endl;
+                                    return 1;
+                                }
                             }
                             vertices.push_back(v);
                         }

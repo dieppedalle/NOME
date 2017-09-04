@@ -26,14 +26,16 @@ public:
                       vector<string> &banklines,
                       vector<string> &geometrylines,
                       vector<int> &postProcessingLines,
-                      vector<string> &postProcessingLinesString);
+                      vector<string> &postProcessingLinesString,
+                      unordered_map<string, Vertex*> &global_vertices);
 
     int postProcessingWithNome(unordered_map<string, Parameter> &params,
                                 vector<int> &postProcessingLines,
                                 SlideGLWidget * canvas,
                                 Group &group,
                                 string input,
-                                vector<string> &postProcessingLinesString);
+                                vector<string> &postProcessingLinesString,
+                                unordered_map<string, Vertex*> &global_vertices);
 
     void appendWithANOM(unordered_map<string, Parameter> &params,
                         Group &group,
