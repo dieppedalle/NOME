@@ -2425,34 +2425,61 @@ int NomeParser::postProcessingWithNome(unordered_map<string, Parameter> &params,
                             if(vertInside != "")
                             {
                                 Vertex *v = (canvas -> hierarchical_scene_transformed).findVertexInThisGroup(vertInside);
+
+                                if (v == NULL){
+                                    //cout << group.findVertexInThisGroup(vertInside)->name << endl;
+                                    //v = (canvas -> consolidate_mesh).findVertexInThisGroup(vertInside);
+                                    v = group.findVertexInThisGroup(vertInside);
+                                    //cout << "FOUND" << endl;
+                                    //cout << v->name << endl;
+                                    //cout << "HELLO" << endl;
+                                }
+                                //cout << v->name << endl;
                                 if(!(canvas -> master_mesh.isEmpty())) /* Dealing with recovery of SIF.*/
                                 {
-                                    //cout << vertInside << endl;
                                     v = (canvas -> master_mesh.findVertexInThisMesh(vertInside));
-
                                 }
+
+                                //cout << "===" << endl;
+                                //cout << canvas->hierarchical_scene_transformed.myMeshes.size() << endl;
+                                //cout << canvas->hierarchical_scene_transformed.myPolylines.size() << endl;
+                                //cout << canvas->hierarchical_scene_transformed.subgroups.size() << endl;
+
+
                                 if(v == NULL)
                                 {
+                                    /*for (Mesh m: canvas->group_from_consolidate_mesh->myMeshes){
+                                        cout << m.name << endl;
+                                    }*/
+
+                                    canvas -> set_to_editing_mode(true);
+                                    canvas -> updateFromSavedMesh();
+                                    v = canvas->group_from_consolidate_mesh->findVertexInThisGroup(vertInside);
+                                    //cout << v->name << endl;
+                                    //cout << canvas->hierarchical_scene_transformed.myMeshes.size() << endl;
                                     //v = group.findVertexInThisGroup(vertInside);
-
-                                    unordered_map<string, Vertex*>::iterator vertIt;
-                                    vertIt = global_vertices.find(vertInside);
-
-                                    if(vertIt != global_vertices.end())
+                                    //cout << v->name << endl;
+                                    if(v == NULL)
                                     {
-                                        v=vertIt -> second;
+                                        unordered_map<string, Vertex*>::iterator vertIt;
+                                        vertIt = global_vertices.find(vertInside);
+
+                                        if(vertIt != global_vertices.end())
+                                        {
+                                            v=vertIt -> second;
+                                        }
+                                        else
+                                        {
+                                            cout<<warning(9, lineNumber)<<endl;
+                                            return 1;
+                                        }
                                     }
-                                    else
-                                    {
-                                        cout<<warning(9, lineNumber)<<endl;
-                                        return 1;
-                                    }
+                                    vertices.push_back(v);
                                 }
                                 else
                                 {
                                     vertices.push_back(v);
                                 }
-
                                 vertInside = "";
                             }
                             goto endAddingVertInFace;
