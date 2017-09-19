@@ -27,7 +27,7 @@ public:
                       vector<string> &geometrylines,
                       vector<int> &postProcessingLines,
                       vector<string> &postProcessingLinesString,
-                      unordered_map<string, Vertex*> &global_vertices);
+                      unordered_map<string, Vertex*> &global_vertices, unordered_map<string, Face*> &global_faces);
 
     int postProcessingWithNome(unordered_map<string, Parameter> &params,
                                 vector<int> &postProcessingLines,
@@ -35,7 +35,7 @@ public:
                                 Group &group,
                                 string input,
                                 vector<string> &postProcessingLinesString,
-                                unordered_map<string, Vertex*> &global_vertices);
+                                unordered_map<string, Vertex*> &global_vertices, unordered_map<string, Face*> &global_faces);
 
     void appendWithANOM(unordered_map<string, Parameter> &params,
                         Group &group,

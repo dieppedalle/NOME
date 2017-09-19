@@ -14,7 +14,6 @@ CONFIG += c++11
 CONFIG += static
 CONFIG += console
 
-
 SOURCES += main.cpp\
     edge.cpp \
     vertex.cpp \
@@ -69,7 +68,9 @@ HEADERS  += \
     utils.h \
     nomeparser.h \
     nomeglwidget.h \
-    bspline.h
+    bspline.h \
+    lexer.l \
+    parser.y
 
 linux{
     LIBS += -lglut -lGLU
