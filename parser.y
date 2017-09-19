@@ -228,7 +228,8 @@ object:
 surface:
     SURFACE VARIABLE COLOR OPARENTHESES number number number EPARENTHESES
   END_SURFACE
-	{
+    {
+        //printf("%s\n", $2);
 		printf("Created a surface\n");
 	}
 	;

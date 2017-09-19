@@ -566,7 +566,7 @@ static const yytype_uint8 yyrline[] =
       74,    78,    85,    92,    99,   105,   106,   109,   110,   113,
      114,   118,   125,   132,   138,   145,   151,   152,   152,   157,
      164,   170,   178,   186,   193,   200,   207,   214,   222,   229,
-     237,   244
+     238,   245
 };
 #endif
 
@@ -1759,6 +1759,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 231 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
+        printf("%s\n", (yyvsp[(2) - (9)]));
 		printf("Created a surface\n");
 	}
     break;
@@ -1766,7 +1767,7 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 238 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 239 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 		printf("Created a multiline comment.\n");
 	}
@@ -1775,7 +1776,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 245 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 246 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 		printf("Created a point.\n");
 	}
@@ -1784,7 +1785,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1788 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 1789 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
