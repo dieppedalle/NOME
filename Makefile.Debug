@@ -132,7 +132,9 @@ DIST          =  edge.h \
 		utils.h \
 		nomeparser.h \
 		nomeglwidget.h \
-		bspline.h main.cpp \
+		bspline.h \
+		lexer.l \
+		parser.y main.cpp \
 		edge.cpp \
 		vertex.cpp \
 		face.cpp \
@@ -181,7 +183,7 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) NOME.zip $(SOURCES) $(DIST) slide2016.pro C:\Qt\5.8\mingw53_32\mkspecs\features\spec_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\qdevice.pri C:\Qt\5.8\mingw53_32\mkspecs\features\device_config.prf C:\Qt\5.8\mingw53_32\mkspecs\common\angle.conf C:\Qt\5.8\mingw53_32\mkspecs\qconfig.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.8\mingw53_32\mkspecs\features\qt_functions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt_config.prf C:\Qt\5.8\mingw53_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.8\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.8\mingw53_32\mkspecs\features\toolchain.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resolve_config.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\build_pass.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\console.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\rtti.prf C:\Qt\5.8\mingw53_32\mkspecs\features\precompile_header.prf C:\Qt\5.8\mingw53_32\mkspecs\features\warn_on.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resources.prf C:\Qt\5.8\mingw53_32\mkspecs\features\moc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\opengl.prf C:\Qt\5.8\mingw53_32\mkspecs\features\uic.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qmake_use.prf C:\Qt\5.8\mingw53_32\mkspecs\features\file_copies.prf C:\Qt\5.8\mingw53_32\mkspecs\features\testcase_targets.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exceptions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\yacc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\lex.prf slide2016.pro C:\Qt\5.8\mingw53_32\lib\Qt5OpenGLd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Widgetsd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Guid.prl C:\Qt\5.8\mingw53_32\lib\Qt5Cored.prl    C:\Qt\5.8\mingw53_32\mkspecs\features\data\dummy.cpp edge.h vertex.h face.h mesh.h polyline.h transformation.h merge.h makeMesh.h subdivison.h offset.h stl.h zipper.h makePolyline.h myselection.h controlpanel.h mainwindow.h group.h makegroup.h sliderpanel.h parameter.h myslider.h parameterbank.h utils.h nomeparser.h nomeglwidget.h bspline.h main.cpp edge.cpp vertex.cpp face.cpp mesh.cpp polyline.cpp merge.cpp transformation.cpp makeMesh.cpp subdivision.cpp offset.cpp stl.cpp zipper.cpp makePolyline.cpp myselection.cpp controlpanel.cpp mainwindow.cpp group.cpp makegroup.cpp sliderpanel.cpp parameter.cpp myslider.cpp parameterbank.cpp utils.cpp nomeparser.cpp nomeglwidget.cpp bspline.cpp     
+	$(ZIP) NOME.zip $(SOURCES) $(DIST) slide2016.pro C:\Qt\5.8\mingw53_32\mkspecs\features\spec_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\qdevice.pri C:\Qt\5.8\mingw53_32\mkspecs\features\device_config.prf C:\Qt\5.8\mingw53_32\mkspecs\common\angle.conf C:\Qt\5.8\mingw53_32\mkspecs\qconfig.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.8\mingw53_32\mkspecs\features\qt_functions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt_config.prf C:\Qt\5.8\mingw53_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.8\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.8\mingw53_32\mkspecs\features\toolchain.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resolve_config.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\build_pass.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\console.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\rtti.prf C:\Qt\5.8\mingw53_32\mkspecs\features\precompile_header.prf C:\Qt\5.8\mingw53_32\mkspecs\features\warn_on.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resources.prf C:\Qt\5.8\mingw53_32\mkspecs\features\moc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\opengl.prf C:\Qt\5.8\mingw53_32\mkspecs\features\uic.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qmake_use.prf C:\Qt\5.8\mingw53_32\mkspecs\features\file_copies.prf C:\Qt\5.8\mingw53_32\mkspecs\features\testcase_targets.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exceptions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\yacc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\lex.prf slide2016.pro C:\Qt\5.8\mingw53_32\lib\Qt5OpenGLd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Widgetsd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Guid.prl C:\Qt\5.8\mingw53_32\lib\Qt5Cored.prl    C:\Qt\5.8\mingw53_32\mkspecs\features\data\dummy.cpp edge.h vertex.h face.h mesh.h polyline.h transformation.h merge.h makeMesh.h subdivison.h offset.h stl.h zipper.h makePolyline.h myselection.h controlpanel.h mainwindow.h group.h makegroup.h sliderpanel.h parameter.h myslider.h parameterbank.h utils.h nomeparser.h nomeglwidget.h bspline.h lexer.l parser.y main.cpp edge.cpp vertex.cpp face.cpp mesh.cpp polyline.cpp merge.cpp transformation.cpp makeMesh.cpp subdivision.cpp offset.cpp stl.cpp zipper.cpp makePolyline.cpp myselection.cpp controlpanel.cpp mainwindow.cpp group.cpp makegroup.cpp sliderpanel.cpp parameter.cpp myslider.cpp parameterbank.cpp utils.cpp nomeparser.cpp nomeglwidget.cpp bspline.cpp     
 
 clean: compiler_clean 
 	-$(DEL_FILE) debug\main.o debug\edge.o debug\vertex.o debug\face.o debug\mesh.o debug\polyline.o debug\merge.o debug\transformation.o debug\makeMesh.o debug\subdivision.o debug\offset.o debug\stl.o debug\zipper.o debug\makePolyline.o debug\myselection.o debug\controlpanel.o debug\mainwindow.o debug\group.o debug\makegroup.o debug\sliderpanel.o debug\parameter.o debug\myslider.o debug\parameterbank.o debug\utils.o debug\nomeparser.o debug\nomeglwidget.o debug\bspline.o debug\moc_controlpanel.o debug\moc_mainwindow.o debug\moc_sliderpanel.o debug\moc_myslider.o debug\moc_nomeglwidget.o
@@ -803,6 +805,7 @@ debug/moc_controlpanel.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QWidget \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -1394,6 +1397,7 @@ debug/moc_mainwindow.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QMainWindow \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -1416,7 +1420,6 @@ debug/moc_mainwindow.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QMainWindow \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
-		bspline.h \
 		sliderpanel.h \
 		myslider.h \
 		mainwindow.h \
@@ -2008,6 +2011,7 @@ debug/moc_sliderpanel.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QWidget \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -2717,6 +2721,7 @@ debug/moc_nomeglwidget.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QMainWindow \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -3325,6 +3330,7 @@ debug/main.o: main.cpp mainwindow.h \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -3347,7 +3353,6 @@ debug/main.o: main.cpp mainwindow.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
-		bspline.h \
 		sliderpanel.h \
 		myslider.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QApplication
@@ -4784,6 +4789,7 @@ debug/mesh.o: mesh.cpp mesh.h \
 		glm/gtx/transform.inl \
 		group.h \
 		polyline.h \
+		bspline.h \
 		merge.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mesh.o mesh.cpp
 
@@ -10710,6 +10716,7 @@ debug/controlpanel.o: controlpanel.cpp controlpanel.h \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -11299,6 +11306,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -11321,7 +11329,6 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
-		bspline.h \
 		sliderpanel.h \
 		myslider.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
@@ -11899,6 +11906,7 @@ debug/group.o: group.cpp group.h \
 		glm/gtc/matrix_transform.inl \
 		glm/gtx/transform.inl \
 		polyline.h \
+		bspline.h \
 		merge.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\group.o group.cpp
 
@@ -12476,6 +12484,7 @@ debug/makegroup.o: makegroup.cpp makegroup.h \
 		glm/gtc/matrix_transform.inl \
 		glm/gtx/transform.inl \
 		polyline.h \
+		bspline.h \
 		merge.h \
 		makeMesh.h \
 		glm/gtx/rotate_vector.hpp \
@@ -13067,6 +13076,7 @@ debug/sliderpanel.o: sliderpanel.cpp sliderpanel.h \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -13652,7 +13662,8 @@ debug/parameter.o: parameter.cpp parameter.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
-		polyline.h
+		polyline.h \
+		bspline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\parameter.o parameter.cpp
 
 debug/myslider.o: myslider.cpp myslider.h \
@@ -14378,7 +14389,8 @@ debug/utils.o: utils.cpp utils.h \
 		face.h \
 		edge.h \
 		vertex.h \
-		polyline.h
+		polyline.h \
+		bspline.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\utils.o utils.cpp
 
 debug/nomeparser.o: nomeparser.cpp nomeparser.h \
@@ -14961,6 +14973,7 @@ debug/nomeparser.o: nomeparser.cpp nomeparser.h \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \
@@ -14968,7 +14981,9 @@ debug/nomeparser.o: nomeparser.cpp nomeparser.h \
 		offset.h \
 		zipper.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QMessageBox \
-		bspline.h
+		lexer.cpp \
+		parser.hpp \
+		parser.cpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\nomeparser.o nomeparser.cpp
 
 debug/nomeglwidget.o: nomeglwidget.cpp nomeglwidget.h \
@@ -15549,6 +15564,7 @@ debug/nomeglwidget.o: nomeglwidget.cpp nomeglwidget.h \
 		merge.h \
 		polyline.h \
 		group.h \
+		bspline.h \
 		makegroup.h \
 		myselection.h \
 		subdivison.h \

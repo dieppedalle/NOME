@@ -804,12 +804,12 @@ return MULTI_LINE_COMMENT;
 case 3:
 YY_RULE_SETUP
 #line 11 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
-return NUMBER;
+yylval.number=(double)atof(yytext); return NUMBER;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 12 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
-return BANK_EXPR;
+yylval.string=strdup(yytext); return BANK_EXPR;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
@@ -989,7 +989,7 @@ return EBRACE;
 case 40:
 YY_RULE_SETUP
 #line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
-return VARIABLE;
+yylval.string=strdup(yytext); return VARIABLE;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP

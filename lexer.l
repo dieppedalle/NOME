@@ -8,8 +8,8 @@
 %%
 (\#(.)*(.|\n))           return COMMENT;
 \(\*(.|\n)*\*\)          return MULTI_LINE_COMMENT;
-[+-]?([0-9]*[.])?[0-9]+  return NUMBER;
-\$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]* return BANK_EXPR;
+[+-]?([0-9]*[.])?[0-9]+  yylval.number=(double)atof(yytext); return NUMBER;
+\$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  yylval.string=strdup(yytext); return BANK_EXPR;
 expr                     return EXPR;
 surface                  return SURFACE;
 endsurface               return END_SURFACE;
@@ -45,7 +45,7 @@ group                   return GROUP;
 endgroup                return END_GROUP;
 \{                      return OBRACE;
 \}                      return EBRACE;
-[a-zA-Z][a-zA-Z0-9]*    return VARIABLE;
+[a-zA-Z][a-zA-Z0-9]*    yylval.string=strdup(yytext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
 [ \t]+                  /* ignore whitespace */;
