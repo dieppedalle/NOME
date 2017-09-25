@@ -15,3 +15,13 @@ Face::Face(){
     name = "";
     user_defined_color = false;
 }
+
+Face::Face(std::vector<Vertex> vertices){
+    oneEdge = NULL;
+    facePoint = NULL;
+    selected = false;
+    id = -1;
+    name = "";
+    user_defined_color = false;
+    vertices = vertices;
+}
