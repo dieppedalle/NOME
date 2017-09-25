@@ -37,6 +37,7 @@ public:
      * @param ID: The vertex ID.
      */
     Vertex(float x, float y, float z, unsigned long ID);
+    Vertex(float x, float y, float z, string assignedName, unsigned long ID);
     /* The position. */
     vec3 position;
     /* Vertex normal. */

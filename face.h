@@ -26,6 +26,7 @@ class Face
 {
 public:
     Face();
+    Face(std::vector<Vertex> vertices);
     /* The face normal.*/
     vec3 normal;
     /* Pointer to one edge in this face.*/
@@ -40,6 +41,7 @@ public:
     string name;
     /* The color of this face. */
     QColor color;
+    std::vector<Vertex> vertices;
     /* Indicate if this face has user defined color. */
     bool user_defined_color;
 };

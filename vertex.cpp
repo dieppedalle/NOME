@@ -31,6 +31,18 @@ Vertex::Vertex(float x, float y, float z, unsigned long ID)
     before_transform_vertex = NULL;
 }
 
+Vertex::Vertex(float x, float y, float z, string assignedName, unsigned long ID)
+{
+    name = assignedName;
+    position = vec3(x, y, z);
+    normal = vec3(0, 0, 0);
+    oneEdge = NULL;
+    ID = ID;
+    selected = false;
+    isParametric = false;
+    before_transform_vertex = NULL;
+}
+
 void Vertex::addParam(Parameter* param)
 {
     influencingParams.push_back(param);

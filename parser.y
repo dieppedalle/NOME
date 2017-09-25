@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include <string.h>
-
+#include <list>
 
 extern int yylineno;
 extern char* yytext;
@@ -15,6 +15,15 @@ extern "C" int yyparse (void);
 int yywrap() {
     return 1;
 }
+
+map<string,QColor> surfaces;
+map<string,Vertex*> vertices;
+std::vector<string> tempVariables;
+string currentSetName;
+std::vector<double> currentSetList;
+map<string,std::vector<double>> currentBank;
+std::vector<string> currentInstanceList;
+std::vector<std::vector<string>> currentGroup;
 
 /*main() {
 
@@ -33,6 +42,15 @@ GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE NUMBER PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE BANK_EXPR
 SCALE
 
+%union
+{
+    double number;
+    char *string;
+}
+
+%token <string> BANK_EXPR
+%token <number> NUMBER
+
 
 %%
 
@@ -46,10 +64,20 @@ command:
   tunnel | funnel | polyline | instance | delete | group | circle
 	;
 
-number:
-    NUMBER | expr
+numberValue:
+    num {
+        $<number>$ = $<number>1;
+    } | expr
     {
-        printf("Seeing a number!\n");
+        $<string>$ = $<string>1;
+    }
+    ;
+
+
+num:
+    NUMBER
+    {
+        $<number>$ = $1;
     }
     ;
 
@@ -63,11 +91,16 @@ comment:
 
 variables:
   |
-	variables VARIABLE
+    variables VARIABLE {
+        tempVariables.push_back($<string>2);
+    }
 	;
 
 surfaceArgs:
-	| SURFACE VARIABLE
+    {$<string>$ = "";}
+    | SURFACE VARIABLE {
+        $<string>$ = $<string>2;
+    }
 	;
 
 transformArgs:
@@ -75,40 +108,67 @@ transformArgs:
     ;
 
 rotateArgs:
-    ROTATE OPARENTHESES number number number EPARENTHESES OPARENTHESES number EPARENTHESES
+    ROTATE OPARENTHESES numberValue numberValue numberValue EPARENTHESES OPARENTHESES numberValue EPARENTHESES
     {
-      printf("Rotated\n");
-  }
-  ;
+        double x = $<number>3;
+        double y = $<number>4;
+        double z = $<number>5;
+
+        double angle = $<number>8;
+
+        printf("Rotated\n");
+    }
+    ;
 
 translateArgs:
-    TRANSLATE OPARENTHESES number number number EPARENTHESES
+    TRANSLATE OPARENTHESES numberValue numberValue numberValue EPARENTHESES
     {
-      printf("Translated\n");
-  }
-  ;
+        double x = $<number>3;
+        double y = $<number>4;
+        double z = $<number>5;
+        printf("Translated\n");
+    }
+    ;
 
 scaleArgs:
-    SCALE OPARENTHESES number number number EPARENTHESES
+    SCALE OPARENTHESES numberValue numberValue numberValue EPARENTHESES
     {
-      printf("Scaled\n");
-  }
-  ;
+        double x = $<number>3;
+        double y = $<number>4;
+        double z = $<number>5;
+        printf("Scaled\n");
+    }
+    ;
 
 mirrorArgs:
-    MIRROR OPARENTHESES number number number number EPARENTHESES
+    MIRROR OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
     {
-      printf("Mirrored\n");
-  }
-  ;
+        double x = $<number>3;
+        double y = $<number>4;
+        double z = $<number>5;
+        double w = $<number>5;
+
+        printf("Mirrored\n");
+    }
+    ;
 
 faceArgs:
 	| faceArgs face
 	;
 
 instanceArgs:
-	| instanceArgs instance
+    | instanceArgs instanceGroup
 	;
+
+instanceGroup:
+    INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
+    {
+        currentInstanceList.clear();
+        currentInstanceList.push_back($<string>2);
+        currentInstanceList.push_back($<string>3);
+        currentGroup.push_back(currentInstanceList);
+    }
+    ;
 
 faceDeleteArgs:
 	| faceDeleteArgs faceDelete
@@ -124,6 +184,9 @@ mesh:
 group:
 	GROUP VARIABLE instanceArgs END_GROUP
     {
+        cout << "Length of the group" << endl;
+        cout << currentGroup.size() << endl;
+        currentGroup.clear();
 		printf("Created a group\n");
 	}
 	;
@@ -131,6 +194,7 @@ group:
 expr:
     OBRACE EXPR BANK_EXPR EBRACE
     {
+        $<string>$ = $3;
         printf("Expression\n");
     };
 
@@ -142,56 +206,118 @@ delete:
 	;
 
 set:
-    SET VARIABLE number number number number
-	{
+    SET VARIABLE numberValue numberValue numberValue numberValue
+    {
+        currentSetName = $<string>2;
+        currentSetList.clear();
+        currentSetList.push_back($<number>3);
+        currentSetList.push_back($<number>4);
+        currentSetList.push_back($<number>5);
 		printf("Created a Set\n");
 	}
 	;
 
 setArgs:
-    | setArgs set |  setArgs comment
+    | setArgs set |  setArgs comment {
+        currentBank.insert({currentSetName, currentSetList});
+    }
 	;
 
 
 bank:
 	BANK VARIABLE setArgs END_BANK
-  {
+    {
+        //currentBank contains element in bank
+        currentBank.clear();
 		printf("Created a bank\n");
 	}
 	;
 
 circle:
-    CIRCLE VARIABLE OPARENTHESES number number EPARENTHESES END_CIRCLE
+    CIRCLE VARIABLE OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE
     {
+        string name = $<string>2;
+        double num = $<number>4;
+        double rad = $<number>5;
+
         printf("Created a circle\n");
     };
 
 tunnel:
-    TUNNEL VARIABLE OPARENTHESES number number number number EPARENTHESES
+    TUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_TUNNEL
 	{
+        string name = $<string>2;
+        double n = $<number>4;
+        double ro = $<number>5;
+        double ratio = $<number>6;
+        double h = $<number>7;
+
 		printf("Created a tunnel\n");
 	}
 	;
 
 funnel:
-    FUNNEL VARIABLE OPARENTHESES number number number number EPARENTHESES
+    FUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_FUNNEL
 	{
+        string name = $<string>2;
+        double n = $<number>4;
+        double ro = $<number>5;
+        double ratio = $<number>6;
+        double h = $<number>7;
+
+
 		printf("Created a funnel\n");
 	}
 	;
 
 parenthesisName:
 	OPARENTHESES variables EPARENTHESES
-	{
-		printf("Created a surface\n");
+    {
+        printf("Created a parenthesis\n");
 	}
 	;
 
 face:
 	FACE VARIABLE parenthesisName surfaceArgs END_FACE
-	{
+    {
+        // verticesFace $<string>1
+
+        // Create list of vertices of face.
+        std::vector<Vertex*> verticesFace;
+        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+            std::map<string,Vertex*>::iterator st = vertices.find(*it);
+
+            if (st != vertices.end()){
+                verticesFace.push_back(st->second);
+            }
+            else{
+                yyerror("Incorrect vertex name");
+                YYABORT;
+            }
+        }
+
+        // Check if a surface has been applied.
+        if ($<string>4 != NULL){
+            std::map<string,QColor>::iterator qt = surfaces.find($<string>4);
+            QColor surfaceApplied;
+
+            if (qt != surfaces.end()){
+                 surfaceApplied = qt->second;
+            }
+            else{
+                yyerror("Incorrect surface name");
+                YYABORT;
+            }
+        }
+        else{
+            // Create without surface
+
+        }
+
+        tempVariables.clear();
+
 		printf("Created a face\n");
 	}
 	;
@@ -206,14 +332,46 @@ faceDelete:
 polyline:
 	POLYLINE VARIABLE parenthesisName END_POLYLINE
 	{
+        // Create list of vertices of face.
+        std::vector<Vertex*> verticesPolyline;
+        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+            std::map<string,Vertex*>::iterator st = vertices.find(*it);
+
+            if (st != vertices.end()){
+                verticesPolyline.push_back(st->second);
+            }
+            else{
+                yyerror("Incorrect vertex name");
+                YYABORT;
+            }
+        }
+
+        tempVariables.clear();
+
 		printf("Created a polyline\n");
 	}
 	;
 
 instance:
-    INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs
-  END_INSTANCE
+    INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
 	{
+        string instanceName = $<string>2;
+        string lookFor = $<string>3;
+
+        // Check if a surface has been applied.
+        if (strlen($<string>4) != 0){
+            std::map<string,QColor>::iterator qt = surfaces.find($<string>4);
+            QColor surfaceApplied;
+
+            if (qt != surfaces.end()){
+                 surfaceApplied = qt->second;
+            }
+            else{
+                yyerror("Incorrect surface name");
+                YYABORT;
+            }
+        }
+
 		printf("Created an instance\n");
 	}
 	;
@@ -221,15 +379,28 @@ instance:
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
 	{
+        std::vector<Vertex*> verticesFace;
+        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+            std::map<string,Vertex*>::iterator st = vertices.find(*it);
+
+            verticesFace.push_back(st->second);
+        }
+
+        tempVariables.clear();
 		printf("Created an object\n");
 	}
 	;
 
 surface:
-    SURFACE VARIABLE COLOR OPARENTHESES number number number EPARENTHESES
-  END_SURFACE
-	{
-		printf("Created a surface\n");
+    SURFACE VARIABLE COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
+    {
+        string name = strdup($<string>2);
+
+        if ($<number>5 < 0 || $<number>5 > 1 || $<number>6 < 0 || $<number>6 > 1 || $<number>7 < 0 || $<number>7 > 1) {
+            yyerror("RGB values of surface out of bounds.");
+            YYABORT;
+        }
+        surfaces[name] = QColor(255 * $<number>5, 255 * $<number>6, 255 * $<number>7);
 	}
 	;
 
@@ -241,8 +412,10 @@ multi_line_comment:
 	;
 
 point:
-    BEG_POINT VARIABLE OPARENTHESES number number number EPARENTHESES END_POINT
+    BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
 	{
+        string name = strdup($<string>2);
+        vertices[name] = new Vertex($<number>4, $<number>5, $<number>6, $<string>2, 0);
 		printf("Created a point.\n");
 	}
 	;
