@@ -16,6 +16,7 @@
 #include <string>
 #include <thread>
 #include <mutex>
+#include <QColor>
 
 #include "IO.h"
 
@@ -29,6 +30,15 @@ typedef int FaceI;
 class Vert;
 class EdgeNew;
 class FaceNew;
+
+typedef class Surface
+{
+public:
+    QColor color;
+    std::string name;
+} Surface;
+
+Surface* createSurface(double r, double g, double b, std::string name);
 
 ///Vertex - Usual definition of a vertex in 3d space
 typedef class Vert
@@ -85,8 +95,8 @@ FaceNew* createFace(std::list<EdgeNew*> edges);
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges);
 
 bool setName(Vert*);
-bool setName(Edge*);
-bool setName(Face*);
+bool setName(EdgeNew*);
+bool setName(FaceNew*);
 
 ///Deletion helper functions, unlink from other data structures
 bool deleteVert(Vert* vert);

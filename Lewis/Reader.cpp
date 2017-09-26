@@ -78,7 +78,7 @@ vector<EdgeI> Reader::vertEdges(std::string name)
     Vert* v0 = Reader::vert(name);
     if(v0 == NULL)
         return edges;
-    for(Edge* edge : v0->edges)
+    for(EdgeNew* edge : v0->edges)
     {
         edges.push_back(edge->index);
     }
@@ -92,7 +92,7 @@ vector<FaceI> Reader::vertFaces(std::string name)
     Vert* v0 = Reader::vert(name);
     if(v0 == NULL)
         return faces;
-    for(Face* face : v0->faces)
+    for(FaceNew* face : v0->faces)
     {
         faces.push_back(face->index);
     }
@@ -101,18 +101,18 @@ vector<FaceI> Reader::vertFaces(std::string name)
 
 ///Edge functions
 bool isBorder(EdgeI index);
-Edge* edge(EdgeI index);
+EdgeNew* edge(EdgeI index);
 vector<FaceI> edgeFaces(EdgeI index);
 vector<VertI> edgeVerts(EdgeI index);
 bool isBorder(std::string name);
-Edge* edge(std::string name);
+EdgeNew* edge(std::string name);
 vector<FaceI> edgeFaces(std::string name);
 vector<VertI> edgeVerts(std::string name);
 
 ///Face functions
-Face* face(FaceI index);
+FaceNew* face(FaceI index);
 vector<EdgeI> faceEdges(FaceI index);
 vector<VertI> faceVerts(FaceI index);
-Face* face(std::string name);
+FaceNew* face(std::string name);
 vector<EdgeI> faceEdges(std::string name);
 vector<VertI> faceVerts(std::string name);

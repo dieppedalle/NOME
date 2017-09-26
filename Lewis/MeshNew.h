@@ -21,27 +21,24 @@ typedef class MeshNew
     bool hasHoles;
     MeshI index;
     std::string name;
-    
+
 public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
-    
+
     bool hasVert(Vert*);
     bool hasEdge(EdgeNew*);
     bool hasFace(FaceNew*);
-    
+
     Vert* getVert(Vert*);
     EdgeNew* getEdge(EdgeNew*);
     FaceNew* getFace(FaceNew*);
-    
+
     bool deleteVert(Vert*);
-    bool deleteEdge(Edge*);
-    bool deleteFace(Face*);
-    
-    bool setName(std::string);
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);
+    bool setName(std::string name);
 
 } MeshNew;
 

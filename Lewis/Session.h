@@ -21,6 +21,7 @@ public:
     std::vector<Vert*> verts;
     std::vector<EdgeNew*> edges;
     std::vector<FaceNew*> faces;
+    std::vector<Surface*> surfaces;
 } Session;
 
 Session* createSession();

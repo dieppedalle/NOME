@@ -18,6 +18,14 @@ static std::mutex vertLock;
 static std::mutex edgeLock;
 static std::mutex faceLock;
 
+Surface* createSurface(double r, double g, double b, std::string name)
+{
+    Surface * surface0 = new Surface();
+    surface0->color = QColor(255 * r, 255 * g, 255 * b);
+    surface0->name = name;
+    return surface0;
+}
+
 ///Create a default vert, will be at the origin with weight of 1.0
 Vert* createVert()
 {
