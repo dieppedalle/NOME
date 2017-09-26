@@ -17,8 +17,8 @@ typedef struct Session
     int accesses;
     
     std::vector<Vert*> verts;
-    std::vector<Edge*> edges;
-    std::vector<Face*> faces;
+    std::vector<EdgeNew*> edges;
+    std::vector<FaceNew*> faces;
 } Session;
 
 Session* createSession();

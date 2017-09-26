@@ -26,6 +26,14 @@ INPUT(
 ./release\nomeparser.o
 ./release\nomeglwidget.o
 ./release\bspline.o
+./release\Data.o
+./release\IO.o
+./release\Reader.o
+./release\Session.o
+./release\testpolyline.o
+./release\GroupNew.o
+./release\InstanceNew.o
+./release\MeshNew.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o

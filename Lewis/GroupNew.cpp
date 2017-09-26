@@ -7,14 +7,14 @@
 //
 
 #include <stdio.h>
-#include "Group.h"
+#include "GroupNew.h"
 
-Group* createGroup(std::vector<Mesh*> m0)
+GroupNew* createGroup(std::vector<MeshNew*> m0)
 {
     return NULL;
 }
 
-Group* createGroup(Group*)
+GroupNew* createGroup(GroupNew*)
 {
     return NULL;
 }

@@ -36,7 +36,7 @@ vector<EdgeI> Reader::vertEdges(VertI index)
     Vert* v0 = Reader::vert(index);
     if(v0 == NULL)
         return edges;
-    for(Edge* edge : v0->edges)
+    for(EdgeNew* edge : v0->edges)
     {
         edges.push_back(edge->index);
     }
@@ -50,7 +50,7 @@ vector<FaceI> Reader::vertFaces(VertI index)
     Vert* v0 = Reader::vert(index);
     if(v0 == NULL)
         return faces;
-    for(Face* face : v0->faces)
+    for(FaceNew* face : v0->faces)
     {
         faces.push_back(face->index);
     }

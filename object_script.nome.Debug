@@ -26,6 +26,14 @@ INPUT(
 ./debug\nomeparser.o
 ./debug\nomeglwidget.o
 ./debug\bspline.o
+./debug\Data.o
+./debug\IO.o
+./debug\Reader.o
+./debug\Session.o
+./debug\testpolyline.o
+./debug\GroupNew.o
+./debug\InstanceNew.o
+./debug\MeshNew.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o
