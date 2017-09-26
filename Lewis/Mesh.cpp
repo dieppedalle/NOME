@@ -75,10 +75,18 @@ bool Mesh::deleteFace(Face* f0)
     return true;
 }
 
+bool Mesh::setName(std::string name)
+{
+    this->name = name;
+    return true;
+}
+
 ///Instance functions
 Mesh* createMesh()
 {
     Mesh* m0;
+    std::list<Vert*> verts; std::list<Edge*> edges; std::list<Face*> faces;
+    m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
     return m0;
 }

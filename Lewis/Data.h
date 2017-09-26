@@ -83,6 +83,10 @@ Face* createFace();
 Face* createFace(Face*);
 Face* createFace(std::list<Edge*> edges);
 
+bool setName(Vert*);
+bool setName(Edge*);
+bool setName(Face*);
+
 ///Deletion helper functions, unlink from other data structures
 bool deleteVert(Vert* vert);
 bool deleteEdge(Edge* edge);
