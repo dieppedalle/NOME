@@ -14,8 +14,10 @@
 
 typedef struct Session
 {
+private:
     int accesses;
-    
+
+public:
     std::vector<Vert*> verts;
     std::vector<EdgeNew*> edges;
     std::vector<FaceNew*> faces;

@@ -10,7 +10,8 @@
 
 Session* createSession()
 {
-    return NULL;
+    Session* session0 = new Session();
+    return session0;
 }
 
 Session* createSession(Session* s0)

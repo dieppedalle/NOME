@@ -38,7 +38,7 @@ Vert* createVert(double x, double y, double z, double w)
     int index = vIndex;
     vIndex++;
     vertLock.unlock();
-    
+
     v0->index = index;
     v0->x = x;
     v0->y = y;
@@ -100,6 +100,29 @@ FaceNew* createFace()
     
     f0->index = index;
     return f0;
+}
+
+FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges){
+    for( int i = 0; i < vertices.size(); i++)
+    {
+        EdgeNew * currentEdge;
+        std::list<Vert*>::iterator it = vertices.begin();
+        std::list<Vert*>::iterator it2 = vertices.begin();
+        ++it2;
+        while (it != vertices.end()){
+            if (it2 != vertices.end()){
+                currentEdge = createEdge(*it, *it2);
+            }
+            else{
+                currentEdge = createEdge(vertices.back(), vertices.front());
+            }
+            it++;
+
+        }
+        edges.push_back(currentEdge);
+    }
+    FaceNew* newFace = createFace(edges);
+    return newFace;
 }
 
 ///Create face given a vector of at least three edges, the edges must be adjacent and form a closed loop, otherwise fails

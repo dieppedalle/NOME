@@ -3,6 +3,8 @@
 #include <string.h>
 #include <list>
 #include <Lewis/Data.h>
+#include <Lewis/MeshNew.h>
+#include <Lewis/Session.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -17,6 +19,8 @@ int yywrap() {
     return 1;
 }
 
+Session* currSession = createSession();
+
 map<string,QColor> surfaces;
 map<string,Vertex*> vertices;
 std::vector<string> tempVariables;
@@ -25,6 +29,7 @@ std::vector<double> currentSetList;
 map<string,std::vector<double>> currentBank;
 std::vector<string> currentInstanceList;
 std::vector<std::vector<string>> currentGroup;
+
 
 /*main() {
 
@@ -283,10 +288,9 @@ parenthesisName:
 face:
 	FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
-        // verticesFace $<string>1
+        /*createFace(verticesFace);
 
-        // Create list of vertices of face.
-        std::vector<Vertex*> verticesFace;
+        std::list<Vertex*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             std::map<string,Vertex*>::iterator st = vertices.find(*it);
 
@@ -315,7 +319,7 @@ face:
         else{
             // Create without surface
 
-        }
+        }*/
 
         tempVariables.clear();
 
@@ -415,9 +419,9 @@ multi_line_comment:
 point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
 	{
-        string name = strdup($<string>2);
-        vertices[name] = new Vertex($<number>4, $<number>5, $<number>6, $<string>2, 0);
-		printf("Created a point.\n");
+        Vert * newVertex = createVert ($<number>4, $<number>5, $<number>6);
+        newVertex->name = strdup($<string>2);
+        currSession->verts.push_back(newVertex);
 	}
 	;
 

@@ -82,6 +82,7 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
 FaceNew* createFace();
 FaceNew* createFace(FaceNew*);
 FaceNew* createFace(std::list<EdgeNew*> edges);
+FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges);
 
 ///Deletion helper functions, unlink from other data structures
 bool deleteVert(Vert* vert);
