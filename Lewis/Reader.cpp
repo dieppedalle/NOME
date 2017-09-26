@@ -57,10 +57,62 @@ vector<FaceI> Reader::vertFaces(VertI index)
     return faces;
 }
 
-///Edge Functions
+///Vertex Reader functions by name
+
+///Get pointer to desired vertex
+Vert* Reader::vert(std::string name)
+{
+    for(Vert* v : mesh->verts)
+    {
+        if(!name.compare(v->name))
+            return v;
+    }
+    return NULL;
+}
+
+
+///Get all edges of which vertex is part of
+vector<EdgeI> Reader::vertEdges(std::string name)
+{
+    vector<EdgeI> edges;
+    Vert* v0 = Reader::vert(name);
+    if(v0 == NULL)
+        return edges;
+    for(Edge* edge : v0->edges)
+    {
+        edges.push_back(edge->index);
+    }
+    return edges;
+}
+
+///Get all faces which touch the vertex
+vector<FaceI> Reader::vertFaces(std::string name)
+{
+    vector<FaceI> faces;
+    Vert* v0 = Reader::vert(name);
+    if(v0 == NULL)
+        return faces;
+    for(Face* face : v0->faces)
+    {
+        faces.push_back(face->index);
+    }
+    return faces;
+}
+
+///Edge functions
+bool isBorder(EdgeI index);
+Edge* edge(EdgeI index);
 vector<FaceI> edgeFaces(EdgeI index);
 vector<VertI> edgeVerts(EdgeI index);
+bool isBorder(std::string name);
+Edge* edge(std::string name);
+vector<FaceI> edgeFaces(std::string name);
+vector<VertI> edgeVerts(std::string name);
 
 ///Face functions
+Face* face(FaceI index);
 vector<EdgeI> faceEdges(FaceI index);
 vector<VertI> faceVerts(FaceI index);
+Face* face(std::string name);
+vector<EdgeI> faceEdges(std::string name);
+vector<VertI> faceVerts(std::string name);

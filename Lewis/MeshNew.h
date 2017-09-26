@@ -12,11 +12,15 @@
 #include <stdio.h>
 #include "Data.h"
 
+typedef int MeshI;
+
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
 typedef class MeshNew
 {
     bool isManifold;
     bool hasHoles;
+    MeshI index;
+    std::string name;
     
 public:
     std::list<Vert*> verts;
@@ -32,6 +36,10 @@ public:
     FaceNew* getFace(FaceNew*);
     
     bool deleteVert(Vert*);
+    bool deleteEdge(Edge*);
+    bool deleteFace(Face*);
+    
+    bool setName(std::string);
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);
 
