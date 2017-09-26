@@ -15,7 +15,7 @@
 typedef int MeshI;
 
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
-typedef class Mesh
+typedef class MeshNew
 {
     bool isManifold;
     bool hasHoles;
@@ -24,27 +24,29 @@ typedef class Mesh
     
 public:
     std::list<Vert*> verts;
-    std::list<Edge*> edges;
-    std::list<Face*> faces;
+    std::list<EdgeNew*> edges;
+    std::list<FaceNew*> faces;
     
     bool hasVert(Vert*);
-    bool hasEdge(Edge*);
-    bool hasFace(Face*);
+    bool hasEdge(EdgeNew*);
+    bool hasFace(FaceNew*);
     
     Vert* getVert(Vert*);
-    Edge* getEdge(Edge*);
-    Face* getFace(Face*);
+    EdgeNew* getEdge(EdgeNew*);
+    FaceNew* getFace(FaceNew*);
     
     bool deleteVert(Vert*);
     bool deleteEdge(Edge*);
     bool deleteFace(Face*);
     
     bool setName(std::string);
+    bool deleteEdge(EdgeNew*);
+    bool deleteFace(FaceNew*);
 
-} Mesh;
+} MeshNew;
 
 ///Instance functions
-Mesh* createMesh();
-Mesh* createMesh(Mesh*);
+MeshNew* createMesh();
+MeshNew* createMesh(MeshNew*);
 
 #endif /* Mesh_h */

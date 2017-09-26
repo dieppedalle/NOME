@@ -45,7 +45,7 @@ Vert* createVert(double x, double y, double z, double w)
     v0->y = y;
     v0->z = z;
     v0->weight = w;
-    std::list<Edge*> edges; std::list<Face*> faces;
+    std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
     v0->edges = edges; v0->faces = faces;
     
     return v0;
@@ -53,9 +53,9 @@ Vert* createVert(double x, double y, double z, double w)
 
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links
-Edge* createEdge(Vert* v0, Vert* v1, double interval)
+EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
 {
-    Edge* e0 = new Edge();
+    EdgeNew* e0 = new EdgeNew();
     e0->isBorder = false;
     
     e0->interval = interval;
@@ -76,23 +76,23 @@ Edge* createEdge(Vert* v0, Vert* v1, double interval)
 }
 
 ///Create edge without specifying knot interval, default to 1.0
-Edge* createEdge(Vert* v0, Vert* v1)
+EdgeNew* createEdge(Vert* v0, Vert* v1)
 {
     return createEdge(v0, v1, 1.0);
 }
 
 ///Lazy construct, create edge without prior verts
-Edge* createEdge(double x0, double y0, double z0, double x1, double y1, double z1, double interval)
+EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, double z1, double interval)
 {
     Vert* v0 = createVert(x0, y0, z0); Vert* v1 = createVert(x1, y1, z1);
     return createEdge(v0, v1, interval);
 }
 
 ///Create face helper function
-Face* createFace()
+FaceNew* createFace()
 {
-    Face* f0 = new Face();
-    std::list<Edge*> edges; std::list<Vert*> verts;
+    FaceNew* f0 = new FaceNew();
+    std::list<EdgeNew*> edges; std::list<Vert*> verts;
     f0->edges = edges; f0->verts = verts;
     
     faceLock.lock();
@@ -106,9 +106,9 @@ Face* createFace()
 }
 
 ///Create face given a vector of at least three edges, the edges must be adjacent and form a closed loop, otherwise fails
-Face* createFace(std::list<Edge*> edges)
+FaceNew* createFace(std::list<EdgeNew*> edges)
 {
-    Face* f0 = createFace();
+    FaceNew* f0 = createFace();
     std::vector<Vert*> vIndex;
     //Check if more than three edges are given
     if(edges.size() < 3)
@@ -116,7 +116,7 @@ Face* createFace(std::list<Edge*> edges)
         errorMessage("Fewer than 3 edges given", -1);
         return NULL;
     }
-    for( Edge* edge : edges )
+    for( EdgeNew* edge : edges )
     {
         bool b0 = false, b1 = false;
         for( int i = 0; i < vIndex.size(); i++ )
@@ -163,12 +163,12 @@ bool deleteVert(Vert* vert)
     return true;
 }
 
-bool deleteEdge(Edge* edge)
+bool deleteEdge(EdgeNew* edge)
 {
     return true;
 }
 
-bool deleteFace(Face* face)
+bool deleteFace(FaceNew* face)
 {
     return true;
 }

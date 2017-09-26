@@ -40,7 +40,17 @@ SOURCES += main.cpp\
     utils.cpp \
     nomeparser.cpp \
     nomeglwidget.cpp \
-    bspline.cpp
+    bspline.cpp \
+    Lewis/Data.cpp \
+    Lewis/IO.cpp \
+    Lewis/Reader.cpp \
+    Lewis/Session.cpp \
+    lexer.cpp \
+    parser.cpp \
+    testpolyline.cpp \
+    Lewis/GroupNew.cpp \
+    Lewis/InstanceNew.cpp \
+    Lewis/MeshNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -70,7 +80,16 @@ HEADERS  += \
     nomeglwidget.h \
     bspline.h \
     lexer.l \
-    parser.y
+    parser.y \
+    Lewis/Data.h \
+    Lewis/IO.h \
+    Lewis/Reader.h \
+    Lewis/Session.h \
+    parser.hpp \
+    testpolyline.h \
+    Lewis/GroupNew.h \
+    Lewis/InstanceNew.h \
+    Lewis/MeshNew.h
 
 linux{
     LIBS += -lglut -lGLU

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <list>
+#include <Lewis/Data.h>
 
 extern int yylineno;
 extern char* yytext;

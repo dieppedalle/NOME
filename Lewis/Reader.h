@@ -13,7 +13,7 @@
 #include <iostream>
 #include <vector>
 #include "Data.h"
-#include "Mesh.h"
+#include "MeshNew.h"
 
 ///Reader class for accessing data of a surface using only the indices of its elements
 ///For efficient calculation and iterative approaches for mesh operations
@@ -24,6 +24,7 @@ typedef class Reader
 {
 private:
     Mesh* mesh;
+    MeshNew* mesh;
     int accesses;
     
 public:
@@ -37,7 +38,7 @@ public:
     
     ///Edge functions
     bool isBorder(EdgeI index);
-    Edge* edge(EdgeI index);
+    EdgeNew* edge(EdgeI index);
     vector<FaceI> edgeFaces(EdgeI index);
     vector<VertI> edgeVerts(EdgeI index);
     bool isBorder(std::string name);

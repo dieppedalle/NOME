@@ -6,14 +6,14 @@
 //  Copyright © 2017 L. All rights reserved.
 //
 
-#include "Instance.h"
+#include "InstanceNew.h"
 
-Instance* createInstance(Mesh* m0)
+InstanceNew* createInstance(MeshNew* m0)
 {
     return NULL;
 }
 
-Instance* createInstance(Instance* i0)
+InstanceNew* createInstance(InstanceNew* i0)
 {
     return NULL;
 }
