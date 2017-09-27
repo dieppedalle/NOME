@@ -137,6 +137,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges){
     EdgeNew * currentEdge;
     std::list<Vert*>::iterator it = vertices.begin();
     std::list<Vert*>::iterator it2 = vertices.begin();
+    std::list<EdgeNew*> currentEdges;
     ++it2;
     while (it != vertices.end()){
         if (it2 != vertices.end()){
@@ -147,8 +148,9 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges){
         }
         it++;
         edges.push_back(currentEdge);
+        currentEdges.push_back(currentEdge);
     }
-    FaceNew* newFace = createFace(edges);
+    FaceNew* newFace = createFace(currentEdges);
     return newFace;
 }
 

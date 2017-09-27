@@ -86,7 +86,7 @@ MeshNew* createMesh()
 {
     MeshNew* m0;
     std::list<Vert*> verts; std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
-    m0->verts = verts; m0->edges = edges; m0->faces = faces;
+    //m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
     return m0;
 }

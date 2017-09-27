@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "Data.h"
+#include "MeshNew.h"
 
 typedef struct Session
 {
@@ -21,6 +22,7 @@ public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
+    std::list<MeshNew*> meshes;
     std::list<Surface*> surfaces;
 } Session;
 

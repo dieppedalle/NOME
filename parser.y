@@ -31,6 +31,9 @@ std::vector<double> currentSetList;
 map<string,std::vector<double>> currentBank;
 std::vector<string> currentInstanceList;
 std::vector<std::vector<string>> currentGroup;
+std::list<FaceNew *> currentMeshFaces;
+std::list<Vert *> currentMeshVertices;
+std::list<EdgeNew *> currentMeshEdges;
 
 %}
 %token COLOR VARIABLE MULTI_LINE_COMMENT COMMENT NEWLINE OMULTI_LINE_COMMENT
@@ -152,7 +155,7 @@ mirrorArgs:
     ;
 
 faceArgs:
-	| faceArgs face
+    | faceArgs faceMesh
 	;
 
 instanceArgs:
@@ -176,6 +179,13 @@ faceDeleteArgs:
 mesh:
 	MESH VARIABLE faceArgs END_MESH
     {
+        MeshNew* newddfMesh = createMesh();
+        //cout << currentMeshFaces.size() << endl;
+        currSession->faces.splice(currSession->faces.end(), currentMeshFaces);
+        currSession->verts.splice(currSession->verts.end(), currentMeshVertices);
+        currSession->edges.splice(currSession->edges.end(), currentMeshEdges);
+
+        //currentMeshFaces.clear();
 		printf("Created a mesh\n");
 	}
 	;
@@ -222,6 +232,49 @@ setArgs:
     }
 	;
 
+faceMesh:
+    FACE VARIABLE parenthesisName surfaceArgs END_FACE
+    {
+        std::list<Vert*> verticesFace;
+
+
+        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+            Vert * currentVertex = currReader->vert(*it);
+            if (currentVertex != NULL) {
+                verticesFace.push_back(currentVertex);
+                currentMeshVertices.push_back(currentVertex);
+            }
+            else{
+                yyerror("Incorrect vertex name");
+                YYABORT;
+            }
+        }
+
+        FaceNew * newFace = createFace(verticesFace, currentMeshEdges);
+
+        string surfaceName = $<string>4;
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf($<string>4);
+            if (currentSurface != NULL) {
+                setSurface(newFace, currentSurface);
+            }
+            else{
+                yyerror("Incorrect surface name");
+                YYABORT;
+            }
+        }
+
+        //https://stackoverflow.com/questions/1449703/how-to-append-a-listt-object-to-another
+        currentMeshFaces.push_back(newFace);
+        //currSession->faces.push_back(newFace);
+        //currSession->faces.push_back(currentMeshEdges);
+
+        tempVariables.clear();
+
+        printf("Created a face\n");
+    }
+    ;
 
 bank:
 	BANK VARIABLE setArgs END_BANK
