@@ -74,6 +74,7 @@ public:
     std::list<Vert*> verts;
     std::string name;
     FaceI index;
+    Surface* surface;
 } FaceNew;
 
 ///Vert Instantiation
@@ -94,9 +95,12 @@ FaceNew* createFace(FaceNew*);
 FaceNew* createFace(std::list<EdgeNew*> edges);
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges);
 
-bool setName(Vert*);
-bool setName(EdgeNew*);
-bool setName(FaceNew*);
+
+bool setName(Vert* v0, std::string name);
+bool setName(EdgeNew* e0, std::string name);
+bool setName(FaceNew* f0, std::string name);
+
+bool setSurface(FaceNew* f0, Surface* surface);
 
 ///Deletion helper functions, unlink from other data structures
 bool deleteVert(Vert* vert);

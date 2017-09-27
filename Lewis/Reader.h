@@ -14,6 +14,7 @@
 #include <vector>
 #include "Data.h"
 #include "MeshNew.h"
+#include "Session.h"
 
 ///Reader class for accessing data of a surface using only the indices of its elements
 ///For efficient calculation and iterative approaches for mesh operations
@@ -23,10 +24,11 @@ using namespace std;
 typedef class Reader
 {
 private:
-    MeshNew* mesh;
     int accesses;
     
 public:
+    Session* session;
+
     ///Vert functions
     Vert* vert(VertI index);
     vector<EdgeI> vertEdges(VertI index);
@@ -34,7 +36,10 @@ public:
     Vert* vert(std::string name);
     vector<EdgeI> vertEdges(std::string name);
     vector<FaceI> vertFaces(std::string name);
-    
+
+    ///Surface Functions
+    Surface* surf(std::string name);
+
     ///Edge functions
     bool isBorder(EdgeI index);
     EdgeNew* edge(EdgeI index);
@@ -56,7 +61,7 @@ public:
 
 ///Instantiation
 Reader* createReader();
-Reader* createReader(MeshNew*);
+Reader* createReader(Session*);
 Reader* createReader(Reader*);
 
 

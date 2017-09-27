@@ -18,10 +18,10 @@ private:
     int accesses;
 
 public:
-    std::vector<Vert*> verts;
-    std::vector<EdgeNew*> edges;
-    std::vector<FaceNew*> faces;
-    std::vector<Surface*> surfaces;
+    std::list<Vert*> verts;
+    std::list<EdgeNew*> edges;
+    std::list<FaceNew*> faces;
+    std::list<Surface*> surfaces;
 } Session;
 
 Session* createSession();

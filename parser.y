@@ -5,6 +5,7 @@
 #include <Lewis/Data.h>
 #include <Lewis/MeshNew.h>
 #include <Lewis/Session.h>
+#include <Lewis/Reader.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -20,6 +21,7 @@ int yywrap() {
 }
 
 Session* currSession = createSession();
+Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
 map<string,Vertex*> vertices;
@@ -29,15 +31,6 @@ std::vector<double> currentSetList;
 map<string,std::vector<double>> currentBank;
 std::vector<string> currentInstanceList;
 std::vector<std::vector<string>> currentGroup;
-
-
-/*main() {
-
-    yyin = fopen("test.txt", "r");
-
-    yyparse();
-    //fclose(fd);
-}*/
 
 %}
 %token COLOR VARIABLE MULTI_LINE_COMMENT COMMENT NEWLINE OMULTI_LINE_COMMENT
@@ -281,21 +274,17 @@ funnel:
 parenthesisName:
 	OPARENTHESES variables EPARENTHESES
     {
-        printf("Created a parenthesis\n");
 	}
 	;
 
 face:
 	FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
-        /*createFace(verticesFace);
-
-        std::list<Vertex*> verticesFace;
+        std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            std::map<string,Vertex*>::iterator st = vertices.find(*it);
-
-            if (st != vertices.end()){
-                verticesFace.push_back(st->second);
+            Vert * currentVertex = currReader->vert(*it);
+            if (currentVertex != NULL) {
+                verticesFace.push_back(currentVertex);
             }
             else{
                 yyerror("Incorrect vertex name");
@@ -303,23 +292,22 @@ face:
             }
         }
 
-        // Check if a surface has been applied.
-        if ($<string>4 != NULL){
-            std::map<string,QColor>::iterator qt = surfaces.find($<string>4);
-            QColor surfaceApplied;
+        FaceNew * newFace = createFace(verticesFace, currSession->edges);
 
-            if (qt != surfaces.end()){
-                 surfaceApplied = qt->second;
+        string surfaceName = $<string>4;
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf($<string>4);
+            if (currentSurface != NULL) {
+                setSurface(newFace, currentSurface);
             }
             else{
                 yyerror("Incorrect surface name");
                 YYABORT;
             }
         }
-        else{
-            // Create without surface
 
-        }*/
+        currSession->faces.push_back(newFace);
 
         tempVariables.clear();
 
@@ -399,13 +387,7 @@ object:
 surface:
     SURFACE VARIABLE COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
     {
-        string name = strdup($<string>2);
-
-        if ($<number>5 < 0 || $<number>5 > 1 || $<number>6 < 0 || $<number>6 > 1 || $<number>7 < 0 || $<number>7 > 1) {
-            yyerror("RGB values of surface out of bounds.");
-            YYABORT;
-        }
-        surfaces[name] = QColor(255 * $<number>5, 255 * $<number>6, 255 * $<number>7);
+        currSession->surfaces.push_back(createSurface($<number>5, $<number>6, $<number>7, strdup($<string>2)));
 	}
 	;
 
@@ -420,7 +402,7 @@ point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
 	{
         Vert * newVertex = createVert ($<number>4, $<number>5, $<number>6);
-        newVertex->name = strdup($<string>2);
+        setName(newVertex, strdup($<string>2));
         currSession->verts.push_back(newVertex);
 	}
 	;

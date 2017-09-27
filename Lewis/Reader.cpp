@@ -15,12 +15,19 @@
 
 using namespace std;
 
+Reader* createReader(Session* currSession){
+    Reader* reader0 = new Reader();
+    reader0->session = currSession;
+    return reader0;
+}
+
 ///Vertex Reader functions, reader will take in the index of a vertex from which to return information
+
 
 ///Get pointer to desired vertex
 Vert* Reader::vert(VertI index)
 {
-    for(Vert* v : mesh->verts)
+    for(Vert* v : session->verts)
     {
         if(v->index == index)
             return v;
@@ -62,10 +69,20 @@ vector<FaceI> Reader::vertFaces(VertI index)
 ///Get pointer to desired vertex
 Vert* Reader::vert(std::string name)
 {
-    for(Vert* v : mesh->verts)
+    for(Vert* v : session->verts)
     {
         if(!name.compare(v->name))
             return v;
+    }
+    return NULL;
+}
+
+Surface* Reader::surf(std::string name)
+{
+    for(Surface* s : session->surfaces)
+    {
+        if(!name.compare(s->name))
+            return s;
     }
     return NULL;
 }

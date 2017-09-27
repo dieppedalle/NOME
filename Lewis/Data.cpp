@@ -59,6 +59,26 @@ Vert* createVert(double x, double y, double z, double w)
     return v0;
 }
 
+bool setSurface(FaceNew* f0, Surface* surface){
+    f0->surface = surface;
+    return true;
+}
+
+bool setName(Vert* v0, std::string name){
+    v0->name = name;
+    return true;
+}
+
+bool setName(EdgeNew* e0, std::string name){
+    e0->name = name;
+    return true;
+}
+
+bool setName(FaceNew* f0, std::string name){
+    f0->name = name;
+    return true;
+}
+
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links
 EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
@@ -114,22 +134,18 @@ FaceNew* createFace()
 }
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> edges){
-    for( int i = 0; i < vertices.size(); i++)
-    {
-        EdgeNew * currentEdge;
-        std::list<Vert*>::iterator it = vertices.begin();
-        std::list<Vert*>::iterator it2 = vertices.begin();
-        ++it2;
-        while (it != vertices.end()){
-            if (it2 != vertices.end()){
-                currentEdge = createEdge(*it, *it2);
-            }
-            else{
-                currentEdge = createEdge(vertices.back(), vertices.front());
-            }
-            it++;
-
+    EdgeNew * currentEdge;
+    std::list<Vert*>::iterator it = vertices.begin();
+    std::list<Vert*>::iterator it2 = vertices.begin();
+    ++it2;
+    while (it != vertices.end()){
+        if (it2 != vertices.end()){
+            currentEdge = createEdge(*it, *it2);
         }
+        else{
+            currentEdge = createEdge(vertices.back(), vertices.front());
+        }
+        it++;
         edges.push_back(currentEdge);
     }
     FaceNew* newFace = createFace(edges);
@@ -176,6 +192,7 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
             return NULL;
         }
     }
+
     //Check if edges given are adjacent
     if( vIndex.size() != edges.size() )
     {
