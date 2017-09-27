@@ -179,13 +179,12 @@ faceDeleteArgs:
 mesh:
 	MESH VARIABLE faceArgs END_MESH
     {
-        MeshNew* newddfMesh = createMesh();
-        //cout << currentMeshFaces.size() << endl;
-        currSession->faces.splice(currSession->faces.end(), currentMeshFaces);
-        currSession->verts.splice(currSession->verts.end(), currentMeshVertices);
-        currSession->edges.splice(currSession->edges.end(), currentMeshEdges);
+        MeshNew* currMesh = createMesh();
 
-        //currentMeshFaces.clear();
+        currMesh->faces.splice((currMesh->faces.end()), currentMeshFaces);
+        currMesh->verts.splice(currMesh->verts.end(), currentMeshVertices);
+        currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
+
 		printf("Created a mesh\n");
 	}
 	;

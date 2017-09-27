@@ -84,8 +84,8 @@ bool MeshNew::setName(std::string name)
 ///Instance functions
 MeshNew* createMesh()
 {
-    MeshNew* m0;
-    std::list<Vert*> verts; std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
+    MeshNew* m0 = new MeshNew();
+    //std::list<Vert*> verts; std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
     //m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
     return m0;
