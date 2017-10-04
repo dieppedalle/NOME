@@ -186,9 +186,6 @@ mesh:
         currMesh->verts.splice(currMesh->verts.end(), currentMeshVertices);
         currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
 
-        //cout << (currMesh->faces).size() << endl;
-        //cout << (currMesh->verts).size() << endl;
-        //cout << (currMesh->edges).size() << endl;
 		printf("Created a mesh\n");
 	}
 	;
@@ -253,9 +250,8 @@ faceMesh:
             }
         }
 
-        FaceNew * newFace = createFace(verticesFace, currentMeshEdges);
-        cout << "TEST" << endl;
-        cout << currentMeshEdges.size() << endl;
+        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
+
         setName(newFace, strdup($<string>2));
 
         string surfaceName = $<string>4;
@@ -351,7 +347,7 @@ face:
             }
         }
 
-        FaceNew * newFace = createFace(verticesFace, currSession->edges);
+        FaceNew * newFace = createFace(verticesFace, &(currSession->edges));
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
