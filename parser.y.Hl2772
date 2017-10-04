@@ -254,8 +254,7 @@ faceMesh:
         }
 
         FaceNew * newFace = createFace(verticesFace, currentMeshEdges);
-        cout << "TEST" << endl;
-        cout << currentMeshEdges.size() << endl;
+        //cout << currentMeshEdges.size() << endl;
         setName(newFace, strdup($<string>2));
 
         string surfaceName = $<string>4;
