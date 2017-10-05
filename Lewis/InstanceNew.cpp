@@ -5,7 +5,8 @@
 //  Created by L on 21/09/2017.
 //  Copyright © 2017 L. All rights reserved.
 //
-
+#include <stdio.h>
+#include <string.h>
 #include "InstanceNew.h"
 
 InstanceNew* createInstance(InstanceNew* i0)
@@ -15,7 +16,10 @@ InstanceNew* createInstance(InstanceNew* i0)
 
 bool InstanceNew::setName(std::string n)
 {
-    //name = strdup(n);
+    std::cout << "HELLO" << std::endl;
+    //std::cout << name << std::endl;
+    std::cout << "BYE" << std::endl;
+    //name = n;
     //updateNames();
     return true;
 }

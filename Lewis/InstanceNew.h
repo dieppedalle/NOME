@@ -15,8 +15,8 @@
 class InstanceNew
 {
 
-    std::string prefix;
-    std::string name;
+    std::string prefix = "";
+    std::string name = "asd";
 
 public:
     std::list<Vert*> verts;

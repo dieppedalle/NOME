@@ -30,7 +30,7 @@ string currentSetName;
 std::vector<double> currentSetList;
 map<string,std::vector<double>> currentBank;
 std::vector<string> currentInstanceList;
-std::vector<std::vector<string>> currentGroup;
+std::vector<InstanceNew *> currentGroup;
 std::list<FaceNew *> currentMeshFaces;
 std::list<Vert *> currentMeshVertices;
 std::list<EdgeNew *> currentMeshEdges;
@@ -165,10 +165,24 @@ instanceArgs:
 instanceGroup:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
-        currentInstanceList.clear();
-        currentInstanceList.push_back($<string>2);
-        currentInstanceList.push_back($<string>3);
-        currentGroup.push_back(currentInstanceList);
+        string instanceName = strdup($<string>2);
+        string lookFor = strdup($<string>3);
+
+        MeshNew * currentMesh = currReader->mesh($<string>3);
+        InstanceNew* newInstance;
+        if (currentMesh != NULL) {
+            newInstance = createInstance(currentMesh);
+            newInstance->setName(strdup($<string>2));
+        }
+        else{
+            yyerror("Incorrect vertex, face, or mesh name");
+            YYABORT;
+        }
+
+        //TODO: ADD TO INSTANCE LIST
+        printf("Created an instance group\n");
+
+        currentGroup.push_back(newInstance);
     }
     ;
 
@@ -195,8 +209,8 @@ mesh:
 group:
 	GROUP VARIABLE instanceArgs END_GROUP
     {
-        cout << "Length of the group" << endl;
-        cout << currentGroup.size() << endl;
+        //cout << "Length of the group" << endl;
+        //cout << currentGroup.size() << endl;
         currentGroup.clear();
 		printf("Created a group\n");
 	}
@@ -269,10 +283,7 @@ faceMesh:
             }
         }
 
-        //https://stackoverflow.com/questions/1449703/how-to-append-a-listt-object-to-another
         currentMeshFaces.push_back(newFace);
-        //currSession->faces.push_back(newFace);
-        //currSession->faces.push_back(currentMeshEdges);
 
         tempVariables.clear();
 
