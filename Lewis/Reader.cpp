@@ -128,8 +128,17 @@ vector<VertI> edgeVerts(std::string name);
 
 ///Face functions
 FaceNew* face(FaceI index);
+
 vector<EdgeI> faceEdges(FaceI index);
 vector<VertI> faceVerts(FaceI index);
-FaceNew* face(std::string name);
+FaceNew* Reader::face(std::string name){
+    for(FaceNew* f : session->faces)
+    {
+        if(!name.compare(f->name))
+            return f;
+    }
+    return NULL;
+}
+
 vector<EdgeI> faceEdges(std::string name);
 vector<VertI> faceVerts(std::string name);

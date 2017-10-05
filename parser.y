@@ -252,7 +252,7 @@ faceMesh:
 
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
 
-        newFace.setName(strdup($<string>2));
+        newFace->setName(strdup($<string>2));
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -349,6 +349,8 @@ face:
 
         FaceNew * newFace = createFace(verticesFace, &(currSession->edges));
 
+        setName(newFace, strdup($<string>2));
+
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
@@ -427,14 +429,22 @@ instance:
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
 	{
-        std::vector<Vertex*> verticesFace;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            std::map<string,Vertex*>::iterator st = vertices.find(*it);
-
-            verticesFace.push_back(st->second);
-        }
+       std::vector<FaceNew*> facesObject;
+       for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+           FaceNew * currentFace = currReader->face(*it);
+           if (currentFace != NULL) {
+               facesObject.push_back(currentFace);
+           }
+           else{
+               yyerror("Incorrect face name");
+               YYABORT;
+           }
+       }
 
         tempVariables.clear();
+
+        //TODO: Create object
+
 		printf("Created an object\n");
 	}
 	;
@@ -457,7 +467,7 @@ point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
 	{
         Vert * newVertex = createVert ($<number>4, $<number>5, $<number>6);
-        newVertex.setName(strdup($<string>2));
+        newVertex->setName(strdup($<string>2));
         currSession->verts.push_back(newVertex);
 	}
 	;
