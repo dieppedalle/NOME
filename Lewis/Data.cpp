@@ -281,25 +281,49 @@ bool deleteVert(Vert* vert)
         return false;
     for(EdgeNew* e : vert->edges)
     {
-
+        deleteEdge(e);
     }
     for(FaceNew* f : vert->faces)
     {
-
+        deleteFace(f);
     }
-    return true;
+
+    return vert->edges.empty() && vert->faces.empty();
 }
 
 ///When an edge is deleted, the two end verts are deleted as are the two adjacent faces
 bool deleteEdge(EdgeNew* edge)
 {
-    return true;
+    if(!edge)
+        return false;
+    if(edge->vertCount == 2)
+    { deleteVert(edge->v0); deleteVert(edge->v1); edge->vertCount = 0; }
+    else if (edge->vertCount == 1)
+    { deleteVert(edge->v0); edge->vertCount = 0; }
+    if(edge->faceCount == 2)
+    { deleteFace(edge->f0); deleteFace(edge->f1); edge->faceCount = 0; }
+    else if (edge->faceCount == 1)
+    { deleteFace(edge->f0); edge->faceCount = 0; }
+    return edge->vertCount == 0 && edge->faceCount == 0;
 }
 
 ///When a face is deleted, the neighbouring edges and vertices are not
 bool deleteFace(FaceNew* face)
 {
-    return true;
+    if(!face)
+        return false;
+    for(Vert* v0 : face->verts)
+    {
+        v0->faces.remove(face);
+    }
+    for(EdgeNew* e0 : face->edges)
+    {
+        if(e0->f0 == face)
+        { e0->f0 = e0->f1; e0->faceCount = 1; }
+        else if(e0->f1 == face)
+        { e0->faceCount = 1; }
+    }
+    return face->edges.empty() && face->verts.empty();
 }
 
 
