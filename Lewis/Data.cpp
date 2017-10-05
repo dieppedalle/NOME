@@ -287,7 +287,7 @@ bool deleteVert(Vert* vert)
     {
         deleteFace(f);
     }
-
+    vert->edges.clear(); vert->faces.clear();
     return vert->edges.empty() && vert->faces.empty();
 }
 
@@ -323,6 +323,7 @@ bool deleteFace(FaceNew* face)
         else if(e0->f1 == face)
         { e0->faceCount = 1; }
     }
+    face->edges.clear(); face->verts.clear();
     return face->edges.empty() && face->verts.empty();
 }
 
