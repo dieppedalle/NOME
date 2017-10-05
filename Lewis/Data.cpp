@@ -18,6 +18,7 @@ static std::mutex vertLock;
 static std::mutex edgeLock;
 static std::mutex faceLock;
 
+///Surfaces
 Surface* createSurface(double r, double g, double b, std::string name)
 {
     Surface * surface0 = new Surface();
@@ -26,6 +27,9 @@ Surface* createSurface(double r, double g, double b, std::string name)
     return surface0;
 }
 
+
+
+///Vertex functions
 ///Create a default vert, will be at the origin with weight of 1.0
 Vert* createVert()
 {
@@ -59,26 +63,34 @@ Vert* createVert(double x, double y, double z, double w)
     return v0;
 }
 
-bool setSurface(FaceNew* f0, Surface* surface){
-    f0->surface = surface;
+
+bool Vert::setName(std::string n)
+{
+    name = n;
     return true;
 }
 
-bool setName(Vert* v0, std::string name){
-    v0->name = name;
+bool Vert::setPrefix(std::string n)
+{
+    prefix = name;
     return true;
 }
 
-bool setName(EdgeNew* e0, std::string name){
-    e0->name = name;
-    return true;
+std::string Vert::getFullName()
+{
+    return prefix + name;
 }
 
-bool setName(FaceNew* f0, std::string name){
-    f0->name = name;
-    return true;
+bool setName(Vert* v0, std::string n)
+{
+    return v0->setName(n);
 }
 
+
+
+
+
+///Edge functions
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links
 EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
@@ -116,6 +128,31 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
     return createEdge(v0, v1, interval);
 }
 
+bool EdgeNew::setName(std::string n)
+{
+    name = n;
+    return true;
+}
+
+bool EdgeNew::setPrefix(std::string name)
+{
+    prefix = name;
+    return true;
+}
+
+std::string EdgeNew::getFullName()
+{
+    return prefix + name;
+}
+
+bool setName(EdgeNew* e0, std::string n)
+{
+    return e0->setName(n);
+}
+
+
+
+///Face functions
 ///Create face helper function
 FaceNew* createFace()
 {
@@ -207,17 +244,59 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
     return f0;
 }
 
-///I need to bring this up: what is the desired behaviour when deleting a vert???
-bool deleteVert(Vert* vert)
-{
+bool setSurface(FaceNew* f0, Surface* surface){
+    f0->surface = surface;
     return true;
 }
 
+bool FaceNew::setName(std::string n)
+{
+    name = n;
+    return true;
+}
+
+std::string FaceNew::getFullName()
+{
+    return prefix + name;
+}
+
+bool FaceNew::setPrefix(std::string n)
+{
+    prefix = n;
+    return true;
+}
+
+bool setName(FaceNew* f0, std::string n)
+{
+    return f0->setName(n);
+}
+
+
+
+///Deletion functions
+///When a vertex is deleted, the adjacent edges and faces are also deleted
+bool deleteVert(Vert* vert)
+{
+    if (!vert)
+        return false;
+    for(EdgeNew* e : vert->edges)
+    {
+
+    }
+    for(FaceNew* f : vert->faces)
+    {
+
+    }
+    return true;
+}
+
+///When an edge is deleted, the two end verts are deleted as are the two adjacent faces
 bool deleteEdge(EdgeNew* edge)
 {
     return true;
 }
 
+///When a face is deleted, the neighbouring edges and vertices are not
 bool deleteFace(FaceNew* face)
 {
     return true;

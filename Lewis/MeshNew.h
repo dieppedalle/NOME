@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "Data.h"
+#include "InstanceNew.h"
 
 typedef int MeshI;
 
@@ -20,12 +21,15 @@ typedef class MeshNew
     bool isManifold;
     bool hasHoles;
     MeshI index;
+    std::string prefix;
     std::string name;
 
 public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
+
+    std::list<InstanceNew*> instances;
 
     bool hasVert(Vert*);
     bool hasEdge(EdgeNew*);
@@ -38,12 +42,21 @@ public:
     bool deleteVert(Vert*);
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);
-    bool setName(std::string name);
+
+    //Naming functions
+    bool setName(std::string n);
+    bool setPrefix(std::string name);
+    std::string getFullName();
+    std::string getName();
+    bool updateNames();
 
 } MeshNew;
 
 ///Instance functions
 MeshNew* createMesh();
 MeshNew* createMesh(MeshNew*);
+
+///Create new instance of the mesh
+InstanceNew* createInstance(MeshNew* m0);
 
 #endif /* Mesh_h */

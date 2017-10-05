@@ -15,6 +15,15 @@
 class GroupNew
 {
     std::vector<MeshNew*> meshes;
+    std::string prefix;
+    std::string name;
+
+public:
+    bool setName(std::string n);
+    bool setPrefix(std::string name);
+    std::string getName();
+    std::string getFullName();
+    bool updateNames();
 };
 
 GroupNew* createGroup(std::vector<MeshNew*>);

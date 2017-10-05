@@ -18,3 +18,29 @@ GroupNew* createGroup(GroupNew*)
 {
     return NULL;
 }
+
+bool GroupNew::setPrefix(std::string name)
+{
+    prefix = name;
+    return true;
+}
+
+bool GroupNew::setName(std::string n)
+{
+    name = n;
+    return true;
+}
+
+std::string GroupNew::getFullName()
+{
+    return prefix + name;
+}
+
+bool GroupNew::updateNames()
+{
+    for (MeshNew* m0 : meshes)
+    {
+        m0->setPrefix(getFullName());
+        m0->updateNames();
+    }
+}

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "Data.h"
 #include "MeshNew.h"
+#include "GroupNew.h"
 
 typedef struct Session
 {
@@ -24,8 +25,17 @@ public:
     std::list<FaceNew*> faces;
     std::list<MeshNew*> meshes;
     std::list<Surface*> surfaces;
+    std::list<GroupNew*> groups;
+    std::string name;
+
+    //Naming functions
+    bool setName(std::string n);
+    std::string getName();
+    bool updateNames();
+
 } Session;
 
+//Instantiation
 Session* createSession();
 Session* createSession(Session*);
 

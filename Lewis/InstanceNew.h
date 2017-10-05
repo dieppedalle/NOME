@@ -10,17 +10,25 @@
 #define InstanceNew_h
 
 #include <stdio.h>
-#include "MeshNew.h"
+#include "Data.h"
 
 class InstanceNew
 {
-    MeshNew* parent;
-    std::vector<Vert*> vertices;
+    std::vector<Vert*> verts;
     std::vector<EdgeNew*> edges;
     std::vector<FaceNew*> faces;
+    std::string prefix;
+    std::string name;
+
+public:
+    bool setName(std::string n);
+    bool setPrefix(std::string name);
+    std::string getName();
+    std::string getFullName();
+    bool updateNames();
 };
 
-InstanceNew* createInstance(MeshNew* m0);
 InstanceNew* createInstance(InstanceNew* i0);
+
 
 #endif /* Instance_h */

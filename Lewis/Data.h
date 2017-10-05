@@ -47,9 +47,16 @@ public:
     double x, y, z;
     double weight;
     VertI index;
+    std::string prefix;
     std::string name;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
+
+    //Naming function
+    bool setName(std::string n);
+    bool setPrefix(std::string name);
+    std::string getName();
+    std::string getFullName();
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links
@@ -63,8 +70,16 @@ public:
     int vertCount;
     FaceNew* f0; FaceNew* f1;
     EdgeI index;
+    std::string prefix;
     std::string name;
+
+    //Naming functions
+    bool setName(std::string n);
+    bool setPrefix(std::string name);
+    std::string getName();
+    std::string getFullName();
 } EdgeNew;
+
 
 ///Face - normal face construct in 3d space, must consist of at least 3 edges that form a cycle
 typedef class FaceNew
@@ -72,9 +87,16 @@ typedef class FaceNew
 public:
     std::list<EdgeNew*> edges;
     std::list<Vert*> verts;
+    std::string prefix;
     std::string name;
     FaceI index;
     Surface* surface;
+
+    //Naming functions
+    bool setName(std::string n);
+    bool setPrefix(std::string name);
+    std::string getName();
+    std::string getFullName();
 } FaceNew;
 
 ///Vert Instantiation
@@ -95,10 +117,10 @@ FaceNew* createFace(FaceNew*);
 FaceNew* createFace(std::list<EdgeNew*> edges);
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*>* edges);
 
-
-bool setName(Vert* v0, std::string name);
-bool setName(EdgeNew* e0, std::string name);
-bool setName(FaceNew* f0, std::string name);
+///Naming functions
+bool setName(Vert* v0, std::string n);
+bool setName(EdgeNew* e0, std::string n);
+bool setName(FaceNew* f0, std::string n);
 
 bool setSurface(FaceNew* f0, Surface* surface);
 

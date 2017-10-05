@@ -75,11 +75,46 @@ bool MeshNew::deleteFace(FaceNew* f0)
     return true;
 }
 
-bool MeshNew::setName(std::string name)
+bool MeshNew::setName(std::string n)
 {
-    this->name = name;
+    name = n;
+    updateNames();
     return true;
 }
+
+bool MeshNew::setPrefix(std::string name)
+{
+    prefix = name;
+    return true;
+}
+
+std::string MeshNew::getFullName()
+{
+    return prefix + name;
+}
+
+bool MeshNew::updateNames()
+{
+    for(Vert* v0 : verts)
+    {
+        v0->setPrefix(getFullName());
+    }
+    for(EdgeNew* e0 : edges)
+    {
+        e0->setPrefix(getFullName());
+    }
+    for(FaceNew* f0 : faces)
+    {
+        f0->setPrefix(getFullName());
+    }
+    for(InstanceNew* i0 : instances)
+    {
+        i0->setPrefix(getFullName());
+        i0->updateNames();
+    }
+    return true;
+}
+
 
 ///Instance functions
 MeshNew* createMesh()
@@ -89,4 +124,10 @@ MeshNew* createMesh()
     //m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
     return m0;
+}
+
+
+InstanceNew* createInstance(MeshNew* m0)
+{
+    return NULL;
 }

@@ -8,12 +8,42 @@
 
 #include "InstanceNew.h"
 
-InstanceNew* createInstance(MeshNew* m0)
+InstanceNew* createInstance(InstanceNew* i0)
 {
     return NULL;
 }
 
-InstanceNew* createInstance(InstanceNew* i0)
+bool InstanceNew::setName(std::string n)
 {
-    return NULL;
+    name = n;
+    updateNames();
+    return true;
+}
+
+bool InstanceNew::setPrefix(std::string name)
+{
+    prefix = name;
+    return true;
+}
+
+std::string InstanceNew::getFullName()
+{
+    return prefix + name;
+}
+
+bool InstanceNew::updateNames()
+{
+    for(Vert* v0 : verts)
+    {
+        v0->setPrefix(getFullName());
+    }
+    for(EdgeNew* e0 : edges)
+    {
+        e0->setPrefix(getFullName());
+    }
+    for(FaceNew* f0 : faces)
+    {
+        f0->setPrefix(getFullName());
+    }
+    return true;
 }
