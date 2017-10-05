@@ -252,7 +252,7 @@ faceMesh:
 
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
 
-        setName(newFace, strdup($<string>2));
+        newFace.setName(strdup($<string>2));
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -457,7 +457,7 @@ point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
 	{
         Vert * newVertex = createVert ($<number>4, $<number>5, $<number>6);
-        setName(newVertex, strdup($<string>2));
+        newVertex.setName(strdup($<string>2));
         currSession->verts.push_back(newVertex);
 	}
 	;
