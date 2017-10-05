@@ -115,6 +115,9 @@ bool MeshNew::updateNames()
     return true;
 }
 
+std::string MeshNew::getName(){
+    return name;
+}
 
 ///Instance functions
 MeshNew* createMesh()

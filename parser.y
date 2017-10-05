@@ -186,6 +186,8 @@ mesh:
         currMesh->verts.splice(currMesh->verts.end(), currentMeshVertices);
         currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
 
+        currSession->meshes.push_back(currMesh);
+
 		printf("Created a mesh\n");
 	}
 	;
@@ -405,23 +407,21 @@ polyline:
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
 	{
-        string instanceName = $<string>2;
-        string lookFor = $<string>3;
+        string instanceName = strdup($<string>2);
+        string lookFor = strdup($<string>3);
 
-        // Check if a surface has been applied.
-        if (strlen($<string>4) != 0){
-            std::map<string,QColor>::iterator qt = surfaces.find($<string>4);
-            QColor surfaceApplied;
+        MeshNew * currentMesh = currReader->mesh($<string>3);
 
-            if (qt != surfaces.end()){
-                 surfaceApplied = qt->second;
-            }
-            else{
-                yyerror("Incorrect surface name");
-                YYABORT;
-            }
+        if (currentMesh != NULL) {
+            InstanceNew* newInstance = createInstance(currentMesh);
+            newInstance->setName(strdup($<string>2));
+        }
+        else{
+            yyerror("Incorrect vertex, face, or mesh name");
+            YYABORT;
         }
 
+        //TODO: ADD TO INSTANCE LIST
 		printf("Created an instance\n");
 	}
 	;

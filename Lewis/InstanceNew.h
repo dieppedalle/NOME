@@ -14,13 +14,14 @@
 
 class InstanceNew
 {
-    std::vector<Vert*> verts;
-    std::vector<EdgeNew*> edges;
-    std::vector<FaceNew*> faces;
+
     std::string prefix;
     std::string name;
 
 public:
+    std::list<Vert*> verts;
+    std::list<EdgeNew*> edges;
+    std::list<FaceNew*> faces;
     bool setName(std::string n);
     bool setPrefix(std::string name);
     std::string getName();

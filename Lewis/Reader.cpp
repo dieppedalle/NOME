@@ -140,5 +140,14 @@ FaceNew* Reader::face(std::string name){
     return NULL;
 }
 
+MeshNew* Reader::mesh(std::string name){
+    for(MeshNew* m : session->meshes)
+    {
+        if(!name.compare(m->getName()))
+            return m;
+    }
+    return NULL;
+}
+
 vector<EdgeI> faceEdges(std::string name);
 vector<VertI> faceVerts(std::string name);

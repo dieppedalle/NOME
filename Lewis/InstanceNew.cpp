@@ -15,8 +15,8 @@ InstanceNew* createInstance(InstanceNew* i0)
 
 bool InstanceNew::setName(std::string n)
 {
-    name = n;
-    updateNames();
+    //name = strdup(n);
+    //updateNames();
     return true;
 }
 

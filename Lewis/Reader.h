@@ -57,6 +57,8 @@ public:
     FaceNew* face(std::string name);
     vector<EdgeI> faceEdges(std::string name);
     vector<VertI> faceVerts(std::string name);
+
+    MeshNew* mesh(std::string name);
 } Reader;
 
 ///Instantiation
