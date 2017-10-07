@@ -30,7 +30,7 @@ string currentSetName;
 std::vector<double> currentSetList;
 map<string,std::vector<double>> currentBank;
 std::vector<string> currentInstanceList;
-std::vector<InstanceNew *> currentGroup;
+std::list<InstanceNew *> currentGroup;
 std::list<FaceNew *> currentMeshFaces;
 std::list<Vert *> currentMeshVertices;
 std::list<EdgeNew *> currentMeshEdges;
@@ -179,6 +179,7 @@ instanceGroup:
             YYABORT;
         }
 
+
         //TODO: ADD TO INSTANCE LIST
         printf("Created an instance group\n");
 
@@ -209,6 +210,14 @@ mesh:
 group:
 	GROUP VARIABLE instanceArgs END_GROUP
     {
+        GroupNew* currGroup = createGroup(currentGroup);
+
+        currGroup->setName(strdup($<string>2));
+        /*currMesh->faces.splice((currMesh->faces.end()), currentMeshFaces);
+        currMesh->verts.splice(currMesh->verts.end(), currentMeshVertices);
+        currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
+
+        currSession->meshes.push_back(currMesh);*/
         //cout << "Length of the group" << endl;
         //cout << currentGroup.size() << endl;
         currentGroup.clear();

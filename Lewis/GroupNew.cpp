@@ -9,9 +9,11 @@
 #include <stdio.h>
 #include "GroupNew.h"
 
-GroupNew* createGroup(std::vector<MeshNew*> m0)
+GroupNew* createGroup(std::list<InstanceNew*> m0)
 {
-    return NULL;
+    GroupNew* g0 = new GroupNew();
+    g0->meshes = m0;
+    return g0;
 }
 
 GroupNew* createGroup(GroupNew*)
@@ -38,7 +40,7 @@ std::string GroupNew::getFullName()
 
 bool GroupNew::updateNames()
 {
-    for (MeshNew* m0 : meshes)
+    for (InstanceNew* m0 : meshes)
     {
         m0->setPrefix(getFullName());
         m0->updateNames();

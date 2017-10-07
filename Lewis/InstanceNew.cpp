@@ -16,9 +16,9 @@ InstanceNew* createInstance(InstanceNew* i0)
 
 bool InstanceNew::setName(std::string n)
 {
-    std::cout << "HELLO" << std::endl;
+    //std::cout << "HELLO" << std::endl;
     //std::cout << name << std::endl;
-    std::cout << "BYE" << std::endl;
+    //std::cout << "BYE" << std::endl;
     //name = n;
     //updateNames();
     return true;

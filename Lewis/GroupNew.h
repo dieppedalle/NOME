@@ -14,11 +14,11 @@
 
 class GroupNew
 {
-    std::vector<MeshNew*> meshes;
     std::string prefix;
     std::string name;
 
 public:
+    std::list<InstanceNew*> meshes;
     bool setName(std::string n);
     bool setPrefix(std::string name);
     std::string getName();
@@ -26,7 +26,7 @@ public:
     bool updateNames();
 };
 
-GroupNew* createGroup(std::vector<MeshNew*>);
+GroupNew* createGroup(std::list<InstanceNew*>);
 GroupNew* createGroup(GroupNew*);
 
 #endif /* Group_h */
