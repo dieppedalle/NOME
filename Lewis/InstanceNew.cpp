@@ -14,19 +14,18 @@ InstanceNew* createInstance(InstanceNew* i0)
     return new InstanceNew();
 }
 
+InstanceNew* createInstance(MeshNew* m0)
+{
+   InstanceNew* i0 = new InstanceNew();
+   i0->mesh = m0;
+   return i0;
+}
+
+
 bool InstanceNew::updateNames()
 {
-    for(Vert* v0 : verts)
-    {
-        v0->setPrefix(getFullName());
-    }
-    for(EdgeNew* e0 : edges)
-    {
-        e0->setPrefix(getFullName());
-    }
-    for(FaceNew* f0 : faces)
-    {
-        f0->setPrefix(getFullName());
-    }
+    mesh->setPrefix(getFullName());
     return true;
 }
+
+

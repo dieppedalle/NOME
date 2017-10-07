@@ -9,15 +9,13 @@
 #ifndef GroupNew_h
 #define GroupNew_h
 
-#include "MeshNew.h"
+#include "InstanceNew.h"
 #include <vector>
 
 class GroupNew : public Node
 {
 public:
     std::list<InstanceNew*> instances;
-    std::list<MeshNew*> meshes;
-
     bool updateNames();
 };
 

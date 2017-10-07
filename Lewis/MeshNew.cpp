@@ -89,11 +89,6 @@ bool MeshNew::updateNames()
     {
         f0->setPrefix(getFullName());
     }
-    for(InstanceNew* i0 : instances)
-    {
-        i0->setPrefix(getFullName());
-        i0->updateNames();
-    }
     return true;
 }
 
@@ -106,10 +101,4 @@ MeshNew* createMesh()
     //m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
     return m0;
-}
-
-
-InstanceNew* createInstance(MeshNew* m0)
-{
-   return NULL;
 }

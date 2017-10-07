@@ -11,18 +11,18 @@
 
 #include <stdio.h>
 #include "Data.h"
+#include "MeshNew.h"
 
 class InstanceNew : public Node
 {
 public:
-    std::list<Vert*> verts;
-    std::list<EdgeNew*> edges;
-    std::list<FaceNew*> faces;
-
+    MeshNew* mesh;
     bool updateNames();
 };
 
+//Instantiation
 InstanceNew* createInstance(InstanceNew* i0);
+InstanceNew* createInstance(MeshNew* m0);
 
 
 #endif /* Instance_h */

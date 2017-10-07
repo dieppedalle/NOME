@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include "Data.h"
-#include "InstanceNew.h"
 
 typedef int MeshI;
 
@@ -26,8 +25,6 @@ public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
-
-    std::list<InstanceNew*> instances;
 
     bool hasVert(Vert*);
     bool hasEdge(EdgeNew*);
@@ -48,8 +45,5 @@ public:
 ///Instance functions
 MeshNew* createMesh();
 MeshNew* createMesh(MeshNew*);
-
-///Create new instance of the mesh
-InstanceNew* createInstance(MeshNew* m0);
 
 #endif /* Mesh_h */
