@@ -16,13 +16,11 @@
 typedef int MeshI;
 
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
-typedef class MeshNew
+typedef class MeshNew : public Node
 {
     bool isManifold;
     bool hasHoles;
     MeshI index;
-    std::string prefix;
-    std::string name;
 
 public:
     std::list<Vert*> verts;
@@ -43,11 +41,6 @@ public:
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);
 
-    //Naming functions
-    bool setName(std::string n);
-    bool setPrefix(std::string name);
-    std::string getFullName();
-    std::string getName();
     bool updateNames();
 
 } MeshNew;

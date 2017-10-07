@@ -75,24 +75,6 @@ bool MeshNew::deleteFace(FaceNew* f0)
     return true;
 }
 
-bool MeshNew::setName(std::string n)
-{
-    name = n;
-    updateNames();
-    return true;
-}
-
-bool MeshNew::setPrefix(std::string name)
-{
-    prefix = name;
-    return true;
-}
-
-std::string MeshNew::getFullName()
-{
-    return prefix + name;
-}
-
 bool MeshNew::updateNames()
 {
     for(Vert* v0 : verts)
@@ -115,9 +97,6 @@ bool MeshNew::updateNames()
     return true;
 }
 
-std::string MeshNew::getName(){
-    return name;
-}
 
 ///Instance functions
 MeshNew* createMesh()

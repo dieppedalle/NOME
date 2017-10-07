@@ -27,8 +27,6 @@ Surface* createSurface(double r, double g, double b, std::string name)
     return surface0;
 }
 
-
-
 ///Vertex functions
 ///Create a default vert, will be at the origin with weight of 1.0
 Vert* createVert()
@@ -52,7 +50,7 @@ Vert* createVert(double x, double y, double z, double w)
     vertLock.unlock();
 
     v0->index = index;
-    v0->name = std::to_string(index);
+    v0->setName(std::to_string(index));
     v0->x = x;
     v0->y = y;
     v0->z = z;
@@ -62,33 +60,6 @@ Vert* createVert(double x, double y, double z, double w)
     
     return v0;
 }
-
-
-bool Vert::setName(std::string n)
-{
-    name = n;
-    return true;
-}
-
-bool Vert::setPrefix(std::string n)
-{
-    prefix = name;
-    return true;
-}
-
-std::string Vert::getFullName()
-{
-    return prefix + name;
-}
-
-bool setName(Vert* v0, std::string n)
-{
-    return v0->setName(n);
-}
-
-
-
-
 
 ///Edge functions
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
@@ -107,7 +78,7 @@ EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
     e0->v0 = v0;
     e0->v1 = v1;
     e0->index = index;
-    e0->name = std::to_string(index);
+    e0->setName(std::to_string(index));
     e0->faceCount = 0;
     e0->vertCount = 0;
     
@@ -128,30 +99,6 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
     return createEdge(v0, v1, interval);
 }
 
-bool EdgeNew::setName(std::string n)
-{
-    name = n;
-    return true;
-}
-
-bool EdgeNew::setPrefix(std::string name)
-{
-    prefix = name;
-    return true;
-}
-
-std::string EdgeNew::getFullName()
-{
-    return prefix + name;
-}
-
-bool setName(EdgeNew* e0, std::string n)
-{
-    return e0->setName(n);
-}
-
-
-
 ///Face functions
 ///Create face helper function
 FaceNew* createFace()
@@ -166,7 +113,7 @@ FaceNew* createFace()
     faceLock.unlock();
     
     f0->index = index;
-    f0->name = std::to_string(index);
+    f0->setName(std::to_string(index));
     return f0;
 }
 
@@ -244,26 +191,14 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
     return f0;
 }
 
-bool setSurface(FaceNew* f0, Surface* surface){
-    f0->surface = surface;
-    return true;
+bool setName(Vert* v0, std::string n)
+{
+    return v0->setName(n);
 }
 
-bool FaceNew::setName(std::string n)
+bool setName(EdgeNew* e0, std::string n)
 {
-    name = n;
-    return true;
-}
-
-std::string FaceNew::getFullName()
-{
-    return prefix + name;
-}
-
-bool FaceNew::setPrefix(std::string n)
-{
-    prefix = n;
-    return true;
+    return e0->setName(n);
 }
 
 bool setName(FaceNew* f0, std::string n)
@@ -271,6 +206,11 @@ bool setName(FaceNew* f0, std::string n)
     return f0->setName(n);
 }
 
+
+bool setSurface(FaceNew* f0, Surface* surface){
+    f0->surface = surface;
+    return true;
+}
 
 
 ///Deletion functions

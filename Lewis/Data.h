@@ -19,6 +19,7 @@
 #include <QColor>
 
 #include "IO.h"
+#include "Node.h"
 
 ///Baseline data structure class, every point is defined by a vertex, joined by edges. Edges are joined up to form faces.
 
@@ -41,26 +42,18 @@ public:
 Surface* createSurface(double r, double g, double b, std::string name);
 
 ///Vertex - Usual definition of a vertex in 3d space
-typedef class Vert
+typedef class Vert : public Node
 {
 public:
     double x, y, z;
     double weight;
     VertI index;
-    std::string prefix;
-    std::string name;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
-
-    //Naming function
-    bool setName(std::string n);
-    bool setPrefix(std::string name);
-    std::string getName();
-    std::string getFullName();
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links
-typedef class EdgeNew
+typedef class EdgeNew : public Node
 {
 public:
     bool isBorder;
@@ -70,33 +63,17 @@ public:
     int vertCount;
     FaceNew* f0; FaceNew* f1;
     EdgeI index;
-    std::string prefix;
-    std::string name;
-
-    //Naming functions
-    bool setName(std::string n);
-    bool setPrefix(std::string name);
-    std::string getName();
-    std::string getFullName();
 } EdgeNew;
 
 
 ///Face - normal face construct in 3d space, must consist of at least 3 edges that form a cycle
-typedef class FaceNew
+typedef class FaceNew : public Node
 {
 public:
     std::list<EdgeNew*> edges;
     std::list<Vert*> verts;
-    std::string prefix;
-    std::string name;
     FaceI index;
     Surface* surface;
-
-    //Naming functions
-    bool setName(std::string n);
-    bool setPrefix(std::string name);
-    std::string getName();
-    std::string getFullName();
 } FaceNew;
 
 ///Vert Instantiation

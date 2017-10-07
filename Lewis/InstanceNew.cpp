@@ -11,28 +11,7 @@
 
 InstanceNew* createInstance(InstanceNew* i0)
 {
-    return NULL;
-}
-
-bool InstanceNew::setName(std::string n)
-{
-    //std::cout << "HELLO" << std::endl;
-    //std::cout << name << std::endl;
-    //std::cout << "BYE" << std::endl;
-    //name = n;
-    //updateNames();
-    return true;
-}
-
-bool InstanceNew::setPrefix(std::string name)
-{
-    prefix = name;
-    return true;
-}
-
-std::string InstanceNew::getFullName()
-{
-    return prefix + name;
+    return new InstanceNew();
 }
 
 bool InstanceNew::updateNames()

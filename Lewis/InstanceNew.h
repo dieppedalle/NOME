@@ -12,20 +12,13 @@
 #include <stdio.h>
 #include "Data.h"
 
-class InstanceNew
+class InstanceNew : public Node
 {
-
-    std::string prefix = "";
-    std::string name = "asd";
-
 public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
-    bool setName(std::string n);
-    bool setPrefix(std::string name);
-    std::string getName();
-    std::string getFullName();
+
     bool updateNames();
 };
 

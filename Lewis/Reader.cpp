@@ -71,7 +71,7 @@ Vert* Reader::vert(std::string name)
 {
     for(Vert* v : session->verts)
     {
-        if(!name.compare(v->name))
+        if(!name.compare(v->getName()))
             return v;
     }
     return NULL;
@@ -134,7 +134,7 @@ vector<VertI> faceVerts(FaceI index);
 FaceNew* Reader::face(std::string name){
     for(FaceNew* f : session->faces)
     {
-        if(!name.compare(f->name))
+        if(!name.compare(f->getName()))
             return f;
     }
     return NULL;

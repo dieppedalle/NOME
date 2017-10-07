@@ -12,17 +12,12 @@
 #include "MeshNew.h"
 #include <vector>
 
-class GroupNew
+class GroupNew : public Node
 {
-    std::string prefix;
-    std::string name;
-
 public:
     std::list<InstanceNew*> instances;
-    bool setName(std::string n);
-    bool setPrefix(std::string name);
-    std::string getName();
-    std::string getFullName();
+    std::list<MeshNew*> meshes;
+
     bool updateNames();
 };
 
