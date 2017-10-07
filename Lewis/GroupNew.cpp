@@ -12,7 +12,7 @@
 GroupNew* createGroup(std::list<InstanceNew*> m0)
 {
     GroupNew* g0 = new GroupNew();
-    g0->meshes = m0;
+    g0->instances = m0;
     return g0;
 }
 
@@ -40,7 +40,7 @@ std::string GroupNew::getFullName()
 
 bool GroupNew::updateNames()
 {
-    for (InstanceNew* m0 : meshes)
+    for (InstanceNew* m0 : instances)
     {
         m0->setPrefix(getFullName());
         m0->updateNames();

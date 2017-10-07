@@ -18,7 +18,7 @@ class GroupNew
     std::string name;
 
 public:
-    std::list<InstanceNew*> meshes;
+    std::list<InstanceNew*> instances;
     bool setName(std::string n);
     bool setPrefix(std::string name);
     std::string getName();

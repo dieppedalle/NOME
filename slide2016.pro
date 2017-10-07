@@ -50,7 +50,8 @@ SOURCES += main.cpp\
     testpolyline.cpp \
     Lewis/GroupNew.cpp \
     Lewis/InstanceNew.cpp \
-    Lewis/MeshNew.cpp
+    Lewis/MeshNew.cpp \
+    Lewis/ObjectNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -89,7 +90,8 @@ HEADERS  += \
     testpolyline.h \
     Lewis/GroupNew.h \
     Lewis/InstanceNew.h \
-    Lewis/MeshNew.h
+    Lewis/MeshNew.h \
+    Lewis/ObjectNew.h
 
 linux{
     LIBS += -lglut -lGLU

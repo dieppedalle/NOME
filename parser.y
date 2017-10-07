@@ -4,6 +4,7 @@
 #include <list>
 #include <Lewis/Data.h>
 #include <Lewis/MeshNew.h>
+#include <Lewis/ObjectNew.h>
 #include <Lewis/Session.h>
 #include <Lewis/Reader.h>
 
@@ -211,15 +212,8 @@ group:
 	GROUP VARIABLE instanceArgs END_GROUP
     {
         GroupNew* currGroup = createGroup(currentGroup);
-
         currGroup->setName(strdup($<string>2));
-        /*currMesh->faces.splice((currMesh->faces.end()), currentMeshFaces);
-        currMesh->verts.splice(currMesh->verts.end(), currentMeshVertices);
-        currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
-
-        currSession->meshes.push_back(currMesh);*/
-        //cout << "Length of the group" << endl;
-        //cout << currentGroup.size() << endl;
+        currSession->groups.push_back(currGroup);
         currentGroup.clear();
 		printf("Created a group\n");
 	}
@@ -449,23 +443,27 @@ instance:
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
 	{
-       std::vector<FaceNew*> facesObject;
-       for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-           FaceNew * currentFace = currReader->face(*it);
-           if (currentFace != NULL) {
-               facesObject.push_back(currentFace);
-           }
-           else{
-               yyerror("Incorrect face name");
-               YYABORT;
-           }
-       }
+        std::list<FaceNew*> facesObject;
+        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+            FaceNew * currentFace = currReader->face(*it);
+            if (currentFace != NULL) {
+                facesObject.push_back(currentFace);
+            }
+            else{
+                yyerror("Incorrect vertex name");
+                YYABORT;
+            }
+        }
+
+        ObjectNew * newObject = createObject(facesObject);
+
+        newObject->setName(strdup($<string>2));
+
+        currSession->objects.push_back(newObject);
 
         tempVariables.clear();
 
-        //TODO: Create object
-
-		printf("Created an object\n");
+        printf("Created an object\n");
 	}
 	;
 
