@@ -27,7 +27,6 @@ public:
     std::list<MeshNew*> meshes;
     std::list<Surface*> surfaces;
     std::list<GroupNew*> groups;
-    std::list<ObjectNew*> objects;
     std::string name;
 
     //Naming functions

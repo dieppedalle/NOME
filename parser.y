@@ -4,7 +4,6 @@
 #include <list>
 #include <Lewis/Data.h>
 #include <Lewis/MeshNew.h>
-#include <Lewis/ObjectNew.h>
 #include <Lewis/Session.h>
 #include <Lewis/Reader.h>
 
@@ -443,7 +442,7 @@ instance:
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
 	{
-        std::list<FaceNew*> facesObject;
+        /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             FaceNew * currentFace = currReader->face(*it);
             if (currentFace != NULL) {
@@ -455,15 +454,15 @@ object:
             }
         }
 
-        ObjectNew * newObject = createObject(facesObject);
+        MeshNew * newObject = createMesh(facesObject);
 
         newObject->setName(strdup($<string>2));
 
         currSession->objects.push_back(newObject);
 
-        tempVariables.clear();
+        tempVariables.clear();*/
 
-        printf("Created an object\n");
+        //printf("Created an object\n");
 	}
 	;
 
