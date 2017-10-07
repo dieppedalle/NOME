@@ -34,6 +34,7 @@ INPUT(
 ./debug\GroupNew.o
 ./debug\InstanceNew.o
 ./debug\MeshNew.o
+./debug\Node.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o
