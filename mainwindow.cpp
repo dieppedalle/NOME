@@ -162,14 +162,15 @@ void MainWindow::createCanvas(QString name)
         unordered_map<string, Face*> global_faces;
         int error = 0;
 
-        error = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
+        Session * currSession;
+        currSession = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString, global_vertices, global_faces);
 
         if (error == 1){
             return;
         }
 
-        canvas = new SlideGLWidget(scene);
+        canvas = new SlideGLWidget(scene, currSession);
         canvas -> group_from_consolidate_mesh = &append_scene;
 
         error = nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString, global_vertices, global_faces);

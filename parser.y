@@ -198,7 +198,11 @@ mesh:
 
         currMesh->setName(strdup($<string>2));
         currMesh->faces.splice((currMesh->faces.end()), currentMeshFaces);
-        currMesh->verts.splice(currMesh->verts.end(), currentMeshVertices);
+
+        for (std::list<Vert*>::iterator it=currentMeshVertices.begin(); it != currentMeshVertices.end(); ++it){
+            currMesh->verts.insert(*it);
+        }
+
         currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
 
         currSession->meshes.push_back(currMesh);
@@ -424,15 +428,17 @@ instance:
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->mesh($<string>3);
-
+        InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            InstanceNew* newInstance = createInstance(currentMesh);
+            newInstance = createInstance(currentMesh);
             newInstance->setName(strdup($<string>2));
         }
         else{
             yyerror("Incorrect vertex, face, or mesh name");
             YYABORT;
         }
+
+        currSession->instances.push_back(newInstance);
 
         //TODO: ADD TO INSTANCE LIST
 		printf("Created an instance\n");

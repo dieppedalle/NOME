@@ -42,6 +42,7 @@
 #include <QMessageBox>
 #include <QColor>
 #include <QString>
+#include <Lewis/Session.h>
 class SlideGLWidget: public QGLWidget
 {
     Q_OBJECT
@@ -49,7 +50,7 @@ class SlideGLWidget: public QGLWidget
 public:
     explicit SlideGLWidget(QWidget *parent = 0);
     SlideGLWidget(string name, QWidget *parent = 0);
-    SlideGLWidget(Group &group, QWidget *parent = 0);
+    SlideGLWidget(Group &group, Session *currSession, QWidget *parent = 0);
     ~SlideGLWidget();
     /**
      * Save the current master_mesh in a STL file.
@@ -102,6 +103,7 @@ public:
      * (Not including the consolidated mesh or temprary mesh. */
     vector<string> deletedFaces;
 public:
+    Session *currSession;
     /* Viewer variables.*/
     enum MODES { MODE_OBJECT, MODE_CAMERA, MODE_LIGHT, MODE_LAST } view_mode;
     mat4 transforms[MODE_LAST];

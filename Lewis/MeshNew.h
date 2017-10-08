@@ -10,6 +10,7 @@
 #define Mesh_h
 
 #include <stdio.h>
+#include <set>
 #include "Data.h"
 
 typedef int MeshI;
@@ -22,7 +23,7 @@ typedef class MeshNew : public Node
     MeshI index;
 
 public:
-    std::list<Vert*> verts;
+    std::set<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
 

@@ -10,14 +10,17 @@
 #define InstanceNew_h
 
 #include <stdio.h>
+#include <QtOpenGL>
 #include "Data.h"
 #include "MeshNew.h"
+
 
 class InstanceNew : public Node
 {
 public:
     MeshNew* mesh;
     bool updateNames();
+    bool draw();
 };
 
 //Instantiation

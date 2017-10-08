@@ -57,7 +57,7 @@ FaceNew* MeshNew::getFace(FaceNew* f0)
 bool MeshNew::deleteVert(Vert* v0)
 {
     deleteVert(v0);
-    this->verts.remove(v0);
+    this->verts.erase(v0);
     return true;
 }
 

@@ -13,12 +13,13 @@
 #include <fstream>
 #include <sstream>
 #include "bspline.h"
+#include "Lewis/Session.h"
 
 class NomeParser
 {
 public:
     NomeParser();
-    int makeWithNome(vector<ParameterBank> &banks,
+    Session* makeWithNome(vector<ParameterBank> &banks,
                       unordered_map<string, Parameter> &params,
                       Group &group,
                       string input,

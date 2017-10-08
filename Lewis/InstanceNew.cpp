@@ -28,4 +28,37 @@ bool InstanceNew::updateNames()
     return true;
 }
 
+bool InstanceNew::draw()
+{
+    for(auto f : mesh->verts) {
+      std::cout << f->getName() << std::endl;
+      glLoadName(f->index);
+      float x = f->x;
+      float y = f->y;
+      float z = f->z;
+      glBegin(GL_QUADS);
+          glNormal3f(0, 0, 1);
+          glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
+          glVertex3f(x - 0.1 / 2, y + 0.1 / 2, z);
+          glVertex3f(x - 0.1 / 2, y - 0.1 / 2, z);
+          glVertex3f(x + 0.1 / 2, y - 0.1 / 2, z);
+      glEnd();
+      glBegin(GL_QUADS);
+          glNormal3f(1, 0, 0);
+          glVertex3f(x, y + 0.1 / 2, z + 0.1 / 2);
+          glVertex3f(x, y - 0.1 / 2, z + 0.1 / 2);
+          glVertex3f(x, y - 0.1 / 2, z - 0.1 / 2);
+          glVertex3f(x, y + 0.1 / 2, z - 0.1 / 2);
+      glEnd();
+      glBegin(GL_QUADS);
+          glNormal3f(0, 1, 0);
+          glVertex3f(x + 0.1 / 2, y, z - 0.1 / 2);
+          glVertex3f(x + 0.1 / 2, y, z + 0.1 / 2);
+          glVertex3f(x - 0.1 / 2, y, z + 0.1 / 2);
+          glVertex3f(x - 0.1 / 2, y, z - 0.1 / 2);
+      glEnd();
+    }
+
+    return true;
+}
 

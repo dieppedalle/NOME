@@ -5,6 +5,8 @@
  * Advised by Prof. Sequin H. Carlos.
  */
 
+#include "nomeparser.h"
+
 #include "nomeglwidget.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
@@ -23,10 +25,12 @@ SlideGLWidget::SlideGLWidget(string name, QWidget *parent) :
     updateGlobalIndexList();
 }
 
-SlideGLWidget::SlideGLWidget(Group &group, QWidget *parent) :
+SlideGLWidget::SlideGLWidget(Group &group, Session *currSession, QWidget *parent) :
     QGLWidget(parent)
 {
+    this->currSession = currSession;
     generalSetup();
+    //makeDefaultMesh();
     hierarchical_scene = &group;
     makeSLFMesh();
     updateGlobalIndexList();
@@ -356,6 +360,44 @@ void SlideGLWidget::paintGL()
     glLoadIdentity();
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
+
+    for (std::list<InstanceNew*>::iterator itMesh = currSession->instances.begin(); itMesh != currSession->instances.end(); itMesh++){
+        (*itMesh)->draw();
+    }
+    //cout << currSession->verts.size() << endl;
+    //cout << "PAINTING" << endl;
+    //FOR TESTING PURPOSES
+    //====================
+    /*for(int n=0; n<10; n++)
+    {
+        //glLoadName(start_index + counter);
+        float x = 0;
+        float y = 0;
+        float z = 0;
+        glBegin(GL_QUADS);
+            glNormal3f(0, 0, 1);
+            glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
+            glVertex3f(x - 0.1 / 2, y + 0.1 / 2, z);
+            glVertex3f(x - 0.1 / 2, y - 0.1 / 2, z);
+            glVertex3f(x + 0.1 / 2, y - 0.1 / 2, z);
+        glEnd();
+        glBegin(GL_QUADS);
+            glNormal3f(1, 0, 0);
+            glVertex3f(x, y + 0.1 / 2, z + 0.1 / 2);
+            glVertex3f(x, y - 0.1 / 2, z + 0.1 / 2);
+            glVertex3f(x, y - 0.1 / 2, z - 0.1 / 2);
+            glVertex3f(x, y + 0.1 / 2, z - 0.1 / 2);
+        glEnd();
+        glBegin(GL_QUADS);
+            glNormal3f(0, 1, 0);
+            glVertex3f(x + 0.1 / 2, y, z - 0.1 / 2);
+            glVertex3f(x + 0.1 / 2, y, z + 0.1 / 2);
+            glVertex3f(x - 0.1 / 2, y, z + 0.1 / 2);
+            glVertex3f(x - 0.1 / 2, y, z - 0.1 / 2);
+        glEnd();
+    }*/
+    //====================
+
     switch(viewer_mode)
     {
     /* When we are at editing mode. */
