@@ -105,7 +105,7 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
 FaceNew* createFace()
 {
     FaceNew* f0 = new FaceNew();
-    std::list<EdgeNew*> edges; std::list<Vert*> verts;
+    std::unordered_set<EdgeNew*> edges; std::unordered_set<Vert*> verts;
     f0->edges = edges; f0->verts = verts;
     
     faceLock.lock();
@@ -127,6 +127,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
     while (it != vertices.end()){
         if (it2 != vertices.end()){
             currentEdge = createEdge(*it, *it2);
+            it2++;
         }
         else{
             currentEdge = createEdge(vertices.back(), vertices.front());
@@ -135,6 +136,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
         edges->push_back(currentEdge);
         currentEdges.push_back(currentEdge);
     }
+    //std::cout << edges->size() << std::endl;
     FaceNew* newFace = createFace(currentEdges);
     return newFace;
 }
@@ -158,9 +160,9 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
             b0 = b0 | (vIndex[i]->index == edge->v0->index);
             b1 = b1 | (vIndex[i]->index == edge->v1->index);
         }
-        if( !b0 ) { f0->verts.push_back(edge->v0); vIndex.push_back(edge->v0); }
-        if( !b1 ) { f0->verts.push_back(edge->v1); vIndex.push_back(edge->v1); }
-        f0->edges.push_back(edge);
+        if( !b0 ) { f0->verts.insert(edge->v0); vIndex.push_back(edge->v0); }
+        if( !b1 ) { f0->verts.insert(edge->v1); vIndex.push_back(edge->v1); }
+        f0->edges.insert(edge);
         
         //Check if an edge has more than two adjacent faces
         if( edge->faceCount == 0 )
@@ -179,6 +181,10 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
             return NULL;
         }
     }
+
+    /*for(auto v0 : f0->verts) {
+        std::cout << v0->getName() << std::endl;
+    }*/
 
     //Check if edges given are adjacent
     if( vIndex.size() != edges.size() )
@@ -299,9 +305,22 @@ bool drawVert(Vert* v0){
 
 bool drawEdge(EdgeNew* e0)
 {
+    glLoadName(e0->index);
     glBegin(GL_LINE_STRIP);
         glVertex3f(e0->v0->x, e0->v0->y, e0->v0->z);
         glVertex3f(e0->v1->x, e0->v1->y, e0->v1->z);
+    glEnd();
+    return true;
+}
+
+bool drawFace(FaceNew* f0)
+{
+    glLoadName(f0->index);
+    glBegin(GL_POLYGON);
+    for(auto v0 : f0->verts) {
+      //std::cout << v0->getName() << std::endl;
+      glVertex3f(v0->x, v0->y, v0->z);
+    }
     glEnd();
     return true;
 }

@@ -37,6 +37,9 @@ bool InstanceNew::draw()
     for(auto e : mesh->edges) {
       bool error = drawEdge(e);
     }
+    for(auto f : mesh->faces) {
+      bool error = drawFace(f);
+    }
 
     return true;
 }

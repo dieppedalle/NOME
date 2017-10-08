@@ -197,7 +197,9 @@ mesh:
         MeshNew* currMesh = createMesh();
 
         currMesh->setName(strdup($<string>2));
-        currMesh->faces.splice((currMesh->faces.end()), currentMeshFaces);
+        for (std::list<FaceNew*>::iterator it=currentMeshFaces.begin(); it != currentMeshFaces.end(); ++it){
+            currMesh->faces.insert(*it);
+        }
 
         for (std::list<Vert*>::iterator it=currentMeshVertices.begin(); it != currentMeshVertices.end(); ++it){
             currMesh->verts.insert(*it);

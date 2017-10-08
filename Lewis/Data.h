@@ -18,6 +18,8 @@
 #include <mutex>
 #include <QColor>
 #include <QtOpenGL>
+#include <set>
+#include <unordered_set>
 
 #include "IO.h"
 #include "Node.h"
@@ -71,8 +73,8 @@ public:
 typedef class FaceNew : public Node
 {
 public:
-    std::list<EdgeNew*> edges;
-    std::list<Vert*> verts;
+    std::unordered_set<EdgeNew*> edges;
+    std::unordered_set<Vert*> verts;
     FaceI index;
     Surface* surface;
 } FaceNew;
@@ -109,5 +111,6 @@ bool deleteFace(FaceNew* face);
 
 bool drawVert(Vert* v0);
 bool drawEdge(EdgeNew* e0);
+bool drawFace(FaceNew* f0);
 
 #endif /* Data_h */

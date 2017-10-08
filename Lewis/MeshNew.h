@@ -25,7 +25,7 @@ typedef class MeshNew : public Node
 public:
     std::set<Vert*> verts;
     std::set<EdgeNew*> edges;
-    std::list<FaceNew*> faces;
+    std::set<FaceNew*> faces;
 
     bool hasVert(Vert*);
     bool hasEdge(EdgeNew*);

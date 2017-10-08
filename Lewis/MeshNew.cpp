@@ -71,7 +71,7 @@ bool MeshNew::deleteEdge(EdgeNew* e0)
 bool MeshNew::deleteFace(FaceNew* f0)
 {
     deleteFace(f0);
-    this->faces.remove(f0);
+    this->faces.erase(f0);
     return true;
 }
 

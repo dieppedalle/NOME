@@ -398,9 +398,8 @@ void SlideGLWidget::paintGL()
     }*/
     //====================
 
-    switch(viewer_mode)
+    /*switch(viewer_mode)
     {
-    /* When we are at editing mode. */
     case 0:
         draw_scene();
         break;
@@ -422,7 +421,7 @@ void SlideGLWidget::paintGL()
             draw_mesh(0, &offset_mesh);
         }
         break;
-    }
+    }*/
 }
 
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)
