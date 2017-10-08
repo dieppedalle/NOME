@@ -17,6 +17,7 @@
 #include <thread>
 #include <mutex>
 #include <QColor>
+#include <QtOpenGL>
 
 #include "IO.h"
 #include "Node.h"
@@ -105,5 +106,8 @@ bool setSurface(FaceNew* f0, Surface* surface);
 bool deleteVert(Vert* vert);
 bool deleteEdge(EdgeNew* edge);
 bool deleteFace(FaceNew* face);
+
+bool drawVert(Vert* v0);
+bool drawEdge(EdgeNew* e0);
 
 #endif /* Data_h */

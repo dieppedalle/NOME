@@ -268,4 +268,40 @@ bool deleteFace(FaceNew* face)
     return face->edges.empty() && face->verts.empty();
 }
 
+bool drawVert(Vert* v0){
+    glLoadName(v0->index);
+    float x = v0->x;
+    float y = v0->y;
+    float z = v0->z;
+    glBegin(GL_QUADS);
+        glNormal3f(0, 0, 1);
+        glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
+        glVertex3f(x - 0.1 / 2, y + 0.1 / 2, z);
+        glVertex3f(x - 0.1 / 2, y - 0.1 / 2, z);
+        glVertex3f(x + 0.1 / 2, y - 0.1 / 2, z);
+    glEnd();
+    glBegin(GL_QUADS);
+        glNormal3f(1, 0, 0);
+        glVertex3f(x, y + 0.1 / 2, z + 0.1 / 2);
+        glVertex3f(x, y - 0.1 / 2, z + 0.1 / 2);
+        glVertex3f(x, y - 0.1 / 2, z - 0.1 / 2);
+        glVertex3f(x, y + 0.1 / 2, z - 0.1 / 2);
+    glEnd();
+    glBegin(GL_QUADS);
+        glNormal3f(0, 1, 0);
+        glVertex3f(x + 0.1 / 2, y, z - 0.1 / 2);
+        glVertex3f(x + 0.1 / 2, y, z + 0.1 / 2);
+        glVertex3f(x - 0.1 / 2, y, z + 0.1 / 2);
+        glVertex3f(x - 0.1 / 2, y, z - 0.1 / 2);
+    glEnd();
+    return true;
+}
 
+bool drawEdge(EdgeNew* e0)
+{
+    glBegin(GL_LINE_STRIP);
+        glVertex3f(e0->v0->x, e0->v0->y, e0->v0->z);
+        glVertex3f(e0->v1->x, e0->v1->y, e0->v1->z);
+    glEnd();
+    return true;
+}

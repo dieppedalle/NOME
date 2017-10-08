@@ -203,7 +203,9 @@ mesh:
             currMesh->verts.insert(*it);
         }
 
-        currMesh->edges.splice(currMesh->edges.end(), currentMeshEdges);
+        for (std::list<EdgeNew*>::iterator it=currentMeshEdges.begin(); it != currentMeshEdges.end(); ++it){
+            currMesh->edges.insert(*it);
+        }
 
         currSession->meshes.push_back(currMesh);
 

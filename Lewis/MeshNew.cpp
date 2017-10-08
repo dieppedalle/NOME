@@ -64,7 +64,7 @@ bool MeshNew::deleteVert(Vert* v0)
 bool MeshNew::deleteEdge(EdgeNew* e0)
 {
     deleteEdge(e0);
-    this->edges.remove(e0);
+    this->edges.erase(e0);
     return true;
 }
 
