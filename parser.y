@@ -444,6 +444,19 @@ instance:
 
         currSession->instances.push_back(newInstance);
 
+        string surfaceName = $<string>4;
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf($<string>4);
+            if (currentSurface != NULL) {
+                setSurface(newInstance, currentSurface);
+            }
+            else{
+                yyerror("Incorrect surface name");
+                YYABORT;
+            }
+        }
+
         //TODO: ADD TO INSTANCE LIST
 		printf("Created an instance\n");
 	}

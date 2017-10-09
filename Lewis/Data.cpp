@@ -9,6 +9,8 @@
 
 #include "Data.h"
 
+QColor defaultColor = QColor(255, 0, 0);
+
 ///Indices for data instantiation
 static int vIndex = 0;
 static int eIndex = 0;
@@ -274,7 +276,21 @@ bool deleteFace(FaceNew* face)
     return face->edges.empty() && face->verts.empty();
 }
 
-bool drawVert(Vert* v0){
+bool drawVert(Vert* v0, Surface * instSurface){
+    QColor color;
+    if (instSurface != NULL){
+        color = instSurface->color;
+    } else{
+        color = defaultColor;
+    }
+
+    GLfloat fcolor[] = {1.0f * color.red() / 255,
+                        1.0f * color.green() / 255,
+                        1.0f * color.blue() / 255,
+                        1.0f * color.alpha() /255};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
+
     glLoadName(v0->index);
     float x = v0->x;
     float y = v0->y;
@@ -303,8 +319,21 @@ bool drawVert(Vert* v0){
     return true;
 }
 
-bool drawEdge(EdgeNew* e0)
+bool drawEdge(EdgeNew* e0, Surface * instSurface)
 {
+    QColor color;
+    if (instSurface != NULL){
+        color = instSurface->color;
+    } else{
+        color = defaultColor;
+    }
+
+    GLfloat fcolor[] = {1.0f * color.red() / 255,
+                        1.0f * color.green() / 255,
+                        1.0f * color.blue() / 255,
+                        1.0f * color.alpha() /255};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(e0->index);
     glBegin(GL_LINE_STRIP);
         glVertex3f(e0->v0->x, e0->v0->y, e0->v0->z);
@@ -313,12 +342,27 @@ bool drawEdge(EdgeNew* e0)
     return true;
 }
 
-bool drawFace(FaceNew* f0)
+bool drawFace(FaceNew* f0, Surface * instSurface)
 {
+    QColor color;
+    if (instSurface != NULL){
+        color = instSurface->color;
+    }
+    else if (f0->surface != NULL){
+        color = f0->surface->color;
+    } else{
+        color = defaultColor;
+    }
+
+    GLfloat fcolor[] = {1.0f * color.red() / 255,
+                        1.0f * color.green() / 255,
+                        1.0f * color.blue() / 255,
+                        1.0f * color.alpha() /255};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(f0->index);
     glBegin(GL_POLYGON);
     for(auto v0 : f0->verts) {
-      //std::cout << v0->getName() << std::endl;
       glVertex3f(v0->x, v0->y, v0->z);
     }
     glEnd();

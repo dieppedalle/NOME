@@ -592,7 +592,7 @@ static const yytype_uint16 yyrline[] =
      109,   109,   113,   126,   136,   146,   157,   158,   161,   162,
      166,   190,   191,   195,   219,   230,   237,   244,   255,   256,
      256,   262,   305,   314,   324,   338,   353,   359,   399,   406,
-     429,   453,   480,   487,   494
+     429,   466,   493,   500,   507
 };
 #endif
 
@@ -2024,6 +2024,19 @@ yyreduce:
 
         currSession->instances.push_back(newInstance);
 
+        string surfaceName = (yyvsp[(4) - (6)].string);
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf((yyvsp[(4) - (6)].string));
+            if (currentSurface != NULL) {
+                setSurface(newInstance, currentSurface);
+            }
+            else{
+                yyerror("Incorrect surface name");
+                YYABORT;
+            }
+        }
+
         //TODO: ADD TO INSTANCE LIST
 		printf("Created an instance\n");
 	}
@@ -2032,7 +2045,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 454 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 467 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2061,7 +2074,7 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 481 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 494 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         currSession->surfaces.push_back(createSurface((yyvsp[(5) - (9)].number), (yyvsp[(6) - (9)].number), (yyvsp[(7) - (9)].number), strdup((yyvsp[(2) - (9)].string))));
 	}
@@ -2070,7 +2083,7 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 488 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 501 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 		printf("Created a multiline comment.\n");
 	}
@@ -2079,7 +2092,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 495 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 508 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         Vert * newVertex = createVert ((yyvsp[(4) - (8)].number), (yyvsp[(5) - (8)].number), (yyvsp[(6) - (8)].number));
         newVertex->setName(strdup((yyvsp[(2) - (8)].string)));
@@ -2090,7 +2103,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2094 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2107 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

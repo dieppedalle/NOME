@@ -10,6 +10,12 @@
 #include "Data.h"
 #include "InstanceNew.h"
 
+bool setSurface(InstanceNew* i0, Surface* surface){
+    i0->surface = surface;
+    return true;
+}
+
+
 InstanceNew* createInstance(InstanceNew* i0)
 {
     return new InstanceNew();
@@ -32,13 +38,13 @@ bool InstanceNew::updateNames()
 bool InstanceNew::draw()
 {
     for(auto v : mesh->verts) {
-      bool error = drawVert(v);
+      bool error = drawVert(v, surface);
     }
     for(auto e : mesh->edges) {
-      bool error = drawEdge(e);
+      bool error = drawEdge(e, surface);
     }
     for(auto f : mesh->faces) {
-      bool error = drawFace(f);
+      bool error = drawFace(f, surface);
     }
 
     return true;

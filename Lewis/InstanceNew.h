@@ -21,8 +21,10 @@ public:
     MeshNew* mesh;
     bool updateNames();
     bool draw();
+    Surface* surface;
 };
 
+bool setSurface(InstanceNew* i0, Surface* surface);
 //Instantiation
 InstanceNew* createInstance(InstanceNew* i0);
 InstanceNew* createInstance(MeshNew* m0);

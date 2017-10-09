@@ -109,8 +109,8 @@ bool deleteVert(Vert* vert);
 bool deleteEdge(EdgeNew* edge);
 bool deleteFace(FaceNew* face);
 
-bool drawVert(Vert* v0);
-bool drawEdge(EdgeNew* e0);
-bool drawFace(FaceNew* f0);
+bool drawVert(Vert* v0, Surface * instSurface);
+bool drawEdge(EdgeNew* e0, Surface * instSurface);
+bool drawFace(FaceNew* f0, Surface * instSurface);
 
 #endif /* Data_h */
