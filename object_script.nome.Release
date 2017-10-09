@@ -35,6 +35,7 @@ INPUT(
 ./release\InstanceNew.o
 ./release\MeshNew.o
 ./release\Node.o
+./release\TransformationNew.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o

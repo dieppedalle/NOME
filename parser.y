@@ -6,6 +6,7 @@
 #include <Lewis/MeshNew.h>
 #include <Lewis/Session.h>
 #include <Lewis/Reader.h>
+#include <Lewis/TransformationNew.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -34,6 +35,8 @@ std::list<InstanceNew *> currentGroup;
 std::list<FaceNew *> currentMeshFaces;
 std::list<Vert *> currentMeshVertices;
 std::list<EdgeNew *> currentMeshEdges;
+
+std::list<TransformationNew *> currentTransformations;
 
 %}
 %token COLOR VARIABLE MULTI_LINE_COMMENT COMMENT NEWLINE OMULTI_LINE_COMMENT
@@ -118,6 +121,8 @@ rotateArgs:
 
         double angle = $<number>8;
 
+        currentTransformations.push_back(createRotate(x, y, z, angle));
+
         printf("Rotated\n");
     }
     ;
@@ -128,6 +133,8 @@ translateArgs:
         double x = $<number>3;
         double y = $<number>4;
         double z = $<number>5;
+
+        currentTransformations.push_back(createTranslate(x, y, z));
         printf("Translated\n");
     }
     ;
@@ -149,6 +156,8 @@ mirrorArgs:
         double y = $<number>4;
         double z = $<number>5;
         double w = $<number>5;
+
+        currentTransformations.push_back(createMirror(x, y, z, w));
 
         printf("Mirrored\n");
     }

@@ -13,7 +13,7 @@
 #include <QtOpenGL>
 #include "Data.h"
 #include "MeshNew.h"
-
+#include "TransformationNew.h"
 
 class InstanceNew : public Node
 {
@@ -22,6 +22,7 @@ public:
     bool updateNames();
     bool draw();
     Surface* surface;
+    std::list<TransformationNew *> transformations;
 };
 
 bool setSurface(InstanceNew* i0, Surface* surface);

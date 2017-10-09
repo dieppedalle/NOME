@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     Lewis/GroupNew.cpp \
     Lewis/InstanceNew.cpp \
     Lewis/MeshNew.cpp \
-    Lewis/Node.cpp
+    Lewis/Node.cpp \
+    Lewis/TransformationNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -91,7 +92,8 @@ HEADERS  += \
     Lewis/GroupNew.h \
     Lewis/InstanceNew.h \
     Lewis/MeshNew.h \
-    Lewis/Node.h
+    Lewis/Node.h \
+    Lewis/TransformationNew.h
 
 linux{
     LIBS += -lglut -lGLU
