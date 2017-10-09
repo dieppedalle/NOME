@@ -37,14 +37,44 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
+    for(auto t : transformations) {
+        if (dynamic_cast<Rotate*>(t)){
+            Rotate* rotate = dynamic_cast<Rotate*>(t);
+            glRotatef(rotate->angle, rotate->x, rotate->y, rotate->z);
+        }
+        else if (dynamic_cast<Scale*>(t)){
+            Scale* scale = dynamic_cast<Scale*>(t);
+            glScalef(scale->x, scale->y, scale->z);
+        }
+        else if (dynamic_cast<Translate*>(t)){
+            Translate* translate = dynamic_cast<Translate*>(t);
+            glTranslatef(translate->x, translate->y, translate->z);
+        }
+    }
+
     for(auto v : mesh->verts) {
-      bool error = drawVert(v, surface);
+      drawVert(v, surface);
     }
     for(auto e : mesh->edges) {
-      bool error = drawEdge(e, surface);
+      drawEdge(e, surface);
     }
     for(auto f : mesh->faces) {
-      bool error = drawFace(f, surface);
+      drawFace(f, surface);
+    }
+
+    for (std::list<TransformationNew *>::reverse_iterator rit=transformations.rbegin(); rit!=transformations.rend(); ++rit){
+        if (dynamic_cast<Rotate*>(*rit)){
+            Rotate* rotate = dynamic_cast<Rotate*>(*rit);
+            glRotatef(-rotate->angle, rotate->x, rotate->y, rotate->z);
+        }
+        else if (dynamic_cast<Scale*>(*rit)){
+            Scale* scale = dynamic_cast<Scale*>(*rit);
+            glScalef(-scale->x, -scale->y, -scale->z);
+        }
+        else if (dynamic_cast<Translate*>(*rit)){
+            Translate* translate = dynamic_cast<Translate*>(*rit);
+            glTranslatef(-translate->x, -translate->y, -translate->z);
+        }
     }
 
     return true;

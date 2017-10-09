@@ -145,6 +145,7 @@ scaleArgs:
         double x = $<number>3;
         double y = $<number>4;
         double z = $<number>5;
+        currentTransformations.push_back(createScale(x, y, z));
         printf("Scaled\n");
     }
     ;
@@ -157,7 +158,7 @@ mirrorArgs:
         double z = $<number>5;
         double w = $<number>5;
 
-        currentTransformations.push_back(createMirror(x, y, z, w));
+        //currentTransformations.push_back(createMirror(x, y, z, w));
 
         printf("Mirrored\n");
     }
@@ -188,6 +189,21 @@ instanceGroup:
             YYABORT;
         }
 
+        newInstance->transformations = currentTransformations;
+        currentTransformations.clear();
+
+        string surfaceName = $<string>4;
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf($<string>4);
+            if (currentSurface != NULL) {
+                setSurface(newInstance, currentSurface);
+            }
+            else{
+                yyerror("Incorrect surface name");
+                YYABORT;
+            }
+        }
 
         //TODO: ADD TO INSTANCE LIST
         printf("Created an instance group\n");
@@ -451,7 +467,8 @@ instance:
             YYABORT;
         }
 
-        currSession->instances.push_back(newInstance);
+        newInstance->transformations = currentTransformations;
+        currentTransformations.clear();
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -465,6 +482,10 @@ instance:
                 YYABORT;
             }
         }
+
+        currSession->instances.push_back(newInstance);
+
+
 
         //TODO: ADD TO INSTANCE LIST
 		printf("Created an instance\n");

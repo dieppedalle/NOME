@@ -12,7 +12,8 @@
 #include <stdio.h>
 
 class TransformationNew{
-
+public:
+    virtual ~TransformationNew(){}
 };
 
 class Translate : public TransformationNew
@@ -23,13 +24,12 @@ public:
     double z;
 };
 
-class Mirror : public TransformationNew
+class Scale : public TransformationNew
 {
 public:
     double x;
     double y;
     double z;
-    double w;
 };
 
 class Rotate : public TransformationNew
@@ -42,7 +42,7 @@ public:
 };
 
 Rotate* createRotate(double x, double y, double z, double angle);
-Mirror* createMirror(double x, double y, double z, double w);
+Scale* createScale(double x, double y, double z);
 Translate* createTranslate(double x, double y, double z);
 
 

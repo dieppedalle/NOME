@@ -195,7 +195,7 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
     parser(input);
 
     //cout << input << endl;
-    banks.clear();
+    /*banks.clear();
     group.clear();
     ifstream file(input);
     if (!file.good())
@@ -706,11 +706,7 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
                 }
                 //cout << *tIt << endl;
 
-                /*int n;
-                float ro;
 
-                string n_expr;
-                string ro_expr;*/
 
                 //--------
                 string nextExpression = "";
@@ -1062,12 +1058,7 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     if(vertInside != "")
                     {
                         //99999
-                        /*banks[banks.size() - 1].name + QString::fromStdString("." + nextToken)
-                        for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it )
-                          {
-                            cout << " " << it->first << ":" << it->second;
-                            cout << endl;
-                          }*/
+
                         //999999
                         vertIt = global_vertices.find(vertInside);
                         if(vertIt == global_vertices.end())
@@ -1132,9 +1123,7 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
             {
                 postProcessingLines.push_back(lineNumber);
                 postProcessingLinesString.push_back(nextLine);
-                /* Hmm, this is weird, I did not do anything here!
-                   Except putting the delte into postProcessingLines.
-                */
+
                 goto newLineEnd;
             }
             else if((*tIt) == "face" && constructingMesh)
@@ -1232,7 +1221,6 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
                     }
                 }
                 endAddingVertInFace1:
-                /* Add this face to the current mesh now.*/
                 vector<Vertex*> mappedVertices;
                 mappedVertices.clear();
                 bool foundVertex;
@@ -2137,45 +2125,7 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
         lineNumber++;
     }
 
-    group.mapFromParameters();
-
-
-    /*for ( auto it = global_vertices.begin(); it != global_vertices.end(); ++it ){
-        cout << (*it).first << endl;
-        cout << "JJJJ" << endl;
-    }
-
-    for ( auto it = meshes.begin(); it != meshes.end(); ++it ){
-        cout << (*it).first << endl;
-        for ( auto tt = (*it).second.vertList.begin(); tt != (*it).second.vertList.end(); ++tt ){
-            cout << (*tt)->name << endl;
-            cout << "HELLO" << endl;
-        }
-        cout << "JJJJ" << endl;
-    }*/
-
-    /*for ( auto it = groups.begin(); it != groups.end(); ++it ){
-        for ( auto mt = (*it).second.myMeshes.begin(); mt != (*it).second.myMeshes.end(); ++mt ){
-            cout << (*mt).name << endl;
-            for ( auto tt = (*mt).vertList.begin(); tt != (*mt).vertList.end(); ++tt ){
-                cout << (*tt)->name << endl;
-            }
-        }
-        cout << (*it).first << endl;
-    }*/
-    /*for ( auto it = (*group).begin(); it != (*group).end(); ++it ){
-        for ( auto mt = (*it).second.myMeshes.begin(); mt != (*it).second.myMeshes.end(); ++mt ){
-            cout << (*mt).name << endl;
-            for ( auto tt = (*mt).vertList.begin(); tt != (*mt).vertList.end(); ++tt ){
-                cout << (*tt)->name << endl;
-            }
-        }
-        cout << (*it).first << endl;
-    }*/
-
-
-    //cout << searchForString(group, "cf.tun3.lc7") << endl;
-
+    group.mapFromParameters();*/
 
     return currSession;
 

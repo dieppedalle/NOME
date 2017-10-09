@@ -8,10 +8,6 @@
 #include <stdio.h>
 #include "TransformationNew.h"
 
-Rotate* createRotate(double x, double y, double z, double angle);
-Mirror* createMirror(double x, double y, double z, double w);
-Translate* createTranslate(double x, double y, double z);
-
 Rotate* createRotate(double x, double y, double z, double angle)
 {
     Rotate * rotate = new Rotate();
@@ -22,14 +18,13 @@ Rotate* createRotate(double x, double y, double z, double angle)
     return rotate;
 }
 
-Mirror* createMirror(double x, double y, double z, double w)
+Scale* createScale(double x, double y, double z)
 {
-    Mirror * mirror = new Mirror();
-    mirror->x = x;
-    mirror->y = y;
-    mirror->z = z;
-    mirror->w = w;
-    return mirror;
+    Scale * scale = new Scale();
+    scale->x = x;
+    scale->y = y;
+    scale->z = z;
+    return scale;
 }
 
 Translate* createTranslate(double x, double y, double z)
