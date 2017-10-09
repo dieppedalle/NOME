@@ -93,7 +93,8 @@ HEADERS  += \
     Lewis/InstanceNew.h \
     Lewis/MeshNew.h \
     Lewis/Node.h \
-    Lewis/TransformationNew.h
+    Lewis/TransformationNew.h \
+    Lewis/BankNew.h
 
 linux{
     LIBS += -lglut -lGLU
