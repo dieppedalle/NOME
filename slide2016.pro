@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     Lewis/InstanceNew.cpp \
     Lewis/MeshNew.cpp \
     Lewis/Node.cpp \
-    Lewis/TransformationNew.cpp
+    Lewis/TransformationNew.cpp \
+    Lewis/BankNew.cpp
 
 HEADERS  += \
     edge.h \

@@ -10,11 +10,13 @@
 #define BankNew_h
 
 #include <stdio.h>
+#include <list>
+#include <string>
 
 class SetNew
 {
 public:
-    string name;
+    std::string name;
     double value;
     double start;
     double end;
@@ -24,15 +26,15 @@ public:
 class BankNew
 {
 public:
-    std::list<SetNew*> bank;
-    string name;
+    std::list<SetNew*> sets;
+    std::string name;
 };
 
 
 
 //Instantiation
 BankNew* createBank();
-SetNew* createSet();
+SetNew* createSet(std::string name, double value, double start, double end, double stepSize);
 
 
 #endif /* BankNew_h */

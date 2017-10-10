@@ -14,6 +14,7 @@
 #include "MeshNew.h"
 #include "GroupNew.h"
 #include "ObjectNew.h"
+#include "BankNew.h"
 
 typedef struct Session
 {
@@ -28,6 +29,7 @@ public:
     std::list<Surface*> surfaces;
     std::list<GroupNew*> groups;
     std::list<InstanceNew*> instances;
+    std::list<BankNew*> banks;
     std::string name;
 
     //Naming functions

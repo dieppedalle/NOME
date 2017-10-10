@@ -36,6 +36,7 @@ INPUT(
 ./debug\MeshNew.o
 ./debug\Node.o
 ./debug\TransformationNew.o
+./debug\BankNew.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o

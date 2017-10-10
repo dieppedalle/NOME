@@ -28,7 +28,7 @@ map<string,QColor> surfaces;
 map<string,Vertex*> vertices;
 std::vector<string> tempVariables;
 string currentSetName;
-std::vector<double> currentSetList;
+std::list<SetNew *> currentSetList;
 map<string,std::vector<double>> currentBank;
 std::vector<string> currentInstanceList;
 std::list<InstanceNew *> currentGroup;
@@ -268,19 +268,20 @@ delete:
 set:
     SET VARIABLE numberValue numberValue numberValue numberValue
     {
-        currentSetName = $<string>2;
-        currentSetList.clear();
-        currentSetList.push_back($<number>3);
-        currentSetList.push_back($<number>4);
-        currentSetList.push_back($<number>5);
+        string currentSetName = $<string>2;
+        double currentSetValue = $<number>3;
+        double currentSetStart = $<number>4;
+        double currentSetEnd = $<number>5;
+        double currentSetStepSize = $<number>6;
+        SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize);
+
+        currentSetList.push_back(currentSet);
 		printf("Created a Set\n");
 	}
 	;
 
 setArgs:
-    | setArgs set |  setArgs comment {
-        currentBank.insert({currentSetName, currentSetList});
-    }
+    | setArgs set |  setArgs comment
 	;
 
 faceMesh:
@@ -329,8 +330,11 @@ faceMesh:
 bank:
 	BANK VARIABLE setArgs END_BANK
     {
-        //currentBank contains element in bank
-        currentBank.clear();
+        BankNew * currentBank = createBank();
+        currentBank->sets = currentSetList;
+        currSession->banks.push_back(currentBank);
+        currentSetList.clear();
+
 		printf("Created a bank\n");
 	}
 	;
@@ -452,7 +456,7 @@ polyline:
 
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
-	{
+    {
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
