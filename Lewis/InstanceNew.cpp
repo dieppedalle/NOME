@@ -42,8 +42,6 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
-    std::cout << "Size vertices" << std::endl;
-    std::cout << mesh->verts.size() << std::endl;
     for(auto t : transformations) {
         if (dynamic_cast<Rotate*>(t)){
             Rotate* rotate = dynamic_cast<Rotate*>(t);

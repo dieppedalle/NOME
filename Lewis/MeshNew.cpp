@@ -80,7 +80,9 @@ bool MeshNew::deleteFace(FaceNew* f0)
 bool MeshNew::setName(std::string n)
 {
     name = n;
-    return updateNames();
+    bool error = updateNames();
+
+    return error;
 }
 
 bool MeshNew::updateNames()
