@@ -53,7 +53,7 @@ Vert* createVert(double x, double y, double z, double w)
     vertLock.unlock();
 
     v0->index = index;
-    v0->setName(std::to_string(index));
+    v0->setName("vert" + std::to_string(index));
     v0->x = x;
     v0->y = y;
     v0->z = z;
@@ -81,11 +81,12 @@ EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
     e0->v0 = v0;
     e0->v1 = v1;
     e0->index = index;
-    e0->setName(std::to_string(index));
+    e0->setName("edge" + std::to_string(index));
     e0->faceCount = 0;
     e0->vertCount = 0;
     
     v0->edges.push_back(e0); v1->edges.push_back(e0);
+
     return e0;
 }
 
@@ -116,7 +117,7 @@ FaceNew* createFace()
     faceLock.unlock();
     
     f0->index = index;
-    f0->setName(std::to_string(index));
+    f0->setName("face" + std::to_string(index));
     return f0;
 }
 

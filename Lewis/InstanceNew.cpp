@@ -28,6 +28,11 @@ InstanceNew* createInstance(MeshNew* m0)
    return i0;
 }
 
+bool InstanceNew::setName(std::string n)
+{
+    name = n;
+    return updateNames();
+}
 
 bool InstanceNew::updateNames()
 {

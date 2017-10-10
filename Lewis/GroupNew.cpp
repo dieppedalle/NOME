@@ -21,6 +21,12 @@ GroupNew* createGroup(GroupNew*)
     return NULL;
 }
 
+bool GroupNew::setName(std::string n)
+{
+    name = n;
+    return updateNames();
+}
+
 bool GroupNew::updateNames()
 {
     for (InstanceNew* m0 : instances)

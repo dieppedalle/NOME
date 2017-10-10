@@ -16,6 +16,7 @@ class GroupNew : public Node
 {
 public:
     std::list<InstanceNew*> instances;
+    bool setName(std::string n);
     bool updateNames();
 };
 

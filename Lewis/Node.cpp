@@ -9,7 +9,7 @@ Node::Node()
 bool Node::setName(std::string n)
 {
     name = n;
-    updateNames();
+    this->updateNames();
     return true;
 }
 
