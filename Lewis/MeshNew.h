@@ -39,6 +39,7 @@ public:
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);
 
+    bool setName(std::string n);
     bool updateNames();
 
 } MeshNew;

@@ -221,7 +221,6 @@ mesh:
     {
         MeshNew* currMesh = createMesh();
 
-        currMesh->setName(strdup($<string>2));
         for (std::list<FaceNew*>::iterator it=currentMeshFaces.begin(); it != currentMeshFaces.end(); ++it){
             currMesh->faces.insert(*it);
         }
@@ -234,8 +233,8 @@ mesh:
             currMesh->edges.insert(*it);
         }
 
+        currMesh->setName(strdup($<string>2));
         currSession->meshes.push_back(currMesh);
-
 		printf("Created a mesh\n");
 	}
 	;

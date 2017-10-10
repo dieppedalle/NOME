@@ -8,9 +8,14 @@
 
 #include "Session.h"
 
+static int sIndex = 0;
+
 Session* createSession()
 {
     Session* session0 = new Session();
+    session0->setName("Session" + std::to_string(sIndex));
+    sIndex++;
+    std::cout << session0->getName() << std::endl;
     return session0;
 }
 
@@ -22,8 +27,12 @@ Session* createSession(Session* s0)
 bool Session::setName(std::string n)
 {
     name = n;
-    updateNames();
     return updateNames();
+}
+
+std::string Session::getName()
+{
+    return name;
 }
 
 bool Session::updateNames()

@@ -15,9 +15,10 @@
 
 class Node
 {
+public:
     std::string name;
     std::string prefix;
-public:
+
     Node();
 
     std::string getName();

@@ -19,6 +19,7 @@ class InstanceNew : public Node
 {
 public:
     MeshNew* mesh;
+    bool setName(std::string n);
     bool updateNames();
     bool draw();
     Surface* surface;

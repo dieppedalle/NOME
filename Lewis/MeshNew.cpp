@@ -8,6 +8,8 @@
 
 #include "MeshNew.h"
 
+static int mIndex = 0;
+
 ///Mesh class methods, see header file for more details
 bool MeshNew::hasVert(Vert* v0)
 {
@@ -75,6 +77,12 @@ bool MeshNew::deleteFace(FaceNew* f0)
     return true;
 }
 
+bool MeshNew::setName(std::string n)
+{
+    name = n;
+    return updateNames();
+}
+
 bool MeshNew::updateNames()
 {
     for(Vert* v0 : verts)
@@ -89,6 +97,22 @@ bool MeshNew::updateNames()
     {
         f0->setPrefix(getFullName());
     }
+    /*
+    std::cout << "mid" << std::endl;
+    for(Vert* v0 : verts)
+    {
+        std::cout << v0->getFullName() << std::endl;
+    }
+    for(EdgeNew* e0 : edges)
+    {
+        std::cout << e0->getFullName() << std::endl;
+    }
+    for(FaceNew* f0 : faces)
+    {
+        std::cout << f0->getFullName() << std::endl;
+    }
+    std::cout << "end" << std::endl;
+    */
     return true;
 }
 
@@ -100,5 +124,8 @@ MeshNew* createMesh()
     //std::list<Vert*> verts; std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
     //m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
+    m0->setName("mesh" + std::to_string(mIndex));
+    mIndex++;
+    std::cout << m0->getFullName() << std::endl;
     return m0;
 }
