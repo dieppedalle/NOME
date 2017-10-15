@@ -37,9 +37,11 @@ INPUT(
 ./debug\Node.o
 ./debug\TransformationNew.o
 ./debug\BankNew.o
+./debug\SliderNew.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o
 ./debug\moc_myslider.o
 ./debug\moc_nomeglwidget.o
+./debug\moc_SliderNew.o
 );

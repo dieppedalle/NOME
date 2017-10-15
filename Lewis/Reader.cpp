@@ -71,6 +71,7 @@ Vert* Reader::vert(std::string name)
 {
     for(Vert* v : session->verts)
     {
+        std::cout << v->getFullName() << std::endl;
         if(!name.compare(v->getName()))
             return v;
     }

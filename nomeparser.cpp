@@ -189,10 +189,12 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &postProcessingLinesString,
                               unordered_map<string, Vertex*> &global_vertices, unordered_map<string, Face*> &global_faces)
 {
+    //std::cout << "HELLO" << std::endl;
     yyin = fopen(input.c_str(), "r");
-
+    //std::cout << "HELLO" << std::endl;
     yyparse();
-    parser(input);
+    //std::cout << "HELLO" << std::endl;
+    //parser(input);
 
     //cout << input << endl;
     /*banks.clear();

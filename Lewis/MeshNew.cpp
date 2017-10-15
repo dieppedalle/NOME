@@ -128,6 +128,6 @@ MeshNew* createMesh()
     //This behaviour depends on the parser
     m0->setName("mesh" + std::to_string(mIndex));
     mIndex++;
-    std::cout << m0->getFullName() << std::endl;
+    //std::cout << m0->getFullName() << std::endl;
     return m0;
 }

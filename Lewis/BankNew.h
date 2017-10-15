@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <list>
 #include <string>
+#include <QWidget>
 
 class SetNew
 {
@@ -28,6 +29,7 @@ class BankNew
 public:
     std::list<SetNew*> sets;
     std::string name;
+    bool draw();
 };
 
 

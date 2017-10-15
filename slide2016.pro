@@ -53,7 +53,8 @@ SOURCES += main.cpp\
     Lewis/MeshNew.cpp \
     Lewis/Node.cpp \
     Lewis/TransformationNew.cpp \
-    Lewis/BankNew.cpp
+    Lewis/BankNew.cpp \
+    Lewis/SliderNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -95,7 +96,8 @@ HEADERS  += \
     Lewis/MeshNew.h \
     Lewis/Node.h \
     Lewis/TransformationNew.h \
-    Lewis/BankNew.h
+    Lewis/BankNew.h \
+    Lewis/SliderNew.h
 
 linux{
     LIBS += -lglut -lGLU

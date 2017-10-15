@@ -166,6 +166,11 @@ void MainWindow::createCanvas(QString name)
         currSession = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString, global_vertices, global_faces);
 
+        for(auto b : currSession->banks) {
+            b->draw();
+        }
+        //SliderPanel *newPanel = new SliderPanel(NULL, canvas);
+
         if (error == 1){
             return;
         }

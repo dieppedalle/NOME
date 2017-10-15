@@ -89,7 +89,7 @@ num:
 comment:
     COMMENT
     {
-        printf("Comment!\n");
+        //printf("Comment!\n");
     }
     ;
 
@@ -123,7 +123,7 @@ rotateArgs:
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
-        printf("Rotated\n");
+        //printf("Rotated\n");
     }
     ;
 
@@ -135,7 +135,7 @@ translateArgs:
         double z = $<number>5;
 
         currentTransformations.push_back(createTranslate(x, y, z));
-        printf("Translated\n");
+        //printf("Translated\n");
     }
     ;
 
@@ -146,7 +146,7 @@ scaleArgs:
         double y = $<number>4;
         double z = $<number>5;
         currentTransformations.push_back(createScale(x, y, z));
-        printf("Scaled\n");
+        //printf("Scaled\n");
     }
     ;
 
@@ -160,7 +160,7 @@ mirrorArgs:
 
         //currentTransformations.push_back(createMirror(x, y, z, w));
 
-        printf("Mirrored\n");
+        //printf("Mirrored\n");
     }
     ;
 
@@ -206,7 +206,7 @@ instanceGroup:
         }
 
         //TODO: ADD TO INSTANCE LIST
-        printf("Created an instance group\n");
+        //printf("Created an instance group\n");
 
         currentGroup.push_back(newInstance);
     }
@@ -219,6 +219,7 @@ faceDeleteArgs:
 mesh:
 	MESH VARIABLE faceArgs END_MESH
     {
+
         MeshNew* currMesh = createMesh();
 
         for (std::list<FaceNew*>::iterator it=currentMeshFaces.begin(); it != currentMeshFaces.end(); ++it){
@@ -235,7 +236,7 @@ mesh:
 
         currMesh->setName(strdup($<string>2));
         currSession->meshes.push_back(currMesh);
-		printf("Created a mesh\n");
+        //printf("Created a mesh\n");
 	}
 	;
 
@@ -246,7 +247,7 @@ group:
         currGroup->setName(strdup($<string>2));
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
-		printf("Created a group\n");
+        //printf("Created a group\n");
 	}
 	;
 
@@ -254,13 +255,13 @@ expr:
     OBRACE EXPR BANK_EXPR EBRACE
     {
         $<string>$ = $3;
-        printf("Expression\n");
+        //printf("Expression\n");
     };
 
 delete:
     BEG_DELETE faceDeleteArgs END_DELETE
     {
-		printf("Deleting faces\n");
+        //printf("Deleting faces\n");
 	}
 	;
 
@@ -272,10 +273,11 @@ set:
         double currentSetStart = $<number>4;
         double currentSetEnd = $<number>5;
         double currentSetStepSize = $<number>6;
+
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize);
 
         currentSetList.push_back(currentSet);
-		printf("Created a Set\n");
+        //printf("Created a Set\n");
 	}
 	;
 
@@ -286,6 +288,7 @@ setArgs:
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
+
         std::list<Vert*> verticesFace;
 
 
@@ -322,7 +325,7 @@ faceMesh:
 
         tempVariables.clear();
 
-        printf("Created a face\n");
+        //printf("Created a face\n");
     }
     ;
 
@@ -330,11 +333,12 @@ bank:
 	BANK VARIABLE setArgs END_BANK
     {
         BankNew * currentBank = createBank();
+        currentBank->name = strdup($<string>2);
         currentBank->sets = currentSetList;
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
 
-		printf("Created a bank\n");
+        //printf("Created a bank\n");
 	}
 	;
 
@@ -345,7 +349,7 @@ circle:
         double num = $<number>4;
         double rad = $<number>5;
 
-        printf("Created a circle\n");
+        //printf("Created a circle\n");
     };
 
 tunnel:
@@ -358,7 +362,7 @@ tunnel:
         double ratio = $<number>6;
         double h = $<number>7;
 
-		printf("Created a tunnel\n");
+        //printf("Created a tunnel\n");
 	}
 	;
 
@@ -373,7 +377,7 @@ funnel:
         double h = $<number>7;
 
 
-		printf("Created a funnel\n");
+        //printf("Created a funnel\n");
 	}
 	;
 
@@ -419,14 +423,14 @@ face:
 
         tempVariables.clear();
 
-		printf("Created a face\n");
+        //printf("Created a face\n");
 	}
 	;
 
 faceDelete:
 	FACE VARIABLE END_FACE
 	{
-		printf("Deleting face\n");
+        //printf("Deleting face\n");
 	}
 	;
 
@@ -449,13 +453,14 @@ polyline:
 
         tempVariables.clear();
 
-		printf("Created a polyline\n");
+        //printf("Created a polyline\n");
 	}
 	;
 
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
+
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
@@ -491,7 +496,7 @@ instance:
 
 
         //TODO: ADD TO INSTANCE LIST
-		printf("Created an instance\n");
+        //printf("Created an instance\n");
 	}
 	;
 
@@ -532,13 +537,13 @@ surface:
 multi_line_comment:
 	MULTI_LINE_COMMENT
 	{
-		printf("Created a multiline comment.\n");
+        //printf("Created a multiline comment.\n");
 	}
 	;
 
 point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
-	{
+    {
         Vert * newVertex = createVert ($<number>4, $<number>5, $<number>6);
         newVertex->setName(strdup($<string>2));
         currSession->verts.push_back(newVertex);
