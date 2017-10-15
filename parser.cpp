@@ -109,10 +109,27 @@ std::list<EdgeNew *> currentMeshEdges;
 
 std::list<TransformationNew *> currentTransformations;
 
+double getBankValue(std::string str){
+    unsigned first = str.find("$") + 1;
+    unsigned last = str.find(".");
+    string strNew = str.substr (first,last-first);
+
+    for(auto b : currSession->banks) {
+        if (b->name == strNew){
+            for(auto s : b->sets) {
+                if (s->name == str.substr(last + 1)){
+                    return s->value;
+                }
+            }
+        }
+    }
+    return 0.0;
+}
+
 
 
 /* Line 189 of yacc.c  */
-#line 116 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 133 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -253,7 +270,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 51 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 68 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
 
     double number;
     char *string;
@@ -261,7 +278,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 265 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 282 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -273,7 +290,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 277 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 294 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
 
 #ifdef short
 # undef short
@@ -589,13 +606,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    62,    62,    63,    68,    68,    68,    68,    68,    68,
-      68,    68,    69,    69,    69,    69,    69,    69,    69,    73,
-      75,    83,    90,    97,    99,   105,   106,   111,   112,   112,
-     112,   112,   116,   131,   143,   154,   167,   168,   171,   172,
-     176,   215,   216,   220,   244,   255,   262,   269,   284,   285,
-     285,   289,   333,   346,   356,   370,   385,   391,   431,   438,
-     461,   504,   531,   538,   545
+       0,    79,    79,    80,    85,    85,    85,    85,    85,    85,
+      85,    85,    86,    86,    86,    86,    86,    86,    86,    90,
+      92,   100,   107,   114,   116,   122,   123,   128,   129,   129,
+     129,   129,   133,   148,   160,   171,   184,   185,   188,   189,
+     193,   232,   233,   237,   261,   272,   279,   286,   301,   302,
+     302,   306,   350,   363,   373,   387,   402,   408,   448,   455,
+     478,   521,   548,   579,   586
 };
 #endif
 
@@ -1603,7 +1620,7 @@ yyreduce:
         case 19:
 
 /* Line 1455 of yacc.c  */
-#line 73 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.number) = (yyvsp[(1) - (1)].number);
     }
@@ -1612,7 +1629,7 @@ yyreduce:
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 93 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.string) = (yyvsp[(1) - (1)].string);
     }
@@ -1621,7 +1638,7 @@ yyreduce:
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 84 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 101 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.number) = (yyvsp[(1) - (1)].number);
     }
@@ -1630,7 +1647,7 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 108 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         //printf("Comment!\n");
     }
@@ -1639,7 +1656,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 99 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 116 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         tempVariables.push_back((yyvsp[(2) - (2)].string));
     }
@@ -1648,14 +1665,14 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 105 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 122 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {(yyval.string) = "";}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 106 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 123 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.string) = (yyvsp[(2) - (2)].string);
     }
@@ -1664,7 +1681,7 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 117 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 134 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double x = (yyvsp[(3) - (9)].number);
         double y = (yyvsp[(4) - (9)].number);
@@ -1681,7 +1698,7 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 132 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 149 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double x = (yyvsp[(3) - (6)].number);
         double y = (yyvsp[(4) - (6)].number);
@@ -1695,7 +1712,7 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 144 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 161 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double x = (yyvsp[(3) - (6)].number);
         double y = (yyvsp[(4) - (6)].number);
@@ -1708,7 +1725,7 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 155 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 172 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double x = (yyvsp[(3) - (7)].number);
         double y = (yyvsp[(4) - (7)].number);
@@ -1724,7 +1741,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 177 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 194 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string instanceName = strdup((yyvsp[(2) - (6)].string));
         string lookFor = strdup((yyvsp[(3) - (6)].string));
@@ -1766,7 +1783,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 221 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 238 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 
         MeshNew* currMesh = createMesh();
@@ -1792,7 +1809,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 245 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 262 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         GroupNew* currGroup = createGroup(currentGroup);
         currGroup->setName(strdup((yyvsp[(2) - (4)].string)));
@@ -1805,7 +1822,7 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 256 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 273 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.string) = (yyvsp[(3) - (4)].string);
         //printf("Expression\n");
@@ -1815,7 +1832,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 263 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 280 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         //printf("Deleting faces\n");
 	}
@@ -1824,7 +1841,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 270 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 287 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string currentSetName = (yyvsp[(2) - (6)].string);
         double currentSetValue = (yyvsp[(3) - (6)].number);
@@ -1842,7 +1859,7 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 290 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 307 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 
         std::list<Vert*> verticesFace;
@@ -1888,7 +1905,7 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 334 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 351 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         BankNew * currentBank = createBank();
         currentBank->name = strdup((yyvsp[(2) - (4)].string));
@@ -1903,7 +1920,7 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 347 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 364 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string name = (yyvsp[(2) - (7)].string);
         double num = (yyvsp[(4) - (7)].number);
@@ -1916,7 +1933,7 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 358 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 375 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string name = (yyvsp[(2) - (9)].string);
         double n = (yyvsp[(4) - (9)].number);
@@ -1931,7 +1948,7 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 372 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 389 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string name = (yyvsp[(2) - (9)].string);
         double n = (yyvsp[(4) - (9)].number);
@@ -1947,7 +1964,7 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 386 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 403 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 	}
     break;
@@ -1955,7 +1972,7 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 392 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 409 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -1997,7 +2014,7 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 432 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 449 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         //printf("Deleting face\n");
 	}
@@ -2006,7 +2023,7 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 439 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 456 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         // Create list of vertices of face.
         std::vector<Vertex*> verticesPolyline;
@@ -2031,7 +2048,7 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 462 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 479 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 
         string instanceName = strdup((yyvsp[(2) - (6)].string));
@@ -2076,7 +2093,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 505 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 522 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2105,16 +2122,40 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 532 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 549 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        currSession->surfaces.push_back(createSurface((yyvsp[(5) - (9)].number), (yyvsp[(6) - (9)].number), (yyvsp[(7) - (9)].number), strdup((yyvsp[(2) - (9)].string))));
+        double r;
+        double g;
+        double b;
+        if ((yyvsp[(5) - (9)].string) == NULL){
+            r = (yyvsp[(5) - (9)].number);
+        }
+        else{
+            r = getBankValue((yyvsp[(5) - (9)].string));
+        }
+
+        if ((yyvsp[(6) - (9)].string) == NULL){
+            g = (yyvsp[(6) - (9)].number);
+        }
+        else{
+            g = getBankValue((yyvsp[(6) - (9)].string));
+        }
+
+        if ((yyvsp[(7) - (9)].string) == NULL){
+            b = (yyvsp[(7) - (9)].number);
+        }
+        else{
+            b = getBankValue((yyvsp[(7) - (9)].string));
+        }
+
+        currSession->surfaces.push_back(createSurface(r, g, b, strdup((yyvsp[(2) - (9)].string))));
 	}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 539 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 580 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         //printf("Created a multiline comment.\n");
 	}
@@ -2123,7 +2164,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 546 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 587 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         Vert * newVertex = createVert ((yyvsp[(4) - (8)].number), (yyvsp[(5) - (8)].number), (yyvsp[(6) - (8)].number));
         newVertex->setName(strdup((yyvsp[(2) - (8)].string)));
@@ -2134,7 +2175,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2138 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2179 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

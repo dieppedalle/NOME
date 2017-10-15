@@ -38,23 +38,6 @@ std::list<EdgeNew *> currentMeshEdges;
 
 std::list<TransformationNew *> currentTransformations;
 
-double getBankValue(std::string str){
-    unsigned first = str.find("$") + 1;
-    unsigned last = str.find(".");
-    string strNew = str.substr (first,last-first);
-
-    for(auto b : currSession->banks) {
-        if (b->name == strNew){
-            for(auto s : b->sets) {
-                if (s->name == str.substr(last + 1)){
-                    return s->value;
-                }
-            }
-        }
-    }
-    return 0.0;
-}
-
 %}
 %token COLOR VARIABLE MULTI_LINE_COMMENT COMMENT NEWLINE OMULTI_LINE_COMMENT
 EMULTI_LINE_COMMENT SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
@@ -554,21 +537,22 @@ surface:
             r = $<number>5;
         }
         else{
-            r = getBankValue($<string>5);
+            cout << $<string>5 << endl;
+            std::string str = $<string>5;
+            unsigned first = str.find("$")+1;
+            unsigned last = str.find(".");
+            string strNew = str.substr (first,last-first);
+
+            cout << strNew << endl;
+            // It is an expression
         }
 
         if ($<string>6 == NULL){
             g = $<number>6;
         }
-        else{
-            g = getBankValue($<string>6);
-        }
 
         if ($<string>7 == NULL){
             b = $<number>7;
-        }
-        else{
-            b = getBankValue($<string>7);
         }
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
