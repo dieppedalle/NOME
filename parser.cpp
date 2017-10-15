@@ -2166,8 +2166,36 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 587 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        Vert * newVertex = createVert ((yyvsp[(4) - (8)].number), (yyvsp[(5) - (8)].number), (yyvsp[(6) - (8)].number));
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+
+        if ((yyvsp[(4) - (8)].string) == NULL){
+            *x = (yyvsp[(4) - (8)].number);
+        }
+        else{
+            x = getBankValue((yyvsp[(4) - (8)].string));
+        }
+
+        if ((yyvsp[(5) - (8)].string) == NULL){
+            *y = (yyvsp[(5) - (8)].number);
+        }
+        else{
+            y = getBankValue((yyvsp[(5) - (8)].string));
+        }
+
+        if ((yyvsp[(6) - (8)].string) == NULL){
+            *z = (yyvsp[(6) - (8)].number);
+        }
+        else{
+            z = getBankValue((yyvsp[(6) - (8)].string));
+        }
+
+        cout << "HELLO" << endl;
+        Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup((yyvsp[(2) - (8)].string)));
+        cout << "BYE" << endl;
         currSession->verts.push_back(newVertex);
 	}
     break;
@@ -2175,7 +2203,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2179 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2207 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

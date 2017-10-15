@@ -204,6 +204,7 @@ void MainWindow::drawSliders(SlideGLWidget * canvas, Session *currSession)
 {
     for(auto b : currSession->banks) {
         QWidget *window = new QWidget;
+        window->resize(400,0);
         QVBoxLayout* layout = new QVBoxLayout(window);
         QLabel* label = new QLabel(b->name.c_str());
         layout->addWidget(label);

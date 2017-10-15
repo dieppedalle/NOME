@@ -57,7 +57,6 @@ bool InstanceNew::draw()
         }
     }
 
-    //std::cout << "START" << std::endl;
     for(auto v : mesh->verts) {
       //std::cout << v->getFullName() << std::endl;
       drawVert(v, surface);

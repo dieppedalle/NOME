@@ -8,13 +8,6 @@
 #include <QLabel>
 #include "Data.h"
 
-/* std::string name;
-    double value;
-    double start;
-    double end;
-    double stepSize;
- */
-
 SliderNew::SliderNew(SetNew* set, SlideGLWidget * canvas)
 {
     this->canvas = canvas;
@@ -25,6 +18,7 @@ SliderNew::SliderNew(SetNew* set, SlideGLWidget * canvas)
     QHBoxLayout *sliderLayout;
     this -> addLayout(sliderLayout = new QHBoxLayout);
     sliderLayout -> addWidget(new QLabel(QString::number(set->start)));
+
     //Initialize Slider and Label here
     slider = new QSlider(Qt::Horizontal);
     slider -> setPageStep(1);

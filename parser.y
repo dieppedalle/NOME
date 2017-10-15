@@ -585,8 +585,36 @@ multi_line_comment:
 point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
     {
-        Vert * newVertex = createVert ($<number>4, $<number>5, $<number>6);
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+
+        if ($<string>4 == NULL){
+            *x = $<number>4;
+        }
+        else{
+            x = getBankValue($<string>4);
+        }
+
+        if ($<string>5 == NULL){
+            *y = $<number>5;
+        }
+        else{
+            y = getBankValue($<string>5);
+        }
+
+        if ($<string>6 == NULL){
+            *z = $<number>6;
+        }
+        else{
+            z = getBankValue($<string>6);
+        }
+
+        cout << "HELLO" << endl;
+        Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup($<string>2));
+        cout << "BYE" << endl;
         currSession->verts.push_back(newVertex);
 	}
 	;

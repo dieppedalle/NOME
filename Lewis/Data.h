@@ -52,7 +52,9 @@ Surface* createSurface(double *r, double *g, double *b, std::string name);
 typedef class Vert : public Node
 {
 public:
-    double x, y, z;
+    double *x;
+    double *y;
+    double *z;
     double weight;
     VertI index;
     std::list<EdgeNew*> edges;
@@ -86,8 +88,8 @@ public:
 ///Vert Instantiation
 Vert* createVert();
 Vert* createVert(Vert*);
-Vert* createVert(double x, double y, double z);
-Vert* createVert(double x, double y, double z, double w);
+Vert* createVert(double *x, double *y, double *z);
+Vert* createVert(double *x, double *y, double *z, double w);
 
 ///Edge Instantiation
 EdgeNew* createEdge(EdgeNew*);

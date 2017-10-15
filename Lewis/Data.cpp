@@ -42,17 +42,24 @@ QColor Surface::getColor(){
 ///Create a default vert, will be at the origin with weight of 1.0
 Vert* createVert()
 {
-    return createVert(0.0, 0.0, 0.0, 1.0);
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    *x = 0.0;
+    *y = 0.0;
+    *z = 0.0;
+    return createVert(x, y, z, 1.0);
 }
 
 ///Create a vert with specified x, y, z values without having to specify a weight
-Vert* createVert(double x, double y, double z)
+Vert* createVert(double *x, double *y, double *z)
 {
     return createVert(x, y, z, 1.0);
 }
 
 ///Create a weighted vert at x, y, z value
-Vert* createVert(double x, double y, double z, double w)
+Vert* createVert(double *x, double *y, double *z, double w)
 {
     Vert* v0 = new Vert();
     vertLock.lock();
@@ -107,7 +114,7 @@ EdgeNew* createEdge(Vert* v0, Vert* v1)
 ///Lazy construct, create edge without prior verts
 EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, double z1, double interval)
 {
-    Vert* v0 = createVert(x0, y0, z0); Vert* v1 = createVert(x1, y1, z1);
+    Vert* v0 = createVert(&x0, &y0, &z0); Vert* v1 = createVert(&x1, &y1, &z1);
     return createEdge(v0, v1, interval);
 }
 
@@ -301,9 +308,9 @@ bool drawVert(Vert* v0, Surface * instSurface){
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
 
     glLoadName(v0->index);
-    float x = v0->x;
-    float y = v0->y;
-    float z = v0->z;
+    float x = *v0->x;
+    float y = *v0->y;
+    float z = *v0->z;
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
         glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
@@ -345,8 +352,8 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(e0->index);
     glBegin(GL_LINE_STRIP);
-        glVertex3f(e0->v0->x, e0->v0->y, e0->v0->z);
-        glVertex3f(e0->v1->x, e0->v1->y, e0->v1->z);
+        glVertex3f(*e0->v0->x, *e0->v0->y, *e0->v0->z);
+        glVertex3f(*e0->v1->x, *e0->v1->y, *e0->v1->z);
     glEnd();
     return true;
 }
@@ -372,7 +379,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glLoadName(f0->index);
     glBegin(GL_POLYGON);
     for(auto v0 : f0->verts) {
-      glVertex3f(v0->x, v0->y, v0->z);
+      glVertex3f(*v0->x, *v0->y, *v0->z);
     }
     glEnd();
     return true;
