@@ -42,7 +42,7 @@
 #include <QMessageBox>
 #include <QColor>
 #include <QString>
-#include <Lewis/Session.h>
+#include "Lewis/Session.h"
 class SlideGLWidget: public QGLWidget
 {
     Q_OBJECT

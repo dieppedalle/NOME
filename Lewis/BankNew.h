@@ -29,7 +29,7 @@ class BankNew
 public:
     std::list<SetNew*> sets;
     std::string name;
-    bool draw();
+    //bool draw();
 };
 
 

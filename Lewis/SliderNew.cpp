@@ -15,8 +15,9 @@
     double stepSize;
  */
 
-SliderNew::SliderNew(SetNew* set)
+SliderNew::SliderNew(SetNew* set, SlideGLWidget * canvas)
 {
+    this->canvas = canvas;
     this->set = set;
     label = new QLabel((set->name + ": ").c_str() + QString::number(set->value));
 
@@ -42,7 +43,9 @@ SliderNew::SliderNew(SetNew* set)
 
 void SliderNew::sliderValueChanged(int value)
 {
+    set->value = value * (set -> stepSize) + set -> start;
     label->setText((set->name + ": ").c_str() + QString::number(value * (set -> stepSize) + set -> start));
+    canvas -> updateGL();
 };
 
 

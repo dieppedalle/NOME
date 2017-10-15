@@ -31,9 +31,9 @@ SlideGLWidget::SlideGLWidget(Group &group, Session *currSession, QWidget *parent
     this->currSession = currSession;
     generalSetup();
     //makeDefaultMesh();
-    hierarchical_scene = &group;
-    makeSLFMesh();
-    updateGlobalIndexList();
+    //hierarchical_scene = &group;
+    //makeSLFMesh();
+    //updateGlobalIndexList();
 }
 
 void SlideGLWidget::generalSetup()
@@ -364,64 +364,7 @@ void SlideGLWidget::paintGL()
     for (std::list<InstanceNew*>::iterator itMesh = currSession->instances.begin(); itMesh != currSession->instances.end(); itMesh++){
         (*itMesh)->draw();
     }
-    //cout << currSession->verts.size() << endl;
-    //cout << "PAINTING" << endl;
-    //FOR TESTING PURPOSES
-    //====================
-    /*for(int n=0; n<10; n++)
-    {
-        //glLoadName(start_index + counter);
-        float x = 0;
-        float y = 0;
-        float z = 0;
-        glBegin(GL_QUADS);
-            glNormal3f(0, 0, 1);
-            glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
-            glVertex3f(x - 0.1 / 2, y + 0.1 / 2, z);
-            glVertex3f(x - 0.1 / 2, y - 0.1 / 2, z);
-            glVertex3f(x + 0.1 / 2, y - 0.1 / 2, z);
-        glEnd();
-        glBegin(GL_QUADS);
-            glNormal3f(1, 0, 0);
-            glVertex3f(x, y + 0.1 / 2, z + 0.1 / 2);
-            glVertex3f(x, y - 0.1 / 2, z + 0.1 / 2);
-            glVertex3f(x, y - 0.1 / 2, z - 0.1 / 2);
-            glVertex3f(x, y + 0.1 / 2, z - 0.1 / 2);
-        glEnd();
-        glBegin(GL_QUADS);
-            glNormal3f(0, 1, 0);
-            glVertex3f(x + 0.1 / 2, y, z - 0.1 / 2);
-            glVertex3f(x + 0.1 / 2, y, z + 0.1 / 2);
-            glVertex3f(x - 0.1 / 2, y, z + 0.1 / 2);
-            glVertex3f(x - 0.1 / 2, y, z - 0.1 / 2);
-        glEnd();
-    }*/
-    //====================
 
-    /*switch(viewer_mode)
-    {
-    case 0:
-        draw_scene();
-        break;
-    case 1:
-        if(work_phase > 0)
-        {
-            draw_mesh(0, &merged_mesh);
-        }
-        break;
-    case 2:
-        if(work_phase > 1)
-        {
-            draw_mesh(0, &subdiv_mesh);
-        }
-        break;
-    case 3:
-        if(work_phase > 2)
-        {
-            draw_mesh(0, &offset_mesh);
-        }
-        break;
-    }*/
 }
 
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)

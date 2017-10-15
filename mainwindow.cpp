@@ -6,6 +6,7 @@
  */
 
 #include "mainwindow.h"
+#include "Lewis/SliderNew.h"
 
 MainWindow::MainWindow()
 {
@@ -166,9 +167,9 @@ void MainWindow::createCanvas(QString name)
         currSession = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString, global_vertices, global_faces);
 
-        for(auto b : currSession->banks) {
+        /*for(auto b : currSession->banks) {
             b->draw();
-        }
+        }*/
         //SliderPanel *newPanel = new SliderPanel(NULL, canvas);
 
         if (error == 1){
@@ -176,25 +177,42 @@ void MainWindow::createCanvas(QString name)
         }
 
         canvas = new SlideGLWidget(scene, currSession);
-        canvas -> group_from_consolidate_mesh = &append_scene;
+        //canvas -> group_from_consolidate_mesh = &append_scene;
 
-        error = nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString, global_vertices, global_faces);
+        //error = nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString, global_vertices, global_faces);
 
         if (error == 1){
             return;
         }
 
-
-        createSliderPanel(canvas);
+        drawSliders(canvas, currSession);
+        //createSliderPanel(canvas);
         canvas -> move(0, 50);
         canvas -> show();
         createControlPanel(canvas);
+        canvas -> updateGL();
+
     }
     else
     {
         cout<<"File type not supported!";
     }
 
+}
+
+void MainWindow::drawSliders(SlideGLWidget * canvas, Session *currSession)
+{
+    for(auto b : currSession->banks) {
+        QWidget *window = new QWidget;
+        QVBoxLayout* layout = new QVBoxLayout(window);
+        QLabel* label = new QLabel(b->name.c_str());
+        layout->addWidget(label);
+        for(auto s : b->sets) {
+            layout -> addLayout(new SliderNew(s, canvas));
+        }
+        window->setLayout(layout);
+        window->show();
+    }
 }
 
 void MainWindow::createSliderPanel(SlideGLWidget * canvas)

@@ -43,6 +43,7 @@ public:
     double *b;
     QColor color;
     std::string name;
+    QColor getColor();
 } Surface;
 
 Surface* createSurface(double *r, double *g, double *b, std::string name);

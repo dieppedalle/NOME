@@ -9,12 +9,13 @@
 #include <QHBoxLayout>
 #include <QSlider>
 #include <QLabel>
+#include "nomeglwidget.h"
 
 class SliderNew: public QVBoxLayout
 {
   Q_OBJECT
   public:
-    SliderNew(SetNew* set);
+    SliderNew(SetNew* set, SlideGLWidget * canvas);
     ~ SliderNew(){};
 
    public slots:
@@ -24,6 +25,7 @@ class SliderNew: public QVBoxLayout
   SetNew* set;
   QSlider* slider;
   QLabel* label;
+  SlideGLWidget * canvas;
 };
 
 #endif

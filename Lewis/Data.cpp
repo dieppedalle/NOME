@@ -33,6 +33,11 @@ Surface* createSurface(double *r, double *g, double *b, std::string name)
     return surface0;
 }
 
+QColor Surface::getColor(){
+    color = QColor(255 * *r, 255 * *g, 255 * *b);
+    return color;
+}
+
 ///Vertex functions
 ///Create a default vert, will be at the origin with weight of 1.0
 Vert* createVert()
@@ -350,10 +355,10 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
 {
     QColor color;
     if (instSurface != NULL){
-        color = instSurface->color;
+        color = instSurface->getColor();
     }
     else if (f0->surface != NULL){
-        color = f0->surface->color;
+        color = f0->surface->getColor();
     } else{
         color = defaultColor;
     }
