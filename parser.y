@@ -38,7 +38,7 @@ std::list<EdgeNew *> currentMeshEdges;
 
 std::list<TransformationNew *> currentTransformations;
 
-double getBankValue(std::string str){
+double *getBankValue(std::string str){
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -47,12 +47,12 @@ double getBankValue(std::string str){
         if (b->name == strNew){
             for(auto s : b->sets) {
                 if (s->name == str.substr(last + 1)){
-                    return s->value;
+                    return &s->value;
                 }
             }
         }
     }
-    return 0.0;
+    return NULL;
 }
 
 %}
@@ -547,25 +547,25 @@ object:
 surface:
     SURFACE VARIABLE COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
     {
-        double r;
-        double g;
-        double b;
+        double *r = (double*) malloc(sizeof(double));
+        double *g = (double*) malloc(sizeof(double));
+        double *b = (double*) malloc(sizeof(double));
         if ($<string>5 == NULL){
-            r = $<number>5;
+            *r = $<number>5;
         }
         else{
             r = getBankValue($<string>5);
         }
 
         if ($<string>6 == NULL){
-            g = $<number>6;
+            *g = $<number>6;
         }
         else{
             g = getBankValue($<string>6);
         }
 
         if ($<string>7 == NULL){
-            b = $<number>7;
+            *b = $<number>7;
         }
         else{
             b = getBankValue($<string>7);

@@ -109,7 +109,7 @@ std::list<EdgeNew *> currentMeshEdges;
 
 std::list<TransformationNew *> currentTransformations;
 
-double getBankValue(std::string str){
+double *getBankValue(std::string str){
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -118,12 +118,12 @@ double getBankValue(std::string str){
         if (b->name == strNew){
             for(auto s : b->sets) {
                 if (s->name == str.substr(last + 1)){
-                    return s->value;
+                    return &s->value;
                 }
             }
         }
     }
-    return 0.0;
+    return NULL;
 }
 
 
@@ -2124,25 +2124,25 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 549 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        double r;
-        double g;
-        double b;
+        double *r = (double*) malloc(sizeof(double));
+        double *g = (double*) malloc(sizeof(double));
+        double *b = (double*) malloc(sizeof(double));
         if ((yyvsp[(5) - (9)].string) == NULL){
-            r = (yyvsp[(5) - (9)].number);
+            *r = (yyvsp[(5) - (9)].number);
         }
         else{
             r = getBankValue((yyvsp[(5) - (9)].string));
         }
 
         if ((yyvsp[(6) - (9)].string) == NULL){
-            g = (yyvsp[(6) - (9)].number);
+            *g = (yyvsp[(6) - (9)].number);
         }
         else{
             g = getBankValue((yyvsp[(6) - (9)].string));
         }
 
         if ((yyvsp[(7) - (9)].string) == NULL){
-            b = (yyvsp[(7) - (9)].number);
+            *b = (yyvsp[(7) - (9)].number);
         }
         else{
             b = getBankValue((yyvsp[(7) - (9)].string));

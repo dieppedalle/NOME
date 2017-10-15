@@ -22,10 +22,13 @@ static std::mutex edgeLock;
 static std::mutex faceLock;
 
 ///Surfaces
-Surface* createSurface(double r, double g, double b, std::string name)
+Surface* createSurface(double *r, double *g, double *b, std::string name)
 {
     Surface * surface0 = new Surface();
-    surface0->color = QColor(255 * r, 255 * g, 255 * b);
+    surface0->r = r;
+    surface0->g = g;
+    surface0->b = b;
+    surface0->color = QColor(255 * *r, 255 * *g, 255 * *b);
     surface0->name = name;
     return surface0;
 }

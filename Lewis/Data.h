@@ -38,11 +38,14 @@ class FaceNew;
 typedef class Surface
 {
 public:
+    double *r;
+    double *g;
+    double *b;
     QColor color;
     std::string name;
 } Surface;
 
-Surface* createSurface(double r, double g, double b, std::string name);
+Surface* createSurface(double *r, double *g, double *b, std::string name);
 
 ///Vertex - Usual definition of a vertex in 3d space
 typedef class Vert : public Node
