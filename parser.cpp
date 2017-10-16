@@ -2192,10 +2192,8 @@ yyreduce:
             z = getBankValue((yyvsp[(6) - (8)].string));
         }
 
-        cout << "HELLO" << endl;
         Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup((yyvsp[(2) - (8)].string)));
-        cout << "BYE" << endl;
         currSession->verts.push_back(newVertex);
 	}
     break;
@@ -2203,7 +2201,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2207 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2205 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

@@ -611,10 +611,8 @@ point:
             z = getBankValue($<string>6);
         }
 
-        cout << "HELLO" << endl;
         Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup($<string>2));
-        cout << "BYE" << endl;
         currSession->verts.push_back(newVertex);
 	}
 	;

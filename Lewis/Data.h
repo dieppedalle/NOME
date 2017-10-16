@@ -79,8 +79,8 @@ public:
 typedef class FaceNew : public Node
 {
 public:
-    std::unordered_set<EdgeNew*> edges;
-    std::unordered_set<Vert*> verts;
+    std::list<EdgeNew*> edges;
+    std::list<Vert*> verts;
     FaceI index;
     Surface* surface;
 } FaceNew;

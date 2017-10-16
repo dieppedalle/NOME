@@ -71,10 +71,31 @@ Vert* Reader::vert(std::string name)
 {
     for(Vert* v : session->verts)
     {
-        std::cout << v->getFullName() << std::endl;
         if(!name.compare(v->getName()))
             return v;
     }
+
+    for(FaceNew* f : session->faces)
+    {
+        for(Vert* v : f->verts)
+        {
+            if(!name.compare(f->getName() + "." + v->getName()))
+                return v;
+        }
+    }
+
+    for(InstanceNew* i : session->instances)
+    {
+        for(FaceNew* f : i->mesh->faces)
+        {
+            for(Vert* v : f->verts)
+            {
+                if(!name.compare(i->getName() + "." + f->getName() + "." + v->getName()))
+                    return v;
+            }
+        }
+    }
+
     return NULL;
 }
 

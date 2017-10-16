@@ -47,7 +47,7 @@ group                   return GROUP;
 endgroup                return END_GROUP;
 \{                      return OBRACE;
 \}                      return EBRACE;
-[a-zA-Z][a-zA-Z0-9]*    yylval.string=strdup(yytext); return VARIABLE;
+[a-zA-Z][a-zA-Z0-9\.]*    yylval.string=strdup(yytext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
 [ \t]+                  /* ignore whitespace */;

@@ -123,7 +123,7 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
 FaceNew* createFace()
 {
     FaceNew* f0 = new FaceNew();
-    std::unordered_set<EdgeNew*> edges; std::unordered_set<Vert*> verts;
+    std::list<EdgeNew*> edges; std::list<Vert*> verts;
     f0->edges = edges; f0->verts = verts;
     
     faceLock.lock();
@@ -164,6 +164,7 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
 {
     FaceNew* f0 = createFace();
     std::vector<Vert*> vIndex;
+
     //Check if more than three edges are given
     if(edges.size() < 3)
     {
@@ -178,9 +179,22 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
             b0 = b0 | (vIndex[i]->index == edge->v0->index);
             b1 = b1 | (vIndex[i]->index == edge->v1->index);
         }
-        if( !b0 ) { f0->verts.insert(edge->v0); vIndex.push_back(edge->v0); }
-        if( !b1 ) { f0->verts.insert(edge->v1); vIndex.push_back(edge->v1); }
-        f0->edges.insert(edge);
+        if( !b0 ) {
+            bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v0) != f0->verts.end());
+            if (!found){
+                f0->verts.push_back(edge->v0);
+                vIndex.push_back(edge->v0);
+            }
+        }
+        if( !b1 ) {
+            bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v1) != f0->verts.end());
+            if (!found){
+                f0->verts.push_back(edge->v1);
+                vIndex.push_back(edge->v1);
+            }
+        }
+
+        f0->edges.push_back(edge);
         
         //Check if an edge has more than two adjacent faces
         if( edge->faceCount == 0 )
@@ -200,10 +214,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
         }
     }
 
-    /*for(auto v0 : f0->verts) {
-        std::cout << v0->getName() << std::endl;
-    }*/
-
     //Check if edges given are adjacent
     if( vIndex.size() != edges.size() )
     {
@@ -213,6 +223,7 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
     //Add reference to the face for all the vertices in the face
     for( Vert* vert: vIndex )
         vert->faces.push_back(f0);
+
     return f0;
 }
 
