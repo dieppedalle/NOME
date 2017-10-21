@@ -38,6 +38,7 @@ INPUT(
 ./release\TransformationNew.o
 ./release\BankNew.o
 ./release\SliderNew.o
+./release\PolylineNew.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o

@@ -23,9 +23,9 @@ typedef class MeshNew : public Node
     MeshI index;
 
 public:
-    std::unordered_set<Vert*> verts;
-    std::unordered_set<EdgeNew*> edges;
-    std::unordered_set<FaceNew*> faces;
+    std::list<Vert*> verts;
+    std::list<EdgeNew*> edges;
+    std::list<FaceNew*> faces;
 
     bool hasVert(Vert*);
     bool hasEdge(EdgeNew*);

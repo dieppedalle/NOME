@@ -59,21 +59,21 @@ FaceNew* MeshNew::getFace(FaceNew* f0)
 bool MeshNew::deleteVert(Vert* v0)
 {
     deleteVert(v0);
-    this->verts.erase(v0);
+    this->verts.remove(v0);
     return true;
 }
 
 bool MeshNew::deleteEdge(EdgeNew* e0)
 {
     deleteEdge(e0);
-    this->edges.erase(e0);
+    this->edges.remove(e0);
     return true;
 }
 
 bool MeshNew::deleteFace(FaceNew* f0)
 {
     deleteFace(f0);
-    this->faces.erase(f0);
+    this->faces.remove(f0);
     return true;
 }
 

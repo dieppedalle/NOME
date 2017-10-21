@@ -7,6 +7,7 @@
 #include <Lewis/Session.h>
 #include <Lewis/Reader.h>
 #include <Lewis/TransformationNew.h>
+#include <Lewis/PolylineNew.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -240,15 +241,15 @@ mesh:
         MeshNew* currMesh = createMesh();
 
         for (std::list<FaceNew*>::iterator it=currentMeshFaces.begin(); it != currentMeshFaces.end(); ++it){
-            currMesh->faces.insert(*it);
+            currMesh->faces.push_back(*it);
         }
 
         for (std::list<Vert*>::iterator it=currentMeshVertices.begin(); it != currentMeshVertices.end(); ++it){
-            currMesh->verts.insert(*it);
+            currMesh->verts.push_back(*it);
         }
 
         for (std::list<EdgeNew*>::iterator it=currentMeshEdges.begin(); it != currentMeshEdges.end(); ++it){
-            currMesh->edges.insert(*it);
+            currMesh->edges.push_back(*it);
         }
 
         currMesh->setName(strdup($<string>2));
@@ -458,12 +459,11 @@ polyline:
 	POLYLINE VARIABLE parenthesisName END_POLYLINE
 	{
         // Create list of vertices of face.
-        std::vector<Vertex*> verticesPolyline;
+        std::list<Vert*> verticesPolyline;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            std::map<string,Vertex*>::iterator st = vertices.find(*it);
-
-            if (st != vertices.end()){
-                verticesPolyline.push_back(st->second);
+            Vert * currentVertex = currReader->vert(*it);
+            if (currentVertex != NULL) {
+                verticesPolyline.push_back(currentVertex);
             }
             else{
                 yyerror("Incorrect vertex name");
@@ -471,6 +471,10 @@ polyline:
             }
         }
 
+        PolylineNew* currPolyline = createPolylineNew(verticesPolyline);
+        currPolyline->setName(strdup($<string>2));
+
+        currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
 
         //printf("Created a polyline\n");

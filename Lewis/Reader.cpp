@@ -189,6 +189,11 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(m->getName()))
             return m;
     }
+    for(MeshNew* m : session->polylines)
+    {
+        if(!name.compare(m->getName()))
+            return m;
+    }
     return NULL;
 }
 
