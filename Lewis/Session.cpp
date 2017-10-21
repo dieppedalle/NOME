@@ -7,6 +7,8 @@
 //
 
 #include "Session.h"
+#include "Reader.h"
+#include <glm/glm.hpp>
 
 static int sIndex = 0;
 
@@ -16,6 +18,7 @@ Session* createSession()
     session0->setName("Session" + std::to_string(sIndex));
     sIndex++;
     std::cout << session0->getName() << std::endl;
+
     return session0;
 }
 
@@ -60,4 +63,71 @@ bool Session::updateNames()
         m0->updateNames();
     }
     return true;
+}
+
+void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+    if(hits > 0) {
+        glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
+        float min_distance = std::numeric_limits<float>::max();
+        Vert * selectedVertex = NULL;
+        Reader* currReader = createReader(this);
+
+        for (int i = 0; i < hits; i++) {
+            //std::cout << "TEST" << std::endl;
+            int currentID = names[i * 4 + 3];
+            Vert * currentVertex = currReader->vert(currentID);
+            if (currentVertex != NULL){
+                glm::vec3 vertex_position = glm::vec3(*(currentVertex->x), *(currentVertex->y), *(currentVertex->z));
+
+                float new_distance = distance(vertex_position, hit_position);
+
+                if(new_distance < min_distance) {
+                    min_distance = new_distance;
+                    selectedVertex = currentVertex;
+                }
+            }
+        }
+        selectedVertex -> selected = !selectedVertex -> selected;
+    }
+}
+
+void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+    if(hits > 0) {
+        glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
+        float min_distance = std::numeric_limits<float>::max();
+        Reader* currReader = createReader(this);
+        EdgeNew * currentEdge;
+        EdgeNew * selectedEdge;
+
+        for (int i = 0; i < hits; i++) {
+            int currentID = names[i * 4 + 3];
+            currentEdge = currReader->edge(currentID);
+            if (currentEdge != NULL){
+                std::cout << currentEdge->name << std::endl;
+                //selectedFace = currentFace;
+            }
+        }
+
+        //selectedFace -> selected = !selectedFace -> selected;
+    }
+}
+
+void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+    if(hits > 0) {
+        glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
+        float min_distance = std::numeric_limits<float>::max();
+        Reader* currReader = createReader(this);
+        FaceNew * currentFace;
+        FaceNew * selectedFace;
+
+        for (int i = 0; i < hits; i++) {
+            int currentID = names[i * 4 + 3];
+            currentFace = currReader->face(currentID);
+            if (currentFace != NULL){
+                selectedFace = currentFace;
+            }
+        }
+
+        selectedFace -> selected = !selectedFace -> selected;
+    }
 }

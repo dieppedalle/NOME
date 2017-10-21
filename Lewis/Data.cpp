@@ -10,6 +10,7 @@
 #include "Data.h"
 
 QColor defaultColor = QColor(255, 0, 0);
+QColor selectedColor = QColor(255, 0, 0);
 
 ///Indices for data instantiation
 static int vIndex = 0;
@@ -49,6 +50,7 @@ Vert* createVert()
     *x = 0.0;
     *y = 0.0;
     *z = 0.0;
+
     return createVert(x, y, z, 1.0);
 }
 
@@ -62,6 +64,7 @@ Vert* createVert(double *x, double *y, double *z)
 Vert* createVert(double *x, double *y, double *z, double w)
 {
     Vert* v0 = new Vert();
+    v0->selected = false;
     vertLock.lock();
     int index = vIndex;
     vIndex++;
@@ -123,6 +126,7 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
 FaceNew* createFace()
 {
     FaceNew* f0 = new FaceNew();
+    f0->selected = false;
     std::list<EdgeNew*> edges; std::list<Vert*> verts;
     f0->edges = edges; f0->verts = verts;
     
@@ -163,6 +167,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
 FaceNew* createFace(std::list<EdgeNew*> edges)
 {
     FaceNew* f0 = createFace();
+    f0->selected = false;
     std::vector<Vert*> vIndex;
 
     //Check if more than three edges are given
@@ -307,18 +312,29 @@ bool drawVert(Vert* v0, Surface * instSurface){
     QColor color;
     if (instSurface != NULL){
         color = instSurface->color;
-    } else{
+    } else {
         color = defaultColor;
     }
 
-    GLfloat fcolor[] = {1.0f * color.red() / 255,
-                        1.0f * color.green() / 255,
-                        1.0f * color.blue() / 255,
-                        1.0f * color.alpha() /255};
+
+    GLfloat fcolor[4] = {0,0,0,0};
+    if (v0->selected){
+        fcolor[0] = 0;
+        fcolor[1] = 1;
+        fcolor[2] = 1;
+        fcolor[3] = 0;
+    } else {
+        fcolor[0] = 1.0f * color.red() / 255;
+        fcolor[1] = 1.0f * color.green() / 255;
+        fcolor[2] = 1.0f * color.blue() / 255;
+        fcolor[3] = 1.0f * color.alpha() /255;
+    }
+
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
 
     glLoadName(v0->index);
+
     float x = *v0->x;
     float y = *v0->y;
     float z = *v0->z;
@@ -359,6 +375,8 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
                         1.0f * color.green() / 255,
                         1.0f * color.blue() / 255,
                         1.0f * color.alpha() /255};
+
+
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(e0->index);
@@ -381,13 +399,23 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
         color = defaultColor;
     }
 
-    GLfloat fcolor[] = {1.0f * color.red() / 255,
-                        1.0f * color.green() / 255,
-                        1.0f * color.blue() / 255,
-                        1.0f * color.alpha() /255};
+    GLfloat fcolor[4] = {0,0,0,0};
+    if (f0->selected){
+        fcolor[0] = 0;
+        fcolor[1] = 1;
+        fcolor[2] = 1;
+        fcolor[3] = 0;
+    } else {
+        fcolor[0] = 1.0f * color.red() / 255;
+        fcolor[1] = 1.0f * color.green() / 255;
+        fcolor[2] = 1.0f * color.blue() / 255;
+        fcolor[3] = 1.0f * color.alpha() /255;
+    }
+
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(f0->index);
+
     glBegin(GL_POLYGON);
     for(auto v0 : f0->verts) {
       glVertex3f(*v0->x, *v0->y, *v0->z);

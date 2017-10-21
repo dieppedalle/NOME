@@ -56,6 +56,7 @@ public:
     double *y;
     double *z;
     double weight;
+    bool selected;
     VertI index;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
@@ -83,6 +84,7 @@ public:
     std::list<Vert*> verts;
     FaceI index;
     Surface* surface;
+    bool selected;
 } FaceNew;
 
 ///Vert Instantiation
@@ -118,5 +120,7 @@ bool deleteFace(FaceNew* face);
 bool drawVert(Vert* v0, Surface * instSurface);
 bool drawEdge(EdgeNew* e0, Surface * instSurface);
 bool drawFace(FaceNew* f0, Surface * instSurface);
+
+
 
 #endif /* Data_h */

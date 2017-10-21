@@ -182,10 +182,8 @@ void SlideGLWidget::mouse_select(int x, int y)
     winX = (double) x;
     winY = (double) view[3] - (double)y;
     glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
-    //cout<<"winX "<<winX<<" "<<"winY "<<winY<<" "<<"winZ "<<winZ<<endl;
     gluUnProject( winX, winY, winZ, modelview, projection,
      view, &posX, &posY, &posZ);
-    //cout<<"X: "<<posX<<" Y: "<<posY<<" Z: "<<posZ<<endl;
     // Find the face selected.
     glRenderMode(GL_SELECT);
     //glClearColor(0, 0, 0, 1);
@@ -201,26 +199,14 @@ void SlideGLWidget::mouse_select(int x, int y)
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     hits = glRenderMode(GL_RENDER);
-    //cout<<posX<<" "<<posY<<" "<<posZ<<endl;
-    //mySelect.list_hits(hits, buff);
-    //cout << "HHHHH" << endl;
-    //cout << selection_mode << endl;
 
     if(selection_mode == 0)
     {
-        mySelect.selectFace(global_mesh_list,
-                            global_polyline_list,
-                            global_name_index_list,
-                            global_polyline_name_index_list,
-                            hits, buff, posX, posY, posZ);
+        currSession->selectFace(hits, buff, posX, posY, posZ);
     }
     else if(selection_mode == 1)
     {
-        mySelect.selectVertex(global_mesh_list,
-                              global_polyline_list,
-                              global_name_index_list,
-                              global_polyline_name_index_list,
-                              hits, buff, posX, posY, posZ);
+        currSession->selectVert(hits, buff, posX, posY, posZ);
     }
     else if(selection_mode == 2)
     {
@@ -232,11 +218,12 @@ void SlideGLWidget::mouse_select(int x, int y)
     }
     else if(selection_mode == 3)
     {
-        mySelect.selectPartialBorder(global_mesh_list,
+        //currSession->selectEdge(hits, buff, posX, posY, posZ);
+        /*mySelect.selectPartialBorder(global_mesh_list,
                                      global_polyline_list,
                                      global_name_index_list,
                                      global_polyline_name_index_list,
-                                     hits, buff, posX, posY, posZ);
+                                     hits, buff, posX, posY, posZ);*/
     }
     glMatrixMode(GL_MODELVIEW);
     repaint();

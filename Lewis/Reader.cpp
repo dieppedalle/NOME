@@ -35,6 +35,24 @@ Vert* Reader::vert(VertI index)
     return NULL;
 }
 
+FaceNew* Reader::face(FaceI index)
+{
+    for(FaceNew* f : session->faces)
+    {
+        if(f->index == index)
+            return f;
+    }
+
+    for (InstanceNew* i: session->instances)
+    {
+        for(FaceNew* f : i->mesh->faces)
+        {
+            if(f->index == index)
+                return f;
+        }
+    }
+    return NULL;
+}
 
 ///Get all edges of which vertex is part of
 vector<EdgeI> Reader::vertEdges(VertI index)
@@ -140,7 +158,10 @@ vector<FaceI> Reader::vertFaces(std::string name)
 
 ///Edge functions
 bool isBorder(EdgeI index);
-EdgeNew* edge(EdgeI index);
+EdgeNew* Reader::edge(EdgeI index){
+    return NULL;
+}
+
 vector<FaceI> edgeFaces(EdgeI index);
 vector<VertI> edgeVerts(EdgeI index);
 bool isBorder(std::string name);

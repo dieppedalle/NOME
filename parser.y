@@ -323,7 +323,9 @@ faceMesh:
 
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
 
-        newFace->setName(strdup($<string>2));
+        setName(newFace, strdup($<string>2));
+
+        //newFace->setName(strdup($<string>2));
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -422,6 +424,7 @@ face:
         FaceNew * newFace = createFace(verticesFace, &(currSession->edges));
 
         setName(newFace, strdup($<string>2));
+
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.

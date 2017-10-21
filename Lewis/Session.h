@@ -36,11 +36,15 @@ public:
     bool setName(std::string n);
     std::string getName();
     bool updateNames();
+    void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
+    void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
+    void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
 
 } Session;
 
 //Instantiation
 Session* createSession();
 Session* createSession(Session*);
+
 
 #endif /* Session_h */
