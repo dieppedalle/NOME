@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     Lewis/TransformationNew.cpp \
     Lewis/BankNew.cpp \
     Lewis/SliderNew.cpp \
-    Lewis/PolylineNew.cpp
+    Lewis/PolylineNew.cpp \
+    Lewis/CircleNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -99,7 +100,8 @@ HEADERS  += \
     Lewis/TransformationNew.h \
     Lewis/BankNew.h \
     Lewis/SliderNew.h \
-    Lewis/PolylineNew.h
+    Lewis/PolylineNew.h \
+    Lewis/CircleNew.h
 
 linux{
     LIBS += -lglut -lGLU

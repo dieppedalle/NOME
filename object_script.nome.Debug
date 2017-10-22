@@ -39,6 +39,7 @@ INPUT(
 ./debug\BankNew.o
 ./debug\SliderNew.o
 ./debug\PolylineNew.o
+./debug\CircleNew.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o

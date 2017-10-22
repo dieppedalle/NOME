@@ -8,6 +8,7 @@
 #include <Lewis/Reader.h>
 #include <Lewis/TransformationNew.h>
 #include <Lewis/PolylineNew.h>
+#include <Lewis/CircleNew.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -366,10 +367,28 @@ circle:
     CIRCLE VARIABLE OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE
     {
         string name = $<string>2;
-        double num = $<number>4;
-        double rad = $<number>5;
+        double *num = (double*) malloc(sizeof(double));
+        double *rad = (double*) malloc(sizeof(double));
 
-        //printf("Created a circle\n");
+
+        if ($<string>4 == NULL){
+            *num = $<number>4;
+        }
+        else{
+            num = getBankValue($<string>4);
+        }
+
+        if ($<string>5 == NULL){
+            *rad = $<number>5;
+        }
+        else{
+            rad = getBankValue($<string>5);
+        }
+
+        CircleNew* currCircle = createCircle(num, rad);
+        currCircle->setName(strdup($<string>2));
+
+        currSession->circles.push_back(currCircle);
     };
 
 tunnel:

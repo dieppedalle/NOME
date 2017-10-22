@@ -194,6 +194,11 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(m->getName()))
             return m;
     }
+    for(MeshNew* c : session->circles)
+    {
+        if(!name.compare(c->getName()))
+            return c;
+    }
     return NULL;
 }
 
