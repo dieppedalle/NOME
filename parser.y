@@ -10,6 +10,7 @@
 #include <Lewis/PolylineNew.h>
 #include <Lewis/CircleNew.h>
 #include <Lewis/FunnelNew.h>
+#include <Lewis/TunnelNew.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -430,7 +431,10 @@ tunnel:
             h = getBankValue($<string>7);
         }
 
+        TunnelNew* currTunnel = createTunnel(n, ro, ratio, h);
+        currTunnel->setName(strdup($<string>2));
 
+        currSession->tunnels.push_back(currTunnel);
 
         //printf("Created a tunnel\n");
 	}

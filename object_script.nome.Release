@@ -41,6 +41,7 @@ INPUT(
 ./release\PolylineNew.o
 ./release\CircleNew.o
 ./release\FunnelNew.o
+./release\TunnelNew.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o

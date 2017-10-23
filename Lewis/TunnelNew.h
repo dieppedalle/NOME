@@ -1,13 +1,13 @@
 //
-//  FunnelNew.h
+//  TunnelNew.h
 //  model
 //
 //  Created by L on 26/08/2017.
 //  Copyright © 2017 L. All rights reserved.
 //
 
-#ifndef FunnelNew_h
-#define FunnelNew_h
+#ifndef TunnelNew_h
+#define TunnelNew_h
 
 #include <stdio.h>
 #include <set>
@@ -15,19 +15,19 @@
 #include "MeshNew.h"
 
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
-typedef class FunnelNew : public MeshNew
+typedef class TunnelNew : public MeshNew
 {
 public:
     double *n;
     double *ro;
     double *ratio;
     double *h;
-    void createVertEdgeFunnel();
-    void updateFunnel();
-} FunnelNew;
+    void createVertEdgeTunnel();
+    void updateTunnel();
+} TunnelNew;
 
 ///Instance functions
-FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h);
-FunnelNew* createFunnel(FunnelNew*);
+TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h);
+TunnelNew* createTunnel(TunnelNew*);
 
 #endif /* FunnelNew_h */

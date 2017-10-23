@@ -204,6 +204,11 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(f->getName()))
             return f;
     }
+    for(TunnelNew* t : session->tunnels)
+    {
+        if(!name.compare(t->getName()))
+            return t;
+    }
 
     return NULL;
 }
