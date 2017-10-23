@@ -22,6 +22,11 @@ public:
     double *ro;
     double *ratio;
     double *h;
+
+    std::vector<Vert*> baseCircle;
+    std::vector<Vert*> highCircle;
+    std::vector<Vert*> lowCircle;
+
     void createVertEdgeTunnel();
     void updateTunnel();
 } TunnelNew;

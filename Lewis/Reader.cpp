@@ -32,6 +32,15 @@ Vert* Reader::vert(VertI index)
         if(v->index == index)
             return v;
     }
+
+    for(InstanceNew* i : session->instances)
+    {
+        for (Vert* v : i->mesh->verts){
+            if(v->index == index)
+                return v;
+        }
+    }
+
     return NULL;
 }
 

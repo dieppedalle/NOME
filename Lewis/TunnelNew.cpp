@@ -135,7 +135,7 @@ void TunnelNew::createVertEdgeTunnel(){
 void TunnelNew::updateTunnel() {
     // Used when the sliders are changing values.
     // Check if we need to create new vertices (if the number of vertices has changed).
-    if (*n != verts.size() / 2){
+    if (*n != verts.size() / 3){
         createVertEdgeTunnel();
     }
     else{
@@ -161,21 +161,6 @@ void TunnelNew::updateTunnel() {
             }
             else if (i >= (2 * verts.size()) / 3){
                 float currAngle = 2.0 * i / *n * M_PI;
-
-                double *x = (double*) malloc(sizeof(double));
-                double *y = (double*) malloc(sizeof(double));
-                double *z = (double*) malloc(sizeof(double));
-
-                *x = *ro * glm::cos(currAngle);
-                *y = *ro * glm::sin(currAngle);
-                *z = 0;
-
-                (*iterator)->x = x;
-                (*iterator)->y = y;
-                (*iterator)->z = z;
-            }
-            else{
-                float currAngle = 2.0 * i / *n * M_PI;
                 float ri = *ro * (1 + *ratio);
 
                 double *x = (double*) malloc(sizeof(double));
@@ -189,6 +174,23 @@ void TunnelNew::updateTunnel() {
                 (*iterator)->x = x;
                 (*iterator)->y = y;
                 (*iterator)->z = z;
+            }
+            else{
+                float currAngle = 2.0 * i / *n * M_PI;
+
+                double *x = (double*) malloc(sizeof(double));
+                double *y = (double*) malloc(sizeof(double));
+                double *z = (double*) malloc(sizeof(double));
+
+                *x = *ro * glm::cos(currAngle);
+                *y = *ro * glm::sin(currAngle);
+                *z = 0;
+
+                (*iterator)->x = x;
+                (*iterator)->y = y;
+                (*iterator)->z = z;
+
+
             }
             i++;
         }

@@ -72,6 +72,7 @@ void CircleNew::createVertEdgeCircle(){
         *z = 0;
 
         Vert * newVertex = createVert (x, y, z);
+        newVertex->setName(name + "." +  std::to_string(i));
         verts.push_back(newVertex);
     }
 
