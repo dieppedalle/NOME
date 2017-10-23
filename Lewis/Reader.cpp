@@ -199,6 +199,12 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(c->getName()))
             return c;
     }
+    for(FunnelNew* f : session->funnels)
+    {
+        if(!name.compare(f->getName()))
+            return f;
+    }
+
     return NULL;
 }
 

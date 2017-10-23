@@ -17,6 +17,7 @@
 #include "BankNew.h"
 #include "PolylineNew.h"
 #include "CircleNew.h"
+#include "FunnelNew.h"
 
 typedef struct Session
 {
@@ -33,6 +34,7 @@ public:
     std::list<InstanceNew*> instances;
     std::list<PolylineNew*> polylines;
     std::list<CircleNew*> circles;
+    std::list<FunnelNew*> funnels;
     std::list<BankNew*> banks;
     std::string name;
 

@@ -9,6 +9,7 @@
 #include <Lewis/TransformationNew.h>
 #include <Lewis/PolylineNew.h>
 #include <Lewis/CircleNew.h>
+#include <Lewis/FunnelNew.h>
 
 extern int yylineno;
 extern char* yytext;
@@ -396,10 +397,40 @@ tunnel:
   END_TUNNEL
 	{
         string name = $<string>2;
-        double n = $<number>4;
-        double ro = $<number>5;
-        double ratio = $<number>6;
-        double h = $<number>7;
+        double *n = (double*) malloc(sizeof(double));
+        double *ro = (double*) malloc(sizeof(double));
+        double *ratio = (double*) malloc(sizeof(double));
+        double *h = (double*) malloc(sizeof(double));
+
+        if ($<string>4 == NULL){
+            *n = $<number>4;
+        }
+        else{
+            n = getBankValue($<string>4);
+        }
+
+        if ($<string>5 == NULL){
+            *ro = $<number>5;
+        }
+        else{
+            ro = getBankValue($<string>5);
+        }
+
+        if ($<string>6 == NULL){
+            *ratio = $<number>6;
+        }
+        else{
+            ratio = getBankValue($<string>6);
+        }
+
+        if ($<string>7 == NULL){
+            *h = $<number>7;
+        }
+        else{
+            h = getBankValue($<string>7);
+        }
+
+
 
         //printf("Created a tunnel\n");
 	}
@@ -410,12 +441,43 @@ funnel:
   END_FUNNEL
 	{
         string name = $<string>2;
-        double n = $<number>4;
-        double ro = $<number>5;
-        double ratio = $<number>6;
-        double h = $<number>7;
+        double *n = (double*) malloc(sizeof(double));
+        double *ro = (double*) malloc(sizeof(double));
+        double *ratio = (double*) malloc(sizeof(double));
+        double *h = (double*) malloc(sizeof(double));
 
+        if ($<string>4 == NULL){
+            *n = $<number>4;
+        }
+        else{
+            n = getBankValue($<string>4);
+        }
 
+        if ($<string>5 == NULL){
+            *ro = $<number>5;
+        }
+        else{
+            ro = getBankValue($<string>5);
+        }
+
+        if ($<string>6 == NULL){
+            *ratio = $<number>6;
+        }
+        else{
+            ratio = getBankValue($<string>6);
+        }
+
+        if ($<string>7 == NULL){
+            *h = $<number>7;
+        }
+        else{
+            h = getBankValue($<string>7);
+        }
+
+        FunnelNew* currFunnel = createFunnel(n, ro, ratio, h);
+        currFunnel->setName(strdup($<string>2));
+
+        currSession->funnels.push_back(currFunnel);
         //printf("Created a funnel\n");
 	}
 	;

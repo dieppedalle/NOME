@@ -351,6 +351,9 @@ void SlideGLWidget::paintGL()
     for(auto c : currSession->circles){
         c->updateCircle();
     }
+    for(auto f : currSession->funnels){
+        f->updateFunnel();
+    }
 
     for(auto v : currSession->verts) {
       drawVert(v, NULL);
