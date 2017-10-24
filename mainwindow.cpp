@@ -50,7 +50,8 @@ void MainWindow::save()
     }
     else
     {
-        save_current_status_nome(fileName.toStdString());
+        currSession->SaveSession(fileName.toStdString());
+        //save_current_status_nome(fileName.toStdString());
     }
 }
 
@@ -163,7 +164,7 @@ void MainWindow::createCanvas(QString name)
         unordered_map<string, Face*> global_faces;
         int error = 0;
 
-        Session * currSession;
+
         currSession = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString, global_vertices, global_faces);
 
@@ -294,6 +295,7 @@ void MainWindow::save_current_status_anom(string out_put_file)
 
 void MainWindow::save_current_status_nome(string out_put_file)
 {
+
     ofstream file(out_put_file);
     if (!file.is_open())
     {

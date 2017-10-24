@@ -189,8 +189,6 @@ void TunnelNew::updateTunnel() {
                 (*iterator)->x = x;
                 (*iterator)->y = y;
                 (*iterator)->z = z;
-
-
             }
             i++;
         }

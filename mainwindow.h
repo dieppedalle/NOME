@@ -53,6 +53,7 @@ private:
     vector<string> geometrylines;
     vector<int> postProcessingLines;
     vector<string> postProcessingLinesString;
+    Session * currSession;
 private slots:
     void open();
     void save();
