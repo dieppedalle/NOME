@@ -1,9 +1,5 @@
 //
 //  Reader.h
-//  model
-//
-//  Created by L on 26/08/2017.
-//  Copyright © 2017 L. All rights reserved.
 //
 
 #ifndef Reader_h
@@ -16,8 +12,9 @@
 #include "MeshNew.h"
 #include "Session.h"
 
-///Reader class for accessing data of a surface using only the indices of its elements
-///For efficient calculation and iterative approaches for mesh operations
+/// Reader class for accessing data from hierarchical tree
+/// Mode = 0 : Transformations off, Mode = 1 : Transformations on
+/// (This just means search at the mesh/instance level respectively)
 
 using namespace std;
 
@@ -25,46 +22,47 @@ typedef class Reader
 {
 private:
     int accesses;
+    void access();
     
 public:
     Session* session;
+    Node* node;
+    bool assigned;
 
-    ///Vert functions
-    Vert* vert(VertI index);
-    vector<EdgeI> vertEdges(VertI index);
-    vector<FaceI> vertFaces(VertI index);
-    Vert* vert(std::string name);
-    vector<EdgeI> vertEdges(std::string name);
-    vector<FaceI> vertFaces(std::string name);
+    //Link to node functions
+    bool link(Node*);
+    bool link(std::string);
 
-    ///Surface Functions
-    Surface* surf(std::string name);
+    //Search tree hierarchy
+    bool search(std::string, int);
 
-    ///Edge functions
-    bool isBorder(EdgeI index);
-    EdgeNew* edge(EdgeI index);
-    vector<FaceI> edgeFaces(EdgeI index);
-    vector<VertI> edgeVerts(EdgeI index);
-    bool isBorder(std::string name);
-    EdgeNew* edge(std::string name);
-    vector<FaceI> edgeFaces(std::string name);
-    vector<VertI> edgeVerts(std::string name);
-    
-    ///Face functions
-    FaceNew* face(FaceI index);
-    vector<EdgeI> faceEdges(FaceI index);
-    vector<VertI> faceVerts(FaceI index);
-    FaceNew* face(std::string name);
-    vector<EdgeI> faceEdges(std::string name);
-    vector<VertI> faceVerts(std::string name);
+    //For the parser?
+    MeshNew* mesh(std::string);
 
-    MeshNew* mesh(std::string name);
+    //Get low lying data of node
+    Surface* surf(std::string);
+    Surface* surf(int);
+    Vert* vert(VertI);
+    EdgeNew* edge(EdgeI);
+    FaceNew* face(FaceI);
+    Vert* vert(std::string);
+    EdgeNew* edge(std::string);
+    FaceNew* face(std::string);
+
+    //Convenience functions
+    Surface* getSurf(std::string);
+    MeshNew* getMesh(std::string);
+    InstanceNew* getInstance(std::string);
+    Vert* getVert(std::string);
+    EdgeNew* getEdge(std::string);
+    FaceNew* getFace(std::string);
+
 } Reader;
 
 ///Instantiation
-Reader* createReader();
 Reader* createReader(Session*);
-Reader* createReader(Reader*);
+Reader* createReader(Session*, Node*);
+Reader* createReader(Reader);
 
 
 #endif /* Reader_h */

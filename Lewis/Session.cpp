@@ -8,6 +8,7 @@
 
 #include "Session.h"
 #include "Reader.h"
+#include <fstream>
 #include <glm/glm.hpp>
 
 static int sIndex = 0;
@@ -130,4 +131,101 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
 
         selectedFace -> selected = !selectedFace -> selected;
     }
+}
+
+void Session::SaveSession(std::string outputFile){
+    ofstream file(outputFile);
+    if (!file.is_open())
+    {
+        cout <<"Error: COULD NOT OPEN THE FILE.\n";
+    }
+
+    for (Surface* s : surfaces){
+        file<<"surface " << s->name << " color (" << *s->r << " " << *s->g << " " << *s->b << ") endsurface\n";
+    }
+    if (surfaces.size() != 0){
+        file << "\n";
+    }
+
+    for (BankNew* b : banks){
+        file << "bank " << b->name << "\n";
+        for (SetNew* s : b->sets){
+            file << "set " << s->name << " " << s->value << " " << s->start << " " << s->end << " " << s->stepSize << "\n";
+        }
+        file << "endbank\n\n";
+    }
+
+    for (Vert* p : verts){
+        file << "point " << p->name << " (" << *p->x << " " << *p->y << " " << *p->z << ") endpoint\n";
+    }
+    if (verts.size() != 0){
+        file << "\n";
+    }
+
+    for (FaceNew* f : faces){
+        file << "face " << f->name << " (";
+        for (Vert* v : f->verts){
+            file << v->name << " ";
+        }
+        file << ") endface\n";
+    }
+
+    if (faces.size() != 0){
+        file << "\n";
+    }
+
+    for (PolylineNew* p : polylines){
+        file << "polyline " << p->name << " (";
+        for (Vert* v : p->verts){
+            file << v->name << " ";
+        }
+        file << ") endpolyline\n";
+    }
+
+    if (polylines.size() != 0){
+        file << "\n";
+    }
+
+    for (FunnelNew* f : funnels){
+        file << "funnel " << f->name << "(" << f->n << " " << f->ro << " " << f->ratio << f->h << ") endfunnel\n";
+    }
+    if (funnels.size() != 0){
+        file << "\n";
+    }
+
+    for (TunnelNew* t : tunnels){
+        file << "tunnel " << t->name << "(" << t->n << " " << t->ro << " " << t->ratio << t->h << ") endtunnel\n";
+    }
+    if (tunnels.size() != 0){
+        file << "\n";
+    }
+
+    for (CircleNew* c : circles){
+        file << "circle " << c->name << "(" << c->num << " " << c->rad << ") endcircle\n";
+    }
+    if (circles.size() != 0){
+        file << "\n";
+    }
+
+    for (MeshNew* m : meshes){
+        file << "mesh " << m->name << "\n";
+        for (FaceNew* f : m->faces){
+            file << "face " << f->name << " (";
+            for (Vert* v : f->verts){
+                file << v->name << " ";
+            }
+            file << ") endface\n";
+        }
+        file << "endmesh\n\n";
+    }
+
+    for (InstanceNew* i : instances){
+        file << "instance " << i->name << " " << i->mesh->name << " endinstance\n";
+    }
+
+    if (instances.size() != 0){
+        file << "\n";
+    }
+
+
 }

@@ -13,6 +13,8 @@
 #include "BankNew.h"
 #include "PolylineNew.h"
 #include "CircleNew.h"
+#include "FunnelNew.h"
+#include "TunnelNew.h"
 
 typedef struct Session
 {
@@ -29,6 +31,8 @@ public:
     std::list<InstanceNew*> instances;
     std::list<PolylineNew*> polylines;
     std::list<CircleNew*> circles;
+    std::list<FunnelNew*> funnels;
+    std::list<TunnelNew*> tunnels;
     std::list<BankNew*> banks;
     std::string name;
 
@@ -39,6 +43,7 @@ public:
     void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
+    void SaveSession(std::string outputFile);
 
 } Session;
 

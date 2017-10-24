@@ -30,7 +30,9 @@ InstanceNew* createInstance(MeshNew* m0)
 
 bool InstanceNew::setName(std::string n)
 {
-    name = n;
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "i:" + n;
     return updateNames();
 }
 

@@ -1,9 +1,5 @@
 //
 //  Instance.h
-//  model
-//
-//  Created by L on 21/09/2017.
-//  Copyright © 2017 L. All rights reserved.
 //
 
 #ifndef InstanceNew_h
@@ -15,15 +11,20 @@
 #include "MeshNew.h"
 #include "TransformationNew.h"
 
+typedef int InstanceI;
+
 class InstanceNew : public Node
 {
 public:
     MeshNew* mesh;
+    std::vector<Vert*> verts;
+    std::vector<EdgeNew*> edges;
+    std::vector<FaceNew*> faces;
     bool setName(std::string n);
     bool updateNames();
     bool draw();
     Surface* surface;
-    std::list<TransformationNew *> transformations;
+    std::list<TransformationNew*> transformations;
 };
 
 bool setSurface(InstanceNew* i0, Surface* surface);

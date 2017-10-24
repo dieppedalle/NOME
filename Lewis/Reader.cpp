@@ -108,7 +108,35 @@ FaceNew* face(std::string);
 FaceNew* face(FaceI);
 
 //For the parser?
-MeshNew* mesh(std::string);
+MeshNew* Reader::mesh(std::string name){
+    for(MeshNew* m : session->meshes)
+    {
+        if(!name.compare(m->getName()))
+            return m;
+    }
+    for(MeshNew* m : session->polylines)
+    {
+        if(!name.compare(m->getName()))
+            return m;
+    }
+    for(MeshNew* c : session->circles)
+    {
+        if(!name.compare(c->getName()))
+            return c;
+    }
+    for(FunnelNew* f : session->funnels)
+    {
+        if(!name.compare(f->getName()))
+            return f;
+    }
+    for(TunnelNew* t : session->tunnels)
+    {
+        if(!name.compare(t->getName()))
+            return t;
+    }
+
+    return NULL;
+}
 
 ///Reader convenience functions - these are the ones that should actually be called outside of this class
 Surface* getSurf(std::string);

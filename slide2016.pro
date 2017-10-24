@@ -56,7 +56,9 @@ SOURCES += main.cpp\
     Lewis/BankNew.cpp \
     Lewis/SliderNew.cpp \
     Lewis/PolylineNew.cpp \
-    Lewis/CircleNew.cpp
+    Lewis/CircleNew.cpp \
+    Lewis/FunnelNew.cpp \
+    Lewis/TunnelNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -101,7 +103,9 @@ HEADERS  += \
     Lewis/BankNew.h \
     Lewis/SliderNew.h \
     Lewis/PolylineNew.h \
-    Lewis/CircleNew.h
+    Lewis/CircleNew.h \
+    Lewis/FunnelNew.h \
+    Lewis/TunnelNew.h
 
 linux{
     LIBS += -lglut -lGLU

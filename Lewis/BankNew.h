@@ -1,9 +1,5 @@
 //
-//  Instance.h
-//  model
-//
-//  Created by L on 21/09/2017.
-//  Copyright © 2017 L. All rights reserved.
+//  Bank.h
 //
 
 #ifndef BankNew_h

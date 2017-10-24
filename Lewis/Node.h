@@ -12,14 +12,26 @@
 
 /// Template class for items in the tree hierarchy, all tree nodes must have basic hierarchy name functionality
 /// along with easy tree destructors
+///
+
 
 class Node
 {
 public:
+    Node* parent;
+    bool hasParent;
     std::string name;
     std::string prefix;
 
     Node();
+
+    Node* vert(std::string);
+    Node* edge(std::string);
+    Node* face(std::string);
+    Node* vert(int);
+    Node* edge(int);
+    Node* face(int);
+    Node* surface();
 
     std::string getName();
     std::string getPrefix();

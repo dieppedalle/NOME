@@ -1,9 +1,6 @@
 //
-//  Error.h
+//  IO.h
 //  model
-//
-//  Created by L on 28/08/2017.
-//  Copyright © 2017 L. All rights reserved.
 //
 
 #ifndef IO_h

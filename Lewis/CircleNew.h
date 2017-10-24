@@ -1,9 +1,5 @@
 //
-//  PolylineNew.h
-//  model
-//
-//  Created by L on 26/08/2017.
-//  Copyright © 2017 L. All rights reserved.
+//  Circle.h
 //
 
 #ifndef CircleNew_h
@@ -22,6 +18,7 @@ public:
     double *rad;
     void createVertEdgeCircle();
     void updateCircle();
+    bool setName(std::string n);
 } CircleNew;
 
 ///Instance functions

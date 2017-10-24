@@ -79,9 +79,10 @@ bool MeshNew::deleteFace(FaceNew* f0)
 
 bool MeshNew::setName(std::string n)
 {
-    name = n;
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "m:"+ n;
     bool error = updateNames();
-
     return error;
 }
 
@@ -99,22 +100,6 @@ bool MeshNew::updateNames()
     {
         f0->setPrefix(getFullName());
     }
-    /*
-    std::cout << "mid" << std::endl;
-    for(Vert* v0 : verts)
-    {
-        std::cout << v0->getFullName() << std::endl;
-    }
-    for(EdgeNew* e0 : edges)
-    {
-        std::cout << e0->getFullName() << std::endl;
-    }
-    for(FaceNew* f0 : faces)
-    {
-        std::cout << f0->getFullName() << std::endl;
-    }
-    std::cout << "end" << std::endl;
-    */
     return true;
 }
 
