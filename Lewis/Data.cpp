@@ -82,6 +82,18 @@ Vert* createVert(double *x, double *y, double *z, double w)
     return v0;
 }
 
+Vert* createVert(Vert* toBeCopied){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    *x = *(toBeCopied->x);
+    *y = *(toBeCopied->y);
+    *z = *(toBeCopied->z);
+
+    return createVert(x, y, z, 1.0);
+}
+
 ///Edge functions
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links

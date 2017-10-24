@@ -35,3 +35,4 @@ Translate* createTranslate(double x, double y, double z)
     translate->z = z;
     return translate;
 }
+

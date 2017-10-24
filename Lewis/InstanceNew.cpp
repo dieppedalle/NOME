@@ -25,6 +25,37 @@ InstanceNew* createInstance(MeshNew* m0)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
+   for (Vert* v0 : m0->verts){
+       Vert* newVertex = createVert(v0);
+       newVertex->name = v0->name;
+       i0->verts.push_back(newVertex);
+   }
+   for (EdgeNew* e0 : m0->edges){
+       Vert* firstVert;
+       Vert* secondVert;
+
+       for (Vert* v0 : i0->verts){
+           if(v0->name.compare(e0->v0->name) == 0)
+               firstVert = v0;
+       }
+
+       for (Vert* v1 : i0->verts){
+           if(v1->name.compare(e0->v1->name) == 0)
+               secondVert = v1;
+       }
+
+       EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
+       i0->edges.push_back(newEdge);
+   }
+
+   for (FaceNew* f0 : m0->faces){
+       /*for (Vert* v1 : i0->verts){
+           if(v1->name.compare(e0->v1->name) == 0)
+               secondVert = v1;
+       }*/
+
+       i0->faces.push_back(f0);
+   }
    return i0;
 }
 
@@ -44,7 +75,7 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
-    for(auto t : transformations) {
+    /*for(auto t : transformations) {
         if (dynamic_cast<Rotate*>(t)){
             Rotate* rotate = dynamic_cast<Rotate*>(t);
             glRotatef(rotate->angle, rotate->x, rotate->y, rotate->z);
@@ -57,19 +88,19 @@ bool InstanceNew::draw()
             Translate* translate = dynamic_cast<Translate*>(t);
             glTranslatef(translate->x, translate->y, translate->z);
         }
-    }
+    }*/
 
-    for(auto v : mesh->verts) {
+    for(auto v : verts) {
       drawVert(v, surface);
     }
-    for(auto e : mesh->edges) {
+    for(auto e : edges) {
       drawEdge(e, surface);
     }
-    for(auto f : mesh->faces) {
+    for(auto f : faces) {
       drawFace(f, surface);
     }
 
-    for (std::list<TransformationNew *>::reverse_iterator rit=transformations.rbegin(); rit!=transformations.rend(); ++rit){
+    /*for (std::list<TransformationNew *>::reverse_iterator rit=transformations.rbegin(); rit!=transformations.rend(); ++rit){
         if (dynamic_cast<Rotate*>(*rit)){
             Rotate* rotate = dynamic_cast<Rotate*>(*rit);
             glRotatef(-rotate->angle, rotate->x, rotate->y, rotate->z);
@@ -82,7 +113,7 @@ bool InstanceNew::draw()
             Translate* translate = dynamic_cast<Translate*>(*rit);
             glTranslatef(-translate->x, -translate->y, -translate->z);
         }
-    }
+    }*/
 
     return true;
 }
@@ -160,3 +191,21 @@ Node* InstanceNew::face(int i)
     return NULL;
 }
 
+void InstanceNew::applyTransformation(TransformationNew* t){
+    if (dynamic_cast<Rotate*>(t)){
+        //Rotate* rotate = dynamic_cast<Rotate*>(t);
+        //glRotatef(rotate->angle, rotate->x, rotate->y, rotate->z);
+    }
+    else if (dynamic_cast<Scale*>(t)){
+        //Scale* scale = dynamic_cast<Scale*>(t);
+        //glScalef(scale->x, scale->y, scale->z);
+    }
+    else if (dynamic_cast<Translate*>(t)){
+        Translate* translate = dynamic_cast<Translate*>(t);
+        for (Vert* v0 : verts){
+            *v0->x += translate->x;
+            *v0->y += translate->y;
+            *v0->z += translate->z;
+        }
+    }
+}

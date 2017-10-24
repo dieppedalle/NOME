@@ -175,6 +175,12 @@ MeshNew* Reader::mesh(std::string name){
 ///Reader convenience functions - these are the ones that should actually be called outside of this class
 MeshNew* Reader::getMesh(std::string name)
 {
+    for (MeshNew* m0 : session->meshes){
+        std::string currentName = "m:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
     if(search(name, 0))
         return (MeshNew*) node;
     return NULL;
@@ -191,6 +197,13 @@ InstanceNew* Reader::getInstance(std::string name)
 
 Vert* Reader::getVert(std::string name)
 {
+    // Check for definitions first
+    for (Vert* v0 : session->verts){
+        if(v0->name.compare(name) == 0)
+            return v0;
+    }
+
+    // Check for inside meshes and instances
     if(node->getFullName().find(name) != std::string::npos)
         return (Vert*) node->vert(name);
     if(!search(name, 0))

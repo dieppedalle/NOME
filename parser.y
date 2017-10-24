@@ -312,9 +312,10 @@ faceMesh:
 
         std::list<Vert*> verticesFace;
 
-
+        //std::cout << "HELP" << std::endl;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            Vert * currentVertex = currReader->vert(*it);
+            Vert * currentVertex = currReader->getVert(*it);
+            //std::cout << "KKKKKKK" << std::endl;
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
                 currentMeshVertices.push_back(currentVertex);
@@ -573,7 +574,9 @@ instance:
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
-        MeshNew * currentMesh = currReader->mesh($<string>3);
+        //MeshNew * currentMesh = currReader->mesh($<string>3);
+        MeshNew * currentMesh = currReader->getMesh($<string>3);
+
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh);
@@ -586,6 +589,10 @@ instance:
 
         newInstance->transformations = currentTransformations;
         currentTransformations.clear();
+
+        for (TransformationNew * t : newInstance->transformations){
+            newInstance->applyTransformation(t);
+        }
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -601,11 +608,6 @@ instance:
         }
 
         currSession->instances.push_back(newInstance);
-
-
-
-        //TODO: ADD TO INSTANCE LIST
-        //printf("Created an instance\n");
 	}
 	;
 

@@ -23,6 +23,7 @@ public:
     bool setName(std::string n);
     bool updateNames();
     bool draw();
+    void applyTransformation(TransformationNew* t);
     Surface* surface;
     std::list<TransformationNew*> transformations;
 
