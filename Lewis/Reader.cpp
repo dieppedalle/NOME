@@ -1,206 +1,119 @@
 //
 //  Reader.cpp
-//  model
-//
-//  Created by L on 26/08/2017.
-//  Copyright © 2017 L. All rights reserved.
 //
 
 #include "Reader.h"
 
-///Reader class, access of an overarching mesh using the indices of data in the mesh
-///A reader must be instantiated for each individual meshes, including if the mesh has been edited with an operation
-///that generates a new mesh. Not a new mesh will be generated with all mesh operations but to be safe, it is advisable to
-///create a new reader after any operation regardless.
-
-using namespace std;
-
-Reader* createReader(Session* currSession){
-    Reader* reader0 = new Reader();
-    reader0->session = currSession;
-    return reader0;
+///Reader instantiation with various fields
+//Instatiate reader with no treenode
+Reader* createReader(Session* currSession)
+{
+    Reader* r0 = new Reader();
+    r0->session = currSession;
+    r0->assigned = false;
+    return r0;
 }
 
-///Vertex Reader functions, reader will take in the index of a vertex from which to return information
-
-
-///Get pointer to desired vertex
-Vert* Reader::vert(VertI index)
+//Instantiate reader with treenode
+Reader* createReader(Session* currSession, Node* node)
 {
-    for(Vert* v : session->verts)
-    {
-        if(v->index == index)
-            return v;
-    }
-    return NULL;
+    Reader* r0 = new Reader();
+    r0->session = currSession;
+    r0->node = node;
+    r0->assigned = true;
+    return r0;
 }
 
-FaceNew* Reader::face(FaceI index)
+//Clone reader object
+Reader* createReader(Reader r1)
 {
-    for(FaceNew* f : session->faces)
-    {
-        if(f->index == index)
-            return f;
-    }
+    Reader* r0 = new Reader();
+    r0->node = r1.node;
+    r0->session = r1.session;
+    r0->assigned = r1.assigned;
+    return r0;
+}
 
-    for (InstanceNew* i: session->instances)
+
+
+///Reader tree traversal
+//Link a reader to a node
+bool Reader::link(Node* n0)
+{
+    if(n0 == NULL)
+        return false;
+    node = n0;
+    return true;
+}
+
+//Link a reader given string of the node
+bool Reader::link(std::string s)
+{
+    Node* node = NULL;
+    if(s[0] == 'm')
     {
-        for(FaceNew* f : i->mesh->faces)
+        for(MeshNew* m0 : session->meshes)
         {
-            if(f->index == index)
-                return f;
+            if(m0->getName().compare(s) == 0)
+                node = m0;
         }
     }
-    return NULL;
-}
-
-///Get all edges of which vertex is part of
-vector<EdgeI> Reader::vertEdges(VertI index)
-{
-    vector<EdgeI> edges;
-    Vert* v0 = Reader::vert(index);
-    if(v0 == NULL)
-        return edges;
-    for(EdgeNew* edge : v0->edges)
+    else if(s[0] == 'i')
     {
-        edges.push_back(edge->index);
-    }
-    return edges;
-}
-
-///Get all faces which touch the vertex
-vector<FaceI> Reader::vertFaces(VertI index)
-{
-    vector<FaceI> faces;
-    Vert* v0 = Reader::vert(index);
-    if(v0 == NULL)
-        return faces;
-    for(FaceNew* face : v0->faces)
-    {
-        faces.push_back(face->index);
-    }
-    return faces;
-}
-
-///Vertex Reader functions by name
-
-///Get pointer to desired vertex
-Vert* Reader::vert(std::string name)
-{
-    for(Vert* v : session->verts)
-    {
-        if(!name.compare(v->getName()))
-            return v;
-    }
-
-    for(FaceNew* f : session->faces)
-    {
-        for(Vert* v : f->verts)
+        for(InstanceNew* i0 : session->instances)
         {
-            if(!name.compare(f->getName() + "." + v->getName()))
-                return v;
+            if(i0->getName().compare(s) == 0)
+                node = i0;
         }
     }
+    return link(node);
+}
 
-    for(InstanceNew* i : session->instances)
-    {
-        for(FaceNew* f : i->mesh->faces)
+//Search tree for given string
+bool Reader::search(std::string s, int mode)
+{
+    //Loop through string to find
+    std::string delimiter = ".";
+    size_t pos = 0;
+    std::string token;
+    bool found = false;
+    while ((pos = s.find(delimiter)) != std::string::npos) {
+        token = s.substr(0, pos);
+        if(token[0] == 'i' && mode == 1)
         {
-            for(Vert* v : f->verts)
-            {
-                if(!name.compare(i->getName() + "." + f->getName() + "." + v->getName()))
-                    return v;
-            }
+            found = true;
+            link(token);
         }
+        else if (token[0] == 'm')
+        {
+            found = true;
+            link(token);
+        }
+        s.erase(0, pos + delimiter.length());
     }
 
-    return NULL;
-}
-
-Surface* Reader::surf(std::string name)
-{
-    for(Surface* s : session->surfaces)
-    {
-        if(!name.compare(s->name))
-            return s;
-    }
-    return NULL;
+    return found;
 }
 
 
-///Get all edges of which vertex is part of
-vector<EdgeI> Reader::vertEdges(std::string name)
-{
-    vector<EdgeI> edges;
-    Vert* v0 = Reader::vert(name);
-    if(v0 == NULL)
-        return edges;
-    for(EdgeNew* edge : v0->edges)
-    {
-        edges.push_back(edge->index);
-    }
-    return edges;
-}
 
-///Get all faces which touch the vertex
-vector<FaceI> Reader::vertFaces(std::string name)
-{
-    vector<FaceI> faces;
-    Vert* v0 = Reader::vert(name);
-    if(v0 == NULL)
-        return faces;
-    for(FaceNew* face : v0->faces)
-    {
-        faces.push_back(face->index);
-    }
-    return faces;
-}
+///Low level reader functions
+Surface* surf(std::string);
+Surface* surf(int);
+Vert* vert(std::string);
+Vert* vert(VertI);
+EdgeNew* edge(std::string);
+EdgeNew* edge(EdgeI);
+FaceNew* face(std::string);
+FaceNew* face(FaceI);
 
-///Edge functions
-bool isBorder(EdgeI index);
-EdgeNew* Reader::edge(EdgeI index){
-    return NULL;
-}
+//For the parser?
+MeshNew* mesh(std::string);
 
-vector<FaceI> edgeFaces(EdgeI index);
-vector<VertI> edgeVerts(EdgeI index);
-bool isBorder(std::string name);
-EdgeNew* edge(std::string name);
-vector<FaceI> edgeFaces(std::string name);
-vector<VertI> edgeVerts(std::string name);
-
-///Face functions
-FaceNew* face(FaceI index);
-
-vector<EdgeI> faceEdges(FaceI index);
-vector<VertI> faceVerts(FaceI index);
-FaceNew* Reader::face(std::string name){
-    for(FaceNew* f : session->faces)
-    {
-        if(!name.compare(f->getName()))
-            return f;
-    }
-    return NULL;
-}
-
-MeshNew* Reader::mesh(std::string name){
-    for(MeshNew* m : session->meshes)
-    {
-        if(!name.compare(m->getName()))
-            return m;
-    }
-    for(MeshNew* m : session->polylines)
-    {
-        if(!name.compare(m->getName()))
-            return m;
-    }
-    for(MeshNew* c : session->circles)
-    {
-        if(!name.compare(c->getName()))
-            return c;
-    }
-    return NULL;
-}
-
-vector<EdgeI> faceEdges(std::string name);
-vector<VertI> faceVerts(std::string name);
+///Reader convenience functions - these are the ones that should actually be called outside of this class
+Surface* getSurf(std::string);
+MeshNew* getMesh(std::string);
+InstanceNew* getInstance(std::string);
+Vert* getVert(std::string);
+EdgeNew* getEdge(std::string);
+FaceNew* getFace(std::string);

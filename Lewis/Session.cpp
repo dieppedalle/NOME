@@ -15,7 +15,7 @@ static int sIndex = 0;
 Session* createSession()
 {
     Session* session0 = new Session();
-    session0->setName("Session" + std::to_string(sIndex));
+    session0->setName("s:" + std::to_string(sIndex));
     sIndex++;
     std::cout << session0->getName() << std::endl;
 
