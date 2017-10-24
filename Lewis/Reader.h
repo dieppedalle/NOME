@@ -41,7 +41,6 @@ public:
 
     //Get low lying data of node
     Surface* surf(std::string);
-    Surface* surf(int);
     Vert* vert(VertI);
     EdgeNew* edge(EdgeI);
     FaceNew* face(FaceI);

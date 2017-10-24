@@ -17,7 +17,7 @@ CircleNew* createCircle(double *num, double *rad)
 {
     CircleNew* c0 = new CircleNew();
     //This behaviour depends on the parser
-    c0->setName("circle" + std::to_string(cIndex));
+    c0->setName(std::to_string(cIndex));
     c0->num = num;
     c0->rad = rad;
 
@@ -26,6 +26,15 @@ CircleNew* createCircle(double *num, double *rad)
     c0->createVertEdgeCircle();
     c0-> updateCircle();
     return c0;
+}
+
+bool CircleNew::setName(std::string n)
+{
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "m:cl:" + n;
+    bool error = updateNames();
+    return error;
 }
 
 void CircleNew::updateCircle() {

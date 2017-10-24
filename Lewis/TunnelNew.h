@@ -29,6 +29,8 @@ public:
 
     void createVertEdgeTunnel();
     void updateTunnel();
+
+    bool setName(std::string n);
 } TunnelNew;
 
 ///Instance functions

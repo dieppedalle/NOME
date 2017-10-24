@@ -24,6 +24,7 @@ public:
     double *h;
     void createVertEdgeFunnel();
     void updateFunnel();
+    bool setName(std::string n);
 } FunnelNew;
 
 ///Instance functions

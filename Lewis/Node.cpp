@@ -5,6 +5,42 @@ Node::Node()
     name = prefix = "";
 }
 
+//These functions are defaulted to returning NULL, redefine functionality in subclasses
+Node* Node::vert(std::string)
+{
+    return NULL;
+}
+
+Node* Node::edge(std::string)
+{
+    return NULL;
+}
+
+Node* Node::face(std::string)
+{
+    return NULL;
+}
+
+Node* Node::vert(int)
+{
+    return NULL;
+}
+
+Node* Node::edge(int)
+{
+    return NULL;
+}
+
+Node* Node::face(int)
+{
+    return NULL;
+}
+
+Node* Node::surface()
+{
+    return NULL;
+}
+
 ///Set local name of node element
 bool Node::setName(std::string n)
 {

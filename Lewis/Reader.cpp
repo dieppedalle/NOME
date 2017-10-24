@@ -97,15 +97,49 @@ bool Reader::search(std::string s, int mode)
 
 
 
+///For the parser?
+Surface* Reader::surf(std::string n)
+{
+    for(Surface* s : session->surfaces)
+        {
+            if(!n.compare(s->name))
+                return s;
+        }
+        return NULL;
+}
+
+
+
 ///Low level reader functions
-Surface* surf(std::string);
-Surface* surf(int);
-Vert* vert(std::string);
-Vert* vert(VertI);
-EdgeNew* edge(std::string);
-EdgeNew* edge(EdgeI);
-FaceNew* face(std::string);
-FaceNew* face(FaceI);
+Vert* Reader::vert(std::string n)
+{
+    return (Vert*) node->vert(n);
+}
+
+Vert* Reader::vert(VertI i)
+{
+    return (Vert*) node->vert(i);
+}
+
+EdgeNew* Reader::edge(std::string n)
+{
+    return (EdgeNew*) node->edge(n);
+}
+
+EdgeNew* Reader::edge(EdgeI i)
+{
+    return (EdgeNew*) node->edge(i);
+}
+
+FaceNew* Reader::face(std::string n)
+{
+    return (FaceNew*) node->edge(n);
+}
+
+FaceNew* Reader::face(FaceI i)
+{
+    return (FaceNew*) node->edge(i);
+}
 
 //For the parser?
 MeshNew* Reader::mesh(std::string name){
@@ -139,9 +173,32 @@ MeshNew* Reader::mesh(std::string name){
 }
 
 ///Reader convenience functions - these are the ones that should actually be called outside of this class
-Surface* getSurf(std::string);
-MeshNew* getMesh(std::string);
-InstanceNew* getInstance(std::string);
-Vert* getVert(std::string);
-EdgeNew* getEdge(std::string);
-FaceNew* getFace(std::string);
+Surface* Reader::getSurf(std::string n)
+{
+    return NULL;
+}
+
+MeshNew* Reader::getMesh(std::string)
+{
+    return NULL;
+}
+
+InstanceNew* Reader::getInstance(std::string)
+{
+    return NULL;
+}
+
+Vert* Reader::getVert(std::string)
+{
+    return NULL;
+}
+
+EdgeNew* Reader::getEdge(std::string)
+{
+    return NULL;
+}
+
+FaceNew* Reader::getFace(std::string)
+{
+    return NULL;
+}

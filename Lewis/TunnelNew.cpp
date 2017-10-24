@@ -18,7 +18,7 @@ TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h)
 {
     TunnelNew* t0 = new TunnelNew();
     //This behaviour depends on the parser
-    t0->setName("t" + std::to_string(tIndex));
+    t0->setName(std::to_string(tIndex));
     t0->n = n;
     t0->ro = ro;
     t0->ratio = ratio;
@@ -28,6 +28,15 @@ TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h)
 
     t0->createVertEdgeTunnel();
     return t0;
+}
+
+bool TunnelNew::setName(std::string n)
+{
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "m:tn:" + n;
+    bool error = updateNames();
+    return error;
 }
 
 void TunnelNew::createVertEdgeTunnel(){

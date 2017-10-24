@@ -18,7 +18,7 @@ FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h)
 {
     FunnelNew* f0 = new FunnelNew();
     //This behaviour depends on the parser
-    f0->setName("funnel" + std::to_string(fIndex));
+    f0->setName(std::to_string(fIndex));
     f0->n = n;
     f0->ro = ro;
     f0->ratio = ratio;
@@ -28,6 +28,15 @@ FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h)
 
     f0->createVertEdgeFunnel();
     return f0;
+}
+
+bool FunnelNew::setName(std::string n)
+{
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "m:fn:" + n;
+    bool error = updateNames();
+    return error;
 }
 
 void FunnelNew::createVertEdgeFunnel(){

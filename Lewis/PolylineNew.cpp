@@ -37,3 +37,12 @@ PolylineNew* createPolylineNew(std::list<Vert*> verticesPolyline)
 
     return p0;
 }
+
+bool PolylineNew::setName(std::string n)
+{
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "m:pl:" + n;
+    bool error = updateNames();
+    return error;
+}

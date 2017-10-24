@@ -13,7 +13,8 @@
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
 typedef class PolylineNew : public MeshNew
 {
-    setName(std::string n);
+public:
+    bool setName(std::string n);
 } PolylineNew;
 
 ///Instance functions
