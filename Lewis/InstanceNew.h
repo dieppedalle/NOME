@@ -25,6 +25,13 @@ public:
     bool draw();
     Surface* surface;
     std::list<TransformationNew*> transformations;
+
+    Node* vert(std::string);
+    Node* edge(std::string);
+    Node* face(std::string);
+    Node* vert(int);
+    Node* edge(int);
+    Node* face(int);
 };
 
 bool setSurface(InstanceNew* i0, Surface* surface);

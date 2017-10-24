@@ -173,32 +173,45 @@ MeshNew* Reader::mesh(std::string name){
 }
 
 ///Reader convenience functions - these are the ones that should actually be called outside of this class
-Surface* Reader::getSurf(std::string n)
+MeshNew* Reader::getMesh(std::string name)
 {
+    if(search(name, 0))
+        return (MeshNew*) node;
     return NULL;
 }
 
-MeshNew* Reader::getMesh(std::string)
+InstanceNew* Reader::getInstance(std::string name)
 {
+    if(node->getFullName().compare(name) == 0)
+        return (InstanceNew*) node;
+    if(search(name, 1))
+        return (InstanceNew*) node;
     return NULL;
 }
 
-InstanceNew* Reader::getInstance(std::string)
+Vert* Reader::getVert(std::string name)
 {
-    return NULL;
+    if(node->getFullName().find(name) != std::string::npos)
+        return (Vert*) node->vert(name);
+    if(!search(name, 0))
+        return NULL;
+    return (Vert*) node->vert(name);
 }
 
-Vert* Reader::getVert(std::string)
+EdgeNew* Reader::getEdge(std::string name)
 {
-    return NULL;
+    if(node->getFullName().find(name) != std::string::npos)
+        return (EdgeNew*) node->edge(name);
+    if(!search(name, 0))
+        return NULL;
+    return (EdgeNew*) node->edge(name);
 }
 
-EdgeNew* Reader::getEdge(std::string)
+FaceNew* Reader::getFace(std::string name)
 {
-    return NULL;
-}
-
-FaceNew* Reader::getFace(std::string)
-{
-    return NULL;
+    if(node->getFullName().find(name) != std::string::npos)
+        return (FaceNew*) node->face(name);
+    if(!search(name, 0))
+        return NULL;
+    return (FaceNew*) node->face(name);
 }

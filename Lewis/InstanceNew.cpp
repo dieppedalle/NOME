@@ -87,3 +87,76 @@ bool InstanceNew::draw()
     return true;
 }
 
+
+Node* InstanceNew::vert(std::string name)
+{
+    std::string str = findSubstring(name, 'v', ".");
+    if(str.compare("") == 0)
+        return NULL;
+    std::string id = str.substr(3);
+    for(Vert* v0 : verts)
+    {
+        if(v0->name.compare(id) == 0)
+            return v0;
+    }
+    return NULL;
+}
+
+Node* InstanceNew::edge(std::string name)
+{
+    std::string str = findSubstring(name, 'e', ".");
+    if(str.compare("") == 0)
+        return NULL;
+    std::string id = str.substr(3);
+    for(EdgeNew* e0 : edges)
+    {
+        if(e0->name.compare(id) == 0)
+            return e0;
+    }
+    return NULL;
+}
+
+Node* InstanceNew::face(std::string name)
+{
+    std::string str = findSubstring(name, 'f', ".");
+    if(str.compare("") == 0)
+        return NULL;
+    std::string id = str.substr(3);
+    for(FaceNew* f0 : faces)
+    {
+        if(f0->name.compare(id) == 0)
+            return f0;
+    }
+    return NULL;
+}
+
+Node* InstanceNew::vert(int i)
+{
+    for(Vert* v0 : verts)
+    {
+        if(v0->index == i)
+            return v0;
+    }
+    return NULL;
+}
+
+Node* InstanceNew::edge(int i)
+{
+    for(EdgeNew* e0 : edges)
+    {
+        if(e0->index == i)
+            return e0;
+    }
+    return NULL;
+}
+
+Node* InstanceNew::face(int i)
+{
+    for(FaceNew* f0 : faces)
+    {
+        if(f0->index == i)
+            return f0;
+    }
+    return NULL;
+}
+

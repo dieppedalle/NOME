@@ -79,3 +79,16 @@ std::string Node::getFullName()
 {
     return prefix + '.' + name;
 }
+
+//Find substring helper function
+std::string findSubstring(std::string str, char find, std::string delimiter)
+{
+    //Loop through string to find
+    size_t pos = 0;
+    std::string token;
+    while ((pos = str.find(delimiter)) != std::string::npos) {
+        if(token[0] == find)
+            return token;
+    }
+    return "";
+}

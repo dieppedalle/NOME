@@ -49,7 +49,6 @@ public:
     FaceNew* face(std::string);
 
     //Convenience functions
-    Surface* getSurf(std::string);
     MeshNew* getMesh(std::string);
     InstanceNew* getInstance(std::string);
     Vert* getVert(std::string);

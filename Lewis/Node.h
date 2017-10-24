@@ -42,4 +42,6 @@ public:
     bool updateNames();
 };
 
+std::string findSubstring(std::string, char, std::string);
+
 #endif // NODE_H
