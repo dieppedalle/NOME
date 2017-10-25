@@ -257,6 +257,10 @@ mesh:
 
         currMesh->setName(strdup($<string>2));
         currSession->meshes.push_back(currMesh);
+
+        currentMeshFaces.clear();
+        currentMeshEdges.clear();
+        currentMeshVertices.clear();
         //printf("Created a mesh\n");
 	}
 	;
@@ -313,7 +317,10 @@ faceMesh:
         std::list<Vert*> verticesFace;
 
         //std::cout << "HELP" << std::endl;
+        //std::cout << currentMeshEdges.size() << std::endl;
+
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+            std::cout << *it << std::endl;
             Vert * currentVertex = currReader->getVert(*it);
             //std::cout << "KKKKKKK" << std::endl;
             if (currentVertex != NULL) {
@@ -325,7 +332,6 @@ faceMesh:
                 YYABORT;
             }
         }
-
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
 
         setName(newFace, strdup($<string>2));

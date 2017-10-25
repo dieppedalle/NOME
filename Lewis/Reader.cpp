@@ -203,6 +203,37 @@ Vert* Reader::getVert(std::string name)
             return v0;
     }
 
+    for (InstanceNew* i0 : session->instances){
+        link(i0);
+        //std::cout << node->getFullName().substr(node->getFullName().find(":") + 1) << std::endl;
+
+        string currentName = node->getFullName().substr(node->getFullName().find(":") + 1);
+        string argName = name.substr(0, name.find("."));
+        string argAfterName = name.substr(name.find(".") + 1);
+
+        if (currentName.compare(argName) == 0){
+            string faceName = argAfterName.substr(0, argAfterName.find("."));
+            for (FaceNew* f0 : i0->faces){
+                if (f0->name.compare(faceName) == 0){
+                    string vertName = argAfterName.substr(argAfterName.find(".") + 1);
+                    for (Vert* v0 : f0->verts){
+                        if (v0->name.compare(vertName) == 0){
+                            return v0;
+                        }
+                    }
+                }
+            }
+
+            //return NULL;
+        }
+
+        /*if(currentName.find(argName) != std::string::npos)
+            //std::cout << "GGGG" << std::endl;
+            return (Vert*) node->vert(argAfterName);
+
+        if(!search(name, 0))
+            return NULL;*/
+    }
     // Check for inside meshes and instances
     if(node->getFullName().find(name) != std::string::npos)
         return (Vert*) node->vert(name);

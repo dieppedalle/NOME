@@ -17,9 +17,9 @@ class InstanceNew : public Node
 {
 public:
     MeshNew* mesh;
-    std::vector<Vert*> verts;
-    std::vector<EdgeNew*> edges;
-    std::vector<FaceNew*> faces;
+    std::list<Vert*> verts;
+    std::list<EdgeNew*> edges;
+    std::list<FaceNew*> faces;
     bool setName(std::string n);
     bool updateNames();
     bool draw();

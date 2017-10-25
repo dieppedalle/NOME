@@ -26,11 +26,12 @@ InstanceNew* createInstance(MeshNew* m0)
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
    for (Vert* v0 : m0->verts){
+
        Vert* newVertex = createVert(v0);
        newVertex->name = v0->name;
        i0->verts.push_back(newVertex);
    }
-   for (EdgeNew* e0 : m0->edges){
+   /*for (EdgeNew* e0 : m0->edges){
        Vert* firstVert;
        Vert* secondVert;
 
@@ -46,15 +47,36 @@ InstanceNew* createInstance(MeshNew* m0)
 
        EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
        i0->edges.push_back(newEdge);
-   }
+   }*/
 
    for (FaceNew* f0 : m0->faces){
-       /*for (Vert* v1 : i0->verts){
-           if(v1->name.compare(e0->v1->name) == 0)
-               secondVert = v1;
-       }*/
+       std::list<EdgeNew*> edgesFace;
+       std::list<Vert*> vertFace;
+       for (EdgeNew* e0 : f0->edges){
+           Vert* firstVert;
+           Vert* secondVert;
 
-       i0->faces.push_back(f0);
+           for (Vert* v0 : i0->verts){
+               if(v0->name.compare(e0->v0->name) == 0)
+                   firstVert = v0;
+           }
+
+           for (Vert* v1 : i0->verts){
+               if(v1->name.compare(e0->v1->name) == 0)
+                   secondVert = v1;
+           }
+
+           EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
+           edgesFace.push_back(newEdge);
+           vertFace.push_back(firstVert);
+       }
+
+       FaceNew* newFace = createFace(vertFace, &(i0->edges));
+       setName(newFace, f0->name);
+       setSurface(newFace, f0->surface);
+
+
+       i0->faces.push_back(newFace);
    }
    return i0;
 }
