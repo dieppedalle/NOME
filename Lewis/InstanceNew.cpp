@@ -219,7 +219,13 @@ void InstanceNew::applyTransformation(TransformationNew* t){
         //glRotatef(rotate->angle, rotate->x, rotate->y, rotate->z);
     }
     else if (dynamic_cast<Scale*>(t)){
-        //Scale* scale = dynamic_cast<Scale*>(t);
+        Scale* scale = dynamic_cast<Scale*>(t);
+        for (Vert* v0 : verts){
+            *v0->x *= scale->x;
+            *v0->y *= scale->y;
+            *v0->z *= scale->z;
+        }
+
         //glScalef(scale->x, scale->y, scale->z);
     }
     else if (dynamic_cast<Translate*>(t)){
