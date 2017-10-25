@@ -7,8 +7,10 @@
 //
 #include <stdio.h>
 #include <string.h>
+#include <glm/glm.hpp>
 #include "Data.h"
 #include "InstanceNew.h"
+
 
 bool setSurface(InstanceNew* i0, Surface* surface){
     i0->surface = surface;
@@ -97,21 +99,6 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
-    /*for(auto t : transformations) {
-        if (dynamic_cast<Rotate*>(t)){
-            Rotate* rotate = dynamic_cast<Rotate*>(t);
-            glRotatef(rotate->angle, rotate->x, rotate->y, rotate->z);
-        }
-        else if (dynamic_cast<Scale*>(t)){
-            Scale* scale = dynamic_cast<Scale*>(t);
-            glScalef(scale->x, scale->y, scale->z);
-        }
-        else if (dynamic_cast<Translate*>(t)){
-            Translate* translate = dynamic_cast<Translate*>(t);
-            glTranslatef(translate->x, translate->y, translate->z);
-        }
-    }*/
-
     for(auto v : verts) {
       drawVert(v, surface);
     }
@@ -121,21 +108,6 @@ bool InstanceNew::draw()
     for(auto f : faces) {
       drawFace(f, surface);
     }
-
-    /*for (std::list<TransformationNew *>::reverse_iterator rit=transformations.rbegin(); rit!=transformations.rend(); ++rit){
-        if (dynamic_cast<Rotate*>(*rit)){
-            Rotate* rotate = dynamic_cast<Rotate*>(*rit);
-            glRotatef(-rotate->angle, rotate->x, rotate->y, rotate->z);
-        }
-        else if (dynamic_cast<Scale*>(*rit)){
-            Scale* scale = dynamic_cast<Scale*>(*rit);
-            glScalef(-scale->x, -scale->y, -scale->z);
-        }
-        else if (dynamic_cast<Translate*>(*rit)){
-            Translate* translate = dynamic_cast<Translate*>(*rit);
-            glTranslatef(-translate->x, -translate->y, -translate->z);
-        }
-    }*/
 
     return true;
 }
@@ -215,8 +187,35 @@ Node* InstanceNew::face(int i)
 
 void InstanceNew::applyTransformation(TransformationNew* t){
     if (dynamic_cast<Rotate*>(t)){
-        //Rotate* rotate = dynamic_cast<Rotate*>(t);
-        //glRotatef(rotate->angle, rotate->x, rotate->y, rotate->z);
+        Rotate* rotate = dynamic_cast<Rotate*>(t);
+        for (Vert* v0 : verts){
+            // Rotation around an axis
+            // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
+            double radAngle = rotate->angle * (3.141592f/180.0f);
+            double t = 1 - glm::cos(radAngle);
+            double S = glm::sin(radAngle);
+            double C = glm::cos(radAngle);
+
+            double x1 = t * pow(rotate->x, 2) + C;
+            double x2 = t * rotate->x * rotate->y - S * rotate->z;
+            double x3 = t * rotate->x * rotate->z + S * rotate->y;
+            double y1 = t * rotate->x * rotate->y + S * rotate->z;
+            double y2 = t * pow(rotate->y, 2) + C;
+            double y3 = t * rotate->y * rotate->z - S * rotate->x;
+            double z1 = t * rotate->x * rotate->z - S * rotate->y;
+            double z2 = t * rotate->y * rotate->z + S * rotate->x;
+            double z3 = t * pow(rotate->z, 2) + C;
+
+            // Matrix multiplication
+            // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
+            double ax = *v0->x * x1 + *v0->y * x2 + *v0->z * x3;
+            double ay = *v0->x * y1 + *v0->y * y2 + *v0->z * y3;
+            double az = *v0->x * z1 + *v0->y * z2 + *v0->z * z3;
+
+            *v0->x = ax;
+            *v0->y = ay;
+            *v0->z = az;
+        }
     }
     else if (dynamic_cast<Scale*>(t)){
         Scale* scale = dynamic_cast<Scale*>(t);
@@ -225,8 +224,6 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             *v0->y *= scale->y;
             *v0->z *= scale->z;
         }
-
-        //glScalef(scale->x, scale->y, scale->z);
     }
     else if (dynamic_cast<Translate*>(t)){
         Translate* translate = dynamic_cast<Translate*>(t);
