@@ -85,17 +85,23 @@ void ControlPanel::setupLayout()
     /* Mode layout.*/
     modeLayout -> addLayout(selectionLayout = new QHBoxLayout);
     modeLayout -> addLayout(editLayout = new QHBoxLayout);
+    modeLayout -> addLayout(editLayout2 = new QHBoxLayout);
     modeLayout -> addLayout(zipOptionsLayout = new QHBoxLayout);
-    selectionLayout -> addWidget(faceModeButton = new QRadioButton(tr("Select Face")));
     selectionLayout -> addWidget(vertexModeButton = new QRadioButton(tr("Select Vertex")));
-    vertexModeButton -> setChecked(true);
     selectionLayout -> addWidget(borderModeButton = new QRadioButton(tr("Select Border")));
-    editLayout -> addWidget(addFaceButton = new QPushButton(tr("Add Polygon")));
+    selectionLayout -> addWidget(faceModeButton = new QRadioButton(tr("Select Face")));
+    vertexModeButton -> setChecked(true);
+
+    editLayout -> addWidget(addPolylineButton = new QPushButton(tr("Add Polyline")));
     editLayout -> addWidget(addBorderButton = new QPushButton(tr("Add One Border")));
     editLayout -> addWidget(deleteFaceButton = new QPushButton(tr("Delete Face")));
+    editLayout2 -> addWidget(addFaceButton = new QPushButton(tr("Add Polygon")));
+    editLayout2 -> addWidget(zipButton = new QPushButton(tr("Zip Two Mesh Borders")));
+    editLayout2 -> addWidget(groupFacesButton = new QPushButton(tr("Group Faces")));
+    editLayout2 -> addWidget(groupFacesEdit = new QLineEdit(tr("meshName")));
     zipOptionsLayout -> addWidget(new QLabel(tr("Triangle Panelty")));
     zipOptionsLayout -> addWidget(trianglePaneltyEdit = new QLineEdit(tr("1.3")));
-    zipOptionsLayout -> addWidget(zipButton = new QPushButton(tr("Zip Two Mesh Borders")));
+
     modeLayout -> addLayout(addOrClearLayout = new QHBoxLayout);
     modeLayout-> addWidget(autoCorrectCheck = new QCheckBox(tr("Auto Correct Adding Face Oreinataion")));
     autoCorrectCheck -> setChecked(true);

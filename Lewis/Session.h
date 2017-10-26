@@ -36,6 +36,8 @@ public:
     std::list<BankNew*> banks;
     std::string name;
 
+    std::list<Vert*> selectedVerts;
+
     //Naming functions
     bool setName(std::string n);
     std::string getName();

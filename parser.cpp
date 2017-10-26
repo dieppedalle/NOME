@@ -1876,7 +1876,7 @@ yyreduce:
         //std::cout << currentMeshEdges.size() << std::endl;
 
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            std::cout << *it << std::endl;
+            //std::cout << *it << std::endl;
             Vert * currentVertex = currReader->getVert(*it);
             //std::cout << "KKKKKKK" << std::endl;
             if (currentVertex != NULL) {
