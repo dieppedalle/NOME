@@ -70,6 +70,7 @@ InstanceNew* createInstance(MeshNew* m0)
 
            EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
            edgesFace.push_back(newEdge);
+
            vertFace.push_back(firstVert);
        }
 

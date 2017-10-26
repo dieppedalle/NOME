@@ -204,8 +204,6 @@ Vert* Reader::getVert(std::string name)
     }
 
     for (InstanceNew* i0 : session->instances){
-        link(i0);
-        //std::cout << node->getFullName().substr(node->getFullName().find(":") + 1) << std::endl;
 
         string currentName = node->getFullName().substr(node->getFullName().find(":") + 1);
         string argName = name.substr(0, name.find("."));
@@ -223,23 +221,50 @@ Vert* Reader::getVert(std::string name)
                     }
                 }
             }
-
-            //return NULL;
         }
-
-        /*if(currentName.find(argName) != std::string::npos)
-            //std::cout << "GGGG" << std::endl;
-            return (Vert*) node->vert(argAfterName);
-
-        if(!search(name, 0))
-            return NULL;*/
     }
+    return NULL;
     // Check for inside meshes and instances
-    if(node->getFullName().find(name) != std::string::npos)
+    /*if(node->getFullName().find(name) != std::string::npos)
         return (Vert*) node->vert(name);
     if(!search(name, 0))
         return NULL;
-    return (Vert*) node->vert(name);
+    return (Vert*) node->vert(name);*/
+}
+
+Vert* Reader::getVert(int id)
+{
+    // Check for definitions first
+    for (Vert* v0 : session->verts){
+        if(v0->index == id)
+            return v0;
+    }
+
+    for (InstanceNew* i0 : session->instances){
+        for (FaceNew* f0 : i0->faces){
+            for (Vert* v0 : f0->verts){
+                if (v0->index == id){
+                    return v0;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
+FaceNew* Reader::getFace(int id){
+    for (FaceNew* f0 : session->faces){
+        if(f0->index == id)
+            return f0;
+    }
+
+    for (InstanceNew* i0 : session->instances){
+        for (FaceNew* f0 : i0->faces){
+            if(f0->index == id)
+                return f0;
+        }
+    }
+    return NULL;
 }
 
 EdgeNew* Reader::getEdge(std::string name)

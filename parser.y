@@ -325,13 +325,24 @@ faceMesh:
             //std::cout << "KKKKKKK" << std::endl;
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
-                currentMeshVertices.push_back(currentVertex);
+                bool found = false;
+                for (Vert* currentMeshVertex: currentMeshVertices){
+                    if (currentMeshVertex->index == currentVertex->index){
+                        found = true;
+                    }
+                }
+                if (found == false){
+                    currentMeshVertices.push_back(currentVertex);
+                }
+
             }
             else{
                 yyerror("Incorrect vertex name");
                 YYABORT;
             }
         }
+
+        //std::cout << currentMeshVertices.size() << std::endl;
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
 
         setName(newFace, strdup($<string>2));

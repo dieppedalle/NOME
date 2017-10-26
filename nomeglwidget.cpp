@@ -358,9 +358,9 @@ void SlideGLWidget::paintGL()
         t->updateTunnel();
     }
 
-    for(auto v : currSession->verts) {
+    /*for(auto v : currSession->verts) {
       drawVert(v, NULL);
-    }
+    }*/
 
     for (std::list<InstanceNew*>::iterator itMesh = currSession->instances.begin(); itMesh != currSession->instances.end(); itMesh++){
         (*itMesh)->draw();

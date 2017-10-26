@@ -67,6 +67,7 @@ bool Session::updateNames()
 }
 
 void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+    std::cout << "CLICKED " << std::endl;
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -74,21 +75,27 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         Reader* currReader = createReader(this);
 
         for (int i = 0; i < hits; i++) {
-            //std::cout << "TEST" << std::endl;
             int currentID = names[i * 4 + 3];
-            Vert * currentVertex = currReader->vert(currentID);
+            //std::cout << currentID << std::endl;
+
+            Vert * currentVertex = currReader->getVert(currentID);
+
             if (currentVertex != NULL){
+                std::cout << currentVertex->name << std::endl;
                 glm::vec3 vertex_position = glm::vec3(*(currentVertex->x), *(currentVertex->y), *(currentVertex->z));
 
-                float new_distance = distance(vertex_position, hit_position);
+                //float new_distance = distance(vertex_position, hit_position);
 
-                if(new_distance < min_distance) {
-                    min_distance = new_distance;
+                //if(new_distance < min_distance) {
+                //    min_distance = new_distance;
                     selectedVertex = currentVertex;
-                }
+                //}
             }
         }
-        selectedVertex -> selected = !selectedVertex -> selected;
+        if (selectedVertex != NULL){
+            selectedVertex -> selected = !selectedVertex -> selected;
+        }
+
     }
 }
 
@@ -123,13 +130,17 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
 
         for (int i = 0; i < hits; i++) {
             int currentID = names[i * 4 + 3];
-            currentFace = currReader->face(currentID);
+            currentFace = currReader->getFace(currentID);
             if (currentFace != NULL){
+                std::cout << currentFace->name << std::endl;
                 selectedFace = currentFace;
+                break;
             }
         }
 
-        selectedFace -> selected = !selectedFace -> selected;
+        if (selectedFace != NULL){
+            selectedFace -> selected = !selectedFace -> selected;
+        }
     }
 }
 

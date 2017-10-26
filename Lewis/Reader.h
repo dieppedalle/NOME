@@ -52,8 +52,11 @@ public:
     MeshNew* getMesh(std::string);
     InstanceNew* getInstance(std::string);
     Vert* getVert(std::string);
+    Vert* getVert(int);
     EdgeNew* getEdge(std::string);
     FaceNew* getFace(std::string);
+    FaceNew* getFace(int);
+
 
 } Reader;
 
