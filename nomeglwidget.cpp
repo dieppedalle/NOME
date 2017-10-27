@@ -696,7 +696,8 @@ void SlideGLWidget::zipToTempCalled(bool)
 
 void SlideGLWidget::consolidateTempMesh(bool)
 {
-    unordered_map<Vertex*, Vertex*> tempToConsolidateMap;
+    currSession->consolidateTmpFace();
+    /*unordered_map<Vertex*, Vertex*> tempToConsolidateMap;
     Vertex * foundVertex;
     for(Vertex*& v : temp_mesh.vertList)
     {
@@ -759,7 +760,7 @@ void SlideGLWidget::consolidateTempMesh(bool)
     consolidate_mesh.buildBoundary();
     consolidate_mesh.computeNormals();
     clearSelection();
-    updateGlobalIndexList();
+    updateGlobalIndexList();*/
     repaint();
 }
 
@@ -895,7 +896,8 @@ void SlideGLWidget::clearSelection()
 
 void SlideGLWidget::clearSelectionCalled(bool)
 {
-    clearSelection();
+    currSession->clearSelection();
+    repaint();
 }
 
 void SlideGLWidget::updateGlobalIndexList()

@@ -50,6 +50,8 @@ public:
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void SaveSession(std::string outputFile);
+    void consolidateTmpFace();
+    void clearSelection();
 
 } Session;
 

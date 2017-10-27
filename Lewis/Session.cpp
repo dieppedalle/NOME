@@ -245,20 +245,33 @@ void Session::SaveSession(std::string outputFile){
 void Session::addTmpFace(){
     if (tmpMesh == NULL){
         tmpMesh = createMesh();
-        FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
-        setTmpSurface(newFace);
-        //setSurface(newFace, currentSurface);
-        tmpMesh->faces.push_back(newFace);
-        tmpMesh->verts = selectedVerts;
-        tmpMesh->setName("tmpMesh");
-
-
-        tmpInstance = createInstance(tmpMesh);
-        tmpInstance->setName("tmpInstance");
-        for (Vert * selectedVert: selectedVerts){
-            selectedVert->selected = !selectedVert->selected;
-        }
-        selectedVerts.clear();
     }
+    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
+    setTmpSurface(newFace);
+    tmpMesh->faces.push_back(newFace);
+    for (Vert * selectedVert: selectedVerts){
+        tmpMesh->verts.push_back(selectedVert);
+    }
+    tmpMesh->setName("tmpMesh");
+    tmpInstance = createInstance(tmpMesh);
+    tmpInstance->setName("tmpInstance");
+    clearSelection();
+}
 
+void Session::consolidateTmpFace(){
+    for (FaceNew * tmpFace: tmpInstance->faces){
+        setSurface(tmpFace, NULL);
+    }
+    meshes.push_back(tmpMesh);
+    instances.push_back(tmpInstance);
+
+    tmpMesh = NULL;
+    tmpInstance = NULL;
+}
+
+void Session::clearSelection(){
+    for (Vert * selectedVert: selectedVerts){
+        selectedVert->selected = !selectedVert->selected;
+    }
+    selectedVerts.clear();
 }

@@ -181,6 +181,26 @@ MeshNew* Reader::getMesh(std::string name)
             return m0;
     }
 
+    for (TunnelNew* m0 : session->tunnels){
+        //std::cout << m0->name << std::endl;
+        std::string currentName = "m:tn:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
+    for (FunnelNew* m0 : session->funnels){
+        //std::cout << m0->name << std::endl;
+        std::string currentName = "m:fn:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
+    for (PolylineNew* m0 : session->polylines){
+        std::string currentName = "m:pl:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
     if(search(name, 0))
         return (MeshNew*) node;
     return NULL;

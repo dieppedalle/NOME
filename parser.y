@@ -564,7 +564,7 @@ polyline:
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            Vert * currentVertex = currReader->vert(*it);
+            Vert * currentVertex = currReader->getVert(*it);
             if (currentVertex != NULL) {
                 verticesPolyline.push_back(currentVertex);
             }
