@@ -34,26 +34,45 @@ InstanceNew* createInstance(MeshNew* m0)
        i0->verts.push_back(newVertex);
    }
 
+   for (EdgeNew* e0 : m0->edges){
+       Vert* firstVert;
+       Vert* secondVert;
+
+       for (Vert* v0 : i0->verts){
+           if(v0->name.compare(e0->v0->name) == 0)
+               firstVert = v0;
+       }
+
+       for (Vert* v1 : i0->verts){
+           if(v1->name.compare(e0->v1->name) == 0)
+               secondVert = v1;
+       }
+
+       EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
+       i0->edges.push_back(newEdge);
+
+   }
+
 
    for (FaceNew* f0 : m0->faces){
        std::list<EdgeNew*> edgesFace;
        std::list<Vert*> vertFace;
        for (EdgeNew* e0 : f0->edges){
            Vert* firstVert;
-           Vert* secondVert;
+           // Vert* secondVert;
 
            for (Vert* v0 : i0->verts){
                if(v0->name.compare(e0->v0->name) == 0)
                    firstVert = v0;
            }
 
-           for (Vert* v1 : i0->verts){
+           /*for (Vert* v1 : i0->verts){
                if(v1->name.compare(e0->v1->name) == 0)
                    secondVert = v1;
            }
 
            EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
-           edgesFace.push_back(newEdge);
+           edgesFace.push_back(newEdge);*/
 
            vertFace.push_back(firstVert);
        }
