@@ -167,10 +167,10 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
             currentEdge = createEdge(vertices.back(), vertices.front());
         }
         it++;
+
         edges->push_back(currentEdge);
         currentEdges.push_back(currentEdge);
     }
-    //std::cout << edges->size() << std::endl;
     FaceNew* newFace = createFace(currentEdges);
     return newFace;
 }

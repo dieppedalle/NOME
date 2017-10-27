@@ -36,12 +36,16 @@ public:
     std::list<BankNew*> banks;
     std::string name;
 
+
     std::list<Vert*> selectedVerts;
+    MeshNew* tmpMesh;
+    InstanceNew* tmpInstance;
 
     //Naming functions
     bool setName(std::string n);
     std::string getName();
     bool updateNames();
+    void addTmpFace();
     void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);

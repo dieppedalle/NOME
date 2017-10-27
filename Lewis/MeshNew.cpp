@@ -111,6 +111,10 @@ MeshNew* createMesh()
     //std::list<Vert*> verts; std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
     //m0->verts = verts; m0->edges = edges; m0->faces = faces;
     //This behaviour depends on the parser
+    m0->verts = {};
+    m0->edges = {};
+    m0->faces = {};
+
     m0->setName("mesh" + std::to_string(mIndex));
     mIndex++;
     //std::cout << m0->getFullName() << std::endl;

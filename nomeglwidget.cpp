@@ -366,6 +366,10 @@ void SlideGLWidget::paintGL()
         (*itMesh)->draw();
     }
 
+    if (currSession->tmpInstance != NULL){
+        currSession->tmpInstance->draw();
+    }
+
 }
 
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)
@@ -665,8 +669,10 @@ void SlideGLWidget::wholeBorderSelectionChecked(bool checked)
 
 void SlideGLWidget::addToTempCalled(bool)
 {
-    mySelect.addSelectedToMesh(temp_mesh);
-    updateGlobalIndexList();
+    currSession->addTmpFace();
+    //mySelect.addSelectedToMesh(temp_mesh);
+    //updateGlobalIndexList();
+    //std::cout << "OOOPS" << std::endl;
     repaint();
 }
 
