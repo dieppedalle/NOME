@@ -29,8 +29,6 @@ InstanceNew* createInstance(MeshNew* m0)
    i0->mesh = m0;
    i0->verts = {};
    for (Vert* v0 : m0->verts){
-       std::cout << "HELLO" << std::endl;
-       std::cout << v0->name << std::endl;
        Vert* newVertex = createVert(v0);
        newVertex->name = v0->name;
        i0->verts.push_back(newVertex);
@@ -38,19 +36,13 @@ InstanceNew* createInstance(MeshNew* m0)
 
 
    for (FaceNew* f0 : m0->faces){
-       std::cout << "{{{{" << std::endl;
        std::list<EdgeNew*> edgesFace;
        std::list<Vert*> vertFace;
        for (EdgeNew* e0 : f0->edges){
            Vert* firstVert;
            Vert* secondVert;
 
-           std::cout << i0->name << std::endl;
-           std::cout << i0->verts.size() << std::endl;
            for (Vert* v0 : i0->verts){
-               std::cout << ">>>>" << std::endl;
-               std::cout << v0->name << std::endl;
-               std::cout << "<<<<<" << std::endl;
                if(v0->name.compare(e0->v0->name) == 0)
                    firstVert = v0;
            }
@@ -66,14 +58,9 @@ InstanceNew* createInstance(MeshNew* m0)
            vertFace.push_back(firstVert);
        }
 
-       std::cout << "KKKK" << std::endl;
-
        FaceNew* newFace = createFace(vertFace, &(i0->edges));
-       std::cout << "OOO" << std::endl;
        setName(newFace, f0->name);
        setSurface(newFace, f0->surface);
-
-       std::cout << "MMM" << std::endl;
 
        i0->faces.push_back(newFace);
    }

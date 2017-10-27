@@ -10,7 +10,9 @@
 #include "Data.h"
 
 QColor defaultColor = QColor(255, 0, 0);
-QColor selectedColor = QColor(255, 0, 0);
+QColor tmpColor = QColor(255, 255, 0);
+
+
 
 ///Indices for data instantiation
 static int vIndex = 0;
@@ -265,6 +267,18 @@ bool setSurface(FaceNew* f0, Surface* surface){
     return true;
 }
 
+bool setTmpSurface(FaceNew* f0){
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = 1.0;
+    *g = 1.0;
+    *b = 0.0;
+    Surface * tmpSurface = createSurface(r, g, b, "tmpSurface");
+    f0->surface = tmpSurface;
+    return true;
+}
 
 ///Deletion functions
 ///When a vertex is deleted, the adjacent edges and faces are also deleted

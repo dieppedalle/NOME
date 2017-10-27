@@ -107,6 +107,7 @@ bool setName(EdgeNew* e0, std::string n);
 bool setName(FaceNew* f0, std::string n);
 
 bool setSurface(FaceNew* f0, Surface* surface);
+bool setTmpSurface(FaceNew* f0);
 
 ///Deletion helper functions, unlink from other data structures
 bool deleteVert(Vert* vert);

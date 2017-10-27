@@ -16,7 +16,7 @@ static int sIndex = 0;
 Session* createSession()
 {
     Session* session0 = new Session();
-    session0->tmpMesh = createMesh();
+
     session0->setName("s:" + std::to_string(sIndex));
     sIndex++;
 
@@ -243,13 +243,22 @@ void Session::SaveSession(std::string outputFile){
 }
 
 void Session::addTmpFace(){
-    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
-    tmpMesh->faces.push_back(newFace);
+    if (tmpMesh == NULL){
+        tmpMesh = createMesh();
+        FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
+        setTmpSurface(newFace);
+        //setSurface(newFace, currentSurface);
+        tmpMesh->faces.push_back(newFace);
+        tmpMesh->verts = selectedVerts;
+        tmpMesh->setName("tmpMesh");
 
-    std::cout << tmpMesh->name << std::endl;
-    std::cout << "JJJJ" << std::endl;
 
-    InstanceNew* tmpInstance = createInstance(tmpMesh);
-    std::cout << "lollll" << std::endl;
+        tmpInstance = createInstance(tmpMesh);
+        tmpInstance->setName("tmpInstance");
+        for (Vert * selectedVert: selectedVerts){
+            selectedVert->selected = !selectedVert->selected;
+        }
+        selectedVerts.clear();
+    }
 
 }
