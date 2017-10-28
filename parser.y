@@ -136,11 +136,45 @@ transformArgs:
 rotateArgs:
     ROTATE OPARENTHESES numberValue numberValue numberValue EPARENTHESES OPARENTHESES numberValue EPARENTHESES
     {
-        double x = $<number>3;
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+        double *angle = (double*) malloc(sizeof(double));
+
+
+        if ($<string>3 == NULL){
+            *x = $<number>3;
+        }
+        else{
+            x = getBankValue($<string>3);
+        }
+
+        if ($<string>4 == NULL){
+            *y = $<number>4;
+        }
+        else{
+            y = getBankValue($<string>4);
+        }
+
+        if ($<string>5 == NULL){
+            *z = $<number>5;
+        }
+        else{
+            z = getBankValue($<string>5);
+        }
+
+        if ($<string>8 == NULL){
+            *angle = $<number>8;
+        }
+        else{
+            angle = getBankValue($<string>8);
+        }
+
+        /*double x = $<number>3;
         double y = $<number>4;
         double z = $<number>5;
 
-        double angle = $<number>8;
+        double angle = $<number>8;*/
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
@@ -151,9 +185,34 @@ rotateArgs:
 translateArgs:
     TRANSLATE OPARENTHESES numberValue numberValue numberValue EPARENTHESES
     {
-        double x = $<number>3;
-        double y = $<number>4;
-        double z = $<number>5;
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+
+        if ($<string>3 == NULL){
+            *x = $<number>3;
+        }
+        else{
+            x = getBankValue($<string>3);
+        }
+
+        if ($<string>4 == NULL){
+            *y = $<number>4;
+        }
+        else{
+            y = getBankValue($<string>4);
+        }
+
+        if ($<string>5 == NULL){
+            *z = $<number>5;
+        }
+        else{
+            z = getBankValue($<string>5);
+        }
+        //double x = $<number>3;
+        //double y = $<number>4;
+        //double z = $<number>5;
 
         currentTransformations.push_back(createTranslate(x, y, z));
         //printf("Translated\n");
@@ -163,9 +222,35 @@ translateArgs:
 scaleArgs:
     SCALE OPARENTHESES numberValue numberValue numberValue EPARENTHESES
     {
-        double x = $<number>3;
-        double y = $<number>4;
-        double z = $<number>5;
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+
+        if ($<string>3 == NULL){
+            *x = $<number>3;
+        }
+        else{
+            x = getBankValue($<string>3);
+        }
+
+        if ($<string>4 == NULL){
+            *y = $<number>4;
+        }
+        else{
+            y = getBankValue($<string>4);
+        }
+
+        if ($<string>5 == NULL){
+            *z = $<number>5;
+        }
+        else{
+            z = getBankValue($<string>5);
+        }
+
+        //double x = $<number>3;
+        //double y = $<number>4;
+        //double z = $<number>5;
         currentTransformations.push_back(createScale(x, y, z));
         //printf("Scaled\n");
     }
@@ -610,13 +695,6 @@ instance:
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
         }
-
-        /*for (Vert* vert : newInstance->verts){
-            std::cout << vert->name << std::endl;
-            std::cout << *(vert->x) << std::endl;
-            std::cout << *(vert->y) << std::endl;
-            std::cout << *(vert->z) << std::endl;
-        }*/
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.

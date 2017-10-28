@@ -194,20 +194,20 @@ void InstanceNew::applyTransformation(TransformationNew* t){
 
             // Rotation around an axis
             // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
-            double radAngle = rotate->angle * (3.141592f/180.0f);
+            double radAngle = *rotate->angle * (3.141592f/180.0f);
             double t = 1 - glm::cos(radAngle);
             double S = glm::sin(radAngle);
             double C = glm::cos(radAngle);
 
-            double x1 = t * pow(rotate->x, 2) + C;
-            double x2 = t * rotate->x * rotate->y - S * rotate->z;
-            double x3 = t * rotate->x * rotate->z + S * rotate->y;
-            double y1 = t * rotate->x * rotate->y + S * rotate->z;
-            double y2 = t * pow(rotate->y, 2) + C;
-            double y3 = t * rotate->y * rotate->z - S * rotate->x;
-            double z1 = t * rotate->x * rotate->z - S * rotate->y;
-            double z2 = t * rotate->y * rotate->z + S * rotate->x;
-            double z3 = t * pow(rotate->z, 2) + C;
+            double x1 = t * pow(*rotate->x, 2) + C;
+            double x2 = t * *rotate->x * *rotate->y - S * *rotate->z;
+            double x3 = t * *rotate->x * *rotate->z + S * *rotate->y;
+            double y1 = t * *rotate->x * *rotate->y + S * *rotate->z;
+            double y2 = t * pow(*rotate->y, 2) + C;
+            double y3 = t * *rotate->y * *rotate->z - S * *rotate->x;
+            double z1 = t * *rotate->x * *rotate->z - S * *rotate->y;
+            double z2 = t * *rotate->y * *rotate->z + S * *rotate->x;
+            double z3 = t * pow(*rotate->z, 2) + C;
 
             // Matrix multiplication
             // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
@@ -230,9 +230,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             double *y = (double*) malloc(sizeof(double));
             double *z = (double*) malloc(sizeof(double));
 
-            *x = *v0->x * scale->x;
-            *y = *v0->y * scale->y;
-            *z = *v0->z * scale->z;
+            *x = *v0->x * *scale->x;
+            *y = *v0->y * *scale->y;
+            *z = *v0->z * *scale->z;
             v0->x = x;
             v0->y = y;
             v0->z = z;
@@ -246,9 +246,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             double *y = (double*) malloc(sizeof(double));
             double *z = (double*) malloc(sizeof(double));
 
-            *x = *v0->x + translate->x;
-            *y = *v0->y + translate->y;
-            *z = *v0->z + translate->z;
+            *x = *v0->x + *translate->x;
+            *y = *v0->y + *translate->y;
+            *z = *v0->z + *translate->z;
             v0->x = x;
             v0->y = y;
             v0->z = z;

@@ -16,31 +16,31 @@ public:
 class Translate : public TransformationNew
 {
 public:
-    double x;
-    double y;
-    double z;
+    double *x;
+    double *y;
+    double *z;
 };
 
 class Scale : public TransformationNew
 {
 public:
-    double x;
-    double y;
-    double z;
+    double *x;
+    double *y;
+    double *z;
 };
 
 class Rotate : public TransformationNew
 {
 public:
-    double x;
-    double y;
-    double z;
-    double angle;
+    double *x;
+    double *y;
+    double *z;
+    double *angle;
 };
 
-Rotate* createRotate(double x, double y, double z, double angle);
-Scale* createScale(double x, double y, double z);
-Translate* createTranslate(double x, double y, double z);
+Rotate* createRotate(double *x, double *y, double *z, double *angle);
+Scale* createScale(double *x, double *y, double *z);
+Translate* createTranslate(double *x, double *y, double *z);
 
 
 #endif /* TransformationNew_h */

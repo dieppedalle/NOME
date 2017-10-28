@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "TransformationNew.h"
 
-Rotate* createRotate(double x, double y, double z, double angle)
+Rotate* createRotate(double *x, double *y, double *z, double *angle)
 {
     Rotate * rotate = new Rotate();
     rotate->x = x;
@@ -18,7 +18,7 @@ Rotate* createRotate(double x, double y, double z, double angle)
     return rotate;
 }
 
-Scale* createScale(double x, double y, double z)
+Scale* createScale(double *x, double *y, double *z)
 {
     Scale * scale = new Scale();
     scale->x = x;
@@ -27,7 +27,7 @@ Scale* createScale(double x, double y, double z)
     return scale;
 }
 
-Translate* createTranslate(double x, double y, double z)
+Translate* createTranslate(double *x, double *y, double *z)
 {
     Translate * translate = new Translate();
     translate->x = x;
