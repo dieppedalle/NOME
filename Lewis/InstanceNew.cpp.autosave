@@ -29,7 +29,6 @@ InstanceNew* createInstance(MeshNew* m0)
    i0->mesh = m0;
    i0->verts = {};
    for (Vert* v0 : m0->verts){
-       std::cout << v0->getFullName() << std::endl;
        Vert* newVertex = createVert(v0);
        newVertex->name = v0->name;
        i0->verts.push_back(newVertex);

@@ -346,6 +346,7 @@ mesh:
         currentMeshFaces.clear();
         currentMeshEdges.clear();
         currentMeshVertices.clear();
+        //std::cout << currMesh->name << std::endl;
         //printf("Created a mesh\n");
 	}
 	;
@@ -398,16 +399,10 @@ setArgs:
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
-
         std::list<Vert*> verticesFace;
 
-        //std::cout << "HELP" << std::endl;
-        //std::cout << currentMeshEdges.size() << std::endl;
-
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            //std::cout << *it << std::endl;
             Vert * currentVertex = currReader->getVert(*it);
-            //std::cout << "KKKKKKK" << std::endl;
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
                 bool found = false;
@@ -426,13 +421,8 @@ faceMesh:
                 YYABORT;
             }
         }
-
-        //std::cout << currentMeshVertices.size() << std::endl;
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
-
         setName(newFace, strdup($<string>2));
-
-        //newFace->setName(strdup($<string>2));
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -450,8 +440,6 @@ faceMesh:
         currentMeshFaces.push_back(newFace);
 
         tempVariables.clear();
-
-        //printf("Created a face\n");
     }
     ;
 

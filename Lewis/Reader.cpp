@@ -225,7 +225,7 @@ Vert* Reader::getVert(std::string name)
 
     for (InstanceNew* i0 : session->instances){
 
-        string currentName = node->getFullName().substr(node->getFullName().find(":") + 1);
+        string currentName = i0->getFullName().substr(i0->getFullName().find(":") + 1);
         string argName = name.substr(0, name.find("."));
         string argAfterName = name.substr(name.find(".") + 1);
 
