@@ -303,6 +303,7 @@ public slots:
     void wholeBorderSelectionChecked(bool);
     /* Receive the signal to add a polygon to temp_mesh. */
     void addToTempCalled(bool);
+    void addToPolylineCalled(bool);
     /* Receive the signal to zip two borders.
      * And add the result polygons to temp_mesh. */
     void zipToTempCalled(bool);

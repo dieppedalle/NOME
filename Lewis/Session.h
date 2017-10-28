@@ -38,7 +38,9 @@ public:
 
 
     std::list<Vert*> selectedVerts;
+    std::list<FaceNew*> selectedFaces;
     MeshNew* tmpMesh;
+    PolylineNew* tmpPolyline;
     InstanceNew* tmpInstance;
 
     //Naming functions
@@ -53,6 +55,8 @@ public:
     void SaveSession(std::string outputFile);
     void consolidateTmpFace();
     void clearSelection();
+    void saveFileToStr(std::string fileName);
+    void deleteFace();
 
 } Session;
 

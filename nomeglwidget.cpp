@@ -678,6 +678,16 @@ void SlideGLWidget::wholeBorderSelectionChecked(bool checked)
     clearSelection();
 }
 
+void SlideGLWidget::addToPolylineCalled(bool)
+{
+    currSession->addTmpPolyline();
+    //mySelect.addSelectedToMesh(temp_mesh);
+    //updateGlobalIndexList();
+    //std::cout << "OOOPS" << std::endl;
+    repaint();
+}
+
+
 void SlideGLWidget::addToTempCalled(bool)
 {
     currSession->addTmpFace();
@@ -1005,8 +1015,9 @@ void SlideGLWidget::updateFromSavedMesh()
 
 void SlideGLWidget::deleteFaceCalled(bool)
 {
-    mySelect.deleteSelectedFaces(deletedFaces);
-    updateGlobalIndexList();
+    currSession->deleteFace();
+    //mySelect.deleteSelectedFaces(deletedFaces);
+    //updateGlobalIndexList();
     repaint();
 }
 

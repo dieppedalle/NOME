@@ -261,11 +261,9 @@ Vert* Reader::getVert(int id)
     }
 
     for (InstanceNew* i0 : session->instances){
-        for (FaceNew* f0 : i0->faces){
-            for (Vert* v0 : f0->verts){
-                if (v0->index == id){
-                    return v0;
-                }
+        for (Vert* v0 : i0->verts){
+            if (v0->index == id){
+                return v0;
             }
         }
     }
@@ -303,4 +301,16 @@ FaceNew* Reader::getFace(std::string name)
     if(!search(name, 0))
         return NULL;
     return (FaceNew*) node->face(name);
+}
+
+bool Reader::deleteFace(FaceNew * searchFace){
+    for (InstanceNew* i0 : session->instances){
+        i0->faces.remove(searchFace);
+        /*for (FaceNew* f0 : i0->faces){
+            if(f0 == searchFace)
+                i0->faces.remove(f0);
+            return true;
+        }*/
+    }
+    return false;
 }

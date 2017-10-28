@@ -143,10 +143,15 @@ std::vector<std::string> reservedWords{"#", "\n", "point", "endpoint", "surface"
 
 
 int parser(string fileName){
+
+
+
     FILE *fileParser;
     int size;
     std::string buffer = "";
     // Opens the file
+    currSession->saveFileToStr(fileName);
+
     fileParser = fopen(fileName.c_str(), "r");
     if (fileParser == NULL) return NULL;
 
@@ -189,6 +194,7 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               vector<string> &postProcessingLinesString,
                               unordered_map<string, Vertex*> &global_vertices, unordered_map<string, Face*> &global_faces)
 {
+    currSession->saveFileToStr(input);
     //std::cout << "HELLO" << std::endl;
     yyin = fopen(input.c_str(), "r");
     //std::cout << "HELLO" << std::endl;

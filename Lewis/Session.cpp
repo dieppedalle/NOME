@@ -9,6 +9,7 @@
 #include "Session.h"
 #include "Reader.h"
 #include <fstream>
+#include <sstream>
 #include <glm/glm.hpp>
 
 static int sIndex = 0;
@@ -143,6 +144,12 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
 
         if (selectedFace != NULL){
             selectedFace -> selected = !selectedFace -> selected;
+            if (selectedFace -> selected == true){
+                selectedFaces.push_back(selectedFace);
+            }
+            else{
+                selectedFaces.remove(selectedFace);
+            }
         }
     }
 }
@@ -253,7 +260,7 @@ void Session::addTmpFace(){
         tmpMesh->verts.push_back(selectedVert);
     }
     tmpMesh->setName("tmpMesh");
-    tmpInstance = createInstance(tmpMesh);
+    tmpInstance = createInstance(tmpMesh, this->verts);
     tmpInstance->setName("tmpInstance");
     clearSelection();
 }
@@ -262,14 +269,9 @@ void Session::addTmpPolyline(){
     if (tmpMesh == NULL){
         tmpMesh = createMesh();
     }
-    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
-    setTmpSurface(newFace);
-    tmpMesh->faces.push_back(newFace);
-    for (Vert * selectedVert: selectedVerts){
-        tmpMesh->verts.push_back(selectedVert);
-    }
-    tmpMesh->setName("tmpMesh");
-    tmpInstance = createInstance(tmpMesh);
+    PolylineNew* tmpPolyline = createPolylineNew(selectedVerts);
+    tmpPolyline->setName("tmpPolyline");
+    tmpInstance = createInstance(tmpPolyline, this->verts);
     tmpInstance->setName("tmpInstance");
     clearSelection();
 }
@@ -289,5 +291,31 @@ void Session::clearSelection(){
     for (Vert * selectedVert: selectedVerts){
         selectedVert->selected = !selectedVert->selected;
     }
+
+    for (FaceNew * selectedFace: selectedFaces){
+        selectedFace->selected = !selectedFace->selected;
+    }
+
+    selectedFaces.clear();
     selectedVerts.clear();
 }
+
+void Session::saveFileToStr(string fileName){
+    ifstream inFile;
+    inFile.open(fileName.c_str());//open the input file
+
+    stringstream strStream;
+    strStream << inFile.rdbuf();//read the file
+    string str = strStream.str();
+    this->name = str;
+}
+
+void Session::deleteFace(){
+    Reader* currReader = createReader(this);
+    for (FaceNew* selectedFace : selectedFaces){
+        currReader->deleteFace(selectedFace);
+    }
+    clearSelection();
+}
+
+

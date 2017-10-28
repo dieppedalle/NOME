@@ -56,7 +56,7 @@ public:
     EdgeNew* getEdge(std::string);
     FaceNew* getFace(std::string);
     FaceNew* getFace(int);
-
+    bool deleteFace(FaceNew *);
 
 } Reader;
 

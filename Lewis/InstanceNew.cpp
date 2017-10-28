@@ -23,16 +23,20 @@ InstanceNew* createInstance(InstanceNew* i0)
     return new InstanceNew();
 }
 
-InstanceNew* createInstance(MeshNew* m0)
+InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
    i0->verts = {};
    for (Vert* v0 : m0->verts){
-       std::cout << v0->getFullName() << std::endl;
-       Vert* newVertex = createVert(v0);
-       newVertex->name = v0->name;
-       i0->verts.push_back(newVertex);
+       if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()){
+           Vert* newVertex = createVert(v0);
+           newVertex->name = v0->name;
+           i0->verts.push_back(newVertex);
+       }
+       else{
+           i0->verts.push_back(v0);
+       }
    }
 
    for (EdgeNew* e0 : m0->edges){

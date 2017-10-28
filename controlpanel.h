@@ -56,6 +56,7 @@ private:
     QHBoxLayout *selectionLayout;
     QHBoxLayout *editLayout;
     QHBoxLayout *editLayout2;
+    QHBoxLayout *editLayout3;
     QRadioButton *vertexModeButton;
     QRadioButton *faceModeButton;
     QRadioButton *borderModeButton;

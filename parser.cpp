@@ -1838,7 +1838,7 @@ yyreduce:
         MeshNew * currentMesh = currReader->mesh((yyvsp[(3) - (6)].string));
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh);
+            newInstance = createInstance(currentMesh, currSession->verts);
             newInstance->setName(strdup((yyvsp[(2) - (6)].string)));
         }
         else{
@@ -2242,7 +2242,7 @@ yyreduce:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh);
+            newInstance = createInstance(currentMesh, currSession->verts);
             newInstance->setName(strdup((yyvsp[(2) - (6)].string)));
         }
         else{
