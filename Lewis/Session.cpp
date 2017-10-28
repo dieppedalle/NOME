@@ -258,6 +258,22 @@ void Session::addTmpFace(){
     clearSelection();
 }
 
+void Session::addTmpPolyline(){
+    if (tmpMesh == NULL){
+        tmpMesh = createMesh();
+    }
+    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
+    setTmpSurface(newFace);
+    tmpMesh->faces.push_back(newFace);
+    for (Vert * selectedVert: selectedVerts){
+        tmpMesh->verts.push_back(selectedVert);
+    }
+    tmpMesh->setName("tmpMesh");
+    tmpInstance = createInstance(tmpMesh);
+    tmpInstance->setName("tmpInstance");
+    clearSelection();
+}
+
 void Session::consolidateTmpFace(){
     for (FaceNew * tmpFace: tmpInstance->faces){
         setSurface(tmpFace, NULL);

@@ -616,7 +616,7 @@ static const yytype_uint16 yyrline[] =
      133,   133,   137,   152,   164,   175,   188,   189,   192,   193,
      197,   236,   237,   241,   269,   280,   287,   294,   309,   310,
      310,   314,   374,   387,   415,   462,   508,   514,   555,   562,
-     588,   632,   659,   690,   697
+     588,   639,   666,   697,   704
 };
 #endif
 
@@ -2184,6 +2184,13 @@ yyreduce:
             newInstance->applyTransformation(t);
         }
 
+        /*for (Vert* vert : newInstance->verts){
+            std::cout << vert->name << std::endl;
+            std::cout << *(vert->x) << std::endl;
+            std::cout << *(vert->y) << std::endl;
+            std::cout << *(vert->z) << std::endl;
+        }*/
+
         string surfaceName = (yyvsp[(4) - (6)].string);
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
@@ -2204,7 +2211,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 633 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 640 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2233,7 +2240,7 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 660 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 667 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -2266,7 +2273,7 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 691 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 698 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         //printf("Created a multiline comment.\n");
 	}
@@ -2275,7 +2282,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 698 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 705 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -2312,7 +2319,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2316 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2323 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

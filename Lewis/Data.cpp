@@ -89,9 +89,9 @@ Vert* createVert(Vert* toBeCopied){
     double *y = (double*) malloc(sizeof(double));
     double *z = (double*) malloc(sizeof(double));
 
-    *x = *(toBeCopied->x);
-    *y = *(toBeCopied->y);
-    *z = *(toBeCopied->z);
+    x = toBeCopied->x;
+    y = toBeCopied->y;
+    z = toBeCopied->z;
 
     return createVert(x, y, z, 1.0);
 }

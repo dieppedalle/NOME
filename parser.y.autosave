@@ -611,13 +611,6 @@ instance:
             newInstance->applyTransformation(t);
         }
 
-        /*for (Vert* vert : newInstance->verts){
-            std::cout << vert->name << std::endl;
-            std::cout << *(vert->x) << std::endl;
-            std::cout << *(vert->y) << std::endl;
-            std::cout << *(vert->z) << std::endl;
-        }*/
-
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){

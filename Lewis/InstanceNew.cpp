@@ -59,20 +59,11 @@ InstanceNew* createInstance(MeshNew* m0)
        std::list<Vert*> vertFace;
        for (EdgeNew* e0 : f0->edges){
            Vert* firstVert;
-           // Vert* secondVert;
 
            for (Vert* v0 : i0->verts){
                if(v0->name.compare(e0->v0->name) == 0)
                    firstVert = v0;
            }
-
-           /*for (Vert* v1 : i0->verts){
-               if(v1->name.compare(e0->v1->name) == 0)
-                   secondVert = v1;
-           }
-
-           EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
-           edgesFace.push_back(newEdge);*/
 
            vertFace.push_back(firstVert);
        }
@@ -102,7 +93,12 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
+    //std::cout << name << std::endl;
     for(auto v : verts) {
+      /*std::cout << v->name << std::endl;
+      std::cout << *(v->x) << std::endl;
+      std::cout << *(v->y) << std::endl;
+      std::cout << *(v->z) << std::endl;*/
       drawVert(v, surface);
     }
     for(auto e : edges) {
@@ -192,6 +188,10 @@ void InstanceNew::applyTransformation(TransformationNew* t){
     if (dynamic_cast<Rotate*>(t)){
         Rotate* rotate = dynamic_cast<Rotate*>(t);
         for (Vert* v0 : verts){
+            double *x = (double*) malloc(sizeof(double));
+            double *y = (double*) malloc(sizeof(double));
+            double *z = (double*) malloc(sizeof(double));
+
             // Rotation around an axis
             // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
             double radAngle = rotate->angle * (3.141592f/180.0f);
@@ -215,25 +215,45 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             double ay = *v0->x * y1 + *v0->y * y2 + *v0->z * y3;
             double az = *v0->x * z1 + *v0->y * z2 + *v0->z * z3;
 
-            *v0->x = ax;
-            *v0->y = ay;
-            *v0->z = az;
+            *x = ax;
+            *y = ay;
+            *z = az;
+            v0->x = x;
+            v0->y = y;
+            v0->z = z;
         }
     }
     else if (dynamic_cast<Scale*>(t)){
         Scale* scale = dynamic_cast<Scale*>(t);
         for (Vert* v0 : verts){
-            *v0->x *= scale->x;
-            *v0->y *= scale->y;
-            *v0->z *= scale->z;
+            double *x = (double*) malloc(sizeof(double));
+            double *y = (double*) malloc(sizeof(double));
+            double *z = (double*) malloc(sizeof(double));
+
+            *x = *v0->x * scale->x;
+            *y = *v0->y * scale->y;
+            *z = *v0->z * scale->z;
+            v0->x = x;
+            v0->y = y;
+            v0->z = z;
         }
     }
     else if (dynamic_cast<Translate*>(t)){
+
         Translate* translate = dynamic_cast<Translate*>(t);
         for (Vert* v0 : verts){
-            *v0->x += translate->x;
-            *v0->y += translate->y;
-            *v0->z += translate->z;
+            double *x = (double*) malloc(sizeof(double));
+            double *y = (double*) malloc(sizeof(double));
+            double *z = (double*) malloc(sizeof(double));
+
+            *x = *v0->x + translate->x;
+            *y = *v0->y + translate->y;
+            *z = *v0->z + translate->z;
+            v0->x = x;
+            v0->y = y;
+            v0->z = z;
+
         }
+
     }
 }
