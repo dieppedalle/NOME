@@ -694,6 +694,8 @@ instance:
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
+
+            copyStateTransformation(t, &(newInstance->appliedTransformations));
         }
 
         string surfaceName = $<string>4;

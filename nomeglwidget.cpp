@@ -348,6 +348,17 @@ void SlideGLWidget::paintGL()
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
 
+    for (InstanceNew * newInstance: currSession->instances){
+        for (TransformationNew * t : newInstance->appliedTransformations){
+            newInstance->undoTransformation(t);
+        }
+        newInstance->appliedTransformations.clear();
+        for (TransformationNew * t : newInstance->transformations){
+            newInstance->applyTransformation(t);
+            copyStateTransformation(t, &(newInstance->appliedTransformations));
+        }
+    }
+
     for(auto c : currSession->circles){
         c->updateCircle();
     }

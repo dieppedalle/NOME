@@ -24,8 +24,10 @@ public:
     bool updateNames();
     bool draw();
     void applyTransformation(TransformationNew* t);
+    void undoTransformation(TransformationNew* t);
     Surface* surface;
     std::list<TransformationNew*> transformations;
+    std::list<TransformationNew*> appliedTransformations;
 
     Node* vert(std::string);
     Node* edge(std::string);
