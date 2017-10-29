@@ -200,6 +200,7 @@ void Session::addTmpPolyline(){
 }
 
 void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName){
+    Reader* currReader = createReader(this);
     if (tmpInstance != NULL){
         for (FaceNew * tmpFace: tmpInstance->faces){
             setSurface(tmpFace, NULL);
@@ -208,10 +209,20 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
     if (tmpMesh != NULL){
         tmpMesh->setName(consolidateMeshName);
         meshes.push_back(tmpMesh);
+        this->fileContent += "\nmesh " + consolidateMeshName + "\n";
+        for (FaceNew * currFace : tmpMesh->faces){
+            this->fileContent += "face " + currFace->name + " (";
+            for (Vert* currVert : currFace->verts){
+                this->fileContent += currReader->getVertName(currVert->index) + " ";
+            }
+            this->fileContent += ") endface\n";
+        }
+        this->fileContent += "endmesh\n";
     }
     if (tmpInstance != NULL){
         tmpInstance->setName(consolidateInstanceName);
         instances.push_back(tmpInstance);
+        this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance";
     }
 
     tmpMesh = NULL;

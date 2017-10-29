@@ -57,6 +57,7 @@ public:
     FaceNew* getFace(std::string);
     FaceNew* getFace(int);
     bool deleteFace(FaceNew *);
+    std::string getVertName(int id);
 
 } Reader;
 

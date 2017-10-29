@@ -252,6 +252,27 @@ Vert* Reader::getVert(std::string name)
     return (Vert*) node->vert(name);*/
 }
 
+
+std::string Reader::getVertName(int id)
+{
+    // Check for definitions first
+    for (Vert* v0 : session->verts){
+        if(v0->index == id)
+            return v0->name;
+    }
+
+    for (InstanceNew* i0 : session->instances){
+        for (FaceNew* f0 : i0->faces){
+            for (Vert* v0 : f0->verts){
+                if (v0->index == id){
+                    return i0->name.substr(i0->name.find(":") + 1) + "." + f0->name + "." + v0->name;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
 Vert* Reader::getVert(int id)
 {
     // Check for definitions first
