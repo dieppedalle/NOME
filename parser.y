@@ -347,7 +347,6 @@ mesh:
         currentMeshFaces.clear();
         currentMeshEdges.clear();
         currentMeshVertices.clear();
-        //std::cout << currMesh->name << std::endl;
         //printf("Created a mesh\n");
 	}
 	;
@@ -367,7 +366,6 @@ expr:
     OBRACE EXPR BANK_EXPR EBRACE
     {
         $<string>$ = $3;
-        //printf("Expression\n");
     };
 
 delete:
@@ -377,10 +375,7 @@ delete:
             currReader->deleteFace(currReader->getFace(currFace));
         }
 
-        //currReader->deleteFace(selectedFace);
-
         tempFaceDelete.clear();
-        //printf("Deleting faces\n");
 	}
 	;
 
