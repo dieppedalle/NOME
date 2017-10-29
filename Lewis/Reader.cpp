@@ -273,6 +273,24 @@ std::string Reader::getVertName(int id)
     return NULL;
 }
 
+std::string Reader::getFaceName(int id)
+{
+    // Check for definitions first
+    for (FaceNew* f0 : session->faces){
+        if(f0->index == id)
+            return f0->name;
+    }
+
+    for (InstanceNew* i0 : session->instances){
+        for (FaceNew* f0 : i0->faces){
+            if (f0->index == id){
+                return i0->name.substr(i0->name.find(":") + 1) + "." + f0->name;
+            }
+        }
+    }
+    return NULL;
+}
+
 Vert* Reader::getVert(int id)
 {
     // Check for definitions first
@@ -317,11 +335,32 @@ EdgeNew* Reader::getEdge(std::string name)
 
 FaceNew* Reader::getFace(std::string name)
 {
-    if(node->getFullName().find(name) != std::string::npos)
+    for (FaceNew* f0 : session->faces){
+        if(f0->name.compare(name) == 0)
+            return f0;
+    }
+
+    for (InstanceNew* i0 : session->instances){
+
+        string currentName = i0->getFullName().substr(i0->getFullName().find(":") + 1);
+        string argName = name.substr(0, name.find("."));
+        string argAfterName = name.substr(name.find(".") + 1);
+
+        if (currentName.compare(argName) == 0){
+            string faceName = argAfterName.substr(0, argAfterName.find("."));
+            for (FaceNew* f0 : i0->faces){
+                if (f0->name.compare(faceName) == 0){
+                    return f0;
+                }
+            }
+        }
+    }
+    return NULL;
+    /*if(node->getFullName().find(name) != std::string::npos)
         return (FaceNew*) node->face(name);
     if(!search(name, 0))
         return NULL;
-    return (FaceNew*) node->face(name);
+    return (FaceNew*) node->face(name);*/
 }
 
 bool Reader::deleteFace(FaceNew * searchFace){

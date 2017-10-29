@@ -31,6 +31,7 @@ Reader* currReader = createReader(currSession);
 map<string,QColor> surfaces;
 map<string,Vertex*> vertices;
 std::vector<string> tempVariables;
+std::vector<string> tempFaceDelete;
 string currentSetName;
 std::list<SetNew *> currentSetList;
 map<string,std::vector<double>> currentBank;
@@ -372,6 +373,13 @@ expr:
 delete:
     BEG_DELETE faceDeleteArgs END_DELETE
     {
+        for (std::string currFace : tempFaceDelete){
+            currReader->deleteFace(currReader->getFace(currFace));
+        }
+
+        //currReader->deleteFace(selectedFace);
+
+        tempFaceDelete.clear();
         //printf("Deleting faces\n");
 	}
 	;
@@ -627,6 +635,7 @@ face:
 faceDelete:
 	FACE VARIABLE END_FACE
 	{
+        tempFaceDelete.push_back($<string>2);
         //printf("Deleting face\n");
 	}
 	;

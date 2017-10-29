@@ -189,10 +189,7 @@ void Session::addTmpFace(){
 }
 
 void Session::addTmpPolyline(){
-    if (tmpMesh == NULL){
-        tmpMesh = createMesh();
-    }
-    PolylineNew* tmpPolyline = createPolylineNew(selectedVerts);
+    tmpPolyline = createPolylineNew(selectedVerts);
     tmpPolyline->setName("tmpPolyline");
     tmpInstance = createInstance(tmpPolyline, this->verts);
     tmpInstance->setName("tmpInstance");
@@ -205,6 +202,17 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
         for (FaceNew * tmpFace: tmpInstance->faces){
             setSurface(tmpFace, NULL);
         }
+    }
+    if (tmpPolyline != NULL){
+        tmpPolyline->setName(consolidateMeshName);
+        polylines.push_back(tmpPolyline);
+        this->fileContent += "\npolyline " + consolidateMeshName + " (";
+
+        for (Vert* currVert : tmpPolyline->verts){
+            this->fileContent += currReader->getVertName(currVert->index) + " ";
+        }
+
+        this->fileContent += ") endpolyline\n";
     }
     if (tmpMesh != NULL){
         tmpMesh->setName(consolidateMeshName);
@@ -259,8 +267,11 @@ void Session::saveFileToStr(string fileName){
 
 void Session::deleteFace(){
     Reader* currReader = createReader(this);
+    this->fileContent += "\ndelete\n";
     for (FaceNew* selectedFace : selectedFaces){
+        this->fileContent += "face " + currReader->getFaceName(selectedFace->index) + " endface\n";
         currReader->deleteFace(selectedFace);
     }
+    this->fileContent += "enddelete\n";
     clearSelection();
 }
