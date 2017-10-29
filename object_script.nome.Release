@@ -42,10 +42,12 @@ INPUT(
 ./release\CircleNew.o
 ./release\FunnelNew.o
 ./release\TunnelNew.o
+./release\ConsolidateWindow.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o
 ./release\moc_myslider.o
 ./release\moc_nomeglwidget.o
 ./release\moc_SliderNew.o
+./release\moc_ConsolidateWindow.o
 );

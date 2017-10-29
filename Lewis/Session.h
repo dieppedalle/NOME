@@ -35,7 +35,9 @@ public:
     std::list<TunnelNew*> tunnels;
     std::list<BankNew*> banks;
     std::string name;
+    std::string fileContent;
 
+    int tmpFaceIndex = 0;
 
     std::list<Vert*> selectedVerts;
     std::list<FaceNew*> selectedFaces;
@@ -53,10 +55,12 @@ public:
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void SaveSession(std::string outputFile);
-    void consolidateTmpFace();
+    void consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName);
     void clearSelection();
     void saveFileToStr(std::string fileName);
     void deleteFace();
+private:
+    QPushButton * consolidateButton;
 
 } Session;
 

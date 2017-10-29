@@ -42,10 +42,12 @@ INPUT(
 ./debug\CircleNew.o
 ./debug\FunnelNew.o
 ./debug\TunnelNew.o
+./debug\ConsolidateWindow.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o
 ./debug\moc_myslider.o
 ./debug\moc_nomeglwidget.o
 ./debug\moc_SliderNew.o
+./debug\moc_ConsolidateWindow.o
 );

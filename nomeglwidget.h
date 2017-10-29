@@ -43,6 +43,8 @@
 #include <QColor>
 #include <QString>
 #include "Lewis/Session.h"
+#include "Lewis/ConsolidateWindow.h"
+
 class SlideGLWidget: public QGLWidget
 {
     Q_OBJECT
@@ -52,6 +54,8 @@ public:
     SlideGLWidget(string name, QWidget *parent = 0);
     SlideGLWidget(Group &group, Session *currSession, QWidget *parent = 0);
     ~SlideGLWidget();
+    ConsolidateWindow *conWindow;
+    void consolidateTempMesh();
     /**
      * Save the current master_mesh in a STL file.
      */
@@ -103,6 +107,8 @@ public:
      * (Not including the consolidated mesh or temprary mesh. */
     vector<string> deletedFaces;
 public:
+    std::string consolidateMeshName;
+    std::string consolidateInstanceName;
     Session *currSession;
     /* Viewer variables.*/
     enum MODES { MODE_OBJECT, MODE_CAMERA, MODE_LIGHT, MODE_LAST } view_mode;
@@ -284,6 +290,10 @@ public slots:
      * @brief viewContentChanged: Change the current view mesh.
      * @param viewer_mode, the mode for the viewer.
      */
+
+    void createConsolidated(bool);
+    void readConsolidateMeshName(QString text);
+    void readConsolidateInstanceName(QString text);
     void viewContentChanged(int viewer_mode);
     /* Receive the signal from control panel to do subdivision.*/
     void levelChanged(int);
@@ -310,7 +320,7 @@ public slots:
     /* Recieve signal to add the temp_mesh to master_mesh.*/
     void addTempToMasterCalled(bool);
     /* Recieve signal to add the temp_mesh to consolidated_mesh. */
-    void consolidateTempMesh(bool);
+    void popUpConsolidateWindow(bool);
     /* Add temp_mesh to master_mesh. */
     void addTempToMaster();
     /* Receive the signal to add a border. Add border1 first*/

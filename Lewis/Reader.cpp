@@ -306,11 +306,6 @@ FaceNew* Reader::getFace(std::string name)
 bool Reader::deleteFace(FaceNew * searchFace){
     for (InstanceNew* i0 : session->instances){
         i0->faces.remove(searchFace);
-        /*for (FaceNew* f0 : i0->faces){
-            if(f0 == searchFace)
-                i0->faces.remove(f0);
-            return true;
-        }*/
     }
     return false;
 }

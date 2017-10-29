@@ -8,9 +8,11 @@
 
 #include "Session.h"
 #include "Reader.h"
+#include "Data.h"
 #include <fstream>
 #include <sstream>
 #include <glm/glm.hpp>
+
 
 static int sIndex = 0;
 
@@ -161,100 +163,20 @@ void Session::SaveSession(std::string outputFile){
         cout <<"Error: COULD NOT OPEN THE FILE.\n";
     }
 
-    for (Surface* s : surfaces){
-        file<<"surface " << s->name << " color (" << *s->r << " " << *s->g << " " << *s->b << ") endsurface\n";
-    }
-    if (surfaces.size() != 0){
-        file << "\n";
-    }
+    file<< this->fileContent;
 
-    for (BankNew* b : banks){
-        file << "bank " << b->name << "\n";
-        for (SetNew* s : b->sets){
-            file << "set " << s->name << " " << s->value << " " << s->start << " " << s->end << " " << s->stepSize << "\n";
-        }
-        file << "endbank\n\n";
-    }
-
-    for (Vert* p : verts){
-        file << "point " << p->name << " (" << *p->x << " " << *p->y << " " << *p->z << ") endpoint\n";
-    }
-    if (verts.size() != 0){
-        file << "\n";
-    }
-
-    for (FaceNew* f : faces){
-        file << "face " << f->name << " (";
-        for (Vert* v : f->verts){
-            file << v->name << " ";
-        }
-        file << ") endface\n";
-    }
-
-    if (faces.size() != 0){
-        file << "\n";
-    }
-
-    for (PolylineNew* p : polylines){
-        file << "polyline " << p->name << " (";
-        for (Vert* v : p->verts){
-            file << v->name << " ";
-        }
-        file << ") endpolyline\n";
-    }
-
-    if (polylines.size() != 0){
-        file << "\n";
-    }
-
-    for (FunnelNew* f : funnels){
-        file << "funnel " << f->name << "(" << f->n << " " << f->ro << " " << f->ratio << f->h << ") endfunnel\n";
-    }
-    if (funnels.size() != 0){
-        file << "\n";
-    }
-
-    for (TunnelNew* t : tunnels){
-        file << "tunnel " << t->name << "(" << t->n << " " << t->ro << " " << t->ratio << t->h << ") endtunnel\n";
-    }
-    if (tunnels.size() != 0){
-        file << "\n";
-    }
-
-    for (CircleNew* c : circles){
-        file << "circle " << c->name << "(" << c->num << " " << c->rad << ") endcircle\n";
-    }
-    if (circles.size() != 0){
-        file << "\n";
-    }
-
-    for (MeshNew* m : meshes){
-        file << "mesh " << m->name << "\n";
-        for (FaceNew* f : m->faces){
-            file << "face " << f->name << " (";
-            for (Vert* v : f->verts){
-                file << v->name << " ";
-            }
-            file << ") endface\n";
-        }
-        file << "endmesh\n\n";
-    }
-
-    for (InstanceNew* i : instances){
-        file << "instance " << i->name << " " << i->mesh->name << " endinstance\n";
-    }
-
-    if (instances.size() != 0){
-        file << "\n";
-    }
 }
 
 void Session::addTmpFace(){
     if (tmpMesh == NULL){
         tmpMesh = createMesh();
+        tmpFaceIndex = 0;
     }
     FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
     setTmpSurface(newFace);
+
+    newFace->setName("f" + std::to_string(tmpFaceIndex));
+
     tmpMesh->faces.push_back(newFace);
     for (Vert * selectedVert: selectedVerts){
         tmpMesh->verts.push_back(selectedVert);
@@ -263,6 +185,7 @@ void Session::addTmpFace(){
     tmpInstance = createInstance(tmpMesh, this->verts);
     tmpInstance->setName("tmpInstance");
     clearSelection();
+    tmpFaceIndex += 1;
 }
 
 void Session::addTmpPolyline(){
@@ -276,16 +199,29 @@ void Session::addTmpPolyline(){
     clearSelection();
 }
 
-void Session::consolidateTmpFace(){
-    for (FaceNew * tmpFace: tmpInstance->faces){
-        setSurface(tmpFace, NULL);
+void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName){
+    if (tmpInstance != NULL){
+        for (FaceNew * tmpFace: tmpInstance->faces){
+            setSurface(tmpFace, NULL);
+        }
     }
-    meshes.push_back(tmpMesh);
-    instances.push_back(tmpInstance);
+    if (tmpMesh != NULL){
+        tmpMesh->setName(consolidateMeshName);
+        meshes.push_back(tmpMesh);
+    }
+    if (tmpInstance != NULL){
+        tmpInstance->setName(consolidateInstanceName);
+        instances.push_back(tmpInstance);
+    }
 
     tmpMesh = NULL;
     tmpInstance = NULL;
+    tmpPolyline = NULL;
+
+
+    clearSelection();
 }
+
 
 void Session::clearSelection(){
     for (Vert * selectedVert: selectedVerts){
@@ -307,7 +243,7 @@ void Session::saveFileToStr(string fileName){
     stringstream strStream;
     strStream << inFile.rdbuf();//read the file
     string str = strStream.str();
-    this->name = str;
+    this->fileContent = str;
 }
 
 void Session::deleteFace(){
@@ -317,5 +253,3 @@ void Session::deleteFace(){
     }
     clearSelection();
 }
-
-

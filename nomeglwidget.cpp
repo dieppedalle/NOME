@@ -8,6 +8,7 @@
 #include "nomeparser.h"
 
 #include "nomeglwidget.h"
+#include "Lewis/ConsolidateWindow.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -383,6 +384,7 @@ void SlideGLWidget::paintGL()
 
 }
 
+
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)
 {
     if (event->buttons() & Qt::LeftButton)
@@ -715,75 +717,10 @@ void SlideGLWidget::zipToTempCalled(bool)
     repaint();
 }
 
-void SlideGLWidget::consolidateTempMesh(bool)
-{
-    currSession->consolidateTmpFace();
-    /*unordered_map<Vertex*, Vertex*> tempToConsolidateMap;
-    Vertex * foundVertex;
-    for(Vertex*& v : temp_mesh.vertList)
-    {
-        foundVertex = NULL;
-        for(Vertex *& vc : consolidate_mesh.vertList)
-        {
-            if(vc -> source_vertex == v -> source_vertex)
-            {
-                foundVertex = vc;
-                tempToConsolidateMap[v] = vc;
-                break;
-            }
-        }
-        if(foundVertex == NULL)
-        {
-            Vertex * newVertex = new Vertex;
-            newVertex -> ID = consolidate_mesh.vertList.size();
-            newVertex -> position = v -> position;
-            newVertex -> name = v -> name;
-            if(v -> source_vertex != NULL)
-            {
-                newVertex -> source_vertex = v -> source_vertex;
-            }
-            tempToConsolidateMap[v] = newVertex;
-            consolidate_mesh.addVertex(newVertex);
-        }
-    }
-    for(Face*& f : temp_mesh.faceList)
-    {
-        Edge * firstEdge = f -> oneEdge;
-        Edge * currEdge = firstEdge;
-        Edge * nextEdge;
-        vector<Vertex*> vertices;
-        Vertex * tempv;
-        vertices.clear();
-        do {
-            if(f == currEdge -> fa)
-            {
-                tempv = currEdge -> vb;
-                nextEdge = currEdge -> nextVbFa;
-            }
-            else
-            {
-                if(currEdge -> mobius)
-                {
-                    tempv = currEdge -> vb;
-                    nextEdge = currEdge -> nextVbFb;
-                }
-                else
-                {
-                    tempv = currEdge -> va;
-                    nextEdge = currEdge -> nextVaFb;
-                }
-            }
-            vertices.push_back(tempToConsolidateMap[tempv]);
-            currEdge = nextEdge;
-        } while (currEdge != firstEdge);
-        consolidate_mesh.addPolygonFace(vertices);
-    }
-    consolidate_mesh.buildBoundary();
-    consolidate_mesh.computeNormals();
-    clearSelection();
-    updateGlobalIndexList();*/
-    repaint();
+void SlideGLWidget::popUpConsolidateWindow(bool){
+    conWindow = new ConsolidateWindow(this);
 }
+
 
 void SlideGLWidget::addTempToMaster()
 {
@@ -1041,4 +978,26 @@ void SlideGLWidget::updateConsolidateMesh()
             v -> position = v -> source_vertex -> position;
         }
     }
+}
+
+void SlideGLWidget::createConsolidated(bool){
+    if (consolidateMeshName.length() == 0){
+        std::cout << "Enter a mesh name." << std::endl;
+    }
+    else if (consolidateInstanceName.length() == 0){
+        std::cout << "Enter an instance name." << std::endl;
+    }
+    else{
+        currSession->consolidateTmpMesh(consolidateInstanceName, consolidateMeshName);
+        conWindow->window->close();
+    }
+    repaint();
+}
+
+void SlideGLWidget::readConsolidateMeshName(QString text){
+    consolidateMeshName = text.toUtf8().constData();
+}
+
+void SlideGLWidget::readConsolidateInstanceName(QString text){
+    consolidateInstanceName = text.toUtf8().constData();
 }

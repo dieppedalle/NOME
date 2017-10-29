@@ -53,7 +53,7 @@ void ControlPanel::buildConnection()
     //connect(addTempToMasterButton, SIGNAL(clicked(bool)), canvas, SLOT(addTempToMasterCalled(bool)));
     connect(wholeBorderCheck,SIGNAL(clicked(bool)), canvas, SLOT(wholeBorderSelectionChecked(bool)));
     connect(trianglePaneltyEdit, SIGNAL(textChanged(QString)), canvas, SLOT(resetTrianglePanelty(QString)));
-    connect(consolidateButton, SIGNAL(clicked(bool)), canvas, SLOT(consolidateTempMesh(bool)));
+    connect(consolidateButton, SIGNAL(clicked(bool)), canvas, SLOT(popUpConsolidateWindow(bool)));
 }
 
 void ControlPanel::setupLayout()
