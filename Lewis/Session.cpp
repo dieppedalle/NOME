@@ -94,6 +94,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
         if (selectedVertex != NULL){
             selectedVertex -> selected = !selectedVertex -> selected;
+            //std::cout << selectedVertex->index << std::endl;
             if (selectedVertex -> selected == true){
                 selectedVerts.push_back(selectedVertex);
             }
@@ -173,6 +174,7 @@ void Session::addTmpFace(){
         tmpFaceIndex = 0;
     }
     FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
+
     setTmpSurface(newFace);
 
     newFace->setName("f" + std::to_string(tmpFaceIndex));
@@ -182,6 +184,7 @@ void Session::addTmpFace(){
         tmpMesh->verts.push_back(selectedVert);
     }
     tmpMesh->setName("tmpMesh");
+
     tmpInstance = createInstance(tmpMesh, this->verts);
     tmpInstance->setName("tmpInstance");
     clearSelection();

@@ -350,13 +350,12 @@ void SlideGLWidget::paintGL()
     glMultMatrixf(&object2world[0][0]);
 
     for (InstanceNew * newInstance: currSession->instances){
-        for (TransformationNew * t : newInstance->appliedTransformations){
-            newInstance->undoTransformation(t);
-        }
-        newInstance->appliedTransformations.clear();
+        newInstance->updateVerts();
+    }
+
+    for (InstanceNew * newInstance: currSession->instances){
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
-            copyStateTransformation(t, &(newInstance->appliedTransformations));
         }
     }
 

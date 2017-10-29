@@ -51,6 +51,9 @@ public:
     double *x;
     double *y;
     double *z;
+    double *xTransformed;
+    double *yTransformed;
+    double *zTransformed;
     double weight;
     bool selected;
     VertI index;

@@ -77,6 +77,17 @@ Vert* createVert(double *x, double *y, double *z, double w)
     v0->x = x;
     v0->y = y;
     v0->z = z;
+
+    double *xTr = (double*) malloc(sizeof(double));
+    double *yTr = (double*) malloc(sizeof(double));
+    double *zTr = (double*) malloc(sizeof(double));
+    *xTr = *x;
+    *yTr = *y;
+    *zTr = *z;
+    v0->xTransformed = xTr;
+    v0->yTransformed = yTr;
+    v0->zTransformed = zTr;
+
     v0->weight = w;
     std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
     v0->edges = edges; v0->faces = faces;
@@ -155,6 +166,13 @@ FaceNew* createFace()
 }
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
+
+    /*std::cout << "Vertices" << std::endl;
+    for (Vert* vertN : vertices){
+        std::cout << vertN << std::endl;
+        std::cout << vertN->name << std::endl;
+        std::cout << vertN->index << std::endl;
+    }*/
     EdgeNew * currentEdge;
     std::list<Vert*>::iterator it = vertices.begin();
     std::list<Vert*>::iterator it2 = vertices.begin();
@@ -173,6 +191,17 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
         edges->push_back(currentEdge);
         currentEdges.push_back(currentEdge);
     }
+    /*std::cout << "Vertices" << std::endl;
+    for (auto vertN : vertices){
+        std::cout << vertN->index << std::endl;
+    }
+    std::cout << "Edges" << std::endl;
+    for (auto edgeN : currentEdges){
+        std::cout << edgeN->v0->index << std::endl;
+        std::cout << edgeN->v1->index << std::endl;
+    }
+    std::cout << currentEdges.size() << std::endl;*/
+
     FaceNew* newFace = createFace(currentEdges);
     return newFace;
 }
@@ -361,9 +390,9 @@ bool drawVert(Vert* v0, Surface * instSurface){
 
     glLoadName(v0->index);
 
-    float x = *v0->x;
-    float y = *v0->y;
-    float z = *v0->z;
+    float x = *v0->xTransformed;
+    float y = *v0->yTransformed;
+    float z = *v0->zTransformed;
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
         glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
@@ -407,8 +436,8 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(e0->index);
     glBegin(GL_LINE_STRIP);
-        glVertex3f(*e0->v0->x, *e0->v0->y, *e0->v0->z);
-        glVertex3f(*e0->v1->x, *e0->v1->y, *e0->v1->z);
+        glVertex3f(*e0->v0->xTransformed, *e0->v0->yTransformed, *e0->v0->zTransformed);
+        glVertex3f(*e0->v1->xTransformed, *e0->v1->yTransformed, *e0->v1->zTransformed);
     glEnd();
     return true;
 }
@@ -444,7 +473,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
 
     glBegin(GL_POLYGON);
     for(auto v0 : f0->verts) {
-      glVertex3f(*v0->x, *v0->y, *v0->z);
+      glVertex3f(*v0->xTransformed, *v0->yTransformed, *v0->zTransformed);
     }
     glEnd();
     return true;

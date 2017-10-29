@@ -25,6 +25,7 @@ public:
     bool draw();
     void applyTransformation(TransformationNew* t);
     void undoTransformation(TransformationNew* t);
+    void updateVerts();
     Surface* surface;
     std::list<TransformationNew*> transformations;
     std::list<TransformationNew*> appliedTransformations;

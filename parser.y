@@ -111,7 +111,6 @@ num:
 comment:
     COMMENT
     {
-        //printf("Comment!\n");
     }
     ;
 
@@ -171,15 +170,8 @@ rotateArgs:
             angle = getBankValue($<string>8);
         }
 
-        /*double x = $<number>3;
-        double y = $<number>4;
-        double z = $<number>5;
-
-        double angle = $<number>8;*/
-
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
-        //printf("Rotated\n");
     }
     ;
 
@@ -211,12 +203,8 @@ translateArgs:
         else{
             z = getBankValue($<string>5);
         }
-        //double x = $<number>3;
-        //double y = $<number>4;
-        //double z = $<number>5;
 
         currentTransformations.push_back(createTranslate(x, y, z));
-        //printf("Translated\n");
     }
     ;
 
@@ -249,11 +237,7 @@ scaleArgs:
             z = getBankValue($<string>5);
         }
 
-        //double x = $<number>3;
-        //double y = $<number>4;
-        //double z = $<number>5;
         currentTransformations.push_back(createScale(x, y, z));
-        //printf("Scaled\n");
     }
     ;
 
@@ -265,9 +249,6 @@ mirrorArgs:
         double z = $<number>5;
         double w = $<number>5;
 
-        //currentTransformations.push_back(createMirror(x, y, z, w));
-
-        //printf("Mirrored\n");
     }
     ;
 
@@ -312,9 +293,6 @@ instanceGroup:
             }
         }
 
-        //TODO: ADD TO INSTANCE LIST
-        //printf("Created an instance group\n");
-
         currentGroup.push_back(newInstance);
     }
     ;
@@ -347,7 +325,6 @@ mesh:
         currentMeshFaces.clear();
         currentMeshEdges.clear();
         currentMeshVertices.clear();
-        //printf("Created a mesh\n");
 	}
 	;
 
@@ -358,7 +335,6 @@ group:
         currGroup->setName(strdup($<string>2));
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
-        //printf("Created a group\n");
 	}
 	;
 
@@ -391,7 +367,6 @@ set:
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize);
 
         currentSetList.push_back(currentSet);
-        //printf("Created a Set\n");
 	}
 	;
 
@@ -454,8 +429,6 @@ bank:
         currentBank->sets = currentSetList;
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
-
-        //printf("Created a bank\n");
 	}
 	;
 
@@ -529,8 +502,6 @@ tunnel:
         currTunnel->setName(strdup($<string>2));
 
         currSession->tunnels.push_back(currTunnel);
-
-        //printf("Created a tunnel\n");
 	}
 	;
 
@@ -576,7 +547,6 @@ funnel:
         currFunnel->setName(strdup($<string>2));
 
         currSession->funnels.push_back(currFunnel);
-        //printf("Created a funnel\n");
 	}
 	;
 
@@ -622,8 +592,6 @@ face:
         currSession->faces.push_back(newFace);
 
         tempVariables.clear();
-
-        //printf("Created a face\n");
 	}
 	;
 
@@ -631,7 +599,6 @@ faceDelete:
 	FACE VARIABLE END_FACE
 	{
         tempFaceDelete.push_back($<string>2);
-        //printf("Deleting face\n");
 	}
 	;
 
@@ -656,8 +623,6 @@ polyline:
 
         currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
-
-        //printf("Created a polyline\n");
 	}
 	;
 
@@ -767,8 +732,7 @@ surface:
 
 multi_line_comment:
 	MULTI_LINE_COMMENT
-	{
-        //printf("Created a multiline comment.\n");
+    {
 	}
 	;
 

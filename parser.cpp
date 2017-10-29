@@ -613,11 +613,11 @@ static const yytype_uint16 yyrline[] =
 {
        0,    84,    84,    85,    90,    90,    90,    90,    90,    90,
       90,    90,    91,    91,    91,    91,    91,    91,    91,    95,
-      97,   105,   112,   119,   121,   127,   128,   133,   134,   134,
-     134,   134,   138,   187,   224,   261,   274,   275,   278,   279,
-     283,   322,   323,   327,   355,   366,   372,   383,   398,   399,
-     399,   403,   450,   463,   491,   538,   584,   590,   631,   639,
-     665,   711,   738,   769,   776
+      97,   105,   112,   118,   120,   126,   127,   132,   133,   133,
+     133,   133,   137,   179,   212,   245,   255,   256,   259,   260,
+     264,   300,   301,   305,   332,   342,   348,   359,   375,   376,
+     376,   380,   427,   438,   466,   511,   556,   562,   601,   608,
+     632,   678,   705,   736,   742
 };
 #endif
 
@@ -1654,14 +1654,13 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 113 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        //printf("Comment!\n");
     }
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 121 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 120 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         tempVariables.push_back((yyvsp[(2) - (2)].string));
     }
@@ -1670,14 +1669,14 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 127 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 126 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {(yyval.string) = "";}
     break;
 
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 128 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 127 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.string) = (yyvsp[(2) - (2)].string);
     }
@@ -1686,7 +1685,7 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 139 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 138 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1722,22 +1721,15 @@ yyreduce:
             angle = getBankValue((yyvsp[(8) - (9)].string));
         }
 
-        /*double x = $<number>3;
-        double y = $<number>4;
-        double z = $<number>5;
-
-        double angle = $<number>8;*/
-
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
-        //printf("Rotated\n");
     }
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 188 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 180 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1764,19 +1756,15 @@ yyreduce:
         else{
             z = getBankValue((yyvsp[(5) - (6)].string));
         }
-        //double x = $<number>3;
-        //double y = $<number>4;
-        //double z = $<number>5;
 
         currentTransformations.push_back(createTranslate(x, y, z));
-        //printf("Translated\n");
     }
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 225 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 213 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1804,34 +1792,27 @@ yyreduce:
             z = getBankValue((yyvsp[(5) - (6)].string));
         }
 
-        //double x = $<number>3;
-        //double y = $<number>4;
-        //double z = $<number>5;
         currentTransformations.push_back(createScale(x, y, z));
-        //printf("Scaled\n");
     }
     break;
 
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 262 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 246 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double x = (yyvsp[(3) - (7)].number);
         double y = (yyvsp[(4) - (7)].number);
         double z = (yyvsp[(5) - (7)].number);
         double w = (yyvsp[(5) - (7)].number);
 
-        //currentTransformations.push_back(createMirror(x, y, z, w));
-
-        //printf("Mirrored\n");
     }
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 284 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 265 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string instanceName = strdup((yyvsp[(2) - (6)].string));
         string lookFor = strdup((yyvsp[(3) - (6)].string));
@@ -1863,9 +1844,6 @@ yyreduce:
             }
         }
 
-        //TODO: ADD TO INSTANCE LIST
-        //printf("Created an instance group\n");
-
         currentGroup.push_back(newInstance);
     }
     break;
@@ -1873,7 +1851,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 328 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 306 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 
         MeshNew* currMesh = createMesh();
@@ -1896,27 +1874,25 @@ yyreduce:
         currentMeshFaces.clear();
         currentMeshEdges.clear();
         currentMeshVertices.clear();
-        //printf("Created a mesh\n");
 	}
     break;
 
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 356 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 333 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         GroupNew* currGroup = createGroup(currentGroup);
         currGroup->setName(strdup((yyvsp[(2) - (4)].string)));
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
-        //printf("Created a group\n");
 	}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 367 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 343 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.string) = (yyvsp[(3) - (4)].string);
     }
@@ -1925,7 +1901,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 373 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 349 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         for (std::string currFace : tempFaceDelete){
             currReader->deleteFace(currReader->getFace(currFace));
@@ -1938,8 +1914,10 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 384 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 360 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
+        std::cout << yylineno << std::endl;
+
         string currentSetName = (yyvsp[(2) - (6)].string);
         double currentSetValue = (yyvsp[(3) - (6)].number);
         double currentSetStart = (yyvsp[(4) - (6)].number);
@@ -1949,14 +1927,13 @@ yyreduce:
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize);
 
         currentSetList.push_back(currentSet);
-        //printf("Created a Set\n");
 	}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 404 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 381 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         std::list<Vert*> verticesFace;
 
@@ -2005,22 +1982,20 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 451 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 428 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         BankNew * currentBank = createBank();
         currentBank->name = strdup((yyvsp[(2) - (4)].string));
         currentBank->sets = currentSetList;
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
-
-        //printf("Created a bank\n");
 	}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 464 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 439 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string name = (yyvsp[(2) - (7)].string);
         double *num = (double*) malloc(sizeof(double));
@@ -2051,7 +2026,7 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 493 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 468 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string name = (yyvsp[(2) - (9)].string);
         double *n = (double*) malloc(sizeof(double));
@@ -2091,15 +2066,13 @@ yyreduce:
         currTunnel->setName(strdup((yyvsp[(2) - (9)].string)));
 
         currSession->tunnels.push_back(currTunnel);
-
-        //printf("Created a tunnel\n");
 	}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 540 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 513 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string name = (yyvsp[(2) - (9)].string);
         double *n = (double*) malloc(sizeof(double));
@@ -2139,14 +2112,13 @@ yyreduce:
         currFunnel->setName(strdup((yyvsp[(2) - (9)].string)));
 
         currSession->funnels.push_back(currFunnel);
-        //printf("Created a funnel\n");
 	}
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 585 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 557 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 	}
     break;
@@ -2154,7 +2126,7 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 591 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 563 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2189,25 +2161,22 @@ yyreduce:
         currSession->faces.push_back(newFace);
 
         tempVariables.clear();
-
-        //printf("Created a face\n");
 	}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 632 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 602 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         tempFaceDelete.push_back((yyvsp[(2) - (3)].string));
-        //printf("Deleting face\n");
 	}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 640 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 609 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
@@ -2227,15 +2196,13 @@ yyreduce:
 
         currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
-
-        //printf("Created a polyline\n");
 	}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 666 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 633 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 
         string instanceName = strdup((yyvsp[(2) - (6)].string));
@@ -2283,7 +2250,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 712 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 679 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2312,7 +2279,7 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 739 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 706 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -2345,16 +2312,15 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 770 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 737 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        //printf("Created a multiline comment.\n");
 	}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 777 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 743 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -2391,7 +2357,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2395 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2361 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

@@ -40,10 +40,38 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
    }
 
    for (EdgeNew* e0 : m0->edges){
-       Vert* firstVert;
-       Vert* secondVert;
+       Vert* firstVert = NULL;
+       Vert* secondVert = NULL;
+
 
        for (Vert* v0 : i0->verts){
+           if(v0->index == e0->v0->index)
+               firstVert = v0;
+       }
+       if (!firstVert){
+           for (Vert* v0 : i0->verts){
+               if(v0->name.compare(e0->v0->name) == 0){
+                   firstVert = v0;
+               }
+           }
+       }
+
+       for (Vert* v1 : i0->verts){
+           if(v1->index == e0->v1->index)
+               secondVert = v1;
+       }
+
+       if (!secondVert){
+           for (Vert* v1 : i0->verts){
+               if(v1->name.compare(e0->v1->name) == 0){
+                   secondVert = v1;
+               }
+           }
+       }
+
+
+
+       /*for (Vert* v0 : i0->verts){
            if(v0->name.compare(e0->v0->name) == 0)
                firstVert = v0;
        }
@@ -51,7 +79,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
        for (Vert* v1 : i0->verts){
            if(v1->name.compare(e0->v1->name) == 0)
                secondVert = v1;
-       }
+       }*/
 
        EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
        i0->edges.push_back(newEdge);
@@ -63,12 +91,24 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
        std::list<EdgeNew*> edgesFace;
        std::list<Vert*> vertFace;
        for (EdgeNew* e0 : f0->edges){
-           Vert* firstVert;
+           Vert* firstVert = NULL;
 
            for (Vert* v0 : i0->verts){
-               if(v0->name.compare(e0->v0->name) == 0)
+               if(v0->index == e0->v0->index)
                    firstVert = v0;
            }
+           if (!firstVert){
+               for (Vert* v0 : i0->verts){
+                   if(v0->name.compare(e0->v0->name) == 0){
+                       firstVert = v0;
+                   }
+               }
+           }
+
+           /*for (Vert* v0 : i0->verts){
+               if(v0->name.compare(e0->v0->name) == 0)
+                   firstVert = v0;
+           }*/
 
            vertFace.push_back(firstVert);
        }
@@ -189,6 +229,22 @@ Node* InstanceNew::face(int i)
     return NULL;
 }
 
+void InstanceNew::updateVerts(){
+    for (Vert* v0 : verts){
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+        *x = *(v0->x);
+        *y = *(v0->y);
+        *z = *(v0->z);
+
+        v0->xTransformed = x;
+        v0->yTransformed = y;
+        v0->zTransformed = z;
+    }
+}
+
 void InstanceNew::applyTransformation(TransformationNew* t){
     if (dynamic_cast<Rotate*>(t)){
         Rotate* rotate = dynamic_cast<Rotate*>(t);
@@ -223,9 +279,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             *x = ax;
             *y = ay;
             *z = az;
-            v0->x = x;
-            v0->y = y;
-            v0->z = z;
+            v0->xTransformed = x;
+            v0->yTransformed = y;
+            v0->zTransformed = z;
         }
     }
     else if (dynamic_cast<Scale*>(t)){
@@ -238,9 +294,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             *x = *v0->x * *scale->x;
             *y = *v0->y * *scale->y;
             *z = *v0->z * *scale->z;
-            v0->x = x;
-            v0->y = y;
-            v0->z = z;
+            v0->xTransformed = x;
+            v0->yTransformed = y;
+            v0->zTransformed = z;
         }
     }
     else if (dynamic_cast<Translate*>(t)){
@@ -254,9 +310,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             *x = *v0->x + *translate->x;
             *y = *v0->y + *translate->y;
             *z = *v0->z + *translate->z;
-            v0->x = x;
-            v0->y = y;
-            v0->z = z;
+            v0->xTransformed = x;
+            v0->yTransformed = y;
+            v0->zTransformed = z;
 
         }
 
