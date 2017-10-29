@@ -181,6 +181,12 @@ MeshNew* Reader::getMesh(std::string name)
             return m0;
     }
 
+    for (CircleNew* c0 : session->circles){
+        std::string currentName = "m:cl:" + name;
+        if(c0->name.compare(currentName) == 0)
+            return c0;
+    }
+
     for (TunnelNew* m0 : session->tunnels){
         //std::cout << m0->name << std::endl;
         std::string currentName = "m:tn:" + name;
