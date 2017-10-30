@@ -267,6 +267,7 @@ instanceGroup:
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->mesh($<string>3);
+
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh, currSession->verts);
@@ -279,6 +280,10 @@ instanceGroup:
 
         newInstance->transformations = currentTransformations;
         currentTransformations.clear();
+
+        for (TransformationNew * t : newInstance->transformations){
+            newInstance->applyTransformation(t);
+        }
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -652,7 +657,7 @@ instance:
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
 
-            copyStateTransformation(t, &(newInstance->appliedTransformations));
+            //copyStateTransformation(t, &(newInstance->appliedTransformations));
         }
 
         string surfaceName = $<string>4;
