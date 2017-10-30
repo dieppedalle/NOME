@@ -15,11 +15,13 @@ typedef int MeshI;
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
 typedef class MeshNew : public Node
 {
+
     bool isManifold;
     bool hasHoles;
     MeshI index;
 
 public:
+    virtual ~MeshNew(){}
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;

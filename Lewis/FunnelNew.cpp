@@ -60,7 +60,6 @@ void FunnelNew::createVertEdgeFunnel(){
         *z = 0;
 
         Vert * newVertex = createVert (x, y, z);
-
         baseCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -97,7 +96,6 @@ void FunnelNew::createVertEdgeFunnel(){
 
         }
         verticesFace.push_back(highCircle[i]);
-
         FaceNew * newFace = createFace(verticesFace, &(edges));
         faces.push_back(newFace);
         verticesFace.clear();

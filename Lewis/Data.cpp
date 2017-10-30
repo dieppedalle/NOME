@@ -173,6 +173,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
         std::cout << vertN->name << std::endl;
         std::cout << vertN->index << std::endl;
     }*/
+
     EdgeNew * currentEdge;
     std::list<Vert*>::iterator it = vertices.begin();
     std::list<Vert*>::iterator it2 = vertices.begin();

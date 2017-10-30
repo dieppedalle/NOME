@@ -349,6 +349,16 @@ void SlideGLWidget::paintGL()
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
 
+    for(auto c : currSession->circles){
+        c->updateCircle();
+    }
+    for(auto f : currSession->funnels){
+        f->updateFunnel();
+    }
+    for(auto t : currSession->tunnels){
+        t->updateTunnel();
+    }
+
     for (InstanceNew * newInstance: currSession->instances){
         newInstance->updateVerts();
     }
@@ -359,15 +369,7 @@ void SlideGLWidget::paintGL()
         }
     }
 
-    for(auto c : currSession->circles){
-        c->updateCircle();
-    }
-    for(auto f : currSession->funnels){
-        f->updateFunnel();
-    }
-    for(auto t : currSession->tunnels){
-        t->updateTunnel();
-    }
+
 
     /*for(auto v : currSession->verts) {
       drawVert(v, NULL);

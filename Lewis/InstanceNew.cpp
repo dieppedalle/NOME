@@ -10,7 +10,7 @@
 #include <glm/glm.hpp>
 #include "Data.h"
 #include "InstanceNew.h"
-
+#include "FunnelNew.h"
 
 bool setSurface(InstanceNew* i0, Surface* surface){
     i0->surface = surface;
@@ -27,6 +27,12 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
+
+   if (dynamic_cast<FunnelNew*>(m0)){
+       //FunnelNew* rotate = dynamic_cast<FunnelNew*>(t);
+       std::cout << "KKKK" << std::endl;
+   }
+
    i0->verts = {};
    for (Vert* v0 : m0->verts){
        if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()){

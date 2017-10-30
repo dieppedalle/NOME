@@ -9,6 +9,7 @@
 #include <QtOpenGL>
 #include "Data.h"
 #include "MeshNew.h"
+#include "CircleNew.h"
 #include "TransformationNew.h"
 
 typedef int InstanceI;
@@ -17,6 +18,7 @@ class InstanceNew : public Node
 {
 public:
     MeshNew* mesh;
+
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
