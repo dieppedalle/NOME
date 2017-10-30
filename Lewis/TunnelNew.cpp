@@ -61,6 +61,7 @@ void TunnelNew::createVertEdgeTunnel(){
         *z = 0;
 
         Vert * newVertex = createVert (x, y, z);
+        newVertex->setName("va" + std::to_string(i));
 
         baseCircle.push_back(newVertex);
         verts.push_back(newVertex);
@@ -80,6 +81,7 @@ void TunnelNew::createVertEdgeTunnel(){
         *z = *h;
 
         Vert * newVertex = createVert (x, y, z);
+        newVertex->setName("vb" + std::to_string(i));
         highCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -97,6 +99,7 @@ void TunnelNew::createVertEdgeTunnel(){
         *z = -*h;
 
         Vert * newVertex = createVert (x, y, z);
+        newVertex->setName("vc" + std::to_string(i));
         lowCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -116,6 +119,7 @@ void TunnelNew::createVertEdgeTunnel(){
         verticesFace.push_back(highCircle[i]);
 
         FaceNew * newFace = createFace(verticesFace, &(edges));
+        newFace->setName("fa" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
     }
@@ -135,17 +139,19 @@ void TunnelNew::createVertEdgeTunnel(){
         verticesFace.push_back(lowCircle[i]);
 
         FaceNew * newFace = createFace(verticesFace, &(edges));
+        newFace->setName("fb" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
     }
 }
 
 
-void TunnelNew::updateTunnel() {
+int TunnelNew::updateTunnel() {
     // Used when the sliders are changing values.
     // Check if we need to create new vertices (if the number of vertices has changed).
     if (*n != verts.size() / 3){
         createVertEdgeTunnel();
+        return 1;
     }
     else{
         // Redraw in case the radius has changed.
@@ -155,52 +161,29 @@ void TunnelNew::updateTunnel() {
                 float currAngle = 2.0 * i / *n * M_PI;
                 float ri = *ro * (1 + *ratio);
 
-                double *x = (double*) malloc(sizeof(double));
-                double *y = (double*) malloc(sizeof(double));
-                double *z = (double*) malloc(sizeof(double));
-
-                *x = ri * glm::cos(currAngle);
-                *y = ri * glm::sin(currAngle);
-                *z = *h;
-
-                (*iterator)->x = x;
-                (*iterator)->y = y;
-                (*iterator)->z = z;
+                *((*iterator)->x) = ri * glm::cos(currAngle);
+                *((*iterator)->y) = ri * glm::sin(currAngle);
+                *((*iterator)->z) = *h;
 
             }
             else if (i >= (2 * verts.size()) / 3){
                 float currAngle = 2.0 * i / *n * M_PI;
                 float ri = *ro * (1 + *ratio);
 
-                double *x = (double*) malloc(sizeof(double));
-                double *y = (double*) malloc(sizeof(double));
-                double *z = (double*) malloc(sizeof(double));
-
-                *x = ri * glm::cos(currAngle);
-                *y = ri * glm::sin(currAngle);
-                *z = -*h;
-
-                (*iterator)->x = x;
-                (*iterator)->y = y;
-                (*iterator)->z = z;
+                *((*iterator)->x) = ri * glm::cos(currAngle);
+                *((*iterator)->y) = ri * glm::sin(currAngle);
+                *((*iterator)->z) = -*h;
             }
             else{
                 float currAngle = 2.0 * i / *n * M_PI;
 
-                double *x = (double*) malloc(sizeof(double));
-                double *y = (double*) malloc(sizeof(double));
-                double *z = (double*) malloc(sizeof(double));
-
-                *x = *ro * glm::cos(currAngle);
-                *y = *ro * glm::sin(currAngle);
-                *z = 0;
-
-                (*iterator)->x = x;
-                (*iterator)->y = y;
-                (*iterator)->z = z;
+                *((*iterator)->x) = *ro * glm::cos(currAngle);
+                *((*iterator)->y) = *ro * glm::sin(currAngle);
+                *((*iterator)->z) = 0;
             }
             i++;
         }
+        return 0;
     }
 
 }

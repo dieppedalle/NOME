@@ -23,7 +23,7 @@ public:
     double *ratio;
     double *h;
     void createVertEdgeFunnel();
-    void updateFunnel();
+    int updateFunnel();
     bool setName(std::string n);
 } FunnelNew;
 

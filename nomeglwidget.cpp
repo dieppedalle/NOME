@@ -350,13 +350,44 @@ void SlideGLWidget::paintGL()
     glMultMatrixf(&object2world[0][0]);
 
     for(auto c : currSession->circles){
-        c->updateCircle();
+        if (c->updateCircle() == 1){
+            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                if ((*iterator)->mesh == c){
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts);
+
+                    newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                    newInstance->transformations = (*iterator)->transformations;
+                    (*iterator) = newInstance;
+                }
+            }
+        }
     }
+
     for(auto f : currSession->funnels){
-        f->updateFunnel();
+        if (f->updateFunnel() == 1){
+            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                if ((*iterator)->mesh == f){
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts);
+
+                    newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                    newInstance->transformations = (*iterator)->transformations;
+                    (*iterator) = newInstance;
+                }
+            }
+        }
     }
     for(auto t : currSession->tunnels){
-        t->updateTunnel();
+        if (t->updateTunnel() == 1){
+            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                if ((*iterator)->mesh == t){
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts);
+
+                    newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                    newInstance->transformations = (*iterator)->transformations;
+                    (*iterator) = newInstance;
+                }
+            }
+        }
     }
 
     for (InstanceNew * newInstance: currSession->instances){

@@ -28,7 +28,7 @@ public:
     std::vector<Vert*> lowCircle;
 
     void createVertEdgeTunnel();
-    void updateTunnel();
+    int updateTunnel();
 
     bool setName(std::string n);
 } TunnelNew;

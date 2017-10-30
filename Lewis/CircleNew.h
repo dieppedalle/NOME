@@ -17,7 +17,7 @@ public:
     double *num;
     double *rad;
     void createVertEdgeCircle();
-    void updateCircle();
+    int updateCircle();
     bool setName(std::string n);
 } CircleNew;
 

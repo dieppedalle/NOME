@@ -37,11 +37,11 @@ bool CircleNew::setName(std::string n)
     return error;
 }
 
-void CircleNew::updateCircle() {
+int CircleNew::updateCircle() {
     // Check if we need to create new vertices (if the number of vertices has changed).
     if (*num != verts.size()){
-        std::cout << "NUM VERTS" << std::endl;
         createVertEdgeCircle();
+        return 1;
     }
     else{
         // Redraw in case the radius has changed.
@@ -54,6 +54,7 @@ void CircleNew::updateCircle() {
             *(vert->z) = 0;
             i++;
         }
+        return 0;
     }
 
 }
@@ -74,6 +75,7 @@ void CircleNew::createVertEdgeCircle(){
         *z = 0;
 
         Vert * newVertex = createVert (x, y, z);
+        newVertex->setName("v" + std::to_string(i));
         newVertex->setName(name + "." +  std::to_string(i));
         verts.push_back(newVertex);
     }
