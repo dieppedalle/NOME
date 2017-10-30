@@ -11,6 +11,8 @@
 #include "Data.h"
 #include "InstanceNew.h"
 #include "FunnelNew.h"
+#include "TunnelNew.h"
+#include "CircleNew.h"
 
 bool setSurface(InstanceNew* i0, Surface* surface){
     i0->surface = surface;
@@ -28,14 +30,10 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
 
-   if (dynamic_cast<FunnelNew*>(m0)){
-       //FunnelNew* rotate = dynamic_cast<FunnelNew*>(t);
-       std::cout << "KKKK" << std::endl;
-   }
 
    i0->verts = {};
    for (Vert* v0 : m0->verts){
-       if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()){
+       if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            i0->verts.push_back(newVertex);
@@ -278,9 +276,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
 
             // Matrix multiplication
             // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
-            double ax = *v0->x * x1 + *v0->y * x2 + *v0->z * x3;
-            double ay = *v0->x * y1 + *v0->y * y2 + *v0->z * y3;
-            double az = *v0->x * z1 + *v0->y * z2 + *v0->z * z3;
+            double ax = *v0->xTransformed * x1 + *v0->yTransformed * x2 + *v0->zTransformed * x3;
+            double ay = *v0->xTransformed * y1 + *v0->yTransformed * y2 + *v0->zTransformed * y3;
+            double az = *v0->xTransformed * z1 + *v0->yTransformed * z2 + *v0->zTransformed * z3;
 
             *x = ax;
             *y = ay;
@@ -297,9 +295,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             double *y = (double*) malloc(sizeof(double));
             double *z = (double*) malloc(sizeof(double));
 
-            *x = *v0->x * *scale->x;
-            *y = *v0->y * *scale->y;
-            *z = *v0->z * *scale->z;
+            *x = *v0->xTransformed * *scale->x;
+            *y = *v0->yTransformed * *scale->y;
+            *z = *v0->zTransformed * *scale->z;
             v0->xTransformed = x;
             v0->yTransformed = y;
             v0->zTransformed = z;
@@ -313,9 +311,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             double *y = (double*) malloc(sizeof(double));
             double *z = (double*) malloc(sizeof(double));
 
-            *x = *v0->x + *translate->x;
-            *y = *v0->y + *translate->y;
-            *z = *v0->z + *translate->z;
+            *x = *v0->xTransformed + *translate->x;
+            *y = *v0->yTransformed + *translate->y;
+            *z = *v0->zTransformed + *translate->z;
             v0->xTransformed = x;
             v0->yTransformed = y;
             v0->zTransformed = z;

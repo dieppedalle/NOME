@@ -40,25 +40,18 @@ bool CircleNew::setName(std::string n)
 void CircleNew::updateCircle() {
     // Check if we need to create new vertices (if the number of vertices has changed).
     if (*num != verts.size()){
+        std::cout << "NUM VERTS" << std::endl;
         createVertEdgeCircle();
     }
     else{
         // Redraw in case the radius has changed.
         int i = 0;
-        for (std::list<Vert*>::const_iterator iterator = verts.begin(), end = verts.end(); iterator != end; ++iterator) {
+        for (Vert* vert : verts) {
             float currAngle = 2.0 * i / *num * M_PI;
 
-            double *x = (double*) malloc(sizeof(double));
-            double *y = (double*) malloc(sizeof(double));
-            double *z = (double*) malloc(sizeof(double));
-
-            *x = *rad * glm::cos(currAngle);
-            *y = *rad * glm::sin(currAngle);
-            *z = 0;
-
-            (*iterator)->x = x;
-            (*iterator)->y = y;
-            (*iterator)->z = z;
+            *(vert->x) = *rad * glm::cos(currAngle);
+            *(vert->y) = *rad * glm::sin(currAngle);
+            *(vert->z) = 0;
             i++;
         }
     }

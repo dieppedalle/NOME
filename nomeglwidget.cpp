@@ -363,12 +363,34 @@ void SlideGLWidget::paintGL()
         newInstance->updateVerts();
     }
 
+    //std::cout << "HELLO" << std::endl;
     for (InstanceNew * newInstance: currSession->instances){
+
+
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
         }
+
+        /*std::cout << newInstance->name << std::endl;
+        for (auto v : newInstance->verts){
+            std::cout << v->name << std::endl;
+            std::cout << *v->xTransformed << std::endl;
+            std::cout << *v->yTransformed << std::endl;
+            std::cout << *v->zTransformed << std::endl;
+        }
+        std::cout << std::endl;*/
     }
 
+    /*for(auto i : currSession->instances) {
+        std::cout << i->name << std::endl;
+        for (auto v : i->verts){
+            std::cout << v->name << std::endl;
+            std::cout << *v->xTransformed << std::endl;
+            std::cout << *v->yTransformed << std::endl;
+            std::cout << *v->zTransformed << std::endl;
+        }
+        std::cout << std::endl;
+    }*/
 
 
     /*for(auto v : currSession->verts) {
