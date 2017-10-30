@@ -121,6 +121,4 @@ bool drawVert(Vert* v0, Surface * instSurface);
 bool drawEdge(EdgeNew* e0, Surface * instSurface);
 bool drawFace(FaceNew* f0, Surface * instSurface);
 
-
-
 #endif /* Data_h */
