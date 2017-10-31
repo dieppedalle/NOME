@@ -79,8 +79,8 @@ SCALE
     double number;
     char *string;
     struct {
-        char *strVal;
-        int posVal;
+        char *string; // char *strVal;
+        double number;   // int posVal;
     } numPos;
 }
 
@@ -104,10 +104,12 @@ command:
 
 numberValue:
     num {
-        $<number>$ = $<number>1;
+        $<numPos.number>$ = $<number>1;
+        $<numPos.string>$ = NULL;
     } | expr
     {
-        $<string>$ = $<string>1;
+        $<numPos.string>$ = $<string>1;
+        $<numPos.number>$ = 0;
     }
     ;
 
@@ -116,16 +118,14 @@ num:
     NUMBER
     {
         $<number>$ = (double)atof($1);
-        std::cout << "HELLO" << std::endl;
-        std::cout << (double)atof($1) << std::endl;
     }
     ;
 
 numPosTok:
     NUMBER
     {
-        $<numPos.strVal>$ = strdup($1);
-        $<numPos.posVal>$ = yycolumn;
+        $<numPos.string>$ = strdup($1);
+        $<numPos.number>$ = yycolumn;
     }
     ;
 
@@ -163,32 +163,32 @@ rotateArgs:
         double *angle = (double*) malloc(sizeof(double));
 
 
-        if ($<string>3 == NULL){
-            *x = $<number>3;
+        if ($<numPos.string>3 == NULL){
+            *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<string>3);
+            x = getBankValue($<numPos.string>3);
         }
 
-        if ($<string>4 == NULL){
-            *y = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<string>4);
+            y = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *z = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<string>5);
+            z = getBankValue($<numPos.string>5);
         }
 
-        if ($<string>8 == NULL){
-            *angle = $<number>8;
+        if ($<numPos.string>8 == NULL){
+            *angle = $<numPos.number>8;
         }
         else{
-            angle = getBankValue($<string>8);
+            angle = getBankValue($<numPos.string>8);
         }
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
@@ -204,25 +204,25 @@ translateArgs:
         double *z = (double*) malloc(sizeof(double));
 
 
-        if ($<string>3 == NULL){
-            *x = $<number>3;
+        if ($<numPos.string>3 == NULL){
+            *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<string>3);
+            x = getBankValue($<numPos.string>3);
         }
 
-        if ($<string>4 == NULL){
-            *y = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<string>4);
+            y = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *z = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<string>5);
+            z = getBankValue($<numPos.string>5);
         }
 
         currentTransformations.push_back(createTranslate(x, y, z));
@@ -237,25 +237,25 @@ scaleArgs:
         double *z = (double*) malloc(sizeof(double));
 
 
-        if ($<string>3 == NULL){
-            *x = $<number>3;
+        if ($<numPos.string>3 == NULL){
+            *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<string>3);
+            x = getBankValue($<numPos.string>3);
         }
 
-        if ($<string>4 == NULL){
-            *y = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<string>4);
+            y = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *z = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<string>5);
+            z = getBankValue($<numPos.string>5);
         }
 
         currentTransformations.push_back(createScale(x, y, z));
@@ -265,10 +265,10 @@ scaleArgs:
 mirrorArgs:
     MIRROR OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
     {
-        double x = $<number>3;
-        double y = $<number>4;
-        double z = $<number>5;
-        double w = $<number>5;
+        double x = $<numPos.number>3;
+        double y = $<numPos.number>4;
+        double z = $<numPos.number>5;
+        double w = $<numPos.number>5;
 
     }
     ;
@@ -385,13 +385,13 @@ set:
     SET VARIABLE numPosTok numberValue numberValue numberValue
     {
         string currentSetName = $<string>2;
-        double currentSetValue = (double)atof($<numPos.strVal>3);
-        double currentSetStart = $<number>4;
-        double currentSetEnd = $<number>5;
-        double currentSetStepSize = $<number>6;
-        string currentSetValueString = $<numPos.strVal>3;
+        double currentSetValue = (double)atof($<numPos.string>3);
+        double currentSetStart = $<numPos.number>4;
+        double currentSetEnd = $<numPos.number>5;
+        double currentSetStepSize = $<numPos.number>6;
+        string currentSetValueString = $<numPos.string>3;
 
-        int begPos = $<numPos.posVal>3-currentSetValueString.length();
+        int begPos = $<numPos.number>3-currentSetValueString.length();
         int lengthValChar = currentSetValueString.length();
 
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
@@ -470,18 +470,18 @@ circle:
         double *rad = (double*) malloc(sizeof(double));
 
 
-        if ($<string>4 == NULL){
-            *num = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *num = $<numPos.number>4;
         }
         else{
-            num = getBankValue($<string>4);
+            num = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *rad = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *rad = $<numPos.number>5;
         }
         else{
-            rad = getBankValue($<string>5);
+            rad = getBankValue($<numPos.string>5);
         }
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -500,32 +500,32 @@ tunnel:
         double *ratio = (double*) malloc(sizeof(double));
         double *h = (double*) malloc(sizeof(double));
 
-        if ($<string>4 == NULL){
-            *n = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *n = $<numPos.number>4;
         }
         else{
-            n = getBankValue($<string>4);
+            n = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *ro = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *ro = $<numPos.number>5;
         }
         else{
-            ro = getBankValue($<string>5);
+            ro = getBankValue($<numPos.string>5);
         }
 
-        if ($<string>6 == NULL){
-            *ratio = $<number>6;
+        if ($<numPos.string>6 == NULL){
+            *ratio = $<numPos.number>6;
         }
         else{
-            ratio = getBankValue($<string>6);
+            ratio = getBankValue($<numPos.string>6);
         }
 
-        if ($<string>7 == NULL){
-            *h = $<number>7;
+        if ($<numPos.string>7 == NULL){
+            *h = $<numPos.number>7;
         }
         else{
-            h = getBankValue($<string>7);
+            h = getBankValue($<numPos.string>7);
         }
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h);
@@ -545,32 +545,32 @@ funnel:
         double *ratio = (double*) malloc(sizeof(double));
         double *h = (double*) malloc(sizeof(double));
 
-        if ($<string>4 == NULL){
-            *n = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *n = $<numPos.number>4;
         }
         else{
-            n = getBankValue($<string>4);
+            n = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *ro = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *ro = $<numPos.number>5;
         }
         else{
-            ro = getBankValue($<string>5);
+            ro = getBankValue($<numPos.string>5);
         }
 
-        if ($<string>6 == NULL){
-            *ratio = $<number>6;
+        if ($<numPos.string>6 == NULL){
+            *ratio = $<numPos.number>6;
         }
         else{
-            ratio = getBankValue($<string>6);
+            ratio = getBankValue($<numPos.string>6);
         }
 
-        if ($<string>7 == NULL){
+        if ($<numPos.string>7 == NULL){
             *h = $<number>7;
         }
         else{
-            h = getBankValue($<string>7);
+            h = getBankValue($<numPos.string>7);
         }
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h);
@@ -736,31 +736,26 @@ surface:
         double *g = (double*) malloc(sizeof(double));
         double *b = (double*) malloc(sizeof(double));
 
-        std::cout << "||||||||||"  << std::endl;
-        std::cout << $<string>5  << std::endl;
-        std::cout << $<number>5  << std::endl;
-
-        if ($<string>5 == NULL){
-            *r = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *r = $<numPos.number>5;
         }
         else{
-            r = getBankValue($<string>5);
+            r = getBankValue($<numPos.string>5);
         }
 
-        if ($<string>6 == NULL){
-            *g = $<number>6;
+        if ($<numPos.string>6 == NULL){
+            *g = $<numPos.number>6;
         }
         else{
-            g = getBankValue($<string>6);
+            g = getBankValue($<numPos.string>6);
         }
 
-        if ($<string>7 == NULL){
-            *b = $<number>7;
+        if ($<numPos.string>7 == NULL){
+            *b = $<numPos.number>7;
         }
         else{
-            b = getBankValue($<string>7);
+            b = getBankValue($<numPos.string>7);
         }
-
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
 	}
@@ -780,25 +775,25 @@ point:
         double *z = (double*) malloc(sizeof(double));
 
 
-        if ($<string>4 == NULL){
-            *x = $<number>4;
+        if ($<numPos.string>4 == NULL){
+            *x = $<numPos.number>4;
         }
         else{
-            x = getBankValue($<string>4);
+            x = getBankValue($<numPos.string>4);
         }
 
-        if ($<string>5 == NULL){
-            *y = $<number>5;
+        if ($<numPos.string>5 == NULL){
+            *y = $<numPos.number>5;
         }
         else{
-            y = getBankValue($<string>5);
+            y = getBankValue($<numPos.string>5);
         }
 
-        if ($<string>6 == NULL){
-            *z = $<number>6;
+        if ($<numPos.string>6 == NULL){
+            *z = $<numPos.number>6;
         }
         else{
-            z = getBankValue($<string>6);
+            z = getBankValue($<numPos.string>6);
         }
 
         Vert * newVertex = createVert (x, y, z);

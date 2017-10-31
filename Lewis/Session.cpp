@@ -253,6 +253,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
             }
             this->fileContent += ") endface\n";
         }
+
         this->fileContent += "endmesh\n";
     }
     if (tmpInstance != NULL){

@@ -158,8 +158,8 @@ typedef union YYSTYPE
     double number;
     char *string;
     struct {
-        char *strVal;
-        int posVal;
+        char *string; // char *strVal;
+        double number;   // int posVal;
     } numPos;
 
 

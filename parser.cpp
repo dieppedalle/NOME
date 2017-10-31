@@ -282,8 +282,8 @@ typedef union YYSTYPE
     double number;
     char *string;
     struct {
-        char *strVal;
-        int posVal;
+        char *string; // char *strVal;
+        double number;   // int posVal;
     } numPos;
 
 
@@ -634,11 +634,11 @@ static const yytype_uint16 yyrline[] =
 {
        0,    95,    95,    96,   101,   101,   101,   101,   101,   101,
      101,   101,   102,   102,   102,   102,   102,   102,   102,   106,
-     108,   116,   125,   133,   139,   141,   147,   148,   153,   154,
+     109,   118,   125,   133,   139,   141,   147,   148,   153,   154,
      154,   154,   154,   158,   200,   233,   266,   276,   277,   280,
      281,   285,   326,   327,   331,   358,   368,   374,   385,   403,
      404,   404,   408,   455,   466,   494,   539,   584,   590,   629,
-     636,   660,   706,   733,   770,   776
+     636,   660,   706,   733,   765,   771
 };
 #endif
 
@@ -1683,27 +1683,27 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 106 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        (yyval.number) = (yyvsp[(1) - (1)].number);
+        (yyval.numPos.number) = (yyvsp[(1) - (1)].number);
+        (yyval.numPos.string) = NULL;
     }
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 110 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        (yyval.string) = (yyvsp[(1) - (1)].string);
+        (yyval.numPos.string) = (yyvsp[(1) - (1)].string);
+        (yyval.numPos.number) = 0;
     }
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 117 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 119 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         (yyval.number) = (double)atof((yyvsp[(1) - (1)].string));
-        std::cout << "HELLO" << std::endl;
-        std::cout << (double)atof((yyvsp[(1) - (1)].string)) << std::endl;
     }
     break;
 
@@ -1712,8 +1712,8 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 126 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        (yyval.numPos.strVal) = strdup((yyvsp[(1) - (1)].string));
-        (yyval.numPos.posVal) = yycolumn;
+        (yyval.numPos.string) = strdup((yyvsp[(1) - (1)].string));
+        (yyval.numPos.number) = yycolumn;
     }
     break;
 
@@ -1761,32 +1761,32 @@ yyreduce:
         double *angle = (double*) malloc(sizeof(double));
 
 
-        if ((yyvsp[(3) - (9)].string) == NULL){
-            *x = (yyvsp[(3) - (9)].number);
+        if ((yyvsp[(3) - (9)].numPos.string) == NULL){
+            *x = (yyvsp[(3) - (9)].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[(3) - (9)].string));
+            x = getBankValue((yyvsp[(3) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(4) - (9)].string) == NULL){
-            *y = (yyvsp[(4) - (9)].number);
+        if ((yyvsp[(4) - (9)].numPos.string) == NULL){
+            *y = (yyvsp[(4) - (9)].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[(4) - (9)].string));
+            y = getBankValue((yyvsp[(4) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (9)].string) == NULL){
-            *z = (yyvsp[(5) - (9)].number);
+        if ((yyvsp[(5) - (9)].numPos.string) == NULL){
+            *z = (yyvsp[(5) - (9)].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[(5) - (9)].string));
+            z = getBankValue((yyvsp[(5) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(8) - (9)].string) == NULL){
-            *angle = (yyvsp[(8) - (9)].number);
+        if ((yyvsp[(8) - (9)].numPos.string) == NULL){
+            *angle = (yyvsp[(8) - (9)].numPos.number);
         }
         else{
-            angle = getBankValue((yyvsp[(8) - (9)].string));
+            angle = getBankValue((yyvsp[(8) - (9)].numPos.string));
         }
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
@@ -1804,25 +1804,25 @@ yyreduce:
         double *z = (double*) malloc(sizeof(double));
 
 
-        if ((yyvsp[(3) - (6)].string) == NULL){
-            *x = (yyvsp[(3) - (6)].number);
+        if ((yyvsp[(3) - (6)].numPos.string) == NULL){
+            *x = (yyvsp[(3) - (6)].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[(3) - (6)].string));
+            x = getBankValue((yyvsp[(3) - (6)].numPos.string));
         }
 
-        if ((yyvsp[(4) - (6)].string) == NULL){
-            *y = (yyvsp[(4) - (6)].number);
+        if ((yyvsp[(4) - (6)].numPos.string) == NULL){
+            *y = (yyvsp[(4) - (6)].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[(4) - (6)].string));
+            y = getBankValue((yyvsp[(4) - (6)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (6)].string) == NULL){
-            *z = (yyvsp[(5) - (6)].number);
+        if ((yyvsp[(5) - (6)].numPos.string) == NULL){
+            *z = (yyvsp[(5) - (6)].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[(5) - (6)].string));
+            z = getBankValue((yyvsp[(5) - (6)].numPos.string));
         }
 
         currentTransformations.push_back(createTranslate(x, y, z));
@@ -1839,25 +1839,25 @@ yyreduce:
         double *z = (double*) malloc(sizeof(double));
 
 
-        if ((yyvsp[(3) - (6)].string) == NULL){
-            *x = (yyvsp[(3) - (6)].number);
+        if ((yyvsp[(3) - (6)].numPos.string) == NULL){
+            *x = (yyvsp[(3) - (6)].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[(3) - (6)].string));
+            x = getBankValue((yyvsp[(3) - (6)].numPos.string));
         }
 
-        if ((yyvsp[(4) - (6)].string) == NULL){
-            *y = (yyvsp[(4) - (6)].number);
+        if ((yyvsp[(4) - (6)].numPos.string) == NULL){
+            *y = (yyvsp[(4) - (6)].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[(4) - (6)].string));
+            y = getBankValue((yyvsp[(4) - (6)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (6)].string) == NULL){
-            *z = (yyvsp[(5) - (6)].number);
+        if ((yyvsp[(5) - (6)].numPos.string) == NULL){
+            *z = (yyvsp[(5) - (6)].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[(5) - (6)].string));
+            z = getBankValue((yyvsp[(5) - (6)].numPos.string));
         }
 
         currentTransformations.push_back(createScale(x, y, z));
@@ -1869,10 +1869,10 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 267 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        double x = (yyvsp[(3) - (7)].number);
-        double y = (yyvsp[(4) - (7)].number);
-        double z = (yyvsp[(5) - (7)].number);
-        double w = (yyvsp[(5) - (7)].number);
+        double x = (yyvsp[(3) - (7)].numPos.number);
+        double y = (yyvsp[(4) - (7)].numPos.number);
+        double z = (yyvsp[(5) - (7)].numPos.number);
+        double w = (yyvsp[(5) - (7)].numPos.number);
 
     }
     break;
@@ -1990,13 +1990,13 @@ yyreduce:
 #line 386 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         string currentSetName = (yyvsp[(2) - (6)].string);
-        double currentSetValue = (double)atof((yyvsp[(3) - (6)].numPos.strVal));
-        double currentSetStart = (yyvsp[(4) - (6)].number);
-        double currentSetEnd = (yyvsp[(5) - (6)].number);
-        double currentSetStepSize = (yyvsp[(6) - (6)].number);
-        string currentSetValueString = (yyvsp[(3) - (6)].numPos.strVal);
+        double currentSetValue = (double)atof((yyvsp[(3) - (6)].numPos.string));
+        double currentSetStart = (yyvsp[(4) - (6)].numPos.number);
+        double currentSetEnd = (yyvsp[(5) - (6)].numPos.number);
+        double currentSetStepSize = (yyvsp[(6) - (6)].numPos.number);
+        string currentSetValueString = (yyvsp[(3) - (6)].numPos.string);
 
-        int begPos = (yyvsp[(3) - (6)].numPos.posVal)-currentSetValueString.length();
+        int begPos = (yyvsp[(3) - (6)].numPos.number)-currentSetValueString.length();
         int lengthValChar = currentSetValueString.length();
 
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
@@ -2077,18 +2077,18 @@ yyreduce:
         double *rad = (double*) malloc(sizeof(double));
 
 
-        if ((yyvsp[(4) - (7)].string) == NULL){
-            *num = (yyvsp[(4) - (7)].number);
+        if ((yyvsp[(4) - (7)].numPos.string) == NULL){
+            *num = (yyvsp[(4) - (7)].numPos.number);
         }
         else{
-            num = getBankValue((yyvsp[(4) - (7)].string));
+            num = getBankValue((yyvsp[(4) - (7)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (7)].string) == NULL){
-            *rad = (yyvsp[(5) - (7)].number);
+        if ((yyvsp[(5) - (7)].numPos.string) == NULL){
+            *rad = (yyvsp[(5) - (7)].numPos.number);
         }
         else{
-            rad = getBankValue((yyvsp[(5) - (7)].string));
+            rad = getBankValue((yyvsp[(5) - (7)].numPos.string));
         }
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -2109,32 +2109,32 @@ yyreduce:
         double *ratio = (double*) malloc(sizeof(double));
         double *h = (double*) malloc(sizeof(double));
 
-        if ((yyvsp[(4) - (9)].string) == NULL){
-            *n = (yyvsp[(4) - (9)].number);
+        if ((yyvsp[(4) - (9)].numPos.string) == NULL){
+            *n = (yyvsp[(4) - (9)].numPos.number);
         }
         else{
-            n = getBankValue((yyvsp[(4) - (9)].string));
+            n = getBankValue((yyvsp[(4) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (9)].string) == NULL){
-            *ro = (yyvsp[(5) - (9)].number);
+        if ((yyvsp[(5) - (9)].numPos.string) == NULL){
+            *ro = (yyvsp[(5) - (9)].numPos.number);
         }
         else{
-            ro = getBankValue((yyvsp[(5) - (9)].string));
+            ro = getBankValue((yyvsp[(5) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(6) - (9)].string) == NULL){
-            *ratio = (yyvsp[(6) - (9)].number);
+        if ((yyvsp[(6) - (9)].numPos.string) == NULL){
+            *ratio = (yyvsp[(6) - (9)].numPos.number);
         }
         else{
-            ratio = getBankValue((yyvsp[(6) - (9)].string));
+            ratio = getBankValue((yyvsp[(6) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(7) - (9)].string) == NULL){
-            *h = (yyvsp[(7) - (9)].number);
+        if ((yyvsp[(7) - (9)].numPos.string) == NULL){
+            *h = (yyvsp[(7) - (9)].numPos.number);
         }
         else{
-            h = getBankValue((yyvsp[(7) - (9)].string));
+            h = getBankValue((yyvsp[(7) - (9)].numPos.string));
         }
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h);
@@ -2155,32 +2155,32 @@ yyreduce:
         double *ratio = (double*) malloc(sizeof(double));
         double *h = (double*) malloc(sizeof(double));
 
-        if ((yyvsp[(4) - (9)].string) == NULL){
-            *n = (yyvsp[(4) - (9)].number);
+        if ((yyvsp[(4) - (9)].numPos.string) == NULL){
+            *n = (yyvsp[(4) - (9)].numPos.number);
         }
         else{
-            n = getBankValue((yyvsp[(4) - (9)].string));
+            n = getBankValue((yyvsp[(4) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (9)].string) == NULL){
-            *ro = (yyvsp[(5) - (9)].number);
+        if ((yyvsp[(5) - (9)].numPos.string) == NULL){
+            *ro = (yyvsp[(5) - (9)].numPos.number);
         }
         else{
-            ro = getBankValue((yyvsp[(5) - (9)].string));
+            ro = getBankValue((yyvsp[(5) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(6) - (9)].string) == NULL){
-            *ratio = (yyvsp[(6) - (9)].number);
+        if ((yyvsp[(6) - (9)].numPos.string) == NULL){
+            *ratio = (yyvsp[(6) - (9)].numPos.number);
         }
         else{
-            ratio = getBankValue((yyvsp[(6) - (9)].string));
+            ratio = getBankValue((yyvsp[(6) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(7) - (9)].string) == NULL){
+        if ((yyvsp[(7) - (9)].numPos.string) == NULL){
             *h = (yyvsp[(7) - (9)].number);
         }
         else{
-            h = getBankValue((yyvsp[(7) - (9)].string));
+            h = getBankValue((yyvsp[(7) - (9)].numPos.string));
         }
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h);
@@ -2360,31 +2360,26 @@ yyreduce:
         double *g = (double*) malloc(sizeof(double));
         double *b = (double*) malloc(sizeof(double));
 
-        std::cout << "||||||||||"  << std::endl;
-        std::cout << (yyvsp[(5) - (9)].string)  << std::endl;
-        std::cout << (yyvsp[(5) - (9)].number)  << std::endl;
-
-        if ((yyvsp[(5) - (9)].string) == NULL){
-            *r = (yyvsp[(5) - (9)].number);
+        if ((yyvsp[(5) - (9)].numPos.string) == NULL){
+            *r = (yyvsp[(5) - (9)].numPos.number);
         }
         else{
-            r = getBankValue((yyvsp[(5) - (9)].string));
+            r = getBankValue((yyvsp[(5) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(6) - (9)].string) == NULL){
-            *g = (yyvsp[(6) - (9)].number);
+        if ((yyvsp[(6) - (9)].numPos.string) == NULL){
+            *g = (yyvsp[(6) - (9)].numPos.number);
         }
         else{
-            g = getBankValue((yyvsp[(6) - (9)].string));
+            g = getBankValue((yyvsp[(6) - (9)].numPos.string));
         }
 
-        if ((yyvsp[(7) - (9)].string) == NULL){
-            *b = (yyvsp[(7) - (9)].number);
+        if ((yyvsp[(7) - (9)].numPos.string) == NULL){
+            *b = (yyvsp[(7) - (9)].numPos.number);
         }
         else{
-            b = getBankValue((yyvsp[(7) - (9)].string));
+            b = getBankValue((yyvsp[(7) - (9)].numPos.string));
         }
-
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup((yyvsp[(2) - (9)].string))));
 	}
@@ -2393,7 +2388,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 771 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 766 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 	}
     break;
@@ -2401,32 +2396,32 @@ yyreduce:
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 777 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 772 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
 
-        if ((yyvsp[(4) - (8)].string) == NULL){
-            *x = (yyvsp[(4) - (8)].number);
+        if ((yyvsp[(4) - (8)].numPos.string) == NULL){
+            *x = (yyvsp[(4) - (8)].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[(4) - (8)].string));
+            x = getBankValue((yyvsp[(4) - (8)].numPos.string));
         }
 
-        if ((yyvsp[(5) - (8)].string) == NULL){
-            *y = (yyvsp[(5) - (8)].number);
+        if ((yyvsp[(5) - (8)].numPos.string) == NULL){
+            *y = (yyvsp[(5) - (8)].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[(5) - (8)].string));
+            y = getBankValue((yyvsp[(5) - (8)].numPos.string));
         }
 
-        if ((yyvsp[(6) - (8)].string) == NULL){
-            *z = (yyvsp[(6) - (8)].number);
+        if ((yyvsp[(6) - (8)].numPos.string) == NULL){
+            *z = (yyvsp[(6) - (8)].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[(6) - (8)].string));
+            z = getBankValue((yyvsp[(6) - (8)].numPos.string));
         }
 
         Vert * newVertex = createVert (x, y, z);
@@ -2438,7 +2433,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2442 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2437 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

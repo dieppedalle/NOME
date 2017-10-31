@@ -247,6 +247,11 @@ Vert* Reader::getVert(std::string name)
                     }
                 }
             }
+            for (Vert* v0 : i0->verts){
+                if (v0->name.compare(faceName) == 0){
+                    return v0;
+                }
+            }
         }
     }
     return NULL;
@@ -273,6 +278,11 @@ std::string Reader::getVertName(int id)
                 if (v0->index == id){
                     return i0->name.substr(i0->name.find(":") + 1) + "." + f0->name + "." + v0->name;
                 }
+            }
+        }
+        for (Vert* v0 : i0->verts){
+            if (v0->index == id){
+                return i0->name.substr(i0->name.find(":") + 1) + "." + v0->name;
             }
         }
     }
