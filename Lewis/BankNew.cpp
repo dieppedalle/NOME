@@ -20,13 +20,15 @@ BankNew* createBank(){
     return b0;
 }
 
-SetNew* createSet(std::string name, double value, double start, double end, double stepSize){
+SetNew* createSet(std::string name, double value, double start, double end, double stepSize, int begValPosFile, int lengthValChar){
     SetNew* s0 = new SetNew();
     s0->name = name;
     s0->value = value;
     s0->start = start;
     s0->end = end;
     s0->stepSize = stepSize;
+    s0->begValPosFile = begValPosFile;
+    s0->lengthValChar = lengthValChar;
     return s0;
 }
 

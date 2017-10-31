@@ -116,8 +116,6 @@ num:
     NUMBER
     {
         $<number>$ = (double)atof($1);
-        std::cout << "HELLO" << std::endl;
-        std::cout << (double)atof($1) << std::endl;
     }
     ;
 

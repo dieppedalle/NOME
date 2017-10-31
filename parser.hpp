@@ -153,15 +153,19 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 73 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 78 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
 
     double number;
     char *string;
+    struct {
+        char *strVal;
+        int posVal;
+    } numPos;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 165 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
+#line 169 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -170,4 +174,18 @@ typedef union YYSTYPE
 
 extern YYSTYPE yylval;
 
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+} YYLTYPE;
+# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
+extern YYLTYPE yylloc;
 

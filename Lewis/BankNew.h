@@ -18,6 +18,8 @@ public:
     double start;
     double end;
     double stepSize;
+    int begValPosFile;
+    int lengthValChar;
 };
 
 class BankNew
@@ -32,7 +34,7 @@ public:
 
 //Instantiation
 BankNew* createBank();
-SetNew* createSet(std::string name, double value, double start, double end, double stepSize);
+SetNew* createSet(std::string name, double value, double start, double end, double stepSize, int begValPosFile, int lengthValChar);
 
 
 #endif /* BankNew_h */

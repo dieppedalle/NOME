@@ -157,7 +157,32 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
     }
 }
 
+static std::string dbl2str(double d)
+{
+    size_t len = std::snprintf(0, 0, "%.10f", d);
+    std::string s(len+1, 0);
+    // technically non-portable, see below
+    std::snprintf(&s[0], len+1, "%.10f", d);
+    // remove nul terminator
+    s.pop_back();
+    // remove trailing zeros
+    s.erase(s.find_last_not_of('0') + 1, std::string::npos);
+    // remove trailing point
+    if(s.back() == '.') {
+        s.pop_back();
+    }
+    return s;
+}
+
 void Session::SaveSession(std::string outputFile){
+    int offset = 0;
+    for (BankNew * b0 : banks){
+        for (SetNew * s0 : b0->sets){
+            this->fileContent.replace(s0->begValPosFile + offset, s0->lengthValChar, dbl2str(s0->value));
+            offset += dbl2str(s0->value).length() - s0->lengthValChar;
+        }
+    }
+
     ofstream file(outputFile);
     if (!file.is_open())
     {

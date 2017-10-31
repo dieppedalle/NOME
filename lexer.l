@@ -4,13 +4,19 @@
 #include <string>
 //#include "y.tab.h"
 #include "parser.hpp"
+
+int yycolumn = 0;
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
+    yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + yyleng - 1; \
+    yycolumn += yyleng;
+
 %}
 %option yylineno
 
 %%
 (\#(.)*(.|\n))           return COMMENT;
 \(\*(.|\n)*\*\)          return MULTI_LINE_COMMENT;
-[+-]?([0-9]*[.])?[0-9]+  yylval.number=(double)atof(yytext); return NUMBER;
+[+-]?([0-9]*[.])?[0-9]+  yylval.string=yytext; return NUMBER;
 \$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  yylval.string=strdup(yytext); return BANK_EXPR;
 expr                     return EXPR;
 surface                  return SURFACE;

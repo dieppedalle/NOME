@@ -551,7 +551,13 @@ char *yytext;
 #include <string>
 //#include "y.tab.h"
 #include "parser.hpp"
-#line 555 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.cpp"
+
+int yycolumn = 0;
+#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
+    yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + yyleng - 1; \
+    yycolumn += yyleng;
+
+#line 561 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.cpp"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -702,9 +708,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 10 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 16 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 
-#line 708 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.cpp"
+#line 714 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.cpp"
 
 	if ( yy_init )
 		{
@@ -797,225 +803,225 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 11 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 17 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return COMMENT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 12 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 18 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return MULTI_LINE_COMMENT;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 13 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
-yylval.number=(double)atof(yytext); return NUMBER;
+#line 19 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+yylval.string=yytext; return NUMBER;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 14 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 20 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 yylval.string=strdup(yytext); return BANK_EXPR;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 15 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 21 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return EXPR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 16 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return SURFACE;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 17 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_SURFACE;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 18 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 24 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return BEG_POINT;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 19 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return COLOR;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 20 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 26 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_POINT;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 21 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 27 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return BANK;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_BANK;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return SET;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 24 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 30 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return FACE;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 31 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_FACE;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 26 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return OBJECT;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 27 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 33 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_OBJECT;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return MESH;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_MESH;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 30 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return TUNNEL;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 31 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_TUNNEL;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return FUNNEL;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 33 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_FUNNEL;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return POLYLINE;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return CIRCLE;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_CIRCLE;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return SCALE;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 44 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_POLYLINE;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 45 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return INSTANCE;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_INSTANCE;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return TRANSLATE;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return ROTATE;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return MIRROR;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 44 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 50 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return BEG_DELETE;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 45 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 51 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_DELETE;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 52 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return GROUP;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 53 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return END_GROUP;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 54 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return OBRACE;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 55 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return EBRACE;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 50 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 56 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 yylval.string=strdup(yytext); return VARIABLE;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 51 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 57 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return OPARENTHESES;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 52 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 58 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 return EPARENTHESES;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 53 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 59 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 /* ignore whitespace */;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 54 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 60 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 ECHO;
 	YY_BREAK
-#line 1019 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.cpp"
+#line 1025 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.cpp"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1899,5 +1905,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 54 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
+#line 60 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\lexer.l"
 
