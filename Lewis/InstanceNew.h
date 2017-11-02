@@ -2,8 +2,8 @@
 //  Instance.h
 //
 
-#ifndef InstanceNew_h
-#define InstanceNew_h
+#ifndef INSTANCENEW_H
+#define INSTANCENEW_H
 
 #include <stdio.h>
 #include <QtOpenGL>
@@ -11,13 +11,16 @@
 #include "MeshNew.h"
 #include "CircleNew.h"
 #include "TransformationNew.h"
+//#include "GroupNew.h"
 
 typedef int InstanceI;
+//class GroupNew;
 
 class InstanceNew : public Node
 {
 public:
-    MeshNew* mesh;
+    MeshNew* mesh = NULL;
+    //GroupNew* group = NULL;
 
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;

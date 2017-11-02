@@ -287,7 +287,7 @@ instanceGroup:
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
-        MeshNew * currentMesh = currReader->mesh($<string>3);
+        MeshNew * currentMesh = currReader->getMesh($<string>3);
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {

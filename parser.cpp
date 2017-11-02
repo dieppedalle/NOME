@@ -1885,7 +1885,7 @@ yyreduce:
         string instanceName = strdup((yyvsp[(2) - (6)].string));
         string lookFor = strdup((yyvsp[(3) - (6)].string));
 
-        MeshNew * currentMesh = currReader->mesh((yyvsp[(3) - (6)].string));
+        MeshNew * currentMesh = currReader->getMesh((yyvsp[(3) - (6)].string));
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
