@@ -272,7 +272,7 @@ void InstanceNew::updateVerts(){
         }
     }
     else if (group != NULL){
-        for (InstanceNew* i0 : group->instances){
+        for (InstanceNew* i0 : listInstances){
             for (Vert* v0 : i0->verts){
                 double *x = (double*) malloc(sizeof(double));
                 double *y = (double*) malloc(sizeof(double));
@@ -285,6 +285,16 @@ void InstanceNew::updateVerts(){
                 v0->xTransformed = x;
                 v0->yTransformed = y;
                 v0->zTransformed = z;
+            }
+        }
+    }
+}
+
+void InstanceNew::applyTransformationGroup(){
+    if (group != NULL){
+        for (InstanceNew* currInstance : listInstances){
+            for (TransformationNew * t : currInstance->transformations){
+                currInstance->applyTransformation(t);
             }
         }
     }

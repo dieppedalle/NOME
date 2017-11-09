@@ -396,6 +396,7 @@ void SlideGLWidget::paintGL()
     }
 
     for (InstanceNew * newInstance: currSession->instances){
+        newInstance->applyTransformationGroup();
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
         }

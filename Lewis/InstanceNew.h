@@ -31,6 +31,7 @@ public:
     bool setName(std::string n);
     bool updateNames();
     bool draw();
+    void applyTransformationGroup();
     void applyTransformation(TransformationNew* t);
     void undoTransformation(TransformationNew* t);
     void updateVerts();
