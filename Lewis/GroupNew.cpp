@@ -9,23 +9,21 @@
 #include <stdio.h>
 #include "GroupNew.h"
 
-GroupNew* createGroup(std::list<InstanceNew*> m0)
+GroupNew* createGroup(std::list<InstanceNew*> li0)
 {
     GroupNew* g0 = new GroupNew();
-    g0->instances = m0;
+    g0->instances = li0;
     return g0;
-}
-
-GroupNew* createGroup(GroupNew*)
-{
-    return NULL;
 }
 
 bool GroupNew::setName(std::string n)
 {
-    name = n;
+    if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
+        return false;
+    name = "g:" + n;
     return updateNames();
 }
+
 
 bool GroupNew::updateNames()
 {
@@ -34,5 +32,14 @@ bool GroupNew::updateNames()
         m0->setPrefix(getFullName());
         m0->updateNames();
     }
+    return true;
+}
+
+bool GroupNew::draw()
+{
+    for(InstanceNew* i0 : instances) {
+      i0->draw();
+    }
+
     return true;
 }

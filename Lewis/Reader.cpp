@@ -207,8 +207,19 @@ MeshNew* Reader::getMesh(std::string name)
             return m0;
     }
 
-    if(search(name, 0))
-        return (MeshNew*) node;
+    /*if(search(name, 0))
+        return (MeshNew*) node;*/
+    return NULL;
+}
+
+GroupNew* Reader::getGroup(std::string name)
+{
+    for (GroupNew* g0 : session->groups){
+        std::string currentName = "g:" + name;
+        if(g0->name.compare(currentName) == 0)
+            return g0;
+    }
+
     return NULL;
 }
 

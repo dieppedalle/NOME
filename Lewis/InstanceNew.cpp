@@ -13,6 +13,7 @@
 #include "FunnelNew.h"
 #include "TunnelNew.h"
 #include "CircleNew.h"
+#include "GroupNew.h"
 
 bool setSurface(InstanceNew* i0, Surface* surface){
     i0->surface = surface;
@@ -25,11 +26,47 @@ InstanceNew* createInstance(InstanceNew* i0)
     return new InstanceNew();
 }
 
+InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef)
+{
+   InstanceNew* i0 = new InstanceNew();
+   i0->group = g0;
+
+   std::list<InstanceNew*> listInstances;
+   for (InstanceNew* instanceNest : g0->instances){
+       MeshNew* currentMesh = instanceNest->mesh;
+       std::string currentName = instanceNest->name;
+       std::list<TransformationNew*> currentTransformations = instanceNest->transformations;
+
+       if (currentMesh != NULL){
+           InstanceNew* newInstance;
+           newInstance = createInstance(currentMesh, vertsDef);
+           newInstance->setName(currentName);
+           newInstance->transformations = currentTransformations;
+           i0->listInstances.push_back(newInstance);
+       }
+
+       //InstanceNew* newInstance;
+       //newInstance = createInstance(currentMesh, vertsDef);
+       //newInstance->setName(currentName);
+       //newInstance->transformations = currentTransformations;
+       //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+       //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+       //listInstances.push_back(newInstance);
+   }
+
+   //i0->group = createGroup(listInstances);
+
+   return i0;
+}
+
 InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
-
 
    i0->verts = {};
    for (Vert* v0 : m0->verts){
@@ -73,23 +110,10 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
            }
        }
 
-
-
-       /*for (Vert* v0 : i0->verts){
-           if(v0->name.compare(e0->v0->name) == 0)
-               firstVert = v0;
-       }
-
-       for (Vert* v1 : i0->verts){
-           if(v1->name.compare(e0->v1->name) == 0)
-               secondVert = v1;
-       }*/
-
        EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
        i0->edges.push_back(newEdge);
 
    }
-
 
    for (FaceNew* f0 : m0->faces){
        std::list<EdgeNew*> edgesFace;
@@ -108,11 +132,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
                    }
                }
            }
-
-           /*for (Vert* v0 : i0->verts){
-               if(v0->name.compare(e0->v0->name) == 0)
-                   firstVert = v0;
-           }*/
 
            vertFace.push_back(firstVert);
        }
@@ -136,18 +155,17 @@ bool InstanceNew::setName(std::string n)
 
 bool InstanceNew::updateNames()
 {
-    mesh->setPrefix(getFullName());
-    return true;
+    if (mesh != NULL){
+        mesh->setPrefix(getFullName());
+        return true;
+    }
+    return false;
 }
 
 bool InstanceNew::draw()
 {
-    //std::cout << name << std::endl;
+    //std::cout << this->name << std::endl;
     for(auto v : verts) {
-      /*std::cout << v->name << std::endl;
-      std::cout << *(v->x) << std::endl;
-      std::cout << *(v->y) << std::endl;
-      std::cout << *(v->z) << std::endl;*/
       drawVert(v, surface);
     }
     for(auto e : edges) {
@@ -155,6 +173,10 @@ bool InstanceNew::draw()
     }
     for(auto f : faces) {
       drawFace(f, surface);
+    }
+
+    for (auto i : listInstances) {
+        i->draw();
     }
 
     return true;
@@ -234,92 +256,117 @@ Node* InstanceNew::face(int i)
 }
 
 void InstanceNew::updateVerts(){
-    for (Vert* v0 : verts){
-        double *x = (double*) malloc(sizeof(double));
-        double *y = (double*) malloc(sizeof(double));
-        double *z = (double*) malloc(sizeof(double));
+    if (mesh != NULL){
+        for (Vert* v0 : verts){
+            double *x = (double*) malloc(sizeof(double));
+            double *y = (double*) malloc(sizeof(double));
+            double *z = (double*) malloc(sizeof(double));
 
-        *x = *(v0->x);
-        *y = *(v0->y);
-        *z = *(v0->z);
+            *x = *(v0->x);
+            *y = *(v0->y);
+            *z = *(v0->z);
 
-        v0->xTransformed = x;
-        v0->yTransformed = y;
-        v0->zTransformed = z;
+            v0->xTransformed = x;
+            v0->yTransformed = y;
+            v0->zTransformed = z;
+        }
+    }
+    else if (group != NULL){
+        for (InstanceNew* i0 : group->instances){
+            for (Vert* v0 : i0->verts){
+                double *x = (double*) malloc(sizeof(double));
+                double *y = (double*) malloc(sizeof(double));
+                double *z = (double*) malloc(sizeof(double));
+
+                *x = *(v0->x);
+                *y = *(v0->y);
+                *z = *(v0->z);
+
+                v0->xTransformed = x;
+                v0->yTransformed = y;
+                v0->zTransformed = z;
+            }
+        }
     }
 }
 
 void InstanceNew::applyTransformation(TransformationNew* t){
-    if (dynamic_cast<Rotate*>(t)){
-        Rotate* rotate = dynamic_cast<Rotate*>(t);
-        for (Vert* v0 : verts){
-            double *x = (double*) malloc(sizeof(double));
-            double *y = (double*) malloc(sizeof(double));
-            double *z = (double*) malloc(sizeof(double));
+    if (mesh != NULL){
+        if (dynamic_cast<Rotate*>(t)){
+            Rotate* rotate = dynamic_cast<Rotate*>(t);
+            for (Vert* v0 : verts){
+                double *x = (double*) malloc(sizeof(double));
+                double *y = (double*) malloc(sizeof(double));
+                double *z = (double*) malloc(sizeof(double));
 
-            // Rotation around an axis
-            // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
-            double radAngle = *rotate->angle * (3.141592f/180.0f);
-            double t = 1 - glm::cos(radAngle);
-            double S = glm::sin(radAngle);
-            double C = glm::cos(radAngle);
+                // Rotation around an axis
+                // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
+                double radAngle = *rotate->angle * (3.141592f/180.0f);
+                double t = 1 - glm::cos(radAngle);
+                double S = glm::sin(radAngle);
+                double C = glm::cos(radAngle);
 
-            double x1 = t * pow(*rotate->x, 2) + C;
-            double x2 = t * *rotate->x * *rotate->y - S * *rotate->z;
-            double x3 = t * *rotate->x * *rotate->z + S * *rotate->y;
-            double y1 = t * *rotate->x * *rotate->y + S * *rotate->z;
-            double y2 = t * pow(*rotate->y, 2) + C;
-            double y3 = t * *rotate->y * *rotate->z - S * *rotate->x;
-            double z1 = t * *rotate->x * *rotate->z - S * *rotate->y;
-            double z2 = t * *rotate->y * *rotate->z + S * *rotate->x;
-            double z3 = t * pow(*rotate->z, 2) + C;
+                double x1 = t * pow(*rotate->x, 2) + C;
+                double x2 = t * *rotate->x * *rotate->y - S * *rotate->z;
+                double x3 = t * *rotate->x * *rotate->z + S * *rotate->y;
+                double y1 = t * *rotate->x * *rotate->y + S * *rotate->z;
+                double y2 = t * pow(*rotate->y, 2) + C;
+                double y3 = t * *rotate->y * *rotate->z - S * *rotate->x;
+                double z1 = t * *rotate->x * *rotate->z - S * *rotate->y;
+                double z2 = t * *rotate->y * *rotate->z + S * *rotate->x;
+                double z3 = t * pow(*rotate->z, 2) + C;
 
-            // Matrix multiplication
-            // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
-            double ax = *v0->xTransformed * x1 + *v0->yTransformed * x2 + *v0->zTransformed * x3;
-            double ay = *v0->xTransformed * y1 + *v0->yTransformed * y2 + *v0->zTransformed * y3;
-            double az = *v0->xTransformed * z1 + *v0->yTransformed * z2 + *v0->zTransformed * z3;
+                // Matrix multiplication
+                // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
+                double ax = *v0->xTransformed * x1 + *v0->yTransformed * x2 + *v0->zTransformed * x3;
+                double ay = *v0->xTransformed * y1 + *v0->yTransformed * y2 + *v0->zTransformed * y3;
+                double az = *v0->xTransformed * z1 + *v0->yTransformed * z2 + *v0->zTransformed * z3;
 
-            *x = ax;
-            *y = ay;
-            *z = az;
-            v0->xTransformed = x;
-            v0->yTransformed = y;
-            v0->zTransformed = z;
+                *x = ax;
+                *y = ay;
+                *z = az;
+                v0->xTransformed = x;
+                v0->yTransformed = y;
+                v0->zTransformed = z;
+            }
+        }
+        else if (dynamic_cast<Scale*>(t)){
+            Scale* scale = dynamic_cast<Scale*>(t);
+            for (Vert* v0 : verts){
+                double *x = (double*) malloc(sizeof(double));
+                double *y = (double*) malloc(sizeof(double));
+                double *z = (double*) malloc(sizeof(double));
+
+                *x = *v0->xTransformed * *scale->x;
+                *y = *v0->yTransformed * *scale->y;
+                *z = *v0->zTransformed * *scale->z;
+                v0->xTransformed = x;
+                v0->yTransformed = y;
+                v0->zTransformed = z;
+            }
+        }
+        else if (dynamic_cast<Translate*>(t)){
+
+            Translate* translate = dynamic_cast<Translate*>(t);
+            for (Vert* v0 : verts){
+                double *x = (double*) malloc(sizeof(double));
+                double *y = (double*) malloc(sizeof(double));
+                double *z = (double*) malloc(sizeof(double));
+
+                *x = *v0->xTransformed + *translate->x;
+                *y = *v0->yTransformed + *translate->y;
+                *z = *v0->zTransformed + *translate->z;
+                v0->xTransformed = x;
+                v0->yTransformed = y;
+                v0->zTransformed = z;
+
+            }
         }
     }
-    else if (dynamic_cast<Scale*>(t)){
-        Scale* scale = dynamic_cast<Scale*>(t);
-        for (Vert* v0 : verts){
-            double *x = (double*) malloc(sizeof(double));
-            double *y = (double*) malloc(sizeof(double));
-            double *z = (double*) malloc(sizeof(double));
-
-            *x = *v0->xTransformed * *scale->x;
-            *y = *v0->yTransformed * *scale->y;
-            *z = *v0->zTransformed * *scale->z;
-            v0->xTransformed = x;
-            v0->yTransformed = y;
-            v0->zTransformed = z;
+    else if (group != NULL){
+        for (InstanceNew* i0 : listInstances){
+            i0->applyTransformation(t);
         }
-    }
-    else if (dynamic_cast<Translate*>(t)){
-
-        Translate* translate = dynamic_cast<Translate*>(t);
-        for (Vert* v0 : verts){
-            double *x = (double*) malloc(sizeof(double));
-            double *y = (double*) malloc(sizeof(double));
-            double *z = (double*) malloc(sizeof(double));
-
-            *x = *v0->xTransformed + *translate->x;
-            *y = *v0->yTransformed + *translate->y;
-            *z = *v0->zTransformed + *translate->z;
-            v0->xTransformed = x;
-            v0->yTransformed = y;
-            v0->zTransformed = z;
-
-        }
-
     }
 }
 

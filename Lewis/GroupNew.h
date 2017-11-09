@@ -14,6 +14,7 @@ public:
     std::list<InstanceNew*> instances;
     bool setName(std::string n);
     bool updateNames();
+    bool draw();
 } GroupNew;
 
 GroupNew* createGroup(std::list<InstanceNew*>);

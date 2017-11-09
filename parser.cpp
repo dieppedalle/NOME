@@ -638,7 +638,7 @@ static const yytype_uint16 yyrline[] =
      154,   154,   154,   158,   200,   233,   266,   276,   277,   280,
      281,   285,   326,   327,   331,   358,   368,   374,   385,   403,
      404,   404,   408,   455,   466,   494,   539,   584,   590,   629,
-     636,   660,   706,   733,   765,   771
+     636,   660,   718,   745,   777,   783
 };
 #endif
 
@@ -2283,27 +2283,39 @@ yyreduce:
         string instanceName = strdup((yyvsp[(2) - (6)].string));
         string lookFor = strdup((yyvsp[(3) - (6)].string));
 
-        //MeshNew * currentMesh = currReader->mesh($<string>3);
         MeshNew * currentMesh = currReader->getMesh((yyvsp[(3) - (6)].string));
 
-        InstanceNew* newInstance;
+        InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh, currSession->verts);
             newInstance->setName(strdup((yyvsp[(2) - (6)].string)));
+
+            newInstance->transformations = currentTransformations;
+            currentTransformations.clear();
+
+            for (TransformationNew * t : newInstance->transformations){
+                newInstance->applyTransformation(t);
+            }
         }
         else{
-            yyerror("Incorrect vertex, face, or mesh name");
-            YYABORT;
+
+            GroupNew * currentGroup = currReader->getGroup((yyvsp[(3) - (6)].string));
+            if (currentGroup != NULL) {
+                newInstance = createInstance(currentGroup, currSession->verts);
+                newInstance->setName(strdup((yyvsp[(2) - (6)].string)));
+            }
+            else{
+                yyerror("Incorrect vertex, face, or mesh name");
+                YYABORT;
+            }
         }
 
-        newInstance->transformations = currentTransformations;
+        /*newInstance->transformations = currentTransformations;
         currentTransformations.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
-
-            //copyStateTransformation(t, &(newInstance->appliedTransformations));
-        }
+        }*/
 
         string surfaceName = (yyvsp[(4) - (6)].string);
         // Check if a surface has been applied.
@@ -2325,7 +2337,7 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 707 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 719 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2354,7 +2366,7 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 734 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 746 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -2388,7 +2400,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 766 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 778 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
 	}
     break;
@@ -2396,7 +2408,7 @@ yyreduce:
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 772 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 784 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -2433,7 +2445,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2437 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
+#line 2449 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

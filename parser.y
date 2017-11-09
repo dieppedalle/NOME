@@ -663,27 +663,39 @@ instance:
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
-        //MeshNew * currentMesh = currReader->mesh($<string>3);
         MeshNew * currentMesh = currReader->getMesh($<string>3);
 
-        InstanceNew* newInstance;
+        InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh, currSession->verts);
             newInstance->setName(strdup($<string>2));
+
+            newInstance->transformations = currentTransformations;
+            currentTransformations.clear();
+
+            for (TransformationNew * t : newInstance->transformations){
+                newInstance->applyTransformation(t);
+            }
         }
         else{
-            yyerror("Incorrect vertex, face, or mesh name");
-            YYABORT;
+
+            GroupNew * currentGroup = currReader->getGroup($<string>3);
+            if (currentGroup != NULL) {
+                newInstance = createInstance(currentGroup, currSession->verts);
+                newInstance->setName(strdup($<string>2));
+            }
+            else{
+                yyerror("Incorrect vertex, face, or mesh name");
+                YYABORT;
+            }
         }
 
-        newInstance->transformations = currentTransformations;
+        /*newInstance->transformations = currentTransformations;
         currentTransformations.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
-
-            //copyStateTransformation(t, &(newInstance->appliedTransformations));
-        }
+        }*/
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.

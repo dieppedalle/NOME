@@ -14,13 +14,16 @@
 //#include "GroupNew.h"
 
 typedef int InstanceI;
-//class GroupNew;
+class GroupNew;
 
 class InstanceNew : public Node
 {
 public:
     MeshNew* mesh = NULL;
-    //GroupNew* group = NULL;
+
+    // This is used only if the instance is an instance of a group.
+    GroupNew* group = NULL;
+    std::list<InstanceNew*> listInstances;
 
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
@@ -47,6 +50,7 @@ bool setSurface(InstanceNew* i0, Surface* surface);
 //Instantiation
 InstanceNew* createInstance(InstanceNew* i0);
 InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef);
+InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef);
 
 
 #endif /* Instance_h */
