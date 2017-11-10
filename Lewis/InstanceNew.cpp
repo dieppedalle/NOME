@@ -40,25 +40,12 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef)
        if (currentMesh != NULL){
            InstanceNew* newInstance;
            newInstance = createInstance(currentMesh, vertsDef);
+           currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
            i0->listInstances.push_back(newInstance);
        }
-
-       //InstanceNew* newInstance;
-       //newInstance = createInstance(currentMesh, vertsDef);
-       //newInstance->setName(currentName);
-       //newInstance->transformations = currentTransformations;
-       //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-       //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-       //listInstances.push_back(newInstance);
    }
-
-   //i0->group = createGroup(listInstances);
 
    return i0;
 }

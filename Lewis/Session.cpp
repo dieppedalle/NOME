@@ -92,7 +92,9 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
                 }
             }
         }
+
         if (selectedVertex != NULL){
+            std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             selectedVertex -> selected = !selectedVertex -> selected;
             //std::cout << selectedVertex->index << std::endl;
             if (selectedVertex -> selected == true){

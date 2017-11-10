@@ -263,15 +263,34 @@ Vert* Reader::getVert(std::string name)
                     return v0;
                 }
             }
+
+            for (InstanceNew* i1 : i0->listInstances){
+                string currentNameInstance = i1->getFullName().substr(i1->getFullName().find(":") + 1);
+                if (currentNameInstance.compare(faceName) == 0){
+                    string afterfaceNameInstance = argAfterName.substr(argAfterName.find(".") + 1);
+                    string faceNameInstance = afterfaceNameInstance.substr(0, afterfaceNameInstance.find("."));
+
+                    for (FaceNew* f0 : i1->faces){
+                        if (f0->name.compare(faceNameInstance) == 0){
+                            string vertName = afterfaceNameInstance.substr(afterfaceNameInstance.find(".") + 1);
+                            for (Vert* v0 : f0->verts){
+                                if (v0->name.compare(vertName) == 0){
+                                    return v0;
+                                }
+                            }
+                        }
+                    }
+
+                    for (Vert* v0 : i1->verts){
+                        if (v0->name.compare(faceNameInstance) == 0){
+                            return v0;
+                        }
+                    }
+                }
+            }
         }
     }
     return NULL;
-    // Check for inside meshes and instances
-    /*if(node->getFullName().find(name) != std::string::npos)
-        return (Vert*) node->vert(name);
-    if(!search(name, 0))
-        return NULL;
-    return (Vert*) node->vert(name);*/
 }
 
 
@@ -296,6 +315,22 @@ std::string Reader::getVertName(int id)
                 return i0->name.substr(i0->name.find(":") + 1) + "." + v0->name;
             }
         }
+
+        // Checking for groups
+        for (InstanceNew* instanceElem : i0->listInstances){
+            for (FaceNew* f0 : instanceElem->faces){
+                for (Vert* v0 : f0->verts){
+                    if (v0->index == id){
+                        return i0->name.substr(i0->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + f0->name + "." + v0->name;
+                    }
+                }
+            }
+            for (Vert* v0 : i0->verts){
+                if (v0->index == id){
+                    return i0->name.substr(instanceElem->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + v0->name;
+                }
+            }
+        }
     }
     return NULL;
 }
@@ -312,6 +347,14 @@ std::string Reader::getFaceName(int id)
         for (FaceNew* f0 : i0->faces){
             if (f0->index == id){
                 return i0->name.substr(i0->name.find(":") + 1) + "." + f0->name;
+            }
+        }
+
+        for (InstanceNew* instanceElem : i0->listInstances){
+            for (FaceNew* f0 : instanceElem->faces){
+                if (f0->index == id){
+                    return i0->name.substr(i0->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + f0->name;
+                }
             }
         }
     }
@@ -332,7 +375,19 @@ Vert* Reader::getVert(int id)
                 return v0;
             }
         }
+
+        // Check for groups
+        for (InstanceNew* iListElem : i0->listInstances){
+            for (Vert* v0 : iListElem->verts){
+                if (v0->index == id){
+                    return v0;
+                }
+            }
+        }
+
     }
+
+
     return NULL;
 }
 
@@ -347,7 +402,17 @@ FaceNew* Reader::getFace(int id){
             if(f0->index == id)
                 return f0;
         }
+
+        for (InstanceNew* iListElem : i0->listInstances){
+            for (FaceNew* f0 : iListElem->faces){
+                if(f0->index == id)
+                    return f0;
+            }
+        }
     }
+
+
+
     return NULL;
 }
 
