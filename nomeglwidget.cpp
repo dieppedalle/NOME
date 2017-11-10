@@ -401,13 +401,9 @@ void SlideGLWidget::paintGL()
         }
     }
 \
-    for (std::list<InstanceNew*>::iterator itMesh = currSession->instances.begin(); itMesh != currSession->instances.end(); itMesh++){
-        (*itMesh)->draw();
-    }
+    currSession->draw();
 
-    if (currSession->tmpInstance != NULL){
-        currSession->tmpInstance->draw();
-    }
+
 
 }
 

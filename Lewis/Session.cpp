@@ -306,3 +306,13 @@ void Session::deleteFace(){
     this->fileContent += "enddelete\n";
     clearSelection();
 }
+
+void Session::draw(){
+    for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+        (*itMesh)->draw();
+    }
+
+    if (tmpInstance != NULL){
+        tmpInstance->draw();
+    }
+}

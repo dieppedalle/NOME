@@ -59,6 +59,7 @@ public:
     void clearSelection();
     void saveFileToStr(std::string fileName);
     void deleteFace();
+    void draw();
 private:
     QPushButton * consolidateButton;
 
