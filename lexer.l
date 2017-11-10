@@ -12,10 +12,13 @@ int yycolumn = 0;
 
 %}
 %option yylineno
+%x MULTI_COMMENT
 
 %%
 (\#(.)*(.|\n))           return COMMENT;
-\(\*(.|\n)*\*\)          return MULTI_LINE_COMMENT;
+"(*"                     { BEGIN(MULTI_COMMENT); }
+<MULTI_COMMENT>"*)"      { BEGIN(INITIAL); }
+<MULTI_COMMENT>.         {}
 [+-]?([0-9]*[.])?[0-9]+  yylval.string=yytext; return NUMBER;
 \$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  yylval.string=strdup(yytext); return BANK_EXPR;
 expr                     return EXPR;

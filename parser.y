@@ -63,8 +63,7 @@ double *getBankValue(std::string str){
 
 
 %}
-%token COLOR VARIABLE MULTI_LINE_COMMENT COMMENT NEWLINE OMULTI_LINE_COMMENT
-EMULTI_LINE_COMMENT SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
+%token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
@@ -98,7 +97,7 @@ commands: /* empty */
 
 
 command:
-	comment | multi_line_comment | mesh | surface | point | face | object | bank |
+    comment | mesh | surface | point | face | object | bank |
   tunnel | funnel | polyline | instance | delete | group | circle
 	;
 
@@ -659,7 +658,6 @@ polyline:
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
-
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
@@ -668,21 +666,12 @@ instance:
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh, currSession->verts);
-            newInstance->setName(strdup($<string>2));
-
-            newInstance->transformations = currentTransformations;
-            currentTransformations.clear();
-
-            for (TransformationNew * t : newInstance->transformations){
-                newInstance->applyTransformation(t);
-            }
         }
         else{
 
             GroupNew * currentGroup = currReader->getGroup($<string>3);
             if (currentGroup != NULL) {
                 newInstance = createInstance(currentGroup, currSession->verts);
-                newInstance->setName(strdup($<string>2));
             }
             else{
                 yyerror("Incorrect vertex, face, or mesh name");
@@ -690,12 +679,13 @@ instance:
             }
         }
 
-        /*newInstance->transformations = currentTransformations;
+        newInstance->setName(strdup($<string>2));
+        newInstance->transformations = currentTransformations;
         currentTransformations.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
-        }*/
+        }
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -770,12 +760,6 @@ surface:
         }
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
-	}
-	;
-
-multi_line_comment:
-	MULTI_LINE_COMMENT
-    {
 	}
 	;
 

@@ -102,7 +102,6 @@ void SlideGLWidget::makeSLFMesh()
 
 void SlideGLWidget::transform_meshes_in_scene()
 {
-    //cout << "MMM" << endl;
     hierarchical_scene_transformed.updateCopyForTransform();
     global_mesh_list = hierarchical_scene_transformed.flattenedMeshes();
     global_polyline_list = hierarchical_scene_transformed.flattenedPolylines();

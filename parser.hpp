@@ -41,109 +41,103 @@
    enum yytokentype {
      COLOR = 258,
      VARIABLE = 259,
-     MULTI_LINE_COMMENT = 260,
-     COMMENT = 261,
-     NEWLINE = 262,
-     OMULTI_LINE_COMMENT = 263,
-     EMULTI_LINE_COMMENT = 264,
-     SURFACE = 265,
-     END_SURFACE = 266,
-     MESH = 267,
-     END_MESH = 268,
-     FACE = 269,
-     END_FACE = 270,
-     BEG_POINT = 271,
-     END_POINT = 272,
-     OBJECT = 273,
-     END_OBJECT = 274,
-     BANK = 275,
-     END_BANK = 276,
-     TUNNEL = 277,
-     END_TUNNEL = 278,
-     FUNNEL = 279,
-     END_FUNNEL = 280,
-     POLYLINE = 281,
-     END_POLYLINE = 282,
-     INSTANCE = 283,
-     END_INSTANCE = 284,
-     CIRCLE = 285,
-     END_CIRCLE = 286,
-     BEG_DELETE = 287,
-     END_DELETE = 288,
-     GROUP = 289,
-     END_GROUP = 290,
-     TRANSLATE = 291,
-     ROTATE = 292,
-     MIRROR = 293,
-     SET = 294,
-     OPARENTHESES = 295,
-     EPARENTHESES = 296,
-     OBRACE = 297,
-     EXPR = 298,
-     DOLLAR = 299,
-     EBRACE = 300,
-     NUMBER = 301,
-     PERIOD = 302,
-     TOKHEAT = 303,
-     STATE = 304,
-     TOKTARGET = 305,
-     TOKTEMPERATURE = 306,
-     BANK_EXPR = 307,
-     SCALE = 308
+     COMMENT = 260,
+     NEWLINE = 261,
+     SURFACE = 262,
+     END_SURFACE = 263,
+     MESH = 264,
+     END_MESH = 265,
+     FACE = 266,
+     END_FACE = 267,
+     BEG_POINT = 268,
+     END_POINT = 269,
+     OBJECT = 270,
+     END_OBJECT = 271,
+     BANK = 272,
+     END_BANK = 273,
+     TUNNEL = 274,
+     END_TUNNEL = 275,
+     FUNNEL = 276,
+     END_FUNNEL = 277,
+     POLYLINE = 278,
+     END_POLYLINE = 279,
+     INSTANCE = 280,
+     END_INSTANCE = 281,
+     CIRCLE = 282,
+     END_CIRCLE = 283,
+     BEG_DELETE = 284,
+     END_DELETE = 285,
+     GROUP = 286,
+     END_GROUP = 287,
+     TRANSLATE = 288,
+     ROTATE = 289,
+     MIRROR = 290,
+     SET = 291,
+     OPARENTHESES = 292,
+     EPARENTHESES = 293,
+     OBRACE = 294,
+     EXPR = 295,
+     DOLLAR = 296,
+     EBRACE = 297,
+     NUMBER = 298,
+     PERIOD = 299,
+     TOKHEAT = 300,
+     STATE = 301,
+     TOKTARGET = 302,
+     TOKTEMPERATURE = 303,
+     BANK_EXPR = 304,
+     SCALE = 305
    };
 #endif
 /* Tokens.  */
 #define COLOR 258
 #define VARIABLE 259
-#define MULTI_LINE_COMMENT 260
-#define COMMENT 261
-#define NEWLINE 262
-#define OMULTI_LINE_COMMENT 263
-#define EMULTI_LINE_COMMENT 264
-#define SURFACE 265
-#define END_SURFACE 266
-#define MESH 267
-#define END_MESH 268
-#define FACE 269
-#define END_FACE 270
-#define BEG_POINT 271
-#define END_POINT 272
-#define OBJECT 273
-#define END_OBJECT 274
-#define BANK 275
-#define END_BANK 276
-#define TUNNEL 277
-#define END_TUNNEL 278
-#define FUNNEL 279
-#define END_FUNNEL 280
-#define POLYLINE 281
-#define END_POLYLINE 282
-#define INSTANCE 283
-#define END_INSTANCE 284
-#define CIRCLE 285
-#define END_CIRCLE 286
-#define BEG_DELETE 287
-#define END_DELETE 288
-#define GROUP 289
-#define END_GROUP 290
-#define TRANSLATE 291
-#define ROTATE 292
-#define MIRROR 293
-#define SET 294
-#define OPARENTHESES 295
-#define EPARENTHESES 296
-#define OBRACE 297
-#define EXPR 298
-#define DOLLAR 299
-#define EBRACE 300
-#define NUMBER 301
-#define PERIOD 302
-#define TOKHEAT 303
-#define STATE 304
-#define TOKTARGET 305
-#define TOKTEMPERATURE 306
-#define BANK_EXPR 307
-#define SCALE 308
+#define COMMENT 260
+#define NEWLINE 261
+#define SURFACE 262
+#define END_SURFACE 263
+#define MESH 264
+#define END_MESH 265
+#define FACE 266
+#define END_FACE 267
+#define BEG_POINT 268
+#define END_POINT 269
+#define OBJECT 270
+#define END_OBJECT 271
+#define BANK 272
+#define END_BANK 273
+#define TUNNEL 274
+#define END_TUNNEL 275
+#define FUNNEL 276
+#define END_FUNNEL 277
+#define POLYLINE 278
+#define END_POLYLINE 279
+#define INSTANCE 280
+#define END_INSTANCE 281
+#define CIRCLE 282
+#define END_CIRCLE 283
+#define BEG_DELETE 284
+#define END_DELETE 285
+#define GROUP 286
+#define END_GROUP 287
+#define TRANSLATE 288
+#define ROTATE 289
+#define MIRROR 290
+#define SET 291
+#define OPARENTHESES 292
+#define EPARENTHESES 293
+#define OBRACE 294
+#define EXPR 295
+#define DOLLAR 296
+#define EBRACE 297
+#define NUMBER 298
+#define PERIOD 299
+#define TOKHEAT 300
+#define STATE 301
+#define TOKTARGET 302
+#define TOKTEMPERATURE 303
+#define BANK_EXPR 304
+#define SCALE 305
 
 
 
@@ -153,7 +147,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 78 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
 
     double number;
     char *string;
@@ -165,7 +159,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 169 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
+#line 163 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
