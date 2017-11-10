@@ -86,7 +86,11 @@
      TOKTARGET = 302,
      TOKTEMPERATURE = 303,
      BANK_EXPR = 304,
-     SCALE = 305
+     SCALE = 305,
+     SUBDIVISION = 306,
+     END_SUBDIVISION = 307,
+     SUBDIVISIONS = 308,
+     TYPE = 309
    };
 #endif
 /* Tokens.  */
@@ -138,6 +142,10 @@
 #define TOKTEMPERATURE 303
 #define BANK_EXPR 304
 #define SCALE 305
+#define SUBDIVISION 306
+#define END_SUBDIVISION 307
+#define SUBDIVISIONS 308
+#define TYPE 309
 
 
 
@@ -159,7 +167,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 163 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
+#line 171 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

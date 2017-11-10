@@ -37,6 +37,8 @@ public:
     std::string name;
     std::string fileContent;
 
+    MeshNew* flattenMesh;
+
     int tmpFaceIndex = 0;
 
     std::list<Vert*> selectedVerts;

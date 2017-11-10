@@ -68,7 +68,7 @@ END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE NUMBER PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE BANK_EXPR
-SCALE
+SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE;
 
 %error-verbose
 %locations
@@ -98,7 +98,7 @@ commands: /* empty */
 
 command:
     comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | instance | delete | group | circle
+  tunnel | funnel | polyline | instance | delete | group | circle | subdivision
 	;
 
 numberValue:
@@ -325,6 +325,12 @@ instanceGroup:
 faceDeleteArgs:
 	| faceDeleteArgs faceDelete
 	;
+
+subdivision:
+    SUBDIVISION VARIABLE TYPE VARIABLE SUBDIVISIONS numberValue END_SUBDIVISION
+    {
+        std::cout << "HEEEEEELLLLLLO" << std::endl;
+    };
 
 mesh:
 	MESH VARIABLE faceArgs END_MESH
