@@ -38,6 +38,8 @@ public:
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);
 
+    bool drawFaces();
+
     bool setName(std::string n);
     bool updateNames();
 

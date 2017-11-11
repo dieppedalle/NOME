@@ -15,6 +15,7 @@
 #include "CircleNew.h"
 #include "FunnelNew.h"
 #include "TunnelNew.h"
+#include "SubdivisionNew.h"
 
 typedef struct Session
 {
@@ -34,6 +35,7 @@ public:
     std::list<FunnelNew*> funnels;
     std::list<TunnelNew*> tunnels;
     std::list<BankNew*> banks;
+    std::list<SubdivisionNew*> subdivisions;
     std::string name;
     std::string fileContent;
 
@@ -62,6 +64,8 @@ public:
     void saveFileToStr(std::string fileName);
     void deleteFace();
     void draw();
+    void drawSubdivide(int subdivision);
+    void createFlattenMesh();
 private:
     QPushButton * consolidateButton;
 

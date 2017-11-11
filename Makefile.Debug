@@ -86,7 +86,8 @@ SOURCES       = main.cpp \
 		Lewis\CircleNew.cpp \
 		Lewis\FunnelNew.cpp \
 		Lewis\TunnelNew.cpp \
-		Lewis\ConsolidateWindow.cpp debug\moc_controlpanel.cpp \
+		Lewis\ConsolidateWindow.cpp \
+		Lewis\SubdivisionNew.cpp debug\moc_controlpanel.cpp \
 		debug\moc_mainwindow.cpp \
 		debug\moc_sliderpanel.cpp \
 		debug\moc_myslider.cpp \
@@ -137,6 +138,7 @@ OBJECTS       = debug/main.o \
 		debug/FunnelNew.o \
 		debug/TunnelNew.o \
 		debug/ConsolidateWindow.o \
+		debug/SubdivisionNew.o \
 		debug/moc_controlpanel.o \
 		debug/moc_mainwindow.o \
 		debug/moc_sliderpanel.o \
@@ -190,7 +192,8 @@ DIST          =  edge.h \
 		Lewis\CircleNew.h \
 		Lewis\FunnelNew.h \
 		Lewis\TunnelNew.h \
-		Lewis\ConsolidateWindow.h main.cpp \
+		Lewis\ConsolidateWindow.h \
+		Lewis\SubdivisionNew.h main.cpp \
 		edge.cpp \
 		vertex.cpp \
 		face.cpp \
@@ -233,7 +236,8 @@ DIST          =  edge.h \
 		Lewis\CircleNew.cpp \
 		Lewis\FunnelNew.cpp \
 		Lewis\TunnelNew.cpp \
-		Lewis\ConsolidateWindow.cpp
+		Lewis\ConsolidateWindow.cpp \
+		Lewis\SubdivisionNew.cpp
 QMAKE_TARGET  = NOME
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = NOME.exe
@@ -256,10 +260,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) NOME.zip $(SOURCES) $(DIST) slide2016.pro C:\Qt\5.8\mingw53_32\mkspecs\features\spec_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\qdevice.pri C:\Qt\5.8\mingw53_32\mkspecs\features\device_config.prf C:\Qt\5.8\mingw53_32\mkspecs\common\angle.conf C:\Qt\5.8\mingw53_32\mkspecs\qconfig.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.8\mingw53_32\mkspecs\features\qt_functions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt_config.prf C:\Qt\5.8\mingw53_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.8\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.8\mingw53_32\mkspecs\features\toolchain.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resolve_config.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\build_pass.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\console.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\rtti.prf C:\Qt\5.8\mingw53_32\mkspecs\features\precompile_header.prf C:\Qt\5.8\mingw53_32\mkspecs\features\warn_on.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resources.prf C:\Qt\5.8\mingw53_32\mkspecs\features\moc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\opengl.prf C:\Qt\5.8\mingw53_32\mkspecs\features\uic.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qmake_use.prf C:\Qt\5.8\mingw53_32\mkspecs\features\file_copies.prf C:\Qt\5.8\mingw53_32\mkspecs\features\testcase_targets.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exceptions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\yacc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\lex.prf slide2016.pro C:\Qt\5.8\mingw53_32\lib\Qt5OpenGLd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Widgetsd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Guid.prl C:\Qt\5.8\mingw53_32\lib\Qt5Cored.prl    C:\Qt\5.8\mingw53_32\mkspecs\features\data\dummy.cpp edge.h vertex.h face.h mesh.h polyline.h transformation.h merge.h makeMesh.h subdivison.h offset.h stl.h zipper.h makePolyline.h myselection.h controlpanel.h mainwindow.h group.h makegroup.h sliderpanel.h parameter.h myslider.h parameterbank.h utils.h nomeparser.h nomeglwidget.h bspline.h lexer.l parser.y Lewis\Data.h Lewis\IO.h Lewis\Reader.h Lewis\Session.h parser.hpp testpolyline.h Lewis\GroupNew.h Lewis\InstanceNew.h Lewis\MeshNew.h Lewis\Node.h Lewis\TransformationNew.h Lewis\BankNew.h Lewis\SliderNew.h Lewis\PolylineNew.h Lewis\CircleNew.h Lewis\FunnelNew.h Lewis\TunnelNew.h Lewis\ConsolidateWindow.h main.cpp edge.cpp vertex.cpp face.cpp mesh.cpp polyline.cpp merge.cpp transformation.cpp makeMesh.cpp subdivision.cpp offset.cpp stl.cpp zipper.cpp makePolyline.cpp myselection.cpp controlpanel.cpp mainwindow.cpp group.cpp makegroup.cpp sliderpanel.cpp parameter.cpp myslider.cpp parameterbank.cpp utils.cpp nomeparser.cpp nomeglwidget.cpp bspline.cpp Lewis\Data.cpp Lewis\IO.cpp Lewis\Reader.cpp Lewis\Session.cpp testpolyline.cpp Lewis\GroupNew.cpp Lewis\InstanceNew.cpp Lewis\MeshNew.cpp Lewis\Node.cpp Lewis\TransformationNew.cpp Lewis\BankNew.cpp Lewis\SliderNew.cpp Lewis\PolylineNew.cpp Lewis\CircleNew.cpp Lewis\FunnelNew.cpp Lewis\TunnelNew.cpp Lewis\ConsolidateWindow.cpp     
+	$(ZIP) NOME.zip $(SOURCES) $(DIST) slide2016.pro C:\Qt\5.8\mingw53_32\mkspecs\features\spec_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\qdevice.pri C:\Qt\5.8\mingw53_32\mkspecs\features\device_config.prf C:\Qt\5.8\mingw53_32\mkspecs\common\angle.conf C:\Qt\5.8\mingw53_32\mkspecs\qconfig.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.8\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.8\mingw53_32\mkspecs\features\qt_functions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt_config.prf C:\Qt\5.8\mingw53_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.8\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.8\mingw53_32\mkspecs\features\toolchain.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\default_pre.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resolve_config.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\default_post.prf C:\Qt\5.8\mingw53_32\mkspecs\features\build_pass.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\console.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\rtti.prf C:\Qt\5.8\mingw53_32\mkspecs\features\precompile_header.prf C:\Qt\5.8\mingw53_32\mkspecs\features\warn_on.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qt.prf C:\Qt\5.8\mingw53_32\mkspecs\features\resources.prf C:\Qt\5.8\mingw53_32\mkspecs\features\moc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\win32\opengl.prf C:\Qt\5.8\mingw53_32\mkspecs\features\uic.prf C:\Qt\5.8\mingw53_32\mkspecs\features\qmake_use.prf C:\Qt\5.8\mingw53_32\mkspecs\features\file_copies.prf C:\Qt\5.8\mingw53_32\mkspecs\features\testcase_targets.prf C:\Qt\5.8\mingw53_32\mkspecs\features\exceptions.prf C:\Qt\5.8\mingw53_32\mkspecs\features\yacc.prf C:\Qt\5.8\mingw53_32\mkspecs\features\lex.prf slide2016.pro C:\Qt\5.8\mingw53_32\lib\Qt5OpenGLd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Widgetsd.prl C:\Qt\5.8\mingw53_32\lib\Qt5Guid.prl C:\Qt\5.8\mingw53_32\lib\Qt5Cored.prl    C:\Qt\5.8\mingw53_32\mkspecs\features\data\dummy.cpp edge.h vertex.h face.h mesh.h polyline.h transformation.h merge.h makeMesh.h subdivison.h offset.h stl.h zipper.h makePolyline.h myselection.h controlpanel.h mainwindow.h group.h makegroup.h sliderpanel.h parameter.h myslider.h parameterbank.h utils.h nomeparser.h nomeglwidget.h bspline.h lexer.l parser.y Lewis\Data.h Lewis\IO.h Lewis\Reader.h Lewis\Session.h parser.hpp testpolyline.h Lewis\GroupNew.h Lewis\InstanceNew.h Lewis\MeshNew.h Lewis\Node.h Lewis\TransformationNew.h Lewis\BankNew.h Lewis\SliderNew.h Lewis\PolylineNew.h Lewis\CircleNew.h Lewis\FunnelNew.h Lewis\TunnelNew.h Lewis\ConsolidateWindow.h Lewis\SubdivisionNew.h main.cpp edge.cpp vertex.cpp face.cpp mesh.cpp polyline.cpp merge.cpp transformation.cpp makeMesh.cpp subdivision.cpp offset.cpp stl.cpp zipper.cpp makePolyline.cpp myselection.cpp controlpanel.cpp mainwindow.cpp group.cpp makegroup.cpp sliderpanel.cpp parameter.cpp myslider.cpp parameterbank.cpp utils.cpp nomeparser.cpp nomeglwidget.cpp bspline.cpp Lewis\Data.cpp Lewis\IO.cpp Lewis\Reader.cpp Lewis\Session.cpp testpolyline.cpp Lewis\GroupNew.cpp Lewis\InstanceNew.cpp Lewis\MeshNew.cpp Lewis\Node.cpp Lewis\TransformationNew.cpp Lewis\BankNew.cpp Lewis\SliderNew.cpp Lewis\PolylineNew.cpp Lewis\CircleNew.cpp Lewis\FunnelNew.cpp Lewis\TunnelNew.cpp Lewis\ConsolidateWindow.cpp Lewis\SubdivisionNew.cpp     
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\main.o debug\edge.o debug\vertex.o debug\face.o debug\mesh.o debug\polyline.o debug\merge.o debug\transformation.o debug\makeMesh.o debug\subdivision.o debug\offset.o debug\stl.o debug\zipper.o debug\makePolyline.o debug\myselection.o debug\controlpanel.o debug\mainwindow.o debug\group.o debug\makegroup.o debug\sliderpanel.o debug\parameter.o debug\myslider.o debug\parameterbank.o debug\utils.o debug\nomeparser.o debug\nomeglwidget.o debug\bspline.o debug\Data.o debug\IO.o debug\Reader.o debug\Session.o debug\testpolyline.o debug\GroupNew.o debug\InstanceNew.o debug\MeshNew.o debug\Node.o debug\TransformationNew.o debug\BankNew.o debug\SliderNew.o debug\PolylineNew.o debug\CircleNew.o debug\FunnelNew.o debug\TunnelNew.o debug\ConsolidateWindow.o debug\moc_controlpanel.o debug\moc_mainwindow.o debug\moc_sliderpanel.o debug\moc_myslider.o debug\moc_nomeglwidget.o debug\moc_SliderNew.o debug\moc_ConsolidateWindow.o
+	-$(DEL_FILE) debug\main.o debug\edge.o debug\vertex.o debug\face.o debug\mesh.o debug\polyline.o debug\merge.o debug\transformation.o debug\makeMesh.o debug\subdivision.o debug\offset.o debug\stl.o debug\zipper.o debug\makePolyline.o debug\myselection.o debug\controlpanel.o debug\mainwindow.o debug\group.o debug\makegroup.o debug\sliderpanel.o debug\parameter.o debug\myslider.o debug\parameterbank.o debug\utils.o debug\nomeparser.o debug\nomeglwidget.o debug\bspline.o debug\Data.o debug\IO.o debug\Reader.o debug\Session.o debug\testpolyline.o debug\GroupNew.o debug\InstanceNew.o debug\MeshNew.o debug\Node.o debug\TransformationNew.o debug\BankNew.o debug\SliderNew.o debug\PolylineNew.o debug\CircleNew.o debug\FunnelNew.o debug\TunnelNew.o debug\ConsolidateWindow.o debug\SubdivisionNew.o debug\moc_controlpanel.o debug\moc_mainwindow.o debug\moc_sliderpanel.o debug\moc_myslider.o debug\moc_nomeglwidget.o debug\moc_SliderNew.o debug\moc_ConsolidateWindow.o
 	-$(DEL_FILE) debug\NOME_resource_res.o
 
 distclean: clean 
@@ -894,13 +898,15 @@ debug/moc_controlpanel.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QWidget \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
 		controlpanel.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.8/mingw53_32/bin/moc.exe
@@ -1500,24 +1506,26 @@ debug/moc_mainwindow.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QMainWindow \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		controlpanel.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QGroupBox \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QRadioButton \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QComboBox \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QColorDialog \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
@@ -2127,13 +2135,17 @@ debug/moc_sliderpanel.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QWidget \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		sliderpanel.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.8/mingw53_32/bin/moc.exe
@@ -2852,13 +2864,20 @@ debug/moc_nomeglwidget.cpp: C:/Qt/5.8/mingw53_32/include/QtWidgets/QMainWindow \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		nomeglwidget.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.8/mingw53_32/bin/moc.exe
@@ -3462,12 +3481,16 @@ debug/moc_SliderNew.cpp: C:/Qt/5.8/mingw53_32/include/QtGui/QtGui \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		Lewis/SliderNew.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.8/mingw53_32/bin/moc.exe
@@ -3806,277 +3829,15 @@ debug/moc_ConsolidateWindow.cpp: C:/Qt/5.8/mingw53_32/include/QtGui/QtGui \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlabel.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qframe.h \
-		nomeglwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QtOpenGL \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QtOpenGLDepends \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QtWidgets \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QtWidgetsDepends \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstyleoption.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstyle.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtabbar.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qrubberband.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qaccessiblewidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qaction.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qactiongroup.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qapplication.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdesktopwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qbuttongroup.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcalendarwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcheckbox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcolordialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcolormap.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcolumnview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcombobox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcommandlinkbutton.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qpushbutton.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcommonstyle.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdatawidgetmapper.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdatetimeedit.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdial.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdialogbuttonbox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdirmodel.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qfileiconprovider.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdockwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdrawutil.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qerrormessage.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qfiledialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qfilesystemmodel.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qfocusframe.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qfontcombobox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qfontdialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qformlayout.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgesture.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgesturerecognizer.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsanchorlayout.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsitem.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicslayout.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicslayoutitem.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicseffect.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsgridlayout.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsitemanimation.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicslinearlayout.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsproxywidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicswidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsscene.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicssceneevent.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicstransform.h \
-		C:/Qt/5.8/mingw53_32/include/QtGui/QVector3D \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgraphicsview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qscrollarea.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgroupbox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qheaderview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qinputdialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlineedit.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qitemdelegate.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qitemeditorfactory.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qkeyeventtransition.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qkeysequenceedit.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlcdnumber.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlistview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlistwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qmdiarea.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qmdisubwindow.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qmenu.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qmenubar.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qmessagebox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qmouseeventtransition.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qopenglwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qplaintextedit.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtextedit.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qprogressbar.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qprogressdialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qproxystyle.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCommonStyle \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qradiobutton.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qscrollbar.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qscroller.h \
-		C:/Qt/5.8/mingw53_32/include/QtCore/QPointF \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QScrollerProperties \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qscrollerproperties.h \
-		C:/Qt/5.8/mingw53_32/include/QtCore/QMetaType \
-		C:/Qt/5.8/mingw53_32/include/QtCore/QVariant \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qshortcut.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qsizegrip.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qspinbox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qsplashscreen.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qsplitter.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstackedlayout.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstackedwidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstatusbar.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstyleditemdelegate.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstylefactory.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstylepainter.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstyleplugin.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qsystemtrayicon.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtableview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtablewidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtextbrowser.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtoolbar.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtoolbox.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtoolbutton.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtooltip.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtreeview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtreewidget.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtreewidgetitemiterator.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qundogroup.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qundostack.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qundoview.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qwhatsthis.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qwidgetaction.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qwizard.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtwidgetsversion.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglglobal.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qgl.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglcolormap.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglbuffer.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglframebufferobject.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglfunctions.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglpixelbuffer.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglshaderprogram.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglversion.h \
-		mesh.h \
-		glm/glm.hpp \
-		glm/detail/_fixes.hpp \
-		glm/fwd.hpp \
-		glm/detail/type_int.hpp \
-		glm/detail/setup.hpp \
-		glm/simd/platform.h \
-		glm/detail/type_float.hpp \
-		glm/detail/type_vec.hpp \
-		glm/detail/precision.hpp \
-		glm/detail/type_mat.hpp \
-		glm/vec2.hpp \
-		glm/detail/type_vec2.hpp \
-		glm/detail/_swizzle.hpp \
-		glm/detail/_swizzle_func.hpp \
-		glm/detail/type_vec2.inl \
-		glm/vec3.hpp \
-		glm/detail/type_vec3.hpp \
-		glm/detail/type_vec3.inl \
-		glm/vec4.hpp \
-		glm/detail/type_vec4.hpp \
-		glm/detail/type_vec4.inl \
-		glm/detail/type_vec4_simd.inl \
-		glm/mat2x2.hpp \
-		glm/detail/type_mat2x2.hpp \
-		glm/detail/type_mat2x2.inl \
-		glm/detail/func_matrix.hpp \
-		glm/mat2x3.hpp \
-		glm/detail/type_mat2x3.hpp \
-		glm/detail/type_mat2x3.inl \
-		glm/mat2x4.hpp \
-		glm/detail/type_mat2x4.hpp \
-		glm/detail/type_mat2x4.inl \
-		glm/mat3x2.hpp \
-		glm/detail/type_mat3x2.hpp \
-		glm/detail/type_mat3x2.inl \
-		glm/mat3x3.hpp \
-		glm/detail/type_mat3x3.hpp \
-		glm/detail/type_mat3x3.inl \
-		glm/mat3x4.hpp \
-		glm/detail/type_mat3x4.hpp \
-		glm/detail/type_mat3x4.inl \
-		glm/mat4x2.hpp \
-		glm/detail/type_mat4x2.hpp \
-		glm/detail/type_mat4x2.inl \
-		glm/mat4x3.hpp \
-		glm/detail/type_mat4x3.hpp \
-		glm/detail/type_mat4x3.inl \
-		glm/mat4x4.hpp \
-		glm/detail/type_mat4x4.hpp \
-		glm/detail/type_mat4x4.inl \
-		glm/detail/type_mat4x4_simd.inl \
-		glm/detail/func_matrix.inl \
-		glm/geometric.hpp \
-		glm/detail/func_geometric.hpp \
-		glm/detail/func_geometric.inl \
-		glm/detail/func_exponential.hpp \
-		glm/detail/type_vec1.hpp \
-		glm/detail/type_vec1.inl \
-		glm/detail/func_exponential.inl \
-		glm/detail/func_vector_relational.hpp \
-		glm/detail/func_vector_relational.inl \
-		glm/detail/func_vector_relational_simd.inl \
-		glm/detail/_vectorize.hpp \
-		glm/detail/func_exponential_simd.inl \
-		glm/simd/exponential.h \
-		glm/detail/func_common.hpp \
-		glm/detail/func_common.inl \
-		glm/detail/func_common_simd.inl \
-		glm/simd/common.h \
-		glm/detail/func_geometric_simd.inl \
-		glm/simd/geometric.h \
-		glm/detail/func_matrix_simd.inl \
-		glm/simd/matrix.h \
-		glm/trigonometric.hpp \
-		glm/detail/func_trigonometric.hpp \
-		glm/detail/func_trigonometric.inl \
-		glm/detail/func_trigonometric_simd.inl \
-		glm/exponential.hpp \
-		glm/common.hpp \
-		glm/packing.hpp \
-		glm/detail/func_packing.hpp \
-		glm/detail/func_packing.inl \
-		glm/detail/type_half.hpp \
-		glm/detail/type_half.inl \
-		glm/detail/func_packing_simd.inl \
-		glm/matrix.hpp \
-		glm/vector_relational.hpp \
-		glm/integer.hpp \
-		glm/detail/func_integer.hpp \
-		glm/detail/func_integer.inl \
-		glm/detail/func_integer_simd.inl \
-		glm/simd/integer.h \
-		glm/gtc/constants.hpp \
-		glm/gtc/constants.inl \
-		face.h \
-		edge.h \
-		vertex.h \
-		utils.h \
-		parameter.h \
-		C:/Qt/5.8/mingw53_32/include/QtCore/QString \
-		C:/Qt/5.8/mingw53_32/include/QtGui/QColor \
-		transformation.h \
-		glm/gtx/transform.hpp \
-		glm/gtc/matrix_transform.hpp \
-		glm/gtc/matrix_transform.inl \
-		glm/gtx/transform.inl \
-		makeMesh.h \
-		glm/gtx/rotate_vector.hpp \
-		glm/gtx/rotate_vector.inl \
-		merge.h \
-		polyline.h \
-		group.h \
-		bspline.h \
-		makegroup.h \
-		myselection.h \
-		subdivison.h \
-		stl.h \
-		offset.h \
-		zipper.h \
-		parameterbank.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QMessageBox \
-		Lewis/Session.h \
-		Lewis/Data.h \
-		Lewis/IO.h \
-		Lewis/Node.h \
-		Lewis/MeshNew.h \
-		Lewis/GroupNew.h \
-		Lewis/InstanceNew.h \
-		Lewis/TransformationNew.h \
-		Lewis/ObjectNew.h \
-		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
-		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglglobal.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		Lewis/ConsolidateWindow.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.8/mingw53_32/bin/moc.exe
@@ -4693,24 +4454,26 @@ debug/main.o: main.cpp mainwindow.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		controlpanel.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QGroupBox \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QRadioButton \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QComboBox \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QColorDialog \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
@@ -12093,13 +11856,15 @@ debug/controlpanel.o: controlpanel.cpp controlpanel.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h
+		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\controlpanel.o controlpanel.cpp
 
 debug/mainwindow.o: mainwindow.cpp mainwindow.h \
@@ -12697,24 +12462,26 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		controlpanel.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QGroupBox \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QRadioButton \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QComboBox \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QColorDialog \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QStatusBar \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QCheckBox \
 		nomeparser.h \
@@ -14481,13 +14248,17 @@ debug/sliderpanel.o: sliderpanel.cpp sliderpanel.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h
+		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\sliderpanel.o sliderpanel.cpp
 
 debug/parameter.o: parameter.cpp parameter.h \
@@ -16392,13 +16163,20 @@ debug/nomeparser.o: nomeparser.cpp nomeparser.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
 		lexer.cpp \
 		parser.hpp \
 		parser.cpp \
@@ -17000,13 +16778,20 @@ debug/nomeglwidget.o: nomeglwidget.cpp nomeparser.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h
+		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QSlider \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\nomeglwidget.o nomeglwidget.cpp
 
 debug/bspline.o: bspline.cpp bspline.h \
@@ -18528,11 +18313,11 @@ debug/Reader.o: Lewis/Reader.cpp Lewis/Reader.h \
 		Lewis/Session.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\Reader.o Lewis\Reader.cpp
@@ -19008,11 +18793,11 @@ debug/Session.o: Lewis/Session.cpp Lewis/Session.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/BankNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
 		Lewis/TunnelNew.h \
 		Lewis/Reader.h \
@@ -20155,6 +19940,7 @@ debug/GroupNew.o: Lewis/GroupNew.cpp Lewis/GroupNew.h \
 		Lewis/IO.h \
 		Lewis/Node.h \
 		Lewis/MeshNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\GroupNew.o Lewis\GroupNew.cpp
 
@@ -20719,7 +20505,11 @@ debug/InstanceNew.o: Lewis/InstanceNew.cpp glm/glm.hpp \
 		Lewis/Node.h \
 		Lewis/InstanceNew.h \
 		Lewis/MeshNew.h \
-		Lewis/TransformationNew.h
+		Lewis/CircleNew.h \
+		Lewis/TransformationNew.h \
+		Lewis/FunnelNew.h \
+		Lewis/TunnelNew.h \
+		Lewis/GroupNew.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\InstanceNew.o Lewis\InstanceNew.cpp
 
 debug/MeshNew.o: Lewis/MeshNew.cpp Lewis/MeshNew.h \
@@ -21844,12 +21634,16 @@ debug/BankNew.o: Lewis/BankNew.cpp Lewis/BankNew.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h
+		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\BankNew.o Lewis\BankNew.cpp
 
 debug/SliderNew.o: Lewis/SliderNew.cpp Lewis/SliderNew.h \
@@ -22451,12 +22245,16 @@ debug/SliderNew.o: Lewis/SliderNew.cpp Lewis/SliderNew.h \
 		Lewis/MeshNew.h \
 		Lewis/GroupNew.h \
 		Lewis/InstanceNew.h \
+		Lewis/CircleNew.h \
 		Lewis/TransformationNew.h \
 		Lewis/ObjectNew.h \
 		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
 		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h
+		Lewis/TunnelNew.h \
+		Lewis/ConsolidateWindow.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\SliderNew.o Lewis\SliderNew.cpp
 
 debug/PolylineNew.o: Lewis/PolylineNew.cpp Lewis/PolylineNew.h \
@@ -24619,7 +24417,7 @@ debug/TunnelNew.o: Lewis/TunnelNew.cpp Lewis/TunnelNew.h \
 		glm/simd/integer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\TunnelNew.o Lewis\TunnelNew.cpp
 
-debug/ConsolidateWindow.o: Lewis/ConsolidateWindow.cpp Lewis/SliderNew.h \
+debug/ConsolidateWindow.o: Lewis/ConsolidateWindow.cpp Lewis/ConsolidateWindow.h \
 		C:/Qt/5.8/mingw53_32/include/QtGui/QtGui \
 		C:/Qt/5.8/mingw53_32/include/QtGui/QtGuiDepends \
 		C:/Qt/5.8/mingw53_32/include/QtCore/QtCore \
@@ -24953,12 +24751,21 @@ debug/ConsolidateWindow.o: Lewis/ConsolidateWindow.cpp Lewis/SliderNew.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLabel \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlabel.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qframe.h \
-		nomeglwidget.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QGLWidget \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qgl.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglcolormap.h \
+		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglglobal.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QLineEdit \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlineedit.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QPushButton \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractbutton.h \
+		Lewis/Data.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/QColor \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QtOpenGL \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/QtOpenGLDepends \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QtWidgets \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/QtWidgetsDepends \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractitemdelegate.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qstyleoption.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qabstractspinbox.h \
@@ -24981,7 +24788,6 @@ debug/ConsolidateWindow.o: Lewis/ConsolidateWindow.cpp Lewis/SliderNew.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcolumnview.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcombobox.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcommandlinkbutton.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qpushbutton.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcommonstyle.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qdatawidgetmapper.h \
@@ -25021,7 +24827,6 @@ debug/ConsolidateWindow.o: Lewis/ConsolidateWindow.cpp Lewis/SliderNew.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qgroupbox.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qheaderview.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qinputdialog.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/qlineedit.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qitemdelegate.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qitemeditorfactory.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qkeyeventtransition.h \
@@ -25080,151 +24885,119 @@ debug/ConsolidateWindow.o: Lewis/ConsolidateWindow.cpp Lewis/SliderNew.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qwidgetaction.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qwizard.h \
 		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtwidgetsversion.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglglobal.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qgl.h \
-		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglcolormap.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglbuffer.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglframebufferobject.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglfunctions.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglpixelbuffer.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qglshaderprogram.h \
 		C:/Qt/5.8/mingw53_32/include/QtOpenGL/qtopenglversion.h \
-		mesh.h \
-		glm/glm.hpp \
-		glm/detail/_fixes.hpp \
-		glm/fwd.hpp \
-		glm/detail/type_int.hpp \
-		glm/detail/setup.hpp \
-		glm/simd/platform.h \
-		glm/detail/type_float.hpp \
-		glm/detail/type_vec.hpp \
-		glm/detail/precision.hpp \
-		glm/detail/type_mat.hpp \
-		glm/vec2.hpp \
-		glm/detail/type_vec2.hpp \
-		glm/detail/_swizzle.hpp \
-		glm/detail/_swizzle_func.hpp \
-		glm/detail/type_vec2.inl \
-		glm/vec3.hpp \
-		glm/detail/type_vec3.hpp \
-		glm/detail/type_vec3.inl \
-		glm/vec4.hpp \
-		glm/detail/type_vec4.hpp \
-		glm/detail/type_vec4.inl \
-		glm/detail/type_vec4_simd.inl \
-		glm/mat2x2.hpp \
-		glm/detail/type_mat2x2.hpp \
-		glm/detail/type_mat2x2.inl \
-		glm/detail/func_matrix.hpp \
-		glm/mat2x3.hpp \
-		glm/detail/type_mat2x3.hpp \
-		glm/detail/type_mat2x3.inl \
-		glm/mat2x4.hpp \
-		glm/detail/type_mat2x4.hpp \
-		glm/detail/type_mat2x4.inl \
-		glm/mat3x2.hpp \
-		glm/detail/type_mat3x2.hpp \
-		glm/detail/type_mat3x2.inl \
-		glm/mat3x3.hpp \
-		glm/detail/type_mat3x3.hpp \
-		glm/detail/type_mat3x3.inl \
-		glm/mat3x4.hpp \
-		glm/detail/type_mat3x4.hpp \
-		glm/detail/type_mat3x4.inl \
-		glm/mat4x2.hpp \
-		glm/detail/type_mat4x2.hpp \
-		glm/detail/type_mat4x2.inl \
-		glm/mat4x3.hpp \
-		glm/detail/type_mat4x3.hpp \
-		glm/detail/type_mat4x3.inl \
-		glm/mat4x4.hpp \
-		glm/detail/type_mat4x4.hpp \
-		glm/detail/type_mat4x4.inl \
-		glm/detail/type_mat4x4_simd.inl \
-		glm/detail/func_matrix.inl \
-		glm/geometric.hpp \
-		glm/detail/func_geometric.hpp \
-		glm/detail/func_geometric.inl \
-		glm/detail/func_exponential.hpp \
-		glm/detail/type_vec1.hpp \
-		glm/detail/type_vec1.inl \
-		glm/detail/func_exponential.inl \
-		glm/detail/func_vector_relational.hpp \
-		glm/detail/func_vector_relational.inl \
-		glm/detail/func_vector_relational_simd.inl \
-		glm/detail/_vectorize.hpp \
-		glm/detail/func_exponential_simd.inl \
-		glm/simd/exponential.h \
-		glm/detail/func_common.hpp \
-		glm/detail/func_common.inl \
-		glm/detail/func_common_simd.inl \
-		glm/simd/common.h \
-		glm/detail/func_geometric_simd.inl \
-		glm/simd/geometric.h \
-		glm/detail/func_matrix_simd.inl \
-		glm/simd/matrix.h \
-		glm/trigonometric.hpp \
-		glm/detail/func_trigonometric.hpp \
-		glm/detail/func_trigonometric.inl \
-		glm/detail/func_trigonometric_simd.inl \
-		glm/exponential.hpp \
-		glm/common.hpp \
-		glm/packing.hpp \
-		glm/detail/func_packing.hpp \
-		glm/detail/func_packing.inl \
-		glm/detail/type_half.hpp \
-		glm/detail/type_half.inl \
-		glm/detail/func_packing_simd.inl \
-		glm/matrix.hpp \
-		glm/vector_relational.hpp \
-		glm/integer.hpp \
-		glm/detail/func_integer.hpp \
-		glm/detail/func_integer.inl \
-		glm/detail/func_integer_simd.inl \
-		glm/simd/integer.h \
-		glm/gtc/constants.hpp \
-		glm/gtc/constants.inl \
-		face.h \
-		edge.h \
-		vertex.h \
-		utils.h \
-		parameter.h \
-		C:/Qt/5.8/mingw53_32/include/QtCore/QString \
-		C:/Qt/5.8/mingw53_32/include/QtGui/QColor \
-		transformation.h \
-		glm/gtx/transform.hpp \
-		glm/gtc/matrix_transform.hpp \
-		glm/gtc/matrix_transform.inl \
-		glm/gtx/transform.inl \
-		makeMesh.h \
-		glm/gtx/rotate_vector.hpp \
-		glm/gtx/rotate_vector.inl \
-		merge.h \
-		polyline.h \
-		group.h \
-		bspline.h \
-		makegroup.h \
-		myselection.h \
-		subdivison.h \
-		stl.h \
-		offset.h \
-		zipper.h \
-		parameterbank.h \
-		C:/Qt/5.8/mingw53_32/include/QtWidgets/QMessageBox \
-		Lewis/Session.h \
-		Lewis/Data.h \
 		Lewis/IO.h \
-		Lewis/Node.h \
-		Lewis/MeshNew.h \
-		Lewis/GroupNew.h \
-		Lewis/InstanceNew.h \
-		Lewis/TransformationNew.h \
-		Lewis/ObjectNew.h \
-		Lewis/PolylineNew.h \
-		Lewis/CircleNew.h \
-		Lewis/FunnelNew.h \
-		Lewis/TunnelNew.h
+		Lewis/Node.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\ConsolidateWindow.o Lewis\ConsolidateWindow.cpp
+
+debug/SubdivisionNew.o: Lewis/SubdivisionNew.cpp Lewis/SubdivisionNew.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/QWidget \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtwidgetsglobal.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qtguiglobal.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qglobal.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qconfig.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qtcore-config.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qlogging.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qflags.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qtypetraits.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qatomic.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qmutex.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qversiontagging.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qtgui-config.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qtwidgets-config.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qobject.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qlist.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qcoreevent.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qmetatype.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qmargins.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qpaintdevice.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qrect.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qsize.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qpoint.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qpalette.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qcolor.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qrgb.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qrgba64.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qbrush.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qvector.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qmatrix.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qpolygon.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qregion.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qline.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qtransform.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qimage.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qpixelformat.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qhash.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qfont.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qfontmetrics.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.8/mingw53_32/include/QtWidgets/qsizepolicy.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qcursor.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qkeysequence.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qevent.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qvariant.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qmap.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qdebug.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qlocale.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qset.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qurl.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qurlquery.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qfile.h \
+		C:/Qt/5.8/mingw53_32/include/QtCore/qfiledevice.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qvector2d.h \
+		C:/Qt/5.8/mingw53_32/include/QtGui/qtouchdevice.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\SubdivisionNew.o Lewis\SubdivisionNew.cpp
 
 debug/moc_controlpanel.o: debug/moc_controlpanel.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_controlpanel.o debug\moc_controlpanel.cpp

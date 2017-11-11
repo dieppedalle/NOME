@@ -187,6 +187,7 @@ void MainWindow::createCanvas(QString name)
         }
 
         drawSliders(canvas, currSession);
+
         //createSliderPanel(canvas);
         canvas -> move(0, 50);
         canvas -> show();
@@ -216,6 +217,8 @@ void MainWindow::drawSliders(SlideGLWidget * canvas, Session *currSession)
         window->show();
     }
 }
+
+
 
 void MainWindow::createSliderPanel(SlideGLWidget * canvas)
 {

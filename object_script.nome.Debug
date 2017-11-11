@@ -43,6 +43,7 @@ INPUT(
 ./debug\FunnelNew.o
 ./debug\TunnelNew.o
 ./debug\ConsolidateWindow.o
+./debug\SubdivisionNew.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o

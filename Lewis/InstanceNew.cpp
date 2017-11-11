@@ -169,6 +169,37 @@ bool InstanceNew::draw()
     return true;
 }
 
+void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
+{
+    for(Vert* v : verts) {
+      flattenedMesh->verts.push_back(v);
+    }
+    for(EdgeNew* e : edges) {
+      flattenedMesh->edges.push_back(e);
+    }
+    for(FaceNew* f : faces) {
+      flattenedMesh->faces.push_back(f);
+    }
+
+    for (InstanceNew* i : listInstances) {
+        i->flattenInstance(flattenedMesh);
+    }
+
+}
+
+bool InstanceNew::drawFaces()
+{
+    for(auto f : faces) {
+      drawFace(f, surface);
+    }
+
+    for (auto i : listInstances) {
+        i->drawFaces();
+    }
+
+    return true;
+}
+
 
 Node* InstanceNew::vert(std::string name)
 {

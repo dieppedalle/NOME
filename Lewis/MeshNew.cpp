@@ -192,3 +192,12 @@ Node* MeshNew::face(int i)
     }
     return NULL;
 }
+
+bool MeshNew::drawFaces()
+{
+    for(FaceNew* f : faces) {
+      drawFace(f, NULL);
+    }
+
+    return true;
+}

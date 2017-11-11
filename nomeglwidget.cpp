@@ -124,7 +124,7 @@ void SlideGLWidget::mergeAll()
 void SlideGLWidget::mergeCalled(bool)
 {
     viewer_mode = 1;
-    mergeAll();
+    //mergeAll();
     repaint();
 }
 
@@ -400,8 +400,14 @@ void SlideGLWidget::paintGL()
             newInstance->applyTransformation(t);
         }
     }
-\
-    currSession->draw();
+    if (viewer_mode == 0){
+        currSession->draw();
+    } else if (viewer_mode == 1){
+        for (SubdivisionNew* subdivide : currSession->subdivisions){
+            currSession->drawSubdivide(*(subdivide->subdivisions));
+        }
+    }
+
 
 
 

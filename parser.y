@@ -329,7 +329,18 @@ faceDeleteArgs:
 subdivision:
     SUBDIVISION VARIABLE TYPE VARIABLE SUBDIVISIONS numberValue END_SUBDIVISION
     {
-        std::cout << "HEEEEEELLLLLLO" << std::endl;
+        double *subdivision = (double*) malloc(sizeof(double));
+
+
+        if ($<numPos.string>6 == NULL){
+            *subdivision = $<numPos.number>6;
+        }
+        else{
+            subdivision = getBankValue($<numPos.string>6);
+        }
+
+        SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>2), strdup($<string>4), subdivision);
+        currSession->subdivisions.push_back(currSubdivision);
     };
 
 mesh:

@@ -35,6 +35,8 @@ public:
     void applyTransformation(TransformationNew* t);
     void undoTransformation(TransformationNew* t);
     void updateVerts();
+    bool drawFaces();
+    void flattenInstance(MeshNew*);
     Surface* surface;
     std::list<TransformationNew*> transformations;
     std::list<TransformationNew*> appliedTransformations;

@@ -316,3 +316,19 @@ void Session::draw(){
         tmpInstance->draw();
     }
 }
+
+void Session::createFlattenMesh(){
+    flattenMesh = createMesh();
+    for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+        (*itMesh)->flattenInstance(flattenMesh);
+    }
+}
+
+void Session::drawSubdivide(int subdivision){
+    createFlattenMesh();
+
+    flattenMesh->drawFaces();
+    /*for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+        (*itMesh)->drawFaces();
+    }*/
+}

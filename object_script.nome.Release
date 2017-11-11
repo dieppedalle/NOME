@@ -43,6 +43,7 @@ INPUT(
 ./release\FunnelNew.o
 ./release\TunnelNew.o
 ./release\ConsolidateWindow.o
+./release\SubdivisionNew.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o
