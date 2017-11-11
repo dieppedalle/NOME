@@ -461,3 +461,29 @@ bool Reader::deleteFace(FaceNew * searchFace){
     }
     return false;
 }
+
+EdgeNew* Reader::getEdge(int id1, int id2){
+    // Check for definitions first
+    //std::cout << "====" << std::endl;
+    //std::cout << id1 << std::endl;
+    //std::cout << id2 << std::endl;
+
+    for (InstanceNew* i0 : session->instances){
+        for (EdgeNew* e0 : i0->edges){
+            if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
+                return e0;
+            }
+        }
+
+        // Check for groups
+        for (InstanceNew* iListElem : i0->listInstances){
+            for (EdgeNew* e0 : iListElem->edges){
+                if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
+                    return e0;
+                }
+            }
+        }
+    }
+
+    return NULL;
+}

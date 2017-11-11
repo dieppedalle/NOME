@@ -9,6 +9,7 @@
 
 #include "nomeglwidget.h"
 #include "Lewis/ConsolidateWindow.h"
+#include "Lewis/Reader.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -352,7 +353,8 @@ void SlideGLWidget::paintGL()
         if (c->updateCircle() == 1){
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == c){
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts);
+                    Reader* currReader = createReader(currSession);
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader);
 
                     newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                     newInstance->transformations = (*iterator)->transformations;
@@ -366,7 +368,8 @@ void SlideGLWidget::paintGL()
         if (f->updateFunnel() == 1){
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == f){
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts);
+                    Reader* currReader = createReader(currSession);
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader);
 
                     newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                     newInstance->transformations = (*iterator)->transformations;
@@ -379,7 +382,8 @@ void SlideGLWidget::paintGL()
         if (t->updateTunnel() == 1){
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == t){
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts);
+                    Reader* currReader = createReader(currSession);
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader);
 
                     newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                     newInstance->transformations = (*iterator)->transformations;

@@ -14,7 +14,7 @@
 static int fIndex = 0;
 
 ///Polyline functions
-FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h)
+FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h, Reader* currReader)
 {
     FunnelNew* f0 = new FunnelNew();
     //This behaviour depends on the parser
@@ -23,6 +23,7 @@ FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h)
     f0->ro = ro;
     f0->ratio = ratio;
     f0->h = h;
+    f0->reader = currReader;
 
     fIndex++;
 
@@ -98,7 +99,7 @@ void FunnelNew::createVertEdgeFunnel(){
 
         }
         verticesFace.push_back(highCircle[i]);
-        FaceNew * newFace = createFace(verticesFace, &(edges));
+        FaceNew * newFace = createFace(verticesFace, &(edges), reader);
         newFace->setName("f" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();

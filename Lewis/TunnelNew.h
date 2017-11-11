@@ -13,6 +13,7 @@
 #include <set>
 #include "Data.h"
 #include "MeshNew.h"
+class Reader;
 
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
 typedef class TunnelNew : public MeshNew
@@ -22,6 +23,7 @@ public:
     double *ro;
     double *ratio;
     double *h;
+    Reader * reader;
 
     std::vector<Vert*> baseCircle;
     std::vector<Vert*> highCircle;
@@ -34,7 +36,7 @@ public:
 } TunnelNew;
 
 ///Instance functions
-TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h);
+TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h, Reader * reader);
 TunnelNew* createTunnel(TunnelNew*);
 
 #endif /* FunnelNew_h */

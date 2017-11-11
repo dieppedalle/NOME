@@ -15,6 +15,7 @@
 
 typedef int InstanceI;
 class GroupNew;
+class Reader;
 
 class InstanceNew : public Node
 {
@@ -52,8 +53,8 @@ public:
 bool setSurface(InstanceNew* i0, Surface* surface);
 //Instantiation
 InstanceNew* createInstance(InstanceNew* i0);
-InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef);
-InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef);
+InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader);
+InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* currReader);
 
 
 #endif /* Instance_h */

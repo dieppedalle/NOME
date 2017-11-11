@@ -26,7 +26,7 @@ InstanceNew* createInstance(InstanceNew* i0)
     return new InstanceNew();
 }
 
-InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef)
+InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* currReader)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->group = g0;
@@ -39,7 +39,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef)
 
        if (currentMesh != NULL){
            InstanceNew* newInstance;
-           newInstance = createInstance(currentMesh, vertsDef);
+           newInstance = createInstance(currentMesh, vertsDef, currReader);
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
@@ -50,12 +50,13 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef)
    return i0;
 }
 
-InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
+InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
 
    i0->verts = {};
+   // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)){
            Vert* newVertex = createVert(v0);
@@ -67,15 +68,18 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
        }
    }
 
+   // Copy all the edges from the mesh to the instance.
    for (EdgeNew* e0 : m0->edges){
        Vert* firstVert = NULL;
        Vert* secondVert = NULL;
 
-
+       // Check if vertex is a vertex already in the scene.
        for (Vert* v0 : i0->verts){
            if(v0->index == e0->v0->index)
                firstVert = v0;
        }
+
+       // Otherwise it must be a vertex definition which has a unique name.
        if (!firstVert){
            for (Vert* v0 : i0->verts){
                if(v0->name.compare(e0->v0->name) == 0){
@@ -84,6 +88,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
            }
        }
 
+       // Do the same thing for the second vertex.
        for (Vert* v1 : i0->verts){
            if(v1->index == e0->v1->index)
                secondVert = v1;
@@ -97,24 +102,35 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
            }
        }
 
-       EdgeNew* newEdge = createEdge(firstVert, secondVert, 1.0);
-       i0->edges.push_back(newEdge);
+       // Check if the edge is already defined
+       EdgeNew* newEdge = NULL;
+       for( auto e0 : i0->edges ) {
+           if ((e0->v0->index == firstVert->index && e0->v1->index == secondVert->index) || (e0->v0->index == secondVert->index && e0->v1->index == firstVert->index)){
+               newEdge = e0;
+           }
+
+       }
+
+       if (newEdge == NULL){
+            newEdge = createEdge(firstVert, secondVert, 1.0);
+            i0->edges.push_back(newEdge);
+       }
+
 
    }
 
    for (FaceNew* f0 : m0->faces){
        std::list<EdgeNew*> edgesFace;
        std::list<Vert*> vertFace;
-       for (EdgeNew* e0 : f0->edges){
+       for (Vert* vF : f0->verts){
            Vert* firstVert = NULL;
-
            for (Vert* v0 : i0->verts){
-               if(v0->index == e0->v0->index)
+               if(v0->index == vF->index)
                    firstVert = v0;
            }
            if (!firstVert){
                for (Vert* v0 : i0->verts){
-                   if(v0->name.compare(e0->v0->name) == 0){
+                   if(v0->name.compare(vF->name) == 0){
                        firstVert = v0;
                    }
                }
@@ -123,7 +139,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef)
            vertFace.push_back(firstVert);
        }
 
-       FaceNew* newFace = createFace(vertFace, &(i0->edges));
+       FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader);
        setName(newFace, f0->name);
        setSurface(newFace, f0->surface);
 

@@ -148,6 +148,16 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
 
         if (selectedFace != NULL){
+            for (EdgeNew* e0 : selectedFace->edges){
+                std::cout << "------" << std::endl;
+                if (e0->f0 != NULL){
+                    std::cout << e0->f0->name << std::endl;
+                }
+                if (e0->f1 != NULL){
+                    std::cout << e0->f1->name << std::endl;
+                }
+            }
+
             selectedFace -> selected = !selectedFace -> selected;
             if (selectedFace -> selected == true){
                 selectedFaces.push_back(selectedFace);
@@ -200,7 +210,8 @@ void Session::addTmpFace(){
         tmpMesh = createMesh();
         tmpFaceIndex = 0;
     }
-    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges));
+    Reader* currReader = createReader(this);
+    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader);
 
     setTmpSurface(newFace);
 
@@ -212,16 +223,17 @@ void Session::addTmpFace(){
     }
     tmpMesh->setName("tmpMesh");
 
-    tmpInstance = createInstance(tmpMesh, this->verts);
+    tmpInstance = createInstance(tmpMesh, this->verts, currReader);
     tmpInstance->setName("tmpInstance");
     clearSelection();
     tmpFaceIndex += 1;
 }
 
 void Session::addTmpPolyline(){
+    Reader* currReader = createReader(this);
     tmpPolyline = createPolylineNew(selectedVerts);
     tmpPolyline->setName("tmpPolyline");
-    tmpInstance = createInstance(tmpPolyline, this->verts);
+    tmpInstance = createInstance(tmpPolyline, this->verts, currReader);
     tmpInstance->setName("tmpInstance");
     clearSelection();
 }

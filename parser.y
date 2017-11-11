@@ -290,7 +290,7 @@ instanceGroup:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader);
             newInstance->setName(strdup($<string>2));
         }
         else{
@@ -445,7 +445,8 @@ faceMesh:
                 YYABORT;
             }
         }
-        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges);
+
+        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges, currReader);
         setName(newFace, strdup($<string>2));
 
         string surfaceName = $<string>4;
@@ -544,7 +545,7 @@ tunnel:
             h = getBankValue($<numPos.string>7);
         }
 
-        TunnelNew* currTunnel = createTunnel(n, ro, ratio, h);
+        TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
         currTunnel->setName(strdup($<string>2));
 
         currSession->tunnels.push_back(currTunnel);
@@ -589,7 +590,7 @@ funnel:
             h = getBankValue($<numPos.string>7);
         }
 
-        FunnelNew* currFunnel = createFunnel(n, ro, ratio, h);
+        FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
         currFunnel->setName(strdup($<string>2));
 
         currSession->funnels.push_back(currFunnel);
@@ -617,7 +618,7 @@ face:
             }
         }
 
-        FaceNew * newFace = createFace(verticesFace, &(currSession->edges));
+        FaceNew * newFace = createFace(verticesFace, &(currSession->edges), currReader);
 
         setName(newFace, strdup($<string>2));
 
@@ -682,13 +683,13 @@ instance:
 
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader);
         }
         else{
 
             GroupNew * currentGroup = currReader->getGroup($<string>3);
             if (currentGroup != NULL) {
-                newInstance = createInstance(currentGroup, currSession->verts);
+                newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
                 yyerror("Incorrect vertex, face, or mesh name");

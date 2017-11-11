@@ -19,6 +19,7 @@
 
 #include "IO.h"
 #include "Node.h"
+class Reader;
 
 ///Baseline data structure class, every point is defined by a vertex, joined by edges. Edges are joined up to form faces.
 
@@ -101,8 +102,8 @@ EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, doubl
 ///Face Instantiation
 FaceNew* createFace();
 FaceNew* createFace(FaceNew*);
-FaceNew* createFace(std::list<EdgeNew*> edges);
-FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*>* edges);
+FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts);
+FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*>* edges, Reader * currReader);
 
 ///Naming functions
 bool setName(Vert* v0, std::string n);

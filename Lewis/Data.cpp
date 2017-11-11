@@ -8,6 +8,7 @@
 
 
 #include "Data.h"
+#include "Reader.h"
 
 QColor defaultColor = QColor(255, 0, 0);
 QColor tmpColor = QColor(255, 255, 0);
@@ -165,51 +166,67 @@ FaceNew* createFace()
     return f0;
 }
 
-FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges){
-
-    /*std::cout << "Vertices" << std::endl;
-    for (Vert* vertN : vertices){
-        std::cout << vertN << std::endl;
-        std::cout << vertN->name << std::endl;
-        std::cout << vertN->index << std::endl;
-    }*/
-
+FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader){
     EdgeNew * currentEdge;
     std::list<Vert*>::iterator it = vertices.begin();
     std::list<Vert*>::iterator it2 = vertices.begin();
     std::list<EdgeNew*> currentEdges;
     ++it2;
+
     while (it != vertices.end()){
         if (it2 != vertices.end()){
-            currentEdge = createEdge(*it, *it2);
+            currentEdge = NULL;
+            for( auto e0 : *edges ) {
+                if ((e0->v0->index == (*it)->index && e0->v1->index == (*it2)->index) || (e0->v0->index == (*it2)->index && e0->v1->index == (*it)->index)){
+                    currentEdge = e0;
+                }
+            }
+            //std::cout << currReader->getEdge((*it)->index, (*it2)->index) << std::endl;
+
+            if (currentEdge == NULL){
+                currentEdge = createEdge(*it, *it2);
+            }
             it2++;
         }
         else{
-            currentEdge = createEdge(vertices.back(), vertices.front());
+            currentEdge = NULL;
+            for( auto e0 : *edges ) {
+                if ((e0->v0->index == vertices.back()->index && e0->v1->index == vertices.front()->index) || (e0->v0->index == vertices.front()->index && e0->v1->index == vertices.back()->index)){
+                    currentEdge = e0;
+                }
+            }
+
+            if (currentEdge == NULL){
+                currentEdge = createEdge(vertices.back(), vertices.front());
+            }
         }
         it++;
 
         edges->push_back(currentEdge);
         currentEdges.push_back(currentEdge);
+        currentEdge = NULL;
     }
-    /*std::cout << "Vertices" << std::endl;
-    for (auto vertN : vertices){
-        std::cout << vertN->index << std::endl;
-    }
-    std::cout << "Edges" << std::endl;
-    for (auto edgeN : currentEdges){
-        std::cout << edgeN->v0->index << std::endl;
-        std::cout << edgeN->v1->index << std::endl;
-    }
-    std::cout << currentEdges.size() << std::endl;*/
 
-    FaceNew* newFace = createFace(currentEdges);
+
+    FaceNew* newFace = createFace(currentEdges, vertices);
+    /*newFace->verts.clear();
+
+    for (Vert* vert : vertices){
+        newFace->verts.push_back(vert);
+    }*/
+
     return newFace;
 }
 
 ///Create face given a vector of at least three edges, the edges must be adjacent and form a closed loop, otherwise fails
-FaceNew* createFace(std::list<EdgeNew*> edges)
+FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
 {
+    /*for (auto edge : edges){
+        std::cout << "++++" << std::endl;
+        std::cout << edge->v0->index << std::endl;
+        std::cout << edge->v1->index << std::endl;
+    }*/
+
     FaceNew* f0 = createFace();
     f0->selected = false;
     std::vector<Vert*> vIndex;
@@ -220,15 +237,59 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
         errorMessage("Fewer than 3 edges given", -1);
         return NULL;
     }
+
+    std::list<Vert*>::iterator vertsIt = verts.begin();
     for( EdgeNew* edge : edges )
     {
+        if (edge->f0 == NULL){
+            edge->f0 = f0;
+        }
+        else{
+            edge->f1 = f0;
+        }
+
         bool b0 = false, b1 = false;
         for( int i = 0; i < vIndex.size(); i++ )
         {
             b0 = b0 | (vIndex[i]->index == edge->v0->index);
             b1 = b1 | (vIndex[i]->index == edge->v1->index);
         }
-        if( !b0 ) {
+
+        if ((*vertsIt)->index == edge->v0->index){
+            if( !b0 ) {
+                bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v0) != f0->verts.end());
+                if (!found){
+                    f0->verts.push_back(edge->v0);
+                    vIndex.push_back(edge->v0);
+                }
+            }
+            if( !b1 ) {
+                bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v1) != f0->verts.end());
+                if (!found){
+                    f0->verts.push_back(edge->v1);
+                    vIndex.push_back(edge->v1);
+                }
+            }
+        } else{
+            if( !b1 ) {
+                bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v1) != f0->verts.end());
+                if (!found){
+                    f0->verts.push_back(edge->v1);
+                    vIndex.push_back(edge->v1);
+                }
+            }
+
+            if( !b0 ) {
+                bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v0) != f0->verts.end());
+                if (!found){
+                    f0->verts.push_back(edge->v0);
+                    vIndex.push_back(edge->v0);
+                }
+            }
+        }
+        vertsIt++;
+
+        /*if( !b0 ) {
             bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v0) != f0->verts.end());
             if (!found){
                 f0->verts.push_back(edge->v0);
@@ -241,7 +302,15 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
                 f0->verts.push_back(edge->v1);
                 vIndex.push_back(edge->v1);
             }
+        }*/
+        /*std::cout << "----" << std::endl;
+        for (Vert* vert : verts){
+            std::cout << vert->index << std::endl;
         }
+        std::cout << "++++" << std::endl;
+        for (Vert* vert : f0->verts){
+            std::cout << vert->index << std::endl;
+        }*/
 
         f0->edges.push_back(edge);
         
@@ -262,6 +331,16 @@ FaceNew* createFace(std::list<EdgeNew*> edges)
             return NULL;
         }
     }
+
+    /*std::cout << "++++" << std::endl;
+    for (Vert* vert : vIndex){
+        std::cout << vert->index << std::endl;
+    }
+
+    std::cout << "---" << std::endl;
+    for (Vert* vert : verts){
+        std::cout << vert->index << std::endl;
+    }*/
 
     //Check if edges given are adjacent
     if( vIndex.size() != edges.size() )

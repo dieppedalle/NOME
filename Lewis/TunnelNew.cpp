@@ -14,7 +14,7 @@
 static int tIndex = 0;
 
 ///Polyline functions
-TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h)
+TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h, Reader *reader)
 {
     TunnelNew* t0 = new TunnelNew();
     //This behaviour depends on the parser
@@ -23,6 +23,7 @@ TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h)
     t0->ro = ro;
     t0->ratio = ratio;
     t0->h = h;
+    t0->reader = reader;
 
     tIndex++;
 
@@ -118,7 +119,7 @@ void TunnelNew::createVertEdgeTunnel(){
         }
         verticesFace.push_back(highCircle[i]);
 
-        FaceNew * newFace = createFace(verticesFace, &(edges));
+        FaceNew * newFace = createFace(verticesFace, &(edges), reader);
         newFace->setName("fa" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
@@ -138,7 +139,7 @@ void TunnelNew::createVertEdgeTunnel(){
         }
         verticesFace.push_back(lowCircle[i]);
 
-        FaceNew * newFace = createFace(verticesFace, &(edges));
+        FaceNew * newFace = createFace(verticesFace, &(edges), reader);
         newFace->setName("fb" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();

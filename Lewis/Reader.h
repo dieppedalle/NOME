@@ -54,6 +54,7 @@ public:
     Vert* getVert(std::string);
     Vert* getVert(int);
     EdgeNew* getEdge(std::string);
+    EdgeNew* getEdge(int id1, int id2);
     FaceNew* getFace(std::string);
     FaceNew* getFace(int);
     bool deleteFace(FaceNew *);
