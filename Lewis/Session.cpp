@@ -95,6 +95,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
 
         if (selectedVertex != NULL){
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
+            std::cout << selectedVertex->faces.size() << std::endl;
             selectedVertex -> selected = !selectedVertex -> selected;
             //std::cout << selectedVertex->index << std::endl;
             if (selectedVertex -> selected == true){
@@ -141,23 +142,12 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
             int currentID = names[i * 4 + 3];
             currentFace = currReader->getFace(currentID);
             if (currentFace != NULL){
-                std::cout << currentFace->name << std::endl;
                 selectedFace = currentFace;
                 break;
             }
         }
 
         if (selectedFace != NULL){
-            for (EdgeNew* e0 : selectedFace->edges){
-                std::cout << "------" << std::endl;
-                if (e0->f0 != NULL){
-                    std::cout << e0->f0->name << std::endl;
-                }
-                if (e0->f1 != NULL){
-                    std::cout << e0->f1->name << std::endl;
-                }
-            }
-
             selectedFace -> selected = !selectedFace -> selected;
             if (selectedFace -> selected == true){
                 selectedFaces.push_back(selectedFace);

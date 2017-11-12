@@ -221,12 +221,6 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
 ///Create face given a vector of at least three edges, the edges must be adjacent and form a closed loop, otherwise fails
 FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
 {
-    /*for (auto edge : edges){
-        std::cout << "++++" << std::endl;
-        std::cout << edge->v0->index << std::endl;
-        std::cout << edge->v1->index << std::endl;
-    }*/
-
     FaceNew* f0 = createFace();
     f0->selected = false;
     std::vector<Vert*> vIndex;
@@ -289,29 +283,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         }
         vertsIt++;
 
-        /*if( !b0 ) {
-            bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v0) != f0->verts.end());
-            if (!found){
-                f0->verts.push_back(edge->v0);
-                vIndex.push_back(edge->v0);
-            }
-        }
-        if( !b1 ) {
-            bool found = (std::find(f0->verts.begin(), f0->verts.end(), edge->v1) != f0->verts.end());
-            if (!found){
-                f0->verts.push_back(edge->v1);
-                vIndex.push_back(edge->v1);
-            }
-        }*/
-        /*std::cout << "----" << std::endl;
-        for (Vert* vert : verts){
-            std::cout << vert->index << std::endl;
-        }
-        std::cout << "++++" << std::endl;
-        for (Vert* vert : f0->verts){
-            std::cout << vert->index << std::endl;
-        }*/
-
         f0->edges.push_back(edge);
         
         //Check if an edge has more than two adjacent faces
@@ -331,16 +302,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
             return NULL;
         }
     }
-
-    /*std::cout << "++++" << std::endl;
-    for (Vert* vert : vIndex){
-        std::cout << vert->index << std::endl;
-    }
-
-    std::cout << "---" << std::endl;
-    for (Vert* vert : verts){
-        std::cout << vert->index << std::endl;
-    }*/
 
     //Check if edges given are adjacent
     if( vIndex.size() != edges.size() )
