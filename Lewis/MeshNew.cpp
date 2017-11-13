@@ -211,9 +211,9 @@ bool MeshNew::draw()
     for(auto e : edges) {
       drawEdge(e, NULL);
     }
-    /*for(auto f : faces) {
+    for(auto f : faces) {
       drawFace(f, NULL);
-    }*/
+    }
 
     return true;
 }

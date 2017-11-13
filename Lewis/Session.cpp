@@ -349,24 +349,24 @@ void Session::createFlattenMesh(bool instance){
 }
 
 void Session::drawSubdivide(int subdivision){
-    createFlattenMesh(true);
-
-    for (int i = 0; i < subdivision; i++){
-        createFlattenMesh(false);
-        flattenMesh = flattenMesh->subdivideMesh();
+    if (subdivision == 0){
+        createFlattenMesh(true);
     }
+    else if (subdivisionLevel < subdivision){
+        for (int i = subdivisionLevel; i < subdivision; i++){
+            createFlattenMesh(false);
+            flattenMesh = flattenMesh->subdivideMesh();
+        }
+    }
+    else if (subdivisionLevel != subdivision){
+        createFlattenMesh(true);
+        for (int i = 0; i < subdivision; i++){
+            createFlattenMesh(false);
+            flattenMesh = flattenMesh->subdivideMesh();
+        }
+    }
+    subdivisionLevel = subdivision;
 
-    /*flattenMesh = flattenMesh->subdivideMesh();
-    createFlattenMesh(false);
-    flattenMesh = flattenMesh->subdivideMesh();
-    createFlattenMesh(false);
-    flattenMesh = flattenMesh->subdivideMesh();
-    createFlattenMesh(false);
-    flattenMesh = flattenMesh->subdivideMesh();*/
 
-    //std::cout << flattenMesh->faces.size() << std::endl;
     flattenMesh->draw();
-    /*for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
-        (*itMesh)->drawFaces();
-    }*/
 }

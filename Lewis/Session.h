@@ -39,6 +39,7 @@ public:
     std::string name;
     std::string fileContent;
 
+    int subdivisionLevel = 0;
     MeshNew* flattenMesh;
 
     int tmpFaceIndex = 0;

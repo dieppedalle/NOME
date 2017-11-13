@@ -513,6 +513,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glLoadName(f0->index);
 
     glBegin(GL_POLYGON);
+    glNormal3f(0, 0, 1);
     for(auto v0 : f0->verts) {
       glVertex3f(*v0->xTransformed, *v0->yTransformed, *v0->zTransformed);
     }
