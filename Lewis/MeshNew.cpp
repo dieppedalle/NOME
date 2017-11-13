@@ -201,3 +201,98 @@ bool MeshNew::drawFaces()
 
     return true;
 }
+
+bool MeshNew::draw()
+{
+    //std::cout << this->name << std::endl;
+    /*for(auto v : verts) {
+      drawVert(v, NULL);
+    }*/
+    for(auto e : edges) {
+      drawEdge(e, NULL);
+    }
+    /*for(auto f : faces) {
+      drawFace(f, NULL);
+    }*/
+
+    return true;
+}
+
+bool isInList(Vert* vert, std::list<Vert*> listOfStrs){
+    std::list<Vert*>::iterator it;
+    it = std::find(listOfStrs.begin(), listOfStrs.end(), vert);
+
+    // Check if iterator points to end or not
+    if(it != listOfStrs.end())
+        return true;
+    return false;
+}
+
+MeshNew* MeshNew::subdivideMesh(){
+    MeshNew* newMesh = createMesh();
+
+    for (FaceNew* currFace: this->faces){
+        std::list<Vert*>::iterator vertIt = currFace->verts.begin();
+        Vert * previousEdgePoint = NULL;
+        for (EdgeNew* currEdge: currFace->edges){
+            if (previousEdgePoint == NULL){
+                previousEdgePoint = currEdge->edgePoint;
+            }
+            else{
+                std::list<Vert*> listFace;
+                listFace.clear();
+
+                listFace.push_back(previousEdgePoint);
+                listFace.push_back((*vertIt)->vertPoint);
+                listFace.push_back(currEdge->edgePoint);
+                listFace.push_back(currFace->facePoint);
+                FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL);
+
+                if(!isInList(previousEdgePoint, newMesh->verts)){
+                    newMesh->verts.push_back(previousEdgePoint);
+                }
+                if(!isInList((*vertIt)->vertPoint, newMesh->verts)){
+                    newMesh->verts.push_back((*vertIt)->vertPoint);
+                }
+                if(!isInList(currEdge->edgePoint, newMesh->verts)){
+                    newMesh->verts.push_back(currEdge->edgePoint);
+                }
+                if(!isInList(currFace->facePoint, newMesh->verts)){
+                    newMesh->verts.push_back(currFace->facePoint);
+                }
+
+                newMesh->faces.push_back(f0);
+
+                previousEdgePoint = currEdge->edgePoint;
+            }
+
+            vertIt++;
+        }
+        vertIt = currFace->verts.begin();
+        std::list<EdgeNew*>::iterator edgeIt = currFace->edges.begin();
+        std::list<Vert*> listFace;
+        listFace.clear();
+        listFace.push_back(previousEdgePoint);
+        listFace.push_back((*vertIt)->vertPoint);
+        listFace.push_back((*edgeIt)->edgePoint);
+        listFace.push_back(currFace->facePoint);
+
+        if(!isInList(previousEdgePoint, newMesh->verts)){
+            newMesh->verts.push_back(previousEdgePoint);
+        }
+        if(!isInList((*vertIt)->vertPoint, newMesh->verts)){
+            newMesh->verts.push_back((*vertIt)->vertPoint);
+        }
+        if(!isInList((*edgeIt)->edgePoint, newMesh->verts)){
+            newMesh->verts.push_back((*edgeIt)->edgePoint);
+        }
+        if(!isInList(currFace->facePoint, newMesh->verts)){
+            newMesh->verts.push_back(currFace->facePoint);
+        }
+
+        FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL);
+        newMesh->faces.push_back(f0);
+
+    }
+    return newMesh;
+}

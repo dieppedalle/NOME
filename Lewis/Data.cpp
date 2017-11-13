@@ -517,5 +517,111 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
       glVertex3f(*v0->xTransformed, *v0->yTransformed, *v0->zTransformed);
     }
     glEnd();
+
+    /*if (f0->facePoint != NULL){
+        drawVert(f0->facePoint, NULL);
+    }
+
+    for (EdgeNew* e0 : f0->edges){
+        if (e0->edgePoint != NULL){
+            drawVert(e0->edgePoint, NULL);
+        }
+    }
+
+    for (Vert* v0 : f0->verts){
+        if (v0->vertPoint != NULL){
+            drawVert(v0->vertPoint, NULL);
+        }
+    }*/
+
     return true;
+}
+
+void EdgeNew::calculateEdgePoint(){
+    double *xEdgePoint = (double*) malloc(sizeof(double));
+    double *yEdgePoint = (double*) malloc(sizeof(double));
+    double *zEdgePoint = (double*) malloc(sizeof(double));
+    *xEdgePoint = 0;
+    *yEdgePoint = 0;
+    *zEdgePoint = 0;
+
+    //TODO
+    *xEdgePoint = (*this->f0->facePoint->x + *this->f1->facePoint->x + *this->v0->xTransformed + *this->v1->xTransformed) / 4.0;
+    *yEdgePoint = (*this->f0->facePoint->y + *this->f1->facePoint->y + *this->v0->yTransformed + *this->v1->yTransformed) / 4.0;
+    *zEdgePoint = (*this->f0->facePoint->z + *this->f1->facePoint->z + *this->v0->zTransformed + *this->v1->zTransformed) / 4.0;
+
+    this->edgePoint = createVert (xEdgePoint, yEdgePoint, zEdgePoint);
+}
+
+void FaceNew::calculateFacePoint(){
+    // Takes the average of all the point on the face.
+    double *xFacePoint = (double*) malloc(sizeof(double));
+    double *yFacePoint = (double*) malloc(sizeof(double));
+    double *zFacePoint = (double*) malloc(sizeof(double));
+    *xFacePoint = 0;
+    *yFacePoint = 0;
+    *zFacePoint = 0;
+
+
+    for (Vert * currVert : this->verts){
+        *xFacePoint += *currVert->xTransformed;
+        *yFacePoint += *currVert->yTransformed;
+        *zFacePoint += *currVert->zTransformed;
+    }
+
+    *xFacePoint = *xFacePoint / this->verts.size();
+    *yFacePoint = *yFacePoint / this->verts.size();
+    *zFacePoint = *zFacePoint / this->verts.size();
+
+
+    this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
+}
+
+void Vert::calculateVertPoint(){
+    //(Q/n) + (2R/n) + (S(n-3)/n)
+
+    // The valence of a point is simply the number of edges that connect to that point.
+    double n = faces.size();
+
+    double Qx = 0;
+    double Qy = 0;
+    double Qz = 0;
+    // Q is the average of the surrounding face points
+    //std::cout << name << std::endl;
+    //std::cout << faces.size() << std::endl;
+    for (FaceNew* currFace : faces){
+        Qx += *currFace->facePoint->x;
+        Qy += *currFace->facePoint->y;
+        Qz += *currFace->facePoint->z;
+    }
+
+    Qx = Qx / faces.size();
+    Qy = Qy / faces.size();
+    Qz = Qz / faces.size();
+
+    // R is the average of all surround edge midpoints
+    double Rx = 0;
+    double Ry = 0;
+    double Rz = 0;
+    for (EdgeNew* currEdge : edges){
+        Rx += (*currEdge->v0->x + *currEdge->v1->x) / 2.0;
+        Ry += (*currEdge->v0->y + *currEdge->v1->y) / 2.0;
+        Rz += (*currEdge->v0->z + *currEdge->v1->z) / 2.0;
+    }
+    Rx = Rx / edges.size();
+    Ry = Ry / edges.size();
+    Rz = Rz / edges.size();
+
+    double Sx = *xTransformed;
+    double Sy = *yTransformed;
+    double Sz = *zTransformed;
+
+    double *xVertPoint = (double*) malloc(sizeof(double));
+    double *yVertPoint = (double*) malloc(sizeof(double));
+    double *zVertPoint = (double*) malloc(sizeof(double));
+    *xVertPoint = (Qx + 2 * Rx + Sx * (n - 3)) / n;
+    *yVertPoint = (Qy + 2 * Ry + Sy * (n - 3)) / n;
+    *zVertPoint = (Qz + 2 * Rz + Sz * (n - 3)) / n;
+
+    this->vertPoint = createVert (xVertPoint, yVertPoint, zVertPoint);
 }

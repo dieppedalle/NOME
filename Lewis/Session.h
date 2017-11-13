@@ -65,7 +65,7 @@ public:
     void deleteFace();
     void draw();
     void drawSubdivide(int subdivision);
-    void createFlattenMesh();
+    void createFlattenMesh(bool instance);
 private:
     QPushButton * consolidateButton;
 

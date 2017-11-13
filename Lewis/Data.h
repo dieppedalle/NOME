@@ -60,6 +60,10 @@ public:
     VertI index;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
+
+    // Used for subdivision
+    Vert* vertPoint;
+    void calculateVertPoint();
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links
@@ -73,6 +77,11 @@ public:
     int vertCount;
     FaceNew* f0; FaceNew* f1;
     EdgeI index;
+
+    // Used for subdivision
+    Vert* edgePoint;
+    
+    void calculateEdgePoint();
 } EdgeNew;
 
 
@@ -85,6 +94,10 @@ public:
     FaceI index;
     Surface* surface;
     bool selected;
+    // Used for subdivision
+    Vert* facePoint;
+
+    void calculateFacePoint();
 } FaceNew;
 
 ///Vert Instantiation

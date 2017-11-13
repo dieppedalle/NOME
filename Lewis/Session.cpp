@@ -319,17 +319,53 @@ void Session::draw(){
     }
 }
 
-void Session::createFlattenMesh(){
-    flattenMesh = createMesh();
-    for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
-        (*itMesh)->flattenInstance(flattenMesh);
+void Session::createFlattenMesh(bool instance){
+    MeshNew* tmpflattenMesh = createMesh();
+
+    if (instance){
+        for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+            (*itMesh)->flattenInstance(tmpflattenMesh);
+        }
     }
+    else{
+        tmpflattenMesh = flattenMesh;
+    }
+
+    // http://www.rorydriscoll.com/2008/08/01/catmull-clark-subdivision-the-basics/
+    // STEP 1: Calculate face points.
+    for (FaceNew* currFace : tmpflattenMesh->faces){
+        currFace->calculateFacePoint();
+    }
+
+    for (EdgeNew* currEdge : tmpflattenMesh->edges){
+        currEdge->calculateEdgePoint();
+    }
+
+    for (Vert* currVert : tmpflattenMesh->verts){
+        currVert->calculateVertPoint();
+    }
+    flattenMesh = tmpflattenMesh;
+
 }
 
 void Session::drawSubdivide(int subdivision){
-    createFlattenMesh();
+    createFlattenMesh(true);
 
-    flattenMesh->drawFaces();
+    for (int i = 0; i < subdivision; i++){
+        createFlattenMesh(false);
+        flattenMesh = flattenMesh->subdivideMesh();
+    }
+
+    /*flattenMesh = flattenMesh->subdivideMesh();
+    createFlattenMesh(false);
+    flattenMesh = flattenMesh->subdivideMesh();
+    createFlattenMesh(false);
+    flattenMesh = flattenMesh->subdivideMesh();
+    createFlattenMesh(false);
+    flattenMesh = flattenMesh->subdivideMesh();*/
+
+    //std::cout << flattenMesh->faces.size() << std::endl;
+    flattenMesh->draw();
     /*for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
         (*itMesh)->drawFaces();
     }*/

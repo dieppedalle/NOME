@@ -39,6 +39,8 @@ public:
     bool deleteFace(FaceNew*);
 
     bool drawFaces();
+    bool draw();
+    MeshNew* subdivideMesh();
 
     bool setName(std::string n);
     bool updateNames();
