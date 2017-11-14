@@ -42,7 +42,8 @@ void MainWindow::save()
     }
     else if(fileName.right(3).toLower() == "stl")
     {
-        canvas -> saveMesh(fileName.toStdString());
+        currSession->SaveSessionStl(fileName.toStdString());
+        //canvas -> saveMesh(fileName.toStdString());
     }
     else if(fileName.right(4).toLower() == "anom")
     {
@@ -50,7 +51,7 @@ void MainWindow::save()
     }
     else
     {
-        currSession->SaveSession(fileName.toStdString());
+        currSession->SaveSessionNom(fileName.toStdString());
         //save_current_status_nome(fileName.toStdString());
     }
 }

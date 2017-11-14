@@ -176,7 +176,7 @@ static std::string dbl2str(double d)
     return s;
 }
 
-void Session::SaveSession(std::string outputFile){
+void Session::SaveSessionNom(std::string outputFile){
     int offset = 0;
     for (BankNew * b0 : banks){
         for (SetNew * s0 : b0->sets){
@@ -192,7 +192,6 @@ void Session::SaveSession(std::string outputFile){
     }
 
     file<< this->fileContent;
-
 }
 
 void Session::addTmpFace(){
@@ -378,4 +377,44 @@ void Session::drawSubdivide(int subdivision){
 
 
     flattenMesh->draw();
+}
+
+void Session::SaveSessionStl(std::string outputFile){
+    ofstream file(outputFile);
+    if (!file.is_open())
+    {
+        cout <<"Error: COULD NOT OPEN THE FILE.\n";
+    }
+
+    if (flattenMesh == NULL){
+        createFlattenMesh(true);
+    }
+
+    file<< "solid convertedFile\n";
+    for (FaceNew * currFace : flattenMesh->faces){
+        std::vector<double> normalVector = currFace->getNormal();
+        //file << "  facet normal " + dbl2str(normalVector[0]) + " " + dbl2str(normalVector[1]) + " " + dbl2str(normalVector[2]) + "\n";
+        //file << "    outer loop\n";
+
+        std::list<Vert*>::iterator itVert = currFace->verts.begin();
+
+        Vert* initVertex = *itVert;
+        itVert++;
+        Vert* lastVert = *itVert;
+        itVert++;
+        while (itVert != currFace->verts.end()){
+            file << "  facet normal " + dbl2str(normalVector[0]) + " " + dbl2str(normalVector[1]) + " " + dbl2str(normalVector[2]) + "\n";
+            file << "    outer loop\n";
+            file << "      vertex " + dbl2str(*(initVertex->xTransformed)) + " " + dbl2str(*(initVertex->yTransformed)) + " " + dbl2str(*(initVertex->zTransformed)) + "\n";
+            file << "      vertex " + dbl2str(*(lastVert->xTransformed)) + " " + dbl2str(*(lastVert->yTransformed)) + " " + dbl2str(*(lastVert->zTransformed)) + "\n";
+            file << "      vertex " + dbl2str(*((*itVert)->xTransformed)) + " " + dbl2str(*((*itVert)->yTransformed)) + " " + dbl2str(*((*itVert)->zTransformed)) + "\n";
+            file << "    endloop\n";
+            file<< "  endfacet\n";
+            lastVert = *itVert;
+
+            itVert++;
+        }
+    }
+
+    file<< "endsolid";
 }

@@ -59,7 +59,8 @@ public:
     void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void SaveSession(std::string outputFile);
+    void SaveSessionNom(std::string outputFile);
+    void SaveSessionStl(std::string outputFile);
     void consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName);
     void clearSelection();
     void saveFileToStr(std::string fileName);
