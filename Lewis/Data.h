@@ -98,6 +98,8 @@ public:
     Vert* facePoint;
 
     void calculateFacePoint();
+
+    std::vector<double> getNormal();
 } FaceNew;
 
 ///Vert Instantiation
