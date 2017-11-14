@@ -27,8 +27,8 @@ void ControlPanel::buildConnection()
     connect(viewContent, SIGNAL(activated(int)), canvas, SLOT(viewContentChanged(int)));
     connect(mergeButton, SIGNAL(clicked(bool)), canvas, SLOT(mergeCalled(bool)));
     connect(mergeButton, SIGNAL(clicked(bool)), this, SLOT(pushMerge(bool)));
-    connect(subdivLevelSlider,SIGNAL(valueChanged(int)), canvas, SLOT(levelChanged(int)));
-    connect(subdivLevelSlider, SIGNAL(valueChanged(int)), this, SLOT(viewContentSetToSubdiv(int)));
+    //connect(subdivLevelSlider,SIGNAL(valueChanged(int)), canvas, SLOT(levelChanged(int)));
+    //connect(subdivLevelSlider, SIGNAL(valueChanged(int)), this, SLOT(viewContentSetToSubdiv(int)));
     connect(resetViewButton, SIGNAL(clicked(bool)), canvas, SLOT(resetViewDirection(bool)));
     connect(minOffsetBox, SIGNAL(textChanged(QString)), this, SLOT(resetMinOffset(QString)));
     connect(maxOffsetBox, SIGNAL(textChanged(QString)), this, SLOT(resetMaxOffset(QString)));
@@ -67,7 +67,7 @@ void ControlPanel::setupLayout()
     mainLayout -> addLayout(viewLayout = new QVBoxLayout);
     mainLayout -> addWidget(new QLabel("EDIT MODE"));
     mainLayout -> addLayout(modeLayout = new QVBoxLayout);
-    mainLayout -> addWidget(new QLabel("SUBDIVISION"));
+    //mainLayout -> addWidget(new QLabel("SUBDIVISION"));
     mainLayout -> addLayout(subdivLayout = new QVBoxLayout);
     mainLayout -> addWidget(new QLabel("OFFSET"));
     mainLayout -> addLayout(offsetLayout = new QVBoxLayout);
@@ -115,14 +115,14 @@ void ControlPanel::setupLayout()
     modeLayout -> addWidget(consolidateButton = new QPushButton(tr("Consolidate Temp Mesh")));
     modeLayout -> addWidget(mergeButton = new QPushButton(tr("Merge All")));
     /* Subdivision layout. */
-    subdivLayout -> addLayout(subdivLevelLayout = new QHBoxLayout);
-    subdivLevelLayout -> addWidget(new QLabel("Level 0"));
-    subdivLevelLayout -> addWidget(subdivLevelSlider = new QSlider(Qt::Horizontal));
-    subdivLevelLayout -> addWidget(new QLabel("Level 5"));
-    subdivLayout -> addWidget(currentLevelLabel = new QLabel(tr("Current Subdivision Level:    0")));
-    subdivLevelSlider -> setMinimum(0);
-    subdivLevelSlider -> setMaximum(5);
-    subdivLevelSlider -> setValue(0);
+    //subdivLayout -> addLayout(subdivLevelLayout = new QHBoxLayout);
+    //subdivLevelLayout -> addWidget(new QLabel("Level 0"));
+    //subdivLevelLayout -> addWidget(subdivLevelSlider = new QSlider(Qt::Horizontal));
+    //subdivLevelLayout -> addWidget(new QLabel("Level 5"));
+    //subdivLayout -> addWidget(currentLevelLabel = new QLabel(tr("Current Subdivision Level:    0")));
+    //subdivLevelSlider -> setMinimum(0);
+    //subdivLevelSlider -> setMaximum(5);
+    //subdivLevelSlider -> setValue(0);
     /* Offset Layout. */
     maxOffset = 0.005;
     minOffset = 0.001;

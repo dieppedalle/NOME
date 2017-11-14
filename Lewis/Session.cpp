@@ -331,16 +331,19 @@ void Session::createFlattenMesh(bool instance){
         tmpflattenMesh = flattenMesh;
     }
 
+    //std::cout << "SUCCESS" << std::endl;
     // http://www.rorydriscoll.com/2008/08/01/catmull-clark-subdivision-the-basics/
     // STEP 1: Calculate face points.
     for (FaceNew* currFace : tmpflattenMesh->faces){
         currFace->calculateFacePoint();
     }
+    //std::cout << "DONE" << std::endl;
 
     for (EdgeNew* currEdge : tmpflattenMesh->edges){
         currEdge->calculateEdgePoint();
     }
 
+    //std::cout << "OPS" << std::endl;
     for (Vert* currVert : tmpflattenMesh->verts){
         currVert->calculateVertPoint();
     }
@@ -349,10 +352,10 @@ void Session::createFlattenMesh(bool instance){
 }
 
 void Session::drawSubdivide(int subdivision){
-    if (subdivision == 0){
+    /*if (subdivision == 0){
         createFlattenMesh(true);
-    }
-    else if (subdivisionLevel < subdivision){
+    }*/
+    /*else if (subdivisionLevel < subdivision){
         for (int i = subdivisionLevel; i < subdivision; i++){
             createFlattenMesh(false);
             flattenMesh = flattenMesh->subdivideMesh();
@@ -364,6 +367,12 @@ void Session::drawSubdivide(int subdivision){
             createFlattenMesh(false);
             flattenMesh = flattenMesh->subdivideMesh();
         }
+    }*/
+
+    createFlattenMesh(true);
+    for (int i = 0; i < subdivision; i++){
+        createFlattenMesh(false);
+        flattenMesh = flattenMesh->subdivideMesh();
     }
     subdivisionLevel = subdivision;
 
