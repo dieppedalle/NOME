@@ -402,6 +402,7 @@ bool deleteFace(FaceNew* face)
         { e0->faceCount = 1; }
     }
     face->edges.clear(); face->verts.clear();
+
     return face->edges.empty() && face->verts.empty();
 }
 
@@ -569,9 +570,9 @@ void EdgeNew::calculateEdgePoint(){
 
     //Check if it is on a border.
     if (this->f1 != NULL){
-        *xEdgePoint = (*this->f0->facePoint->x + *this->f1->facePoint->x + *this->v0->xTransformed + *this->v1->xTransformed) / 4.0;
-        *yEdgePoint = (*this->f0->facePoint->y + *this->f1->facePoint->y + *this->v0->yTransformed + *this->v1->yTransformed) / 4.0;
-        *zEdgePoint = (*this->f0->facePoint->z + *this->f1->facePoint->z + *this->v0->zTransformed + *this->v1->zTransformed) / 4.0;
+        *xEdgePoint = (*this->f0->facePoint->xTransformed + *this->f1->facePoint->xTransformed + *this->v0->xTransformed + *this->v1->xTransformed) / 4.0;
+        *yEdgePoint = (*this->f0->facePoint->yTransformed + *this->f1->facePoint->yTransformed + *this->v0->yTransformed + *this->v1->yTransformed) / 4.0;
+        *zEdgePoint = (*this->f0->facePoint->zTransformed + *this->f1->facePoint->zTransformed + *this->v0->zTransformed + *this->v1->zTransformed) / 4.0;
     }
     else{
         *xEdgePoint = (*this->v0->xTransformed + *this->v1->xTransformed) / 2.0;
@@ -627,9 +628,9 @@ void Vert::calculateVertPoint(){
         Rz = 0;
         for (EdgeNew* currEdge : edges){
             if (currEdge->f1 == NULL){
-                Rx += (*currEdge->v0->x + *currEdge->v1->x) / 2.0;
-                Ry += (*currEdge->v0->y + *currEdge->v1->y) / 2.0;
-                Rz += (*currEdge->v0->z + *currEdge->v1->z) / 2.0;
+                Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
+                Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
+                Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
                 n++;
             }
         }
@@ -649,9 +650,9 @@ void Vert::calculateVertPoint(){
         double Qz = 0;
         // Q is the average of the surrounding face points
         for (FaceNew* currFace : faces){
-            Qx += *currFace->facePoint->x;
-            Qy += *currFace->facePoint->y;
-            Qz += *currFace->facePoint->z;
+            Qx += *currFace->facePoint->xTransformed;
+            Qy += *currFace->facePoint->yTransformed;
+            Qz += *currFace->facePoint->zTransformed;
         }
 
         Qx = Qx / faces.size();
@@ -661,9 +662,9 @@ void Vert::calculateVertPoint(){
         // R is the average of all surround edge midpoints
 
         for (EdgeNew* currEdge : edges){
-            Rx += (*currEdge->v0->x + *currEdge->v1->x) / 2.0;
-            Ry += (*currEdge->v0->y + *currEdge->v1->y) / 2.0;
-            Rz += (*currEdge->v0->z + *currEdge->v1->z) / 2.0;
+            Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
+            Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
+            Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
         }
         Rx = Rx / edges.size();
         Ry = Ry / edges.size();

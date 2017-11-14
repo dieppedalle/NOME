@@ -323,6 +323,8 @@ void Session::createFlattenMesh(bool instance){
 
     if (instance){
         for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+            //std::cout << (*itMesh)->name << std::endl;
+            //std::cout << "HELLO" << std::endl;
             (*itMesh)->flattenInstance(tmpflattenMesh);
         }
     }
@@ -351,22 +353,7 @@ void Session::createFlattenMesh(bool instance){
 }
 
 void Session::drawSubdivide(int subdivision){
-    /*if (subdivision == 0){
-        createFlattenMesh(true);
-    }*/
-    /*else if (subdivisionLevel < subdivision){
-        for (int i = subdivisionLevel; i < subdivision; i++){
-            createFlattenMesh(false);
-            flattenMesh = flattenMesh->subdivideMesh();
-        }
-    }
-    else if (subdivisionLevel != subdivision){
-        createFlattenMesh(true);
-        for (int i = 0; i < subdivision; i++){
-            createFlattenMesh(false);
-            flattenMesh = flattenMesh->subdivideMesh();
-        }
-    }*/
+
 
     createFlattenMesh(true);
     for (int i = 0; i < subdivision; i++){
@@ -390,12 +377,9 @@ void Session::SaveSessionStl(std::string outputFile){
         createFlattenMesh(true);
     }
 
-    file<< "solid convertedFile\n";
+    file << "solid convertedFile\n";
     for (FaceNew * currFace : flattenMesh->faces){
         std::vector<double> normalVector = currFace->getNormal();
-        //file << "  facet normal " + dbl2str(normalVector[0]) + " " + dbl2str(normalVector[1]) + " " + dbl2str(normalVector[2]) + "\n";
-        //file << "    outer loop\n";
-
         std::list<Vert*>::iterator itVert = currFace->verts.begin();
 
         Vert* initVertex = *itVert;
@@ -409,7 +393,7 @@ void Session::SaveSessionStl(std::string outputFile){
             file << "      vertex " + dbl2str(*(lastVert->xTransformed)) + " " + dbl2str(*(lastVert->yTransformed)) + " " + dbl2str(*(lastVert->zTransformed)) + "\n";
             file << "      vertex " + dbl2str(*((*itVert)->xTransformed)) + " " + dbl2str(*((*itVert)->yTransformed)) + " " + dbl2str(*((*itVert)->zTransformed)) + "\n";
             file << "    endloop\n";
-            file<< "  endfacet\n";
+            file << "  endfacet\n";
             lastVert = *itVert;
 
             itVert++;

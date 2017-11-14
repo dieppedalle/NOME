@@ -59,6 +59,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)){
+
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            i0->verts.push_back(newVertex);
@@ -145,6 +146,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
        i0->faces.push_back(newFace);
    }
+
    return i0;
 }
 
@@ -200,6 +202,7 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
     for (InstanceNew* i : listInstances) {
         i->flattenInstance(flattenedMesh);
     }
+
 
 }
 
