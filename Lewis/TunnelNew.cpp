@@ -119,7 +119,7 @@ void TunnelNew::createVertEdgeTunnel(){
         }
         verticesFace.push_back(highCircle[i]);
 
-        FaceNew * newFace = createFace(verticesFace, &(edges), reader);
+        FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
         newFace->setName("fa" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
@@ -139,7 +139,7 @@ void TunnelNew::createVertEdgeTunnel(){
         }
         verticesFace.push_back(lowCircle[i]);
 
-        FaceNew * newFace = createFace(verticesFace, &(edges), reader);
+        FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
         newFace->setName("fb" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();

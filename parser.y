@@ -423,10 +423,12 @@ setArgs:
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
+        std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             Vert * currentVertex = currReader->getVert(*it);
+
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
                 bool found = false;
@@ -446,7 +448,7 @@ faceMesh:
             }
         }
 
-        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges, currReader);
+        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges, currReader, false);
         setName(newFace, strdup($<string>2));
 
         string surfaceName = $<string>4;
@@ -618,7 +620,7 @@ face:
             }
         }
 
-        FaceNew * newFace = createFace(verticesFace, &(currSession->edges), currReader);
+        FaceNew * newFace = createFace(verticesFace, &(currSession->edges), currReader, false);
 
         setName(newFace, strdup($<string>2));
 

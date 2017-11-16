@@ -61,7 +61,6 @@ public:
     std::string getVertName(int id);
     std::string getFaceName(int id);
     GroupNew* getGroup(std::string);
-
 } Reader;
 
 ///Instantiation

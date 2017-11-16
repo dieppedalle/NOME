@@ -14,6 +14,7 @@
 #include "TunnelNew.h"
 #include "CircleNew.h"
 #include "GroupNew.h"
+#include "Reader.h"
 
 bool setSurface(InstanceNew* i0, Surface* surface){
     i0->surface = surface;
@@ -113,6 +114,10 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        }
 
        if (newEdge == NULL){
+           newEdge = currReader->getEdge(firstVert->index, secondVert->index);
+       }
+
+       if (newEdge == NULL){
             newEdge = createEdge(firstVert, secondVert, 1.0);
             i0->edges.push_back(newEdge);
        }
@@ -140,7 +145,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            vertFace.push_back(firstVert);
        }
 
-       FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader);
+       FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader, true);
        setName(newFace, f0->name);
        setSurface(newFace, f0->surface);
 
@@ -189,14 +194,44 @@ bool InstanceNew::draw()
 
 void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
 {
+
     for(Vert* v : verts) {
-      flattenedMesh->verts.push_back(v);
+      bool contains = false;
+      for (Vert* vf : flattenedMesh->verts){
+          if (v->index == vf->index){
+              contains = true;
+              break;
+          }
+      }
+      if (!contains){
+          flattenedMesh->verts.push_back(v);
+      }
     }
     for(EdgeNew* e : edges) {
-      flattenedMesh->edges.push_back(e);
+        bool contains = false;
+        for (EdgeNew* ef : flattenedMesh->edges){
+            if (e->index == ef->index){
+                contains = true;
+                break;
+            }
+        }
+        if (!contains){
+            flattenedMesh->edges.push_back(e);
+        }
+        //flattenedMesh->edges.push_back(e);
     }
     for(FaceNew* f : faces) {
-      flattenedMesh->faces.push_back(f);
+        bool contains = false;
+        for (FaceNew* ff : flattenedMesh->faces){
+            if (f->index == ff->index){
+                contains = true;
+                break;
+            }
+        }
+        if (!contains){
+            flattenedMesh->faces.push_back(f);
+        }
+      //flattenedMesh->faces.push_back(f);
     }
 
     for (InstanceNew* i : listInstances) {

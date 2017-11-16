@@ -99,7 +99,7 @@ void FunnelNew::createVertEdgeFunnel(){
 
         }
         verticesFace.push_back(highCircle[i]);
-        FaceNew * newFace = createFace(verticesFace, &(edges), reader);
+        FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
         newFace->setName("f" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();

@@ -200,7 +200,7 @@ void Session::addTmpFace(){
         tmpFaceIndex = 0;
     }
     Reader* currReader = createReader(this);
-    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader);
+    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader, false);
 
     setTmpSurface(newFace);
 
@@ -320,10 +320,8 @@ void Session::draw(){
 
 void Session::createFlattenMesh(bool instance){
     MeshNew* tmpflattenMesh = createMesh();
-
     if (instance){
         for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
-            //std::cout << (*itMesh)->name << std::endl;
             //std::cout << "HELLO" << std::endl;
             (*itMesh)->flattenInstance(tmpflattenMesh);
         }
@@ -338,18 +336,15 @@ void Session::createFlattenMesh(bool instance){
     for (FaceNew* currFace : tmpflattenMesh->faces){
         currFace->calculateFacePoint();
     }
-    //std::cout << "DONE" << std::endl;
 
     for (EdgeNew* currEdge : tmpflattenMesh->edges){
         currEdge->calculateEdgePoint();
     }
 
-    //std::cout << "OPS" << std::endl;
     for (Vert* currVert : tmpflattenMesh->verts){
         currVert->calculateVertPoint();
     }
     flattenMesh = tmpflattenMesh;
-
 }
 
 void Session::drawSubdivide(int subdivision){

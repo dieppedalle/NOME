@@ -243,10 +243,13 @@ MeshNew* MeshNew::subdivideMesh(){
                 listFace.clear();
 
                 listFace.push_back(previousEdgePoint);
+                //std::cout << "VERT POINT" << std::endl;
                 listFace.push_back((*vertIt)->vertPoint);
                 listFace.push_back(currEdge->edgePoint);
                 listFace.push_back(currFace->facePoint);
-                FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL);
+                //std::cout << "START CREATE FACE" << std::endl;
+                FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
+                //std::cout << "END CREATE FACE" << std::endl;
 
                 if(!isInList(previousEdgePoint, newMesh->verts)){
                     newMesh->verts.push_back(previousEdgePoint);
@@ -290,7 +293,7 @@ MeshNew* MeshNew::subdivideMesh(){
             newMesh->verts.push_back(currFace->facePoint);
         }
 
-        FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL);
+        FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
         newMesh->faces.push_back(f0);
 
     }

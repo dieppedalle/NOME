@@ -463,11 +463,6 @@ bool Reader::deleteFace(FaceNew * searchFace){
 }
 
 EdgeNew* Reader::getEdge(int id1, int id2){
-    // Check for definitions first
-    //std::cout << "====" << std::endl;
-    //std::cout << id1 << std::endl;
-    //std::cout << id2 << std::endl;
-
     for (InstanceNew* i0 : session->instances){
         for (EdgeNew* e0 : i0->edges){
             if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
@@ -484,6 +479,7 @@ EdgeNew* Reader::getEdge(int id1, int id2){
             }
         }
     }
+    //std::cout << "FINISH GETEDGE" << std::endl;
 
     return NULL;
 }
