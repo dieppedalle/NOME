@@ -86,11 +86,11 @@ void CircleNew::createVertEdgeCircle(){
     ++it2;
     while (it != verts.end()){
         if (it2 != verts.end()){
-            currentEdge = createEdge(*it, *it2);
+            currentEdge = createEdge(*it, *it2, false);
             it2++;
         }
         else{
-            currentEdge = createEdge(verts.back(), verts.front());
+            currentEdge = createEdge(verts.back(), verts.front(), false);
         }
         it++;
         edges.push_back(currentEdge);

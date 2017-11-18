@@ -423,7 +423,7 @@ setArgs:
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
-        std::cout << "Create face mesh" << std::endl;
+        //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -678,6 +678,7 @@ polyline:
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
+
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
@@ -688,7 +689,6 @@ instance:
             newInstance = createInstance(currentMesh, currSession->verts, currReader);
         }
         else{
-
             GroupNew * currentGroup = currReader->getGroup($<string>3);
             if (currentGroup != NULL) {
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);

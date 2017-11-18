@@ -57,18 +57,73 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    i0->mesh = m0;
 
    i0->verts = {};
+
+   /*std::cout << "((((((((((((((()))))))))))))))" << std::endl;
+   for (Vert* ch : vertsDef){
+
+      if (ch->name == "p3"){
+          std::cout << "VERTEX NAME" << std::endl;
+          std::cout << ch->name << std::endl;
+          std::cout << ch->index << std::endl;
+          for (EdgeNew* edge : ch->edges){
+            std::cout << "EDGE NUMBER" << std::endl;
+            std::cout << edge->index << std::endl;
+            std::cout << edge->v0->name << std::endl;
+            std::cout << edge->v1->name << std::endl;
+            std::cout << edge->f0 << std::endl;
+            std::cout << edge->faceCount << std::endl;
+          }
+      }
+   }*/
+
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)){
-
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            i0->verts.push_back(newVertex);
        }
        else{
+           //std::cout << (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()) << std::endl;
+           //std::cout << (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)) << std::endl;
+           //Vert* helloV = std::find(vertsDef.begin(), vertsDef.end(), v0);
+           //std::cout << "USING VERTEX" << std::endl;
+           //std::cout << helloV->index << std::endl;
+           //std::cout << v0->name << std::endl;
+           //std::cout << v0->index << std::endl;
            i0->verts.push_back(v0);
        }
    }
+
+   /*for (Vert* ch : i0->verts){
+      std::cout << "VERTEX NAME" << std::endl;
+      if (ch->name == "p3"){
+          std::cout << ch->name << std::endl;
+          std::cout << ch->index << std::endl;
+     for (EdgeNew* edge : ch->edges){
+            std::cout << "EDGE NUMBER" << std::endl;
+            std::cout << edge->index << std::endl;
+            std::cout << edge->v0->name << std::endl;
+            std::cout << edge->v1->name << std::endl;
+            std::cout << edge->f0 << std::endl;
+            std::cout << edge->faceCount << std::endl;
+        }
+      }
+    }*/
+
+   /*for (Vert* ch : i0->verts){
+       std::cout << "VERTEX NAME" << std::endl;
+       std::cout << ch->name << std::endl;
+       std::cout << ch->index << std::endl;
+      for (EdgeNew* edge : ch->edges){
+                 std::cout << "EDGE NUMBER" << std::endl;
+                 std::cout << edge->index << std::endl;
+                 std::cout << edge->v0->name << std::endl;
+                 std::cout << edge->v1->name << std::endl;
+                 std::cout << edge->f0 << std::endl;
+                 std::cout << edge->faceCount << std::endl;
+             }
+     }*/
 
    // Copy all the edges from the mesh to the instance.
    for (EdgeNew* e0 : m0->edges){
@@ -114,7 +169,22 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        }
 
        if (newEdge == NULL){
+           //std::cout << "LOOKING FOR EDGE" << std::endl;
+           //std::cout << firstVert->name << std::endl;
+           //std::cout << secondVert->name << std::endl;
            newEdge = currReader->getEdge(firstVert->index, secondVert->index);
+           if (newEdge != NULL){
+                i0->edges.push_back(newEdge);
+           }
+
+           //if (newEdge != NULL)
+           //std::cout << newEdge->index << std::endl;
+           //std::cout << newEdge << std::endl;
+           /*if (newEdge != NULL){
+               firstVert->edges.push_back(newEdge);
+               secondVert->edges.push_back(newEdge);
+               newEdge->faceCount += 1;
+           }*/
        }
 
        if (newEdge == NULL){
@@ -124,6 +194,32 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
 
    }
+
+   /*for (Vert* ch : i0->verts){
+       std::cout << "=====================" << std::endl;
+       std::cout << "VERTEX NAME" << std::endl;
+       std::cout << ch->name << std::endl;
+       std::cout << ch->index << std::endl;
+       for (EdgeNew* edge : ch->edges){
+            std::cout << "EDGE NUMBER" << std::endl;
+            std::cout << edge->index << std::endl;
+            std::cout << edge->v0->name << std::endl;
+            std::cout << edge->v1->name << std::endl;
+            std::cout << edge->f0 << std::endl;
+            std::cout << edge->faceCount << std::endl;
+       }
+    }
+
+   std::cout << "+++++++++++++++++" << std::endl;
+   std::cout << "EDGES" << std::endl;
+   for (EdgeNew* edge : i0->edges){
+        std::cout << "EDGE NUMBER" << std::endl;
+        std::cout << edge->index << std::endl;
+        std::cout << edge->v0->name << std::endl;
+        std::cout << edge->v1->name << std::endl;
+        std::cout << edge->f0 << std::endl;
+        std::cout << edge->faceCount << std::endl;
+   }*/
 
    for (FaceNew* f0 : m0->faces){
        std::list<EdgeNew*> edgesFace;
@@ -146,11 +242,42 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        }
 
        FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader, true);
+
+       /*for (EdgeNew* edge : newFace->edges){
+           std::cout << "EDGE NUMBER" << std::endl;
+           std::cout << edge->index << std::endl;
+           std::cout << edge->v0->name << std::endl;
+           std::cout << edge->v1->name << std::endl;
+           std::cout << edge->f0->name << std::endl;
+           std::cout << edge->faceCount << std::endl;
+       }*/
+       /*for (Vert* ch : newFace->verts){
+           for (EdgeNew* edge : ch->edges){
+                      std::cout << "EDGE NUMBER" << std::endl;
+                      std::cout << edge->v0->name << std::endl;
+                      std::cout << edge->v1->name << std::endl;
+                      std::cout << edge->f0->name << std::endl;
+                      std::cout << edge->faceCount << std::endl;
+                  }
+          }*/
+
        setName(newFace, f0->name);
        setSurface(newFace, f0->surface);
 
+
        i0->faces.push_back(newFace);
    }
+
+   /*for (Vert* ch : i0->verts){
+       for (EdgeNew* edge : ch->edges){
+           std::cout << "EDGE NUMBER" << std::endl;
+           std::cout << edge->index << std::endl;
+           std::cout << edge->v0->name << std::endl;
+           std::cout << edge->v1->name << std::endl;
+           std::cout << edge->f0->name << std::endl;
+           std::cout << edge->faceCount << std::endl;
+       }
+   }*/
 
    return i0;
 }

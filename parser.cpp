@@ -2039,7 +2039,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 425 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
-        std::cout << "Create face mesh" << std::endl;
+        //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2311,6 +2311,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 680 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
     {
+
         string instanceName = strdup((yyvsp[(2) - (6)].string));
         string lookFor = strdup((yyvsp[(3) - (6)].string));
 
@@ -2321,7 +2322,6 @@ yyreduce:
             newInstance = createInstance(currentMesh, currSession->verts, currReader);
         }
         else{
-
             GroupNew * currentGroup = currReader->getGroup((yyvsp[(3) - (6)].string));
             if (currentGroup != NULL) {
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);

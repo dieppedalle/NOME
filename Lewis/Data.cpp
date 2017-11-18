@@ -112,7 +112,7 @@ Vert* createVert(Vert* toBeCopied){
 ///Edge functions
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links
-EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
+EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect)
 {
     EdgeNew* e0 = new EdgeNew();
     e0->isBorder = false;
@@ -130,15 +130,38 @@ EdgeNew* createEdge(Vert* v0, Vert* v1, double interval)
     e0->faceCount = 0;
     e0->vertCount = 0;
     
-    v0->edges.push_back(e0); v1->edges.push_back(e0);
+    // TODO
+    //std::cout << "SEARCHING FOR EDGE" << std::endl;
+    if (connect){
+        bool isAlreadyInListV0 = false;
+        for (EdgeNew* cE : v0->edges){
+            if ((e0->v0->index == cE->v0->index && e0->v1->index == cE->v1->index) || (e0->v0->index == cE->v1->index && e0->v1->index == cE->v0->index)){
+                isAlreadyInListV0 = true;
+            }
+        }
+
+        bool isAlreadyInListV1 = false;
+        for (EdgeNew* cE : v1->edges){
+            if ((e0->v0->index == cE->v0->index && e0->v1->index == cE->v1->index) || (e0->v0->index == cE->v1->index && e0->v1->index == cE->v0->index)){
+                isAlreadyInListV1 = true;
+            }
+        }
+
+        if (!isAlreadyInListV0){
+            v0->edges.push_back(e0);
+        }
+        if (!isAlreadyInListV1){
+            v1->edges.push_back(e0);
+        }
+    }
 
     return e0;
 }
 
 ///Create edge without specifying knot interval, default to 1.0
-EdgeNew* createEdge(Vert* v0, Vert* v1)
+EdgeNew* createEdge(Vert* v0, Vert* v1, bool connect)
 {
-    return createEdge(v0, v1, 1.0);
+    return createEdge(v0, v1, 1.0, connect);
 }
 
 ///Lazy construct, create edge without prior verts
@@ -169,6 +192,18 @@ FaceNew* createFace()
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect){
 
+
+    /*std::cout << "FACE NAME" << std::endl;
+    for (Vert* cV : vertices){
+        std::cout << "VERTEX NAME" << std::endl;
+        std::cout << cV->name << std::endl;
+        for (EdgeNew* cE : cV->edges){
+            std::cout << cE->v0->name << std::endl;
+            std::cout << cE->v1->name << std::endl;
+            std::cout << cE->f0 << std::endl;
+        }
+    }*/
+
     EdgeNew * currentEdge;
     std::list<Vert*>::iterator it = vertices.begin();
     std::list<Vert*>::iterator it2 = vertices.begin();
@@ -185,10 +220,17 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
             }
             if (currentEdge == NULL && currReader != NULL){
                 currentEdge = currReader->getEdge((*it)->index, (*it2)->index);
+                if (currentEdge != NULL){
+                    if (connect){
+                        (*it)->edges.push_back(currentEdge);
+                        (*it2)->edges.push_back(currentEdge);
+                        //currentEdge->faceCount += 1;
+                    }
+                }
             }
 
             if (currentEdge == NULL){
-                currentEdge = createEdge(*it, *it2);
+                currentEdge = createEdge(*it, *it2, connect);
             }
             it2++;
         }
@@ -202,10 +244,17 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
 
             if (currentEdge == NULL && currReader != NULL){
                 currentEdge = currReader->getEdge(vertices.back()->index, vertices.front()->index);
+                if (currentEdge != NULL){
+                    if (connect){
+                        vertices.back()->edges.push_back(currentEdge);
+                        vertices.front()->edges.push_back(currentEdge);
+                        //currentEdge->faceCount += 1;
+                    }
+                }
             }
 
             if (currentEdge == NULL){
-                currentEdge = createEdge(vertices.back(), vertices.front());
+                currentEdge = createEdge(vertices.back(), vertices.front(), connect);
             }
         }
         it++;
@@ -253,12 +302,19 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
     std::list<Vert*>::iterator vertsIt = verts.begin();
     for( EdgeNew* edge : edges )
     {
+        //std::cout << "EDGE NUMBER" << std::endl;
+        //std::cout << edge->v0->name << std::endl;
+        //std::cout << edge->v1->name << std::endl;
         if (edge->f0 == NULL){
+            //std::cout << "F0" << std::endl;
             edge->f0 = f0;
         }
         else{
+            //std::cout << "F1" << std::endl;
             edge->f1 = f0;
         }
+        //std::cout << edge->f0 << std::endl;
+        //std::cout << edge->f1 << std::endl;
 
         bool b0 = false, b1 = false;
         for( int i = 0; i < vIndex.size(); i++ )
@@ -302,8 +358,12 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         vertsIt++;
 
         f0->edges.push_back(edge);
-        
 
+
+        
+        //std::cout << "NAME" << std::endl;
+        //std::cout << f0->name << std::endl;
+        //std::cout << edge->faceCount << std::endl;
         //Check if an edge has more than two adjacent faces
         if( edge->faceCount == 0 )
         {
@@ -320,6 +380,12 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
             errorMessage("Invalid edges given for a face, edges can be adjacent to at most 2 faces.", -1);
             return NULL;
         }
+        /*std::cout << "EDGE NUMBER" << std::endl;
+        std::cout << edge->v0->name << std::endl;
+        std::cout << edge->v1->name << std::endl;
+        std::cout << edge->f0 << std::endl;
+        std::cout << edge->f1 << std::endl;
+        std::cout << edge->faceCount << std::endl;*/
     }
 
     //Check if edges given are adjacent
@@ -331,6 +397,16 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
     //Add reference to the face for all the vertices in the face
     for( Vert* vert: vIndex )
         vert->faces.push_back(f0);
+
+    /*for( EdgeNew* edge: f0->edges ){
+        std::cout << "EDGE NUMBER" << std::endl;
+        std::cout << edge->v0->name << std::endl;
+        std::cout << edge->v1->name << std::endl;
+        std::cout << edge->f0 << std::endl;
+        std::cout << edge->f1 << std::endl;
+        std::cout << edge->faceCount << std::endl;
+    }*/
+
 
     return f0;
 }
@@ -627,7 +703,6 @@ void FaceNew::calculateFacePoint(){
 }
 
 void Vert::calculateVertPoint(){
-    //std::cout << "CALCULATE VERT POINT" << std::endl;
     double Rx = 0;
     double Ry = 0;
     double Rz = 0;
@@ -642,14 +717,12 @@ void Vert::calculateVertPoint(){
     double *yVertPoint = (double*) malloc(sizeof(double));
     double *zVertPoint = (double*) malloc(sizeof(double));
     if (faces.size() != edges.size()){
-        std::cout << name << std::endl;
         n = 0;
         Rx = 0;
         Ry = 0;
         Rz = 0;
         for (EdgeNew* currEdge : edges){
             if (currEdge->f1 == NULL){
-                std::cout << "HI" << std::endl;
                 Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
                 Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
                 Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
@@ -660,7 +733,6 @@ void Vert::calculateVertPoint(){
         *xVertPoint = (Sx + Rx) / (n+1);
         *yVertPoint = (Sy + Ry) / (n+1);
         *zVertPoint = (Sz + Rz) / (n+1);
-        //std::cout << ":)" << std::endl;
     }
     else{
         //(Q/n) + (2R/n) + (S(n-3)/n)

@@ -110,8 +110,8 @@ Vert* createVert(double *x, double *y, double *z, double w);
 
 ///Edge Instantiation
 EdgeNew* createEdge(EdgeNew*);
-EdgeNew* createEdge(Vert* v0, Vert* v1);
-EdgeNew* createEdge(Vert* v0, Vert* v1, double interval);
+EdgeNew* createEdge(Vert* v0, Vert* v1, bool connect);
+EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect);
 EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, double z1, double interval);
 
 ///Face Instantiation

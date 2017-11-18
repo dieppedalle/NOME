@@ -25,7 +25,7 @@ PolylineNew* createPolylineNew(std::list<Vert*> verticesPolyline)
     ++it2;
     while (it != verticesPolyline.end()){
         if (it2 != verticesPolyline.end()){
-            currentEdge = createEdge(*it, *it2);
+            currentEdge = createEdge(*it, *it2, false);
             it2++;
             p0->edges.push_back(currentEdge);
         }
