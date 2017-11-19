@@ -322,7 +322,6 @@ void Session::createFlattenMesh(bool instance){
     MeshNew* tmpflattenMesh = createMesh();
     if (instance){
         for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
-            //std::cout << "HELLO" << std::endl;
             (*itMesh)->flattenInstance(tmpflattenMesh);
         }
     }

@@ -407,11 +407,9 @@ void SlideGLWidget::paintGL()
     if (viewer_mode == 0){
         currSession->draw();
     } else if (viewer_mode == 1){
+        //std::cout << "HI" << std::endl;
         for (SubdivisionNew* subdivide : currSession->subdivisions){
-            //std::cout << *(subdivide->subdivisions) << std::endl;
-            //if (currSession->subdivisionLevel != *(subdivide->subdivisions)){
-                currSession->drawSubdivide(*(subdivide->subdivisions));
-            //}
+            currSession->drawSubdivide(subdivide->value);
         }
     }
 

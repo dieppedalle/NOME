@@ -15,6 +15,7 @@ class SubdivisionNew
 public:
     std::string name;
     std::string type;
+    double value;
     double* subdivisions;
 };
 

@@ -7,6 +7,7 @@
 
 #include "mainwindow.h"
 #include "Lewis/SliderNew.h"
+#include "Lewis/SliderSubdivisionNew.h"
 
 MainWindow::MainWindow()
 {
@@ -188,6 +189,7 @@ void MainWindow::createCanvas(QString name)
         }
 
         drawSliders(canvas, currSession);
+        drawSubdivisionSliders(canvas, currSession);
 
         //createSliderPanel(canvas);
         canvas -> move(0, 50);
@@ -217,6 +219,20 @@ void MainWindow::drawSliders(SlideGLWidget * canvas, Session *currSession)
         window->setLayout(layout);
         window->show();
     }
+}
+
+void MainWindow::drawSubdivisionSliders(SlideGLWidget * canvas, Session *currSession)
+{
+    QWidget *window = new QWidget;
+    window->resize(400,0);
+    QVBoxLayout* layout = new QVBoxLayout(window);
+    QLabel* label = new QLabel("SUBDIVISION");
+    layout->addWidget(label);
+    for(SubdivisionNew* sd : currSession->subdivisions) {
+        layout -> addLayout(new SliderSubdivisionNew(sd, canvas));
+        window->setLayout(layout);
+    }
+    window->show();
 }
 
 

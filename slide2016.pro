@@ -60,7 +60,8 @@ SOURCES += main.cpp\
     Lewis/FunnelNew.cpp \
     Lewis/TunnelNew.cpp \
     Lewis/ConsolidateWindow.cpp \
-    Lewis/SubdivisionNew.cpp
+    Lewis/SubdivisionNew.cpp \
+    Lewis/SliderSubdivisionNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -109,7 +110,8 @@ HEADERS  += \
     Lewis/FunnelNew.h \
     Lewis/TunnelNew.h \
     Lewis/ConsolidateWindow.h \
-    Lewis/SubdivisionNew.h
+    Lewis/SubdivisionNew.h \
+    Lewis/SliderSubdivisionNew.h
 
 linux{
     LIBS += -lglut -lGLU

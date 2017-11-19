@@ -15,5 +15,6 @@ SubdivisionNew* createSubdivision(std::string name, std::string type, double * s
     s0->name = name;
     s0->type = type;
     s0->subdivisions = subdivisions;
+    s0->value = 0;
     return s0;
 }

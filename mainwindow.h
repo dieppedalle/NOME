@@ -32,6 +32,7 @@ private:
     void createCanvas(QString name);
     void createControlPanel(SlideGLWidget *canvas);
     void createSliderPanel(SlideGLWidget * canvas);
+    void drawSubdivisionSliders(SlideGLWidget * canvas, Session *currSession);
     void drawSliders(SlideGLWidget * canvas, Session *currSession);
     void save_current_status_nome(string out_put_file);
     void save_current_status_anom(string out_put_file);
