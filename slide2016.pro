@@ -61,7 +61,9 @@ SOURCES += main.cpp\
     Lewis/TunnelNew.cpp \
     Lewis/ConsolidateWindow.cpp \
     Lewis/SubdivisionNew.cpp \
-    Lewis/SliderSubdivisionNew.cpp
+    Lewis/SliderSubdivisionNew.cpp \
+    Lewis/OffsetNew.cpp \
+    Lewis/SliderOffsetNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -111,7 +113,9 @@ HEADERS  += \
     Lewis/TunnelNew.h \
     Lewis/ConsolidateWindow.h \
     Lewis/SubdivisionNew.h \
-    Lewis/SliderSubdivisionNew.h
+    Lewis/SliderSubdivisionNew.h \
+    Lewis/OffsetNew.h \
+    Lewis/SliderOffsetNew.h
 
 linux{
     LIBS += -lglut -lGLU

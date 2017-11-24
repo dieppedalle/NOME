@@ -45,6 +45,8 @@ INPUT(
 ./debug\ConsolidateWindow.o
 ./debug\SubdivisionNew.o
 ./debug\SliderSubdivisionNew.o
+./debug\OffsetNew.o
+./debug\SliderOffsetNew.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o
@@ -53,4 +55,5 @@ INPUT(
 ./debug\moc_SliderNew.o
 ./debug\moc_ConsolidateWindow.o
 ./debug\moc_SliderSubdivisionNew.o
+./debug\moc_SliderOffsetNew.o
 );

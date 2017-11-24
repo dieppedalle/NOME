@@ -354,7 +354,7 @@ void SlideGLWidget::paintGL()
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == c){
                     Reader* currReader = createReader(currSession);
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader);
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
 
                     newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                     newInstance->transformations = (*iterator)->transformations;
@@ -369,7 +369,7 @@ void SlideGLWidget::paintGL()
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == f){
                     Reader* currReader = createReader(currSession);
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader);
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
 
                     newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                     newInstance->transformations = (*iterator)->transformations;
@@ -383,7 +383,7 @@ void SlideGLWidget::paintGL()
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == t){
                     Reader* currReader = createReader(currSession);
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader);
+                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
 
                     newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                     newInstance->transformations = (*iterator)->transformations;
@@ -407,15 +407,11 @@ void SlideGLWidget::paintGL()
     if (viewer_mode == 0){
         currSession->draw();
     } else if (viewer_mode == 1){
-        //std::cout << "HI" << std::endl;
         for (SubdivisionNew* subdivide : currSession->subdivisions){
-            currSession->drawSubdivide(subdivide->value);
+            currSession->drawSubdivide(subdivide->value, subdivide->previousSubdivisionLevel);
+            subdivide->previousSubdivisionLevel = subdivide->value;
         }
     }
-
-
-
-
 }
 
 

@@ -45,6 +45,8 @@ INPUT(
 ./release\ConsolidateWindow.o
 ./release\SubdivisionNew.o
 ./release\SliderSubdivisionNew.o
+./release\OffsetNew.o
+./release\SliderOffsetNew.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o
@@ -53,4 +55,5 @@ INPUT(
 ./release\moc_SliderNew.o
 ./release\moc_ConsolidateWindow.o
 ./release\moc_SliderSubdivisionNew.o
+./release\moc_SliderOffsetNew.o
 );

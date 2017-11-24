@@ -90,7 +90,12 @@
      SUBDIVISION = 306,
      END_SUBDIVISION = 307,
      SUBDIVISIONS = 308,
-     TYPE = 309
+     TYPE = 309,
+     OFFSET = 310,
+     END_OFFSET = 311,
+     MIN = 312,
+     MAX = 313,
+     STEP = 314
    };
 #endif
 /* Tokens.  */
@@ -146,6 +151,11 @@
 #define END_SUBDIVISION 307
 #define SUBDIVISIONS 308
 #define TYPE 309
+#define OFFSET 310
+#define END_OFFSET 311
+#define MIN 312
+#define MAX 313
+#define STEP 314
 
 
 
@@ -167,7 +177,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 171 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
+#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

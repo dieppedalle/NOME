@@ -17,6 +17,7 @@ public:
     std::string type;
     double value;
     double* subdivisions;
+    double previousSubdivisionLevel;
 };
 
 //Instantiation

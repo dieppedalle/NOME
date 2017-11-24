@@ -68,7 +68,7 @@ END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE NUMBER PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE BANK_EXPR
-SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP;
+SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE;
 
 %error-verbose
 %locations
@@ -98,7 +98,7 @@ commands: /* empty */
 
 command:
     comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | instance | delete | group | circle | subdivision | offset
+  tunnel | funnel | polyline | instance | delete | group | circle | subdivision
 	;
 
 numberValue:
@@ -290,7 +290,7 @@ instanceGroup:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader);
             newInstance->setName(strdup($<string>2));
         }
         else{
@@ -340,41 +340,8 @@ subdivision:
         }
 
         SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>2), strdup($<string>4), subdivision);
+        std::cout << *currSubdivision->subdivisions << std::endl;
         currSession->subdivisions.push_back(currSubdivision);
-    };
-
-offset:
-    OFFSET VARIABLE MIN numberValue MAX numberValue STEP numberValue END_OFFSET
-    {
-        double *min = (double*) malloc(sizeof(double));
-        double *max = (double*) malloc(sizeof(double));
-        double *step = (double*) malloc(sizeof(double));
-
-
-        if ($<numPos.string>4 == NULL){
-            *min = $<numPos.number>4;
-        }
-        else{
-            min = getBankValue($<numPos.string>4);
-        }
-
-        if ($<numPos.string>6 == NULL){
-            *max = $<numPos.number>6;
-        }
-        else{
-            max = getBankValue($<numPos.string>6);
-        }
-
-        if ($<numPos.string>8 == NULL){
-            *step = $<numPos.number>8;
-        }
-        else{
-            step = getBankValue($<numPos.string>8);
-        }
-
-        OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
-
-        currSession->offsets.push_back(currOffset);
     };
 
 mesh:
@@ -720,7 +687,7 @@ instance:
 
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader);
         }
         else{
             GroupNew * currentGroup = currReader->getGroup($<string>3);

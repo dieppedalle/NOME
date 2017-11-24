@@ -212,7 +212,7 @@ void Session::addTmpFace(){
     }
     tmpMesh->setName("tmpMesh");
 
-    tmpInstance = createInstance(tmpMesh, this->verts, currReader);
+    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false);
     tmpInstance->setName("tmpInstance");
     clearSelection();
     tmpFaceIndex += 1;
@@ -222,7 +222,7 @@ void Session::addTmpPolyline(){
     Reader* currReader = createReader(this);
     tmpPolyline = createPolylineNew(selectedVerts);
     tmpPolyline->setName("tmpPolyline");
-    tmpInstance = createInstance(tmpPolyline, this->verts, currReader);
+    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false);
     tmpInstance->setName("tmpInstance");
     clearSelection();
 }
@@ -261,7 +261,16 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
     }
     if (tmpInstance != NULL){
         tmpInstance->setName(consolidateInstanceName);
-        instances.push_back(tmpInstance);
+
+        InstanceNew* newInstance = createInstance(tmpMesh, this->verts, currReader, true);
+        newInstance->setName(consolidateInstanceName);
+        for (FaceNew * tmpFace: newInstance->faces){
+            setSurface(tmpFace, NULL);
+        }
+
+        instances.push_back(newInstance);
+
+        //instances.push_back(tmpInstance);
         this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance";
     }
 
@@ -346,18 +355,30 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
-void Session::drawSubdivide(int subdivision){
-
-
-    createFlattenMesh(true);
-    for (int i = 0; i < subdivision; i++){
-        createFlattenMesh(false);
-        flattenMesh = flattenMesh->subdivideMesh();
+void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel){
+    if (previousSubdivisionLevel < subdivision){
+        for (int i = 0; i < subdivision-previousSubdivisionLevel; i++){
+            createFlattenMesh(false);
+            flattenMesh = flattenMesh->subdivideMesh();
+        }
+    }
+    else if (previousSubdivisionLevel != subdivision || subdivision == 0){
+        createFlattenMesh(true);
+        for (int i = 0; i < subdivision; i++){
+            createFlattenMesh(false);
+            flattenMesh = flattenMesh->subdivideMesh();
+        }
     }
     subdivisionLevel = subdivision;
 
+    // HERE WE NEED TO THE OFFSETTING
+    //for (FaceNew* currFace : flattenMesh->faces){
+        //std::cout << "FACE" << std::endl;
+    //}
+    //std::cout << "TEST" << std::endl;
 
     flattenMesh->draw();
+
 }
 
 void Session::SaveSessionStl(std::string outputFile){
