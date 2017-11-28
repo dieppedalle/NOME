@@ -60,6 +60,7 @@ public:
     VertI index;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
+    std::vector<double> normal;
 
     // Used for subdivision
     Vert* vertPoint;

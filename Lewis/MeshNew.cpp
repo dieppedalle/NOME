@@ -301,6 +301,10 @@ MeshNew* MeshNew::subdivideMesh(){
 }
 
 void MeshNew::calculateNormal(){
+    for (Vert* currVert : this->verts){
+        currVert->normal = {0, 0, 0};
+    }
+
     for (FaceNew* currFace : this->faces){
         std::list<Vert*>::iterator it = currFace->verts.begin();
         std::vector<Vert*> firstVerts;
@@ -320,9 +324,13 @@ void MeshNew::calculateNormal(){
                 normalVector = getNormalFromVerts(firstVerts);
                 double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] + normalVector[2]);
                 double new_magnitude = getAngleFromVerts(firstVerts);
+
                 normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
                 normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
                 normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+                firstVerts[1] -> normal[0] += normalVector[0];
+                firstVerts[1] -> normal[1] += normalVector[1];
+                firstVerts[1] -> normal[2] += normalVector[2];
 
                 firstVerts.erase(firstVerts.begin());
             }
@@ -341,5 +349,16 @@ void MeshNew::calculateNormal(){
         }
 
         std::cout << "Face" << std::endl;
+    }
+
+    for (Vert* currVert : this->verts){
+        double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] + currVert->normal[2]);
+        currVert->normal[0] = currVert->normal[0] / magnitude;
+        currVert->normal[1] = currVert->normal[1] / magnitude;
+        currVert->normal[2] = currVert->normal[2] / magnitude;
+
+        std::cout <<  currVert->normal[0] << std::endl;
+        std::cout <<  currVert->normal[1] << std::endl;
+        std::cout <<  currVert->normal[2] << std::endl;
     }
 }
