@@ -356,7 +356,8 @@ void Session::createFlattenMesh(bool instance){
 }
 
 void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset){
-    if (previousSubdivisionLevel < subdivision){
+    // UNCOMMENT THIS FOR REFRESH
+    /*if (previousSubdivisionLevel < subdivision){
         for (int i = 0; i < subdivision-previousSubdivisionLevel; i++){
             createFlattenMesh(false);
             flattenMesh = flattenMesh->subdivideMesh();
@@ -368,7 +369,14 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
             createFlattenMesh(false);
             flattenMesh = flattenMesh->subdivideMesh();
         }
+    }*/
+
+    createFlattenMesh(true);
+    for (int i = 0; i < subdivision; i++){
+        createFlattenMesh(false);
+        flattenMesh = flattenMesh->subdivideMesh();
     }
+
     subdivisionLevel = subdivision;
 
     flattenMesh->calculateNormal();
