@@ -347,7 +347,6 @@ void MeshNew::calculateNormal(){
                 i++;
             }
         }
-
         std::cout << "Face" << std::endl;
     }
 
@@ -356,9 +355,5 @@ void MeshNew::calculateNormal(){
         currVert->normal[0] = currVert->normal[0] / magnitude;
         currVert->normal[1] = currVert->normal[1] / magnitude;
         currVert->normal[2] = currVert->normal[2] / magnitude;
-
-        std::cout <<  currVert->normal[0] << std::endl;
-        std::cout <<  currVert->normal[1] << std::endl;
-        std::cout <<  currVert->normal[2] << std::endl;
     }
 }

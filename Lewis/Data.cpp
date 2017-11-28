@@ -192,6 +192,8 @@ FaceNew* createFace()
     return f0;
 }
 
+
+
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect){
 
 
