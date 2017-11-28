@@ -123,6 +123,7 @@ FaceNew* createFace();
 FaceNew* createFace(FaceNew*);
 FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts);
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect);
+FaceNew* createOffsetFace(std::list<Vert*> verts);
 
 ///Naming functions
 bool setName(Vert* v0, std::string n);

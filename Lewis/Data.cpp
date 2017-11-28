@@ -192,7 +192,16 @@ FaceNew* createFace()
     return f0;
 }
 
+FaceNew* createOffsetFace(std::list<Vert*> verts)
+{
+    FaceNew* f0 = createFace();
 
+    for (Vert* currVert : verts){
+        f0->verts.push_back(currVert);
+    }
+
+    return f0;
+}
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect){
 

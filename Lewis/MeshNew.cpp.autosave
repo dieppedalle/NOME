@@ -234,6 +234,7 @@ bool MeshNew::draw()
     }
 
     for(auto f : edges) {
+        
         std::cout << "HELLO" << std::endl;
 
     }
