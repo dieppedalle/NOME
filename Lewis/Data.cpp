@@ -10,6 +10,8 @@
 #include "Data.h"
 #include "Reader.h"
 #include <glm/vec3.hpp> // glm::vec3
+#include <math.h>
+#define PI 3.14159265
 
 QColor defaultColor = QColor(255, 0, 0);
 QColor tmpColor = QColor(255, 255, 0);
@@ -579,17 +581,28 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     return true;
 }
 
-std::vector<double> FaceNew::getNormal(){
-    std::list<Vert*>::iterator it = this->verts.begin();
+double getAngleFromVerts(std::vector<Vert*> vert1){
+    std::vector<double> a;
+    a.push_back(*(vert1[0]->xTransformed) - *(vert1[1]->xTransformed));
+    a.push_back(*(vert1[0]->yTransformed) - *(vert1[1]->yTransformed));
+    a.push_back(*(vert1[0]->zTransformed) - *(vert1[1]->zTransformed));
 
-    std::vector<Vert*> vert1;
-    vert1.push_back(*it);
-    it++;
-    vert1.push_back(*it);
-    it++;
-    vert1.push_back(*it);
+    std::vector<double> b;
+    b.push_back(*(vert1[2]->xTransformed) - *(vert1[1]->xTransformed));
+    b.push_back(*(vert1[2]->yTransformed) - *(vert1[1]->yTransformed));
+    b.push_back(*(vert1[2]->zTransformed) - *(vert1[1]->zTransformed));
 
+    double dotProduct = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    double magnitudeA = sqrt(pow(a[0], 2) + pow(a[1], 2) + pow(a[2], 2));
+    double magnitudeB = sqrt(pow(b[0], 2) + pow(b[1], 2) + pow(b[2], 2));
 
+    double cosAngle = dotProduct / (magnitudeA * magnitudeB);
+    double angle = acos(cosAngle) * 180.0 / PI;;
+
+    return angle;
+}
+
+std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1){
     std::vector<double> a;
     a.push_back(*(vert1[0]->xTransformed) - *(vert1[1]->xTransformed));
     a.push_back(*(vert1[0]->yTransformed) - *(vert1[1]->yTransformed));
@@ -612,6 +625,20 @@ std::vector<double> FaceNew::getNormal(){
 
     return aCrossb;
 }
+
+std::vector<double> FaceNew::getNormal(){
+    std::list<Vert*>::iterator it = this->verts.begin();
+
+    std::vector<Vert*> vert1;
+    vert1.push_back(*it);
+    it++;
+    vert1.push_back(*it);
+    it++;
+    vert1.push_back(*it);
+
+    return getNormalFromVerts(vert1);
+}
+
 
 bool drawFace(FaceNew* f0, Surface * instSurface)
 {

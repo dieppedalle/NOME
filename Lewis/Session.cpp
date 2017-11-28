@@ -371,10 +371,23 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel){
     }
     subdivisionLevel = subdivision;
 
+    flattenMesh->calculateNormal();
+
+    /*Vert*
+    for (FaceNew* currFace : flattenMesh->faces){
+        for (Vert* currVert : currFace->vertices)
+        std::cout << "Face" << std::endl;
+    }*/
+
+    // Iterate through faces and calculate 3 vertices of face normal of each vertex
     // HERE WE NEED TO THE OFFSETTING
-    //for (FaceNew* currFace : flattenMesh->faces){
-        //std::cout << "FACE" << std::endl;
-    //}
+    /*for (Vert* currVert : flattenMesh->verts){
+        std::cout << "VERTEX" << std::endl;
+        std::cout << currVert->name << std::endl;
+        for (FaceNew* currEdge : currVert->faces){
+            std::cout << "Face" << std::endl;
+        }
+    }*/
     //std::cout << "TEST" << std::endl;
 
     flattenMesh->draw();

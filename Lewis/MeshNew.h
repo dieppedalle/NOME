@@ -45,6 +45,8 @@ public:
     bool setName(std::string n);
     bool updateNames();
 
+    void calculateNormal();
+
     Node* vert(std::string);
     Node* edge(std::string);
     Node* face(std::string);

@@ -299,3 +299,68 @@ MeshNew* MeshNew::subdivideMesh(){
     }
     return newMesh;
 }
+
+void MeshNew::calculateNormal(){
+    std::cout << "NNNNNN" << std::endl;
+    for (FaceNew* currFace : this->faces){
+        //for (Vert* currVert : currFace->vertices)
+
+        std::list<Vert*>::iterator it = currFace->verts.begin();
+        std::vector<Vert*> firstVerts;
+
+        while (it != currFace->verts.end()){
+            if (firstVerts.size() == 3){
+                std::vector<double> normalVector;
+                normalVector = getNormalFromVerts(firstVerts);
+                double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] + normalVector[2]);
+                double new_magnitude = getAngleFromVerts(firstVerts);
+                normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
+                normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
+                normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+                //std::cout << firstVerts[1]->name << std::endl;
+                //std::cout << magnitude << std::endl;
+                firstVerts.erase(firstVerts.begin());
+            }
+            firstVerts.push_back((*it));
+
+            /*for (Vert* vertexNum : firstVerts){
+                std::cout << vertexNum->name << std::endl;
+            }*/
+
+            it++;
+        }
+
+        it = currFace->verts.begin();
+        int i = 0;
+        while (it != currFace->verts.end()){
+            if (i == 3){
+                break;
+            }
+
+            if (firstVerts.size() == 3){
+                /*for (Vert* vertexNum : firstVerts){
+                    std::cout << vertexNum->name << std::endl;
+                }
+                std::cout << "OOOOO" << std::endl;*/
+
+                std::vector<double> normalVector;
+                normalVector = getNormalFromVerts(firstVerts);
+                getAngleFromVerts(firstVerts);
+                firstVerts.erase(firstVerts.begin());
+            }
+
+            firstVerts.push_back((*it));
+
+            /*for (Vert* vertexNum : firstVerts){
+                std::cout << vertexNum->name << std::endl;
+            }*/
+
+            i++;
+            it++;
+        }
+
+        std::cout << "Face" << std::endl;
+
+        //std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1);
+    }
+}

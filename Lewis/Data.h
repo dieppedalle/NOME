@@ -102,6 +102,9 @@ public:
     std::vector<double> getNormal();
 } FaceNew;
 
+std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1);
+double getAngleFromVerts(std::vector<Vert*> vert1);
+
 ///Vert Instantiation
 Vert* createVert();
 Vert* createVert(Vert*);
