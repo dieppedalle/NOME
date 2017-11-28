@@ -65,6 +65,8 @@ public:
     // Used for subdivision
     Vert* vertPoint;
     void calculateVertPoint();
+    Vert* normalVert;
+    void updateOffsetVertex(double offset);
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links

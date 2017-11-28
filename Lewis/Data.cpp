@@ -111,6 +111,18 @@ Vert* createVert(Vert* toBeCopied){
     return createVert(x, y, z, 1.0);
 }
 
+void Vert::updateOffsetVertex(double offset){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    *x = *this->xTransformed + this->normal[0] * offset;
+    *y = *this->yTransformed + this->normal[1] * offset;
+    *z = *this->zTransformed + this->normal[2] * offset;
+
+    this->normalVert = createVert(x, y, z, 1.0);
+}
+
 ///Edge functions
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links

@@ -202,7 +202,7 @@ bool MeshNew::drawFaces()
     return true;
 }
 
-bool MeshNew::draw()
+bool MeshNew::draw(double offset)
 {
 
     //std::cout << this->name << std::endl;
@@ -216,26 +216,23 @@ bool MeshNew::draw()
     for(auto f : faces) {
         listVert.clear();
         for(Vert* v : f->verts) {
-            double *x = (double*) malloc(sizeof(double));
-            double *y = (double*) malloc(sizeof(double));
-            double *z = (double*) malloc(sizeof(double));
+            v->updateOffsetVertex(offset);
 
-            *x = *v->xTransformed + v->normal[0];
-            *y = *v->yTransformed + v->normal[1];
-            *z = *v->zTransformed + v->normal[2];
-
-            Vert * v1 = createVert(x, y, z, 1.0);
-            listVert.push_back(v1);
-            drawVert(v1, NULL);
+            listVert.push_back(v->normalVert);
         }
         FaceNew* newFace = createOffsetFace(listVert);
         drawFace(newFace, NULL);
         drawFace(f, NULL);
     }
 
-    for(auto f : edges) {
-        std::cout << "HELLO" << std::endl;
-
+    for(EdgeNew* e : edges) {
+        listVert.clear();
+        listVert.push_back(e->v0);
+        listVert.push_back(e->v1);
+        listVert.push_back(e->v1->normalVert);
+        listVert.push_back(e->v0->normalVert);
+        FaceNew* newFace = createOffsetFace(listVert);
+        drawFace(newFace, NULL);
     }
 
     return true;
@@ -370,7 +367,7 @@ void MeshNew::calculateNormal(){
                 i++;
             }
         }
-        std::cout << "Face" << std::endl;
+        //std::cout << "Face" << std::endl;
     }
 
     for (Vert* currVert : this->verts){

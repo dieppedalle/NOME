@@ -355,7 +355,7 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
-void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel){
+void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset){
     if (previousSubdivisionLevel < subdivision){
         for (int i = 0; i < subdivision-previousSubdivisionLevel; i++){
             createFlattenMesh(false);
@@ -390,7 +390,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel){
     }*/
     //std::cout << "TEST" << std::endl;
 
-    flattenMesh->draw();
+    flattenMesh->draw(offset);
 
 }
 

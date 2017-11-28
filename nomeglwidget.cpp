@@ -407,10 +407,11 @@ void SlideGLWidget::paintGL()
     if (viewer_mode == 0){
         currSession->draw();
     } else if (viewer_mode == 1){
-        for (SubdivisionNew* subdivide : currSession->subdivisions){
-            currSession->drawSubdivide(subdivide->value, subdivide->previousSubdivisionLevel);
-            subdivide->previousSubdivisionLevel = subdivide->value;
-        }
+        //for (SubdivisionNew* subdivide : currSession->subdivisions){
+            //currSession->drawSubdivide(subdivide->value, subdivide->previousSubdivisionLevel, currSession->offsets.front()->value);
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value);
+            currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
+        //}
     }
 }
 
