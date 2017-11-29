@@ -111,16 +111,28 @@ Vert* createVert(Vert* toBeCopied){
     return createVert(x, y, z, 1.0);
 }
 
-void Vert::updateOffsetVertex(double offset){
+void Vert::updateOutOffsetVertex(double offset){
     double *x = (double*) malloc(sizeof(double));
     double *y = (double*) malloc(sizeof(double));
     double *z = (double*) malloc(sizeof(double));
 
-    *x = *this->xTransformed + this->normal[0] * offset;
-    *y = *this->yTransformed + this->normal[1] * offset;
-    *z = *this->zTransformed + this->normal[2] * offset;
+    *x = *this->xTransformed + this->normal[0] * (offset / 2);
+    *y = *this->yTransformed + this->normal[1] * (offset / 2);
+    *z = *this->zTransformed + this->normal[2] * (offset / 2);
 
-    this->normalVert = createVert(x, y, z, 1.0);
+    this->normalOutVert = createVert(x, y, z, 1.0);
+}
+
+void Vert::updateInOffsetVertex(double offset){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    *x = *this->xTransformed - this->normal[0] * (offset / 2);
+    *y = *this->yTransformed - this->normal[1] * (offset / 2);
+    *z = *this->zTransformed - this->normal[2] * (offset / 2);
+
+    this->normalInVert = createVert(x, y, z, 1.0);
 }
 
 ///Edge functions
