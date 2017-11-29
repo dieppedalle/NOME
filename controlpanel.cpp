@@ -30,10 +30,10 @@ void ControlPanel::buildConnection()
     //connect(subdivLevelSlider,SIGNAL(valueChanged(int)), canvas, SLOT(levelChanged(int)));
     //connect(subdivLevelSlider, SIGNAL(valueChanged(int)), this, SLOT(viewContentSetToSubdiv(int)));
     connect(resetViewButton, SIGNAL(clicked(bool)), canvas, SLOT(resetViewDirection(bool)));
-    connect(minOffsetBox, SIGNAL(textChanged(QString)), this, SLOT(resetMinOffset(QString)));
-    connect(maxOffsetBox, SIGNAL(textChanged(QString)), this, SLOT(resetMaxOffset(QString)));
-    connect(offsetStepBox, SIGNAL(textChanged(QString)), this, SLOT(resetOffsetStep(QString)));
-    connect(offsetValueSlider, SIGNAL(sliderReleased()), this, SLOT(offSetSliderMoved()));
+    //connect(minOffsetBox, SIGNAL(textChanged(QString)), this, SLOT(resetMinOffset(QString)));
+    //connect(maxOffsetBox, SIGNAL(textChanged(QString)), this, SLOT(resetMaxOffset(QString)));
+    //connect(offsetStepBox, SIGNAL(textChanged(QString)), this, SLOT(resetOffsetStep(QString)));
+    //connect(offsetValueSlider, SIGNAL(sliderReleased()), this, SLOT(offSetSliderMoved()));
     connect(this, SIGNAL(makeOffsetMesh(float)), canvas, SLOT(offsetValueChanged(float)));
     connect(foreColorButton, SIGNAL(clicked(bool)), this, SLOT(resetForeColor(bool)));
     connect(backColorButton, SIGNAL(clicked(bool)), this, SLOT(resetBackColor(bool)));
@@ -69,8 +69,8 @@ void ControlPanel::setupLayout()
     mainLayout -> addLayout(modeLayout = new QVBoxLayout);
     //mainLayout -> addWidget(new QLabel("SUBDIVISION"));
     mainLayout -> addLayout(subdivLayout = new QVBoxLayout);
-    mainLayout -> addWidget(new QLabel("OFFSET"));
-    mainLayout -> addLayout(offsetLayout = new QVBoxLayout);
+    //mainLayout -> addWidget(new QLabel("OFFSET"));
+    //mainLayout -> addLayout(offsetLayout = new QVBoxLayout);
     mainLayout -> addWidget(new QLabel("COLOR"));
     mainLayout -> addLayout(colorLayout = new QVBoxLayout);
     /* View layout. */
@@ -127,7 +127,7 @@ void ControlPanel::setupLayout()
     maxOffset = 0.005;
     minOffset = 0.001;
     offsetStep = 4;
-    offsetLayout -> addLayout(offsetMinMaxLayout = new QHBoxLayout);
+    /*offsetLayout -> addLayout(offsetMinMaxLayout = new QHBoxLayout);
     offsetMinMaxLayout -> addWidget((new QLabel(tr("Min"))));
     offsetMinMaxLayout -> addWidget(minOffsetBox = new QLineEdit(QString::number(minOffset)));
     offsetMinMaxLayout -> addWidget((new QLabel(tr("Max"))));
@@ -139,7 +139,7 @@ void ControlPanel::setupLayout()
     offsetValueSlider -> setMinimum(0);
     offsetValueSlider -> setMaximum(offsetStep);
     offsetValueSlider -> setValue(0);
-    offsetLayout -> addWidget(currentOffsetValueLabel = new QLabel(tr("Current Offset Value:    ")));
+    offsetLayout -> addWidget(currentOffsetValueLabel = new QLabel(tr("Current Offset Value:    ")));*/
     /* Color Layout. */
     colorLayout -> addLayout(foreColorLayout = new QHBoxLayout);
     colorLayout -> addLayout(backColorLayout = new QHBoxLayout);
