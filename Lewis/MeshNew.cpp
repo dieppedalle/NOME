@@ -229,6 +229,7 @@ bool MeshNew::draw(double offset)
             inFaces.push_back(newInFace);
 
             drawFace(newFace, NULL);
+
             drawFace(newInFace, NULL);
         }
 
@@ -367,7 +368,8 @@ void MeshNew::calculateNormal(){
                 }*/
                 std::vector<double> normalVector;
                 normalVector = getNormalFromVerts(firstVerts);
-                double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] + normalVector[2]);
+
+                double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
                 double new_magnitude = getAngleFromVerts(firstVerts);
 
                 normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
@@ -391,12 +393,14 @@ void MeshNew::calculateNormal(){
                 it = currFace->verts.begin();
                 i++;
             }
+
         }
+
         //std::cout << "Face" << std::endl;
     }
 
     for (Vert* currVert : this->verts){
-        double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] + currVert->normal[2]);
+        double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]);
         currVert->normal[0] = currVert->normal[0] / magnitude;
         currVert->normal[1] = currVert->normal[1] / magnitude;
         currVert->normal[2] = currVert->normal[2] / magnitude;
