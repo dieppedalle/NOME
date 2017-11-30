@@ -370,7 +370,6 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
             flattenMesh = flattenMesh->subdivideMesh();
         }
     }*/
-
     createFlattenMesh(true);
     for (int i = 0; i < subdivision; i++){
         createFlattenMesh(false);
@@ -402,6 +401,28 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
 
 }
 
+void saveFaceSTL(FaceNew* currFace, std::ofstream& file){
+    std::vector<double> normalVector = currFace->getNormal();
+    std::list<Vert*>::iterator itVert = currFace->verts.begin();
+
+    Vert* initVertex = *itVert;
+    itVert++;
+    Vert* lastVert = *itVert;
+    itVert++;
+    while (itVert != currFace->verts.end()){
+        file << "  facet normal " + dbl2str(normalVector[0]) + " " + dbl2str(normalVector[1]) + " " + dbl2str(normalVector[2]) + "\n";
+        file << "    outer loop\n";
+        file << "      vertex " + dbl2str(*(initVertex->xTransformed)) + " " + dbl2str(*(initVertex->yTransformed)) + " " + dbl2str(*(initVertex->zTransformed)) + "\n";
+        file << "      vertex " + dbl2str(*(lastVert->xTransformed)) + " " + dbl2str(*(lastVert->yTransformed)) + " " + dbl2str(*(lastVert->zTransformed)) + "\n";
+        file << "      vertex " + dbl2str(*((*itVert)->xTransformed)) + " " + dbl2str(*((*itVert)->yTransformed)) + " " + dbl2str(*((*itVert)->zTransformed)) + "\n";
+        file << "    endloop\n";
+        file << "  endfacet\n";
+        lastVert = *itVert;
+
+        itVert++;
+    }
+}
+
 void Session::SaveSessionStl(std::string outputFile){
     ofstream file(outputFile);
     if (!file.is_open())
@@ -415,26 +436,20 @@ void Session::SaveSessionStl(std::string outputFile){
 
     file << "solid convertedFile\n";
     for (FaceNew * currFace : flattenMesh->faces){
-        std::vector<double> normalVector = currFace->getNormal();
-        std::list<Vert*>::iterator itVert = currFace->verts.begin();
-
-        Vert* initVertex = *itVert;
-        itVert++;
-        Vert* lastVert = *itVert;
-        itVert++;
-        while (itVert != currFace->verts.end()){
-            file << "  facet normal " + dbl2str(normalVector[0]) + " " + dbl2str(normalVector[1]) + " " + dbl2str(normalVector[2]) + "\n";
-            file << "    outer loop\n";
-            file << "      vertex " + dbl2str(*(initVertex->xTransformed)) + " " + dbl2str(*(initVertex->yTransformed)) + " " + dbl2str(*(initVertex->zTransformed)) + "\n";
-            file << "      vertex " + dbl2str(*(lastVert->xTransformed)) + " " + dbl2str(*(lastVert->yTransformed)) + " " + dbl2str(*(lastVert->zTransformed)) + "\n";
-            file << "      vertex " + dbl2str(*((*itVert)->xTransformed)) + " " + dbl2str(*((*itVert)->yTransformed)) + " " + dbl2str(*((*itVert)->zTransformed)) + "\n";
-            file << "    endloop\n";
-            file << "  endfacet\n";
-            lastVert = *itVert;
-
-            itVert++;
-        }
+        saveFaceSTL(currFace, file);
     }
+
+    for (FaceNew * currFace : flattenMesh->inFaces){
+        saveFaceSTL(currFace, file);
+    }
+
+    for (FaceNew * currFace : flattenMesh->outFaces){
+        saveFaceSTL(currFace, file);
+    }
+
+
 
     file<< "endsolid";
 }
+
+

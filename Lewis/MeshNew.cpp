@@ -205,13 +205,9 @@ bool MeshNew::drawFaces()
 bool MeshNew::draw(double offset)
 {
 
-    //std::cout << this->name << std::endl;
-    /*for(Vert* v : verts) {
-        drawVert(v, NULL);
-    }*/
-    /*for(auto e : edges) {
-      drawEdge(e, NULL);
-    }*/
+    inFaces.clear();
+    outFaces.clear();
+
     std::list<Vert*> listOutVert;
     std::list<Vert*> listInVert;
     for(auto f : faces) {
@@ -224,10 +220,19 @@ bool MeshNew::draw(double offset)
             listOutVert.push_back(v->normalOutVert);
             listInVert.push_back(v->normalInVert);
         }
-        FaceNew* newFace = createOffsetFace(listOutVert);
-        FaceNew* newInFace = createOffsetFace(listInVert);
-        drawFace(newFace, NULL);
-        drawFace(newInFace, NULL);
+
+        if (offset != 0){
+            FaceNew* newFace = createOffsetFace(listOutVert);
+            outFaces.push_back(newFace);
+
+            FaceNew* newInFace = createOffsetFace(listInVert);
+            inFaces.push_back(newInFace);
+
+            drawFace(newFace, NULL);
+            drawFace(newInFace, NULL);
+        }
+
+
         drawFace(f, NULL);
     }
 
@@ -244,10 +249,15 @@ bool MeshNew::draw(double offset)
         listInVert.push_back(e->v1->normalInVert);
         listInVert.push_back(e->v0->normalInVert);
 
-        FaceNew* newFace = createOffsetFace(listOutVert);
-        FaceNew* newInFace = createOffsetFace(listInVert);
-        drawFace(newFace, NULL);
-        drawFace(newInFace, NULL);
+        if (offset != 0){
+            FaceNew* newFace = createOffsetFace(listOutVert);
+            FaceNew* newInFace = createOffsetFace(listInVert);
+            inFaces.push_back(newInFace);
+            outFaces.push_back(newFace);
+
+            drawFace(newFace, NULL);
+            drawFace(newInFace, NULL);
+        }
     }
 
     return true;

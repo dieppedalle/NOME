@@ -409,8 +409,22 @@ void SlideGLWidget::paintGL()
     } else if (viewer_mode == 1){
         //for (SubdivisionNew* subdivide : currSession->subdivisions){
             //currSession->drawSubdivide(subdivide->value, subdivide->previousSubdivisionLevel, currSession->offsets.front()->value);
-            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value);
-            currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
+
+            if (currSession->subdivisions.size() != 0 && currSession->offsets.size() != 0){
+                currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value);
+                currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
+            }
+            else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() != 0){
+                currSession->drawSubdivide(0, 0, currSession->offsets.front()->value);
+            }
+            else if (currSession->subdivisions.size() != 0 && currSession->offsets.size() == 0){
+                currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0);
+                currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
+            }
+            else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() == 0){
+                currSession->drawSubdivide(0, 0, 0);
+            }
+
         //}
     }
 }

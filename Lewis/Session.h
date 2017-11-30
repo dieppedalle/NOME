@@ -6,6 +6,7 @@
 #define Session_h
 
 #include <stdio.h>
+#include <fstream>
 #include "Data.h"
 #include "MeshNew.h"
 #include "GroupNew.h"
@@ -78,6 +79,7 @@ private:
 //Instantiation
 Session* createSession();
 Session* createSession(Session*);
+void saveFaceSTL(FaceNew* currFace, std::ofstream& file);
 
 
 #endif /* Session_h */
