@@ -26,6 +26,7 @@ public:
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
 
+
     bool hasVert(Vert*);
     bool hasEdge(EdgeNew*);
     bool hasFace(FaceNew*);
