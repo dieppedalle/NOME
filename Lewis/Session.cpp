@@ -78,7 +78,6 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
 
         for (int i = 0; i < hits; i++) {
             int currentID = names[i * 4 + 3];
-
             Vert * currentVertex = currReader->getVert(currentID);
 
             if (currentVertex != NULL){
@@ -94,10 +93,13 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
 
         if (selectedVertex != NULL){
+            std::cout << "GGGGG" << std::endl;
+            std::cout << selectedVertex->index << std::endl;
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             std::cout << selectedVertex->faces.size() << std::endl;
+
             selectedVertex -> selected = !selectedVertex -> selected;
-            //std::cout << selectedVertex->index << std::endl;
+
             if (selectedVertex -> selected == true){
                 selectedVerts.push_back(selectedVertex);
             }
@@ -107,6 +109,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
 
     }
+    std::cout << "DONE" << std::endl;
 }
 
 void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){

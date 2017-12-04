@@ -387,7 +387,6 @@ Vert* Reader::getVert(int id)
 
     }
 
-
     return NULL;
 }
 

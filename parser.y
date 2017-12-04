@@ -326,20 +326,30 @@ faceDeleteArgs:
 	| faceDeleteArgs faceDelete
 	;
 
+instanceOffseSubdivide:
+    INSTANCE VARIABLE
+    {
+        string instanceName = strdup($<string>2);
+    };
+
+instanceOffseSubdivideArgs:
+    | instanceOffseSubdivideArgs instanceOffseSubdivide
+    ;
+
 subdivision:
-    SUBDIVISION VARIABLE TYPE VARIABLE SUBDIVISIONS numberValue END_SUBDIVISION
+    SUBDIVISION VARIABLE instanceOffseSubdivideArgs TYPE VARIABLE SUBDIVISIONS numberValue END_SUBDIVISION
     {
         double *subdivision = (double*) malloc(sizeof(double));
 
 
-        if ($<numPos.string>6 == NULL){
-            *subdivision = $<numPos.number>6;
+        if ($<numPos.string>7 == NULL){
+            *subdivision = $<numPos.number>7;
         }
         else{
-            subdivision = getBankValue($<numPos.string>6);
+            subdivision = getBankValue($<numPos.string>7);
         }
 
-        SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>2), strdup($<string>4), subdivision);
+        SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     };
 
