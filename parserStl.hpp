@@ -165,7 +165,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 78 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y"
+#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y"
 
     double number;
     char *string;
@@ -177,7 +177,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp"
+#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

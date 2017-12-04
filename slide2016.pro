@@ -115,7 +115,9 @@ HEADERS  += \
     Lewis/SubdivisionNew.h \
     Lewis/SliderSubdivisionNew.h \
     Lewis/OffsetNew.h \
-    Lewis/SliderOffsetNew.h
+    Lewis/SliderOffsetNew.h \
+    lexerStl.l \
+    parserStl.y
 
 linux{
     LIBS += -lglut -lGLU

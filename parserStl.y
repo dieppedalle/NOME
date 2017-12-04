@@ -11,7 +11,6 @@
 #include <Lewis/CircleNew.h>
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
-#include <Lewis/InstanceNew.h>
 
 extern int yylineno;
 extern char* yytext;

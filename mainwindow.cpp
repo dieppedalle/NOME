@@ -14,8 +14,6 @@ MainWindow::MainWindow()
 {
     createActions();
     createMenus();
-    //createControlPanel(canvas);
-    //setCentralWidget(controls);
 }
 
 void MainWindow::open()
@@ -45,7 +43,6 @@ void MainWindow::save()
     else if(fileName.right(3).toLower() == "stl")
     {
         currSession->SaveSessionStl(fileName.toStdString());
-        //canvas -> saveMesh(fileName.toStdString());
     }
     else if(fileName.right(4).toLower() == "anom")
     {
@@ -63,11 +60,6 @@ void MainWindow::close()
     if(canvas != NULL) {
         canvas -> hierarchical_scene_transformed.clearAndDelete();
         canvas -> master_mesh.clearAndDelete();
-        //canvas -> temp_mesh.clearAndDelete();
-        //canvas -> consolidate_mesh.clearAndDelete();
-        //canvas -> merged_mesh.clearAndDelete();
-        //canvas -> subdiv_mesh.clearAndDelete();
-        //canvas -> offset_mesh.clearAndDelete();
         canvas -> close();
         scene.clearAndDelete();
         append_scene.clearAndDelete();
@@ -171,19 +163,11 @@ void MainWindow::createCanvas(QString name)
         currSession = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString, global_vertices, global_faces);
 
-        /*for(auto b : currSession->banks) {
-            b->draw();
-        }*/
-        //SliderPanel *newPanel = new SliderPanel(NULL, canvas);
-
         if (error == 1){
             return;
         }
 
         canvas = new SlideGLWidget(scene, currSession);
-        //canvas -> group_from_consolidate_mesh = &append_scene;
-
-        //error = nomeParser->postProcessingWithNome(params, postProcessingLines, canvas, append_scene, name.toStdString(), postProcessingLinesString, global_vertices, global_faces);
 
         if (error == 1){
             return;
@@ -193,7 +177,6 @@ void MainWindow::createCanvas(QString name)
         drawSubdivisionSliders(canvas, currSession);
         drawOffsetSliders(canvas, currSession);
 
-        //createSliderPanel(canvas);
         canvas -> move(0, 50);
         canvas -> show();
         createControlPanel(canvas);
