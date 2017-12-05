@@ -13,16 +13,16 @@
 #include <Lewis/TunnelNew.h>
 #include <Lewis/InstanceNew.h>
 
-extern int yylineno;
-extern char* yytext;
-extern FILE *yyin;
-int yylex(void);
-int yyerror(const char *s) {
-  printf("%s on line %d - %s\n", s, yylineno, yytext);
+extern int nomlineno;
+extern char* nomtext;
+extern FILE *nomin;
+int nomlex(void);
+int nomerror(const char *s) {
+  printf("%s on line %d - %s\n", s, nomlineno, nomtext);
 }
 //extern "C" int yyparse (void);
 
-int yywrap() {
+int nomwrap() {
     return 1;
 }
 
@@ -65,7 +65,7 @@ double *getBankValue(std::string str){
 
 %}
 
-%define api.prefix {nom}
+//%define api.prefix {nom}
 
 %token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
@@ -129,7 +129,7 @@ numPosTok:
     NUMBER
     {
         $<numPos.string>$ = strdup($1);
-        $<numPos.number>$ = yycolumn;
+        $<numPos.number>$ = nomcolumn;
     }
     ;
 
@@ -299,7 +299,7 @@ instanceGroup:
             newInstance->setName(strdup($<string>2));
         }
         else{
-            yyerror("Incorrect vertex, face, or mesh name");
+            nomerror("Incorrect vertex, face, or mesh name");
             YYABORT;
         }
 
@@ -318,7 +318,7 @@ instanceGroup:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -492,7 +492,7 @@ faceMesh:
 
             }
             else{
-                yyerror("Incorrect vertex name");
+                nomerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -508,7 +508,7 @@ faceMesh:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -664,7 +664,7 @@ face:
                 verticesFace.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                nomerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -682,7 +682,7 @@ face:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -711,7 +711,7 @@ polyline:
                 verticesPolyline.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                nomerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -743,7 +743,7 @@ instance:
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
-                yyerror("Incorrect vertex, face, or mesh name");
+                nomerror("Incorrect vertex, face, or mesh name");
                 YYABORT;
             }
         }
@@ -764,7 +764,7 @@ instance:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -775,28 +775,7 @@ instance:
 
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
-	{
-        /*std::list<FaceNew*> facesObject;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            FaceNew * currentFace = currReader->face(*it);
-            if (currentFace != NULL) {
-                facesObject.push_back(currentFace);
-            }
-            else{
-                yyerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        MeshNew * newObject = createMesh(facesObject);
-
-        newObject->setName(strdup($<string>2));
-
-        currSession->objects.push_back(newObject);
-
-        tempVariables.clear();*/
-
-        //printf("Created an object\n");
+    {
 	}
 	;
 

@@ -141,7 +141,7 @@ void MainWindow::createCanvas(QString name)
         else
         {
             canvas -> group_from_consolidate_mesh = &append_scene;
-            nomeParser->appendWithANOM(params, append_scene, canvas, name.toStdString());
+            //nomeParser->appendWithANOM(params, append_scene, canvas, name.toStdString());
         }
     }
     else if (name.right(3).toLower() == "nom")

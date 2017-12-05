@@ -59,7 +59,16 @@
 #define YYPULL 1
 
 
+/* Substitute the variable and function names.  */
+#define yyparse         stlparse
+#define yylex           stllex
+#define yyerror         stlerror
+#define yydebug         stldebug
+#define yynerrs         stlnerrs
 
+#define yylval          stllval
+#define yychar          stlchar
+#define yylloc          stllloc
 
 /* Copy the first part of user declarations.  */
 #line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:339  */
@@ -77,16 +86,16 @@
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
 
-extern int yylineno;
-extern char* yytext;
-extern FILE *yyin;
-int yylex(void);
-int yyerror(char *s) {
-  printf("%s on line %d - %s\n", s, yylineno, yytext);
+extern int stllineno;
+extern char* stltext;
+extern FILE *stlin;
+int stllex(void);
+int stlerror(char *s) {
+  printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
-extern "C" int yyparse (void);
+extern "C" int stlparse (void);
 
-int yywrap() {
+int stlwrap() {
     return 1;
 }
 
@@ -128,7 +137,7 @@ double *getBankValue(std::string str){
 
 
 
-#line 132 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:339  */
+#line 141 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -148,14 +157,14 @@ double *getBankValue(std::string str){
 
 /* In a future release of Bison, this section will be replaced
    by #include "parserStl.hpp".  */
-#ifndef YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
-# define YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
+#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
+# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 #if YYDEBUG
-extern int yydebug;
+extern int stldebug;
 #endif
 
 /* Token type.  */
@@ -295,7 +304,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 299 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:355  */
+#line 308 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -316,15 +325,15 @@ struct YYLTYPE
 #endif
 
 
-extern YYSTYPE yylval;
-extern YYLTYPE yylloc;
-int yyparse (void);
+extern YYSTYPE stllval;
+extern YYLTYPE stllloc;
+int stlparse (void);
 
-#endif /* !YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED  */
+#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 328 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:358  */
+#line 337 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1612,7 +1621,7 @@ yyreduce:
         (yyval.numPos.number) = (yyvsp[0].number);
         (yyval.numPos.string) = NULL;
     }
-#line 1616 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1625 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
@@ -1621,7 +1630,7 @@ yyreduce:
         (yyval.numPos.string) = (yyvsp[0].string);
         (yyval.numPos.number) = 0;
     }
-#line 1625 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
@@ -1629,23 +1638,23 @@ yyreduce:
     {
         (yyval.number) = (double)atof((yyvsp[0].string));
     }
-#line 1633 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1642 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 125 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
     {
         (yyval.numPos.string) = strdup((yyvsp[0].string));
-        (yyval.numPos.number) = yycolumn;
+        (yyval.numPos.number) = stlcolumn;
     }
-#line 1642 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1651 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 133 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
     {
     }
-#line 1649 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1658 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
@@ -1653,13 +1662,13 @@ yyreduce:
     {
         tempVariables.push_back((yyvsp[0].string));
     }
-#line 1657 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1666 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 146 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
     {(yyval.string) = "";}
-#line 1663 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1672 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1667,7 +1676,7 @@ yyreduce:
     {
         (yyval.string) = (yyvsp[0].string);
     }
-#line 1671 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1680 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
@@ -1710,7 +1719,7 @@ yyreduce:
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
     }
-#line 1714 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1723 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
@@ -1744,7 +1753,7 @@ yyreduce:
 
         currentTransformations.push_back(createTranslate(x, y, z));
     }
-#line 1748 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1757 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
@@ -1778,7 +1787,7 @@ yyreduce:
 
         currentTransformations.push_back(createScale(x, y, z));
     }
-#line 1782 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1791 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
@@ -1790,7 +1799,7 @@ yyreduce:
         double w = (yyvsp[-2].numPos.number);
 
     }
-#line 1794 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1803 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
@@ -1807,7 +1816,7 @@ yyreduce:
             newInstance->setName(strdup((yyvsp[-4].string)));
         }
         else{
-            yyerror("Incorrect vertex, face, or mesh name");
+            stlerror("Incorrect vertex, face, or mesh name");
             YYABORT;
         }
 
@@ -1826,14 +1835,14 @@ yyreduce:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
 
         currentGroup.push_back(newInstance);
     }
-#line 1837 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1846 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
@@ -1841,7 +1850,7 @@ yyreduce:
     {
         string instanceName = strdup((yyvsp[0].string));
     }
-#line 1845 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1854 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
@@ -1860,7 +1869,7 @@ yyreduce:
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     }
-#line 1864 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1873 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
@@ -1896,7 +1905,7 @@ yyreduce:
 
         currSession->offsets.push_back(currOffset);
     }
-#line 1900 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1909 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
@@ -1924,7 +1933,7 @@ yyreduce:
         currentMeshEdges.clear();
         currentMeshVertices.clear();
 	}
-#line 1928 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1937 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
@@ -1935,7 +1944,7 @@ yyreduce:
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
 	}
-#line 1939 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1948 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
@@ -1943,7 +1952,7 @@ yyreduce:
     {
         (yyval.string) = (yyvsp[-1].string);
     }
-#line 1947 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1956 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
@@ -1955,7 +1964,7 @@ yyreduce:
 
         tempFaceDelete.clear();
 	}
-#line 1959 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1968 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
@@ -1975,7 +1984,7 @@ yyreduce:
 
         currentSetList.push_back(currentSet);
 	}
-#line 1979 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1988 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
@@ -2001,7 +2010,7 @@ yyreduce:
 
             }
             else{
-                yyerror("Incorrect vertex name");
+                stlerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -2017,7 +2026,7 @@ yyreduce:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -2026,7 +2035,7 @@ yyreduce:
 
         tempVariables.clear();
     }
-#line 2030 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2039 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
@@ -2038,7 +2047,7 @@ yyreduce:
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
 	}
-#line 2042 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2051 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
@@ -2068,7 +2077,7 @@ yyreduce:
 
         currSession->circles.push_back(currCircle);
     }
-#line 2072 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2081 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
@@ -2113,7 +2122,7 @@ yyreduce:
 
         currSession->tunnels.push_back(currTunnel);
 	}
-#line 2117 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2126 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
@@ -2158,14 +2167,14 @@ yyreduce:
 
         currSession->funnels.push_back(currFunnel);
 	}
-#line 2162 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2171 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
 #line 648 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
     {
 	}
-#line 2169 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2178 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
@@ -2178,7 +2187,7 @@ yyreduce:
                 verticesFace.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                stlerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -2196,7 +2205,7 @@ yyreduce:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -2205,7 +2214,7 @@ yyreduce:
 
         tempVariables.clear();
 	}
-#line 2209 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2218 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
@@ -2213,7 +2222,7 @@ yyreduce:
     {
         tempFaceDelete.push_back((yyvsp[-1].string));
 	}
-#line 2217 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2226 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
@@ -2227,7 +2236,7 @@ yyreduce:
                 verticesPolyline.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                stlerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -2238,7 +2247,7 @@ yyreduce:
         currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
 	}
-#line 2242 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2251 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -2260,7 +2269,7 @@ yyreduce:
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
-                yyerror("Incorrect vertex, face, or mesh name");
+                stlerror("Incorrect vertex, face, or mesh name");
                 YYABORT;
             }
         }
@@ -2281,14 +2290,14 @@ yyreduce:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
 
         currSession->instances.push_back(newInstance);
 	}
-#line 2292 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2301 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
@@ -2316,7 +2325,7 @@ yyreduce:
 
         //printf("Created an object\n");
 	}
-#line 2320 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2329 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
@@ -2349,7 +2358,7 @@ yyreduce:
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup((yyvsp[-7].string))));
 	}
-#line 2353 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2362 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
@@ -2385,11 +2394,11 @@ yyreduce:
         newVertex->setName(strdup((yyvsp[-6].string)));
         currSession->verts.push_back(newVertex);
 	}
-#line 2389 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2398 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2393 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 2402 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

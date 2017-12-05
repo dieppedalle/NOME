@@ -12,16 +12,16 @@
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
 
-extern int yylineno;
-extern char* yytext;
-extern FILE *yyin;
-int yylex(void);
-int yyerror(char *s) {
-  printf("%s on line %d - %s\n", s, yylineno, yytext);
+extern int stllineno;
+extern char* stltext;
+extern FILE *stlin;
+int stllex(void);
+int stlerror(char *s) {
+  printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
-extern "C" int yyparse (void);
+extern "C" int stlparse (void);
 
-int yywrap() {
+int stlwrap() {
     return 1;
 }
 
@@ -124,7 +124,7 @@ numPosTok:
     NUMBER
     {
         $<numPos.string>$ = strdup($1);
-        $<numPos.number>$ = yycolumn;
+        $<numPos.number>$ = stlcolumn;
     }
     ;
 
@@ -294,7 +294,7 @@ instanceGroup:
             newInstance->setName(strdup($<string>2));
         }
         else{
-            yyerror("Incorrect vertex, face, or mesh name");
+            stlerror("Incorrect vertex, face, or mesh name");
             YYABORT;
         }
 
@@ -313,7 +313,7 @@ instanceGroup:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -487,7 +487,7 @@ faceMesh:
 
             }
             else{
-                yyerror("Incorrect vertex name");
+                stlerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -503,7 +503,7 @@ faceMesh:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -659,7 +659,7 @@ face:
                 verticesFace.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                stlerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -677,7 +677,7 @@ face:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -706,7 +706,7 @@ polyline:
                 verticesPolyline.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                stlerror("Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -738,7 +738,7 @@ instance:
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
-                yyerror("Incorrect vertex, face, or mesh name");
+                stlerror("Incorrect vertex, face, or mesh name");
                 YYABORT;
             }
         }
@@ -759,7 +759,7 @@ instance:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                stlerror("Incorrect surface name");
                 YYABORT;
             }
         }
@@ -770,7 +770,7 @@ instance:
 
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
-	{
+    {
         /*std::list<FaceNew*> facesObject;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             FaceNew * currentFace = currReader->face(*it);

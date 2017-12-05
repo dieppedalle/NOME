@@ -5,10 +5,10 @@
 //#include "y.tab.h"
 #include "parser.hpp"
 
-int yycolumn = 0;
-#define YY_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
-    nomlloc.first_column = yycolumn; nomlloc.last_column = yycolumn + nomleng - 1; \
-    yycolumn += nomleng;
+int nomcolumn = 0;
+#define nom_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
+    nomlloc.first_column = nomcolumn; nomlloc.last_column = nomcolumn + nomleng - 1; \
+    nomcolumn += nomleng;
 
 %}
 

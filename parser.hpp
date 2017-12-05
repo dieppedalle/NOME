@@ -33,25 +33,17 @@
 #ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
 # define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
 /* Debug traces.  */
-#ifndef NOMDEBUG
-# if defined YYDEBUG
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
 #if YYDEBUG
-#   define NOMDEBUG 1
-#  else
-#   define NOMDEBUG 0
-#  endif
-# else /* ! defined YYDEBUG */
-#  define NOMDEBUG 0
-# endif /* ! defined YYDEBUG */
-#endif  /* ! defined NOMDEBUG */
-#if NOMDEBUG
 extern int nomdebug;
 #endif
 
 /* Token type.  */
-#ifndef NOMTOKENTYPE
-# define NOMTOKENTYPE
-  enum nomtokentype
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+  enum yytokentype
   {
     COLOR = 258,
     VARIABLE = 259,
@@ -172,9 +164,9 @@ extern int nomdebug;
 #define STEP 314
 
 /* Value type.  */
-#if ! defined NOMSTYPE && ! defined NOMSTYPE_IS_DECLARED
-typedef union NOMSTYPE NOMSTYPE;
-union NOMSTYPE
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE YYSTYPE;
+union YYSTYPE
 {
 #line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1909  */
 
@@ -185,29 +177,29 @@ union NOMSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 189 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp" /* yacc.c:1909  */
+#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp" /* yacc.c:1909  */
 };
-# define NOMSTYPE_IS_TRIVIAL 1
-# define NOMSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
 #endif
 
 /* Location type.  */
-#if ! defined NOMLTYPE && ! defined NOMLTYPE_IS_DECLARED
-typedef struct NOMLTYPE NOMLTYPE;
-struct NOMLTYPE
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
 {
   int first_line;
   int first_column;
   int last_line;
   int last_column;
 };
-# define NOMLTYPE_IS_DECLARED 1
-# define NOMLTYPE_IS_TRIVIAL 1
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
 #endif
 
 
-extern NOMSTYPE nomlval;
-extern NOMLTYPE nomlloc;
+extern YYSTYPE nomlval;
+extern YYLTYPE nomlloc;
 int nomparse (void);
 
 #endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED  */

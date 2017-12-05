@@ -30,14 +30,14 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
-# define YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
+#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
+# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 #if YYDEBUG
-extern int yydebug;
+extern int stldebug;
 #endif
 
 /* Token type.  */
@@ -198,8 +198,8 @@ struct YYLTYPE
 #endif
 
 
-extern YYSTYPE yylval;
-extern YYLTYPE yylloc;
-int yyparse (void);
+extern YYSTYPE stllval;
+extern YYLTYPE stllloc;
+int stlparse (void);
 
-#endif /* !YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED  */
+#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED  */
