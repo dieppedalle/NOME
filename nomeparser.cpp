@@ -200,8 +200,8 @@ Session* NomeParser::makeWithNome(vector<ParameterBank> &banks,
                               unordered_map<string, Vertex*> &global_vertices, unordered_map<string, Face*> &global_faces)
 {
     currSession->saveFileToStr(input);
-    yyin = fopen(input.c_str(), "r");
-    yyparse();
+    nomin = fopen(input.c_str(), "r");
+    nomparse();
 
 
     return currSession;

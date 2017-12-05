@@ -30,20 +30,28 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
-# define YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
+#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
+# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
 /* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
+#ifndef NOMDEBUG
+# if defined YYDEBUG
 #if YYDEBUG
-extern int yydebug;
+#   define NOMDEBUG 1
+#  else
+#   define NOMDEBUG 0
+#  endif
+# else /* ! defined YYDEBUG */
+#  define NOMDEBUG 0
+# endif /* ! defined YYDEBUG */
+#endif  /* ! defined NOMDEBUG */
+#if NOMDEBUG
+extern int nomdebug;
 #endif
 
 /* Token type.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
+#ifndef NOMTOKENTYPE
+# define NOMTOKENTYPE
+  enum nomtokentype
   {
     COLOR = 258,
     VARIABLE = 259,
@@ -164,9 +172,9 @@ extern int yydebug;
 #define STEP 314
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
-union YYSTYPE
+#if ! defined NOMSTYPE && ! defined NOMSTYPE_IS_DECLARED
+typedef union NOMSTYPE NOMSTYPE;
+union NOMSTYPE
 {
 #line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1909  */
 
@@ -177,29 +185,29 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp" /* yacc.c:1909  */
+#line 189 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp" /* yacc.c:1909  */
 };
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
+# define NOMSTYPE_IS_TRIVIAL 1
+# define NOMSTYPE_IS_DECLARED 1
 #endif
 
 /* Location type.  */
-#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
-typedef struct YYLTYPE YYLTYPE;
-struct YYLTYPE
+#if ! defined NOMLTYPE && ! defined NOMLTYPE_IS_DECLARED
+typedef struct NOMLTYPE NOMLTYPE;
+struct NOMLTYPE
 {
   int first_line;
   int first_column;
   int last_line;
   int last_column;
 };
-# define YYLTYPE_IS_DECLARED 1
-# define YYLTYPE_IS_TRIVIAL 1
+# define NOMLTYPE_IS_DECLARED 1
+# define NOMLTYPE_IS_TRIVIAL 1
 #endif
 
 
-extern YYSTYPE yylval;
-extern YYLTYPE yylloc;
-int yyparse (void);
+extern NOMSTYPE nomlval;
+extern NOMLTYPE nomlloc;
+int nomparse (void);
 
-#endif /* !YY_YY_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED  */
+#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED  */

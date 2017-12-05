@@ -6,13 +6,13 @@
 #include "parser.hpp"
 
 int yycolumn = 0;
-#define YY_USER_ACTION yylloc.first_line = yylloc.last_line = yylineno; \
-    yylloc.first_column = yycolumn; yylloc.last_column = yycolumn + yyleng - 1; \
-    yycolumn += yyleng;
+#define YY_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
+    nomlloc.first_column = yycolumn; nomlloc.last_column = yycolumn + nomleng - 1; \
+    yycolumn += nomleng;
 
 %}
 
-
+%option prefix="nom"
 
 %option yylineno
 %x MULTI_COMMENT
@@ -22,8 +22,8 @@ int yycolumn = 0;
 "(*"                     { BEGIN(MULTI_COMMENT); }
 <MULTI_COMMENT>"*)"      { BEGIN(INITIAL); }
 <MULTI_COMMENT>.         {}
-[+-]?([0-9]*[.])?[0-9]+  yylval.string=yytext; return NUMBER;
-\$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  yylval.string=strdup(yytext); return BANK_EXPR;
+[+-]?([0-9]*[.])?[0-9]+  nomlval.string=nomtext; return NUMBER;
+\$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  nomlval.string=strdup(nomtext); return BANK_EXPR;
 expr                     return EXPR;
 offset                   return OFFSET;
 endoffset                return END_OFFSET;
@@ -68,7 +68,7 @@ subdivisions            return SUBDIVISIONS;
 type                    return TYPE;
 \{                      return OBRACE;
 \}                      return EBRACE;
-[a-zA-Z][a-zA-Z0-9_\.]*    yylval.string=strdup(yytext); return VARIABLE;
+[a-zA-Z][a-zA-Z0-9_\.]*    nomlval.string=strdup(nomtext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
 [ \t\n]+                /* ignore whitespace */;
