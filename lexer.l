@@ -11,6 +11,9 @@ int yycolumn = 0;
     yycolumn += yyleng;
 
 %}
+
+
+
 %option yylineno
 %x MULTI_COMMENT
 

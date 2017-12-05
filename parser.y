@@ -17,10 +17,10 @@ extern int yylineno;
 extern char* yytext;
 extern FILE *yyin;
 int yylex(void);
-int yyerror(char *s) {
+int yyerror(const char *s) {
   printf("%s on line %d - %s\n", s, yylineno, yytext);
 }
-extern "C" int yyparse (void);
+//extern "C" int yyparse (void);
 
 int yywrap() {
     return 1;
@@ -64,6 +64,9 @@ double *getBankValue(std::string str){
 
 
 %}
+
+//%define api.prefix {PREFIX}
+
 %token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
@@ -73,6 +76,7 @@ SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX ST
 
 %error-verbose
 %locations
+
 
 %union
 {
