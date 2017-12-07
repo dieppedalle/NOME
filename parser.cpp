@@ -104,7 +104,7 @@ Session* currSession = createSession();
 Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
-map<string,Vertex*> vertices;
+map<string,Vert*> vertices;
 std::vector<string> tempVariables;
 std::vector<string> tempFaceDelete;
 string currentSetName;
@@ -213,23 +213,23 @@ extern int nomdebug;
     EXPR = 295,
     DOLLAR = 296,
     EBRACE = 297,
-    NUMBER = 298,
-    PERIOD = 299,
-    TOKHEAT = 300,
-    STATE = 301,
-    TOKTARGET = 302,
-    TOKTEMPERATURE = 303,
-    BANK_EXPR = 304,
-    SCALE = 305,
-    SUBDIVISION = 306,
-    END_SUBDIVISION = 307,
-    SUBDIVISIONS = 308,
-    TYPE = 309,
-    OFFSET = 310,
-    END_OFFSET = 311,
-    MIN = 312,
-    MAX = 313,
-    STEP = 314
+    PERIOD = 298,
+    TOKHEAT = 299,
+    STATE = 300,
+    TOKTARGET = 301,
+    TOKTEMPERATURE = 302,
+    SCALE = 303,
+    SUBDIVISION = 304,
+    END_SUBDIVISION = 305,
+    SUBDIVISIONS = 306,
+    TYPE = 307,
+    OFFSET = 308,
+    END_OFFSET = 309,
+    MIN = 310,
+    MAX = 311,
+    STEP = 312,
+    BANK_EXPR = 313,
+    NUMBER = 314
   };
 #endif
 /* Tokens.  */
@@ -273,23 +273,23 @@ extern int nomdebug;
 #define EXPR 295
 #define DOLLAR 296
 #define EBRACE 297
-#define NUMBER 298
-#define PERIOD 299
-#define TOKHEAT 300
-#define STATE 301
-#define TOKTARGET 302
-#define TOKTEMPERATURE 303
-#define BANK_EXPR 304
-#define SCALE 305
-#define SUBDIVISION 306
-#define END_SUBDIVISION 307
-#define SUBDIVISIONS 308
-#define TYPE 309
-#define OFFSET 310
-#define END_OFFSET 311
-#define MIN 312
-#define MAX 313
-#define STEP 314
+#define PERIOD 298
+#define TOKHEAT 299
+#define STATE 300
+#define TOKTARGET 301
+#define TOKTEMPERATURE 302
+#define SCALE 303
+#define SUBDIVISION 304
+#define END_SUBDIVISION 305
+#define SUBDIVISIONS 306
+#define TYPE 307
+#define OFFSET 308
+#define END_OFFSET 309
+#define MIN 310
+#define MAX 311
+#define STEP 312
+#define BANK_EXPR 313
+#define NUMBER 314
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -559,7 +559,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   171
+#define YYLAST   169
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  60
@@ -643,17 +643,18 @@ static const char *const yytname[] =
   "END_POLYLINE", "INSTANCE", "END_INSTANCE", "CIRCLE", "END_CIRCLE",
   "BEG_DELETE", "END_DELETE", "GROUP", "END_GROUP", "TRANSLATE", "ROTATE",
   "MIRROR", "SET", "OPARENTHESES", "EPARENTHESES", "OBRACE", "EXPR",
-  "DOLLAR", "EBRACE", "NUMBER", "PERIOD", "TOKHEAT", "STATE", "TOKTARGET",
-  "TOKTEMPERATURE", "BANK_EXPR", "SCALE", "SUBDIVISION", "END_SUBDIVISION",
+  "DOLLAR", "EBRACE", "PERIOD", "TOKHEAT", "STATE", "TOKTARGET",
+  "TOKTEMPERATURE", "SCALE", "SUBDIVISION", "END_SUBDIVISION",
   "SUBDIVISIONS", "TYPE", "OFFSET", "END_OFFSET", "MIN", "MAX", "STEP",
-  "$accept", "commands", "command", "numberValue", "num", "numPosTok",
-  "comment", "variables", "surfaceArgs", "transformArgs", "rotateArgs",
-  "translateArgs", "scaleArgs", "mirrorArgs", "faceArgs", "instanceArgs",
-  "instanceGroup", "faceDeleteArgs", "instanceOffseSubdivide",
-  "instanceOffseSubdivideArgs", "subdivision", "offset", "mesh", "group",
-  "expr", "delete", "set", "setArgs", "faceMesh", "bank", "circle",
-  "tunnel", "funnel", "parenthesisName", "face", "faceDelete", "polyline",
-  "instance", "object", "surface", "point", YY_NULL
+  "BANK_EXPR", "NUMBER", "$accept", "commands", "command", "numberValue",
+  "num", "numPosTok", "comment", "variables", "surfaceArgs",
+  "transformArgs", "rotateArgs", "translateArgs", "scaleArgs",
+  "mirrorArgs", "faceArgs", "instanceArgs", "instanceGroup",
+  "faceDeleteArgs", "instanceOffseSubdivide", "instanceOffseSubdivideArgs",
+  "subdivision", "offset", "mesh", "group", "expr", "delete", "set",
+  "setArgs", "faceMesh", "bank", "circle", "tunnel", "funnel",
+  "parenthesisName", "face", "faceDelete", "polyline", "instance",
+  "object", "surface", "point", YY_NULL
 };
 #endif
 
@@ -685,25 +686,25 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -59,   116,   -59,   -59,     9,    17,    26,    27,    30,    31,
-      39,    40,    41,    42,    45,   -59,    48,    49,    50,   -59,
+     -59,   116,   -59,   -59,     5,     8,    18,    22,    23,    26,
+      27,    35,    36,    38,    39,   -59,    40,    42,    43,   -59,
      -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,
-     -59,   -59,   -59,   -59,   -59,   -59,    52,   -59,    19,    20,
-      19,   -59,    23,    24,    19,    63,    32,     3,   -59,   -59,
-      11,    33,     6,   -59,    64,   -31,    56,     1,   -31,   -31,
-      51,    64,   -31,    69,   -59,   -59,    15,   -16,   -31,   -31,
-     -59,    70,   -59,    -2,    72,    65,    43,   -59,   -31,   -59,
-     -59,   -59,   -59,    76,   -59,   -59,   -31,   -31,   -59,   -59,
-     -31,    73,    77,   -59,   -59,    78,    82,   -59,    34,   -31,
-      19,   -59,   -59,   -59,   -59,    44,   -31,    53,   -31,   -31,
-     -11,    57,   -59,    87,   -59,    46,   -31,   -31,    64,    55,
-      62,   -59,   -31,   -31,   -31,   -59,    68,    71,    74,    80,
-     -59,   -59,   -59,   -59,    79,    64,   -31,    47,    81,    97,
-     -59,    96,   -31,    84,    86,   -31,   -31,   -31,   -31,   -59,
-     -59,    66,   -31,   120,   -59,   -59,   -31,   110,   112,   -31,
-     -31,   -31,   -31,    -8,   -59,    88,   -59,   -59,   -59,   -59,
-     -31,   -31,   -31,   -31,   -59,   -59,    94,    98,   -31,   100,
-     -59,   103,   104,   -59,   -31,   -59,   108,   -59
+     -59,   -59,   -59,   -59,   -59,   -59,    46,   -59,    20,    24,
+      20,   -59,    31,    32,    20,    51,    33,     4,   -59,   -59,
+      16,    37,     7,   -59,    49,   -26,    44,     1,   -26,   -26,
+      48,    49,   -26,    69,   -59,   -59,   -11,   -17,   -26,   -26,
+     -59,    71,   -59,    -2,    72,    65,    41,   -59,   -26,   -59,
+     -59,   -59,   -59,    76,   -59,   -59,   -26,   -26,   -59,   -59,
+     -26,    70,    79,   -59,   -59,    81,    82,   -59,    50,   -26,
+      20,   -59,   -59,   -59,   -59,    34,   -26,    52,   -26,   -26,
+     -10,    53,   -59,    89,   -59,    45,   -26,   -26,    49,    55,
+      57,   -59,   -26,   -26,   -26,   -59,    62,    63,    68,    73,
+     -59,   -59,   -59,   -59,    80,    49,   -26,    60,    84,    95,
+     -59,   104,   -26,    86,    90,   -26,   -26,   -26,   -26,   -59,
+     -59,    59,   -26,   111,   -59,   -59,   -26,   110,   112,   -26,
+     -26,   -26,   -26,    19,   -59,    78,   -59,   -59,   -59,   -59,
+     -26,   -26,   -26,   -26,   -59,   -59,    98,   100,   -26,   102,
+     -59,   105,   106,   -59,   -26,   -59,   108,   -59
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -757,46 +758,44 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      86,    87,   101,    56,    90,    89,     3,    60,    76,    95,
-      98,    99,    77,    36,    63,   125,    70,    71,   174,    82,
-     106,    37,   126,   127,   128,   126,   127,   128,   108,   109,
-      38,    39,   111,    64,    40,    41,   102,    83,    96,   129,
-      92,   117,   129,    42,    43,    44,    45,    93,   120,    46,
-     123,   124,    48,    49,    50,    51,    53,    55,   137,   138,
-      58,    59,   139,   118,   142,   143,   144,    61,    68,    62,
-      69,    74,    81,    91,   100,    88,   103,   104,   151,   150,
-     107,   113,   114,   105,   156,   112,   115,   159,   160,   161,
-     162,   135,   116,   119,   165,   134,   121,   140,   167,   136,
-     141,   170,   171,   172,   173,   145,   152,   149,   146,   154,
-     155,   147,   176,   177,   178,   179,     2,   148,   164,   153,
-     182,     3,   157,     4,   158,     5,   186,     6,   166,     7,
-     168,     8,   180,     9,   169,    10,   181,    11,   183,    12,
-     184,    13,   185,    14,   175,    15,   187,    16,    84,   163,
+      86,    87,   101,    56,    90,    89,     3,    60,    95,    36,
+      98,    99,    37,    76,    92,    63,   125,    70,    71,    82,
+     106,    93,    38,   126,   127,   128,    39,    40,   108,   109,
+      41,    42,   111,    77,    64,    96,   102,    83,   129,    43,
+      44,   117,    45,    46,    48,   174,    49,    50,   120,    51,
+     123,   124,   126,   127,   128,    61,    74,    53,   137,   138,
+      81,    55,   139,   118,   142,   143,   144,   129,    58,    59,
+      62,    68,    88,    91,    69,   100,   103,   104,   151,   150,
+     107,   105,   112,   113,   156,   114,   115,   159,   160,   161,
+     162,   134,   119,   135,   165,   141,   136,   140,   167,   145,
+     146,   170,   171,   172,   173,   147,   116,   154,   149,   164,
+     148,   121,   176,   177,   178,   179,     2,   152,   155,   166,
+     182,     3,   153,     4,   157,     5,   186,     6,   158,     7,
+     168,     8,   175,     9,   169,    10,   180,    11,   181,    12,
+     183,    13,   184,    14,   185,    15,   187,    16,    84,   163,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    17,     0,     0,
-       0,    18
+       0,     0,     0,     0,     0,    17,     0,     0,     0,    18
 };
 
 static const yytype_int16 yycheck[] =
 {
-      58,    59,     4,    40,    62,    61,     5,    44,    39,    25,
-      68,    69,    43,     4,    11,    26,    10,    11,    26,    18,
-      78,     4,    33,    34,    35,    33,    34,    35,    86,    87,
-       4,     4,    90,    30,     4,     4,    38,    36,    54,    50,
-      25,    99,    50,     4,     4,     4,     4,    32,   106,     4,
-     108,   109,     4,     4,     4,     3,    37,    37,   116,   117,
-      37,    37,   118,   100,   122,   123,   124,     4,    57,    37,
-      37,     7,    16,     4,     4,    24,     4,    12,   136,   135,
-       4,     4,     4,    40,   142,    12,     4,   145,   146,   147,
-     148,     4,    58,    49,   152,    38,    43,    42,   156,    53,
-      38,   159,   160,   161,   162,    37,    59,    28,    37,    12,
-      14,    37,   170,   171,   172,   173,     0,    37,    52,    38,
-     178,     5,    38,     7,    38,     9,   184,    11,     8,    13,
-      20,    15,    38,    17,    22,    19,    38,    21,    38,    23,
-      37,    25,    38,    27,    56,    29,    38,    31,    57,   150,
+      58,    59,     4,    40,    62,    61,     5,    44,    25,     4,
+      68,    69,     4,    39,    25,    11,    26,    10,    11,    18,
+      78,    32,     4,    33,    34,    35,     4,     4,    86,    87,
+       4,     4,    90,    59,    30,    52,    38,    36,    48,     4,
+       4,    99,     4,     4,     4,    26,     4,     4,   106,     3,
+     108,   109,    33,    34,    35,     4,     7,    37,   116,   117,
+      16,    37,   118,   100,   122,   123,   124,    48,    37,    37,
+      37,    55,    24,     4,    37,     4,     4,    12,   136,   135,
+       4,    40,    12,     4,   142,     4,     4,   145,   146,   147,
+     148,    38,    58,     4,   152,    38,    51,    42,   156,    37,
+      37,   159,   160,   161,   162,    37,    56,    12,    28,    50,
+      37,    59,   170,   171,   172,   173,     0,    57,    14,     8,
+     178,     5,    38,     7,    38,     9,   184,    11,    38,    13,
+      20,    15,    54,    17,    22,    19,    38,    21,    38,    23,
+      38,    25,    37,    27,    38,    29,    38,    31,    57,   150,
       -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    51,    -1,    -1,
-      -1,    55
+      -1,    -1,    -1,    -1,    -1,    49,    -1,    -1,    -1,    53
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -804,23 +803,23 @@ static const yytype_int16 yycheck[] =
 static const yytype_uint8 yystos[] =
 {
        0,    61,     0,     5,     7,     9,    11,    13,    15,    17,
-      19,    21,    23,    25,    27,    29,    31,    51,    55,    62,
+      19,    21,    23,    25,    27,    29,    31,    49,    53,    62,
       66,    80,    81,    82,    83,    85,    89,    90,    91,    92,
       94,    96,    97,    98,    99,   100,     4,     4,     4,     4,
        4,     4,     4,     4,     4,     4,     4,    77,     4,     4,
        4,     3,    74,    37,    93,    37,    93,    87,    37,    37,
-      93,     4,    37,    11,    30,    95,    75,    79,    57,    37,
-      10,    11,    88,    67,     7,    68,    39,    43,    63,    64,
+      93,     4,    37,    11,    30,    95,    75,    79,    55,    37,
+      10,    11,    88,    67,     7,    68,    39,    59,    63,    64,
       84,    16,    18,    36,    66,    86,    63,    63,    24,    68,
-      63,     4,    25,    32,    76,    25,    54,    78,    63,    63,
+      63,     4,    25,    32,    76,    25,    52,    78,    63,    63,
        4,     4,    38,     4,    12,    40,    63,     4,    63,    63,
-      69,    63,    12,     4,     4,     4,    58,    63,    93,    49,
-      63,    43,    65,    63,    63,    26,    33,    34,    35,    50,
-      70,    71,    72,    73,    38,     4,    53,    63,    63,    68,
+      69,    63,    12,     4,     4,     4,    56,    63,    93,    58,
+      63,    59,    65,    63,    63,    26,    33,    34,    35,    48,
+      70,    71,    72,    73,    38,     4,    51,    63,    63,    68,
       42,    38,    63,    63,    63,    37,    37,    37,    37,    28,
-      68,    63,    59,    38,    12,    14,    63,    38,    38,    63,
-      63,    63,    63,    69,    52,    63,     8,    63,    20,    22,
-      63,    63,    63,    63,    26,    56,    63,    63,    63,    63,
+      68,    63,    57,    38,    12,    14,    63,    38,    38,    63,
+      63,    63,    63,    69,    50,    63,     8,    63,    20,    22,
+      63,    63,    63,    63,    26,    54,    63,    63,    63,    63,
       38,    38,    63,    38,    37,    38,    63,    38
 };
 
@@ -1622,7 +1621,7 @@ yyreduce:
         (yyval.numPos.number) = (yyvsp[0].number);
         (yyval.numPos.string) = NULL;
     }
-#line 1626 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1625 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
@@ -1631,7 +1630,7 @@ yyreduce:
         (yyval.numPos.string) = (yyvsp[0].string);
         (yyval.numPos.number) = 0;
     }
-#line 1635 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
@@ -1639,7 +1638,7 @@ yyreduce:
     {
         (yyval.number) = (double)atof((yyvsp[0].string));
     }
-#line 1643 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1642 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1648,14 +1647,14 @@ yyreduce:
         (yyval.numPos.string) = strdup((yyvsp[0].string));
         (yyval.numPos.number) = nomcolumn;
     }
-#line 1652 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1651 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 138 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
     {
     }
-#line 1659 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1658 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
@@ -1663,13 +1662,13 @@ yyreduce:
     {
         tempVariables.push_back((yyvsp[0].string));
     }
-#line 1667 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1666 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 151 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
     {(yyval.string) = "";}
-#line 1673 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1672 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1677,7 +1676,7 @@ yyreduce:
     {
         (yyval.string) = (yyvsp[0].string);
     }
-#line 1681 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1680 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
@@ -1720,7 +1719,7 @@ yyreduce:
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
     }
-#line 1724 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1723 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
@@ -1754,7 +1753,7 @@ yyreduce:
 
         currentTransformations.push_back(createTranslate(x, y, z));
     }
-#line 1758 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1757 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
@@ -1788,7 +1787,7 @@ yyreduce:
 
         currentTransformations.push_back(createScale(x, y, z));
     }
-#line 1792 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1791 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
@@ -1800,7 +1799,7 @@ yyreduce:
         double w = (yyvsp[-2].numPos.number);
 
     }
-#line 1804 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1803 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
@@ -1843,7 +1842,7 @@ yyreduce:
 
         currentGroup.push_back(newInstance);
     }
-#line 1847 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1846 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
@@ -1851,7 +1850,7 @@ yyreduce:
     {
         string instanceName = strdup((yyvsp[0].string));
     }
-#line 1855 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1854 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
@@ -1870,7 +1869,7 @@ yyreduce:
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     }
-#line 1874 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1873 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
@@ -1906,7 +1905,7 @@ yyreduce:
 
         currSession->offsets.push_back(currOffset);
     }
-#line 1910 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1909 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
@@ -1934,7 +1933,7 @@ yyreduce:
         currentMeshEdges.clear();
         currentMeshVertices.clear();
 	}
-#line 1938 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1937 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
@@ -1945,7 +1944,7 @@ yyreduce:
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
 	}
-#line 1949 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1948 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
@@ -1953,7 +1952,7 @@ yyreduce:
     {
         (yyval.string) = (yyvsp[-1].string);
     }
-#line 1957 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1956 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
@@ -1965,7 +1964,7 @@ yyreduce:
 
         tempFaceDelete.clear();
 	}
-#line 1969 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1968 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
@@ -1985,7 +1984,7 @@ yyreduce:
 
         currentSetList.push_back(currentSet);
 	}
-#line 1989 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1988 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
@@ -2036,7 +2035,7 @@ yyreduce:
 
         tempVariables.clear();
     }
-#line 2040 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2039 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
@@ -2048,7 +2047,7 @@ yyreduce:
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
 	}
-#line 2052 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2051 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
@@ -2078,7 +2077,7 @@ yyreduce:
 
         currSession->circles.push_back(currCircle);
     }
-#line 2082 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2081 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
@@ -2123,7 +2122,7 @@ yyreduce:
 
         currSession->tunnels.push_back(currTunnel);
 	}
-#line 2127 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2126 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
@@ -2168,14 +2167,14 @@ yyreduce:
 
         currSession->funnels.push_back(currFunnel);
 	}
-#line 2172 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2171 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
 #line 653 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
     {
 	}
-#line 2179 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2178 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
@@ -2215,7 +2214,7 @@ yyreduce:
 
         tempVariables.clear();
 	}
-#line 2219 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2218 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
@@ -2223,7 +2222,7 @@ yyreduce:
     {
         tempFaceDelete.push_back((yyvsp[-1].string));
 	}
-#line 2227 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2226 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
@@ -2248,7 +2247,7 @@ yyreduce:
         currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
 	}
-#line 2252 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2251 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -2298,14 +2297,14 @@ yyreduce:
 
         currSession->instances.push_back(newInstance);
 	}
-#line 2302 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2301 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
 #line 778 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
     {
 	}
-#line 2309 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2308 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
@@ -2338,7 +2337,7 @@ yyreduce:
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup((yyvsp[-7].string))));
 	}
-#line 2342 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2341 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
@@ -2374,11 +2373,11 @@ yyreduce:
         newVertex->setName(strdup((yyvsp[-6].string)));
         currSession->verts.push_back(newVertex);
 	}
-#line 2378 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2377 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2382 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2381 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

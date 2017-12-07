@@ -11,15 +11,16 @@
 #include <Lewis/CircleNew.h>
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
+#include <Lewis/InstanceNew.h>
 
 extern int stllineno;
 extern char* stltext;
 extern FILE *stlin;
 int stllex(void);
-int stlerror(char *s) {
+int stlerror(const char *s) {
   printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
-extern "C" int stlparse (void);
+//extern "C" int yyparse (void);
 
 int stlwrap() {
     return 1;
@@ -29,7 +30,7 @@ Session* currSession = createSession();
 Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
-map<string,Vertex*> vertices;
+map<string,Vert*> vertices;
 std::vector<string> tempVariables;
 std::vector<string> tempFaceDelete;
 string currentSetName;
@@ -40,6 +41,9 @@ std::list<InstanceNew *> currentGroup;
 std::list<FaceNew *> currentMeshFaces;
 std::list<Vert *> currentMeshVertices;
 std::list<EdgeNew *> currentMeshEdges;
+
+std::list<Vert *> currentFaceVertices;
+std::list<FaceNew *> currentSolidFace;
 
 std::list<TransformationNew *> currentTransformations;
 
@@ -63,15 +67,20 @@ double *getBankValue(std::string str){
 
 
 %}
-%token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
+
+//%define api.prefix {nom}
+
+%token OUTER SOLID FACET ENDFACET LOOP ENDLOOP VERTEX NORMAL ENDSOLID COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
-EXPR DOLLAR EBRACE NUMBER PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE BANK_EXPR
-SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP;
+EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
+SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
+;
 
 %error-verbose
 %locations
+
 
 %union
 {
@@ -92,14 +101,119 @@ SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX ST
 %%
 
 commands: /* empty */
-	| commands command
-	;
+    | commands command
+    ;
 
 
 command:
-    comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | instance | delete | group | circle | subdivision | offset
-	;
+    solid
+
+    ;
+
+solid:
+    SOLID VARIABLE facetsArgs ENDSOLID VARIABLE
+    {
+        MeshNew* currMesh = createMesh();
+
+        for (std::list<FaceNew*>::iterator it=currentSolidFace.begin(); it != currentSolidFace.end(); ++it){
+            currMesh->faces.push_back(*it);
+        }
+
+        for (std::list<Vert*>::iterator it=currentMeshVertices.begin(); it != currentMeshVertices.end(); ++it){
+            currMesh->verts.push_back(*it);
+        }
+
+        for (std::list<EdgeNew*>::iterator it=currentMeshEdges.begin(); it != currentMeshEdges.end(); ++it){
+            currMesh->edges.push_back(*it);
+        }
+
+        currMesh->setName(strdup($<string>2));
+
+        InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true);
+        newInstance->setName(strdup($<string>2));
+        currSession->instances.push_back(newInstance);
+
+        double *min = (double*) malloc(sizeof(double));
+        double *max = (double*) malloc(sizeof(double));
+        double *step = (double*) malloc(sizeof(double));
+
+        *min = 0.0;
+        *max = 0.5;
+        *step = 0.01;
+
+        OffsetNew* currOffset = createOffset("autoOffset", min, max, step);
+
+        currSession->offsets.push_back(currOffset);
+
+    };
+
+vertex:
+    VERTEX NUMBER NUMBER NUMBER
+    {
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+        *x = atof($<string>2);
+        *y = atof($<string>3);
+        *z = atof($<string>4);
+
+        Vert * newVertex = NULL;
+        for (Vert* currVert : currentMeshVertices){
+            if ((abs(*currVert->x-*x) < 0.0000001) && (abs(*currVert->y-*y) < 0.0000001) && (abs(*currVert->z-*z) < 0.0000001)){
+                newVertex = currVert;
+                break;
+            }
+        }
+        if (newVertex == NULL){
+            newVertex = createVert (x, y, z);
+            currentMeshVertices.push_back(newVertex);
+        }
+
+        currentFaceVertices.push_back(newVertex);
+    };
+
+vertexArgs:
+    | vertexArgs vertex;
+
+facetsArgs:
+    | facetsArgs facets;
+
+facets:
+    FACET NORMAL NUMBER NUMBER NUMBER OUTER LOOP vertexArgs ENDLOOP ENDFACET
+    {
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+        *x = atof($<string>3);
+        *y = atof($<string>4);
+        *z = atof($<string>5);
+
+        vector<Vert*> faceVert;
+        for (Vert* vert : currentFaceVertices){
+            faceVert.push_back(vert);
+        }
+
+        vector<double> normalCalc = getNormalFromVerts(faceVert);
+
+        if (abs(normalCalc[0] - *x) > 0.0001 || abs(normalCalc[1] - *y) > 0.0001 || abs(normalCalc[2] - *z) > 0.0001){
+            std::cout << stllineno << std::endl;
+            std::cout << "=========" << std::endl;
+            std::cout << normalCalc[0] << std::endl;
+            std::cout << normalCalc[1] << std::endl;
+            std::cout << normalCalc[2] << std::endl;
+            std::cout << *x << std::endl;
+            std::cout << *y << std::endl;
+            std::cout << *z << std::endl;
+        }
+
+        FaceNew * newFace = createFace(currentFaceVertices, &currentMeshEdges, currReader, false);
+        currentSolidFace.push_back(newFace);
+        //std::cout << currentFaceVertices.size() << std::endl;
+        currentFaceVertices.clear();
+        //std::cout << "HELLO" << std::endl;
+    };
 
 numberValue:
     num {
@@ -140,14 +254,14 @@ variables:
     variables VARIABLE {
         tempVariables.push_back($<string>2);
     }
-	;
+    ;
 
 surfaceArgs:
     {$<string>$ = "";}
     | SURFACE VARIABLE {
         $<string>$ = $<string>2;
     }
-	;
+    ;
 
 transformArgs:
     | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs
@@ -274,11 +388,11 @@ mirrorArgs:
 
 faceArgs:
     | faceArgs faceMesh
-	;
+    ;
 
 instanceArgs:
     | instanceArgs instanceGroup
-	;
+    ;
 
 instanceGroup:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
@@ -323,8 +437,8 @@ instanceGroup:
     ;
 
 faceDeleteArgs:
-	| faceDeleteArgs faceDelete
-	;
+    | faceDeleteArgs faceDelete
+    ;
 
 instanceOffseSubdivide:
     INSTANCE VARIABLE
@@ -388,7 +502,7 @@ offset:
     };
 
 mesh:
-	MESH VARIABLE faceArgs END_MESH
+    MESH VARIABLE faceArgs END_MESH
     {
 
         MeshNew* currMesh = createMesh();
@@ -411,18 +525,18 @@ mesh:
         currentMeshFaces.clear();
         currentMeshEdges.clear();
         currentMeshVertices.clear();
-	}
-	;
+    }
+    ;
 
 group:
-	GROUP VARIABLE instanceArgs END_GROUP
+    GROUP VARIABLE instanceArgs END_GROUP
     {
         GroupNew* currGroup = createGroup(currentGroup);
         currGroup->setName(strdup($<string>2));
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
-	}
-	;
+    }
+    ;
 
 expr:
     OBRACE EXPR BANK_EXPR EBRACE
@@ -438,8 +552,8 @@ delete:
         }
 
         tempFaceDelete.clear();
-	}
-	;
+    }
+    ;
 
 set:
     SET VARIABLE numPosTok numberValue numberValue numberValue
@@ -457,12 +571,12 @@ set:
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
 
         currentSetList.push_back(currentSet);
-	}
-	;
+    }
+    ;
 
 setArgs:
     | setArgs set |  setArgs comment
-	;
+    ;
 
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
@@ -515,15 +629,15 @@ faceMesh:
     ;
 
 bank:
-	BANK VARIABLE setArgs END_BANK
+    BANK VARIABLE setArgs END_BANK
     {
         BankNew * currentBank = createBank();
         currentBank->name = strdup($<string>2);
         currentBank->sets = currentSetList;
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
-	}
-	;
+    }
+    ;
 
 circle:
     CIRCLE VARIABLE OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE
@@ -556,7 +670,7 @@ circle:
 tunnel:
     TUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_TUNNEL
-	{
+    {
         string name = $<string>2;
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -595,13 +709,13 @@ tunnel:
         currTunnel->setName(strdup($<string>2));
 
         currSession->tunnels.push_back(currTunnel);
-	}
-	;
+    }
+    ;
 
 funnel:
     FUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_FUNNEL
-	{
+    {
         string name = $<string>2;
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -640,17 +754,17 @@ funnel:
         currFunnel->setName(strdup($<string>2));
 
         currSession->funnels.push_back(currFunnel);
-	}
-	;
+    }
+    ;
 
 parenthesisName:
-	OPARENTHESES variables EPARENTHESES
+    OPARENTHESES variables EPARENTHESES
     {
-	}
-	;
+    }
+    ;
 
 face:
-	FACE VARIABLE parenthesisName surfaceArgs END_FACE
+    FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -685,19 +799,19 @@ face:
         currSession->faces.push_back(newFace);
 
         tempVariables.clear();
-	}
-	;
+    }
+    ;
 
 faceDelete:
-	FACE VARIABLE END_FACE
-	{
+    FACE VARIABLE END_FACE
+    {
         tempFaceDelete.push_back($<string>2);
-	}
-	;
+    }
+    ;
 
 polyline:
-	POLYLINE VARIABLE parenthesisName END_POLYLINE
-	{
+    POLYLINE VARIABLE parenthesisName END_POLYLINE
+    {
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -716,8 +830,8 @@ polyline:
 
         currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
-	}
-	;
+    }
+    ;
 
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
@@ -765,35 +879,14 @@ instance:
         }
 
         currSession->instances.push_back(newInstance);
-	}
-	;
+    }
+    ;
 
 object:
-	OBJECT VARIABLE parenthesisName END_OBJECT
+    OBJECT VARIABLE parenthesisName END_OBJECT
     {
-        /*std::list<FaceNew*> facesObject;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            FaceNew * currentFace = currReader->face(*it);
-            if (currentFace != NULL) {
-                facesObject.push_back(currentFace);
-            }
-            else{
-                yyerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        MeshNew * newObject = createMesh(facesObject);
-
-        newObject->setName(strdup($<string>2));
-
-        currSession->objects.push_back(newObject);
-
-        tempVariables.clear();*/
-
-        //printf("Created an object\n");
-	}
-	;
+    }
+    ;
 
 surface:
     SURFACE VARIABLE COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
@@ -824,8 +917,8 @@ surface:
         }
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
-	}
-	;
+    }
+    ;
 
 point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
@@ -859,6 +952,6 @@ point:
         Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup($<string>2));
         currSession->verts.push_back(newVertex);
-	}
-	;
+    }
+    ;
 

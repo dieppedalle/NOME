@@ -45,130 +45,148 @@ extern int stldebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    COLOR = 258,
-    VARIABLE = 259,
-    COMMENT = 260,
-    NEWLINE = 261,
-    SURFACE = 262,
-    END_SURFACE = 263,
-    MESH = 264,
-    END_MESH = 265,
-    FACE = 266,
-    END_FACE = 267,
-    BEG_POINT = 268,
-    END_POINT = 269,
-    OBJECT = 270,
-    END_OBJECT = 271,
-    BANK = 272,
-    END_BANK = 273,
-    TUNNEL = 274,
-    END_TUNNEL = 275,
-    FUNNEL = 276,
-    END_FUNNEL = 277,
-    POLYLINE = 278,
-    END_POLYLINE = 279,
-    INSTANCE = 280,
-    END_INSTANCE = 281,
-    CIRCLE = 282,
-    END_CIRCLE = 283,
-    BEG_DELETE = 284,
-    END_DELETE = 285,
-    GROUP = 286,
-    END_GROUP = 287,
-    TRANSLATE = 288,
-    ROTATE = 289,
-    MIRROR = 290,
-    SET = 291,
-    OPARENTHESES = 292,
-    EPARENTHESES = 293,
-    OBRACE = 294,
-    EXPR = 295,
-    DOLLAR = 296,
-    EBRACE = 297,
-    NUMBER = 298,
-    PERIOD = 299,
-    TOKHEAT = 300,
-    STATE = 301,
-    TOKTARGET = 302,
-    TOKTEMPERATURE = 303,
-    BANK_EXPR = 304,
-    SCALE = 305,
-    SUBDIVISION = 306,
-    END_SUBDIVISION = 307,
-    SUBDIVISIONS = 308,
-    TYPE = 309,
-    OFFSET = 310,
-    END_OFFSET = 311,
-    MIN = 312,
-    MAX = 313,
-    STEP = 314
+    OUTER = 258,
+    SOLID = 259,
+    FACET = 260,
+    ENDFACET = 261,
+    LOOP = 262,
+    ENDLOOP = 263,
+    VERTEX = 264,
+    NORMAL = 265,
+    ENDSOLID = 266,
+    COLOR = 267,
+    VARIABLE = 268,
+    COMMENT = 269,
+    NEWLINE = 270,
+    SURFACE = 271,
+    END_SURFACE = 272,
+    MESH = 273,
+    END_MESH = 274,
+    FACE = 275,
+    END_FACE = 276,
+    BEG_POINT = 277,
+    END_POINT = 278,
+    OBJECT = 279,
+    END_OBJECT = 280,
+    BANK = 281,
+    END_BANK = 282,
+    TUNNEL = 283,
+    END_TUNNEL = 284,
+    FUNNEL = 285,
+    END_FUNNEL = 286,
+    POLYLINE = 287,
+    END_POLYLINE = 288,
+    INSTANCE = 289,
+    END_INSTANCE = 290,
+    CIRCLE = 291,
+    END_CIRCLE = 292,
+    BEG_DELETE = 293,
+    END_DELETE = 294,
+    GROUP = 295,
+    END_GROUP = 296,
+    TRANSLATE = 297,
+    ROTATE = 298,
+    MIRROR = 299,
+    SET = 300,
+    OPARENTHESES = 301,
+    EPARENTHESES = 302,
+    OBRACE = 303,
+    EXPR = 304,
+    DOLLAR = 305,
+    EBRACE = 306,
+    PERIOD = 307,
+    TOKHEAT = 308,
+    STATE = 309,
+    TOKTARGET = 310,
+    TOKTEMPERATURE = 311,
+    SCALE = 312,
+    SUBDIVISION = 313,
+    END_SUBDIVISION = 314,
+    SUBDIVISIONS = 315,
+    TYPE = 316,
+    OFFSET = 317,
+    END_OFFSET = 318,
+    MIN = 319,
+    MAX = 320,
+    STEP = 321,
+    BANK_EXPR = 322,
+    NUMBER = 323
   };
 #endif
 /* Tokens.  */
-#define COLOR 258
-#define VARIABLE 259
-#define COMMENT 260
-#define NEWLINE 261
-#define SURFACE 262
-#define END_SURFACE 263
-#define MESH 264
-#define END_MESH 265
-#define FACE 266
-#define END_FACE 267
-#define BEG_POINT 268
-#define END_POINT 269
-#define OBJECT 270
-#define END_OBJECT 271
-#define BANK 272
-#define END_BANK 273
-#define TUNNEL 274
-#define END_TUNNEL 275
-#define FUNNEL 276
-#define END_FUNNEL 277
-#define POLYLINE 278
-#define END_POLYLINE 279
-#define INSTANCE 280
-#define END_INSTANCE 281
-#define CIRCLE 282
-#define END_CIRCLE 283
-#define BEG_DELETE 284
-#define END_DELETE 285
-#define GROUP 286
-#define END_GROUP 287
-#define TRANSLATE 288
-#define ROTATE 289
-#define MIRROR 290
-#define SET 291
-#define OPARENTHESES 292
-#define EPARENTHESES 293
-#define OBRACE 294
-#define EXPR 295
-#define DOLLAR 296
-#define EBRACE 297
-#define NUMBER 298
-#define PERIOD 299
-#define TOKHEAT 300
-#define STATE 301
-#define TOKTARGET 302
-#define TOKTEMPERATURE 303
-#define BANK_EXPR 304
-#define SCALE 305
-#define SUBDIVISION 306
-#define END_SUBDIVISION 307
-#define SUBDIVISIONS 308
-#define TYPE 309
-#define OFFSET 310
-#define END_OFFSET 311
-#define MIN 312
-#define MAX 313
-#define STEP 314
+#define OUTER 258
+#define SOLID 259
+#define FACET 260
+#define ENDFACET 261
+#define LOOP 262
+#define ENDLOOP 263
+#define VERTEX 264
+#define NORMAL 265
+#define ENDSOLID 266
+#define COLOR 267
+#define VARIABLE 268
+#define COMMENT 269
+#define NEWLINE 270
+#define SURFACE 271
+#define END_SURFACE 272
+#define MESH 273
+#define END_MESH 274
+#define FACE 275
+#define END_FACE 276
+#define BEG_POINT 277
+#define END_POINT 278
+#define OBJECT 279
+#define END_OBJECT 280
+#define BANK 281
+#define END_BANK 282
+#define TUNNEL 283
+#define END_TUNNEL 284
+#define FUNNEL 285
+#define END_FUNNEL 286
+#define POLYLINE 287
+#define END_POLYLINE 288
+#define INSTANCE 289
+#define END_INSTANCE 290
+#define CIRCLE 291
+#define END_CIRCLE 292
+#define BEG_DELETE 293
+#define END_DELETE 294
+#define GROUP 295
+#define END_GROUP 296
+#define TRANSLATE 297
+#define ROTATE 298
+#define MIRROR 299
+#define SET 300
+#define OPARENTHESES 301
+#define EPARENTHESES 302
+#define OBRACE 303
+#define EXPR 304
+#define DOLLAR 305
+#define EBRACE 306
+#define PERIOD 307
+#define TOKHEAT 308
+#define STATE 309
+#define TOKTARGET 310
+#define TOKTEMPERATURE 311
+#define SCALE 312
+#define SUBDIVISION 313
+#define END_SUBDIVISION 314
+#define SUBDIVISIONS 315
+#define TYPE 316
+#define OFFSET 317
+#define END_OFFSET 318
+#define MIN 319
+#define MAX 320
+#define STEP 321
+#define BANK_EXPR 322
+#define NUMBER 323
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1909  */
+#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1909  */
 
     double number;
     char *string;
@@ -177,7 +195,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.hpp" /* yacc.c:1909  */
+#line 199 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

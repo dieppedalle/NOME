@@ -98,7 +98,6 @@ HEADERS  += \
     Lewis/IO.h \
     Lewis/Reader.h \
     Lewis/Session.h \
-    parser.hpp \
     testpolyline.h \
     Lewis/GroupNew.h \
     Lewis/InstanceNew.h \

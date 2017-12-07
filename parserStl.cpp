@@ -85,15 +85,16 @@
 #include <Lewis/CircleNew.h>
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
+#include <Lewis/InstanceNew.h>
 
 extern int stllineno;
 extern char* stltext;
 extern FILE *stlin;
 int stllex(void);
-int stlerror(char *s) {
+int stlerror(const char *s) {
   printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
-extern "C" int stlparse (void);
+//extern "C" int yyparse (void);
 
 int stlwrap() {
     return 1;
@@ -103,7 +104,7 @@ Session* currSession = createSession();
 Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
-map<string,Vertex*> vertices;
+map<string,Vert*> vertices;
 std::vector<string> tempVariables;
 std::vector<string> tempFaceDelete;
 string currentSetName;
@@ -114,6 +115,9 @@ std::list<InstanceNew *> currentGroup;
 std::list<FaceNew *> currentMeshFaces;
 std::list<Vert *> currentMeshVertices;
 std::list<EdgeNew *> currentMeshEdges;
+
+std::list<Vert *> currentFaceVertices;
+std::list<FaceNew *> currentSolidFace;
 
 std::list<TransformationNew *> currentTransformations;
 
@@ -137,7 +141,7 @@ double *getBankValue(std::string str){
 
 
 
-#line 141 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:339  */
+#line 145 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -172,130 +176,148 @@ extern int stldebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    COLOR = 258,
-    VARIABLE = 259,
-    COMMENT = 260,
-    NEWLINE = 261,
-    SURFACE = 262,
-    END_SURFACE = 263,
-    MESH = 264,
-    END_MESH = 265,
-    FACE = 266,
-    END_FACE = 267,
-    BEG_POINT = 268,
-    END_POINT = 269,
-    OBJECT = 270,
-    END_OBJECT = 271,
-    BANK = 272,
-    END_BANK = 273,
-    TUNNEL = 274,
-    END_TUNNEL = 275,
-    FUNNEL = 276,
-    END_FUNNEL = 277,
-    POLYLINE = 278,
-    END_POLYLINE = 279,
-    INSTANCE = 280,
-    END_INSTANCE = 281,
-    CIRCLE = 282,
-    END_CIRCLE = 283,
-    BEG_DELETE = 284,
-    END_DELETE = 285,
-    GROUP = 286,
-    END_GROUP = 287,
-    TRANSLATE = 288,
-    ROTATE = 289,
-    MIRROR = 290,
-    SET = 291,
-    OPARENTHESES = 292,
-    EPARENTHESES = 293,
-    OBRACE = 294,
-    EXPR = 295,
-    DOLLAR = 296,
-    EBRACE = 297,
-    NUMBER = 298,
-    PERIOD = 299,
-    TOKHEAT = 300,
-    STATE = 301,
-    TOKTARGET = 302,
-    TOKTEMPERATURE = 303,
-    BANK_EXPR = 304,
-    SCALE = 305,
-    SUBDIVISION = 306,
-    END_SUBDIVISION = 307,
-    SUBDIVISIONS = 308,
-    TYPE = 309,
-    OFFSET = 310,
-    END_OFFSET = 311,
-    MIN = 312,
-    MAX = 313,
-    STEP = 314
+    OUTER = 258,
+    SOLID = 259,
+    FACET = 260,
+    ENDFACET = 261,
+    LOOP = 262,
+    ENDLOOP = 263,
+    VERTEX = 264,
+    NORMAL = 265,
+    ENDSOLID = 266,
+    COLOR = 267,
+    VARIABLE = 268,
+    COMMENT = 269,
+    NEWLINE = 270,
+    SURFACE = 271,
+    END_SURFACE = 272,
+    MESH = 273,
+    END_MESH = 274,
+    FACE = 275,
+    END_FACE = 276,
+    BEG_POINT = 277,
+    END_POINT = 278,
+    OBJECT = 279,
+    END_OBJECT = 280,
+    BANK = 281,
+    END_BANK = 282,
+    TUNNEL = 283,
+    END_TUNNEL = 284,
+    FUNNEL = 285,
+    END_FUNNEL = 286,
+    POLYLINE = 287,
+    END_POLYLINE = 288,
+    INSTANCE = 289,
+    END_INSTANCE = 290,
+    CIRCLE = 291,
+    END_CIRCLE = 292,
+    BEG_DELETE = 293,
+    END_DELETE = 294,
+    GROUP = 295,
+    END_GROUP = 296,
+    TRANSLATE = 297,
+    ROTATE = 298,
+    MIRROR = 299,
+    SET = 300,
+    OPARENTHESES = 301,
+    EPARENTHESES = 302,
+    OBRACE = 303,
+    EXPR = 304,
+    DOLLAR = 305,
+    EBRACE = 306,
+    PERIOD = 307,
+    TOKHEAT = 308,
+    STATE = 309,
+    TOKTARGET = 310,
+    TOKTEMPERATURE = 311,
+    SCALE = 312,
+    SUBDIVISION = 313,
+    END_SUBDIVISION = 314,
+    SUBDIVISIONS = 315,
+    TYPE = 316,
+    OFFSET = 317,
+    END_OFFSET = 318,
+    MIN = 319,
+    MAX = 320,
+    STEP = 321,
+    BANK_EXPR = 322,
+    NUMBER = 323
   };
 #endif
 /* Tokens.  */
-#define COLOR 258
-#define VARIABLE 259
-#define COMMENT 260
-#define NEWLINE 261
-#define SURFACE 262
-#define END_SURFACE 263
-#define MESH 264
-#define END_MESH 265
-#define FACE 266
-#define END_FACE 267
-#define BEG_POINT 268
-#define END_POINT 269
-#define OBJECT 270
-#define END_OBJECT 271
-#define BANK 272
-#define END_BANK 273
-#define TUNNEL 274
-#define END_TUNNEL 275
-#define FUNNEL 276
-#define END_FUNNEL 277
-#define POLYLINE 278
-#define END_POLYLINE 279
-#define INSTANCE 280
-#define END_INSTANCE 281
-#define CIRCLE 282
-#define END_CIRCLE 283
-#define BEG_DELETE 284
-#define END_DELETE 285
-#define GROUP 286
-#define END_GROUP 287
-#define TRANSLATE 288
-#define ROTATE 289
-#define MIRROR 290
-#define SET 291
-#define OPARENTHESES 292
-#define EPARENTHESES 293
-#define OBRACE 294
-#define EXPR 295
-#define DOLLAR 296
-#define EBRACE 297
-#define NUMBER 298
-#define PERIOD 299
-#define TOKHEAT 300
-#define STATE 301
-#define TOKTARGET 302
-#define TOKTEMPERATURE 303
-#define BANK_EXPR 304
-#define SCALE 305
-#define SUBDIVISION 306
-#define END_SUBDIVISION 307
-#define SUBDIVISIONS 308
-#define TYPE 309
-#define OFFSET 310
-#define END_OFFSET 311
-#define MIN 312
-#define MAX 313
-#define STEP 314
+#define OUTER 258
+#define SOLID 259
+#define FACET 260
+#define ENDFACET 261
+#define LOOP 262
+#define ENDLOOP 263
+#define VERTEX 264
+#define NORMAL 265
+#define ENDSOLID 266
+#define COLOR 267
+#define VARIABLE 268
+#define COMMENT 269
+#define NEWLINE 270
+#define SURFACE 271
+#define END_SURFACE 272
+#define MESH 273
+#define END_MESH 274
+#define FACE 275
+#define END_FACE 276
+#define BEG_POINT 277
+#define END_POINT 278
+#define OBJECT 279
+#define END_OBJECT 280
+#define BANK 281
+#define END_BANK 282
+#define TUNNEL 283
+#define END_TUNNEL 284
+#define FUNNEL 285
+#define END_FUNNEL 286
+#define POLYLINE 287
+#define END_POLYLINE 288
+#define INSTANCE 289
+#define END_INSTANCE 290
+#define CIRCLE 291
+#define END_CIRCLE 292
+#define BEG_DELETE 293
+#define END_DELETE 294
+#define GROUP 295
+#define END_GROUP 296
+#define TRANSLATE 297
+#define ROTATE 298
+#define MIRROR 299
+#define SET 300
+#define OPARENTHESES 301
+#define EPARENTHESES 302
+#define OBRACE 303
+#define EXPR 304
+#define DOLLAR 305
+#define EBRACE 306
+#define PERIOD 307
+#define TOKHEAT 308
+#define STATE 309
+#define TOKTARGET 310
+#define TOKTEMPERATURE 311
+#define SCALE 312
+#define SUBDIVISION 313
+#define END_SUBDIVISION 314
+#define SUBDIVISIONS 315
+#define TYPE 316
+#define OFFSET 317
+#define END_OFFSET 318
+#define MIN 319
+#define MAX 320
+#define STEP 321
+#define BANK_EXPR 322
+#define NUMBER 323
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:355  */
+#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -304,7 +326,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 308 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:355  */
+#line 330 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -333,7 +355,7 @@ int stlparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 337 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:358  */
+#line 359 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -558,21 +580,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   171
+#define YYLAST   17
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  60
+#define YYNTOKENS  69
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  41
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  70
+#define YYNRULES  11
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  188
+#define YYNSTATES  26
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   314
+#define YYMAXUTOK   323
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -612,21 +634,16 @@ static const yytype_uint8 yytranslate[] =
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    57,    58,    59
+      55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
+      65,    66,    67,    68
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint16 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    94,    94,    95,   100,   100,   100,   100,   100,   100,
-     100,   101,   101,   101,   101,   101,   101,   101,   101,   101,
-     105,   108,   117,   124,   132,   138,   140,   146,   147,   152,
-     153,   153,   153,   153,   157,   199,   232,   265,   275,   276,
-     279,   280,   284,   325,   326,   330,   335,   336,   340,   357,
-     391,   418,   428,   434,   445,   463,   464,   464,   468,   518,
-     529,   557,   602,   647,   653,   692,   699,   723,   772,   799,
-     831
+       0,   103,   103,   104,   109,   114,   151,   176,   177,   179,
+     180,   183
 };
 #endif
 
@@ -635,24 +652,19 @@ static const yytype_uint16 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "COLOR", "VARIABLE", "COMMENT",
-  "NEWLINE", "SURFACE", "END_SURFACE", "MESH", "END_MESH", "FACE",
-  "END_FACE", "BEG_POINT", "END_POINT", "OBJECT", "END_OBJECT", "BANK",
-  "END_BANK", "TUNNEL", "END_TUNNEL", "FUNNEL", "END_FUNNEL", "POLYLINE",
-  "END_POLYLINE", "INSTANCE", "END_INSTANCE", "CIRCLE", "END_CIRCLE",
-  "BEG_DELETE", "END_DELETE", "GROUP", "END_GROUP", "TRANSLATE", "ROTATE",
-  "MIRROR", "SET", "OPARENTHESES", "EPARENTHESES", "OBRACE", "EXPR",
-  "DOLLAR", "EBRACE", "NUMBER", "PERIOD", "TOKHEAT", "STATE", "TOKTARGET",
-  "TOKTEMPERATURE", "BANK_EXPR", "SCALE", "SUBDIVISION", "END_SUBDIVISION",
+  "$end", "error", "$undefined", "OUTER", "SOLID", "FACET", "ENDFACET",
+  "LOOP", "ENDLOOP", "VERTEX", "NORMAL", "ENDSOLID", "COLOR", "VARIABLE",
+  "COMMENT", "NEWLINE", "SURFACE", "END_SURFACE", "MESH", "END_MESH",
+  "FACE", "END_FACE", "BEG_POINT", "END_POINT", "OBJECT", "END_OBJECT",
+  "BANK", "END_BANK", "TUNNEL", "END_TUNNEL", "FUNNEL", "END_FUNNEL",
+  "POLYLINE", "END_POLYLINE", "INSTANCE", "END_INSTANCE", "CIRCLE",
+  "END_CIRCLE", "BEG_DELETE", "END_DELETE", "GROUP", "END_GROUP",
+  "TRANSLATE", "ROTATE", "MIRROR", "SET", "OPARENTHESES", "EPARENTHESES",
+  "OBRACE", "EXPR", "DOLLAR", "EBRACE", "PERIOD", "TOKHEAT", "STATE",
+  "TOKTARGET", "TOKTEMPERATURE", "SCALE", "SUBDIVISION", "END_SUBDIVISION",
   "SUBDIVISIONS", "TYPE", "OFFSET", "END_OFFSET", "MIN", "MAX", "STEP",
-  "$accept", "commands", "command", "numberValue", "num", "numPosTok",
-  "comment", "variables", "surfaceArgs", "transformArgs", "rotateArgs",
-  "translateArgs", "scaleArgs", "mirrorArgs", "faceArgs", "instanceArgs",
-  "instanceGroup", "faceDeleteArgs", "instanceOffseSubdivide",
-  "instanceOffseSubdivideArgs", "subdivision", "offset", "mesh", "group",
-  "expr", "delete", "set", "setArgs", "faceMesh", "bank", "circle",
-  "tunnel", "funnel", "parenthesisName", "face", "faceDelete", "polyline",
-  "instance", "object", "surface", "point", YY_NULL
+  "BANK_EXPR", "NUMBER", "$accept", "commands", "command", "solid",
+  "vertex", "vertexArgs", "facetsArgs", "facets", YY_NULL
 };
 #endif
 
@@ -666,14 +678,15 @@ static const yytype_uint16 yytoknum[] =
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
      295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306,   307,   308,   309,   310,   311,   312,   313,   314
+     305,   306,   307,   308,   309,   310,   311,   312,   313,   314,
+     315,   316,   317,   318,   319,   320,   321,   322,   323
 };
 # endif
 
-#define YYPACT_NINF -59
+#define YYPACT_NINF -61
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-59)))
+  (!!((Yystate) == (-61)))
 
 #define YYTABLE_NINF -1
 
@@ -684,25 +697,9 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -59,   116,   -59,   -59,     9,    17,    26,    27,    30,    31,
-      39,    40,    41,    42,    45,   -59,    48,    49,    50,   -59,
-     -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,
-     -59,   -59,   -59,   -59,   -59,   -59,    52,   -59,    19,    20,
-      19,   -59,    23,    24,    19,    63,    32,     3,   -59,   -59,
-      11,    33,     6,   -59,    64,   -31,    56,     1,   -31,   -31,
-      51,    64,   -31,    69,   -59,   -59,    15,   -16,   -31,   -31,
-     -59,    70,   -59,    -2,    72,    65,    43,   -59,   -31,   -59,
-     -59,   -59,   -59,    76,   -59,   -59,   -31,   -31,   -59,   -59,
-     -31,    73,    77,   -59,   -59,    78,    82,   -59,    34,   -31,
-      19,   -59,   -59,   -59,   -59,    44,   -31,    53,   -31,   -31,
-     -11,    57,   -59,    87,   -59,    46,   -31,   -31,    64,    55,
-      62,   -59,   -31,   -31,   -31,   -59,    68,    71,    74,    80,
-     -59,   -59,   -59,   -59,    79,    64,   -31,    47,    81,    97,
-     -59,    96,   -31,    84,    86,   -31,   -31,   -31,   -31,   -59,
-     -59,    66,   -31,   120,   -59,   -59,   -31,   110,   112,   -31,
-     -31,   -31,   -31,    -8,   -59,    88,   -59,   -59,   -59,   -59,
-     -31,   -31,   -31,   -31,   -59,   -59,    94,    98,   -31,   100,
-     -59,   103,   104,   -59,   -31,   -59,   108,   -59
+     -61,     1,   -61,    -9,   -61,   -61,   -61,    -5,    -3,    -4,
+     -61,   -60,   -61,   -58,   -57,     9,     6,   -61,    -6,     8,
+     -53,   -61,   -61,   -52,   -51,   -61
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -710,45 +707,21 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,    24,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,    43,     0,     0,     0,     3,
-       4,    18,    19,     5,    16,    15,    10,    17,    11,    12,
-       8,    13,    14,     9,     6,     7,     0,    38,     0,     0,
-       0,    55,     0,     0,     0,     0,     0,     0,    40,    46,
-       0,     0,     0,    25,    27,     0,     0,     0,     0,     0,
-       0,    27,     0,     0,    53,    44,     0,     0,     0,     0,
-      50,     0,    39,     0,     0,     0,     0,    22,     0,    20,
-      21,    68,    59,     0,    57,    56,     0,     0,    66,    29,
-       0,     0,     0,    51,    41,     0,     0,    47,     0,     0,
-       0,    26,    63,    28,    64,     0,     0,     0,     0,     0,
-       0,     0,    65,     0,    45,     0,     0,     0,    27,     0,
-       0,    23,     0,     0,     0,    67,     0,     0,     0,     0,
-      30,    31,    32,    33,     0,    27,     0,     0,     0,     0,
-      52,     0,     0,     0,     0,     0,     0,     0,     0,    60,
-      29,     0,     0,     0,    58,    70,     0,     0,     0,     0,
-       0,     0,     0,     0,    48,     0,    69,    54,    61,    62,
-       0,     0,     0,     0,    42,    49,     0,     0,     0,     0,
-      35,     0,     0,    36,     0,    37,     0,    34
+       2,     0,     1,     0,     3,     4,     9,     0,     0,     0,
+      10,     0,     5,     0,     0,     0,     0,     7,     0,     0,
+       0,     8,    11,     0,     0,     6
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -59,   -59,   -59,   -58,   -59,   -59,    91,   -59,   -56,    -1,
-     -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,
-     -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,   -59,
-     -59,   -59,   -59,   -37,   -59,   -59,   -59,   -59,   -59,   -59,
-     -59
+     -61,   -61,   -61,   -61,   -61,   -61,   -61,   -61
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int16 yydefgoto[] =
+static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,    19,    78,    79,   122,    20,    73,    75,   110,
-     130,   131,   132,   133,    52,    66,    94,    47,    97,    67,
-      21,    22,    23,    24,    80,    25,    85,    57,    72,    26,
-      27,    28,    29,    54,    30,    65,    31,    32,    33,    34,
-      35
+      -1,     1,     4,     5,    21,    18,     7,    10
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -756,97 +729,37 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      86,    87,   101,    56,    90,    89,     3,    60,    76,    95,
-      98,    99,    77,    36,    63,   125,    70,    71,   174,    82,
-     106,    37,   126,   127,   128,   126,   127,   128,   108,   109,
-      38,    39,   111,    64,    40,    41,   102,    83,    96,   129,
-      92,   117,   129,    42,    43,    44,    45,    93,   120,    46,
-     123,   124,    48,    49,    50,    51,    53,    55,   137,   138,
-      58,    59,   139,   118,   142,   143,   144,    61,    68,    62,
-      69,    74,    81,    91,   100,    88,   103,   104,   151,   150,
-     107,   113,   114,   105,   156,   112,   115,   159,   160,   161,
-     162,   135,   116,   119,   165,   134,   121,   140,   167,   136,
-     141,   170,   171,   172,   173,   145,   152,   149,   146,   154,
-     155,   147,   176,   177,   178,   179,     2,   148,   164,   153,
-     182,     3,   157,     4,   158,     5,   186,     6,   166,     7,
-     168,     8,   180,     9,   169,    10,   181,    11,   183,    12,
-     184,    13,   185,    14,   175,    15,   187,    16,    84,   163,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,    17,     0,     0,
-       0,    18
+       8,     2,    19,    20,     6,     3,     9,    11,    13,    12,
+      14,    15,    16,    17,    22,    23,    24,    25
 };
 
-static const yytype_int16 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-      58,    59,     4,    40,    62,    61,     5,    44,    39,    25,
-      68,    69,    43,     4,    11,    26,    10,    11,    26,    18,
-      78,     4,    33,    34,    35,    33,    34,    35,    86,    87,
-       4,     4,    90,    30,     4,     4,    38,    36,    54,    50,
-      25,    99,    50,     4,     4,     4,     4,    32,   106,     4,
-     108,   109,     4,     4,     4,     3,    37,    37,   116,   117,
-      37,    37,   118,   100,   122,   123,   124,     4,    57,    37,
-      37,     7,    16,     4,     4,    24,     4,    12,   136,   135,
-       4,     4,     4,    40,   142,    12,     4,   145,   146,   147,
-     148,     4,    58,    49,   152,    38,    43,    42,   156,    53,
-      38,   159,   160,   161,   162,    37,    59,    28,    37,    12,
-      14,    37,   170,   171,   172,   173,     0,    37,    52,    38,
-     178,     5,    38,     7,    38,     9,   184,    11,     8,    13,
-      20,    15,    38,    17,    22,    19,    38,    21,    38,    23,
-      37,    25,    38,    27,    56,    29,    38,    31,    57,   150,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    51,    -1,    -1,
-      -1,    55
+       5,     0,     8,     9,    13,     4,    11,    10,    68,    13,
+      68,    68,     3,     7,     6,    68,    68,    68
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    61,     0,     5,     7,     9,    11,    13,    15,    17,
-      19,    21,    23,    25,    27,    29,    31,    51,    55,    62,
-      66,    80,    81,    82,    83,    85,    89,    90,    91,    92,
-      94,    96,    97,    98,    99,   100,     4,     4,     4,     4,
-       4,     4,     4,     4,     4,     4,     4,    77,     4,     4,
-       4,     3,    74,    37,    93,    37,    93,    87,    37,    37,
-      93,     4,    37,    11,    30,    95,    75,    79,    57,    37,
-      10,    11,    88,    67,     7,    68,    39,    43,    63,    64,
-      84,    16,    18,    36,    66,    86,    63,    63,    24,    68,
-      63,     4,    25,    32,    76,    25,    54,    78,    63,    63,
-       4,     4,    38,     4,    12,    40,    63,     4,    63,    63,
-      69,    63,    12,     4,     4,     4,    58,    63,    93,    49,
-      63,    43,    65,    63,    63,    26,    33,    34,    35,    50,
-      70,    71,    72,    73,    38,     4,    53,    63,    63,    68,
-      42,    38,    63,    63,    63,    37,    37,    37,    37,    28,
-      68,    63,    59,    38,    12,    14,    63,    38,    38,    63,
-      63,    63,    63,    69,    52,    63,     8,    63,    20,    22,
-      63,    63,    63,    63,    26,    56,    63,    63,    63,    63,
-      38,    38,    63,    38,    37,    38,    63,    38
+       0,    70,     0,     4,    71,    72,    13,    75,     5,    11,
+      76,    10,    13,    68,    68,    68,     3,     7,    74,     8,
+       9,    73,     6,    68,    68,    68
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    60,    61,    61,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    62,    62,    62,    62,
-      63,    63,    64,    65,    66,    67,    67,    68,    68,    69,
-      69,    69,    69,    69,    70,    71,    72,    73,    74,    74,
-      75,    75,    76,    77,    77,    78,    79,    79,    80,    81,
-      82,    83,    84,    85,    86,    87,    87,    87,    88,    89,
-      90,    91,    92,    93,    94,    95,    96,    97,    98,    99,
-     100
+       0,    69,    70,    70,    71,    72,    73,    74,    74,    75,
+      75,    76
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     2,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     0,     2,     0,     2,     0,
-       2,     2,     2,     2,     9,     6,     6,     7,     0,     2,
-       0,     2,     6,     0,     2,     2,     0,     2,     8,     9,
-       4,     4,     4,     3,     6,     0,     2,     2,     5,     4,
-       7,     9,     9,     3,     5,     3,     4,     6,     4,     9,
-       8
+       0,     2,     0,     2,     1,     5,     4,     0,     2,     0,
+       2,    10
 };
 
 
@@ -1615,306 +1528,12 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 20:
-#line 105 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
+        case 5:
+#line 115 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
     {
-        (yyval.numPos.number) = (yyvsp[0].number);
-        (yyval.numPos.string) = NULL;
-    }
-#line 1625 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 21:
-#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        (yyval.numPos.string) = (yyvsp[0].string);
-        (yyval.numPos.number) = 0;
-    }
-#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 22:
-#line 118 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        (yyval.number) = (double)atof((yyvsp[0].string));
-    }
-#line 1642 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 125 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        (yyval.numPos.string) = strdup((yyvsp[0].string));
-        (yyval.numPos.number) = stlcolumn;
-    }
-#line 1651 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 24:
-#line 133 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-    }
-#line 1658 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 26:
-#line 140 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        tempVariables.push_back((yyvsp[0].string));
-    }
-#line 1666 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 27:
-#line 146 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {(yyval.string) = "";}
-#line 1672 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 28:
-#line 147 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        (yyval.string) = (yyvsp[0].string);
-    }
-#line 1680 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 34:
-#line 158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double *x = (double*) malloc(sizeof(double));
-        double *y = (double*) malloc(sizeof(double));
-        double *z = (double*) malloc(sizeof(double));
-        double *angle = (double*) malloc(sizeof(double));
-
-
-        if ((yyvsp[-6].numPos.string) == NULL){
-            *x = (yyvsp[-6].numPos.number);
-        }
-        else{
-            x = getBankValue((yyvsp[-6].numPos.string));
-        }
-
-        if ((yyvsp[-5].numPos.string) == NULL){
-            *y = (yyvsp[-5].numPos.number);
-        }
-        else{
-            y = getBankValue((yyvsp[-5].numPos.string));
-        }
-
-        if ((yyvsp[-4].numPos.string) == NULL){
-            *z = (yyvsp[-4].numPos.number);
-        }
-        else{
-            z = getBankValue((yyvsp[-4].numPos.string));
-        }
-
-        if ((yyvsp[-1].numPos.string) == NULL){
-            *angle = (yyvsp[-1].numPos.number);
-        }
-        else{
-            angle = getBankValue((yyvsp[-1].numPos.string));
-        }
-
-        currentTransformations.push_back(createRotate(x, y, z, angle));
-
-    }
-#line 1723 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 35:
-#line 200 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double *x = (double*) malloc(sizeof(double));
-        double *y = (double*) malloc(sizeof(double));
-        double *z = (double*) malloc(sizeof(double));
-
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *x = (yyvsp[-3].numPos.number);
-        }
-        else{
-            x = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *y = (yyvsp[-2].numPos.number);
-        }
-        else{
-            y = getBankValue((yyvsp[-2].numPos.string));
-        }
-
-        if ((yyvsp[-1].numPos.string) == NULL){
-            *z = (yyvsp[-1].numPos.number);
-        }
-        else{
-            z = getBankValue((yyvsp[-1].numPos.string));
-        }
-
-        currentTransformations.push_back(createTranslate(x, y, z));
-    }
-#line 1757 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 36:
-#line 233 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double *x = (double*) malloc(sizeof(double));
-        double *y = (double*) malloc(sizeof(double));
-        double *z = (double*) malloc(sizeof(double));
-
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *x = (yyvsp[-3].numPos.number);
-        }
-        else{
-            x = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *y = (yyvsp[-2].numPos.number);
-        }
-        else{
-            y = getBankValue((yyvsp[-2].numPos.string));
-        }
-
-        if ((yyvsp[-1].numPos.string) == NULL){
-            *z = (yyvsp[-1].numPos.number);
-        }
-        else{
-            z = getBankValue((yyvsp[-1].numPos.string));
-        }
-
-        currentTransformations.push_back(createScale(x, y, z));
-    }
-#line 1791 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 37:
-#line 266 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double x = (yyvsp[-4].numPos.number);
-        double y = (yyvsp[-3].numPos.number);
-        double z = (yyvsp[-2].numPos.number);
-        double w = (yyvsp[-2].numPos.number);
-
-    }
-#line 1803 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 42:
-#line 285 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        string instanceName = strdup((yyvsp[-4].string));
-        string lookFor = strdup((yyvsp[-3].string));
-
-        MeshNew * currentMesh = currReader->getMesh((yyvsp[-3].string));
-
-        InstanceNew* newInstance;
-        if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false);
-            newInstance->setName(strdup((yyvsp[-4].string)));
-        }
-        else{
-            stlerror("Incorrect vertex, face, or mesh name");
-            YYABORT;
-        }
-
-        newInstance->transformations = currentTransformations;
-        currentTransformations.clear();
-
-        for (TransformationNew * t : newInstance->transformations){
-            newInstance->applyTransformation(t);
-        }
-
-        string surfaceName = (yyvsp[-2].string);
-        // Check if a surface has been applied.
-        if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf((yyvsp[-2].string));
-            if (currentSurface != NULL) {
-                setSurface(newInstance, currentSurface);
-            }
-            else{
-                stlerror("Incorrect surface name");
-                YYABORT;
-            }
-        }
-
-        currentGroup.push_back(newInstance);
-    }
-#line 1846 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 45:
-#line 331 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        string instanceName = strdup((yyvsp[0].string));
-    }
-#line 1854 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 48:
-#line 341 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double *subdivision = (double*) malloc(sizeof(double));
-
-
-        if ((yyvsp[-1].numPos.string) == NULL){
-            *subdivision = (yyvsp[-1].numPos.number);
-        }
-        else{
-            subdivision = getBankValue((yyvsp[-1].numPos.string));
-        }
-
-        SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
-        currSession->subdivisions.push_back(currSubdivision);
-    }
-#line 1873 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 49:
-#line 358 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double *min = (double*) malloc(sizeof(double));
-        double *max = (double*) malloc(sizeof(double));
-        double *step = (double*) malloc(sizeof(double));
-
-
-        if ((yyvsp[-5].numPos.string) == NULL){
-            *min = (yyvsp[-5].numPos.number);
-        }
-        else{
-            min = getBankValue((yyvsp[-5].numPos.string));
-        }
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *max = (yyvsp[-3].numPos.number);
-        }
-        else{
-            max = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-1].numPos.string) == NULL){
-            *step = (yyvsp[-1].numPos.number);
-        }
-        else{
-            step = getBankValue((yyvsp[-1].numPos.string));
-        }
-
-        OffsetNew* currOffset = createOffset(strdup((yyvsp[-7].string)), min, max, step);
-
-        currSession->offsets.push_back(currOffset);
-    }
-#line 1909 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 50:
-#line 392 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-
         MeshNew* currMesh = createMesh();
 
-        for (std::list<FaceNew*>::iterator it=currentMeshFaces.begin(); it != currentMeshFaces.end(); ++it){
+        for (std::list<FaceNew*>::iterator it=currentSolidFace.begin(); it != currentSolidFace.end(); ++it){
             currMesh->faces.push_back(*it);
         }
 
@@ -1926,479 +1545,96 @@ yyreduce:
             currMesh->edges.push_back(*it);
         }
 
-        currMesh->setName(strdup((yyvsp[-2].string)));
-        currSession->meshes.push_back(currMesh);
+        currMesh->setName(strdup((yyvsp[-3].string)));
 
-        currentMeshFaces.clear();
-        currentMeshEdges.clear();
-        currentMeshVertices.clear();
-	}
-#line 1937 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 51:
-#line 419 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        GroupNew* currGroup = createGroup(currentGroup);
-        currGroup->setName(strdup((yyvsp[-2].string)));
-        currSession->groups.push_back(currGroup);
-        currentGroup.clear();
-	}
-#line 1948 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 52:
-#line 429 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        (yyval.string) = (yyvsp[-1].string);
-    }
-#line 1956 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 53:
-#line 435 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        for (std::string currFace : tempFaceDelete){
-            currReader->deleteFace(currReader->getFace(currFace));
-        }
-
-        tempFaceDelete.clear();
-	}
-#line 1968 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 54:
-#line 446 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        string currentSetName = (yyvsp[-4].string);
-        double currentSetValue = (double)atof((yyvsp[-3].numPos.string));
-        double currentSetStart = (yyvsp[-2].numPos.number);
-        double currentSetEnd = (yyvsp[-1].numPos.number);
-        double currentSetStepSize = (yyvsp[0].numPos.number);
-        string currentSetValueString = (yyvsp[-3].numPos.string);
-
-        int begPos = (yyvsp[-3].numPos.number)-currentSetValueString.length();
-        int lengthValChar = currentSetValueString.length();
-
-        SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
-
-        currentSetList.push_back(currentSet);
-	}
-#line 1988 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 58:
-#line 469 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        //std::cout << "Create face mesh" << std::endl;
-        std::list<Vert*> verticesFace;
-
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            Vert * currentVertex = currReader->getVert(*it);
-
-            if (currentVertex != NULL) {
-                verticesFace.push_back(currentVertex);
-                bool found = false;
-                for (Vert* currentMeshVertex: currentMeshVertices){
-                    if (currentMeshVertex->index == currentVertex->index){
-                        found = true;
-                    }
-                }
-                if (found == false){
-                    currentMeshVertices.push_back(currentVertex);
-                }
-
-            }
-            else{
-                stlerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges, currReader, false);
-        setName(newFace, strdup((yyvsp[-3].string)));
-
-        string surfaceName = (yyvsp[-1].string);
-        // Check if a surface has been applied.
-        if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf((yyvsp[-1].string));
-            if (currentSurface != NULL) {
-                setSurface(newFace, currentSurface);
-            }
-            else{
-                stlerror("Incorrect surface name");
-                YYABORT;
-            }
-        }
-
-        currentMeshFaces.push_back(newFace);
-
-        tempVariables.clear();
-    }
-#line 2039 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 59:
-#line 519 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        BankNew * currentBank = createBank();
-        currentBank->name = strdup((yyvsp[-2].string));
-        currentBank->sets = currentSetList;
-        currSession->banks.push_back(currentBank);
-        currentSetList.clear();
-	}
-#line 2051 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 60:
-#line 530 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        string name = (yyvsp[-5].string);
-        double *num = (double*) malloc(sizeof(double));
-        double *rad = (double*) malloc(sizeof(double));
-
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *num = (yyvsp[-3].numPos.number);
-        }
-        else{
-            num = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *rad = (yyvsp[-2].numPos.number);
-        }
-        else{
-            rad = getBankValue((yyvsp[-2].numPos.string));
-        }
-
-        CircleNew* currCircle = createCircle(num, rad);
-        currCircle->setName(strdup((yyvsp[-5].string)));
-
-        currSession->circles.push_back(currCircle);
-    }
-#line 2081 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 61:
-#line 559 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        string name = (yyvsp[-7].string);
-        double *n = (double*) malloc(sizeof(double));
-        double *ro = (double*) malloc(sizeof(double));
-        double *ratio = (double*) malloc(sizeof(double));
-        double *h = (double*) malloc(sizeof(double));
-
-        if ((yyvsp[-5].numPos.string) == NULL){
-            *n = (yyvsp[-5].numPos.number);
-        }
-        else{
-            n = getBankValue((yyvsp[-5].numPos.string));
-        }
-
-        if ((yyvsp[-4].numPos.string) == NULL){
-            *ro = (yyvsp[-4].numPos.number);
-        }
-        else{
-            ro = getBankValue((yyvsp[-4].numPos.string));
-        }
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *ratio = (yyvsp[-3].numPos.number);
-        }
-        else{
-            ratio = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *h = (yyvsp[-2].numPos.number);
-        }
-        else{
-            h = getBankValue((yyvsp[-2].numPos.string));
-        }
-
-        TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
-        currTunnel->setName(strdup((yyvsp[-7].string)));
-
-        currSession->tunnels.push_back(currTunnel);
-	}
-#line 2126 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 62:
-#line 604 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        string name = (yyvsp[-7].string);
-        double *n = (double*) malloc(sizeof(double));
-        double *ro = (double*) malloc(sizeof(double));
-        double *ratio = (double*) malloc(sizeof(double));
-        double *h = (double*) malloc(sizeof(double));
-
-        if ((yyvsp[-5].numPos.string) == NULL){
-            *n = (yyvsp[-5].numPos.number);
-        }
-        else{
-            n = getBankValue((yyvsp[-5].numPos.string));
-        }
-
-        if ((yyvsp[-4].numPos.string) == NULL){
-            *ro = (yyvsp[-4].numPos.number);
-        }
-        else{
-            ro = getBankValue((yyvsp[-4].numPos.string));
-        }
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *ratio = (yyvsp[-3].numPos.number);
-        }
-        else{
-            ratio = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *h = (yyvsp[-2].number);
-        }
-        else{
-            h = getBankValue((yyvsp[-2].numPos.string));
-        }
-
-        FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
-        currFunnel->setName(strdup((yyvsp[-7].string)));
-
-        currSession->funnels.push_back(currFunnel);
-	}
-#line 2171 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 63:
-#line 648 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-	}
-#line 2178 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 64:
-#line 654 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        std::list<Vert*> verticesFace;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            Vert * currentVertex = currReader->vert(*it);
-            if (currentVertex != NULL) {
-                verticesFace.push_back(currentVertex);
-            }
-            else{
-                stlerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        FaceNew * newFace = createFace(verticesFace, &(currSession->edges), currReader, false);
-
-        setName(newFace, strdup((yyvsp[-3].string)));
-
-
-        string surfaceName = (yyvsp[-1].string);
-        // Check if a surface has been applied.
-        if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf((yyvsp[-1].string));
-            if (currentSurface != NULL) {
-                setSurface(newFace, currentSurface);
-            }
-            else{
-                stlerror("Incorrect surface name");
-                YYABORT;
-            }
-        }
-
-        currSession->faces.push_back(newFace);
-
-        tempVariables.clear();
-	}
-#line 2218 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 65:
-#line 693 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        tempFaceDelete.push_back((yyvsp[-1].string));
-	}
-#line 2226 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 66:
-#line 700 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        // Create list of vertices of face.
-        std::list<Vert*> verticesPolyline;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            Vert * currentVertex = currReader->getVert(*it);
-            if (currentVertex != NULL) {
-                verticesPolyline.push_back(currentVertex);
-            }
-            else{
-                stlerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        PolylineNew* currPolyline = createPolylineNew(verticesPolyline);
-        currPolyline->setName(strdup((yyvsp[-2].string)));
-
-        currSession->polylines.push_back(currPolyline);
-        tempVariables.clear();
-	}
-#line 2251 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 67:
-#line 724 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-
-        string instanceName = strdup((yyvsp[-4].string));
-        string lookFor = strdup((yyvsp[-3].string));
-
-        MeshNew * currentMesh = currReader->getMesh((yyvsp[-3].string));
-
-        InstanceNew* newInstance = NULL;
-        if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true);
-        }
-        else{
-            GroupNew * currentGroup = currReader->getGroup((yyvsp[-3].string));
-            if (currentGroup != NULL) {
-                newInstance = createInstance(currentGroup, currSession->verts, currReader);
-            }
-            else{
-                stlerror("Incorrect vertex, face, or mesh name");
-                YYABORT;
-            }
-        }
-
-        newInstance->setName(strdup((yyvsp[-4].string)));
-        newInstance->transformations = currentTransformations;
-        currentTransformations.clear();
-
-        for (TransformationNew * t : newInstance->transformations){
-            newInstance->applyTransformation(t);
-        }
-
-        string surfaceName = (yyvsp[-2].string);
-        // Check if a surface has been applied.
-        if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf((yyvsp[-2].string));
-            if (currentSurface != NULL) {
-                setSurface(newInstance, currentSurface);
-            }
-            else{
-                stlerror("Incorrect surface name");
-                YYABORT;
-            }
-        }
-
+        InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true);
+        newInstance->setName(strdup((yyvsp[-3].string)));
         currSession->instances.push_back(newInstance);
-	}
-#line 2301 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+
+        double *min = (double*) malloc(sizeof(double));
+        double *max = (double*) malloc(sizeof(double));
+        double *step = (double*) malloc(sizeof(double));
+
+        *min = 0.0;
+        *max = 0.5;
+        *step = 0.01;
+
+        OffsetNew* currOffset = createOffset("autoOffset", min, max, step);
+
+        currSession->offsets.push_back(currOffset);
+
+    }
+#line 1568 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
-  case 68:
-#line 773 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        /*std::list<FaceNew*> facesObject;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            FaceNew * currentFace = currReader->face(*it);
-            if (currentFace != NULL) {
-                facesObject.push_back(currentFace);
-            }
-            else{
-                yyerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        MeshNew * newObject = createMesh(facesObject);
-
-        newObject->setName(strdup($<string>2));
-
-        currSession->objects.push_back(newObject);
-
-        tempVariables.clear();*/
-
-        //printf("Created an object\n");
-	}
-#line 2329 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 69:
-#line 800 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
-    {
-        double *r = (double*) malloc(sizeof(double));
-        double *g = (double*) malloc(sizeof(double));
-        double *b = (double*) malloc(sizeof(double));
-
-        if ((yyvsp[-4].numPos.string) == NULL){
-            *r = (yyvsp[-4].numPos.number);
-        }
-        else{
-            r = getBankValue((yyvsp[-4].numPos.string));
-        }
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *g = (yyvsp[-3].numPos.number);
-        }
-        else{
-            g = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *b = (yyvsp[-2].numPos.number);
-        }
-        else{
-            b = getBankValue((yyvsp[-2].numPos.string));
-        }
-
-        currSession->surfaces.push_back(createSurface(r, g, b, strdup((yyvsp[-7].string))));
-	}
-#line 2362 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
-    break;
-
-  case 70:
-#line 832 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
+  case 6:
+#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
+        *x = atof((yyvsp[-2].string));
+        *y = atof((yyvsp[-1].string));
+        *z = atof((yyvsp[0].string));
 
-        if ((yyvsp[-4].numPos.string) == NULL){
-            *x = (yyvsp[-4].numPos.number);
+        Vert * newVertex = NULL;
+        for (Vert* currVert : currentMeshVertices){
+            if ((abs(*currVert->x-*x) < 0.0000001) && (abs(*currVert->y-*y) < 0.0000001) && (abs(*currVert->z-*z) < 0.0000001)){
+                newVertex = currVert;
+                break;
+            }
         }
-        else{
-            x = getBankValue((yyvsp[-4].numPos.string));
-        }
-
-        if ((yyvsp[-3].numPos.string) == NULL){
-            *y = (yyvsp[-3].numPos.number);
-        }
-        else{
-            y = getBankValue((yyvsp[-3].numPos.string));
-        }
-
-        if ((yyvsp[-2].numPos.string) == NULL){
-            *z = (yyvsp[-2].numPos.number);
-        }
-        else{
-            z = getBankValue((yyvsp[-2].numPos.string));
+        if (newVertex == NULL){
+            newVertex = createVert (x, y, z);
+            currentMeshVertices.push_back(newVertex);
         }
 
-        Vert * newVertex = createVert (x, y, z);
-        newVertex->setName(strdup((yyvsp[-6].string)));
-        currSession->verts.push_back(newVertex);
-	}
-#line 2398 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+        currentFaceVertices.push_back(newVertex);
+    }
+#line 1596 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+    break;
+
+  case 11:
+#line 184 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
+    {
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
+
+        *x = atof((yyvsp[-7].string));
+        *y = atof((yyvsp[-6].string));
+        *z = atof((yyvsp[-5].string));
+
+        vector<Vert*> faceVert;
+        for (Vert* vert : currentFaceVertices){
+            faceVert.push_back(vert);
+        }
+
+        vector<double> normalCalc = getNormalFromVerts(faceVert);
+
+        if (abs(normalCalc[0] - *x) > 0.0001 || abs(normalCalc[1] - *y) > 0.0001 || abs(normalCalc[2] - *z) > 0.0001){
+            std::cout << stllineno << std::endl;
+            std::cout << "=========" << std::endl;
+            std::cout << normalCalc[0] << std::endl;
+            std::cout << normalCalc[1] << std::endl;
+            std::cout << normalCalc[2] << std::endl;
+            std::cout << *x << std::endl;
+            std::cout << *y << std::endl;
+            std::cout << *z << std::endl;
+        }
+
+        FaceNew * newFace = createFace(currentFaceVertices, &currentMeshEdges, currReader, false);
+        currentSolidFace.push_back(newFace);
+        //std::cout << currentFaceVertices.size() << std::endl;
+        currentFaceVertices.clear();
+        //std::cout << "HELLO" << std::endl;
+    }
+#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2402 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1638 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

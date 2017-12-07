@@ -85,23 +85,23 @@ extern int nomdebug;
     EXPR = 295,
     DOLLAR = 296,
     EBRACE = 297,
-    NUMBER = 298,
-    PERIOD = 299,
-    TOKHEAT = 300,
-    STATE = 301,
-    TOKTARGET = 302,
-    TOKTEMPERATURE = 303,
-    BANK_EXPR = 304,
-    SCALE = 305,
-    SUBDIVISION = 306,
-    END_SUBDIVISION = 307,
-    SUBDIVISIONS = 308,
-    TYPE = 309,
-    OFFSET = 310,
-    END_OFFSET = 311,
-    MIN = 312,
-    MAX = 313,
-    STEP = 314
+    PERIOD = 298,
+    TOKHEAT = 299,
+    STATE = 300,
+    TOKTARGET = 301,
+    TOKTEMPERATURE = 302,
+    SCALE = 303,
+    SUBDIVISION = 304,
+    END_SUBDIVISION = 305,
+    SUBDIVISIONS = 306,
+    TYPE = 307,
+    OFFSET = 308,
+    END_OFFSET = 309,
+    MIN = 310,
+    MAX = 311,
+    STEP = 312,
+    BANK_EXPR = 313,
+    NUMBER = 314
   };
 #endif
 /* Tokens.  */
@@ -145,23 +145,23 @@ extern int nomdebug;
 #define EXPR 295
 #define DOLLAR 296
 #define EBRACE 297
-#define NUMBER 298
-#define PERIOD 299
-#define TOKHEAT 300
-#define STATE 301
-#define TOKTARGET 302
-#define TOKTEMPERATURE 303
-#define BANK_EXPR 304
-#define SCALE 305
-#define SUBDIVISION 306
-#define END_SUBDIVISION 307
-#define SUBDIVISIONS 308
-#define TYPE 309
-#define OFFSET 310
-#define END_OFFSET 311
-#define MIN 312
-#define MAX 313
-#define STEP 314
+#define PERIOD 298
+#define TOKHEAT 299
+#define STATE 300
+#define TOKTARGET 301
+#define TOKTEMPERATURE 302
+#define SCALE 303
+#define SUBDIVISION 304
+#define END_SUBDIVISION 305
+#define SUBDIVISIONS 306
+#define TYPE 307
+#define OFFSET 308
+#define END_OFFSET 309
+#define MIN 310
+#define MAX 311
+#define STEP 312
+#define BANK_EXPR 313
+#define NUMBER 314
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

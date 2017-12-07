@@ -6,7 +6,7 @@
 #include "parserStl.hpp"
 
 int stlcolumn = 0;
-#define YY_USER_ACTION stllloc.first_line = stllloc.last_line = stllineno; \
+#define stl_USER_ACTION stllloc.first_line = stllloc.last_line = stllineno; \
     stllloc.first_column = stlcolumn; stllloc.last_column = stlcolumn + stlleng - 1; \
     stlcolumn += stlleng;
 
@@ -22,8 +22,17 @@ int stlcolumn = 0;
 "(*"                     { BEGIN(MULTI_COMMENT); }
 <MULTI_COMMENT>"*)"      { BEGIN(INITIAL); }
 <MULTI_COMMENT>.         {}
-[+-]?([0-9]*[.])?[0-9]+  stllval.string=stltext; return NUMBER;
+[+-]?([0-9]*[.])?[e+\-0-9]+  stllval.string=strdup(stltext); return NUMBER;
 \$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  stllval.string=strdup(stltext); return BANK_EXPR;
+solid                    return SOLID;
+outer                    return OUTER;
+facet                    return FACET;
+endfacet                 return ENDFACET;
+loop                     return LOOP;
+endloop                  return ENDLOOP;
+vertex                   return VERTEX;
+normal                   return NORMAL;
+endsolid                 return ENDSOLID;
 expr                     return EXPR;
 offset                   return OFFSET;
 endoffset                return END_OFFSET;
@@ -68,7 +77,7 @@ subdivisions            return SUBDIVISIONS;
 type                    return TYPE;
 \{                      return OBRACE;
 \}                      return EBRACE;
-[a-zA-Z][a-zA-Z0-9_\.]*    stllval.string=strdup(stltext); return VARIABLE;
+[a-zA-Z][a-zA-Z0-9_\.\-]*    stllval.string=strdup(stltext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
 [ \t\n]+                /* ignore whitespace */;
