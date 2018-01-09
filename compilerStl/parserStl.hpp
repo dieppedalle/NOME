@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
-# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
+#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED
+# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -186,7 +186,7 @@ extern int stldebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1909  */
+#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
 
     double number;
     char *string;
@@ -195,7 +195,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 199 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.hpp" /* yacc.c:1909  */
+#line 199 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -220,4 +220,4 @@ extern YYSTYPE stllval;
 extern YYLTYPE stllloc;
 int stlparse (void);
 
-#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED  */
+#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED  */

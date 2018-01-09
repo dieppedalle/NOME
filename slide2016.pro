@@ -45,8 +45,6 @@ SOURCES += main.cpp\
     Lewis/IO.cpp \
     Lewis/Reader.cpp \
     Lewis/Session.cpp \
-    lexer.cpp \
-    parser.cpp \
     testpolyline.cpp \
     Lewis/GroupNew.cpp \
     Lewis/InstanceNew.cpp \
@@ -63,7 +61,10 @@ SOURCES += main.cpp\
     Lewis/SubdivisionNew.cpp \
     Lewis/SliderSubdivisionNew.cpp \
     Lewis/OffsetNew.cpp \
-    Lewis/SliderOffsetNew.cpp
+    Lewis/SliderOffsetNew.cpp \
+    nomeFlexBison.cpp \
+    compilerNome/parser.cpp \
+    compilerNome/lexer.cpp
 
 HEADERS  += \
     edge.h \
@@ -92,8 +93,6 @@ HEADERS  += \
     nomeparser.h \
     nomeglwidget.h \
     bspline.h \
-    lexer.l \
-    parser.y \
     Lewis/Data.h \
     Lewis/IO.h \
     Lewis/Reader.h \
@@ -115,8 +114,8 @@ HEADERS  += \
     Lewis/SliderSubdivisionNew.h \
     Lewis/OffsetNew.h \
     Lewis/SliderOffsetNew.h \
-    lexerStl.l \
-    parserStl.y
+    compilerNome/parser.hpp
+
 
 linux{
     LIBS += -lglut -lGLU

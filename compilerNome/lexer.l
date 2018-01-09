@@ -1,3 +1,4 @@
+
 %{
 #include <stdio.h>
 #include <string.h>
@@ -5,14 +6,22 @@
 //#include "y.tab.h"
 #include "parser.hpp"
 
+//extern char* nomtext;
+//extern "C" int yyparse(Session* currSession);
+//extern int yyparse(Session* currSession);
+//extern int yyparse(Session* currSession);
+
 int nomcolumn = 0;
 #define nom_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
     nomlloc.first_column = nomcolumn; nomlloc.last_column = nomcolumn + nomleng - 1; \
     nomcolumn += nomleng;
 
+//%option header-file="compilerNome\lexer.h"
+//%option outfile="compilerNome\lexer.cpp"
 %}
 
 %option prefix="nom"
+%option noyywrap
 
 %option yylineno
 %x MULTI_COMMENT

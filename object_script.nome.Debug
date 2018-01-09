@@ -47,6 +47,7 @@ INPUT(
 ./debug\SliderSubdivisionNew.o
 ./debug\OffsetNew.o
 ./debug\SliderOffsetNew.o
+./debug\nomeFlexBison.o
 ./debug\moc_controlpanel.o
 ./debug\moc_mainwindow.o
 ./debug\moc_sliderpanel.o

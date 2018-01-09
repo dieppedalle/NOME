@@ -71,8 +71,9 @@
 #define yylloc          nomlloc
 
 /* Copy the first part of user declarations.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:339  */
+#line 5 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:339  */
 
+#include <FlexLexer.h>
 #include <stdio.h>
 #include <string.h>
 #include <list>
@@ -89,19 +90,24 @@
 
 extern int nomlineno;
 extern char* nomtext;
-extern FILE *nomin;
+//extern FILE *nomin;
+//extern std::istream* yyin;
+extern int nomcolumn;
+
 int nomlex(void);
-int nomerror(const char *s) {
+int nomerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, nomlineno, nomtext);
 }
+
+//int yyparse(Session*);
 //extern "C" int yyparse (void);
 
 int nomwrap() {
     return 1;
 }
 
-Session* currSession = createSession();
-Reader* currReader = createReader(currSession);
+//Session* currSession = createSession();
+//Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
 map<string,Vert*> vertices;
@@ -118,7 +124,7 @@ std::list<EdgeNew *> currentMeshEdges;
 
 std::list<TransformationNew *> currentTransformations;
 
-double *getBankValue(std::string str){
+double *getBankValue(std::string str, Session* currSession){
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -138,7 +144,7 @@ double *getBankValue(std::string str){
 
 
 
-#line 142 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:339  */
+#line 148 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -158,8 +164,8 @@ double *getBankValue(std::string str){
 
 /* In a future release of Bison, this section will be replaced
    by #include "parser.hpp".  */
-#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
-# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
+#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
+# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -167,6 +173,12 @@ double *getBankValue(std::string str){
 #if YYDEBUG
 extern int nomdebug;
 #endif
+/* "%code requires" blocks.  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:355  */
+
+#include <Lewis/Session.h>
+
+#line 182 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -296,7 +308,7 @@ extern int nomdebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:355  */
+#line 96 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -305,7 +317,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 309 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:355  */
+#line 321 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -328,13 +340,13 @@ struct YYLTYPE
 
 extern YYSTYPE nomlval;
 extern YYLTYPE nomlloc;
-int nomparse (void);
+int nomparse (Session* currSession);
 
-#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED  */
+#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 338 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:358  */
+#line 350 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -620,14 +632,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    99,    99,   100,   105,   105,   105,   105,   105,   105,
-     105,   106,   106,   106,   106,   106,   106,   106,   106,   106,
-     110,   113,   122,   129,   137,   143,   145,   151,   152,   157,
-     158,   158,   158,   158,   162,   204,   237,   270,   280,   281,
-     284,   285,   289,   330,   331,   335,   340,   341,   345,   362,
-     396,   423,   433,   439,   450,   468,   469,   469,   473,   523,
-     534,   562,   607,   652,   658,   697,   704,   728,   777,   783,
-     815
+       0,   113,   113,   114,   119,   119,   119,   119,   119,   119,
+     119,   120,   120,   120,   120,   120,   120,   120,   120,   120,
+     124,   127,   136,   143,   151,   157,   159,   165,   166,   171,
+     172,   172,   172,   172,   176,   218,   251,   284,   294,   295,
+     298,   299,   303,   345,   346,   350,   355,   356,   360,   377,
+     411,   438,   448,   454,   467,   485,   486,   486,   490,   542,
+     553,   581,   628,   675,   681,   722,   729,   755,   805,   811,
+     843
 };
 #endif
 
@@ -874,7 +886,7 @@ do                                                              \
     }                                                           \
   else                                                          \
     {                                                           \
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (currSession, YY_("syntax error: cannot back up")); \
       YYERROR;                                                  \
     }                                                           \
 while (0)
@@ -976,7 +988,7 @@ do {                                                                      \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Type, Value, Location); \
+                  Type, Value, Location, currSession); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -987,11 +999,12 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, Session* currSession)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
   YYUSE (yylocationp);
+  YYUSE (currSession);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
@@ -1007,14 +1020,14 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, Session* currSession)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
   YY_LOCATION_PRINT (yyoutput, *yylocationp);
   YYFPRINTF (yyoutput, ": ");
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp, currSession);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -1047,7 +1060,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, Session* currSession)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -1061,7 +1074,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
                        &(yyvsp[(yyi + 1) - (yynrhs)])
-                       , &(yylsp[(yyi + 1) - (yynrhs)])                       );
+                       , &(yylsp[(yyi + 1) - (yynrhs)])                       , currSession);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -1069,7 +1082,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
-    yy_reduce_print (yyssp, yyvsp, yylsp, Rule); \
+    yy_reduce_print (yyssp, yyvsp, yylsp, Rule, currSession); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -1327,10 +1340,11 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, Session* currSession)
 {
   YYUSE (yyvaluep);
   YYUSE (yylocationp);
+  YYUSE (currSession);
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -1363,7 +1377,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse (Session* currSession)
 {
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1616,71 +1630,71 @@ yyreduce:
   switch (yyn)
     {
         case 20:
-#line 110 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 124 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         (yyval.numPos.number) = (yyvsp[0].number);
         (yyval.numPos.string) = NULL;
     }
-#line 1625 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1639 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 114 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 128 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         (yyval.numPos.string) = (yyvsp[0].string);
         (yyval.numPos.number) = 0;
     }
-#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1648 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 123 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 137 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         (yyval.number) = (double)atof((yyvsp[0].string));
     }
-#line 1642 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1656 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 130 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 144 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         (yyval.numPos.string) = strdup((yyvsp[0].string));
         (yyval.numPos.number) = nomcolumn;
     }
-#line 1651 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1665 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 138 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
     }
-#line 1658 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1672 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 145 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 159 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         tempVariables.push_back((yyvsp[0].string));
     }
-#line 1666 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1680 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 151 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 165 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {(yyval.string) = "";}
-#line 1672 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1686 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 166 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         (yyval.string) = (yyvsp[0].string);
     }
-#line 1680 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1694 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 163 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 177 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1692,38 +1706,38 @@ yyreduce:
             *x = (yyvsp[-6].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[-6].numPos.string));
+            x = getBankValue((yyvsp[-6].numPos.string), currSession);
         }
 
         if ((yyvsp[-5].numPos.string) == NULL){
             *y = (yyvsp[-5].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[-5].numPos.string));
+            y = getBankValue((yyvsp[-5].numPos.string), currSession);
         }
 
         if ((yyvsp[-4].numPos.string) == NULL){
             *z = (yyvsp[-4].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[-4].numPos.string));
+            z = getBankValue((yyvsp[-4].numPos.string), currSession);
         }
 
         if ((yyvsp[-1].numPos.string) == NULL){
             *angle = (yyvsp[-1].numPos.number);
         }
         else{
-            angle = getBankValue((yyvsp[-1].numPos.string));
+            angle = getBankValue((yyvsp[-1].numPos.string), currSession);
         }
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
 
     }
-#line 1723 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1737 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 205 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 219 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1734,30 +1748,30 @@ yyreduce:
             *x = (yyvsp[-3].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[-3].numPos.string));
+            x = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *y = (yyvsp[-2].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[-2].numPos.string));
+            y = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         if ((yyvsp[-1].numPos.string) == NULL){
             *z = (yyvsp[-1].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[-1].numPos.string));
+            z = getBankValue((yyvsp[-1].numPos.string), currSession);
         }
 
         currentTransformations.push_back(createTranslate(x, y, z));
     }
-#line 1757 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1771 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 238 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 252 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1768,30 +1782,30 @@ yyreduce:
             *x = (yyvsp[-3].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[-3].numPos.string));
+            x = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *y = (yyvsp[-2].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[-2].numPos.string));
+            y = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         if ((yyvsp[-1].numPos.string) == NULL){
             *z = (yyvsp[-1].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[-1].numPos.string));
+            z = getBankValue((yyvsp[-1].numPos.string), currSession);
         }
 
         currentTransformations.push_back(createScale(x, y, z));
     }
-#line 1791 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1805 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 271 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 285 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double x = (yyvsp[-4].numPos.number);
         double y = (yyvsp[-3].numPos.number);
@@ -1799,12 +1813,13 @@ yyreduce:
         double w = (yyvsp[-2].numPos.number);
 
     }
-#line 1803 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1817 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 290 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 304 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
         string instanceName = strdup((yyvsp[-4].string));
         string lookFor = strdup((yyvsp[-3].string));
 
@@ -1816,7 +1831,7 @@ yyreduce:
             newInstance->setName(strdup((yyvsp[-4].string)));
         }
         else{
-            nomerror("Incorrect vertex, face, or mesh name");
+            nomerror(currSession, "Incorrect vertex, face, or mesh name");
             YYABORT;
         }
 
@@ -1835,26 +1850,26 @@ yyreduce:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                nomerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
 
         currentGroup.push_back(newInstance);
     }
-#line 1846 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1861 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 336 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 351 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         string instanceName = strdup((yyvsp[0].string));
     }
-#line 1854 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1869 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 346 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 361 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *subdivision = (double*) malloc(sizeof(double));
 
@@ -1863,17 +1878,17 @@ yyreduce:
             *subdivision = (yyvsp[-1].numPos.number);
         }
         else{
-            subdivision = getBankValue((yyvsp[-1].numPos.string));
+            subdivision = getBankValue((yyvsp[-1].numPos.string), currSession);
         }
 
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     }
-#line 1873 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1888 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 363 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 378 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *min = (double*) malloc(sizeof(double));
         double *max = (double*) malloc(sizeof(double));
@@ -1884,32 +1899,32 @@ yyreduce:
             *min = (yyvsp[-5].numPos.number);
         }
         else{
-            min = getBankValue((yyvsp[-5].numPos.string));
+            min = getBankValue((yyvsp[-5].numPos.string), currSession);
         }
 
         if ((yyvsp[-3].numPos.string) == NULL){
             *max = (yyvsp[-3].numPos.number);
         }
         else{
-            max = getBankValue((yyvsp[-3].numPos.string));
+            max = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-1].numPos.string) == NULL){
             *step = (yyvsp[-1].numPos.number);
         }
         else{
-            step = getBankValue((yyvsp[-1].numPos.string));
+            step = getBankValue((yyvsp[-1].numPos.string), currSession);
         }
 
         OffsetNew* currOffset = createOffset(strdup((yyvsp[-7].string)), min, max, step);
 
         currSession->offsets.push_back(currOffset);
     }
-#line 1909 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1924 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 397 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 412 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
 
         MeshNew* currMesh = createMesh();
@@ -1933,42 +1948,44 @@ yyreduce:
         currentMeshEdges.clear();
         currentMeshVertices.clear();
 	}
-#line 1937 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1952 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 424 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 439 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         GroupNew* currGroup = createGroup(currentGroup);
         currGroup->setName(strdup((yyvsp[-2].string)));
         currSession->groups.push_back(currGroup);
         currentGroup.clear();
 	}
-#line 1948 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1963 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 434 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 449 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         (yyval.string) = (yyvsp[-1].string);
     }
-#line 1956 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1971 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 440 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 455 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
+
         for (std::string currFace : tempFaceDelete){
             currReader->deleteFace(currReader->getFace(currFace));
         }
 
         tempFaceDelete.clear();
 	}
-#line 1968 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 1985 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 451 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 468 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         string currentSetName = (yyvsp[-4].string);
         double currentSetValue = (double)atof((yyvsp[-3].numPos.string));
@@ -1984,12 +2001,14 @@ yyreduce:
 
         currentSetList.push_back(currentSet);
 	}
-#line 1988 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2005 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 474 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 491 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
+
         //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
@@ -2010,7 +2029,7 @@ yyreduce:
 
             }
             else{
-                nomerror("Incorrect vertex name");
+                nomerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -2026,7 +2045,7 @@ yyreduce:
                 setSurface(newFace, currentSurface);
             }
             else{
-                nomerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -2035,11 +2054,11 @@ yyreduce:
 
         tempVariables.clear();
     }
-#line 2039 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2058 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 524 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 543 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         BankNew * currentBank = createBank();
         currentBank->name = strdup((yyvsp[-2].string));
@@ -2047,11 +2066,11 @@ yyreduce:
         currSession->banks.push_back(currentBank);
         currentSetList.clear();
 	}
-#line 2051 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2070 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 535 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 554 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         string name = (yyvsp[-5].string);
         double *num = (double*) malloc(sizeof(double));
@@ -2062,14 +2081,14 @@ yyreduce:
             *num = (yyvsp[-3].numPos.number);
         }
         else{
-            num = getBankValue((yyvsp[-3].numPos.string));
+            num = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *rad = (yyvsp[-2].numPos.number);
         }
         else{
-            rad = getBankValue((yyvsp[-2].numPos.string));
+            rad = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -2077,12 +2096,14 @@ yyreduce:
 
         currSession->circles.push_back(currCircle);
     }
-#line 2081 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2100 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 564 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 583 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
+
         string name = (yyvsp[-7].string);
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -2093,28 +2114,28 @@ yyreduce:
             *n = (yyvsp[-5].numPos.number);
         }
         else{
-            n = getBankValue((yyvsp[-5].numPos.string));
+            n = getBankValue((yyvsp[-5].numPos.string), currSession);
         }
 
         if ((yyvsp[-4].numPos.string) == NULL){
             *ro = (yyvsp[-4].numPos.number);
         }
         else{
-            ro = getBankValue((yyvsp[-4].numPos.string));
+            ro = getBankValue((yyvsp[-4].numPos.string), currSession);
         }
 
         if ((yyvsp[-3].numPos.string) == NULL){
             *ratio = (yyvsp[-3].numPos.number);
         }
         else{
-            ratio = getBankValue((yyvsp[-3].numPos.string));
+            ratio = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *h = (yyvsp[-2].numPos.number);
         }
         else{
-            h = getBankValue((yyvsp[-2].numPos.string));
+            h = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
@@ -2122,12 +2143,14 @@ yyreduce:
 
         currSession->tunnels.push_back(currTunnel);
 	}
-#line 2126 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2147 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 609 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 630 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
+
         string name = (yyvsp[-7].string);
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -2138,28 +2161,28 @@ yyreduce:
             *n = (yyvsp[-5].numPos.number);
         }
         else{
-            n = getBankValue((yyvsp[-5].numPos.string));
+            n = getBankValue((yyvsp[-5].numPos.string), currSession);
         }
 
         if ((yyvsp[-4].numPos.string) == NULL){
             *ro = (yyvsp[-4].numPos.number);
         }
         else{
-            ro = getBankValue((yyvsp[-4].numPos.string));
+            ro = getBankValue((yyvsp[-4].numPos.string), currSession);
         }
 
         if ((yyvsp[-3].numPos.string) == NULL){
             *ratio = (yyvsp[-3].numPos.number);
         }
         else{
-            ratio = getBankValue((yyvsp[-3].numPos.string));
+            ratio = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *h = (yyvsp[-2].number);
         }
         else{
-            h = getBankValue((yyvsp[-2].numPos.string));
+            h = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
@@ -2167,19 +2190,21 @@ yyreduce:
 
         currSession->funnels.push_back(currFunnel);
 	}
-#line 2171 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2194 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 653 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 676 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
 	}
-#line 2178 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2201 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 659 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 682 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
+
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             Vert * currentVertex = currReader->vert(*it);
@@ -2187,7 +2212,7 @@ yyreduce:
                 verticesFace.push_back(currentVertex);
             }
             else{
-                nomerror("Incorrect vertex name");
+                nomerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -2205,7 +2230,7 @@ yyreduce:
                 setSurface(newFace, currentSurface);
             }
             else{
-                nomerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -2214,20 +2239,22 @@ yyreduce:
 
         tempVariables.clear();
 	}
-#line 2218 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2243 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 698 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 723 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         tempFaceDelete.push_back((yyvsp[-1].string));
 	}
-#line 2226 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2251 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 705 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 730 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
+
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -2236,7 +2263,7 @@ yyreduce:
                 verticesPolyline.push_back(currentVertex);
             }
             else{
-                nomerror("Incorrect vertex name");
+                nomerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -2247,12 +2274,13 @@ yyreduce:
         currSession->polylines.push_back(currPolyline);
         tempVariables.clear();
 	}
-#line 2251 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2278 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 729 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 756 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
 
         string instanceName = strdup((yyvsp[-4].string));
         string lookFor = strdup((yyvsp[-3].string));
@@ -2269,7 +2297,7 @@ yyreduce:
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
-                nomerror("Incorrect vertex, face, or mesh name");
+                nomerror(currSession, "Incorrect vertex, face, or mesh name");
                 YYABORT;
             }
         }
@@ -2290,25 +2318,25 @@ yyreduce:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                nomerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
 
         currSession->instances.push_back(newInstance);
 	}
-#line 2301 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2329 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 778 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 806 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
 	}
-#line 2308 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2336 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 784 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 812 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -2318,30 +2346,30 @@ yyreduce:
             *r = (yyvsp[-4].numPos.number);
         }
         else{
-            r = getBankValue((yyvsp[-4].numPos.string));
+            r = getBankValue((yyvsp[-4].numPos.string), currSession);
         }
 
         if ((yyvsp[-3].numPos.string) == NULL){
             *g = (yyvsp[-3].numPos.number);
         }
         else{
-            g = getBankValue((yyvsp[-3].numPos.string));
+            g = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *b = (yyvsp[-2].numPos.number);
         }
         else{
-            b = getBankValue((yyvsp[-2].numPos.string));
+            b = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup((yyvsp[-7].string))));
 	}
-#line 2341 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2369 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 816 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1646  */
+#line 844 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -2352,32 +2380,32 @@ yyreduce:
             *x = (yyvsp[-4].numPos.number);
         }
         else{
-            x = getBankValue((yyvsp[-4].numPos.string));
+            x = getBankValue((yyvsp[-4].numPos.string), currSession);
         }
 
         if ((yyvsp[-3].numPos.string) == NULL){
             *y = (yyvsp[-3].numPos.number);
         }
         else{
-            y = getBankValue((yyvsp[-3].numPos.string));
+            y = getBankValue((yyvsp[-3].numPos.string), currSession);
         }
 
         if ((yyvsp[-2].numPos.string) == NULL){
             *z = (yyvsp[-2].numPos.number);
         }
         else{
-            z = getBankValue((yyvsp[-2].numPos.string));
+            z = getBankValue((yyvsp[-2].numPos.string), currSession);
         }
 
         Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup((yyvsp[-6].string)));
         currSession->verts.push_back(newVertex);
 	}
-#line 2377 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2405 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2381 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.cpp" /* yacc.c:1646  */
+#line 2409 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2428,7 +2456,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (currSession, YY_("syntax error"));
 #else
 # define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
                                         yyssp, yytoken)
@@ -2455,7 +2483,7 @@ yyerrlab:
                 yymsgp = yymsg;
               }
           }
-        yyerror (yymsgp);
+        yyerror (currSession, yymsgp);
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
       }
@@ -2479,7 +2507,7 @@ yyerrlab:
       else
         {
           yydestruct ("Error: discarding",
-                      yytoken, &yylval, &yylloc);
+                      yytoken, &yylval, &yylloc, currSession);
           yychar = YYEMPTY;
         }
     }
@@ -2536,7 +2564,7 @@ yyerrlab1:
 
       yyerror_range[1] = *yylsp;
       yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp, yylsp);
+                  yystos[yystate], yyvsp, yylsp, currSession);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -2578,7 +2606,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (currSession, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -2590,7 +2618,7 @@ yyreturn:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval, &yylloc);
+                  yytoken, &yylval, &yylloc, currSession);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -2599,7 +2627,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[*yyssp], yyvsp, yylsp);
+                  yystos[*yyssp], yyvsp, yylsp, currSession);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow

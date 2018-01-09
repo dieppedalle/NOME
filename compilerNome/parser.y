@@ -1,4 +1,9 @@
+%code requires{
+#include <Lewis/Session.h>
+}
+
 %{
+#include <FlexLexer.h>
 #include <stdio.h>
 #include <string.h>
 #include <list>
@@ -11,25 +16,31 @@
 #include <Lewis/CircleNew.h>
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
+#include <Lewis/InstanceNew.h>
 
-extern int yylineno;
-extern char* yytext;
-extern FILE *yyin;
-int yylex(void);
-int yyerror(char *s) {
-  printf("%s on line %d - %s\n", s, yylineno, yytext);
+extern int nomlineno;
+extern char* nomtext;
+//extern FILE *nomin;
+//extern std::istream* yyin;
+extern int nomcolumn;
+
+int nomlex(void);
+int nomerror(Session* currSession, const char *s) {
+  printf("%s on line %d - %s\n", s, nomlineno, nomtext);
 }
-extern "C" int yyparse (void);
 
-int yywrap() {
+//int yyparse(Session*);
+//extern "C" int yyparse (void);
+
+int nomwrap() {
     return 1;
 }
 
-Session* currSession = createSession();
-Reader* currReader = createReader(currSession);
+//Session* currSession = createSession();
+//Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
-map<string,Vertex*> vertices;
+map<string,Vert*> vertices;
 std::vector<string> tempVariables;
 std::vector<string> tempFaceDelete;
 string currentSetName;
@@ -43,7 +54,7 @@ std::list<EdgeNew *> currentMeshEdges;
 
 std::list<TransformationNew *> currentTransformations;
 
-double *getBankValue(std::string str){
+double *getBankValue(std::string str, Session* currSession){
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -63,15 +74,23 @@ double *getBankValue(std::string str){
 
 
 %}
+
+%parse-param { Session* currSession }
+
+//%defines "compilerNome/parser.h"
+//%output "compilerNome/parser.cpp"
+//%define api.prefix {nom}
+
 %token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
-EXPR DOLLAR EBRACE NUMBER PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE BANK_EXPR
-SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE;
+EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
+SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP;
 
 %error-verbose
 %locations
+
 
 %union
 {
@@ -98,7 +117,7 @@ commands: /* empty */
 
 command:
     comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | instance | delete | group | circle | subdivision
+  tunnel | funnel | polyline | instance | delete | group | circle | subdivision | offset
 	;
 
 numberValue:
@@ -124,7 +143,7 @@ numPosTok:
     NUMBER
     {
         $<numPos.string>$ = strdup($1);
-        $<numPos.number>$ = yycolumn;
+        $<numPos.number>$ = nomcolumn;
     }
     ;
 
@@ -166,28 +185,28 @@ rotateArgs:
             *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<numPos.string>3);
+            x = getBankValue($<numPos.string>3, currSession);
         }
 
         if ($<numPos.string>4 == NULL){
             *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<numPos.string>4);
+            y = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<numPos.string>5);
+            z = getBankValue($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>8 == NULL){
             *angle = $<numPos.number>8;
         }
         else{
-            angle = getBankValue($<numPos.string>8);
+            angle = getBankValue($<numPos.string>8, currSession);
         }
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
@@ -207,21 +226,21 @@ translateArgs:
             *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<numPos.string>3);
+            x = getBankValue($<numPos.string>3, currSession);
         }
 
         if ($<numPos.string>4 == NULL){
             *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<numPos.string>4);
+            y = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<numPos.string>5);
+            z = getBankValue($<numPos.string>5, currSession);
         }
 
         currentTransformations.push_back(createTranslate(x, y, z));
@@ -240,21 +259,21 @@ scaleArgs:
             *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<numPos.string>3);
+            x = getBankValue($<numPos.string>3, currSession);
         }
 
         if ($<numPos.string>4 == NULL){
             *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<numPos.string>4);
+            y = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<numPos.string>5);
+            z = getBankValue($<numPos.string>5, currSession);
         }
 
         currentTransformations.push_back(createScale(x, y, z));
@@ -283,6 +302,7 @@ instanceArgs:
 instanceGroup:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
+        Reader* currReader = createReader(currSession);
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
@@ -290,11 +310,11 @@ instanceGroup:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, false);
             newInstance->setName(strdup($<string>2));
         }
         else{
-            yyerror("Incorrect vertex, face, or mesh name");
+            nomerror(currSession, "Incorrect vertex, face, or mesh name");
             YYABORT;
         }
 
@@ -313,7 +333,7 @@ instanceGroup:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -326,22 +346,65 @@ faceDeleteArgs:
 	| faceDeleteArgs faceDelete
 	;
 
+instanceOffseSubdivide:
+    INSTANCE VARIABLE
+    {
+        string instanceName = strdup($<string>2);
+    };
+
+instanceOffseSubdivideArgs:
+    | instanceOffseSubdivideArgs instanceOffseSubdivide
+    ;
+
 subdivision:
-    SUBDIVISION VARIABLE TYPE VARIABLE SUBDIVISIONS numberValue END_SUBDIVISION
+    SUBDIVISION VARIABLE instanceOffseSubdivideArgs TYPE VARIABLE SUBDIVISIONS numberValue END_SUBDIVISION
     {
         double *subdivision = (double*) malloc(sizeof(double));
 
 
-        if ($<numPos.string>6 == NULL){
-            *subdivision = $<numPos.number>6;
+        if ($<numPos.string>7 == NULL){
+            *subdivision = $<numPos.number>7;
         }
         else{
-            subdivision = getBankValue($<numPos.string>6);
+            subdivision = getBankValue($<numPos.string>7, currSession);
         }
 
-        SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>2), strdup($<string>4), subdivision);
-        std::cout << *currSubdivision->subdivisions << std::endl;
+        SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
+    };
+
+offset:
+    OFFSET VARIABLE MIN numberValue MAX numberValue STEP numberValue END_OFFSET
+    {
+        double *min = (double*) malloc(sizeof(double));
+        double *max = (double*) malloc(sizeof(double));
+        double *step = (double*) malloc(sizeof(double));
+
+
+        if ($<numPos.string>4 == NULL){
+            *min = $<numPos.number>4;
+        }
+        else{
+            min = getBankValue($<numPos.string>4, currSession);
+        }
+
+        if ($<numPos.string>6 == NULL){
+            *max = $<numPos.number>6;
+        }
+        else{
+            max = getBankValue($<numPos.string>6, currSession);
+        }
+
+        if ($<numPos.string>8 == NULL){
+            *step = $<numPos.number>8;
+        }
+        else{
+            step = getBankValue($<numPos.string>8, currSession);
+        }
+
+        OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
+
+        currSession->offsets.push_back(currOffset);
     };
 
 mesh:
@@ -390,6 +453,8 @@ expr:
 delete:
     BEG_DELETE faceDeleteArgs END_DELETE
     {
+        Reader* currReader = createReader(currSession);
+
         for (std::string currFace : tempFaceDelete){
             currReader->deleteFace(currReader->getFace(currFace));
         }
@@ -424,6 +489,8 @@ setArgs:
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
+        Reader* currReader = createReader(currSession);
+
         //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
@@ -444,7 +511,7 @@ faceMesh:
 
             }
             else{
-                yyerror("Incorrect vertex name");
+                nomerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -460,7 +527,7 @@ faceMesh:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -494,14 +561,14 @@ circle:
             *num = $<numPos.number>4;
         }
         else{
-            num = getBankValue($<numPos.string>4);
+            num = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *rad = $<numPos.number>5;
         }
         else{
-            rad = getBankValue($<numPos.string>5);
+            rad = getBankValue($<numPos.string>5, currSession);
         }
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -514,6 +581,8 @@ tunnel:
     TUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_TUNNEL
 	{
+        Reader* currReader = createReader(currSession);
+
         string name = $<string>2;
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -524,28 +593,28 @@ tunnel:
             *n = $<numPos.number>4;
         }
         else{
-            n = getBankValue($<numPos.string>4);
+            n = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *ro = $<numPos.number>5;
         }
         else{
-            ro = getBankValue($<numPos.string>5);
+            ro = getBankValue($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *ratio = $<numPos.number>6;
         }
         else{
-            ratio = getBankValue($<numPos.string>6);
+            ratio = getBankValue($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>7 == NULL){
             *h = $<numPos.number>7;
         }
         else{
-            h = getBankValue($<numPos.string>7);
+            h = getBankValue($<numPos.string>7, currSession);
         }
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
@@ -559,6 +628,8 @@ funnel:
     FUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_FUNNEL
 	{
+        Reader* currReader = createReader(currSession);
+
         string name = $<string>2;
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -569,28 +640,28 @@ funnel:
             *n = $<numPos.number>4;
         }
         else{
-            n = getBankValue($<numPos.string>4);
+            n = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *ro = $<numPos.number>5;
         }
         else{
-            ro = getBankValue($<numPos.string>5);
+            ro = getBankValue($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *ratio = $<numPos.number>6;
         }
         else{
-            ratio = getBankValue($<numPos.string>6);
+            ratio = getBankValue($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>7 == NULL){
             *h = $<number>7;
         }
         else{
-            h = getBankValue($<numPos.string>7);
+            h = getBankValue($<numPos.string>7, currSession);
         }
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
@@ -609,6 +680,8 @@ parenthesisName:
 face:
 	FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
+        Reader* currReader = createReader(currSession);
+
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             Vert * currentVertex = currReader->vert(*it);
@@ -616,7 +689,7 @@ face:
                 verticesFace.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                nomerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -634,7 +707,7 @@ face:
                 setSurface(newFace, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -655,6 +728,8 @@ faceDelete:
 polyline:
 	POLYLINE VARIABLE parenthesisName END_POLYLINE
 	{
+        Reader* currReader = createReader(currSession);
+
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -663,7 +738,7 @@ polyline:
                 verticesPolyline.push_back(currentVertex);
             }
             else{
-                yyerror("Incorrect vertex name");
+                nomerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -679,6 +754,7 @@ polyline:
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
+        Reader* currReader = createReader(currSession);
 
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
@@ -687,7 +763,7 @@ instance:
 
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true);
         }
         else{
             GroupNew * currentGroup = currReader->getGroup($<string>3);
@@ -695,7 +771,7 @@ instance:
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
-                yyerror("Incorrect vertex, face, or mesh name");
+                nomerror(currSession, "Incorrect vertex, face, or mesh name");
                 YYABORT;
             }
         }
@@ -716,7 +792,7 @@ instance:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                yyerror("Incorrect surface name");
+                nomerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -727,28 +803,7 @@ instance:
 
 object:
 	OBJECT VARIABLE parenthesisName END_OBJECT
-	{
-        /*std::list<FaceNew*> facesObject;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
-            FaceNew * currentFace = currReader->face(*it);
-            if (currentFace != NULL) {
-                facesObject.push_back(currentFace);
-            }
-            else{
-                yyerror("Incorrect vertex name");
-                YYABORT;
-            }
-        }
-
-        MeshNew * newObject = createMesh(facesObject);
-
-        newObject->setName(strdup($<string>2));
-
-        currSession->objects.push_back(newObject);
-
-        tempVariables.clear();*/
-
-        //printf("Created an object\n");
+    {
 	}
 	;
 
@@ -763,21 +818,21 @@ surface:
             *r = $<numPos.number>5;
         }
         else{
-            r = getBankValue($<numPos.string>5);
+            r = getBankValue($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *g = $<numPos.number>6;
         }
         else{
-            g = getBankValue($<numPos.string>6);
+            g = getBankValue($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>7 == NULL){
             *b = $<numPos.number>7;
         }
         else{
-            b = getBankValue($<numPos.string>7);
+            b = getBankValue($<numPos.string>7, currSession);
         }
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
@@ -796,21 +851,21 @@ point:
             *x = $<numPos.number>4;
         }
         else{
-            x = getBankValue($<numPos.string>4);
+            x = getBankValue($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *y = $<numPos.number>5;
         }
         else{
-            y = getBankValue($<numPos.string>5);
+            y = getBankValue($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *z = $<numPos.number>6;
         }
         else{
-            z = getBankValue($<numPos.string>6);
+            z = getBankValue($<numPos.string>6, currSession);
         }
 
         Vert * newVertex = createVert (x, y, z);
@@ -818,4 +873,3 @@ point:
         currSession->verts.push_back(newVertex);
 	}
 	;
-

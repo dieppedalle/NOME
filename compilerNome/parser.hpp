@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
-# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED
+#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
+# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -39,6 +39,12 @@
 #if YYDEBUG
 extern int nomdebug;
 #endif
+/* "%code requires" blocks.  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+
+#include <Lewis/Session.h>
+
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -168,7 +174,7 @@ extern int nomdebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.y" /* yacc.c:1909  */
+#line 96 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double number;
     char *string;
@@ -177,7 +183,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 181 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parser.hpp" /* yacc.c:1909  */
+#line 187 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -200,6 +206,6 @@ struct YYLTYPE
 
 extern YYSTYPE nomlval;
 extern YYLTYPE nomlloc;
-int nomparse (void);
+int nomparse (Session* currSession);
 
-#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSER_HPP_INCLUDED  */
+#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED  */

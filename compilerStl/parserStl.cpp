@@ -71,7 +71,7 @@
 #define yylloc          stllloc
 
 /* Copy the first part of user declarations.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:339  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:339  */
 
 #include <stdio.h>
 #include <string.h>
@@ -141,7 +141,7 @@ double *getBankValue(std::string str){
 
 
 
-#line 145 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:339  */
+#line 145 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -161,8 +161,8 @@ double *getBankValue(std::string str){
 
 /* In a future release of Bison, this section will be replaced
    by #include "parserStl.hpp".  */
-#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
-# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED
+#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED
+# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -317,7 +317,7 @@ extern int stldebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:355  */
+#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -326,7 +326,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 330 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:355  */
+#line 330 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -351,11 +351,11 @@ extern YYSTYPE stllval;
 extern YYLTYPE stllloc;
 int stlparse (void);
 
-#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_PARSERSTL_HPP_INCLUDED  */
+#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 359 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:358  */
+#line 359 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1529,7 +1529,7 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 115 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
+#line 115 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         MeshNew* currMesh = createMesh();
 
@@ -1564,11 +1564,11 @@ yyreduce:
         currSession->offsets.push_back(currOffset);
 
     }
-#line 1568 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1568 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
+#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1592,11 +1592,11 @@ yyreduce:
 
         currentFaceVertices.push_back(newVertex);
     }
-#line 1596 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1596 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 184 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.y" /* yacc.c:1646  */
+#line 184 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1630,11 +1630,11 @@ yyreduce:
         currentFaceVertices.clear();
         //std::cout << "HELLO" << std::endl;
     }
-#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1638 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\parserStl.cpp" /* yacc.c:1646  */
+#line 1638 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
