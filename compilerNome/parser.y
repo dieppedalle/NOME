@@ -20,8 +20,6 @@
 
 extern int nomlineno;
 extern char* nomtext;
-//extern FILE *nomin;
-//extern std::istream* yyin;
 extern int nomcolumn;
 
 int nomlex(void);
@@ -29,30 +27,24 @@ int nomerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, nomlineno, nomtext);
 }
 
-//int yyparse(Session*);
-//extern "C" int yyparse (void);
-
 int nomwrap() {
     return 1;
 }
 
-//Session* currSession = createSession();
-//Reader* currReader = createReader(currSession);
+map<string,QColor> surfaces2;
+map<string,Vert*> vertices2;
+std::vector<string> tempVariables2;
+std::vector<string> tempFaceDelete2;
+string currentSetName2;
+std::list<SetNew *> currentSetList2;
+map<string,std::vector<double>> currentBank2;
+std::vector<string> currentInstanceList2;
+std::list<InstanceNew *> currentGroup2;
+std::list<FaceNew *> currentMeshFaces2;
+std::list<Vert *> currentMeshVertices2;
+std::list<EdgeNew *> currentMeshEdges2;
 
-map<string,QColor> surfaces;
-map<string,Vert*> vertices;
-std::vector<string> tempVariables;
-std::vector<string> tempFaceDelete;
-string currentSetName;
-std::list<SetNew *> currentSetList;
-map<string,std::vector<double>> currentBank;
-std::vector<string> currentInstanceList;
-std::list<InstanceNew *> currentGroup;
-std::list<FaceNew *> currentMeshFaces;
-std::list<Vert *> currentMeshVertices;
-std::list<EdgeNew *> currentMeshEdges;
-
-std::list<TransformationNew *> currentTransformations;
+std::list<TransformationNew *> currentTransformations2;
 
 double *getBankValue(std::string str, Session* currSession){
     unsigned first = str.find("$") + 1;
@@ -157,7 +149,7 @@ comment:
 variables:
   |
     variables VARIABLE {
-        tempVariables.push_back($<string>2);
+        tempVariables2.push_back($<string>2);
     }
 	;
 
@@ -209,7 +201,7 @@ rotateArgs:
             angle = getBankValue($<numPos.string>8, currSession);
         }
 
-        currentTransformations.push_back(createRotate(x, y, z, angle));
+        currentTransformations2.push_back(createRotate(x, y, z, angle));
 
     }
     ;
@@ -243,7 +235,7 @@ translateArgs:
             z = getBankValue($<numPos.string>5, currSession);
         }
 
-        currentTransformations.push_back(createTranslate(x, y, z));
+        currentTransformations2.push_back(createTranslate(x, y, z));
     }
     ;
 
@@ -276,7 +268,7 @@ scaleArgs:
             z = getBankValue($<numPos.string>5, currSession);
         }
 
-        currentTransformations.push_back(createScale(x, y, z));
+        currentTransformations2.push_back(createScale(x, y, z));
     }
     ;
 
@@ -318,8 +310,8 @@ instanceGroup:
             YYABORT;
         }
 
-        newInstance->transformations = currentTransformations;
-        currentTransformations.clear();
+        newInstance->transformations = currentTransformations2;
+        currentTransformations2.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
@@ -338,7 +330,7 @@ instanceGroup:
             }
         }
 
-        currentGroup.push_back(newInstance);
+        currentGroup2.push_back(newInstance);
     }
     ;
 
@@ -413,34 +405,34 @@ mesh:
 
         MeshNew* currMesh = createMesh();
 
-        for (std::list<FaceNew*>::iterator it=currentMeshFaces.begin(); it != currentMeshFaces.end(); ++it){
+        for (std::list<FaceNew*>::iterator it=currentMeshFaces2.begin(); it != currentMeshFaces2.end(); ++it){
             currMesh->faces.push_back(*it);
         }
 
-        for (std::list<Vert*>::iterator it=currentMeshVertices.begin(); it != currentMeshVertices.end(); ++it){
+        for (std::list<Vert*>::iterator it=currentMeshVertices2.begin(); it != currentMeshVertices2.end(); ++it){
             currMesh->verts.push_back(*it);
         }
 
-        for (std::list<EdgeNew*>::iterator it=currentMeshEdges.begin(); it != currentMeshEdges.end(); ++it){
+        for (std::list<EdgeNew*>::iterator it=currentMeshEdges2.begin(); it != currentMeshEdges2.end(); ++it){
             currMesh->edges.push_back(*it);
         }
 
         currMesh->setName(strdup($<string>2));
         currSession->meshes.push_back(currMesh);
 
-        currentMeshFaces.clear();
-        currentMeshEdges.clear();
-        currentMeshVertices.clear();
+        currentMeshFaces2.clear();
+        currentMeshEdges2.clear();
+        currentMeshVertices2.clear();
 	}
 	;
 
 group:
 	GROUP VARIABLE instanceArgs END_GROUP
     {
-        GroupNew* currGroup = createGroup(currentGroup);
+        GroupNew* currGroup = createGroup(currentGroup2);
         currGroup->setName(strdup($<string>2));
         currSession->groups.push_back(currGroup);
-        currentGroup.clear();
+        currentGroup2.clear();
 	}
 	;
 
@@ -455,11 +447,11 @@ delete:
     {
         Reader* currReader = createReader(currSession);
 
-        for (std::string currFace : tempFaceDelete){
+        for (std::string currFace : tempFaceDelete2){
             currReader->deleteFace(currReader->getFace(currFace));
         }
 
-        tempFaceDelete.clear();
+        tempFaceDelete2.clear();
 	}
 	;
 
@@ -478,7 +470,7 @@ set:
 
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
 
-        currentSetList.push_back(currentSet);
+        currentSetList2.push_back(currentSet);
 	}
 	;
 
@@ -494,19 +486,19 @@ faceMesh:
         //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+        for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
             Vert * currentVertex = currReader->getVert(*it);
 
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
                 bool found = false;
-                for (Vert* currentMeshVertex: currentMeshVertices){
+                for (Vert* currentMeshVertex: currentMeshVertices2){
                     if (currentMeshVertex->index == currentVertex->index){
                         found = true;
                     }
                 }
                 if (found == false){
-                    currentMeshVertices.push_back(currentVertex);
+                    currentMeshVertices2.push_back(currentVertex);
                 }
 
             }
@@ -516,7 +508,7 @@ faceMesh:
             }
         }
 
-        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges, currReader, false);
+        FaceNew * newFace = createFace(verticesFace, &currentMeshEdges2, currReader, false);
         setName(newFace, strdup($<string>2));
 
         string surfaceName = $<string>4;
@@ -532,20 +524,20 @@ faceMesh:
             }
         }
 
-        currentMeshFaces.push_back(newFace);
+        currentMeshFaces2.push_back(newFace);
 
-        tempVariables.clear();
+        tempVariables2.clear();
     }
     ;
 
 bank:
 	BANK VARIABLE setArgs END_BANK
     {
-        BankNew * currentBank = createBank();
-        currentBank->name = strdup($<string>2);
-        currentBank->sets = currentSetList;
-        currSession->banks.push_back(currentBank);
-        currentSetList.clear();
+        BankNew * currentBank2 = createBank();
+        currentBank2->name = strdup($<string>2);
+        currentBank2->sets = currentSetList2;
+        currSession->banks.push_back(currentBank2);
+        currentSetList2.clear();
 	}
 	;
 
@@ -683,7 +675,7 @@ face:
         Reader* currReader = createReader(currSession);
 
         std::list<Vert*> verticesFace;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+        for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
             Vert * currentVertex = currReader->vert(*it);
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
@@ -714,14 +706,14 @@ face:
 
         currSession->faces.push_back(newFace);
 
-        tempVariables.clear();
+        tempVariables2.clear();
 	}
 	;
 
 faceDelete:
 	FACE VARIABLE END_FACE
 	{
-        tempFaceDelete.push_back($<string>2);
+        tempFaceDelete2.push_back($<string>2);
 	}
 	;
 
@@ -732,7 +724,7 @@ polyline:
 
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
-        for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
+        for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
             Vert * currentVertex = currReader->getVert(*it);
             if (currentVertex != NULL) {
                 verticesPolyline.push_back(currentVertex);
@@ -747,7 +739,7 @@ polyline:
         currPolyline->setName(strdup($<string>2));
 
         currSession->polylines.push_back(currPolyline);
-        tempVariables.clear();
+        tempVariables2.clear();
 	}
 	;
 
@@ -766,9 +758,9 @@ instance:
             newInstance = createInstance(currentMesh, currSession->verts, currReader, true);
         }
         else{
-            GroupNew * currentGroup = currReader->getGroup($<string>3);
-            if (currentGroup != NULL) {
-                newInstance = createInstance(currentGroup, currSession->verts, currReader);
+            GroupNew * currentGroup2 = currReader->getGroup($<string>3);
+            if (currentGroup2 != NULL) {
+                newInstance = createInstance(currentGroup2, currSession->verts, currReader);
             }
             else{
                 nomerror(currSession, "Incorrect vertex, face, or mesh name");
@@ -777,8 +769,8 @@ instance:
         }
 
         newInstance->setName(strdup($<string>2));
-        newInstance->transformations = currentTransformations;
-        currentTransformations.clear();
+        newInstance->transformations = currentTransformations2;
+        currentTransformations2.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);

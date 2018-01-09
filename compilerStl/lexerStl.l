@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
-//#include "y.tab.h"
 #include "parserStl.hpp"
 
 int stlcolumn = 0;
@@ -13,6 +12,7 @@ int stlcolumn = 0;
 %}
 
 %option prefix="stl"
+%option noyywrap
 
 %option yylineno
 %x MULTI_COMMENT

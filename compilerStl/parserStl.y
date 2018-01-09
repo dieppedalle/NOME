@@ -1,3 +1,7 @@
+%code requires{
+#include <Lewis/Session.h>
+}
+
 %{
 #include <stdio.h>
 #include <string.h>
@@ -15,19 +19,17 @@
 
 extern int stllineno;
 extern char* stltext;
-extern FILE *stlin;
+
+extern int stlcolumn;
+
 int stllex(void);
-int stlerror(const char *s) {
+int stlerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
-//extern "C" int yyparse (void);
 
 int stlwrap() {
     return 1;
 }
-
-Session* currSession = createSession();
-Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
 map<string,Vert*> vertices;
@@ -47,7 +49,7 @@ std::list<FaceNew *> currentSolidFace;
 
 std::list<TransformationNew *> currentTransformations;
 
-double *getBankValue(std::string str){
+double *getBankValue2(std::string str, Session* currSession){
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -68,7 +70,7 @@ double *getBankValue(std::string str){
 
 %}
 
-//%define api.prefix {nom}
+%parse-param { Session* currSession }
 
 %token OUTER SOLID FACET ENDFACET LOOP ENDLOOP VERTEX NORMAL ENDSOLID COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
@@ -113,6 +115,7 @@ command:
 solid:
     SOLID VARIABLE facetsArgs ENDSOLID VARIABLE
     {
+        Reader* currReader = createReader(currSession);
         MeshNew* currMesh = createMesh();
 
         for (std::list<FaceNew*>::iterator it=currentSolidFace.begin(); it != currentSolidFace.end(); ++it){
@@ -182,6 +185,7 @@ facetsArgs:
 facets:
     FACET NORMAL NUMBER NUMBER NUMBER OUTER LOOP vertexArgs ENDLOOP ENDFACET
     {
+        Reader* currReader = createReader(currSession);
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
@@ -280,28 +284,28 @@ rotateArgs:
             *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<numPos.string>3);
+            x = getBankValue2($<numPos.string>3, currSession);
         }
 
         if ($<numPos.string>4 == NULL){
             *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<numPos.string>4);
+            y = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<numPos.string>5);
+            z = getBankValue2($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>8 == NULL){
             *angle = $<numPos.number>8;
         }
         else{
-            angle = getBankValue($<numPos.string>8);
+            angle = getBankValue2($<numPos.string>8, currSession);
         }
 
         currentTransformations.push_back(createRotate(x, y, z, angle));
@@ -321,21 +325,21 @@ translateArgs:
             *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<numPos.string>3);
+            x = getBankValue2($<numPos.string>3, currSession);
         }
 
         if ($<numPos.string>4 == NULL){
             *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<numPos.string>4);
+            y = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<numPos.string>5);
+            z = getBankValue2($<numPos.string>5, currSession);
         }
 
         currentTransformations.push_back(createTranslate(x, y, z));
@@ -354,21 +358,21 @@ scaleArgs:
             *x = $<numPos.number>3;
         }
         else{
-            x = getBankValue($<numPos.string>3);
+            x = getBankValue2($<numPos.string>3, currSession);
         }
 
         if ($<numPos.string>4 == NULL){
             *y = $<numPos.number>4;
         }
         else{
-            y = getBankValue($<numPos.string>4);
+            y = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *z = $<numPos.number>5;
         }
         else{
-            z = getBankValue($<numPos.string>5);
+            z = getBankValue2($<numPos.string>5, currSession);
         }
 
         currentTransformations.push_back(createScale(x, y, z));
@@ -397,6 +401,7 @@ instanceArgs:
 instanceGroup:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
+        Reader* currReader = createReader(currSession);
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
@@ -408,7 +413,7 @@ instanceGroup:
             newInstance->setName(strdup($<string>2));
         }
         else{
-            stlerror("Incorrect vertex, face, or mesh name");
+            stlerror(currSession, "Incorrect vertex, face, or mesh name");
             YYABORT;
         }
 
@@ -427,7 +432,7 @@ instanceGroup:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                stlerror("Incorrect surface name");
+                stlerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -460,7 +465,7 @@ subdivision:
             *subdivision = $<numPos.number>7;
         }
         else{
-            subdivision = getBankValue($<numPos.string>7);
+            subdivision = getBankValue2($<numPos.string>7, currSession);
         }
 
         SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
@@ -479,21 +484,21 @@ offset:
             *min = $<numPos.number>4;
         }
         else{
-            min = getBankValue($<numPos.string>4);
+            min = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *max = $<numPos.number>6;
         }
         else{
-            max = getBankValue($<numPos.string>6);
+            max = getBankValue2($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>8 == NULL){
             *step = $<numPos.number>8;
         }
         else{
-            step = getBankValue($<numPos.string>8);
+            step = getBankValue2($<numPos.string>8, currSession);
         }
 
         OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
@@ -547,6 +552,7 @@ expr:
 delete:
     BEG_DELETE faceDeleteArgs END_DELETE
     {
+        Reader* currReader = createReader(currSession);
         for (std::string currFace : tempFaceDelete){
             currReader->deleteFace(currReader->getFace(currFace));
         }
@@ -581,6 +587,7 @@ setArgs:
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
+        Reader* currReader = createReader(currSession);
         //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
@@ -601,7 +608,7 @@ faceMesh:
 
             }
             else{
-                stlerror("Incorrect vertex name");
+                stlerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -617,7 +624,7 @@ faceMesh:
                 setSurface(newFace, currentSurface);
             }
             else{
-                stlerror("Incorrect surface name");
+                stlerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -651,14 +658,14 @@ circle:
             *num = $<numPos.number>4;
         }
         else{
-            num = getBankValue($<numPos.string>4);
+            num = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *rad = $<numPos.number>5;
         }
         else{
-            rad = getBankValue($<numPos.string>5);
+            rad = getBankValue2($<numPos.string>5, currSession);
         }
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -671,6 +678,7 @@ tunnel:
     TUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_TUNNEL
     {
+        Reader* currReader = createReader(currSession);
         string name = $<string>2;
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -681,28 +689,28 @@ tunnel:
             *n = $<numPos.number>4;
         }
         else{
-            n = getBankValue($<numPos.string>4);
+            n = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *ro = $<numPos.number>5;
         }
         else{
-            ro = getBankValue($<numPos.string>5);
+            ro = getBankValue2($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *ratio = $<numPos.number>6;
         }
         else{
-            ratio = getBankValue($<numPos.string>6);
+            ratio = getBankValue2($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>7 == NULL){
             *h = $<numPos.number>7;
         }
         else{
-            h = getBankValue($<numPos.string>7);
+            h = getBankValue2($<numPos.string>7, currSession);
         }
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
@@ -716,6 +724,7 @@ funnel:
     FUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_FUNNEL
     {
+        Reader* currReader = createReader(currSession);
         string name = $<string>2;
         double *n = (double*) malloc(sizeof(double));
         double *ro = (double*) malloc(sizeof(double));
@@ -726,28 +735,28 @@ funnel:
             *n = $<numPos.number>4;
         }
         else{
-            n = getBankValue($<numPos.string>4);
+            n = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *ro = $<numPos.number>5;
         }
         else{
-            ro = getBankValue($<numPos.string>5);
+            ro = getBankValue2($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *ratio = $<numPos.number>6;
         }
         else{
-            ratio = getBankValue($<numPos.string>6);
+            ratio = getBankValue2($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>7 == NULL){
             *h = $<number>7;
         }
         else{
-            h = getBankValue($<numPos.string>7);
+            h = getBankValue2($<numPos.string>7, currSession);
         }
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
@@ -766,6 +775,7 @@ parenthesisName:
 face:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
+        Reader* currReader = createReader(currSession);
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
             Vert * currentVertex = currReader->vert(*it);
@@ -773,7 +783,7 @@ face:
                 verticesFace.push_back(currentVertex);
             }
             else{
-                stlerror("Incorrect vertex name");
+                stlerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -791,7 +801,7 @@ face:
                 setSurface(newFace, currentSurface);
             }
             else{
-                stlerror("Incorrect surface name");
+                stlerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -812,6 +822,7 @@ faceDelete:
 polyline:
     POLYLINE VARIABLE parenthesisName END_POLYLINE
     {
+        Reader* currReader = createReader(currSession);
         // Create list of vertices of face.
         std::list<Vert*> verticesPolyline;
         for (std::vector<string>::iterator it = tempVariables.begin() ; it != tempVariables.end(); ++it){
@@ -820,7 +831,7 @@ polyline:
                 verticesPolyline.push_back(currentVertex);
             }
             else{
-                stlerror("Incorrect vertex name");
+                stlerror(currSession, "Incorrect vertex name");
                 YYABORT;
             }
         }
@@ -836,7 +847,7 @@ polyline:
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
     {
-
+        Reader* currReader = createReader(currSession);
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
@@ -852,7 +863,7 @@ instance:
                 newInstance = createInstance(currentGroup, currSession->verts, currReader);
             }
             else{
-                stlerror("Incorrect vertex, face, or mesh name");
+                stlerror(currSession, "Incorrect vertex, face, or mesh name");
                 YYABORT;
             }
         }
@@ -873,7 +884,7 @@ instance:
                 setSurface(newInstance, currentSurface);
             }
             else{
-                stlerror("Incorrect surface name");
+                stlerror(currSession, "Incorrect surface name");
                 YYABORT;
             }
         }
@@ -899,21 +910,21 @@ surface:
             *r = $<numPos.number>5;
         }
         else{
-            r = getBankValue($<numPos.string>5);
+            r = getBankValue2($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *g = $<numPos.number>6;
         }
         else{
-            g = getBankValue($<numPos.string>6);
+            g = getBankValue2($<numPos.string>6, currSession);
         }
 
         if ($<numPos.string>7 == NULL){
             *b = $<numPos.number>7;
         }
         else{
-            b = getBankValue($<numPos.string>7);
+            b = getBankValue2($<numPos.string>7, currSession);
         }
 
         currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
@@ -932,21 +943,21 @@ point:
             *x = $<numPos.number>4;
         }
         else{
-            x = getBankValue($<numPos.string>4);
+            x = getBankValue2($<numPos.string>4, currSession);
         }
 
         if ($<numPos.string>5 == NULL){
             *y = $<numPos.number>5;
         }
         else{
-            y = getBankValue($<numPos.string>5);
+            y = getBankValue2($<numPos.string>5, currSession);
         }
 
         if ($<numPos.string>6 == NULL){
             *z = $<numPos.number>6;
         }
         else{
-            z = getBankValue($<numPos.string>6);
+            z = getBankValue2($<numPos.string>6, currSession);
         }
 
         Vert * newVertex = createVert (x, y, z);
@@ -954,4 +965,3 @@ point:
         currSession->verts.push_back(newVertex);
     }
     ;
-

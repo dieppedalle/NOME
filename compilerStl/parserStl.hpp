@@ -39,6 +39,12 @@
 #if YYDEBUG
 extern int stldebug;
 #endif
+/* "%code requires" blocks.  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
+
+#include <Lewis/Session.h>
+
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -186,7 +192,7 @@ extern int stldebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
+#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
 
     double number;
     char *string;
@@ -195,7 +201,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 199 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
+#line 205 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -218,6 +224,6 @@ struct YYLTYPE
 
 extern YYSTYPE stllval;
 extern YYLTYPE stllloc;
-int stlparse (void);
+int stlparse (Session* currSession);
 
 #endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED  */

@@ -71,7 +71,7 @@
 #define yylloc          stllloc
 
 /* Copy the first part of user declarations.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:339  */
+#line 5 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:339  */
 
 #include <stdio.h>
 #include <string.h>
@@ -89,9 +89,12 @@
 
 extern int stllineno;
 extern char* stltext;
-extern FILE *stlin;
+//extern FILE *stlin;
+
+extern int stlcolumn;
+
 int stllex(void);
-int stlerror(const char *s) {
+int stlerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
 //extern "C" int yyparse (void);
@@ -100,8 +103,8 @@ int stlwrap() {
     return 1;
 }
 
-Session* currSession = createSession();
-Reader* currReader = createReader(currSession);
+//Session* currSession = createSession();
+//Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
 map<string,Vert*> vertices;
@@ -121,7 +124,7 @@ std::list<FaceNew *> currentSolidFace;
 
 std::list<TransformationNew *> currentTransformations;
 
-double *getBankValue(std::string str){
+double *getBankValue2(std::string str, Session* currSession){
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -141,7 +144,7 @@ double *getBankValue(std::string str){
 
 
 
-#line 145 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:339  */
+#line 148 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -170,6 +173,12 @@ double *getBankValue(std::string str){
 #if YYDEBUG
 extern int stldebug;
 #endif
+/* "%code requires" blocks.  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:355  */
+
+#include <Lewis/Session.h>
+
+#line 182 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -317,7 +326,7 @@ extern int stldebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:355  */
+#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -326,7 +335,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 330 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
+#line 339 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -349,13 +358,13 @@ struct YYLTYPE
 
 extern YYSTYPE stllval;
 extern YYLTYPE stllloc;
-int stlparse (void);
+int stlparse (Session* currSession);
 
 #endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 359 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:358  */
+#line 368 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -642,8 +651,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   103,   103,   104,   109,   114,   151,   176,   177,   179,
-     180,   183
+       0,   112,   112,   113,   118,   123,   161,   186,   187,   189,
+     190,   193
 };
 #endif
 
@@ -787,7 +796,7 @@ do                                                              \
     }                                                           \
   else                                                          \
     {                                                           \
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (currSession, YY_("syntax error: cannot back up")); \
       YYERROR;                                                  \
     }                                                           \
 while (0)
@@ -889,7 +898,7 @@ do {                                                                      \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Type, Value, Location); \
+                  Type, Value, Location, currSession); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -900,11 +909,12 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, Session* currSession)
 {
   FILE *yyo = yyoutput;
   YYUSE (yyo);
   YYUSE (yylocationp);
+  YYUSE (currSession);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
@@ -920,14 +930,14 @@ yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvalue
 `--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp, Session* currSession)
 {
   YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
   YY_LOCATION_PRINT (yyoutput, *yylocationp);
   YYFPRINTF (yyoutput, ": ");
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp, currSession);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -960,7 +970,7 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule, Session* currSession)
 {
   unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -974,7 +984,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
                        &(yyvsp[(yyi + 1) - (yynrhs)])
-                       , &(yylsp[(yyi + 1) - (yynrhs)])                       );
+                       , &(yylsp[(yyi + 1) - (yynrhs)])                       , currSession);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -982,7 +992,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
-    yy_reduce_print (yyssp, yyvsp, yylsp, Rule); \
+    yy_reduce_print (yyssp, yyvsp, yylsp, Rule, currSession); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -1240,10 +1250,11 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp, Session* currSession)
 {
   YYUSE (yyvaluep);
   YYUSE (yylocationp);
+  YYUSE (currSession);
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
@@ -1276,7 +1287,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse (Session* currSession)
 {
     int yystate;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1529,8 +1540,9 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 115 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 124 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
         MeshNew* currMesh = createMesh();
 
         for (std::list<FaceNew*>::iterator it=currentSolidFace.begin(); it != currentSolidFace.end(); ++it){
@@ -1564,11 +1576,11 @@ yyreduce:
         currSession->offsets.push_back(currOffset);
 
     }
-#line 1568 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1580 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 162 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1592,12 +1604,13 @@ yyreduce:
 
         currentFaceVertices.push_back(newVertex);
     }
-#line 1596 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1608 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 184 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 194 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
+        Reader* currReader = createReader(currSession);
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
@@ -1630,11 +1643,11 @@ yyreduce:
         currentFaceVertices.clear();
         //std::cout << "HELLO" << std::endl;
     }
-#line 1634 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1647 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1638 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1651 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1685,7 +1698,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (currSession, YY_("syntax error"));
 #else
 # define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
                                         yyssp, yytoken)
@@ -1712,7 +1725,7 @@ yyerrlab:
                 yymsgp = yymsg;
               }
           }
-        yyerror (yymsgp);
+        yyerror (currSession, yymsgp);
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
       }
@@ -1736,7 +1749,7 @@ yyerrlab:
       else
         {
           yydestruct ("Error: discarding",
-                      yytoken, &yylval, &yylloc);
+                      yytoken, &yylval, &yylloc, currSession);
           yychar = YYEMPTY;
         }
     }
@@ -1793,7 +1806,7 @@ yyerrlab1:
 
       yyerror_range[1] = *yylsp;
       yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp, yylsp);
+                  yystos[yystate], yyvsp, yylsp, currSession);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1835,7 +1848,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (currSession, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -1847,7 +1860,7 @@ yyreturn:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval, &yylloc);
+                  yytoken, &yylval, &yylloc, currSession);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -1856,7 +1869,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[*yyssp], yyvsp, yylsp);
+                  yystos[*yyssp], yyvsp, yylsp, currSession);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
