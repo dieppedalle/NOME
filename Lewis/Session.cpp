@@ -452,7 +452,7 @@ void Session::SaveSessionStl(std::string outputFile){
 
 
 
-    file<< "endsolid";
+    file<< "endsolid convertedFile";
 }
 
 

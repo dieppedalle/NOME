@@ -159,7 +159,6 @@ void MainWindow::createCanvas(QString name)
         unordered_map<string, Face*> global_faces;
         int error = 0;
 
-
         currSession = nomeParser->makeWithNome(banks, params, scene, name.toStdString(),
                                  colorlines, banklines, geometrylines, postProcessingLines, postProcessingLinesString, global_vertices, global_faces);
 

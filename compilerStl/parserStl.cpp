@@ -532,8 +532,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   100,   100,   101,   106,   111,   149,   174,   175,   177,
-     178,   181
+       0,   100,   100,   101,   106,   111,   150,   175,   176,   178,
+     179,   182
 };
 #endif
 
@@ -1427,6 +1427,7 @@ yyreduce:
         currMesh->setName(strdup((yyvsp[-3].string)));
 
         InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true);
+
         newInstance->setName(strdup((yyvsp[-3].string)));
         currSession->instances.push_back(newInstance);
 
@@ -1443,11 +1444,11 @@ yyreduce:
         currSession->offsets.push_back(currOffset);
 
     }
-#line 1447 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1448 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 150 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 151 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1471,11 +1472,11 @@ yyreduce:
 
         currentFaceVertices.push_back(newVertex);
     }
-#line 1475 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1476 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 182 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 183 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
         double *x = (double*) malloc(sizeof(double));
@@ -1493,28 +1494,16 @@ yyreduce:
 
         vector<double> normalCalc = getNormalFromVerts(faceVert);
 
-        if (abs(normalCalc[0] - *x) > 0.0001 || abs(normalCalc[1] - *y) > 0.0001 || abs(normalCalc[2] - *z) > 0.0001){
-            std::cout << stllineno << std::endl;
-            std::cout << "=========" << std::endl;
-            std::cout << normalCalc[0] << std::endl;
-            std::cout << normalCalc[1] << std::endl;
-            std::cout << normalCalc[2] << std::endl;
-            std::cout << *x << std::endl;
-            std::cout << *y << std::endl;
-            std::cout << *z << std::endl;
-        }
-
         FaceNew * newFace = createFace(currentFaceVertices, &currentMeshEdges, currReader, false);
+
         currentSolidFace.push_back(newFace);
-        //std::cout << currentFaceVertices.size() << std::endl;
         currentFaceVertices.clear();
-        //std::cout << "HELLO" << std::endl;
     }
-#line 1514 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1503 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1518 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1507 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

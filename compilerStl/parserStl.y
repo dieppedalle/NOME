@@ -128,6 +128,7 @@ solid:
         currMesh->setName(strdup($<string>2));
 
         InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true);
+
         newInstance->setName(strdup($<string>2));
         currSession->instances.push_back(newInstance);
 
@@ -197,6 +198,7 @@ facets:
         vector<double> normalCalc = getNormalFromVerts(faceVert);
 
         FaceNew * newFace = createFace(currentFaceVertices, &currentMeshEdges, currReader, false);
+
         currentSolidFace.push_back(newFace);
         currentFaceVertices.clear();
     };

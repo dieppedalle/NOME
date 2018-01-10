@@ -205,6 +205,10 @@ bool MeshNew::drawFaces()
 bool MeshNew::draw(double offset)
 {
 
+    /*for (EdgeNew* edge : this->edges){
+        edge->isMobiusEdge();
+    }*/
+
     inFaces.clear();
     outFaces.clear();
 

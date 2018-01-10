@@ -716,92 +716,29 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     return true;
 }
 
-std::tuple<int,int> getIndicesVertsFace(FaceNew* face, Vert* v0, Vert* v1){
-    int indexV0 = 0;
-    int indexV1 = 0;
-    bool foundV0 = false;
-    bool foundV1 = false;
-
-    for(auto curVert = face->verts.begin(); curVert != face->verts.end() && !foundV0; ++curVert) {
-        if (v0->index == (*curVert)->index){
-            foundV0 = true;
-        }
-        else{
-            indexV0++;
-        }
-    }
-
-    // Check if in front
-    // Get the second vertex.
-
-    if (indexV0 + 1 != face->verts.size()){
-        std::list<Vert*>::iterator it = face->verts.begin();
-        std::advance(it, indexV0 + 1);
-
-        if (v1->index == (*it)->index){
-            indexV1 = indexV0 + 1;
-            foundV1 = true;
-        }
-    }
-    else{
-        std::list<Vert*>::iterator it = face->verts.begin();
-        //std::cout << "HELLLLO" << std::endl;
-        //std::cout << v1->name << std::endl;
-        //std::cout << (*it)->name << std::endl;
-        if (v1->index == (*it)->index){
-            indexV1 = 0;
-            foundV1 = true;
-        }
-    }
-
-    if (indexV0 != 0 && foundV1 == false){
-        std::list<Vert*>::iterator it = face->verts.begin();
-        std::advance(it, indexV0 - 1);
-
-        if (v1->index == (*it)->index){
-            indexV1 = indexV0 - 1;
-            foundV1 = true;
-        }
-    }
-    else if (indexV0 == 0 && foundV1 == false){
-        std::list<Vert*>::iterator it = face->verts.end();
-        --it;
-
-        if (v1->index == (*it)->index){
-            indexV1 = face->verts.size() - 1;
-            foundV1 = true;
-        }
-    }
-
-    return std::make_tuple(indexV0, indexV1);
-}
-
 bool EdgeNew::isMobiusEdge(){
     Vert* firstVert = this->v0;
     Vert* secondVert = this->v1;
-
-    int indexF0V0 = 0;
-    int indexF0V1 = 0;
-    int indexF1V0 = 0;
-    int indexF1V1 = 0;
-
-    if (this->f0 != NULL && this->f1 != NULL){
-        auto indicesVertF0 = getIndicesVertsFace(this->f0, this->v0, this->v1);
-        indexF0V0 = std::get<0>(indicesVertF0);
-        indexF0V1 = std::get<1>(indicesVertF0);
-
-        auto indicesVertF1 = getIndicesVertsFace(this->f1, this->v0, this->v1);
-        indexF1V0 = std::get<0>(indicesVertF1);
-        indexF1V1 = std::get<1>(indicesVertF1);
-
-        // Check if it is a mobius edge.
-        if ((((indexF0V0 < indexF0V1) || (indexF0V0 == this->f0->verts.size() - 1 && indexF0V1 == 0)) && ((indexF1V0 > indexF1V1) && !(indexF1V0 == this->f1->verts.size() - 1 && indexF1V1 == 0)))
-            || (((indexF1V0 < indexF1V1) || (indexF1V0 == this->f1->verts.size() - 1 && indexF1V1 == 0)) && ((indexF0V0 > indexF0V1) && !(indexF0V0 == this->f0->verts.size() - 1 && indexF0V1 == 0)))
-            ){
-            return false;
+    if (this->f0 != NULL){
+        bool foundV0 = false;
+        int indexV0 = 0;
+        for(auto curVert = this->f0->verts.begin(); curVert != this->f0->verts.end() || foundV0; ++curVert) {
+            if (this->v0 == (*curVert)->index){
+                foundV0 = true;
+            }
+            else{
+                indexV0++;
+            }
         }
-        return true;
+        std::cout << foundV0 << std::endl;
+        std::cout << indexV0 << std::endl;
     }
+    if (this->f1 != NULL){
+          std::cout << this->f1->name << std::endl;
+    }
+
+
+
     return false;
 }
 
