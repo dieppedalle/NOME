@@ -60,63 +60,9 @@ extern int stldebug;
     VERTEX = 264,
     NORMAL = 265,
     ENDSOLID = 266,
-    COLOR = 267,
-    VARIABLE = 268,
-    COMMENT = 269,
-    NEWLINE = 270,
-    SURFACE = 271,
-    END_SURFACE = 272,
-    MESH = 273,
-    END_MESH = 274,
-    FACE = 275,
-    END_FACE = 276,
-    BEG_POINT = 277,
-    END_POINT = 278,
-    OBJECT = 279,
-    END_OBJECT = 280,
-    BANK = 281,
-    END_BANK = 282,
-    TUNNEL = 283,
-    END_TUNNEL = 284,
-    FUNNEL = 285,
-    END_FUNNEL = 286,
-    POLYLINE = 287,
-    END_POLYLINE = 288,
-    INSTANCE = 289,
-    END_INSTANCE = 290,
-    CIRCLE = 291,
-    END_CIRCLE = 292,
-    BEG_DELETE = 293,
-    END_DELETE = 294,
-    GROUP = 295,
-    END_GROUP = 296,
-    TRANSLATE = 297,
-    ROTATE = 298,
-    MIRROR = 299,
-    SET = 300,
-    OPARENTHESES = 301,
-    EPARENTHESES = 302,
-    OBRACE = 303,
-    EXPR = 304,
-    DOLLAR = 305,
-    EBRACE = 306,
-    PERIOD = 307,
-    TOKHEAT = 308,
-    STATE = 309,
-    TOKTARGET = 310,
-    TOKTEMPERATURE = 311,
-    SCALE = 312,
-    SUBDIVISION = 313,
-    END_SUBDIVISION = 314,
-    SUBDIVISIONS = 315,
-    TYPE = 316,
-    OFFSET = 317,
-    END_OFFSET = 318,
-    MIN = 319,
-    MAX = 320,
-    STEP = 321,
-    BANK_EXPR = 322,
-    NUMBER = 323
+    VARIABLE = 267,
+    NUMBER = 268,
+    BANK_EXPR = 269
   };
 #endif
 /* Tokens.  */
@@ -129,70 +75,16 @@ extern int stldebug;
 #define VERTEX 264
 #define NORMAL 265
 #define ENDSOLID 266
-#define COLOR 267
-#define VARIABLE 268
-#define COMMENT 269
-#define NEWLINE 270
-#define SURFACE 271
-#define END_SURFACE 272
-#define MESH 273
-#define END_MESH 274
-#define FACE 275
-#define END_FACE 276
-#define BEG_POINT 277
-#define END_POINT 278
-#define OBJECT 279
-#define END_OBJECT 280
-#define BANK 281
-#define END_BANK 282
-#define TUNNEL 283
-#define END_TUNNEL 284
-#define FUNNEL 285
-#define END_FUNNEL 286
-#define POLYLINE 287
-#define END_POLYLINE 288
-#define INSTANCE 289
-#define END_INSTANCE 290
-#define CIRCLE 291
-#define END_CIRCLE 292
-#define BEG_DELETE 293
-#define END_DELETE 294
-#define GROUP 295
-#define END_GROUP 296
-#define TRANSLATE 297
-#define ROTATE 298
-#define MIRROR 299
-#define SET 300
-#define OPARENTHESES 301
-#define EPARENTHESES 302
-#define OBRACE 303
-#define EXPR 304
-#define DOLLAR 305
-#define EBRACE 306
-#define PERIOD 307
-#define TOKHEAT 308
-#define STATE 309
-#define TOKTARGET 310
-#define TOKTEMPERATURE 311
-#define SCALE 312
-#define SUBDIVISION 313
-#define END_SUBDIVISION 314
-#define SUBDIVISIONS 315
-#define TYPE 316
-#define OFFSET 317
-#define END_OFFSET 318
-#define MIN 319
-#define MAX 320
-#define STEP 321
-#define BANK_EXPR 322
-#define NUMBER 323
+#define VARIABLE 267
+#define NUMBER 268
+#define BANK_EXPR 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
+#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
 
     double number;
     char *string;
@@ -201,7 +93,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 205 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
+#line 97 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

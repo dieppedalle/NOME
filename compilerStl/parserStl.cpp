@@ -89,7 +89,6 @@
 
 extern int stllineno;
 extern char* stltext;
-//extern FILE *stlin;
 
 extern int stlcolumn;
 
@@ -97,14 +96,10 @@ int stllex(void);
 int stlerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
-//extern "C" int yyparse (void);
 
 int stlwrap() {
     return 1;
 }
-
-//Session* currSession = createSession();
-//Reader* currReader = createReader(currSession);
 
 map<string,QColor> surfaces;
 map<string,Vert*> vertices;
@@ -144,7 +139,7 @@ double *getBankValue2(std::string str, Session* currSession){
 
 
 
-#line 148 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:339  */
+#line 143 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -178,7 +173,7 @@ extern int stldebug;
 
 #include <Lewis/Session.h>
 
-#line 182 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
+#line 177 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -194,63 +189,9 @@ extern int stldebug;
     VERTEX = 264,
     NORMAL = 265,
     ENDSOLID = 266,
-    COLOR = 267,
-    VARIABLE = 268,
-    COMMENT = 269,
-    NEWLINE = 270,
-    SURFACE = 271,
-    END_SURFACE = 272,
-    MESH = 273,
-    END_MESH = 274,
-    FACE = 275,
-    END_FACE = 276,
-    BEG_POINT = 277,
-    END_POINT = 278,
-    OBJECT = 279,
-    END_OBJECT = 280,
-    BANK = 281,
-    END_BANK = 282,
-    TUNNEL = 283,
-    END_TUNNEL = 284,
-    FUNNEL = 285,
-    END_FUNNEL = 286,
-    POLYLINE = 287,
-    END_POLYLINE = 288,
-    INSTANCE = 289,
-    END_INSTANCE = 290,
-    CIRCLE = 291,
-    END_CIRCLE = 292,
-    BEG_DELETE = 293,
-    END_DELETE = 294,
-    GROUP = 295,
-    END_GROUP = 296,
-    TRANSLATE = 297,
-    ROTATE = 298,
-    MIRROR = 299,
-    SET = 300,
-    OPARENTHESES = 301,
-    EPARENTHESES = 302,
-    OBRACE = 303,
-    EXPR = 304,
-    DOLLAR = 305,
-    EBRACE = 306,
-    PERIOD = 307,
-    TOKHEAT = 308,
-    STATE = 309,
-    TOKTARGET = 310,
-    TOKTEMPERATURE = 311,
-    SCALE = 312,
-    SUBDIVISION = 313,
-    END_SUBDIVISION = 314,
-    SUBDIVISIONS = 315,
-    TYPE = 316,
-    OFFSET = 317,
-    END_OFFSET = 318,
-    MIN = 319,
-    MAX = 320,
-    STEP = 321,
-    BANK_EXPR = 322,
-    NUMBER = 323
+    VARIABLE = 267,
+    NUMBER = 268,
+    BANK_EXPR = 269
   };
 #endif
 /* Tokens.  */
@@ -263,70 +204,16 @@ extern int stldebug;
 #define VERTEX 264
 #define NORMAL 265
 #define ENDSOLID 266
-#define COLOR 267
-#define VARIABLE 268
-#define COMMENT 269
-#define NEWLINE 270
-#define SURFACE 271
-#define END_SURFACE 272
-#define MESH 273
-#define END_MESH 274
-#define FACE 275
-#define END_FACE 276
-#define BEG_POINT 277
-#define END_POINT 278
-#define OBJECT 279
-#define END_OBJECT 280
-#define BANK 281
-#define END_BANK 282
-#define TUNNEL 283
-#define END_TUNNEL 284
-#define FUNNEL 285
-#define END_FUNNEL 286
-#define POLYLINE 287
-#define END_POLYLINE 288
-#define INSTANCE 289
-#define END_INSTANCE 290
-#define CIRCLE 291
-#define END_CIRCLE 292
-#define BEG_DELETE 293
-#define END_DELETE 294
-#define GROUP 295
-#define END_GROUP 296
-#define TRANSLATE 297
-#define ROTATE 298
-#define MIRROR 299
-#define SET 300
-#define OPARENTHESES 301
-#define EPARENTHESES 302
-#define OBRACE 303
-#define EXPR 304
-#define DOLLAR 305
-#define EBRACE 306
-#define PERIOD 307
-#define TOKHEAT 308
-#define STATE 309
-#define TOKTARGET 310
-#define TOKTEMPERATURE 311
-#define SCALE 312
-#define SUBDIVISION 313
-#define END_SUBDIVISION 314
-#define SUBDIVISIONS 315
-#define TYPE 316
-#define OFFSET 317
-#define END_OFFSET 318
-#define MIN 319
-#define MAX 320
-#define STEP 321
-#define BANK_EXPR 322
-#define NUMBER 323
+#define VARIABLE 267
+#define NUMBER 268
+#define BANK_EXPR 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:355  */
+#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -335,7 +222,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 339 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
+#line 226 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -364,7 +251,7 @@ int stlparse (Session* currSession);
 
 /* Copy the second part of user declarations.  */
 
-#line 368 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:358  */
+#line 255 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -589,10 +476,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   18
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  69
+#define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
@@ -603,7 +490,7 @@ union yyalloc
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   323
+#define YYMAXUTOK   269
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -638,21 +525,15 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   112,   112,   113,   118,   123,   161,   186,   187,   189,
-     190,   193
+       0,   100,   100,   101,   106,   111,   149,   174,   175,   177,
+     178,   181
 };
 #endif
 
@@ -662,18 +543,9 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "OUTER", "SOLID", "FACET", "ENDFACET",
-  "LOOP", "ENDLOOP", "VERTEX", "NORMAL", "ENDSOLID", "COLOR", "VARIABLE",
-  "COMMENT", "NEWLINE", "SURFACE", "END_SURFACE", "MESH", "END_MESH",
-  "FACE", "END_FACE", "BEG_POINT", "END_POINT", "OBJECT", "END_OBJECT",
-  "BANK", "END_BANK", "TUNNEL", "END_TUNNEL", "FUNNEL", "END_FUNNEL",
-  "POLYLINE", "END_POLYLINE", "INSTANCE", "END_INSTANCE", "CIRCLE",
-  "END_CIRCLE", "BEG_DELETE", "END_DELETE", "GROUP", "END_GROUP",
-  "TRANSLATE", "ROTATE", "MIRROR", "SET", "OPARENTHESES", "EPARENTHESES",
-  "OBRACE", "EXPR", "DOLLAR", "EBRACE", "PERIOD", "TOKHEAT", "STATE",
-  "TOKTARGET", "TOKTEMPERATURE", "SCALE", "SUBDIVISION", "END_SUBDIVISION",
-  "SUBDIVISIONS", "TYPE", "OFFSET", "END_OFFSET", "MIN", "MAX", "STEP",
-  "BANK_EXPR", "NUMBER", "$accept", "commands", "command", "solid",
-  "vertex", "vertexArgs", "facetsArgs", "facets", YY_NULL
+  "LOOP", "ENDLOOP", "VERTEX", "NORMAL", "ENDSOLID", "VARIABLE", "NUMBER",
+  "BANK_EXPR", "$accept", "commands", "command", "solid", "vertex",
+  "vertexArgs", "facetsArgs", "facets", YY_NULL
 };
 #endif
 
@@ -683,19 +555,14 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306,   307,   308,   309,   310,   311,   312,   313,   314,
-     315,   316,   317,   318,   319,   320,   321,   322,   323
+     265,   266,   267,   268,   269
 };
 # endif
 
-#define YYPACT_NINF -61
+#define YYPACT_NINF -9
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-61)))
+  (!!((Yystate) == (-9)))
 
 #define YYTABLE_NINF -1
 
@@ -706,9 +573,9 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -61,     1,   -61,    -9,   -61,   -61,   -61,    -5,    -3,    -4,
-     -61,   -60,   -61,   -58,   -57,     9,     6,   -61,    -6,     8,
-     -53,   -61,   -61,   -52,   -51,   -61
+      -9,     1,    -9,    -8,    -9,    -9,    -9,    -5,    -3,    -4,
+      -9,    -2,    -9,    -1,     0,     6,     3,    -9,    -6,     8,
+       2,    -9,    -9,     4,     5,    -9
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -724,7 +591,7 @@ static const yytype_uint8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -61,   -61,   -61,   -61,   -61,   -61,   -61,   -61
+      -9,    -9,    -9,    -9,    -9,    -9,    -9,    -9
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -738,30 +605,30 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       8,     2,    19,    20,     6,     3,     9,    11,    13,    12,
-      14,    15,    16,    17,    22,    23,    24,    25
+       8,     2,    19,    20,     6,     3,     9,    11,    12,    16,
+      17,    13,    14,    15,    22,    23,     0,    24,    25
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-       5,     0,     8,     9,    13,     4,    11,    10,    68,    13,
-      68,    68,     3,     7,     6,    68,    68,    68
+       5,     0,     8,     9,    12,     4,    11,    10,    12,     3,
+       7,    13,    13,    13,     6,    13,    -1,    13,    13
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    70,     0,     4,    71,    72,    13,    75,     5,    11,
-      76,    10,    13,    68,    68,    68,     3,     7,    74,     8,
-       9,    73,     6,    68,    68,    68
+       0,    16,     0,     4,    17,    18,    12,    21,     5,    11,
+      22,    10,    12,    13,    13,    13,     3,     7,    20,     8,
+       9,    19,     6,    13,    13,    13
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    69,    70,    70,    71,    72,    73,    74,    74,    75,
-      75,    76
+       0,    15,    16,    16,    17,    18,    19,    20,    20,    21,
+      21,    22
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -1540,7 +1407,7 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 124 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 112 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
         MeshNew* currMesh = createMesh();
@@ -1576,11 +1443,11 @@ yyreduce:
         currSession->offsets.push_back(currOffset);
 
     }
-#line 1580 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1447 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 162 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 150 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1604,11 +1471,11 @@ yyreduce:
 
         currentFaceVertices.push_back(newVertex);
     }
-#line 1608 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1475 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 194 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
+#line 182 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
         double *x = (double*) malloc(sizeof(double));
@@ -1643,11 +1510,11 @@ yyreduce:
         currentFaceVertices.clear();
         //std::cout << "HELLO" << std::endl;
     }
-#line 1647 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1514 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1651 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
+#line 1518 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

@@ -174,7 +174,7 @@ extern int nomdebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 96 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 88 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double number;
     char *string;
