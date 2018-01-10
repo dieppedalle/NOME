@@ -109,6 +109,7 @@ public:
 } FaceNew;
 
 std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1);
+std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNew* mesh)
 double getAngleFromVerts(std::vector<Vert*> vert1);
 
 ///Vert Instantiation
