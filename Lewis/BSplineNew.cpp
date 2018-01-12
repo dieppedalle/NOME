@@ -25,15 +25,17 @@ bool BSplineNew::updateBSpline()
         while (it != verts.end()){
             if (it2 != verts.end()){
                 currentEdge = createEdge(*it, *it2, false);
+                edges.push_back(currentEdge);
                 it2++;
             }
             else{
                 if (isLoop){
                     currentEdge = createEdge(verts.back(), verts.front(), false);
+                    edges.push_back(currentEdge);
                 }
             }
             it++;
-            edges.push_back(currentEdge);
+
         }
         return 1;
     }
@@ -140,9 +142,9 @@ void BSplineNew::calculate (int order, bool createNewVertices)
             {
                 float temp = basis(i, degree, t);
 
-                double* xProx = proxyLoop.at(i-1) -> x;
-                double* yProx = proxyLoop.at(i-1) -> y;
-                double* zProx = proxyLoop.at(i-1) -> z;
+                double* xProx = proxyLoop.at(i-1) -> xTransformed;
+                double* yProx = proxyLoop.at(i-1) -> yTransformed;
+                double* zProx = proxyLoop.at(i-1) -> zTransformed;
 
                 *x = *x + (temp * *xProx);
                 *y = *y + (temp * *yProx);

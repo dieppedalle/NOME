@@ -110,8 +110,10 @@ extern int nomdebug;
     END_BSPLINE = 314,
     CLOSED = 315,
     SLICES = 316,
-    BANK_EXPR = 317,
-    NUMBER = 318
+    BEZIERCURVE = 317,
+    END_BEZIERCURVE = 318,
+    BANK_EXPR = 319,
+    NUMBER = 320
   };
 #endif
 /* Tokens.  */
@@ -174,15 +176,17 @@ extern int nomdebug;
 #define END_BSPLINE 314
 #define CLOSED 315
 #define SLICES 316
-#define BANK_EXPR 317
-#define NUMBER 318
+#define BEZIERCURVE 317
+#define END_BEZIERCURVE 318
+#define BANK_EXPR 319
+#define NUMBER 320
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double intNumber;
     double number;
@@ -193,7 +197,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 197 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 201 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

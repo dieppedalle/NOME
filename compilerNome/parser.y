@@ -18,6 +18,7 @@
 #include <Lewis/TunnelNew.h>
 #include <Lewis/InstanceNew.h>
 #include <Lewis/BSplineNew.h>
+#include <Lewis/BezierCurveNew.h>
 
 extern int nomlineno;
 extern char* nomtext;
@@ -80,7 +81,7 @@ POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DEL
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
-BSPLINE END_BSPLINE CLOSED SLICES;
+BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE;
 
 %error-verbose
 %locations
@@ -114,7 +115,7 @@ commands: /* empty */
 command:
     comment | mesh | surface | point | face | object | bank |
   tunnel | funnel | polyline | instance | delete | group | circle |
-  subdivision | offset | bspline;
+  subdivision | offset | bspline | beziercurve;
 
 numberValue:
     num {
@@ -727,6 +728,41 @@ faceDelete:
         tempFaceDelete2.push_back($<string>2);
 	}
 	;
+
+beziercurve:
+  BEZIERCURVE VARIABLE SLICES numberValue parenthesisName surfaceArgs END_BEZIERCURVE{
+    double *slices = (double*) malloc(sizeof(double));
+
+    if ($<numPos.string>4 == NULL){
+        *slices = $<numPos.number>4;
+    }
+    else{
+        slices = getBankValue($<numPos.string>4, currSession);
+    }
+
+    Reader* currReader = createReader(currSession);
+
+    BezierCurveNew* currBezierCurve = createBezierCurveNew();
+    currBezierCurve->setName(strdup($<string>2));
+    currBezierCurve->segments = slices;
+
+    // Create list of vertices of face.
+    for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+        Vert * currentVertex = currReader->getVert(*it);
+        if (currentVertex != NULL) {
+            currBezierCurve->proxy.push_back(currentVertex);
+        }
+        else{
+            nomerror(currSession, "Incorrect vertex name");
+            YYABORT;
+        }
+    }
+
+    currBezierCurve->updateBezierCurve();
+    currSession->bezierCurves.push_back(currBezierCurve);
+    tempVariables2.clear();
+};
+
 
 bspline:
 	BSPLINE VARIABLE SLICES numberValue parenthesisName closedArgs surfaceArgs END_BSPLINE{

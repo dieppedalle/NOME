@@ -14,6 +14,7 @@
 #include "BankNew.h"
 #include "PolylineNew.h"
 #include "BSplineNew.h"
+#include "BezierCurveNew.h"
 #include "CircleNew.h"
 #include "FunnelNew.h"
 #include "TunnelNew.h"
@@ -35,6 +36,7 @@ public:
     std::list<InstanceNew*> instances;
     std::list<PolylineNew*> polylines;
     std::list<BSplineNew*> bsplines;
+    std::list<BezierCurveNew*> bezierCurves;
     std::list<CircleNew*> circles;
     std::list<FunnelNew*> funnels;
     std::list<TunnelNew*> tunnels;

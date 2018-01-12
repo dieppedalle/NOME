@@ -363,6 +363,20 @@ void SlideGLWidget::paintGL()
         }
     }
 
+    for (BezierCurveNew* bc : currSession->bezierCurves){
+        bc->updateBezierCurve();
+        for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+            if ((*iterator)->mesh == bc){
+                Reader* currReader = createReader(currSession);
+                InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
+
+                newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                newInstance->transformations = (*iterator)->transformations;
+                (*iterator) = newInstance;
+            }
+        }
+    }
+
     for(auto c : currSession->circles){
         if (c->updateCircle() == 1){
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {

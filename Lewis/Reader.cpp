@@ -158,6 +158,11 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(m->getName()))
             return m;
     }
+    for(MeshNew* m : session->bezierCurves)
+    {
+        if(!name.compare(m->getName()))
+            return m;
+    }
     for(MeshNew* c : session->circles)
     {
         if(!name.compare(c->getName()))
@@ -217,6 +222,13 @@ MeshNew* Reader::getMesh(std::string name)
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
+
+    for (BezierCurveNew* m0 : session->bezierCurves){
+        std::string currentName = "m:bc:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
 
     /*if(search(name, 0))
         return (MeshNew*) node;*/

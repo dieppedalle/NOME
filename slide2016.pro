@@ -68,7 +68,8 @@ SOURCES += main.cpp\
     stlFlexBison.cpp \
     compilerStl/parserStl.cpp \
     compilerStl/lexerStl.cpp \
-    Lewis/BSplineNew.cpp
+    Lewis/BSplineNew.cpp \
+    Lewis/BezierCurveNew.cpp
 
 HEADERS  += \
     edge.h \
@@ -120,7 +121,8 @@ HEADERS  += \
     Lewis/SliderOffsetNew.h \
     compilerNome/parser.hpp \
     compilerStl/parserStl.hpp \
-    Lewis/BSplineNew.h
+    Lewis/BSplineNew.h \
+    Lewis/BezierCurveNew.h
 
 
 linux{
