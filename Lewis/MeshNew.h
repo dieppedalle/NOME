@@ -37,6 +37,8 @@ public:
     EdgeNew* getEdge(EdgeNew*);
     FaceNew* getFace(FaceNew*);
 
+    EdgeNew* getEdge(int i0, int i1);
+
     bool deleteVert(Vert*);
     bool deleteEdge(EdgeNew*);
     bool deleteFace(FaceNew*);

@@ -17,6 +17,7 @@
 #include <Lewis/FunnelNew.h>
 #include <Lewis/TunnelNew.h>
 #include <Lewis/InstanceNew.h>
+#include <Lewis/BSplineNew.h>
 
 extern int nomlineno;
 extern char* nomtext;
@@ -78,7 +79,8 @@ END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
-SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP;
+SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
+BSPLINE END_BSPLINE CLOSED SLICES;
 
 %error-verbose
 %locations
@@ -86,8 +88,10 @@ SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX ST
 
 %union
 {
+    double intNumber;
     double number;
     char *string;
+    bool boolean;
     struct {
         char *string; // char *strVal;
         double number;   // int posVal;
@@ -109,8 +113,8 @@ commands: /* empty */
 
 command:
     comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | instance | delete | group | circle | subdivision | offset
-	;
+  tunnel | funnel | polyline | instance | delete | group | circle |
+  subdivision | offset | bspline;
 
 numberValue:
     num {
@@ -157,6 +161,13 @@ surfaceArgs:
     {$<string>$ = "";}
     | SURFACE VARIABLE {
         $<string>$ = $<string>2;
+    }
+	;
+
+closedArgs:
+    {$<boolean>$ = false;}
+    | CLOSED {
+        $<boolean>$ = true;
     }
 	;
 
@@ -716,6 +727,60 @@ faceDelete:
         tempFaceDelete2.push_back($<string>2);
 	}
 	;
+
+bspline:
+	BSPLINE VARIABLE SLICES numberValue parenthesisName closedArgs surfaceArgs END_BSPLINE{
+    if ($<intNumber>1 != $<intNumber>8) {
+        nomerror(currSession, "bspline and endbspline do not have the same number.");
+        YYABORT;
+    }
+    double *slices = (double*) malloc(sizeof(double));
+
+    if ($<numPos.string>4 == NULL){
+        *slices = $<numPos.number>4;
+    }
+    else{
+        slices = getBankValue($<numPos.string>4, currSession);
+    }
+
+    Reader* currReader = createReader(currSession);
+
+    BSplineNew* currBSpline = createBSplineNew();
+    currBSpline->setName(strdup($<string>2));
+    currBSpline->set_order($<intNumber>1);
+    currBSpline->segments = slices;
+
+    // Create list of vertices of face.
+    for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+        Vert * currentVertex = currReader->getVert(*it);
+        if (currentVertex != NULL) {
+            currBSpline->proxy.push_back(currentVertex);
+        }
+        else{
+            nomerror(currSession, "Incorrect vertex name");
+            YYABORT;
+        }
+    }
+
+    currBSpline->isLoop = $<boolean>6;
+
+    if (currBSpline->order > currBSpline->proxy.size()){
+      std::string errorStr = "bspline order (";
+      errorStr += currBSpline->order;
+      errorStr += ") must be <= #controlpoints (";
+      errorStr += currBSpline->proxy.size();
+      errorStr += ").";
+      nomerror(currSession, errorStr.c_str());
+      YYABORT;
+    }
+
+
+    currBSpline->updateBSpline();
+
+    currSession->bsplines.push_back(currBSpline);
+
+    tempVariables2.clear();
+  };
 
 polyline:
 	POLYLINE VARIABLE parenthesisName END_POLYLINE

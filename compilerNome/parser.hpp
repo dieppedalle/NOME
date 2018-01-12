@@ -106,8 +106,12 @@ extern int nomdebug;
     MIN = 310,
     MAX = 311,
     STEP = 312,
-    BANK_EXPR = 313,
-    NUMBER = 314
+    BSPLINE = 313,
+    END_BSPLINE = 314,
+    CLOSED = 315,
+    SLICES = 316,
+    BANK_EXPR = 317,
+    NUMBER = 318
   };
 #endif
 /* Tokens.  */
@@ -166,24 +170,30 @@ extern int nomdebug;
 #define MIN 310
 #define MAX 311
 #define STEP 312
-#define BANK_EXPR 313
-#define NUMBER 314
+#define BSPLINE 313
+#define END_BSPLINE 314
+#define CLOSED 315
+#define SLICES 316
+#define BANK_EXPR 317
+#define NUMBER 318
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 88 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
+    double intNumber;
     double number;
     char *string;
+    bool boolean;
     struct {
         char *string; // char *strVal;
         double number;   // int posVal;
     } numPos;
 
-#line 187 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 197 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

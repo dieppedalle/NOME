@@ -13,7 +13,7 @@
 
 static int fIndex = 0;
 
-///Polyline functions
+///Funnel functions
 FunnelNew* createFunnel(double *n, double *ro, double *ratio, double *h, Reader* currReader)
 {
     FunnelNew* f0 = new FunnelNew();

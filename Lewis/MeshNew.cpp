@@ -46,6 +46,16 @@ EdgeNew* MeshNew::getEdge(EdgeNew* e0)
     return NULL;
 }
 
+EdgeNew* MeshNew::getEdge(int i0, int i1)
+{
+    for( EdgeNew* e1 : this->edges )
+    {
+        if( ((e1->v0->index == i0) && (e1->v1->index == i1)) || ((e1->v1->index == i0) && (e1->v0->index == i1)) )
+            return e1;
+    }
+    return NULL;
+}
+
 FaceNew* MeshNew::getFace(FaceNew* f0)
 {
     for( FaceNew* f1 : this->faces )
@@ -371,7 +381,8 @@ void MeshNew::calculateNormal(){
                     std::cout << vertexNum->name << std::endl;
                 }*/
                 std::vector<double> normalVector;
-                normalVector = getNormalFromVerts(firstVerts);
+                //normalVector = getNormalFromVerts(firstVerts);
+                normalVector = getNormalFromVertsForOffset(firstVerts, this);
 
                 double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
                 double new_magnitude = getAngleFromVerts(firstVerts);

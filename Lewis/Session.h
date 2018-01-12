@@ -13,6 +13,7 @@
 #include "ObjectNew.h"
 #include "BankNew.h"
 #include "PolylineNew.h"
+#include "BSplineNew.h"
 #include "CircleNew.h"
 #include "FunnelNew.h"
 #include "TunnelNew.h"
@@ -33,6 +34,7 @@ public:
     std::list<GroupNew*> groups;
     std::list<InstanceNew*> instances;
     std::list<PolylineNew*> polylines;
+    std::list<BSplineNew*> bsplines;
     std::list<CircleNew*> circles;
     std::list<FunnelNew*> funnels;
     std::list<TunnelNew*> tunnels;

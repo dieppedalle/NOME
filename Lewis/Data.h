@@ -20,6 +20,7 @@
 #include "IO.h"
 #include "Node.h"
 class Reader;
+class MeshNew;
 
 ///Baseline data structure class, every point is defined by a vertex, joined by edges. Edges are joined up to form faces.
 
@@ -109,7 +110,7 @@ public:
 } FaceNew;
 
 std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1);
-std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNew* mesh)
+std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNew* mesh);
 double getAngleFromVerts(std::vector<Vert*> vert1);
 
 ///Vert Instantiation

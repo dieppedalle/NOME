@@ -12,7 +12,7 @@
 
 static int cIndex = 0;
 
-///Polyline functions
+///Circle functions
 CircleNew* createCircle(double *num, double *rad)
 {
     CircleNew* c0 = new CircleNew();

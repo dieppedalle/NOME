@@ -349,6 +349,20 @@ void SlideGLWidget::paintGL()
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
 
+    for (BSplineNew* bs : currSession->bsplines){
+        bs->updateBSpline();
+        for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+            if ((*iterator)->mesh == bs){
+                Reader* currReader = createReader(currSession);
+                InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
+
+                newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                newInstance->transformations = (*iterator)->transformations;
+                (*iterator) = newInstance;
+            }
+        }
+    }
+
     for(auto c : currSession->circles){
         if (c->updateCircle() == 1){
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {

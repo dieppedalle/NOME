@@ -13,7 +13,7 @@
 
 static int tIndex = 0;
 
-///Polyline functions
+///Tunnel functions
 TunnelNew* createTunnel(double *n, double *ro, double *ratio, double *h, Reader *reader)
 {
     TunnelNew* t0 = new TunnelNew();

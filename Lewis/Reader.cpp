@@ -153,6 +153,11 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(m->getName()))
             return m;
     }
+    for(MeshNew* m : session->bsplines)
+    {
+        if(!name.compare(m->getName()))
+            return m;
+    }
     for(MeshNew* c : session->circles)
     {
         if(!name.compare(c->getName()))
@@ -203,6 +208,12 @@ MeshNew* Reader::getMesh(std::string name)
 
     for (PolylineNew* m0 : session->polylines){
         std::string currentName = "m:pl:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
+    for (BSplineNew* m0 : session->bsplines){
+        std::string currentName = "m:bs:" + name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }

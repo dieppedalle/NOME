@@ -661,6 +661,34 @@ std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1){
     return aCrossb;
 }
 
+std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNew* mesh){
+    // Takes into account the mobius edges
+    //std::cout <<  (*(mesh->getEdge(vert1[0]->index, vert1[1]->index))).isMobiusEdge() << std::endl;
+    //std::cout << vert1[0]->index << std::endl;
+
+    std::vector<double> a;
+    a.push_back(*(vert1[0]->xTransformed) - *(vert1[1]->xTransformed));
+    a.push_back(*(vert1[0]->yTransformed) - *(vert1[1]->yTransformed));
+    a.push_back(*(vert1[0]->zTransformed) - *(vert1[1]->zTransformed));
+
+    std::vector<double> b;
+    b.push_back(*(vert1[2]->xTransformed) - *(vert1[1]->xTransformed));
+    b.push_back(*(vert1[2]->yTransformed) - *(vert1[1]->yTransformed));
+    b.push_back(*(vert1[2]->zTransformed) - *(vert1[1]->zTransformed));
+
+    double xCross = -10*(a[1]*b[2] - a[2]*b[1]);
+    double yCross = -10*(a[2]*b[0] - a[0]*b[2]);
+    double zCross = -10*(a[0]*b[1] - a[1]*b[0]);
+    double norm = sqrt(pow(xCross, 2) + pow(yCross, 2) + pow(zCross, 2));
+
+    std::vector<double> aCrossb;
+    aCrossb.push_back(xCross / norm);
+    aCrossb.push_back(yCross / norm);
+    aCrossb.push_back(zCross / norm);
+
+    return aCrossb;
+}
+
 std::vector<double> FaceNew::getNormal(){
     std::list<Vert*>::iterator it = this->verts.begin();
 
