@@ -819,7 +819,7 @@ bspline:
   };
 
 polyline:
-	POLYLINE VARIABLE parenthesisName END_POLYLINE
+	POLYLINE VARIABLE parenthesisName surfaceArgs END_POLYLINE
 	{
         Reader* currReader = createReader(currSession);
 

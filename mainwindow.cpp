@@ -19,7 +19,7 @@ MainWindow::MainWindow()
 void MainWindow::open()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Import Input File"), "/", tr("Geometry Files (*.stl *.nom)"));
+        tr("Import Input File"), "/", tr("Geometry Files (*.stl *.nom *.obj)"));
     if(fileName == "")
     {
         return;
@@ -144,7 +144,7 @@ void MainWindow::createCanvas(QString name)
             //nomeParser->appendWithANOM(params, append_scene, canvas, name.toStdString());
         }
     }
-    else if ((name.right(3).toLower() == "stl") || (name.right(3).toLower() == "nom"))
+    else if ((name.right(3).toLower() == "stl") || (name.right(3).toLower() == "nom") || (name.right(3).toLower() == "obj"))
     {
         slider_panels.clear();
         banklines.clear();

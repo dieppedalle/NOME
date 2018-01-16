@@ -142,9 +142,9 @@ void BSplineNew::calculate (int order, bool createNewVertices)
             {
                 float temp = basis(i, degree, t);
 
-                double* xProx = proxyLoop.at(i-1) -> xTransformed;
-                double* yProx = proxyLoop.at(i-1) -> yTransformed;
-                double* zProx = proxyLoop.at(i-1) -> zTransformed;
+                double* xProx = proxyLoop.at(i-1) -> x;
+                double* yProx = proxyLoop.at(i-1) -> y;
+                double* zProx = proxyLoop.at(i-1) -> z;
 
                 *x = *x + (temp * *xProx);
                 *y = *y + (temp * *yProx);

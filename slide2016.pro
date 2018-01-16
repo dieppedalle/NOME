@@ -69,7 +69,10 @@ SOURCES += main.cpp\
     compilerStl/parserStl.cpp \
     compilerStl/lexerStl.cpp \
     Lewis/BSplineNew.cpp \
-    Lewis/BezierCurveNew.cpp
+    Lewis/BezierCurveNew.cpp \
+    objFlexBison.cpp \
+    compilerObj/parserObj.cpp \
+    compilerObj/lexerObj.cpp
 
 HEADERS  += \
     edge.h \
@@ -122,8 +125,8 @@ HEADERS  += \
     compilerNome/parser.hpp \
     compilerStl/parserStl.hpp \
     Lewis/BSplineNew.h \
-    Lewis/BezierCurveNew.h
-
+    Lewis/BezierCurveNew.h \
+    compilerObj/parserObj.hpp
 
 linux{
     LIBS += -lglut -lGLU
