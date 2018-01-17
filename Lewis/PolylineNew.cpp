@@ -46,3 +46,5 @@ bool PolylineNew::setName(std::string n)
     bool error = updateNames();
     return error;
 }
+
+

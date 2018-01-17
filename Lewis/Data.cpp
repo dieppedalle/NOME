@@ -469,6 +469,16 @@ bool setSurface(FaceNew* f0, Surface* surface){
     return true;
 }
 
+bool setSurface(Vert* v0, Surface* surface){
+    v0->surface = surface;
+    return true;
+}
+
+bool setSurface(EdgeNew* e0, Surface* surface){
+    e0->surface = surface;
+    return true;
+}
+
 bool setTmpSurface(FaceNew* f0){
     double *r = (double*) malloc(sizeof(double));
     double *g = (double*) malloc(sizeof(double));
@@ -541,6 +551,8 @@ bool drawVert(Vert* v0, Surface * instSurface){
     QColor color;
     if (instSurface != NULL){
         color = instSurface->color;
+    } else if (v0->surface != NULL){
+        color = v0->surface->getColor();
     } else {
         color = defaultColor;
     }
@@ -596,6 +608,8 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     QColor color;
     if (instSurface != NULL){
         color = instSurface->color;
+    } else if (e0->surface != NULL){
+        color = e0->surface->getColor();
     } else{
         color = defaultColor;
     }

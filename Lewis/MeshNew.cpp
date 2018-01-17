@@ -212,6 +212,10 @@ bool MeshNew::drawFaces()
     return true;
 }
 
+double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
+    return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+}
+
 bool MeshNew::draw(double offset)
 {
 
@@ -224,6 +228,7 @@ bool MeshNew::draw(double offset)
 
     std::list<Vert*> listOutVert;
     std::list<Vert*> listInVert;
+    Vert* lastVertSeen;
     for(auto f : faces) {
         listOutVert.clear();
         listInVert.clear();
@@ -231,9 +236,18 @@ bool MeshNew::draw(double offset)
             v->updateOutOffsetVertex(offset);
             v->updateInOffsetVertex(offset);
 
-            listOutVert.push_back(v->normalOutVert);
-            listInVert.push_back(v->normalInVert);
+            if (dotProductNormal(f->getNormal(), v->normal)>= 0){
+                listOutVert.push_back(v->normalOutVert);
+                listInVert.push_back(v->normalInVert);
+            }
+            else{
+                listOutVert.push_back(v->normalInVert);
+                listInVert.push_back(v->normalOutVert);
+            }
+
+
         }
+
 
         if (offset != 0){
             FaceNew* newFace = createOffsetFace(listOutVert);
@@ -252,17 +266,45 @@ bool MeshNew::draw(double offset)
     }
 
     for(EdgeNew* e : edges) {
+        int numberMobiusVert = 0;
+        if (e->f0 != NULL){
+            if (dotProductNormal(e->f0->getNormal(), e->v0->normal) < 0){
+                numberMobiusVert++;
+            }
+            if (dotProductNormal(e->f0->getNormal(), e->v1->normal) < 0){
+                numberMobiusVert++;
+            }
+        }
+        if (e->f1 != NULL){
+            if (dotProductNormal(e->f1->getNormal(), e->v0->normal) < 0){
+                numberMobiusVert++;
+            }
+            if (dotProductNormal(e->f1->getNormal(), e->v1->normal) < 0){
+                numberMobiusVert++;
+            }
+        }
+
         listOutVert.clear();
         listOutVert.push_back(e->v0);
         listOutVert.push_back(e->v1);
         listOutVert.push_back(e->v1->normalOutVert);
-        listOutVert.push_back(e->v0->normalOutVert);
+        if (numberMobiusVert != 1){
+            listOutVert.push_back(e->v0->normalOutVert);
+        } else {
+            listOutVert.push_back(e->v0->normalInVert);
+        }
+
 
         listInVert.clear();
         listInVert.push_back(e->v0);
         listInVert.push_back(e->v1);
         listInVert.push_back(e->v1->normalInVert);
-        listInVert.push_back(e->v0->normalInVert);
+        if (numberMobiusVert != 1){
+            listInVert.push_back(e->v0->normalInVert);
+        }
+        else{
+            listInVert.push_back(e->v0->normalOutVert);
+        }
 
         if (offset != 0){
             FaceNew* newFace = createOffsetFace(listOutVert);
@@ -420,4 +462,9 @@ void MeshNew::calculateNormal(){
         currVert->normal[1] = currVert->normal[1] / magnitude;
         currVert->normal[2] = currVert->normal[2] / magnitude;
     }
+}
+
+bool MeshNew::setSurface(Surface* surface){
+    this->surface = surface;
+    return true;
 }

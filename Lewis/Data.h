@@ -62,6 +62,7 @@ public:
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
     std::vector<double> normal;
+    Surface* surface;
 
     // Used for subdivision
     Vert* vertPoint;
@@ -83,6 +84,7 @@ public:
     int vertCount;
     FaceNew* f0; FaceNew* f1;
     EdgeI index;
+    Surface* surface;
 
     // Used for subdivision
     Vert* edgePoint;
@@ -139,6 +141,8 @@ bool setName(EdgeNew* e0, std::string n);
 bool setName(FaceNew* f0, std::string n);
 
 bool setSurface(FaceNew* f0, Surface* surface);
+bool setSurface(Vert* v0, Surface* surface);
+bool setSurface(EdgeNew* e0, Surface* surface);
 bool setTmpSurface(FaceNew* f0);
 
 ///Deletion helper functions, unlink from other data structures

@@ -730,14 +730,14 @@ faceDelete:
 	;
 
 beziercurve:
-  BEZIERCURVE VARIABLE SLICES numberValue parenthesisName surfaceArgs END_BEZIERCURVE{
+  BEZIERCURVE VARIABLE parenthesisName SLICES numberValue surfaceArgs END_BEZIERCURVE{
     double *slices = (double*) malloc(sizeof(double));
 
-    if ($<numPos.string>4 == NULL){
-        *slices = $<numPos.number>4;
+    if ($<numPos.string>5 == NULL){
+        *slices = $<numPos.number>5;
     }
     else{
-        slices = getBankValue($<numPos.string>4, currSession);
+        slices = getBankValue($<numPos.string>5, currSession);
     }
 
     Reader* currReader = createReader(currSession);
@@ -759,24 +759,38 @@ beziercurve:
     }
 
     currBezierCurve->updateBezierCurve();
+
+    string surfaceName = $<string>6;
+    // Check if a surface has been applied.
+    if (surfaceName.length() != 0){
+        Surface * currentSurface = currReader->surf($<string>6);
+        if (currentSurface != NULL) {
+            currBezierCurve->setSurface(currentSurface);
+        }
+        else{
+            nomerror(currSession, "Incorrect surface name");
+            YYABORT;
+        }
+    }
+
     currSession->bezierCurves.push_back(currBezierCurve);
     tempVariables2.clear();
 };
 
 
 bspline:
-	BSPLINE VARIABLE SLICES numberValue parenthesisName closedArgs surfaceArgs END_BSPLINE{
+	BSPLINE VARIABLE parenthesisName closedArgs SLICES numberValue surfaceArgs END_BSPLINE{
     if ($<intNumber>1 != $<intNumber>8) {
         nomerror(currSession, "bspline and endbspline do not have the same number.");
         YYABORT;
     }
     double *slices = (double*) malloc(sizeof(double));
 
-    if ($<numPos.string>4 == NULL){
-        *slices = $<numPos.number>4;
+    if ($<numPos.string>6 == NULL){
+        *slices = $<numPos.number>6;
     }
     else{
-        slices = getBankValue($<numPos.string>4, currSession);
+        slices = getBankValue($<numPos.string>6, currSession);
     }
 
     Reader* currReader = createReader(currSession);
@@ -798,7 +812,7 @@ bspline:
         }
     }
 
-    currBSpline->isLoop = $<boolean>6;
+    currBSpline->isLoop = $<boolean>4;
 
     if (currBSpline->order > currBSpline->proxy.size()){
       std::string errorStr = "bspline order (";
@@ -812,6 +826,19 @@ bspline:
 
 
     currBSpline->updateBSpline();
+
+    string surfaceName = $<string>7;
+    // Check if a surface has been applied.
+    if (surfaceName.length() != 0){
+        Surface * currentSurface = currReader->surf($<string>7);
+        if (currentSurface != NULL) {
+            currBSpline->setSurface(currentSurface);
+        }
+        else{
+            nomerror(currSession, "Incorrect surface name");
+            YYABORT;
+        }
+    }
 
     currSession->bsplines.push_back(currBSpline);
 
@@ -839,6 +866,18 @@ polyline:
         PolylineNew* currPolyline = createPolylineNew(verticesPolyline);
         currPolyline->setName(strdup($<string>2));
 
+        string surfaceName = $<string>4;
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf($<string>4);
+            if (currentSurface != NULL) {
+                currPolyline->setSurface(currentSurface);
+            }
+            else{
+                nomerror(currSession, "Incorrect surface name");
+                YYABORT;
+            }
+        }
         currSession->polylines.push_back(currPolyline);
         tempVariables2.clear();
 	}

@@ -46,6 +46,7 @@ public:
     bool drawFaces();
     bool draw(double offset);
     MeshNew* subdivideMesh();
+    Surface * surface;
 
     bool setName(std::string n);
     bool updateNames();
@@ -58,7 +59,8 @@ public:
     Node* vert(int);
     Node* edge(int);
     Node* face(int);
-    Node* surface();
+    bool setSurface(Surface* surface);
+    //Node* surface();
 
 } MeshNew;
 

@@ -62,6 +62,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
+           setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
        }
        else{
@@ -115,12 +116,14 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        if (newEdge == NULL){
            newEdge = currReader->getEdge(firstVert->index, secondVert->index);
            if (newEdge != NULL){
+               setSurface(newEdge, m0->surface);
                 i0->edges.push_back(newEdge);
            }
        }
 
        if (newEdge == NULL){
             newEdge = createEdge(firstVert, secondVert, connect);
+            setSurface(newEdge, m0->surface);
             i0->edges.push_back(newEdge);
        }
 
