@@ -44,7 +44,8 @@ extern int nomdebug;
 
 #include <Lewis/Session.h>
 
-#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+
+#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -112,8 +113,17 @@ extern int nomdebug;
     SLICES = 316,
     BEZIERCURVE = 317,
     END_BEZIERCURVE = 318,
-    BANK_EXPR = 319,
-    NUMBER = 320
+    COS = 319,
+    SIN = 320,
+    TAN = 321,
+    EXPONENT = 322,
+    MULTIPLY = 323,
+    DIVIDE = 324,
+    ADD = 325,
+    SUBTRACT = 326,
+    SLIDEREXPRESSION = 327,
+    BANK_EXPR = 328,
+    NUMBER = 329
   };
 #endif
 /* Tokens.  */
@@ -178,15 +188,24 @@ extern int nomdebug;
 #define SLICES 316
 #define BEZIERCURVE 317
 #define END_BEZIERCURVE 318
-#define BANK_EXPR 319
-#define NUMBER 320
+#define COS 319
+#define SIN 320
+#define TAN 321
+#define EXPONENT 322
+#define MULTIPLY 323
+#define DIVIDE 324
+#define ADD 325
+#define SUBTRACT 326
+#define SLIDEREXPRESSION 327
+#define BANK_EXPR 328
+#define NUMBER 329
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double intNumber;
     double number;
@@ -197,7 +216,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 201 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 220 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

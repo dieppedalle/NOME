@@ -75,6 +75,7 @@ subdivisions            return SUBDIVISIONS;
 type                    return TYPE;
 \{                      return OBRACE;
 \}                      return EBRACE;
+\{expr\ (.*?)\}         nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
 [a-zA-Z][a-zA-Z0-9_\.]*    nomlval.string=strdup(nomtext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;

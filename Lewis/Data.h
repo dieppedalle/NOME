@@ -21,6 +21,7 @@
 #include "Node.h"
 class Reader;
 class MeshNew;
+class Session;
 
 ///Baseline data structure class, every point is defined by a vertex, joined by edges. Edges are joined up to form faces.
 
@@ -153,5 +154,7 @@ bool deleteFace(FaceNew* face);
 bool drawVert(Vert* v0, Surface * instSurface);
 bool drawEdge(EdgeNew* e0, Surface * instSurface);
 bool drawFace(FaceNew* f0, Surface * instSurface);
+
+double *getBankValue(std::string str, Session* currSession);
 
 #endif /* Data_h */

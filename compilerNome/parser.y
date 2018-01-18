@@ -1,5 +1,6 @@
 %code requires{
 #include <Lewis/Session.h>
+
 }
 
 %{
@@ -45,27 +46,8 @@ std::list<InstanceNew *> currentGroup2;
 std::list<FaceNew *> currentMeshFaces2;
 std::list<Vert *> currentMeshVertices2;
 std::list<EdgeNew *> currentMeshEdges2;
-
+double *currentValSet = (double*) malloc(sizeof(double));
 std::list<TransformationNew *> currentTransformations2;
-
-double *getBankValue(std::string str, Session* currSession){
-    unsigned first = str.find("$") + 1;
-    unsigned last = str.find(".");
-    string strNew = str.substr (first,last-first);
-
-    for(auto b : currSession->banks) {
-        if (b->name == strNew){
-            for(auto s : b->sets) {
-                if (s->name == str.substr(last + 1)){
-                    return &s->value;
-                }
-            }
-        }
-    }
-    return NULL;
-}
-
-
 
 %}
 
@@ -81,7 +63,8 @@ POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DEL
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
-BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE;
+BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE COS SIN TAN EXPONENT
+MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION;
 
 %error-verbose
 %locations
@@ -102,8 +85,11 @@ BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE;
 %token <string> BANK_EXPR
 %token <string> NUMBER
 
+
+%type <boolean> closedArgs
 %type <number> num
 %type <string> expr
+
 
 %%
 
@@ -121,10 +107,16 @@ numberValue:
     num {
         $<numPos.number>$ = $<number>1;
         $<numPos.string>$ = NULL;
-    } | expr
+    } | SLIDEREXPRESSION
     {
-        $<numPos.string>$ = $<string>1;
-        $<numPos.number>$ = 0;
+        std::string exprStr = strdup($<string>1);
+        exprStr.erase(0, 6);
+        exprStr.erase(exprStr.size() - 1);
+        //std::cout << exprStr << std::endl;
+        parseGetBankVal(exprStr.c_str(), currSession, currentValSet);
+        //std::cout << *currentValSet << std::endl;
+        $<numPos.string>$ = NULL;
+        $<numPos.number>$ = *currentValSet;
     }
     ;
 
@@ -451,6 +443,7 @@ group:
 expr:
     OBRACE EXPR BANK_EXPR EBRACE
     {
+        std::cout << $3 << std::endl;
         $<string>$ = $3;
     };
 

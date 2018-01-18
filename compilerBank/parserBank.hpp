@@ -30,70 +30,92 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED
-# define YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED
+#ifndef YY_BANK_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED
+# define YY_BANK_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 #if YYDEBUG
-extern int stldebug;
+extern int bankdebug;
 #endif
 /* "%code requires" blocks.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1909  */
 
 #include <Lewis/Session.h>
 
-#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    OUTER = 258,
-    SOLID = 259,
-    FACET = 260,
-    ENDFACET = 261,
-    LOOP = 262,
-    ENDLOOP = 263,
-    VERTEX = 264,
-    NORMAL = 265,
-    ENDSOLID = 266,
-    VARIABLE = 267,
-    NUMBER = 268,
-    BANK_EXPR = 269
+    COS = 258,
+    SIN = 259,
+    TAN = 260,
+    SEC = 261,
+    CSC = 262,
+    COT = 263,
+    E = 264,
+    LN = 265,
+    LOG = 266,
+    SQRT = 267,
+    LPAREN = 268,
+    RPAREN = 269,
+    EXP = 270,
+    MULTIPLY = 271,
+    DIVIDE = 272,
+    ADD = 273,
+    SUBTRACT = 274,
+    NUM = 275,
+    ARCCOS = 276,
+    ARCCOT = 277,
+    ARCCSC = 278,
+    ARCSEC = 279,
+    ARCSIN = 280,
+    ARCTAN = 281,
+    BANK_EXPR = 282
   };
 #endif
 /* Tokens.  */
-#define OUTER 258
-#define SOLID 259
-#define FACET 260
-#define ENDFACET 261
-#define LOOP 262
-#define ENDLOOP 263
-#define VERTEX 264
-#define NORMAL 265
-#define ENDSOLID 266
-#define VARIABLE 267
-#define NUMBER 268
-#define BANK_EXPR 269
+#define COS 258
+#define SIN 259
+#define TAN 260
+#define SEC 261
+#define CSC 262
+#define COT 263
+#define E 264
+#define LN 265
+#define LOG 266
+#define SQRT 267
+#define LPAREN 268
+#define RPAREN 269
+#define EXP 270
+#define MULTIPLY 271
+#define DIVIDE 272
+#define ADD 273
+#define SUBTRACT 274
+#define NUM 275
+#define ARCCOS 276
+#define ARCCOT 277
+#define ARCCSC 278
+#define ARCSEC 279
+#define ARCSIN 280
+#define ARCTAN 281
+#define BANK_EXPR 282
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 64 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
+#line 50 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1909  */
 
     double number;
     char *string;
-    struct {
-        char *string; // char *strVal;
-        double number;   // int posVal;
-    } numPos;
 
-#line 97 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
+#line 119 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -114,8 +136,8 @@ struct YYLTYPE
 #endif
 
 
-extern YYSTYPE stllval;
-extern YYLTYPE stllloc;
-int stlparse (Session* currSession);
+extern YYSTYPE banklval;
+extern YYLTYPE banklloc;
+int bankparse (Session* currSession);
 
-#endif /* !YY_STL_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERSTL_PARSERSTL_HPP_INCLUDED  */
+#endif /* !YY_BANK_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED  */

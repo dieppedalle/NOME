@@ -28,6 +28,23 @@ static std::mutex vertLock;
 static std::mutex edgeLock;
 static std::mutex faceLock;
 
+double *getBankValue(std::string str, Session* currSession){
+    unsigned first = str.find("$") + 1;
+    unsigned last = str.find(".");
+    string strNew = str.substr (first,last-first);
+
+    for(auto b : currSession->banks) {
+        if (b->name == strNew){
+            for(auto s : b->sets) {
+                if (s->name == str.substr(last + 1)){
+                    return &s->value;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
 ///Surfaces
 Surface* createSurface(double *r, double *g, double *b, std::string name)
 {
@@ -967,3 +984,5 @@ void Vert::calculateVertPoint(){
 
     this->vertPoint = createVert (xVertPoint, yVertPoint, zVertPoint);
 }
+
+

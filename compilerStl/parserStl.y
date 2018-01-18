@@ -49,25 +49,6 @@ std::list<FaceNew *> currentSolidFace;
 
 std::list<TransformationNew *> currentTransformations;
 
-double *getBankValue2(std::string str, Session* currSession){
-    unsigned first = str.find("$") + 1;
-    unsigned last = str.find(".");
-    string strNew = str.substr (first,last-first);
-
-    for(auto b : currSession->banks) {
-        if (b->name == strNew){
-            for(auto s : b->sets) {
-                if (s->name == str.substr(last + 1)){
-                    return &s->value;
-                }
-            }
-        }
-    }
-    return NULL;
-}
-
-
-
 %}
 
 %parse-param { Session* currSession }
