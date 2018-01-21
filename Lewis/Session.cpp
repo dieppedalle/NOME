@@ -359,9 +359,9 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
-void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool restart){
+void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
 
-    if (!restart){
+    if (!calculateOffset && !calculateSubdivide){
         for (FaceNew* f : flattenMesh->inFaces){
             drawFace(f, NULL);
         }
@@ -374,13 +374,15 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
         return;
     }
 
-    createFlattenMesh(true);
-    for (int i = 0; i < subdivision; i++){
-        createFlattenMesh(false);
-        flattenMesh = flattenMesh->subdivideMesh();
-    }
+    if (calculateSubdivide){
+        createFlattenMesh(true);
+        for (int i = 0; i < subdivision; i++){
+            createFlattenMesh(false);
+            flattenMesh = flattenMesh->subdivideMesh();
+        }
 
-    subdivisionLevel = subdivision;
+        subdivisionLevel = subdivision;
+    }
 
     flattenMesh->calculateNormal();
 

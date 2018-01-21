@@ -46,7 +46,9 @@ public:
     std::string name;
     std::string fileContent;
 
-    bool recompute = true;
+    bool recalculateOffset = true;
+    bool recalculateSubdivision = true;
+    bool recalculateSlider = true;
 
     int subdivisionLevel = 0;
     MeshNew* flattenMesh;
@@ -75,7 +77,7 @@ public:
     void saveFileToStr(std::string fileName);
     void deleteFace();
     void draw();
-    void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool restart);
+    void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
     void createFlattenMesh(bool instance);
 private:
     QPushButton * consolidateButton;

@@ -125,7 +125,10 @@ void SlideGLWidget::mergeAll()
 void SlideGLWidget::mergeCalled(bool)
 {
     viewer_mode = 1;
-    currSession->recompute = true;
+    currSession->recalculateOffset = true;
+    currSession->recalculateSubdivision = true;
+    currSession->recalculateSlider = true;
+
     //std::cout << "HELLO" << std::endl;
     //mergeAll();
     repaint();
@@ -351,7 +354,8 @@ void SlideGLWidget::paintGL()
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
 
-    if (currSession->recompute == true){
+
+    if (currSession->recalculateSlider == true){
 
         for (Surface* s : currSession->surfaces){
             s->update();
@@ -446,31 +450,34 @@ void SlideGLWidget::paintGL()
         }
     }
 
+
     //std::cout << currSession->recompute << std::endl;
     if (viewer_mode == 0){
         currSession->draw();
     } else if (viewer_mode == 1){
         if (currSession->subdivisions.size() != 0 && currSession->offsets.size() != 0){
             // Subdivision and offset.
-            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value, currSession->recompute);
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value, currSession->recalculateOffset, currSession->recalculateSubdivision, currSession->recalculateSlider);
             currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
         }
         else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() != 0){
             // No subdivision but there is offset.
-            currSession->drawSubdivide(0, 0, currSession->offsets.front()->value, currSession->recompute);
+            currSession->drawSubdivide(0, 0, currSession->offsets.front()->value, currSession->recalculateOffset, currSession->recalculateSubdivision, currSession->recalculateSlider);
         }
         else if (currSession->subdivisions.size() != 0 && currSession->offsets.size() == 0){
             // Suvidvision but no offset
-            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0, currSession->recompute);
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0, currSession->recalculateOffset, currSession->recalculateSubdivision, currSession->recalculateSlider);
             currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
         }
         else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() == 0){
             // No subdivision and no offset
-            currSession->drawSubdivide(0, 0, 0, currSession->recompute);
+            currSession->drawSubdivide(0, 0, 0, currSession->recalculateOffset, currSession->recalculateSubdivision, currSession->recalculateSlider);
         }
     }
 
-    currSession->recompute = false;
+    currSession->recalculateOffset = false;
+    currSession->recalculateSubdivision = false;
+    currSession->recalculateSlider = false;
 }
 
 
