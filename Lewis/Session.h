@@ -46,6 +46,8 @@ public:
     std::string name;
     std::string fileContent;
 
+    bool recompute = true;
+
     int subdivisionLevel = 0;
     MeshNew* flattenMesh;
 

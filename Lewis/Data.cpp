@@ -29,6 +29,7 @@ static std::mutex edgeLock;
 static std::mutex faceLock;
 
 double *getBankValue(std::string str, Session* currSession){
+    //std::cout << "START BANK" << std::endl;
     unsigned first = str.find("$") + 1;
     unsigned last = str.find(".");
     string strNew = str.substr (first,last-first);
@@ -37,11 +38,13 @@ double *getBankValue(std::string str, Session* currSession){
         if (b->name == strNew){
             for(auto s : b->sets) {
                 if (s->name == str.substr(last + 1)){
+                    //std::cout << s->value << std::endl;
                     return &s->value;
                 }
             }
         }
     }
+    //std::cout << "END BANK" << std::endl;
     return NULL;
 }
 
@@ -127,6 +130,7 @@ Vert* createVert(Vert* toBeCopied){
 
     return createVert(x, y, z, 1.0);
 }
+
 
 void Vert::updateOutOffsetVertex(double offset){
     double *x = (double*) malloc(sizeof(double));
@@ -985,4 +989,22 @@ void Vert::calculateVertPoint(){
     this->vertPoint = createVert (xVertPoint, yVertPoint, zVertPoint);
 }
 
+void Vert::update(){
+    double *currentValSet = (double*) malloc(sizeof(double));
+    parseGetBankVal(xStr.c_str(), this->currSession, currentValSet);
+    *x = *currentValSet;
+    parseGetBankVal(yStr.c_str(), this->currSession, currentValSet);
+    *y = *currentValSet;
+    parseGetBankVal(zStr.c_str(), this->currSession, currentValSet);
+    *z = *currentValSet;
+}
 
+void Surface::update(){
+    double *currentValSet = (double*) malloc(sizeof(double));
+    parseGetBankVal(rStr.c_str(), this->currSession, currentValSet);
+    *r = *currentValSet;
+    parseGetBankVal(gStr.c_str(), this->currSession, currentValSet);
+    *g = *currentValSet;
+    parseGetBankVal(bStr.c_str(), this->currSession, currentValSet);
+    *b = *currentValSet;
+}

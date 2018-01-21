@@ -205,14 +205,14 @@ extern int nomdebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 73 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double intNumber;
     double number;
-    char *string;
+    const char *string;
     bool boolean;
     struct {
-        char *string; // char *strVal;
+        const char *string; // char *strVal;
         double number;   // int posVal;
     } numPos;
 

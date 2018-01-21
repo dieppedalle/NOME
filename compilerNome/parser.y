@@ -46,7 +46,6 @@ std::list<InstanceNew *> currentGroup2;
 std::list<FaceNew *> currentMeshFaces2;
 std::list<Vert *> currentMeshVertices2;
 std::list<EdgeNew *> currentMeshEdges2;
-double *currentValSet = (double*) malloc(sizeof(double));
 std::list<TransformationNew *> currentTransformations2;
 
 %}
@@ -74,10 +73,10 @@ MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION;
 {
     double intNumber;
     double number;
-    char *string;
+    const char *string;
     bool boolean;
     struct {
-        char *string; // char *strVal;
+        const char *string; // char *strVal;
         double number;   // int posVal;
     } numPos;
 }
@@ -89,6 +88,7 @@ MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION;
 %type <boolean> closedArgs
 %type <number> num
 %type <string> expr
+%type <numPos> numberValue
 
 
 %%
@@ -104,19 +104,14 @@ command:
   subdivision | offset | bspline | beziercurve;
 
 numberValue:
-    num {
-        $<numPos.number>$ = $<number>1;
-        $<numPos.string>$ = NULL;
+    NUMBER {
+        $<string>$ = strdup($<string>1);
     } | SLIDEREXPRESSION
     {
         std::string exprStr = strdup($<string>1);
         exprStr.erase(0, 6);
         exprStr.erase(exprStr.size() - 1);
-        //std::cout << exprStr << std::endl;
-        parseGetBankVal(exprStr.c_str(), currSession, currentValSet);
-        //std::cout << *currentValSet << std::endl;
-        $<numPos.string>$ = NULL;
-        $<numPos.number>$ = *currentValSet;
+        $<string>$ = strdup(exprStr.c_str());
     }
     ;
 
@@ -131,8 +126,8 @@ num:
 numPosTok:
     NUMBER
     {
-        $<numPos.string>$ = strdup($1);
-        $<numPos.number>$ = nomcolumn;
+        $<numPos>$.string = strdup($1);
+        $<numPos>$.number = nomcolumn;
     }
     ;
 
@@ -176,36 +171,23 @@ rotateArgs:
         double *z = (double*) malloc(sizeof(double));
         double *angle = (double*) malloc(sizeof(double));
 
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>3, currSession, currentValSet);
+        *x = *currentValSet;
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *y = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *z = *currentValSet;
+        parseGetBankVal($<string>8, currSession, currentValSet);
+        *angle = *currentValSet;
 
-        if ($<numPos.string>3 == NULL){
-            *x = $<numPos.number>3;
-        }
-        else{
-            x = getBankValue($<numPos.string>3, currSession);
-        }
+        Rotate* currRotate = createRotate(x, y, z, angle);
+        currRotate->xStr = strdup($<string>3);
+        currRotate->yStr = strdup($<string>4);
+        currRotate->zStr = strdup($<string>5);
+        currRotate->angleStr = strdup($<string>8);
 
-        if ($<numPos.string>4 == NULL){
-            *y = $<numPos.number>4;
-        }
-        else{
-            y = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *z = $<numPos.number>5;
-        }
-        else{
-            z = getBankValue($<numPos.string>5, currSession);
-        }
-
-        if ($<numPos.string>8 == NULL){
-            *angle = $<numPos.number>8;
-        }
-        else{
-            angle = getBankValue($<numPos.string>8, currSession);
-        }
-
-        currentTransformations2.push_back(createRotate(x, y, z, angle));
+        currentTransformations2.push_back(currRotate);
 
     }
     ;
@@ -217,29 +199,20 @@ translateArgs:
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>3, currSession, currentValSet);
+        *x = *currentValSet;
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *y = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *z = *currentValSet;
 
-        if ($<numPos.string>3 == NULL){
-            *x = $<numPos.number>3;
-        }
-        else{
-            x = getBankValue($<numPos.string>3, currSession);
-        }
+        Translate* currTranslate = createTranslate(x, y, z);
+        currTranslate->xStr = strdup($<string>3);
+        currTranslate->yStr = strdup($<string>4);
+        currTranslate->zStr = strdup($<string>5);
 
-        if ($<numPos.string>4 == NULL){
-            *y = $<numPos.number>4;
-        }
-        else{
-            y = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *z = $<numPos.number>5;
-        }
-        else{
-            z = getBankValue($<numPos.string>5, currSession);
-        }
-
-        currentTransformations2.push_back(createTranslate(x, y, z));
+        currentTransformations2.push_back(currTranslate);
     }
     ;
 
@@ -250,39 +223,35 @@ scaleArgs:
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>3, currSession, currentValSet);
+        *x = *currentValSet;
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *y = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *z = *currentValSet;
 
-        if ($<numPos.string>3 == NULL){
-            *x = $<numPos.number>3;
-        }
-        else{
-            x = getBankValue($<numPos.string>3, currSession);
-        }
+        Scale* currScale = createScale(x, y, z);
+        currScale->xStr = strdup($<string>3);
+        currScale->yStr = strdup($<string>4);
+        currScale->zStr = strdup($<string>5);
 
-        if ($<numPos.string>4 == NULL){
-            *y = $<numPos.number>4;
-        }
-        else{
-            y = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *z = $<numPos.number>5;
-        }
-        else{
-            z = getBankValue($<numPos.string>5, currSession);
-        }
-
-        currentTransformations2.push_back(createScale(x, y, z));
+        currentTransformations2.push_back(currScale);
     }
     ;
 
 mirrorArgs:
     MIRROR OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
     {
-        double x = $<numPos.number>3;
-        double y = $<numPos.number>4;
-        double z = $<numPos.number>5;
-        double w = $<numPos.number>5;
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>3, currSession, currentValSet);
+        double x = *currentValSet;
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        double y = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        double z = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        double w = *currentValSet;
 
     }
     ;
@@ -357,13 +326,9 @@ subdivision:
     {
         double *subdivision = (double*) malloc(sizeof(double));
 
-
-        if ($<numPos.string>7 == NULL){
-            *subdivision = $<numPos.number>7;
-        }
-        else{
-            subdivision = getBankValue($<numPos.string>7, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>7, currSession, currentValSet);
+        *subdivision = *currentValSet;
 
         SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
@@ -376,27 +341,13 @@ offset:
         double *max = (double*) malloc(sizeof(double));
         double *step = (double*) malloc(sizeof(double));
 
-
-        if ($<numPos.string>4 == NULL){
-            *min = $<numPos.number>4;
-        }
-        else{
-            min = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>6 == NULL){
-            *max = $<numPos.number>6;
-        }
-        else{
-            max = getBankValue($<numPos.string>6, currSession);
-        }
-
-        if ($<numPos.string>8 == NULL){
-            *step = $<numPos.number>8;
-        }
-        else{
-            step = getBankValue($<numPos.string>8, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *min = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        *max = *currentValSet;
+        parseGetBankVal($<string>8, currSession, currentValSet);
+        *step = *currentValSet;
 
         OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
 
@@ -443,7 +394,6 @@ group:
 expr:
     OBRACE EXPR BANK_EXPR EBRACE
     {
-        std::cout << $3 << std::endl;
         $<string>$ = $3;
     };
 
@@ -464,13 +414,18 @@ set:
     SET VARIABLE numPosTok numberValue numberValue numberValue
     {
         string currentSetName = $<string>2;
-        double currentSetValue = (double)atof($<numPos.string>3);
-        double currentSetStart = $<numPos.number>4;
-        double currentSetEnd = $<numPos.number>5;
-        double currentSetStepSize = $<numPos.number>6;
-        string currentSetValueString = $<numPos.string>3;
+        double currentSetValue = (double)atof($<numPos>3.string);
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        double currentSetStart = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        double currentSetEnd = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        double currentSetStepSize = *currentValSet;
+        string currentSetValueString = $<numPos>3.string;
 
-        int begPos = $<numPos.number>3-currentSetValueString.length();
+
+        int begPos = $<numPos>3.number-currentSetValueString.length();
         int lengthValChar = currentSetValueString.length();
 
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
@@ -488,7 +443,6 @@ faceMesh:
     {
         Reader* currReader = createReader(currSession);
 
-        //std::cout << "Create face mesh" << std::endl;
         std::list<Vert*> verticesFace;
 
         for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
@@ -553,23 +507,17 @@ circle:
         double *num = (double*) malloc(sizeof(double));
         double *rad = (double*) malloc(sizeof(double));
 
-
-        if ($<numPos.string>4 == NULL){
-            *num = $<numPos.number>4;
-        }
-        else{
-            num = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *rad = $<numPos.number>5;
-        }
-        else{
-            rad = getBankValue($<numPos.string>5, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *num = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *rad = *currentValSet;
 
         CircleNew* currCircle = createCircle(num, rad);
         currCircle->setName(strdup($<string>2));
+        currCircle->numStr = strdup($<string>4);
+        currCircle->radStr = strdup($<string>5);
+        currCircle->currSession = currSession;
 
         currSession->circles.push_back(currCircle);
     };
@@ -586,36 +534,23 @@ tunnel:
         double *ratio = (double*) malloc(sizeof(double));
         double *h = (double*) malloc(sizeof(double));
 
-        if ($<numPos.string>4 == NULL){
-            *n = $<numPos.number>4;
-        }
-        else{
-            n = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *ro = $<numPos.number>5;
-        }
-        else{
-            ro = getBankValue($<numPos.string>5, currSession);
-        }
-
-        if ($<numPos.string>6 == NULL){
-            *ratio = $<numPos.number>6;
-        }
-        else{
-            ratio = getBankValue($<numPos.string>6, currSession);
-        }
-
-        if ($<numPos.string>7 == NULL){
-            *h = $<numPos.number>7;
-        }
-        else{
-            h = getBankValue($<numPos.string>7, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *n = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *ro = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        *ratio = *currentValSet;
+        parseGetBankVal($<string>7, currSession, currentValSet);
+        *h = *currentValSet;
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
         currTunnel->setName(strdup($<string>2));
+        currTunnel->nStr = strdup($<string>4);
+        currTunnel->roStr = strdup($<string>5);
+        currTunnel->ratioStr = strdup($<string>6);
+        currTunnel->hStr = strdup($<string>7);
+        currTunnel->currSession = currSession;
 
         currSession->tunnels.push_back(currTunnel);
 	}
@@ -633,36 +568,24 @@ funnel:
         double *ratio = (double*) malloc(sizeof(double));
         double *h = (double*) malloc(sizeof(double));
 
-        if ($<numPos.string>4 == NULL){
-            *n = $<numPos.number>4;
-        }
-        else{
-            n = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *ro = $<numPos.number>5;
-        }
-        else{
-            ro = getBankValue($<numPos.string>5, currSession);
-        }
-
-        if ($<numPos.string>6 == NULL){
-            *ratio = $<numPos.number>6;
-        }
-        else{
-            ratio = getBankValue($<numPos.string>6, currSession);
-        }
-
-        if ($<numPos.string>7 == NULL){
-            *h = $<number>7;
-        }
-        else{
-            h = getBankValue($<numPos.string>7, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *n = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *ro = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        *ratio = *currentValSet;
+        parseGetBankVal($<string>7, currSession, currentValSet);
+        *h = *currentValSet;
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
         currFunnel->setName(strdup($<string>2));
+
+        currFunnel->nStr = strdup($<string>4);
+        currFunnel->roStr = strdup($<string>5);
+        currFunnel->ratioStr = strdup($<string>6);
+        currFunnel->hStr = strdup($<string>7);
+        currFunnel->currSession = currSession;
 
         currSession->funnels.push_back(currFunnel);
 	}
@@ -725,19 +648,18 @@ faceDelete:
 beziercurve:
   BEZIERCURVE VARIABLE parenthesisName SLICES numberValue surfaceArgs END_BEZIERCURVE{
     double *slices = (double*) malloc(sizeof(double));
-
-    if ($<numPos.string>5 == NULL){
-        *slices = $<numPos.number>5;
-    }
-    else{
-        slices = getBankValue($<numPos.string>5, currSession);
-    }
-
     Reader* currReader = createReader(currSession);
+
 
     BezierCurveNew* currBezierCurve = createBezierCurveNew();
     currBezierCurve->setName(strdup($<string>2));
+    double *currentValSet = (double*) malloc(sizeof(double));
+    //parseGetBankVal($<string>5, currSession, currentValSet);
+    //*slices = *currentValSet;
+    *slices = 0;
     currBezierCurve->segments = slices;
+    currBezierCurve->segmentsStr = strdup($<string>5);
+    currBezierCurve->currSession = currSession;
 
     // Create list of vertices of face.
     for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
@@ -777,21 +699,19 @@ bspline:
         nomerror(currSession, "bspline and endbspline do not have the same number.");
         YYABORT;
     }
-    double *slices = (double*) malloc(sizeof(double));
-
-    if ($<numPos.string>6 == NULL){
-        *slices = $<numPos.number>6;
-    }
-    else{
-        slices = getBankValue($<numPos.string>6, currSession);
-    }
 
     Reader* currReader = createReader(currSession);
 
     BSplineNew* currBSpline = createBSplineNew();
     currBSpline->setName(strdup($<string>2));
     currBSpline->set_order($<intNumber>1);
-    currBSpline->segments = slices;
+    double *currentValSet = (double*) malloc(sizeof(double));
+    parseGetBankVal($<string>6, currSession, currentValSet);
+    currBSpline->segments = *currentValSet;
+    currBSpline->currSession = currSession;
+
+    currBSpline->segmentsStr = $<string>6;
+
 
     // Create list of vertices of face.
     for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
@@ -939,28 +859,22 @@ surface:
         double *g = (double*) malloc(sizeof(double));
         double *b = (double*) malloc(sizeof(double));
 
-        if ($<numPos.string>5 == NULL){
-            *r = $<numPos.number>5;
-        }
-        else{
-            r = getBankValue($<numPos.string>5, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *r = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        *g = *currentValSet;
+        parseGetBankVal($<string>7, currSession, currentValSet);
+        *b = *currentValSet;
 
-        if ($<numPos.string>6 == NULL){
-            *g = $<numPos.number>6;
-        }
-        else{
-            g = getBankValue($<numPos.string>6, currSession);
-        }
+        Surface* currSurface = createSurface(r, g, b, strdup($<string>2));
 
-        if ($<numPos.string>7 == NULL){
-            *b = $<numPos.number>7;
-        }
-        else{
-            b = getBankValue($<numPos.string>7, currSession);
-        }
+        currSurface->rStr = strdup($<string>5);
+        currSurface->gStr = strdup($<string>6);
+        currSurface->bStr = strdup($<string>7);
+        currSurface->currSession = currSession;
 
-        currSession->surfaces.push_back(createSurface(r, g, b, strdup($<string>2)));
+        currSession->surfaces.push_back(currSurface);
 	}
 	;
 
@@ -971,30 +885,22 @@ point:
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
-
-        if ($<numPos.string>4 == NULL){
-            *x = $<numPos.number>4;
-        }
-        else{
-            x = getBankValue($<numPos.string>4, currSession);
-        }
-
-        if ($<numPos.string>5 == NULL){
-            *y = $<numPos.number>5;
-        }
-        else{
-            y = getBankValue($<numPos.string>5, currSession);
-        }
-
-        if ($<numPos.string>6 == NULL){
-            *z = $<numPos.number>6;
-        }
-        else{
-            z = getBankValue($<numPos.string>6, currSession);
-        }
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>4, currSession, currentValSet);
+        *x =*currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet);
+        *y =*currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet);
+        *z =*currentValSet;
 
         Vert * newVertex = createVert (x, y, z);
         newVertex->setName(strdup($<string>2));
+
+        newVertex->currSession = currSession;
+        newVertex->xStr = strdup($<string>4);
+        newVertex->yStr = strdup($<string>5);
+        newVertex->zStr = strdup($<string>6);
+
         currSession->verts.push_back(newVertex);
 	}
 	;

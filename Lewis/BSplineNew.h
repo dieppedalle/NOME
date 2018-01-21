@@ -15,14 +15,17 @@ typedef class BSplineNew : public MeshNew
 {
 public:
     std::vector<Vert*> proxy;
-    double *segments;
-    double prevSegment;
+    double segments;
+    std::string segmentsStr;
+
+    Session* currSession;
+    //double prevSegment;
     int order;
     bool isLoop;
 
     bool setName(std::string n);
 
-    void set_segments(double*);
+    void set_segments(double);
     void set_proxy(Vert*);
     void set_order(int);
 

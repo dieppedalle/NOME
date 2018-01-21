@@ -22,7 +22,7 @@ extern char* banktext;
 
 extern int bankcolumn;
 
-int result = 0;
+double result = 0;
 
 int banklex(void);
 int bankerror(Session* currSession, const char *s) {
@@ -116,7 +116,12 @@ void end_lexical_scan(void);
 
 /* This function parses a string */
 double parse_string(const char* in, Session* sessionParse) {
+  result = 0;
+  //std::cout << "CAL" << std::endl;
+  //std::cout << *in << std::endl;
   set_input_string(in);
+
+
   int rv = bankparse(sessionParse);
   end_lexical_scan();
 

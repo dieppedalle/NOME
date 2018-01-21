@@ -40,9 +40,16 @@ public:
     double *r;
     double *g;
     double *b;
+    Session* currSession;
+
+    std::string rStr;
+    std::string gStr;
+    std::string bStr;
+
     QColor color;
     std::string name;
     QColor getColor();
+    void update();
 } Surface;
 
 Surface* createSurface(double *r, double *g, double *b, std::string name);
@@ -51,6 +58,10 @@ Surface* createSurface(double *r, double *g, double *b, std::string name);
 typedef class Vert : public Node
 {
 public:
+    std::string xStr;
+    std::string yStr;
+    std::string zStr;
+
     double *x;
     double *y;
     double *z;
@@ -64,6 +75,7 @@ public:
     std::list<FaceNew*> faces;
     std::vector<double> normal;
     Surface* surface;
+    Session* currSession;
 
     // Used for subdivision
     Vert* vertPoint;
@@ -72,6 +84,8 @@ public:
     Vert* normalOutVert;
     void updateOutOffsetVertex(double offset);
     void updateInOffsetVertex(double offset);
+
+    void update();
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links

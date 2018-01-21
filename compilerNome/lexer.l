@@ -6,7 +6,7 @@
 #include "parser.hpp"
 
 int nomcolumn = 0;
-#define nom_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
+#define YY_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
     nomlloc.first_column = nomcolumn; nomlloc.last_column = nomcolumn + nomleng - 1; \
     nomcolumn += nomleng;
 
@@ -75,8 +75,8 @@ subdivisions            return SUBDIVISIONS;
 type                    return TYPE;
 \{                      return OBRACE;
 \}                      return EBRACE;
-\{expr\ (.*?)\}         nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
-[a-zA-Z][a-zA-Z0-9_\.]*    nomlval.string=strdup(nomtext); return VARIABLE;
+\{expr\ ([^\}]*)\}      nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
+[a-zA-Z][a-zA-Z0-9_\.]* nomlval.string=strdup(nomtext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
 [ \t\n]+                /* ignore whitespace */;

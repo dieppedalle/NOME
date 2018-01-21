@@ -10,6 +10,7 @@
 #include <math.h>
 #include <glm/glm.hpp>
 #include "Data.h"
+#include "Session.h"
 
 static int tIndex = 0;
 
@@ -148,13 +149,31 @@ void TunnelNew::createVertEdgeTunnel(){
 
 
 int TunnelNew::updateTunnel() {
+    double *currentValN = (double*) malloc(sizeof(double));
+    parseGetBankVal(nStr.c_str(), this->currSession, currentValN);
+
+    double *currentValRo = (double*) malloc(sizeof(double));
+    parseGetBankVal(roStr.c_str(), this->currSession, currentValRo);
+
+    double *currentValRatio = (double*) malloc(sizeof(double));
+    parseGetBankVal(ratioStr.c_str(), this->currSession, currentValRatio);
+
+    double *currentValH = (double*) malloc(sizeof(double));
+    parseGetBankVal(hStr.c_str(), this->currSession, currentValH);
+
+
     // Used when the sliders are changing values.
     // Check if we need to create new vertices (if the number of vertices has changed).
-    if (*n != verts.size() / 3){
+    if (*n != *currentValN){
+        *n = *currentValN;
         createVertEdgeTunnel();
         return 1;
     }
-    else{
+    else if (*ro != *currentValRo || *ratio != *currentValRatio || *h != *currentValH){
+        *ro = *currentValRo;
+        *ratio = *currentValRatio;
+        *h = *currentValH;
+
         // Redraw in case the radius has changed.
         int i = 0;
         for (std::list<Vert*>::const_iterator iterator = verts.begin(), end = verts.end(); iterator != end; ++iterator) {

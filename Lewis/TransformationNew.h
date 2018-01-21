@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <list>
+#include <string>
 
 class TransformationNew{
 public:
@@ -20,6 +21,10 @@ public:
     double *x;
     double *y;
     double *z;
+
+    std::string xStr;
+    std::string yStr;
+    std::string zStr;
 };
 
 class Scale : public TransformationNew
@@ -28,6 +33,10 @@ public:
     double *x;
     double *y;
     double *z;
+
+    std::string xStr;
+    std::string yStr;
+    std::string zStr;
 };
 
 class Rotate : public TransformationNew
@@ -37,6 +46,11 @@ public:
     double *y;
     double *z;
     double *angle;
+
+    std::string xStr;
+    std::string yStr;
+    std::string zStr;
+    std::string angleStr;
 };
 
 Rotate* createRotate(double *x, double *y, double *z, double *angle);

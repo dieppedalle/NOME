@@ -1,5 +1,5 @@
 //
-//  Mesh.cpp
+//  CircleNew.cpp
 //  model
 //
 //  Created by L on 26/08/2017.
@@ -7,6 +7,7 @@
 //
 
 #include "CircleNew.h"
+#include "Session.h"
 #include <math.h>
 #include <glm/glm.hpp>
 
@@ -38,14 +39,23 @@ bool CircleNew::setName(std::string n)
 }
 
 int CircleNew::updateCircle() {
+    double *currentValNum = (double*) malloc(sizeof(double));
+    parseGetBankVal(numStr.c_str(), this->currSession, currentValNum);
+
+    double *currentValRad = (double*) malloc(sizeof(double));
+    parseGetBankVal(radStr.c_str(), this->currSession, currentValRad);
+
     // Check if we need to create new vertices (if the number of vertices has changed).
-    if (*num != verts.size()){
+    if (*num != *currentValNum){
+        *num = *currentValNum;
         createVertEdgeCircle();
         return 1;
     }
-    else{
+    else if (*rad != *currentValRad){
+        *rad = *currentValRad;
+
         // Redraw in case the radius has changed.
-        int i = 0;
+        float i = 0;
         for (Vert* vert : verts) {
             float currAngle = 2.0 * i / *num * M_PI;
 

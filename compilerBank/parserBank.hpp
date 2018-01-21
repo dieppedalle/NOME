@@ -110,7 +110,7 @@ extern int bankdebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 50 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1909  */
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1909  */
 
     double number;
     char *string;

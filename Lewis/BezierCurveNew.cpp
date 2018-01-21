@@ -9,6 +9,7 @@
 #include "BezierCurveNew.h"
 #include "Data.h"
 #include <glm/glm.hpp>
+#include "Session.h"
 
 Vert* BezierCurveNew::interpolatePoint(double t, Vert* pt1, Vert* pt2){
     double *x = (double*) malloc(sizeof(double));
@@ -32,9 +33,9 @@ void BezierCurveNew::calculateBezierVertex(std::vector<Vert*> interpolatedPoints
         } else{
             std::list<Vert*>::iterator it = verts.begin();
             std::advance(it, numVertexCreated);
-            *((*it)->x) = *interpolatedPoints.at(0)->x;
-            *((*it)->y) = *interpolatedPoints.at(0)->y;
-            *((*it)->z) = *interpolatedPoints.at(0)->z;
+            *((*it)->x) = *(interpolatedPoints.at(0)->x);
+            *((*it)->y) = *(interpolatedPoints.at(0)->y);
+            *((*it)->z) = *(interpolatedPoints.at(0)->z);
         }
     }
     else{
@@ -48,8 +49,10 @@ void BezierCurveNew::calculateBezierVertex(std::vector<Vert*> interpolatedPoints
 }
 
 void BezierCurveNew::updateBezierCurve(){
-    if (prevSegment != *segments){
-        prevSegment = *segments;
+    double *currentValSet = (double*) malloc(sizeof(double));
+    parseGetBankVal(segmentsStr.c_str(), this->currSession, currentValSet);
+    if (*currentValSet != *segments){
+        *segments = *currentValSet;
         verts.clear();
         edges.clear();
         calculate(true);
@@ -94,7 +97,7 @@ BezierCurveNew* createBezierCurveNew()
     //This behaviour depends on the parser
     b0->setName("beziercurve" + std::to_string(bIndex));
     bIndex++;
-    b0->prevSegment = -1;
+    //b0->prevSegment = -1;
 
     return b0;
 }

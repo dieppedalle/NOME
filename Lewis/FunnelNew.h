@@ -23,10 +23,17 @@ public:
     double *ro;
     double *ratio;
     double *h;
+
+    std::string nStr;
+    std::string roStr;
+    std::string ratioStr;
+    std::string hStr;
+
     Reader * reader;
     void createVertEdgeFunnel();
     int updateFunnel();
     bool setName(std::string n);
+    Session* currSession;
 } FunnelNew;
 
 ///Instance functions

@@ -9,11 +9,15 @@
 #include "BSplineNew.h"
 #include "Data.h"
 #include <glm/glm.hpp>
+#include "Session.h"
 
 bool BSplineNew::updateBSpline()
 {
-    if (prevSegment != *segments){
-        prevSegment = *segments;
+    double *currentValSet = (double*) malloc(sizeof(double));
+    parseGetBankVal(segmentsStr.c_str(), currSession, currentValSet);
+
+    if (*currentValSet != segments){
+        segments = *currentValSet;
         verts.clear();
         edges.clear();
         calculate(order, true);
@@ -51,7 +55,7 @@ void BSplineNew::set_proxy(Vert *v)
 }
 
 
-void BSplineNew::set_segments(double* a)
+void BSplineNew::set_segments(double a)
 {
     segments = a;
 }
@@ -99,7 +103,7 @@ void BSplineNew::calculate (int order, bool createNewVertices)
     int degree = order - 1;
     int originalSize = proxy.size();
     std::vector<Vert*> proxyLoop = proxy;
-    int segmentLoop = (int)round(*this->segments);
+    int segmentLoop = (int)round(this->segments);
 
 
     if (isLoop == true){
@@ -182,7 +186,7 @@ BSplineNew* createBSplineNew()
     //This behaviour depends on the parser
     b0->setName("bspline" + std::to_string(bIndex));
     bIndex++;
-    b0->prevSegment = -1;
+    //b0->prevSegment = -1;
 
     return b0;
 }

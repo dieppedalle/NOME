@@ -407,13 +407,13 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[67] =
     {   0,
-        0,    0,    0,    0,   28,   27,   26,   27,   17,   18,
-       20,   22,   23,   25,   21,   19,   27,   27,    7,   27,
-       27,   27,   26,    0,   25,    0,    0,    0,   14,    0,
-        0,    0,    0,    0,    0,    0,    0,    1,    6,    5,
-       15,    4,    2,    0,    3,   24,   24,    0,    0,    0,
-       16,   24,   24,   24,    0,    0,    0,    0,    0,    9,
-       13,   12,   11,    8,   10,    0
+        0,    0,    0,    0,   28,   27,   26,   27,   22,   23,
+       19,   17,   18,   25,   20,   21,   27,   27,   15,   27,
+       27,   27,   26,    0,   25,    0,    0,    0,   16,    0,
+        0,    0,    0,    0,    0,    0,    0,    2,    6,    7,
+       14,    5,    3,    0,    4,   24,   24,    0,    0,    0,
+        1,   24,   24,   24,    0,    0,    0,    0,    0,    8,
+       12,   13,   11,    9,   10,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -837,27 +837,27 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 21 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return COS;
+return SQRT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return SIN;
+return COS;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return TAN;
+return SIN;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 24 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return SEC;
+return TAN;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return CSC;
+return SEC;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
@@ -867,17 +867,17 @@ return COT;
 case 7:
 YY_RULE_SETUP
 #line 27 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return E;
+return CSC;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return ARCSIN;
+return ARCCOS;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return ARCCOS;
+return ARCSIN;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
@@ -892,62 +892,62 @@ return ARCSEC;
 case 12:
 YY_RULE_SETUP
 #line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return ARCCSC;
+return ARCCOT;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 33 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return ARCCOT;
+return ARCCSC;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return LN;
+return LOG;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return LOG;
+return E;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return SQRT;
+return LN;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return LPAREN;
+return ADD;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return RPAREN;
+return SUBTRACT;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return EXP;
+return MULTIPLY;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return MULTIPLY;
+return DIVIDE;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return DIVIDE;
+return EXP;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return ADD;
+return LPAREN;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
-return SUBTRACT;
+return RPAREN;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP

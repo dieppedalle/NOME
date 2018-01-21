@@ -16,9 +16,12 @@ typedef class CircleNew : public MeshNew
 public:
     double *num;
     double *rad;
+    std::string numStr;
+    std::string radStr;
     void createVertEdgeCircle();
     int updateCircle();
     bool setName(std::string n);
+    Session * currSession;
 } CircleNew;
 
 ///Instance functions

@@ -349,38 +349,21 @@ void SlideGLWidget::paintGL()
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
 
-    for (BSplineNew* bs : currSession->bsplines){
-        bs->updateBSpline();
-        for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
-            if ((*iterator)->mesh == bs){
-                Reader* currReader = createReader(currSession);
-                InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
+    if (currSession->recompute == true){
+        currSession->recompute = false;
 
-                newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                newInstance->transformations = (*iterator)->transformations;
-                (*iterator) = newInstance;
-            }
+        for (Surface* s : currSession->surfaces){
+            s->update();
         }
-    }
 
-    for (BezierCurveNew* bc : currSession->bezierCurves){
-        bc->updateBezierCurve();
-        for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
-            if ((*iterator)->mesh == bc){
-                Reader* currReader = createReader(currSession);
-                InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
-
-                newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                newInstance->transformations = (*iterator)->transformations;
-                (*iterator) = newInstance;
-            }
+        for (Vert* p : currSession->verts){
+            p->update();
         }
-    }
 
-    for(auto c : currSession->circles){
-        if (c->updateCircle() == 1){
+        for (BSplineNew* bs : currSession->bsplines){
+            bs->updateBSpline();
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
-                if ((*iterator)->mesh == c){
+                if ((*iterator)->mesh == bs){
                     Reader* currReader = createReader(currSession);
                     InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
 
@@ -390,12 +373,11 @@ void SlideGLWidget::paintGL()
                 }
             }
         }
-    }
 
-    for(auto f : currSession->funnels){
-        if (f->updateFunnel() == 1){
+        for (BezierCurveNew* bc : currSession->bezierCurves){
+            bc->updateBezierCurve();
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
-                if ((*iterator)->mesh == f){
+                if ((*iterator)->mesh == bc){
                     Reader* currReader = createReader(currSession);
                     InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
 
@@ -405,55 +387,86 @@ void SlideGLWidget::paintGL()
                 }
             }
         }
-    }
-    for(auto t : currSession->tunnels){
-        if (t->updateTunnel() == 1){
-            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
-                if ((*iterator)->mesh == t){
-                    Reader* currReader = createReader(currSession);
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
 
-                    newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                    newInstance->transformations = (*iterator)->transformations;
-                    (*iterator) = newInstance;
+        for(auto c : currSession->circles){
+            if (c->updateCircle() == 1){
+                for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                    if ((*iterator)->mesh == c){
+                        Reader* currReader = createReader(currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
+
+                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->transformations = (*iterator)->transformations;
+                        (*iterator) = newInstance;
+                    }
                 }
+            }
+        }
+
+        for(FunnelNew* f : currSession->funnels){
+            if (f->updateFunnel() == 1){
+                for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                    if ((*iterator)->mesh == f){
+                        Reader* currReader = createReader(currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
+
+                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->transformations = (*iterator)->transformations;
+                        (*iterator) = newInstance;
+                    }
+                }
+            }
+        }
+        for(auto t : currSession->tunnels){
+            if (t->updateTunnel() == 1){
+                for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                    if ((*iterator)->mesh == t){
+                        Reader* currReader = createReader(currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true);
+
+                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->transformations = (*iterator)->transformations;
+                        (*iterator) = newInstance;
+                    }
+                }
+            }
+        }
+
+
+        for (InstanceNew * newInstance: currSession->instances){
+            newInstance->updateVerts();
+        }
+
+        for (InstanceNew * newInstance: currSession->instances){
+            newInstance->applyTransformationGroup();
+            for (TransformationNew * t : newInstance->transformations){
+                newInstance->applyTransformation(t);
             }
         }
     }
 
 
-    for (InstanceNew * newInstance: currSession->instances){
-        newInstance->updateVerts();
-    }
-
-    for (InstanceNew * newInstance: currSession->instances){
-        newInstance->applyTransformationGroup();
-        for (TransformationNew * t : newInstance->transformations){
-            newInstance->applyTransformation(t);
-        }
-    }
     if (viewer_mode == 0){
         currSession->draw();
     } else if (viewer_mode == 1){
-        //for (SubdivisionNew* subdivide : currSession->subdivisions){
-            //currSession->drawSubdivide(subdivide->value, subdivide->previousSubdivisionLevel, currSession->offsets.front()->value);
-
-            if (currSession->subdivisions.size() != 0 && currSession->offsets.size() != 0){
-                currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value);
-                currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
-            }
-            else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() != 0){
-                currSession->drawSubdivide(0, 0, currSession->offsets.front()->value);
-            }
-            else if (currSession->subdivisions.size() != 0 && currSession->offsets.size() == 0){
-                currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0);
-                currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
-            }
-            else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() == 0){
-                currSession->drawSubdivide(0, 0, 0);
-            }
-
-        //}
+        if (currSession->subdivisions.size() != 0 && currSession->offsets.size() != 0){
+            // Subdivision and offset.
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value);
+            currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
+        }
+        else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() != 0){
+            // No subdivision but there is offset.
+            currSession->drawSubdivide(0, 0, currSession->offsets.front()->value);
+        }
+        else if (currSession->subdivisions.size() != 0 && currSession->offsets.size() == 0){
+            // Suvidvision but no offset
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0);
+            currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
+        }
+        else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() == 0){
+            // No subdivision and no offset
+            currSession->drawSubdivide(0, 0, 0);
+        }
     }
 }
 

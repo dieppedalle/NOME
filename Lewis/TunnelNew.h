@@ -23,6 +23,12 @@ public:
     double *ro;
     double *ratio;
     double *h;
+
+    std::string nStr;
+    std::string roStr;
+    std::string ratioStr;
+    std::string hStr;
+
     Reader * reader;
 
     std::vector<Vert*> baseCircle;
@@ -33,6 +39,7 @@ public:
     int updateTunnel();
 
     bool setName(std::string n);
+    Session* currSession;
 } TunnelNew;
 
 ///Instance functions
