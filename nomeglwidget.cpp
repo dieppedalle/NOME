@@ -125,6 +125,8 @@ void SlideGLWidget::mergeAll()
 void SlideGLWidget::mergeCalled(bool)
 {
     viewer_mode = 1;
+    currSession->recompute = true;
+    //std::cout << "HELLO" << std::endl;
     //mergeAll();
     repaint();
 }
@@ -350,7 +352,6 @@ void SlideGLWidget::paintGL()
     glMultMatrixf(&object2world[0][0]);
 
     if (currSession->recompute == true){
-        currSession->recompute = false;
 
         for (Surface* s : currSession->surfaces){
             s->update();
@@ -445,29 +446,31 @@ void SlideGLWidget::paintGL()
         }
     }
 
-
+    //std::cout << currSession->recompute << std::endl;
     if (viewer_mode == 0){
         currSession->draw();
     } else if (viewer_mode == 1){
         if (currSession->subdivisions.size() != 0 && currSession->offsets.size() != 0){
             // Subdivision and offset.
-            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value);
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, currSession->offsets.front()->value, currSession->recompute);
             currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
         }
         else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() != 0){
             // No subdivision but there is offset.
-            currSession->drawSubdivide(0, 0, currSession->offsets.front()->value);
+            currSession->drawSubdivide(0, 0, currSession->offsets.front()->value, currSession->recompute);
         }
         else if (currSession->subdivisions.size() != 0 && currSession->offsets.size() == 0){
             // Suvidvision but no offset
-            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0);
+            currSession->drawSubdivide(currSession->subdivisions.front()->value, currSession->subdivisions.front()->previousSubdivisionLevel, 0, currSession->recompute);
             currSession->subdivisions.front()->previousSubdivisionLevel = currSession->subdivisions.front()->value;
         }
         else if (currSession->subdivisions.size() == 0 && currSession->offsets.size() == 0){
             // No subdivision and no offset
-            currSession->drawSubdivide(0, 0, 0);
+            currSession->drawSubdivide(0, 0, 0, currSession->recompute);
         }
     }
+
+    currSession->recompute = false;
 }
 
 

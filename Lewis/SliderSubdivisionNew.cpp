@@ -39,6 +39,7 @@ void SliderSubdivisionNew::sliderValueChanged(int value)
 {
     subdivision->value = value;
     label->setText((subdivision->name + ": ").c_str() + QString::number(value));
+    canvas->currSession->recompute = true;
     canvas -> updateGL();
 };
 

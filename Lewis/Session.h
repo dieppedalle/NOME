@@ -75,7 +75,7 @@ public:
     void saveFileToStr(std::string fileName);
     void deleteFace();
     void draw();
-    void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset);
+    void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool restart);
     void createFlattenMesh(bool instance);
 private:
     QPushButton * consolidateButton;

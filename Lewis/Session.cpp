@@ -359,21 +359,21 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
-void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset){
-    // UNCOMMENT THIS FOR REFRESH
-    /*if (previousSubdivisionLevel < subdivision){
-        for (int i = 0; i < subdivision-previousSubdivisionLevel; i++){
-            createFlattenMesh(false);
-            flattenMesh = flattenMesh->subdivideMesh();
+void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool restart){
+
+    if (!restart){
+        for (FaceNew* f : flattenMesh->inFaces){
+            drawFace(f, NULL);
         }
+        for (FaceNew* f : flattenMesh->outFaces){
+            drawFace(f, NULL);
+        }
+        for (FaceNew* f : flattenMesh->faces){
+            drawFace(f, NULL);
+        }
+        return;
     }
-    else if (previousSubdivisionLevel != subdivision || subdivision == 0){
-        createFlattenMesh(true);
-        for (int i = 0; i < subdivision; i++){
-            createFlattenMesh(false);
-            flattenMesh = flattenMesh->subdivideMesh();
-        }
-    }*/
+
     createFlattenMesh(true);
     for (int i = 0; i < subdivision; i++){
         createFlattenMesh(false);
@@ -384,22 +384,6 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
 
     flattenMesh->calculateNormal();
 
-    /*Vert*
-    for (FaceNew* currFace : flattenMesh->faces){
-        for (Vert* currVert : currFace->vertices)
-        std::cout << "Face" << std::endl;
-    }*/
-
-    // Iterate through faces and calculate 3 vertices of face normal of each vertex
-    // HERE WE NEED TO THE OFFSETTING
-    /*for (Vert* currVert : flattenMesh->verts){
-        std::cout << "VERTEX" << std::endl;
-        std::cout << currVert->name << std::endl;
-        for (FaceNew* currEdge : currVert->faces){
-            std::cout << "Face" << std::endl;
-        }
-    }*/
-    //std::cout << "TEST" << std::endl;
 
     flattenMesh->draw(offset);
 

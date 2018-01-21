@@ -218,11 +218,6 @@ double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
 
 bool MeshNew::draw(double offset)
 {
-
-    /*for (EdgeNew* edge : this->edges){
-        edge->isMobiusEdge();
-    }*/
-
     inFaces.clear();
     outFaces.clear();
 
@@ -248,7 +243,6 @@ bool MeshNew::draw(double offset)
 
         }
 
-
         if (offset != 0){
             FaceNew* newFace = createOffsetFace(listOutVert);
             outFaces.push_back(newFace);
@@ -257,10 +251,8 @@ bool MeshNew::draw(double offset)
             inFaces.push_back(newInFace);
 
             drawFace(newFace, NULL);
-
             drawFace(newInFace, NULL);
         }
-
 
         drawFace(f, NULL);
     }
@@ -293,7 +285,6 @@ bool MeshNew::draw(double offset)
         } else {
             listOutVert.push_back(e->v0->normalInVert);
         }
-
 
         listInVert.clear();
         listInVert.push_back(e->v0);
