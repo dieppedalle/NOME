@@ -94,10 +94,10 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
 
         if (selectedVertex != NULL){
-            std::cout << "GGGGG" << std::endl;
-            std::cout << selectedVertex->index << std::endl;
+            /*std::cout << "GGGGG" << std::endl;
+            std::cout << selectedVertex->index << std::endl;*/
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
-            std::cout << selectedVertex->faces.size() << std::endl;
+            //std::cout << selectedVertex->faces.size() << std::endl;
 
             selectedVertex -> selected = !selectedVertex -> selected;
 
@@ -216,7 +216,7 @@ void Session::addTmpFace(){
     }
     tmpMesh->setName("tmpMesh");
 
-    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false);
+    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true);
     tmpInstance->setName("tmpInstance");
     clearSelection();
     tmpFaceIndex += 1;
@@ -226,7 +226,7 @@ void Session::addTmpPolyline(){
     Reader* currReader = createReader(this);
     tmpPolyline = createPolylineNew(selectedVerts);
     tmpPolyline->setName("tmpPolyline");
-    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false);
+    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true);
     tmpInstance->setName("tmpInstance");
     clearSelection();
 }
@@ -266,7 +266,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
     if (tmpInstance != NULL){
         tmpInstance->setName(consolidateInstanceName);
 
-        InstanceNew* newInstance = createInstance(tmpMesh, this->verts, currReader, true);
+        InstanceNew* newInstance = createInstance(tmpMesh, this->verts, currReader, true, true);
         newInstance->setName(consolidateInstanceName);
         for (FaceNew * tmpFace: newInstance->faces){
             setSurface(tmpFace, NULL);
@@ -322,11 +322,15 @@ void Session::deleteFace(){
 }
 
 void Session::draw(){
+    std::cout << "DRAW" << std::endl;
     for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+        std::cout << "TRUE INSTANCE" << std::endl;
+        std::cout << (*itMesh)->name << std::endl;
         (*itMesh)->draw();
     }
 
     if (tmpInstance != NULL){
+        std::cout << "TMP INSTANCE" << std::endl;
         tmpInstance->draw();
     }
 }
@@ -385,7 +389,6 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
     }
 
     flattenMesh->calculateNormal();
-
 
     flattenMesh->draw(offset);
 

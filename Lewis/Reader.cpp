@@ -153,12 +153,12 @@ MeshNew* Reader::mesh(std::string name){
         if(!name.compare(m->getName()))
             return m;
     }
-    for(MeshNew* m : session->bsplines)
+    for(BSplineNew* m : session->bsplines)
     {
         if(!name.compare(m->getName()))
             return m;
     }
-    for(MeshNew* m : session->bezierCurves)
+    for(BezierCurveNew* m : session->bezierCurves)
     {
         if(!name.compare(m->getName()))
             return m;

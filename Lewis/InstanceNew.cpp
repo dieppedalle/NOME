@@ -40,7 +40,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
 
        if (currentMesh != NULL){
            InstanceNew* newInstance;
-           newInstance = createInstance(currentMesh, vertsDef, currReader, true);
+           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false);
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
@@ -51,7 +51,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
    return i0;
 }
 
-InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect)
+InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
@@ -59,7 +59,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
-       if (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)){
+       if ((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            setSurface(newVertex, m0->surface);
@@ -188,6 +188,9 @@ bool InstanceNew::draw()
       drawEdge(e, surface);
     }
     for(auto f : faces) {
+      /*for(auto v : f->verts) {
+          std::cout << v->name << std::endl;
+      }*/
       drawFace(f, surface);
     }
 
@@ -224,7 +227,6 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
         if (!contains){
             flattenedMesh->edges.push_back(e);
         }
-        //flattenedMesh->edges.push_back(e);
     }
     for(FaceNew* f : faces) {
         bool contains = false;
@@ -237,7 +239,6 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
         if (!contains){
             flattenedMesh->faces.push_back(f);
         }
-      //flattenedMesh->faces.push_back(f);
     }
 
     for (InstanceNew* i : listInstances) {
@@ -336,7 +337,7 @@ Node* InstanceNew::face(int i)
 void InstanceNew::updateVerts(){
     if (mesh != NULL){
         for (Vert* v0 : verts){
-            double *x = (double*) malloc(sizeof(double));
+            /*double *x = (double*) malloc(sizeof(double));
             double *y = (double*) malloc(sizeof(double));
             double *z = (double*) malloc(sizeof(double));
 
@@ -346,13 +347,18 @@ void InstanceNew::updateVerts(){
 
             v0->xTransformed = x;
             v0->yTransformed = y;
-            v0->zTransformed = z;
+            v0->zTransformed = z;*/
+
+            *(v0->xTransformed) = *(v0->x);
+            *(v0->yTransformed) = *(v0->y);
+            *(v0->zTransformed) = *(v0->z);
+
         }
     }
     else if (group != NULL){
         for (InstanceNew* i0 : listInstances){
             for (Vert* v0 : i0->verts){
-                double *x = (double*) malloc(sizeof(double));
+                /*double *x = (double*) malloc(sizeof(double));
                 double *y = (double*) malloc(sizeof(double));
                 double *z = (double*) malloc(sizeof(double));
 
@@ -362,7 +368,11 @@ void InstanceNew::updateVerts(){
 
                 v0->xTransformed = x;
                 v0->yTransformed = y;
-                v0->zTransformed = z;
+                v0->zTransformed = z;*/
+
+                *(v0->xTransformed) = *(v0->x);
+                *(v0->yTransformed) = *(v0->y);
+                *(v0->zTransformed) = *(v0->z);
             }
         }
     }
@@ -413,15 +423,20 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 *x = ax;
                 *y = ay;
                 *z = az;
-                v0->xTransformed = x;
+
+                /*v0->xTransformed = x;
                 v0->yTransformed = y;
-                v0->zTransformed = z;
+                v0->zTransformed = z;*/
+                *v0->xTransformed = *x;
+                *v0->yTransformed = *y;
+                *v0->zTransformed = *z;
+
             }
         }
         else if (dynamic_cast<Scale*>(t)){
             Scale* scale = dynamic_cast<Scale*>(t);
             for (Vert* v0 : verts){
-                double *x = (double*) malloc(sizeof(double));
+                /*double *x = (double*) malloc(sizeof(double));
                 double *y = (double*) malloc(sizeof(double));
                 double *z = (double*) malloc(sizeof(double));
 
@@ -430,14 +445,18 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 *z = *v0->zTransformed * *scale->z;
                 v0->xTransformed = x;
                 v0->yTransformed = y;
-                v0->zTransformed = z;
+                v0->zTransformed = z;*/
+
+                *v0->xTransformed = *v0->xTransformed * *scale->x;
+                *v0->yTransformed = *v0->yTransformed * *scale->y;
+                *v0->zTransformed = *v0->zTransformed * *scale->z;
             }
         }
         else if (dynamic_cast<Translate*>(t)){
 
             Translate* translate = dynamic_cast<Translate*>(t);
             for (Vert* v0 : verts){
-                double *x = (double*) malloc(sizeof(double));
+                /*double *x = (double*) malloc(sizeof(double));
                 double *y = (double*) malloc(sizeof(double));
                 double *z = (double*) malloc(sizeof(double));
 
@@ -446,7 +465,11 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 *z = *v0->zTransformed + *translate->z;
                 v0->xTransformed = x;
                 v0->yTransformed = y;
-                v0->zTransformed = z;
+                v0->zTransformed = z;*/
+
+                *v0->xTransformed = *v0->xTransformed + *translate->x;
+                *v0->yTransformed = *v0->yTransformed + *translate->y;
+                *v0->zTransformed = *v0->zTransformed + *translate->z;
 
             }
         }

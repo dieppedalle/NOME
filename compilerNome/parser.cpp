@@ -1830,7 +1830,7 @@ yyreduce:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false);
             newInstance->setName(strdup((yyvsp[-4].string)));
         }
         else{
@@ -2369,7 +2369,7 @@ yyreduce:
 
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false);
         }
         else{
             GroupNew * currentGroup2 = currReader->getGroup((yyvsp[-3].string));

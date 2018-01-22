@@ -258,56 +258,57 @@ bool MeshNew::draw(double offset)
     }
 
     for(EdgeNew* e : edges) {
-        int numberMobiusVert = 0;
-        if (e->f0 != NULL){
-            if (dotProductNormal(e->f0->getNormal(), e->v0->normal) < 0){
-                numberMobiusVert++;
+        if (e->f0 != NULL && e->f1 != NULL){
+            int numberMobiusVert = 0;
+            if (e->f0 != NULL){
+                if (dotProductNormal(e->f0->getNormal(), e->v0->normal) < 0){
+                    numberMobiusVert++;
+                }
+                if (dotProductNormal(e->f0->getNormal(), e->v1->normal) < 0){
+                    numberMobiusVert++;
+                }
             }
-            if (dotProductNormal(e->f0->getNormal(), e->v1->normal) < 0){
-                numberMobiusVert++;
+            if (e->f1 != NULL){
+                if (dotProductNormal(e->f1->getNormal(), e->v0->normal) < 0){
+                    numberMobiusVert++;
+                }
+                if (dotProductNormal(e->f1->getNormal(), e->v1->normal) < 0){
+                    numberMobiusVert++;
+                }
             }
-        }
-        if (e->f1 != NULL){
-            if (dotProductNormal(e->f1->getNormal(), e->v0->normal) < 0){
-                numberMobiusVert++;
+
+            listOutVert.clear();
+            listOutVert.push_back(e->v0);
+            listOutVert.push_back(e->v1);
+            listOutVert.push_back(e->v1->normalOutVert);
+            if (numberMobiusVert != 1){
+                listOutVert.push_back(e->v0->normalOutVert);
+            } else {
+                listOutVert.push_back(e->v0->normalInVert);
             }
-            if (dotProductNormal(e->f1->getNormal(), e->v1->normal) < 0){
-                numberMobiusVert++;
+
+            listInVert.clear();
+            listInVert.push_back(e->v0);
+            listInVert.push_back(e->v1);
+            listInVert.push_back(e->v1->normalInVert);
+            if (numberMobiusVert != 1){
+                listInVert.push_back(e->v0->normalInVert);
             }
-        }
+            else{
+                listInVert.push_back(e->v0->normalOutVert);
+            }
 
-        listOutVert.clear();
-        listOutVert.push_back(e->v0);
-        listOutVert.push_back(e->v1);
-        listOutVert.push_back(e->v1->normalOutVert);
-        if (numberMobiusVert != 1){
-            listOutVert.push_back(e->v0->normalOutVert);
-        } else {
-            listOutVert.push_back(e->v0->normalInVert);
-        }
+            if (offset != 0){
+                FaceNew* newFace = createOffsetFace(listOutVert);
+                FaceNew* newInFace = createOffsetFace(listInVert);
+                inFaces.push_back(newInFace);
+                outFaces.push_back(newFace);
 
-        listInVert.clear();
-        listInVert.push_back(e->v0);
-        listInVert.push_back(e->v1);
-        listInVert.push_back(e->v1->normalInVert);
-        if (numberMobiusVert != 1){
-            listInVert.push_back(e->v0->normalInVert);
-        }
-        else{
-            listInVert.push_back(e->v0->normalOutVert);
-        }
-
-        if (offset != 0){
-            FaceNew* newFace = createOffsetFace(listOutVert);
-            FaceNew* newInFace = createOffsetFace(listInVert);
-            inFaces.push_back(newInFace);
-            outFaces.push_back(newFace);
-
-            drawFace(newFace, NULL);
-            drawFace(newInFace, NULL);
+                drawFace(newFace, NULL);
+                drawFace(newInFace, NULL);
+            }
         }
     }
-
     return true;
 }
 

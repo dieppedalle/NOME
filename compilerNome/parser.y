@@ -275,7 +275,7 @@ instanceGroup:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false);
             newInstance->setName(strdup($<string>2));
         }
         else{
@@ -808,7 +808,7 @@ instance:
 
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false);
         }
         else{
             GroupNew * currentGroup2 = currReader->getGroup($<string>3);

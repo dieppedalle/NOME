@@ -569,6 +569,8 @@ bool deleteFace(FaceNew* face)
 }
 
 bool drawVert(Vert* v0, Surface * instSurface){
+    std::cout << v0->index << std::endl;
+
     QColor color;
     if (instSurface != NULL){
         color = instSurface->color;

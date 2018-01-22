@@ -241,7 +241,7 @@ start:
 
             currMesh->setName("mainMesh");
 
-            InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true);
+            InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false);
 
             newInstance->setName("mainMesh");
             currSession->instances.push_back(newInstance);
