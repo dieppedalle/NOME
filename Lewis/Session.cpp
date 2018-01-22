@@ -110,7 +110,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
 
     }
-    std::cout << "DONE" << std::endl;
+    std::cout << "CLICKED ON SCREEN!" << std::endl;
 }
 
 void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){

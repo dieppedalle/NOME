@@ -41,6 +41,8 @@ void SliderNew::sliderValueChanged(int value)
     label->setText((set->name + ": ").c_str() + QString::number(value * (set -> stepSize) + set -> start));
 
     canvas->currSession->recalculateSlider = true;
+    canvas->currSession->recalculateSubdivision = true;
+    canvas->currSession->recalculateOffset = true;
 
     //std::cout << "HI" << std::endl;
     canvas -> updateGL();

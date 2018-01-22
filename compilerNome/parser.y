@@ -510,6 +510,7 @@ circle:
         double *currentValSet = (double*) malloc(sizeof(double));
         parseGetBankVal($<string>4, currSession, currentValSet);
         *num = *currentValSet;
+
         parseGetBankVal($<string>5, currSession, currentValSet);
         *rad = *currentValSet;
 
@@ -518,6 +519,7 @@ circle:
         currCircle->numStr = strdup($<string>4);
         currCircle->radStr = strdup($<string>5);
         currCircle->currSession = currSession;
+        currCircle->createVertEdgeCircle();
 
         currSession->circles.push_back(currCircle);
     };

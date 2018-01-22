@@ -19,13 +19,18 @@ CircleNew* createCircle(double *num, double *rad)
     CircleNew* c0 = new CircleNew();
     //This behaviour depends on the parser
     c0->setName(std::to_string(cIndex));
-    c0->num = num;
-    c0->rad = rad;
+    double *numPtr = (double*) malloc(sizeof(double));
+    c0->num = numPtr;
+    double *radPtr = (double*) malloc(sizeof(double));
+    c0->rad = radPtr;
+
+    *c0->num = *num;
+    *c0->rad = *rad;
 
     cIndex++;
 
-    c0->createVertEdgeCircle();
-    c0-> updateCircle();
+    /*c0->createVertEdgeCircle();
+    c0-> updateCircle();*/
     return c0;
 }
 
@@ -105,6 +110,4 @@ void CircleNew::createVertEdgeCircle(){
         it++;
         edges.push_back(currentEdge);
     }
-
-
 }

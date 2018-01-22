@@ -263,8 +263,8 @@ Vert* Reader::getVert(std::string name)
             return v0;
     }
 
-    for (InstanceNew* i0 : session->instances){
 
+    for (InstanceNew* i0 : session->instances){
         string currentName = i0->getFullName().substr(i0->getFullName().find(":") + 1);
         string argName = name.substr(0, name.find("."));
         string argAfterName = name.substr(name.find(".") + 1);
@@ -281,6 +281,7 @@ Vert* Reader::getVert(std::string name)
                     }
                 }
             }
+
             for (Vert* v0 : i0->verts){
                 if (v0->name.compare(faceName) == 0){
                     return v0;
