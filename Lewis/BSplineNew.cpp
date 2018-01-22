@@ -117,6 +117,8 @@ void BSplineNew::calculate (int order, bool createNewVertices)
     if (order >= 2)
     {
 
+
+
         //clear all vertices just in case
         //verts.clear();
 

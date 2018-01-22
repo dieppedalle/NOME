@@ -709,10 +709,10 @@ bspline:
     currBSpline->set_order($<intNumber>1);
     double *currentValSet = (double*) malloc(sizeof(double));
     parseGetBankVal($<string>6, currSession, currentValSet);
-    currBSpline->segments = *currentValSet;
+    currBSpline->segments = -1;
     currBSpline->currSession = currSession;
 
-    currBSpline->segmentsStr = $<string>6;
+    currBSpline->segmentsStr = strdup($<string>6);
 
 
     // Create list of vertices of face.
@@ -739,7 +739,6 @@ bspline:
       YYABORT;
     }
 
-
     currBSpline->updateBSpline();
 
     string surfaceName = $<string>7;
@@ -754,6 +753,8 @@ bspline:
             YYABORT;
         }
     }
+
+    std::cout << "BBB" << std::endl;
 
     currSession->bsplines.push_back(currBSpline);
 
