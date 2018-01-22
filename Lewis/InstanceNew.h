@@ -48,6 +48,8 @@ public:
     Node* vert(int);
     Node* edge(int);
     Node* face(int);
+
+    void update();
 };
 
 bool setSurface(InstanceNew* i0, Surface* surface);

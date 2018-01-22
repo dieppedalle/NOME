@@ -354,12 +354,7 @@ void SlideGLWidget::paintGL()
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
     glMultMatrixf(&object2world[0][0]);
 
-
     if (currSession->recalculateSlider == true){
-        for (InstanceNew * newInstance: currSession->instances){
-            newInstance->updateVerts();
-        }
-
         for (Surface* s : currSession->surfaces){
             s->update();
         }
@@ -372,12 +367,17 @@ void SlideGLWidget::paintGL()
             bs->updateBSpline();
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == bs){
-                    Reader* currReader = createReader(currSession);
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
+                    if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
+                        Reader* currReader = createReader(currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
 
-                    newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                    newInstance->transformations = (*iterator)->transformations;
-                    (*iterator) = newInstance;
+                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->transformations = (*iterator)->transformations;
+                        (*iterator) = newInstance;
+                    }
+                    else{
+                        (*iterator)->update();
+                    }
                 }
             }
         }
@@ -386,12 +386,16 @@ void SlideGLWidget::paintGL()
             bc->updateBezierCurve();
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == bc){
-                    Reader* currReader = createReader(currSession);
-                    InstanceNew * newInstance = createInstance((*iterator)->mesh, (*iterator)->verts, currReader, true, false);
-
-                    newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                    newInstance->transformations = (*iterator)->transformations;
-                    (*iterator) = newInstance;
+                    if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
+                        Reader* currReader = createReader(currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
+                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->transformations = (*iterator)->transformations;
+                        (*iterator) = newInstance;
+                    }
+                    else{
+                        (*iterator)->update();
+                    }
                 }
             }
         }
@@ -400,12 +404,17 @@ void SlideGLWidget::paintGL()
             if (c->updateCircle() == 1){
                 for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                     if ((*iterator)->mesh == c){
-                        Reader* currReader = createReader(currSession);
-                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
+                        if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
+                            Reader* currReader = createReader(currSession);
+                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
 
-                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                        newInstance->transformations = (*iterator)->transformations;
-                        (*iterator) = newInstance;
+                            newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                            newInstance->transformations = (*iterator)->transformations;
+                            (*iterator) = newInstance;
+                        }
+                        else{
+                            (*iterator)->update();
+                        }
                     }
                 }
             }
@@ -415,12 +424,17 @@ void SlideGLWidget::paintGL()
             if (f->updateFunnel() == 1){
                 for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                     if ((*iterator)->mesh == f){
-                        Reader* currReader = createReader(currSession);
-                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
+                        if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
+                            Reader* currReader = createReader(currSession);
+                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
 
-                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                        newInstance->transformations = (*iterator)->transformations;
-                        (*iterator) = newInstance;
+                            newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                            newInstance->transformations = (*iterator)->transformations;
+                            (*iterator) = newInstance;
+                        }
+                        else{
+                            (*iterator)->update();
+                        }
                     }
                 }
             }
@@ -429,20 +443,25 @@ void SlideGLWidget::paintGL()
             if (t->updateTunnel() == 1){
                 for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                     if ((*iterator)->mesh == t){
-                        Reader* currReader = createReader(currSession);
-                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
+                        if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
+                            Reader* currReader = createReader(currSession);
+                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false);
 
-                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
-                        newInstance->transformations = (*iterator)->transformations;
-                        (*iterator) = newInstance;
+                            newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                            newInstance->transformations = (*iterator)->transformations;
+                            (*iterator) = newInstance;
+                        }
+                        else{
+                            (*iterator)->update();
+                        }
                     }
                 }
             }
         }
 
-        /*for (InstanceNew * newInstance: currSession->instances){
+        for (InstanceNew * newInstance: currSession->instances){
             newInstance->updateVerts();
-        }*/
+        }
 
         for (InstanceNew * newInstance: currSession->instances){
             newInstance->applyTransformationGroup();

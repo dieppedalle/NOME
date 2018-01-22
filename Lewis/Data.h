@@ -136,6 +136,7 @@ Vert* createVert(Vert*);
 Vert* createVert(double *x, double *y, double *z);
 Vert* createVert(double *x, double *y, double *z, double w);
 
+
 ///Edge Instantiation
 EdgeNew* createEdge(EdgeNew*);
 EdgeNew* createEdge(Vert* v0, Vert* v1, bool connect);

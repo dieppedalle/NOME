@@ -554,3 +554,22 @@ void InstanceNew::undoTransformation(TransformationNew* t){
 
     }
 }
+
+void InstanceNew::update(){
+    Vert* lastVertSeen = NULL;
+    for (Vert* vI : verts){
+        for (Vert* vM : this->mesh->verts){
+            if (vI->name == vM->name){
+                lastVertSeen = vM;
+                break;
+            }
+        }
+        if (lastVertSeen != NULL){
+            vI->x = lastVertSeen->x;
+            vI->y = lastVertSeen->y;
+            vI->z = lastVertSeen->z;
+            lastVertSeen = NULL;
+        }
+    }
+
+}
