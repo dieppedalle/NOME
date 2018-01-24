@@ -972,6 +972,8 @@ void SlideGLWidget::clearSelection()
 void SlideGLWidget::clearSelectionCalled(bool)
 {
     currSession->clearSelection();
+    currSession->tmpMesh = NULL;
+    currSession->tmpInstance = NULL;
     repaint();
 }
 

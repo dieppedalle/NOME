@@ -107,27 +107,30 @@ void BSplineNew::calculate (int order, bool createNewVertices)
 
 
     if (isLoop == true){
-        for (int i = 0; i < order; i++){
+        for (int i = 0; i < order-1; i++){
             proxyLoop.push_back(proxy.at(i));
         }
-        segmentLoop -= 1;
+        //segmentLoop -= 1;
     }
 
     //calculate bspline for general order bspline, order>=2 is enforced
     if (order >= 2)
     {
-
-
-
         //clear all vertices just in case
         //verts.clear();
 
 
-        float lim = degree + proxy.size() - 2;
+        float lim = degree + proxyLoop.size() - 2;
 
-        float add = ((float) (proxy.size() - degree))/(segmentLoop);
+        float add = ((float) (proxyLoop.size() - degree))/(segmentLoop);
 
-        int realLimit = segmentLoop;
+
+        int realLimit;
+        if (isLoop == true){
+            realLimit = segmentLoop-1;
+        } else{
+            realLimit = segmentLoop;
+        }
 
         float upper;
 

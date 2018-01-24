@@ -258,7 +258,7 @@ bool MeshNew::draw(double offset)
     }
 
     for(EdgeNew* e : edges) {
-        if (e->f0 != NULL && e->f1 != NULL){
+        //if (e->f0 != NULL && e->f1 != NULL){
             int numberMobiusVert = 0;
             if (e->f0 != NULL){
                 if (dotProductNormal(e->f0->getNormal(), e->v0->normal) < 0){
@@ -307,7 +307,7 @@ bool MeshNew::draw(double offset)
                 drawFace(newFace, NULL);
                 drawFace(newInFace, NULL);
             }
-        }
+        //}
     }
     return true;
 }

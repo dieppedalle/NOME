@@ -47,7 +47,16 @@ INPUT(
 ./release\SliderSubdivisionNew.o
 ./release\OffsetNew.o
 ./release\SliderOffsetNew.o
-./release\nomeFlexBison.o
+./release\parser.o
+./release\lexer.o
+./release\parserStl.o
+./release\lexerStl.o
+./release\BSplineNew.o
+./release\BezierCurveNew.o
+./release\parserObj.o
+./release\lexerObj.o
+./release\parserBank.o
+./release\lexerBank.o
 ./release\moc_controlpanel.o
 ./release\moc_mainwindow.o
 ./release\moc_sliderpanel.o

@@ -298,6 +298,7 @@ void Session::clearSelection(){
 
     selectedFaces.clear();
     selectedVerts.clear();
+
 }
 
 void Session::saveFileToStr(string fileName){
@@ -365,7 +366,7 @@ void Session::createFlattenMesh(bool instance){
 
 void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
 
-    if (!calculateOffset && !calculateSubdivide){
+    /*if (!calculateOffset && !calculateSubdivide){
         for (FaceNew* f : flattenMesh->inFaces){
             drawFace(f, NULL);
         }
@@ -376,7 +377,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
             drawFace(f, NULL);
         }
         return;
-    }
+    }*/
 
     if (calculateSubdivide){
         createFlattenMesh(true);
