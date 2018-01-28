@@ -276,6 +276,7 @@ instanceGroup:
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false);
+            newInstance->currSession = currSession;
             newInstance->setName(strdup($<string>2));
         }
         else{
@@ -812,11 +813,13 @@ instance:
         InstanceNew* newInstance = NULL;
         if (currentMesh != NULL) {
             newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false);
+            newInstance->currSession = currSession;
         }
         else{
             GroupNew * currentGroup2 = currReader->getGroup($<string>3);
             if (currentGroup2 != NULL) {
                 newInstance = createInstance(currentGroup2, currSession->verts, currReader);
+                newInstance->currSession = currSession;
             }
             else{
                 nomerror(currSession, "Incorrect vertex, face, or mesh name");

@@ -363,6 +363,10 @@ void SlideGLWidget::paintGL()
             p->update();
         }
 
+        for (InstanceNew* i : currSession->instances){
+            i->updateTransformations();
+        }
+
         for (BSplineNew* bs : currSession->bsplines){
             bs->updateBSpline();
             for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
@@ -458,6 +462,25 @@ void SlideGLWidget::paintGL()
                 }
             }
         }
+
+        /*for(PolylineNew* p : currSession->polylines){
+            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+                if ((*iterator)->mesh == p){
+                    auto pIt = p->verts.begin();
+                    auto iIt = (*iterator)->verts.begin();
+
+                    for (int i = 0; i < p->verts.size() ; i++){
+                        std::cout << *(*iIt)->xTransformed << std::endl;
+                        (*iIt)->xTransformed = (*pIt)->xTransformed;
+                        (*iIt)->yTransformed = (*pIt)->yTransformed;
+                        (*iIt)->zTransformed = (*pIt)->zTransformed;
+
+                        std::advance(pIt, 1);
+                        std::advance(iIt, 1);
+                    }
+                }
+            }
+        }*/
 
         for (InstanceNew * newInstance: currSession->instances){
             newInstance->updateVerts();

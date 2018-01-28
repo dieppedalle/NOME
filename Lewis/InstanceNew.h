@@ -21,6 +21,7 @@ class InstanceNew : public Node
 {
 public:
     MeshNew* mesh = NULL;
+    Session* currSession;
 
     // This is used only if the instance is an instance of a group.
     GroupNew* group = NULL;
@@ -50,6 +51,7 @@ public:
     Node* face(int);
 
     void update();
+    void updateTransformations();
 };
 
 bool setSurface(InstanceNew* i0, Surface* surface);
