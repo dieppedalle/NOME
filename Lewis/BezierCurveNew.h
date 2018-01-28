@@ -15,6 +15,7 @@ typedef class BezierCurveNew : public MeshNew
 {
 public:
     std::vector<Vert*> proxy;
+    std::vector<std::string> proxyStr;
     double* segments;
     //double prevSegment;
     Session* currSession;

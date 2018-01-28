@@ -59,15 +59,15 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
-       if ((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false){
+       //if ((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
-       }
-       else{
-           i0->verts.push_back(v0);
-       }
+       //}
+       //else{
+       //    i0->verts.push_back(v0);
+       //}
    }
 
    // Copy all the edges from the mesh to the instance.
@@ -180,7 +180,22 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
-    //std::cout << this->name << std::endl;
+    Reader* currReader = createReader(currSession);
+    MeshNew * currentMesh = currReader->getMesh(meshStr);
+
+    for(FaceNew* face : currentMesh->faces) {
+        for(std::string vert : face->vertsStr) {
+            drawVert(currReader->getVert(vert), surface);
+
+            //std::cout << currReader->getVert(vert)->name << std::endl;
+        }
+        drawFace(face, surface);
+    }
+
+    /*for(std::string vStr : currentMesh->verts) {
+        std::cout << vStr << std::endl;
+    }*/
+    /*
     for(auto v : verts) {
       drawVert(v, surface);
     }
@@ -188,15 +203,12 @@ bool InstanceNew::draw()
       drawEdge(e, surface);
     }
     for(auto f : faces) {
-      /*for(auto v : f->verts) {
-          std::cout << v->name << std::endl;
-      }*/
       drawFace(f, surface);
     }
 
     for (auto i : listInstances) {
         i->draw();
-    }
+    }*/
 
     return true;
 }

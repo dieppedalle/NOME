@@ -257,12 +257,12 @@ InstanceNew* Reader::getInstance(std::string name)
 
 Vert* Reader::getVert(std::string name)
 {
+
     // Check for definitions first
     for (Vert* v0 : session->verts){
         if(v0->name.compare(name) == 0)
             return v0;
     }
-
 
     for (InstanceNew* i0 : session->instances){
         string currentName = i0->getFullName().substr(i0->getFullName().find(":") + 1);

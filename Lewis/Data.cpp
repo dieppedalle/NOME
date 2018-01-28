@@ -128,7 +128,12 @@ Vert* createVert(Vert* toBeCopied){
     y = toBeCopied->y;
     z = toBeCopied->z;
 
-    return createVert(x, y, z, 1.0);
+    Vert* copiedVert = createVert(x, y, z, 1.0);
+    copiedVert->xTransformed = toBeCopied->xTransformed;
+    copiedVert->yTransformed = toBeCopied->yTransformed;
+    copiedVert->zTransformed = toBeCopied->zTransformed;
+
+    return copiedVert;
 }
 
 

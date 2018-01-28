@@ -365,7 +365,7 @@ void SlideGLWidget::paintGL()
 
         for (BSplineNew* bs : currSession->bsplines){
             bs->updateBSpline();
-            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+            /*for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == bs){
                     if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                         Reader* currReader = createReader(currSession);
@@ -379,12 +379,12 @@ void SlideGLWidget::paintGL()
                         (*iterator)->update();
                     }
                 }
-            }
+            }*/
         }
 
         for (BezierCurveNew* bc : currSession->bezierCurves){
             bc->updateBezierCurve();
-            for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
+            /*for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                 if ((*iterator)->mesh == bc){
                     if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                         Reader* currReader = createReader(currSession);
@@ -397,11 +397,12 @@ void SlideGLWidget::paintGL()
                         (*iterator)->update();
                     }
                 }
-            }
+            }*/
         }
 
         for(CircleNew* c : currSession->circles){
-            if (c->updateCircle() == 1){
+            c->updateCircle();
+            /*if (c->updateCircle() == 1){
                 for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                     if ((*iterator)->mesh == c){
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
@@ -417,11 +418,12 @@ void SlideGLWidget::paintGL()
                         }
                     }
                 }
-            }
+            }*/
         }
 
         for(FunnelNew* f : currSession->funnels){
-            if (f->updateFunnel() == 1){
+            f->updateFunnel();
+            /*if (f->updateFunnel() == 1){
                 for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                     if ((*iterator)->mesh == f){
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
@@ -437,10 +439,11 @@ void SlideGLWidget::paintGL()
                         }
                     }
                 }
-            }
+            }*/
         }
         for(TunnelNew* t : currSession->tunnels){
-            if (t->updateTunnel() == 1){
+            t->updateTunnel();
+            /*if (t->updateTunnel() == 1){
                 for (std::list<InstanceNew*>::iterator iterator = currSession->instances.begin(), end = currSession->instances.end(); iterator != end; ++iterator) {
                     if ((*iterator)->mesh == t){
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
@@ -456,19 +459,19 @@ void SlideGLWidget::paintGL()
                         }
                     }
                 }
-            }
+            }*/
         }
 
-        for (InstanceNew * newInstance: currSession->instances){
+        /*for (InstanceNew * newInstance: currSession->instances){
             newInstance->updateVerts();
-        }
+        }*/
 
-        for (InstanceNew * newInstance: currSession->instances){
+        /*for (InstanceNew * newInstance: currSession->instances){
             newInstance->applyTransformationGroup();
             for (TransformationNew * t : newInstance->transformations){
                 newInstance->applyTransformation(t);
             }
-        }
+        }*/
     }
 
 

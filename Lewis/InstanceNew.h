@@ -24,7 +24,14 @@ public:
 
     // This is used only if the instance is an instance of a group.
     GroupNew* group = NULL;
+    std::string meshStr;
+    Session* currSession;
+
     std::list<InstanceNew*> listInstances;
+
+    std::list<std::string> vertsString;
+    std::list<std::string> edgesString;
+    std::list<std::string> facesString;
 
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;

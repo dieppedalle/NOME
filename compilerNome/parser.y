@@ -48,6 +48,8 @@ std::list<Vert *> currentMeshVertices2;
 std::list<EdgeNew *> currentMeshEdges2;
 std::list<TransformationNew *> currentTransformations2;
 
+std::list<std::string> currentFacesString;
+
 %}
 
 %parse-param { Session* currSession }
@@ -357,7 +359,6 @@ offset:
 mesh:
 	MESH VARIABLE faceArgs END_MESH
     {
-
         MeshNew* currMesh = createMesh();
 
         for (std::list<FaceNew*>::iterator it=currentMeshFaces2.begin(); it != currentMeshFaces2.end(); ++it){
@@ -374,7 +375,9 @@ mesh:
 
         currMesh->setName(strdup($<string>2));
         currSession->meshes.push_back(currMesh);
+        currMesh->facesStr = currentFacesString;
 
+        currentFacesString.clear();
         currentMeshFaces2.clear();
         currentMeshEdges2.clear();
         currentMeshVertices2.clear();
@@ -444,8 +447,10 @@ faceMesh:
         Reader* currReader = createReader(currSession);
 
         std::list<Vert*> verticesFace;
+        std::list<std::string> vertsString;
 
         for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+            vertsString.push_back(strdup(((*it).c_str())));
             Vert * currentVertex = currReader->getVert(*it);
 
             if (currentVertex != NULL) {
@@ -468,7 +473,9 @@ faceMesh:
         }
 
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges2, currReader, false);
+        newFace->vertsStr = vertsString;
         setName(newFace, strdup($<string>2));
+        currentFacesString.push_back(strdup($<string>2));
 
         string surfaceName = $<string>4;
         // Check if a surface has been applied.
@@ -605,7 +612,10 @@ face:
         Reader* currReader = createReader(currSession);
 
         std::list<Vert*> verticesFace;
+        std::list<std::string> vertsString;
+
         for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+            vertsString.push_back(strdup(((*it).c_str())));
             Vert * currentVertex = currReader->vert(*it);
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
@@ -617,7 +627,7 @@ face:
         }
 
         FaceNew * newFace = createFace(verticesFace, &(currSession->edges), currReader, false);
-
+        newFace->vertsStr = vertsString;
         setName(newFace, strdup($<string>2));
 
 
@@ -663,8 +673,10 @@ beziercurve:
     currBezierCurve->segmentsStr = strdup($<string>5);
     currBezierCurve->currSession = currSession;
 
+    std::vector<std::string> proxyString;
     // Create list of vertices of face.
     for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+        proxyString.push_back(strdup(((*it).c_str())));
         Vert * currentVertex = currReader->getVert(*it);
         if (currentVertex != NULL) {
             currBezierCurve->proxy.push_back(currentVertex);
@@ -674,6 +686,7 @@ beziercurve:
             YYABORT;
         }
     }
+    currBezierCurve->proxyStr = proxyString;
 
     currBezierCurve->updateBezierCurve();
 
@@ -714,9 +727,10 @@ bspline:
 
     currBSpline->segmentsStr = strdup($<string>6);
 
-
+    std::vector<std::string> proxyString;
     // Create list of vertices of face.
     for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+        proxyString.push_back(strdup(((*it).c_str())));
         Vert * currentVertex = currReader->getVert(*it);
         if (currentVertex != NULL) {
             currBSpline->proxy.push_back(currentVertex);
@@ -726,7 +740,7 @@ bspline:
             YYABORT;
         }
     }
-
+    currBSpline->proxyStr = proxyString;
     currBSpline->isLoop = $<boolean>4;
 
     if (currBSpline->order > currBSpline->proxy.size()){
@@ -823,9 +837,10 @@ instance:
                 YYABORT;
             }
         }
-
+        newInstance->meshStr = strdup($<string>3);
         newInstance->setName(strdup($<string>2));
         newInstance->transformations = currentTransformations2;
+        newInstance->currSession = currSession;
         currentTransformations2.clear();
 
         for (TransformationNew * t : newInstance->transformations){

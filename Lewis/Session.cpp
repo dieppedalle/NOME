@@ -325,6 +325,10 @@ void Session::deleteFace(){
 void Session::draw(){
     //std::cout << "DRAW" << std::endl;
     for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
+        (*itMesh)->draw();
+    }
+
+    /*for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
         //std::cout << "TRUE INSTANCE" << std::endl;
         //std::cout << (*itMesh)->name << std::endl;
         (*itMesh)->draw();
@@ -333,7 +337,7 @@ void Session::draw(){
     if (tmpInstance != NULL){
         //std::cout << "TMP INSTANCE" << std::endl;
         tmpInstance->draw();
-    }
+    }*/
 }
 
 void Session::createFlattenMesh(bool instance){

@@ -115,6 +115,7 @@ typedef class FaceNew : public Node
 public:
     std::list<EdgeNew*> edges;
     std::list<Vert*> verts;
+    std::list<std::string> vertsStr;
     FaceI index;
     Surface* surface;
     bool selected;
