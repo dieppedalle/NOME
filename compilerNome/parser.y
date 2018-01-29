@@ -94,8 +94,8 @@ MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION;
 %%
 
 commands: /* empty */
-	| commands command
-	;
+        | commands command
+        ;
 
 
 command:
@@ -143,21 +143,21 @@ variables:
     variables VARIABLE {
         tempVariables2.push_back($<string>2);
     }
-	;
+        ;
 
 surfaceArgs:
     {$<string>$ = "";}
     | SURFACE VARIABLE {
         $<string>$ = $<string>2;
     }
-	;
+        ;
 
 closedArgs:
     {$<boolean>$ = false;}
     | CLOSED {
         $<boolean>$ = true;
     }
-	;
+        ;
 
 transformArgs:
     | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs
@@ -258,11 +258,11 @@ mirrorArgs:
 
 faceArgs:
     | faceArgs faceMesh
-	;
+        ;
 
 instanceArgs:
     | instanceArgs instanceGroup
-	;
+        ;
 
 instanceGroup:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
@@ -275,7 +275,7 @@ instanceGroup:
 
         InstanceNew* newInstance;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false, false, currSession);
             newInstance->currSession = currSession;
             newInstance->setName(strdup($<string>2));
         }
@@ -309,8 +309,8 @@ instanceGroup:
     ;
 
 faceDeleteArgs:
-	| faceDeleteArgs faceDelete
-	;
+        | faceDeleteArgs faceDelete
+        ;
 
 instanceOffseSubdivide:
     INSTANCE VARIABLE
@@ -356,7 +356,7 @@ offset:
     };
 
 mesh:
-	MESH VARIABLE faceArgs END_MESH
+        MESH VARIABLE faceArgs END_MESH
     {
 
         MeshNew* currMesh = createMesh();
@@ -379,18 +379,18 @@ mesh:
         currentMeshFaces2.clear();
         currentMeshEdges2.clear();
         currentMeshVertices2.clear();
-	}
-	;
+        }
+        ;
 
 group:
-	GROUP VARIABLE instanceArgs END_GROUP
+        GROUP VARIABLE instanceArgs END_GROUP
     {
         GroupNew* currGroup = createGroup(currentGroup2);
         currGroup->setName(strdup($<string>2));
         currSession->groups.push_back(currGroup);
         currentGroup2.clear();
-	}
-	;
+        }
+        ;
 
 expr:
     OBRACE EXPR BANK_EXPR EBRACE
@@ -408,8 +408,8 @@ delete:
         }
 
         tempFaceDelete2.clear();
-	}
-	;
+        }
+        ;
 
 set:
     SET VARIABLE numPosTok numberValue numberValue numberValue
@@ -432,12 +432,12 @@ set:
         SetNew * currentSet = createSet(currentSetName, currentSetValue, currentSetStart, currentSetEnd, currentSetStepSize, begPos, lengthValChar);
 
         currentSetList2.push_back(currentSet);
-	}
-	;
+        }
+        ;
 
 setArgs:
     | setArgs set |  setArgs comment
-	;
+        ;
 
 faceMesh:
     FACE VARIABLE parenthesisName surfaceArgs END_FACE
@@ -491,15 +491,15 @@ faceMesh:
     ;
 
 bank:
-	BANK VARIABLE setArgs END_BANK
+        BANK VARIABLE setArgs END_BANK
     {
         BankNew * currentBank2 = createBank();
         currentBank2->name = strdup($<string>2);
         currentBank2->sets = currentSetList2;
         currSession->banks.push_back(currentBank2);
         currentSetList2.clear();
-	}
-	;
+        }
+        ;
 
 circle:
     CIRCLE VARIABLE OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE
@@ -528,7 +528,7 @@ circle:
 tunnel:
     TUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_TUNNEL
-	{
+        {
         Reader* currReader = createReader(currSession);
 
         string name = $<string>2;
@@ -556,13 +556,13 @@ tunnel:
         currTunnel->currSession = currSession;
 
         currSession->tunnels.push_back(currTunnel);
-	}
-	;
+        }
+        ;
 
 funnel:
     FUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_FUNNEL
-	{
+        {
         Reader* currReader = createReader(currSession);
 
         string name = $<string>2;
@@ -591,17 +591,17 @@ funnel:
         currFunnel->currSession = currSession;
 
         currSession->funnels.push_back(currFunnel);
-	}
-	;
+        }
+        ;
 
 parenthesisName:
-	OPARENTHESES variables EPARENTHESES
+        OPARENTHESES variables EPARENTHESES
     {
-	}
-	;
+        }
+        ;
 
 face:
-	FACE VARIABLE parenthesisName surfaceArgs END_FACE
+        FACE VARIABLE parenthesisName surfaceArgs END_FACE
     {
         Reader* currReader = createReader(currSession);
 
@@ -638,15 +638,15 @@ face:
         currSession->faces.push_back(newFace);
 
         tempVariables2.clear();
-	}
-	;
+        }
+        ;
 
 faceDelete:
-	FACE VARIABLE END_FACE
-	{
+        FACE VARIABLE END_FACE
+        {
         tempFaceDelete2.push_back($<string>2);
-	}
-	;
+        }
+        ;
 
 beziercurve:
   BEZIERCURVE VARIABLE parenthesisName SLICES numberValue surfaceArgs END_BEZIERCURVE{
@@ -697,7 +697,7 @@ beziercurve:
 
 
 bspline:
-	BSPLINE VARIABLE parenthesisName closedArgs SLICES numberValue surfaceArgs END_BSPLINE{
+        BSPLINE VARIABLE parenthesisName closedArgs SLICES numberValue surfaceArgs END_BSPLINE{
     if ($<intNumber>1 != $<intNumber>8) {
         nomerror(currSession, "bspline and endbspline do not have the same number.");
         YYABORT;
@@ -755,7 +755,6 @@ bspline:
         }
     }
 
-    std::cout << "BBB" << std::endl;
 
     currSession->bsplines.push_back(currBSpline);
 
@@ -763,8 +762,8 @@ bspline:
   };
 
 polyline:
-	POLYLINE VARIABLE parenthesisName surfaceArgs END_POLYLINE
-	{
+        POLYLINE VARIABLE parenthesisName surfaceArgs END_POLYLINE
+        {
         Reader* currReader = createReader(currSession);
 
         // Create list of vertices of face.
@@ -797,8 +796,8 @@ polyline:
         }
         currSession->polylines.push_back(currPolyline);
         tempVariables2.clear();
-	}
-	;
+        }
+        ;
 
 instance:
     INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
@@ -809,16 +808,21 @@ instance:
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->getMesh($<string>3);
-
+        //std::cout << instanceName << std::endl;
+        //std::cout << currentTransformations2.size() << std::endl;
         InstanceNew* newInstance = NULL;
+        bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false);
+            if (currentTransformations2.size() > 0){
+              onlyCreateNewVertices = true;
+            }
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
             newInstance->currSession = currSession;
         }
         else{
             GroupNew * currentGroup2 = currReader->getGroup($<string>3);
             if (currentGroup2 != NULL) {
-                newInstance = createInstance(currentGroup2, currSession->verts, currReader);
+                newInstance = createInstance(currentGroup2, currSession->verts, currReader, currSession);
                 newInstance->currSession = currSession;
             }
             else{
@@ -849,14 +853,14 @@ instance:
         }
 
         currSession->instances.push_back(newInstance);
-	}
-	;
+        }
+        ;
 
 object:
-	OBJECT VARIABLE parenthesisName END_OBJECT
+        OBJECT VARIABLE parenthesisName END_OBJECT
     {
-	}
-	;
+        }
+        ;
 
 surface:
     SURFACE VARIABLE COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
@@ -881,8 +885,8 @@ surface:
         currSurface->currSession = currSession;
 
         currSession->surfaces.push_back(currSurface);
-	}
-	;
+        }
+        ;
 
 point:
     BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
@@ -908,5 +912,5 @@ point:
         newVertex->zStr = strdup($<string>6);
 
         currSession->verts.push_back(newVertex);
-	}
-	;
+        }
+        ;

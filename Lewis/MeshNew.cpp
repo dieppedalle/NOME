@@ -277,6 +277,7 @@ bool MeshNew::draw(double offset)
                 }
             }
 
+
             listOutVert.clear();
             listOutVert.push_back(e->v0);
             listOutVert.push_back(e->v1);

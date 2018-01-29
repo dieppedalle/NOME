@@ -317,6 +317,47 @@ Vert* Reader::getVert(std::string name)
     return NULL;
 }
 
+std::list<TransformationNew*> Reader::getVertTransformations(int id){
+    std::list<TransformationNew*> transformations;
+    for (InstanceNew* i0 : session->instances){
+        for (FaceNew* f0 : i0->faces){
+            for (Vert* v0 : f0->verts){
+                if (v0->index == id){
+                    transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
+                    return transformations;
+                }
+            }
+        }
+        for (Vert* v0 : i0->verts){
+            if (v0->index == id){
+                transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
+                return transformations;
+            }
+        }
+
+        // Checking for groups
+        for (InstanceNew* instanceElem : i0->listInstances){
+            for (FaceNew* f0 : instanceElem->faces){
+                for (Vert* v0 : f0->verts){
+                    if (v0->index == id){
+                        transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
+                        transformations.insert(transformations.end(), instanceElem->transformations.begin(), instanceElem->transformations.end());
+                        return transformations;
+                    }
+                }
+            }
+            for (Vert* v0 : i0->verts){
+                if (v0->index == id){
+                    transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
+                    transformations.insert(transformations.end(), instanceElem->transformations.begin(), instanceElem->transformations.end());
+                    return transformations;
+                }
+            }
+        }
+    }
+    return transformations;
+}
+
 
 std::string Reader::getVertName(int id)
 {

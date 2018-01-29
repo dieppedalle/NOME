@@ -10,6 +10,7 @@
 #include "Data.h"
 #include "Reader.h"
 #include <glm/vec3.hpp> // glm::vec3
+#include <glm/glm.hpp>
 #include <math.h>
 #define PI 3.14159265
 
@@ -115,6 +116,7 @@ Vert* createVert(double *x, double *y, double *z, double w)
     v0->weight = w;
     std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
     v0->edges = edges; v0->faces = faces;
+    v0->transformations = list<TransformationNew*>();
     
     return v0;
 }
@@ -1000,6 +1002,58 @@ void Vert::update(){
     *y = *currentValSet;
     parseGetBankVal(zStr.c_str(), this->currSession, currentValSet);
     *z = *currentValSet;
+}
+
+void Vert::applyTransformation(TransformationNew * t){
+    if (dynamic_cast<Rotate*>(t)){
+        Rotate* rotate = dynamic_cast<Rotate*>(t);
+
+        double *xTmp = (double*) malloc(sizeof(double));
+        double *yTmp = (double*) malloc(sizeof(double));
+        double *zTmp = (double*) malloc(sizeof(double));
+
+        // Rotation around an axis
+        // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
+        double radAngle = *rotate->angle * (3.141592f/180.0f);
+        double t = 1 - glm::cos(radAngle);
+        double S = glm::sin(radAngle);
+        double C = glm::cos(radAngle);
+
+        double x1 = t * pow(*rotate->x, 2) + C;
+        double x2 = t * *rotate->x * *rotate->y - S * *rotate->z;
+        double x3 = t * *rotate->x * *rotate->z + S * *rotate->y;
+        double y1 = t * *rotate->x * *rotate->y + S * *rotate->z;
+        double y2 = t * pow(*rotate->y, 2) + C;
+        double y3 = t * *rotate->y * *rotate->z - S * *rotate->x;
+        double z1 = t * *rotate->x * *rotate->z - S * *rotate->y;
+        double z2 = t * *rotate->y * *rotate->z + S * *rotate->x;
+        double z3 = t * pow(*rotate->z, 2) + C;
+
+        // Matrix multiplication
+        // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
+        double ax = *this->xTransformed * x1 + *this->yTransformed * x2 + *this->zTransformed * x3;
+        double ay = *this->xTransformed * y1 + *this->yTransformed * y2 + *this->zTransformed * y3;
+        double az = *this->xTransformed * z1 + *this->yTransformed * z2 + *this->zTransformed * z3;
+
+        *xTmp = ax;
+        *yTmp = ay;
+        *zTmp = az;
+
+        *this->xTransformed = *xTmp;
+        *this->yTransformed = *yTmp;
+        *this->zTransformed = *zTmp;
+    } else if (dynamic_cast<Scale*>(t)){
+        Scale* scale = dynamic_cast<Scale*>(t);
+
+        *this->xTransformed = *this->xTransformed * *scale->x;
+        *this->yTransformed = *this->yTransformed * *scale->y;
+        *this->zTransformed = *this->zTransformed * *scale->z;
+    } else if (dynamic_cast<Translate*>(t)){
+        Translate* translate = dynamic_cast<Translate*>(t);
+        *this->xTransformed = *this->xTransformed + *translate->x;
+        *this->yTransformed = *this->yTransformed + *translate->y;
+        *this->zTransformed = *this->zTransformed + *translate->z;
+    }
 }
 
 void Surface::update(){

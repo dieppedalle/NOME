@@ -19,6 +19,8 @@
 
 #include "IO.h"
 #include "Node.h"
+#include "TransformationNew.h"
+
 class Reader;
 class MeshNew;
 class Session;
@@ -62,6 +64,8 @@ public:
     std::string yStr;
     std::string zStr;
 
+    std::list<TransformationNew*> transformations;
+
     double *x;
     double *y;
     double *z;
@@ -84,6 +88,7 @@ public:
     Vert* normalOutVert;
     void updateOutOffsetVertex(double offset);
     void updateInOffsetVertex(double offset);
+    void applyTransformation(TransformationNew * t);
 
     void update();
 } Vert;

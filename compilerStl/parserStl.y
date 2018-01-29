@@ -108,7 +108,7 @@ solid:
 
         currMesh->setName(strdup($<string>2));
 
-        InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false);
+        InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false, false, currSession);
 
         newInstance->setName(strdup($<string>2));
         currSession->instances.push_back(newInstance);

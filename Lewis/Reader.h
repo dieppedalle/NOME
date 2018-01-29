@@ -11,6 +11,7 @@
 #include "Data.h"
 #include "MeshNew.h"
 #include "Session.h"
+#include "TransformationNew.h"
 
 /// Reader class for accessing data from hierarchical tree
 /// Mode = 0 : Transformations off, Mode = 1 : Transformations on
@@ -53,6 +54,7 @@ public:
     InstanceNew* getInstance(std::string);
     Vert* getVert(std::string);
     Vert* getVert(int);
+    std::list<TransformationNew*> getVertTransformations(int);
     EdgeNew* getEdge(std::string);
     EdgeNew* getEdge(int id1, int id2);
     FaceNew* getFace(std::string);

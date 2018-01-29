@@ -16,6 +16,7 @@
 #include "GroupNew.h"
 #include "Reader.h"
 
+class Reader;
 bool setSurface(InstanceNew* i0, Surface* surface){
     i0->surface = surface;
     return true;
@@ -27,7 +28,7 @@ InstanceNew* createInstance(InstanceNew* i0)
     return new InstanceNew();
 }
 
-InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* currReader)
+InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* currReader, Session* currSession)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->group = g0;
@@ -40,7 +41,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
 
        if (currentMesh != NULL){
            InstanceNew* newInstance;
-           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false);
+           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, false, currSession);
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
@@ -51,15 +52,25 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
    return i0;
 }
 
-InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices)
+InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices, bool onlyCreateNewVertices, Session* currSession)
 {
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
    i0->verts = {};
+   i0->currSession = currSession;
 
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
-       if ((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false){
+       //GAUTHIER ADDED THAT ON 1/29
+       if (onlyCreateNewVertices == true){
+           Vert* newVertex = createVert(v0);
+           newVertex->name = v0->name;
+           // MAYBE CHECK TRANSFORMATIONS.
+           newVertex->transformations = currReader->getVertTransformations(v0->index);
+           setSurface(newVertex, m0->surface);
+           i0->verts.push_back(newVertex);
+       }
+       else if (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false)){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            setSurface(newVertex, m0->surface);

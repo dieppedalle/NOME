@@ -57,8 +57,8 @@ public:
 bool setSurface(InstanceNew* i0, Surface* surface);
 //Instantiation
 InstanceNew* createInstance(InstanceNew* i0);
-InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices);
-InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* currReader);
+InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices, bool onlyCreateNewVertices, Session* currSession);
+InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* currReader, Session* currSession);
 
 
 #endif /* Instance_h */

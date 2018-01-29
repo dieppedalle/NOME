@@ -216,7 +216,7 @@ void Session::addTmpFace(){
     }
     tmpMesh->setName("tmpMesh");
 
-    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true);
+    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
     tmpInstance->setName("tmpInstance");
     clearSelection();
     tmpFaceIndex += 1;
@@ -226,7 +226,7 @@ void Session::addTmpPolyline(){
     Reader* currReader = createReader(this);
     tmpPolyline = createPolylineNew(selectedVerts);
     tmpPolyline->setName("tmpPolyline");
-    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true);
+    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true, false, this);
     tmpInstance->setName("tmpInstance");
     clearSelection();
 }
@@ -266,7 +266,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
     if (tmpInstance != NULL){
         tmpInstance->setName(consolidateInstanceName);
 
-        InstanceNew* newInstance = createInstance(tmpMesh, this->verts, currReader, true, true);
+        InstanceNew* newInstance = createInstance(tmpMesh, this->verts, currReader, true, true, false, this);
         newInstance->setName(consolidateInstanceName);
         for (FaceNew * tmpFace: newInstance->faces){
             setSurface(tmpFace, NULL);
@@ -378,6 +378,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
         }
         return;
     }*/
+
 
     if (calculateSubdivide){
         createFlattenMesh(true);
