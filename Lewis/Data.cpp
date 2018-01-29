@@ -314,6 +314,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
             }
 
             if (currentEdge == NULL){
+
                 currentEdge = createEdge(vertices.back(), vertices.front(), connect);
             }
         }

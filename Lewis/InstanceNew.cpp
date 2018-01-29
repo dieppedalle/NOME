@@ -157,9 +157,11 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
                    }
                }
            }
-
+           //std::cout << firstVert->name << std::endl;
            vertFace.push_back(firstVert);
        }
+       std::cout << f0->name << std::endl;
+       std::cout << vertFace.size() << std::endl;
        FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader, connect);
 
        setName(newFace, f0->name);

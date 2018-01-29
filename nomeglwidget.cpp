@@ -374,7 +374,7 @@ void SlideGLWidget::paintGL()
                     if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                         Reader* currReader = createReader(currSession);
                         InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
-
+                        newInstance->surface = (*iterator)->surface;
                         newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                         newInstance->transformations = (*iterator)->transformations;
                         (*iterator) = newInstance;
@@ -393,6 +393,7 @@ void SlideGLWidget::paintGL()
                     if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                         Reader* currReader = createReader(currSession);
                         InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
+                        newInstance->surface = (*iterator)->surface;
                         newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                         newInstance->transformations = (*iterator)->transformations;
                         (*iterator) = newInstance;
@@ -411,7 +412,7 @@ void SlideGLWidget::paintGL()
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                             Reader* currReader = createReader(currSession);
                             InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
-
+                            newInstance->surface = (*iterator)->surface;
                             newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                             newInstance->transformations = (*iterator)->transformations;
                             (*iterator) = newInstance;
@@ -431,7 +432,7 @@ void SlideGLWidget::paintGL()
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                             Reader* currReader = createReader(currSession);
                             InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
-
+                            newInstance->surface = (*iterator)->surface;
                             newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                             newInstance->transformations = (*iterator)->transformations;
                             (*iterator) = newInstance;
@@ -450,7 +451,7 @@ void SlideGLWidget::paintGL()
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                             Reader* currReader = createReader(currSession);
                             InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
-
+                            newInstance->surface = (*iterator)->surface;
                             newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                             newInstance->transformations = (*iterator)->transformations;
                             (*iterator) = newInstance;
@@ -1143,6 +1144,7 @@ void SlideGLWidget::createConsolidated(bool){
     }
     else{
         currSession->consolidateTmpMesh(consolidateInstanceName, consolidateMeshName);
+
         conWindow->window->close();
     }
     repaint();
