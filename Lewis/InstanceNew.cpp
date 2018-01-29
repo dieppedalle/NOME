@@ -214,7 +214,6 @@ bool InstanceNew::draw()
 
 void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
 {
-
     for(Vert* v : verts) {
       bool contains = false;
       for (Vert* vf : flattenedMesh->verts){
@@ -236,7 +235,16 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
             }
         }
         if (!contains){
-            flattenedMesh->edges.push_back(e);
+            if (e->f0 == NULL && e->f1 == NULL){
+                for (Vert* v : flattenedMesh->verts){
+                    if ((v->index == e->v0->index) || (v->index == e->v1->index)){
+                        v->edges.remove(e);
+                    }
+                }
+            } else{
+                flattenedMesh->edges.push_back(e);
+            }
+
         }
     }
     for(FaceNew* f : faces) {

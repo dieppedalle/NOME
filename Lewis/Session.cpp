@@ -353,7 +353,6 @@ void Session::createFlattenMesh(bool instance){
     for (FaceNew* currFace : tmpflattenMesh->faces){
         currFace->calculateFacePoint();
     }
-
     for (EdgeNew* currEdge : tmpflattenMesh->edges){
         currEdge->calculateEdgePoint();
     }
