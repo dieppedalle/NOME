@@ -486,10 +486,14 @@ void SlideGLWidget::paintGL()
             newInstance->updateVerts();
         }
 
+        std::list<Vert*> appliedVertTransformation = std::list<Vert*>();
         for (InstanceNew * newInstance: currSession->instances){
             for (Vert * v : newInstance->verts){
-                for (TransformationNew * t : v->transformations){
-                    v->applyTransformation(t);
+                if (v->transformations.size() > 0 && !(std::find(appliedVertTransformation.begin(), appliedVertTransformation.end(), v) != appliedVertTransformation.end())){
+                    appliedVertTransformation.push_back(v);
+                    for (TransformationNew * t : v->transformations){
+                        v->applyTransformation(t);
+                    }
                 }
             }
         }
