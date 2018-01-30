@@ -564,6 +564,10 @@ EdgeNew* Reader::getEdge(int id1, int id2){
                 if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
                     return e0;
                 }
+
+                /*if (e0->v0->index == id1 || e0->v1->index == id1){
+                    std::cout << "HHHH" << std::endl;
+                }*/
             }
 
             for (FaceNew* f0 : iListElem->faces){
@@ -575,7 +579,6 @@ EdgeNew* Reader::getEdge(int id1, int id2){
             }
         }
     }
-    //std::cout << "FINISH GETEDGE" << std::endl;
 
     return NULL;
 }

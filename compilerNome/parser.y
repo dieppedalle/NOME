@@ -463,7 +463,9 @@ faceMesh:
 
             }
             else{
-                nomerror(currSession, "Incorrect vertex name");
+                std::string errorMessage = "Incorrect vertex name " + *it;
+                const char * errorMessageC = errorMessage.c_str();
+                nomerror(currSession, errorMessageC);
                 YYABORT;
             }
         }

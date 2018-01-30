@@ -54,7 +54,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
 
 InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices, bool onlyCreateNewVertices, Session* currSession)
 {
-    //std::cout << m0->name << std::endl;
+   //std::cout << m0->name << std::endl;
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
    i0->verts = {};
@@ -130,8 +130,13 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
        if (newEdge == NULL){
            newEdge = currReader->getEdge(firstVert->index, secondVert->index);
-           //std::cout << firstVert->name << std::endl;
-           //std::cout << secondVert->name << std::endl;
+           /*std::cout << "+++++" << std::endl;
+           if (currReader->getVert(firstVert->index) != NULL){
+               std::cout << currReader->getVertName(firstVert->index) << std::endl;
+           }
+           if (currReader->getVert(secondVert->index) != NULL){
+               std::cout << currReader->getVertName(secondVert->index) << std::endl;
+           }*/
            if (newEdge != NULL){
                setSurface(newEdge, m0->surface);
                 i0->edges.push_back(newEdge);
@@ -139,7 +144,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        }
 
        if (newEdge == NULL){
-           //std::cout << "NEW EDGE" << std::endl;
+            //std::cout << "NEW EDGE" << std::endl;
             newEdge = createEdge(firstVert, secondVert, connect);
             setSurface(newEdge, m0->surface);
             i0->edges.push_back(newEdge);
