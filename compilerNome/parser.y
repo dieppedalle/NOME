@@ -607,7 +607,7 @@ face:
 
         std::list<Vert*> verticesFace;
         for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
-            Vert * currentVertex = currReader->vert(*it);
+            Vert * currentVertex = currReader->getVert(*it);
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
             }

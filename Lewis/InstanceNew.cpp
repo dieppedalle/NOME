@@ -67,16 +67,19 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            newVertex->name = v0->name;
            // MAYBE CHECK TRANSFORMATIONS.
            newVertex->transformations = currReader->getVertTransformations(v0->index);
+           newVertex->copyOfVert = v0;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
        }
        else if (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false)){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
+           newVertex->copyOfVert = v0;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
        }
        else{
+           v0->copyOfVert = v0;
            i0->verts.push_back(v0);
        }
    }
@@ -147,12 +150,12 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        for (Vert* vF : f0->verts){
            Vert* firstVert = NULL;
            for (Vert* v0 : i0->verts){
-               if(v0->index == vF->index)
+               if(v0->copyOfVert->index == vF->index)
                    firstVert = v0;
            }
            if (!firstVert){
                for (Vert* v0 : i0->verts){
-                   if(v0->name.compare(vF->name) == 0){
+                   if(v0->copyOfVert->index == (vF->index)){
                        firstVert = v0;
                    }
                }
@@ -160,8 +163,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            //std::cout << firstVert->name << std::endl;
            vertFace.push_back(firstVert);
        }
-       std::cout << f0->name << std::endl;
-       std::cout << vertFace.size() << std::endl;
        FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader, connect);
 
        setName(newFace, f0->name);

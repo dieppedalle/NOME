@@ -80,6 +80,7 @@ public:
     std::vector<double> normal;
     Surface* surface;
     Session* currSession;
+    Vert* copyOfVert;
 
     // Used for subdivision
     Vert* vertPoint;
