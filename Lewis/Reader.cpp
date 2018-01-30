@@ -550,11 +550,27 @@ EdgeNew* Reader::getEdge(int id1, int id2){
             }
         }
 
+        for (FaceNew* f0 : i0->faces){
+            for (EdgeNew* e0 : f0->edges){
+                if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
+                    return e0;
+                }
+            }
+        }
+
         // Check for groups
         for (InstanceNew* iListElem : i0->listInstances){
             for (EdgeNew* e0 : iListElem->edges){
                 if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
                     return e0;
+                }
+            }
+
+            for (FaceNew* f0 : iListElem->faces){
+                for (EdgeNew* e0 : f0->edges){
+                    if ((e0->v0->index == id1 && e0->v1->index == id2) || (e0->v0->index == id2 && e0->v1->index == id1)){
+                        return e0;
+                    }
                 }
             }
         }
