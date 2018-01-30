@@ -858,7 +858,37 @@ instance:
 
 object:
         OBJECT VARIABLE parenthesisName END_OBJECT
-    {
+        {
+          Reader* currReader = createReader(currSession);
+
+          std::list<FaceNew*> facesObject;
+          for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+              FaceNew * currentFace = currReader->getFace(*it);
+              if (currentFace != NULL) {
+                  facesObject.push_back(currentFace);
+              }
+              else{
+                  nomerror(currSession, "Incorrect face name");
+                  YYABORT;
+              }
+          }
+
+          MeshNew* currMesh = createMesh();
+
+          for (std::list<FaceNew*>::iterator it=facesObject.begin(); it != facesObject.end(); ++it){
+              currMesh->faces.push_back(*it);
+              for (Vert* currVert : (*it)->verts){
+                  currMesh->verts.push_back(currVert);
+              }
+              for (EdgeNew* currEdge : (*it)->edges){
+                  currMesh->edges.push_back(currEdge);
+              }
+          }
+
+          currMesh->setName(strdup($<string>2));
+          currSession->meshes.push_back(currMesh);
+
+          tempVariables2.clear();
         }
         ;
 

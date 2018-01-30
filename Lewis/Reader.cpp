@@ -390,7 +390,7 @@ std::string Reader::getVertName(int id)
                     }
                 }
             }
-            for (Vert* v0 : i0->verts){
+            for (Vert* v0 : instanceElem->verts){
                 if (v0->index == id){
                     return i0->name.substr(instanceElem->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + v0->name;
                 }
@@ -441,11 +441,27 @@ Vert* Reader::getVert(int id)
             }
         }
 
+        for (FaceNew* f0 : i0->faces){
+            for (Vert* v0 : f0->verts){
+                if (v0->index == id){
+                    return v0;
+                }
+            }
+        }
+
         // Check for groups
         for (InstanceNew* iListElem : i0->listInstances){
             for (Vert* v0 : iListElem->verts){
                 if (v0->index == id){
                     return v0;
+                }
+            }
+
+            for (FaceNew* f0 : iListElem->faces){
+                for (Vert* v0 : f0->verts){
+                    if (v0->index == id){
+                        return v0;
+                    }
                 }
             }
         }

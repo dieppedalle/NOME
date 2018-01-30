@@ -71,6 +71,7 @@ bool Session::updateNames()
 }
 
 void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+    //std::cout << hits << std::endl;
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -81,7 +82,11 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
             int currentID = names[i * 4 + 3];
             Vert * currentVertex = currReader->getVert(currentID);
 
+            //std::cout << "+++" << std::endl;
+            //std::cout << currentVertex << std::endl;
             if (currentVertex != NULL){
+                //std::cout << "HELLO" << std::endl;
+                //std::cout << currentVertex->name << std::endl;
                 glm::vec3 vertex_position = glm::vec3(*(currentVertex->x), *(currentVertex->y), *(currentVertex->z));
 
                 float new_distance = distance(vertex_position, hit_position);
@@ -96,8 +101,9 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         if (selectedVertex != NULL){
             /*std::cout << "GGGGG" << std::endl;
             std::cout << selectedVertex->index << std::endl;*/
-            std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
+            //std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             //std::cout << selectedVertex->faces.size() << std::endl;
+            std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
 
             selectedVertex -> selected = !selectedVertex -> selected;
 
