@@ -54,7 +54,6 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
 
 InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* currReader, bool connect, bool doNotCreateVertices, bool onlyCreateNewVertices, Session* currSession)
 {
-   //std::cout << m0->name << std::endl;
    InstanceNew* i0 = new InstanceNew();
    i0->mesh = m0;
    i0->verts = {};
@@ -63,6 +62,12 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        //GAUTHIER ADDED THAT ON 1/29
+       //std::cout << currReader->getVert(v0->index) << std::endl;
+       //std::cout << (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()) << std::endl;
+       //std::cout << dynamic_cast<FunnelNew*>(m0) << std::endl;
+       //std::cout << doNotCreateVertices << std::endl;
+       //std::cout << dynamic_cast<TunnelNew*>(m0) << std::endl;
+       //std::cout << (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) || doNotCreateVertices == false)) << std::endl;
        if (onlyCreateNewVertices == true){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
@@ -80,6 +85,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            i0->verts.push_back(newVertex);
        }
        else{
+           //std::cout << "USING VERTEX" << std::endl;
            v0->copyOfVert = v0;
            i0->verts.push_back(v0);
        }
@@ -125,7 +131,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            if ((e0->v0->index == firstVert->index && e0->v1->index == secondVert->index) || (e0->v0->index == secondVert->index && e0->v1->index == firstVert->index)){
                newEdge = e0;
            }
-
        }
 
        if (newEdge == NULL){

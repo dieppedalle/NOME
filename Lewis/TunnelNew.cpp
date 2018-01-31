@@ -63,7 +63,7 @@ void TunnelNew::createVertEdgeTunnel(){
         *z = 0;
 
         Vert * newVertex = createVert (x, y, z);
-        newVertex->setName("va" + std::to_string(i));
+        newVertex->setName("v2_" + std::to_string(i));
 
         baseCircle.push_back(newVertex);
         verts.push_back(newVertex);
@@ -83,7 +83,7 @@ void TunnelNew::createVertEdgeTunnel(){
         *z = *h;
 
         Vert * newVertex = createVert (x, y, z);
-        newVertex->setName("vb" + std::to_string(i));
+        newVertex->setName("v1_" + std::to_string(i));
         highCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -101,7 +101,7 @@ void TunnelNew::createVertEdgeTunnel(){
         *z = -*h;
 
         Vert * newVertex = createVert (x, y, z);
-        newVertex->setName("vc" + std::to_string(i));
+        newVertex->setName("v3_" + std::to_string(i));
         lowCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -121,7 +121,7 @@ void TunnelNew::createVertEdgeTunnel(){
         verticesFace.push_back(highCircle[i]);
 
         FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
-        newFace->setName("fa" + std::to_string(i));
+        newFace->setName("f1_" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
     }
@@ -147,7 +147,7 @@ void TunnelNew::createVertEdgeTunnel(){
         verticesFace.push_back(baseCircle[i]);
 
         FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
-        newFace->setName("fb" + std::to_string(i));
+        newFace->setName("f2_" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
     }

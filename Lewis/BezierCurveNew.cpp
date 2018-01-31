@@ -32,7 +32,7 @@ void BezierCurveNew::calculateBezierVertex(std::vector<Vert*> interpolatedPoints
             verts.push_back(interpolatedPoints.at(0));
             std::list<Vert*>::iterator it = verts.begin();
             std::advance(it, numVertexCreated);
-            (*it)->setName("v" + std::to_string(numVertexCreated));
+            (*it)->setName("v1_" + std::to_string(numVertexCreated));
         } else{
             std::list<Vert*>::iterator it = verts.begin();
             std::advance(it, numVertexCreated);

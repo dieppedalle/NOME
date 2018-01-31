@@ -356,6 +356,12 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
 ///Create face given a vector of at least three edges, the edges must be adjacent and form a closed loop, otherwise fails
 FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
 {
+
+    /*std::cout << "HHHHHHHHHHH" << std::endl;
+    for (Vert* v: verts){
+        std::cout << v->name << std::endl;
+    }
+    std::cout << "NNNN" << std::endl;*/
     FaceNew* f0 = createFace();
     f0->selected = false;
     std::vector<Vert*> vIndex;
@@ -374,11 +380,20 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         //std::cout << edge->v0->name << std::endl;
         //std::cout << edge->v1->name << std::endl;
         if (edge->f0 == NULL){
-            //std::cout << "F0" << std::endl;
             edge->f0 = f0;
         }
         else{
-            //std::cout << "F1" << std::endl;
+            //std::cout << "HELLO" << std::endl;
+            /*std::cout << "F1" << std::endl;
+            std::cout << edge->faceCount << std::endl;
+            std::cout << edge->v0->name << std::endl;
+            std::cout << edge->v1->name << std::endl;
+            if (edge->f0 != NULL){
+                std::cout << edge->f0->name << std::endl;
+            }
+            if (edge->f1 != NULL){
+                std::cout << edge->f1->name << std::endl;
+            }*/
             edge->f1 = f0;
         }
         //std::cout << edge->f0 << std::endl;
@@ -427,11 +442,9 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
 
         f0->edges.push_back(edge);
 
-
-        
         //std::cout << "NAME" << std::endl;
         //std::cout << f0->name << std::endl;
-        //std::cout << edge->faceCount << std::endl;
+
         //Check if an edge has more than two adjacent faces
         if( edge->faceCount == 0 )
         {

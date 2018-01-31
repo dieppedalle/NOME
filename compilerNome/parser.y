@@ -810,8 +810,7 @@ instance:
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->getMesh($<string>3);
-        //std::cout << instanceName << std::endl;
-        //std::cout << currentTransformations2.size() << std::endl;
+        
         InstanceNew* newInstance = NULL;
         bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {

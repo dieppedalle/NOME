@@ -62,7 +62,7 @@ void FunnelNew::createVertEdgeFunnel(){
         *z = 0;
 
         Vert * newVertex = createVert (x, y, z);
-        newVertex->setName("va" + std::to_string(i));
+        newVertex->setName("v1_" + std::to_string(i));
         baseCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -81,7 +81,7 @@ void FunnelNew::createVertEdgeFunnel(){
         *z = *h;
 
         Vert * newVertex = createVert (x, y, z);
-        newVertex->setName("vb" + std::to_string(i));
+        newVertex->setName("v2_" + std::to_string(i));
         highCircle.push_back(newVertex);
         verts.push_back(newVertex);
     }
@@ -101,7 +101,7 @@ void FunnelNew::createVertEdgeFunnel(){
         }
         verticesFace.push_back(highCircle[i]);
         FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
-        newFace->setName("f" + std::to_string(i));
+        newFace->setName("f1_" + std::to_string(i));
         faces.push_back(newFace);
         verticesFace.clear();
     }

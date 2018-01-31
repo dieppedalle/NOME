@@ -165,7 +165,7 @@ void BSplineNew::calculate (int order, bool createNewVertices)
                 //newBSplineVertex -> name = std::to_string(vertexNumber);
                 //addVertex(newBSplineVertex);
 
-                newBSplineVertex->setName("v" + std::to_string(vertexNumber));
+                newBSplineVertex->setName("v1_" + std::to_string(vertexNumber));
                 verts.push_back(newBSplineVertex);
             }
             else{
