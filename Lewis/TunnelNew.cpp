@@ -129,16 +129,22 @@ void TunnelNew::createVertEdgeTunnel(){
     for(int i = 0; i < *n; i++)
     {
         std::list<Vert*> verticesFace;
-        verticesFace.push_back(baseCircle[i]);
+        verticesFace.push_back(lowCircle[i]);
+        //verticesFace.push_back(baseCircle[i]);
         if (i == *n - 1){
-            verticesFace.push_back(baseCircle[0]);
             verticesFace.push_back(lowCircle[0]);
+            verticesFace.push_back(baseCircle[0]);
+            //verticesFace.push_back(baseCircle[0]);
+            //verticesFace.push_back(lowCircle[0]);
         }
         else{
-            verticesFace.push_back(baseCircle[i + 1]);
             verticesFace.push_back(lowCircle[i + 1]);
+            verticesFace.push_back(baseCircle[i + 1]);
+            //verticesFace.push_back(baseCircle[i + 1]);
+            //verticesFace.push_back(lowCircle[i + 1]);
         }
-        verticesFace.push_back(lowCircle[i]);
+        //verticesFace.push_back(lowCircle[i]);
+        verticesFace.push_back(baseCircle[i]);
 
         FaceNew * newFace = createFace(verticesFace, &(edges), reader, false);
         newFace->setName("fb" + std::to_string(i));
