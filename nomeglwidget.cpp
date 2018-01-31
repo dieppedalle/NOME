@@ -216,6 +216,7 @@ void SlideGLWidget::mouse_select(int x, int y)
     }
     else if(selection_mode == 2)
     {
+        currSession->selectBorder(hits, buff, posX, posY, posZ);
         mySelect.selectWholeBorder(global_mesh_list,
                                    global_polyline_list,
                                    global_name_index_list,
@@ -224,7 +225,6 @@ void SlideGLWidget::mouse_select(int x, int y)
     }
     else if(selection_mode == 3)
     {
-        //currSession->selectEdge(hits, buff, posX, posY, posZ);
         /*mySelect.selectPartialBorder(global_mesh_list,
                                      global_polyline_list,
                                      global_name_index_list,

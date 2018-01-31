@@ -132,12 +132,53 @@ void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
             currentEdge = currReader->edge(currentID);
             if (currentEdge != NULL){
                 std::cout << currentEdge->name << std::endl;
+                currentEdge->v0->selected = false;
+                currentEdge->v1->selected = false;
+                selectedEdges.push_back(currentEdge);
                 //selectedFace = currentFace;
             }
         }
 
         //selectedFace -> selected = !selectedFace -> selected;
     }
+}
+
+void Session::selectBorder(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+    std::cout << "CLICKED" << std::endl;
+    std::cout << hits << std::endl;
+    vector<Vert*> selectedVertsLoop = vector<Vert*>();
+
+    if(hits > 0) {
+        glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
+        float min_distance = std::numeric_limits<float>::max();
+        Reader* currReader = createReader(this);
+        Vert * startVert;
+        Vert * selectedEdge;
+
+        for (int i = 0; i < hits; i++) {
+            int currentID = names[i * 4 + 3];
+            startVert = currReader->getVert(currentID);
+            //std::cout << "currentEdge->name" << std::endl;
+            if (startVert != NULL){
+                selectedVertsLoop = findLoop(startVert, selectedVertsLoop);
+                //selectedFace = currentFace;
+            }
+        }
+        //selectedFace -> selected = !selectedFace -> selected;
+    }
+}
+
+std::vector<Vert*> Session::findLoop(Vert* startVert, std::vector<Vert*> selectedVertsLoop){
+    for (EdgeNew* currEdge : startVert->edges){
+        if (currEdge->isBorder()){
+            currEdge->v0->selected = true;
+            currEdge->v1->selected = true;
+            selectedVertsLoop.push_back(startVert);
+            selectedEdges.push_back(currEdge);
+        }
+
+    }
+    return selectedVertsLoop;
 }
 
 void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
@@ -298,12 +339,19 @@ void Session::clearSelection(){
         selectedVert->selected = !selectedVert->selected;
     }
 
+    for (EdgeNew * selectedEdge: selectedEdges){
+        selectedEdge->v0->selected = false;
+        selectedEdge->v1->selected = false;
+    }
+
+
     for (FaceNew * selectedFace: selectedFaces){
         selectedFace->selected = !selectedFace->selected;
     }
 
     selectedFaces.clear();
     selectedVerts.clear();
+    selectedEdges.clear();
 
 }
 

@@ -55,7 +55,9 @@ public:
 
     int tmpFaceIndex = 0;
 
+    std::list<EdgeNew*> selectedEdges;
     std::list<Vert*> selectedVerts;
+
     std::list<FaceNew*> selectedFaces;
     MeshNew* tmpMesh;
     PolylineNew* tmpPolyline;
@@ -70,6 +72,7 @@ public:
     void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
+    void selectBorder(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void SaveSessionNom(std::string outputFile);
     void SaveSessionStl(std::string outputFile);
     void consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName);
@@ -79,6 +82,7 @@ public:
     void draw();
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
     void createFlattenMesh(bool instance);
+    std::vector<Vert*> findLoop(Vert* startVert, std::vector<Vert*> selectedVertsLoop);
 private:
     QPushButton * consolidateButton;
 

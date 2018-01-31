@@ -565,6 +565,7 @@ EdgeNew* Reader::getEdge(int id1, int id2){
                     return e0;
                 }
 
+
                 /*if (e0->v0->index == id1 || e0->v1->index == id1){
                     std::cout << "HHHH" << std::endl;
                 }*/
@@ -582,3 +583,5 @@ EdgeNew* Reader::getEdge(int id1, int id2){
 
     return NULL;
 }
+
+

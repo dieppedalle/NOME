@@ -130,8 +130,8 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
        if (newEdge == NULL){
            newEdge = currReader->getEdge(firstVert->index, secondVert->index);
-           /*std::cout << "+++++" << std::endl;
-           if (currReader->getVert(firstVert->index) != NULL){
+           //std::cout << "+++++" << std::endl;
+           /*if (currReader->getVert(firstVert->index) != NULL){
                std::cout << currReader->getVertName(firstVert->index) << std::endl;
            }
            if (currReader->getVert(secondVert->index) != NULL){

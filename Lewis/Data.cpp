@@ -158,13 +158,20 @@ void Vert::updateInOffsetVertex(double offset){
     this->normalInVert = createVert(x, y, z, 1.0);
 }
 
+bool EdgeNew::isBorder(){
+    if (this->f0 == NULL || this->f1 == NULL)
+        return true;
+    else{
+        return false;
+    }
+}
+
 ///Edge functions
 ///Create an edge by specifying two points and knot interval, will create the links for the edge
 ///Currently assume manifold, so an edge shouldn't need more than two links
 EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect)
 {
     EdgeNew* e0 = new EdgeNew();
-    e0->isBorder = false;
     
     e0->interval = interval;
     edgeLock.lock();

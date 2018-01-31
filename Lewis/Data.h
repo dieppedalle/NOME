@@ -98,7 +98,6 @@ public:
 typedef class EdgeNew : public Node
 {
 public:
-    bool isBorder;
     double interval;
     Vert* v0; Vert* v1;
     int faceCount;
@@ -112,6 +111,7 @@ public:
     
     void calculateEdgePoint();
     bool isMobiusEdge();
+    bool isBorder();
 } EdgeNew;
 
 
