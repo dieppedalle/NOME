@@ -396,8 +396,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 62
-#define YY_END_OF_BUFFER 63
+#define YY_NUM_RULES 65
+#define YY_END_OF_BUFFER 66
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -405,42 +405,42 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[306] =
+static yyconst flex_int16_t yy_accept[310] =
     {   0,
-        0,    0,    0,    0,   63,   62,   61,   62,   62,   59,
-       60,   62,   62,    5,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   58,   58,   58,   58,   58,   55,   56,
-        4,    4,   61,    1,    1,    0,    2,    0,    5,    5,
-       58,   58,   58,   58,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   58,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   58,   58,   58,   58,   58,   58,    0,
-        3,    0,    0,   58,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   58,   58,   58,   17,   58,   16,   58,
-       58,   58,   58,   58,   58,   58,   26,   58,   58,   58,
+        0,    0,    0,    0,   66,   65,   64,   65,   65,   62,
+       63,   65,   65,    8,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   58,   59,
+        4,    7,    4,    6,   64,    1,    1,    0,    2,    0,
+        8,    8,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,    0,    4,    5,    3,    0,    0,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       20,   61,   19,   61,   61,   61,   61,   61,   61,   61,
 
-       58,   58,   58,   58,    0,    6,    6,   24,   58,   58,
-       58,   58,   58,   58,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   58,   58,    7,   27,   58,   58,   58,
-       31,   58,   58,   58,   58,   58,   58,   58,   58,   18,
-       58,   58,   58,   58,   54,    0,    6,    6,    6,   58,
-       58,   58,   58,   22,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   58,   58,   58,   58,   58,   58,   58,
-       58,   49,   58,   58,   58,   58,   21,   58,   58,   40,
-       58,   58,   58,   58,   58,    0,   58,   58,   38,   10,
-       47,   58,   58,   58,   58,   58,   58,   58,   58,   58,
+       29,   61,   61,   61,   61,   61,   61,   61,    0,    9,
+        9,   27,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   10,
+       30,   61,   61,   61,   34,   61,   61,   61,   61,   61,
+       61,   61,   61,   21,   61,   61,   61,   61,   57,    0,
+        9,    9,    9,   61,   61,   61,   61,   25,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   61,   61,   61,   52,   61,   61,   61,   61,
+       24,   61,   61,   43,   61,   61,   61,   61,   61,    0,
+       61,   61,   41,   13,   50,   61,   61,   61,   61,   61,
 
-       58,   58,   58,   58,   58,   58,   58,   58,   35,   58,
-       46,   29,   14,   58,   45,   11,   58,   58,   58,   33,
-        0,   58,   58,   25,   58,   58,   58,   58,   28,   58,
-       58,   58,   32,   58,   58,   58,   58,   58,   58,   58,
-       58,   58,   58,   19,   58,    0,   57,   58,    8,   58,
-       58,   58,   58,   58,   50,   58,   58,   58,   23,   58,
-       58,   58,   58,   42,   37,   58,   58,   58,   58,   58,
-       39,   48,   36,   58,   30,   15,   58,   58,   58,   34,
-       58,   44,   58,   58,   58,   58,   58,   58,   20,   58,
-       12,   58,    9,   43,   41,   58,   51,   58,   58,   53,
+       61,   61,   61,   61,   61,   61,   61,   61,   61,   61,
+       61,   61,   38,   61,   49,   32,   17,   61,   48,   14,
+       61,   61,   61,   36,    0,   61,   61,   28,   61,   61,
+       61,   61,   31,   61,   61,   61,   35,   61,   61,   61,
+       61,   61,   61,   61,   61,   61,   61,   22,   61,    0,
+       60,   61,   11,   61,   61,   61,   61,   61,   53,   61,
+       61,   61,   26,   61,   61,   61,   61,   45,   40,   61,
+       61,   61,   61,   61,   42,   51,   39,   61,   33,   18,
+       61,   61,   61,   37,   61,   47,   61,   61,   61,   61,
+       61,   61,   23,   61,   15,   61,   12,   46,   44,   61,
 
-       58,   58,   13,   52,    0
+       54,   61,   61,   56,   61,   61,   16,   55,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -477,205 +477,207 @@ static yyconst flex_int32_t yy_ec[256] =
 
 static yyconst flex_int32_t yy_meta[41] =
     {   0,
-        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
-        3,    4,    5,    3,    5,    5,    5,    5,    5,    5,
-        5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
-        5,    5,    5,    5,    5,    5,    5,    5,    1,    1
+        1,    1,    2,    1,    1,    1,    1,    1,    3,    1,
+        4,    5,    6,    4,    6,    6,    6,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    6,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[316] =
+static yyconst flex_int16_t yy_base[321] =
     {   0,
-        0,    0,   38,   39,  410,  411,   41,  406,    0,  399,
-      411,   38,  395,   40,    0,   38,   32,  387,   18,   41,
-      374,  376,   44,   44,  374,  373,   52,   31,  382,  411,
-      411,  392,   70,  396,  411,   86,  411,  386,   65,  385,
-        0,  368,  357,  364,  362,  363,  365,  364,  371,  358,
-      370,  358,  356,  352,  347,  350,   51,  357,  360,   57,
-      346,  363,  344,  353,  356,   50,  359,  345,  342,  335,
-      411,    0,  126,  345,  346,  342,  350,  334,  336,  345,
-      151,  332,  343,  333,  326,  326,    0,  336,    0,  326,
-      337,  323,  326,  316,  337,  325,    0,  333,  319,  330,
+        0,    0,   38,   39,  423,  424,   47,  419,    0,  412,
+      424,   32,  408,   41,    0,   39,   33,  400,   27,   42,
+      387,  389,   45,   45,  387,  386,   53,   43,  395,  424,
+        0,  424,  404,  404,   79,  408,  424,   87,  424,  398,
+       55,  397,    0,  380,  369,  376,  374,  375,  377,  376,
+      383,  370,  382,  370,  368,  364,  359,  362,   47,  369,
+      372,   76,  358,  375,  356,  365,  368,   53,  371,  357,
+      354,  347,    0,  424,  424,    0,  127,  357,  358,  354,
+      362,  346,  348,  357,  152,  344,  355,  345,  338,  338,
+        0,  348,    0,  338,  349,  335,  338,  328,  349,  337,
 
-      327,  318,  317,  325,  313,    0,  184,    0,  323,  318,
-      314,  320,  307,  304,   83,  313,  316,   69,  303,  305,
-      313,   85,  302,  296,  295,    0,    0,  309,  297,  311,
-        0,  296,  307,  304,  289,  295,  287,  300,  299,    0,
-      294,  301,  283,  295,    0,  282,    0,  224,    0,  281,
-      283,  291,  291,    0,  289,  279,  268,  275,  273,  277,
-      285,  273,  271,  259,  252,  255,  242,   81,   83,  233,
-      234,    0,  231,  227,  224,  223,    0,  232,  235,    0,
-      221,  217,  234,  224,  223,  244,  230,  227,    0,    0,
-        0,  220,  221,  217,  225,  222,  221,  211,  203,  194,
+        0,  345,  331,  342,  339,  330,  329,  337,  325,    0,
+      185,    0,  335,  330,  326,  332,  319,  316,   85,  325,
+      328,   75,  315,  317,  325,   87,  314,  308,  307,    0,
+        0,  321,  309,  323,    0,  308,  319,  316,  301,  307,
+      299,  312,  311,    0,  306,  313,  295,  307,    0,  294,
+        0,  225,    0,  293,  295,  303,  303,    0,  301,  291,
+      280,  287,  285,  289,  297,  285,  273,  262,  256,  259,
+      262,   82,   90,  235,  236,    0,  233,  229,  226,  225,
+        0,  234,  237,    0,  223,  219,  236,  226,  225,  246,
+      232,  229,    0,    0,    0,  222,  223,  219,  227,  224,
 
-      200,  202,  188,  191,  181,  199,  196,  187,    0,  197,
-        0,    0,    0,  185,    0,    0,  189,  192,  195,    0,
-      169,  174,  195,    0,  187,  182,  178,  170,    0,  183,
-      171,  185,    0,  182,  178,  154,  156,  156,  162,  157,
-      156,  154,  138,    0,  131,  123,  411,  131,  149,  129,
-      131,  139,  138,  130,    0,  127,  121,  120,    0,  129,
-      116,  133,  123,    0,    0,  125,  128,  111,  128,  125,
-        0,    0,    0,  126,    0,    0,  114,  118,  120,    0,
-      100,    0,  105,   89,  110,  102,  101,   87,    0,   90,
-        0,   86,  104,    0,    0,   90,   80,   76,   81,    0,
+      223,  213,  206,  205,  206,  204,  190,  193,  183,  201,
+      198,  189,    0,  199,    0,    0,    0,  187,    0,    0,
+      191,  194,  197,    0,  171,  176,  197,    0,  189,  184,
+      180,  172,    0,  185,  173,  187,    0,  184,  181,  165,
+      162,  160,  165,  159,  158,  157,  142,    0,  138,  125,
+      424,  133,  151,  131,  133,  141,  140,  132,    0,  129,
+      123,  122,    0,  131,  118,  135,  125,    0,    0,  127,
+      130,  113,  130,  127,    0,    0,    0,  128,    0,    0,
+      116,  120,  123,    0,  111,    0,  111,   91,  112,  104,
+      103,   88,    0,   91,    0,   87,  104,    0,    0,   92,
 
-       90,   80,    0,    0,  411,  264,  269,  101,  272,  277,
-       84,  282,  284,  289,  294
+       82,   78,   83,    0,   92,   82,    0,    0,  424,  265,
+      271,   79,  274,  280,  286,   67,  292,  294,  300,  306
     } ;
 
-static yyconst flex_int16_t yy_def[316] =
+static yyconst flex_int16_t yy_def[321] =
     {   0,
-      305,    1,  306,  306,  305,  305,  305,  307,  308,  305,
-      305,  305,  305,  305,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  305,  305,
-      305,  305,  305,  307,  305,  310,  305,  305,  305,  305,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  305,
-      305,  311,  312,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,    1,  310,  310,  309,  309,  309,  311,  312,  309,
+      309,  309,  309,  309,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  309,  309,
+      314,  309,  314,  309,  309,  311,  309,  315,  309,  309,
+      309,  309,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  309,  314,  309,  309,  316,  317,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
 
-      309,  309,  309,  309,  305,  313,  314,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  305,  313,  314,  148,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  305,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      313,  313,  313,  313,  313,  313,  313,  313,  309,  318,
+      319,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  309,
+      318,  319,  152,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  309,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
 
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      315,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  315,  305,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
-      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  320,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  320,
+      309,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  313,  313,  313,  313,  313,  313,  313,
 
-      309,  309,  309,  309,    0,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305
+      313,  313,  313,  313,  313,  313,  313,  313,    0,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309
     } ;
 
-static yyconst flex_int16_t yy_nxt[452] =
+static yyconst flex_int16_t yy_nxt[465] =
     {   0,
         6,    7,    7,    7,    8,    9,   10,   11,    6,   12,
        13,   14,   15,    6,   15,   16,   17,   18,   19,   20,
        21,   15,   22,   15,   15,   15,   23,   15,   24,   25,
        26,   27,   28,   15,   15,   15,   15,   15,   29,   30,
-        6,    6,   33,   33,   33,   49,   32,   32,   38,   39,
-       38,   39,   42,   50,   45,   51,   43,   46,   55,   58,
-       47,   67,   56,   59,   68,  100,   57,   69,   62,   44,
-       63,   33,   33,   33,   52,   38,   39,   64,   89,   93,
-      101,   90,   94,  161,   65,   66,   72,   72,  106,   72,
-       72,   72,   72,   72,   72,   72,   72,  156,  206,   72,
+       32,   32,   40,   41,   33,   33,   34,   34,   35,   35,
+       35,   40,   41,   44,   51,   47,   53,   45,   48,   57,
+       60,   49,   52,   58,   61,   40,   41,   59,  104,   64,
+       46,   65,  110,   69,   93,   54,   70,   94,   66,   71,
+       35,   35,   35,  105,   38,   67,   68,   76,   76,  165,
+       76,   76,   76,   76,   76,   76,   76,   76,   97,  160,
 
-      166,  157,  162,  204,  167,   36,  205,  304,  303,  302,
-      301,  300,  299,  207,  158,  293,  298,  297,  296,  295,
-      294,  293,  292,  291,   72,   72,   72,   72,  290,   72,
-       72,   72,   72,   72,   72,   72,   72,   73,  289,   72,
-      288,  287,  286,  285,  284,  283,  282,  281,  280,  279,
-      278,  277,  276,  275,  274,  273,  272,  271,  270,  269,
-      249,  268,  247,  267,   72,   72,  115,  116,  117,  266,
-      118,  119,  265,  120,  264,  263,  262,  121,  261,  122,
-      123,  260,  124,  125,   72,   72,  259,   72,   72,   72,
-       72,   72,   72,   72,   72,  148,  258,   72,  257,  256,
+       76,   98,  170,  161,  208,  210,  171,  209,  166,  308,
+      307,  306,  305,  304,  303,  297,  162,  302,  301,  300,
+      211,  299,  298,  297,  296,   76,   76,   76,   76,  295,
+       76,   76,   76,   76,   76,   76,   76,   76,   77,  294,
+       76,  293,  292,  291,  290,  289,  288,  287,  286,  285,
+      284,  283,  282,  281,  280,  279,  278,  277,  276,  275,
+      274,  273,  253,  272,  251,   76,   76,  119,  120,  121,
+      271,  122,  123,  270,  124,  269,  268,  267,  125,  266,
+      126,  127,  265,  128,  129,   76,   76,  264,   76,   76,
+       76,   76,   76,   76,   76,   76,  152,  263,   76,  262,
 
-      255,  254,  253,  252,  251,  250,  249,  248,  247,  245,
-      244,  243,  242,  241,  240,  239,  238,  237,  236,  235,
-      234,  233,   72,   72,   72,   72,  232,   72,   72,   72,
-       72,   72,   72,   72,   72,  148,  231,   72,  230,  229,
-      228,  227,  226,  225,  224,  223,  222,  221,  220,  219,
-      218,  217,  216,  215,  214,  213,  212,  211,  210,  209,
-      208,  203,   72,   72,   31,   31,   31,   31,   31,   34,
-       34,   34,   34,   34,   41,   41,   41,   73,  202,   73,
-       73,   73,  107,  201,  107,  107,  107,  147,  147,  149,
-      200,  149,  149,  149,  246,  246,  246,  246,  246,  199,
+      261,  260,  259,  258,  257,  256,  255,  254,  253,  252,
+      251,  249,  248,  247,  246,  245,  244,  243,  242,  241,
+      240,  239,  238,   76,   76,   76,   76,  237,   76,   76,
+       76,   76,   76,   76,   76,   76,  152,  236,   76,  235,
+      234,  233,  232,  231,  230,  229,  228,  227,  226,  225,
+      224,  223,  222,  221,  220,  219,  218,  217,  216,  215,
+      214,  213,  212,   76,   76,   31,   31,   31,   31,   31,
+       31,   36,   36,   36,   36,   36,   36,   43,   43,   43,
+       73,  207,  206,   73,   73,   73,   77,  205,   77,   77,
+       77,   77,  111,  204,  111,  111,  111,  111,  151,  151,
 
-      198,  197,  196,  195,  194,  193,  192,  191,  190,  189,
-      188,  187,  186,  185,  184,  183,  182,  181,  180,  179,
-      178,  177,  176,  175,  174,  173,  172,  171,  170,  169,
-      168,  165,  164,  163,  160,  159,  155,  154,  153,  152,
-      151,  150,  146,  145,  144,  143,  142,  141,  140,  139,
-      138,  137,  136,  135,  134,  133,  132,  131,  130,  129,
-      128,  127,  126,  114,  113,  112,  111,  110,  109,  108,
-      105,  104,  103,  102,   99,   98,   97,   96,   95,   92,
-       91,   88,   87,   86,   85,   84,   83,   82,   81,   80,
-       79,   78,   77,   76,   75,   74,   40,   40,   35,   71,
+      153,  203,  153,  153,  153,  153,  250,  250,  250,  250,
+      250,  250,  202,  201,  200,  199,  198,  197,  196,  195,
+      194,  193,  192,  191,  190,  189,  188,  187,  186,  185,
+      184,  183,  182,  181,  180,  179,  178,  177,  176,  175,
+      174,  173,  172,  169,  168,  167,  164,  163,  159,  158,
+      157,  156,  155,  154,  150,  149,  148,  147,  146,  145,
+      144,  143,  142,  141,  140,  139,  138,  137,  136,  135,
+      134,  133,  132,  131,  130,  118,  117,  116,  115,  114,
+      113,  112,  109,  108,  107,  106,  103,  102,  101,  100,
+       99,   96,   95,   92,   91,   90,   89,   88,   87,   86,
 
-       70,   61,   60,   54,   53,   48,   40,   37,   35,  305,
-        5,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305
+       85,   84,   83,   82,   81,   80,   79,   78,   42,   42,
+       37,   75,   74,   72,   63,   62,   56,   55,   50,   42,
+       39,   37,  309,    5,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309
     } ;
 
-static yyconst flex_int16_t yy_chk[452] =
+static yyconst flex_int16_t yy_chk[465] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        3,    4,    7,    7,    7,   19,    3,    4,   12,   12,
-       14,   14,   16,   19,   17,   20,   16,   17,   23,   24,
-       17,   28,   23,   24,   28,   66,   23,   28,   27,   16,
-       27,   33,   33,   33,   20,   39,   39,   27,   57,   60,
-       66,   57,   60,  118,   27,   27,   36,   36,  311,   36,
-       36,   36,   36,   36,   36,   36,   36,  115,  169,   36,
+        3,    4,   12,   12,    3,    4,    3,    4,    7,    7,
+        7,   14,   14,   16,   19,   17,   20,   16,   17,   23,
+       24,   17,   19,   23,   24,   41,   41,   23,   68,   27,
+       16,   27,  316,   28,   59,   20,   28,   59,   27,   28,
+       35,   35,   35,   68,  312,   27,   27,   38,   38,  122,
+       38,   38,   38,   38,   38,   38,   38,   38,   62,  119,
 
-      122,  115,  118,  168,  122,  308,  168,  302,  301,  299,
-      298,  297,  296,  169,  115,  293,  292,  290,  288,  287,
-      286,  285,  284,  283,   36,   36,   73,   73,  281,   73,
-       73,   73,   73,   73,   73,   73,   73,   73,  279,   73,
-      278,  277,  274,  270,  269,  268,  267,  266,  263,  262,
-      261,  260,  258,  257,  256,  254,  253,  252,  251,  250,
-      249,  248,  246,  245,   73,   73,   81,   81,   81,  243,
-       81,   81,  242,   81,  241,  240,  239,   81,  238,   81,
-       81,  237,   81,   81,  107,  107,  236,  107,  107,  107,
-      107,  107,  107,  107,  107,  107,  235,  107,  234,  232,
+       38,   62,  126,  119,  172,  173,  126,  172,  122,  306,
+      305,  303,  302,  301,  300,  297,  119,  296,  294,  292,
+      173,  291,  290,  289,  288,   38,   38,   77,   77,  287,
+       77,   77,   77,   77,   77,   77,   77,   77,   77,  285,
+       77,  283,  282,  281,  278,  274,  273,  272,  271,  270,
+      267,  266,  265,  264,  262,  261,  260,  258,  257,  256,
+      255,  254,  253,  252,  250,   77,   77,   85,   85,   85,
+      249,   85,   85,  247,   85,  246,  245,  244,   85,  243,
+       85,   85,  242,   85,   85,  111,  111,  241,  111,  111,
+      111,  111,  111,  111,  111,  111,  111,  240,  111,  239,
 
-      231,  230,  228,  227,  226,  225,  223,  222,  221,  219,
-      218,  217,  214,  210,  208,  207,  206,  205,  204,  203,
-      202,  201,  107,  107,  148,  148,  200,  148,  148,  148,
-      148,  148,  148,  148,  148,  148,  199,  148,  198,  197,
-      196,  195,  194,  193,  192,  188,  187,  186,  185,  184,
-      183,  182,  181,  179,  178,  176,  175,  174,  173,  171,
-      170,  167,  148,  148,  306,  306,  306,  306,  306,  307,
-      307,  307,  307,  307,  309,  309,  309,  310,  166,  310,
-      310,  310,  312,  165,  312,  312,  312,  313,  313,  314,
-      164,  314,  314,  314,  315,  315,  315,  315,  315,  163,
+      238,  236,  235,  234,  232,  231,  230,  229,  227,  226,
+      225,  223,  222,  221,  218,  214,  212,  211,  210,  209,
+      208,  207,  206,  111,  111,  152,  152,  205,  152,  152,
+      152,  152,  152,  152,  152,  152,  152,  204,  152,  203,
+      202,  201,  200,  199,  198,  197,  196,  192,  191,  190,
+      189,  188,  187,  186,  185,  183,  182,  180,  179,  178,
+      177,  175,  174,  152,  152,  310,  310,  310,  310,  310,
+      310,  311,  311,  311,  311,  311,  311,  313,  313,  313,
+      314,  171,  170,  314,  314,  314,  315,  169,  315,  315,
+      315,  315,  317,  168,  317,  317,  317,  317,  318,  318,
 
-      162,  161,  160,  159,  158,  157,  156,  155,  153,  152,
-      151,  150,  146,  144,  143,  142,  141,  139,  138,  137,
-      136,  135,  134,  133,  132,  130,  129,  128,  125,  124,
-      123,  121,  120,  119,  117,  116,  114,  113,  112,  111,
-      110,  109,  105,  104,  103,  102,  101,  100,   99,   98,
-       96,   95,   94,   93,   92,   91,   90,   88,   86,   85,
-       84,   83,   82,   80,   79,   78,   77,   76,   75,   74,
-       70,   69,   68,   67,   65,   64,   63,   62,   61,   59,
-       58,   56,   55,   54,   53,   52,   51,   50,   49,   48,
-       47,   46,   45,   44,   43,   42,   40,   38,   34,   32,
+      319,  167,  319,  319,  319,  319,  320,  320,  320,  320,
+      320,  320,  166,  165,  164,  163,  162,  161,  160,  159,
+      157,  156,  155,  154,  150,  148,  147,  146,  145,  143,
+      142,  141,  140,  139,  138,  137,  136,  134,  133,  132,
+      129,  128,  127,  125,  124,  123,  121,  120,  118,  117,
+      116,  115,  114,  113,  109,  108,  107,  106,  105,  104,
+      103,  102,  100,   99,   98,   97,   96,   95,   94,   92,
+       90,   89,   88,   87,   86,   84,   83,   82,   81,   80,
+       79,   78,   72,   71,   70,   69,   67,   66,   65,   64,
+       63,   61,   60,   58,   57,   56,   55,   54,   53,   52,
 
-       29,   26,   25,   22,   21,   18,   13,   10,    8,    5,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305,  305,  305,  305,  305,  305,  305,  305,  305,  305,
-      305
+       51,   50,   49,   48,   47,   46,   45,   44,   42,   40,
+       36,   34,   33,   29,   26,   25,   22,   21,   18,   13,
+       10,    8,    5,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309,  309,  309,  309,  309,  309,  309,
+      309,  309,  309,  309
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[63] =
+static yyconst flex_int32_t yy_rule_can_match_eol[66] =
     {   0,
-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 
-    0, 1, 0,     };
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    1, 0, 0, 0, 1, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -699,12 +701,13 @@ char *nomtext;
 #include "parser.hpp"
 
 int nomcolumn = 0;
+int numBegComments = 0;
 #define YY_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
     nomlloc.first_column = nomcolumn; nomlloc.last_column = nomcolumn + nomleng - 1; \
     nomcolumn += nomleng;
 
 
-#line 708 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.cpp"
+#line 711 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.cpp"
 
 #define INITIAL 0
 #define MULTI_COMMENT 1
@@ -887,9 +890,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 21 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+#line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
 
-#line 893 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.cpp"
+#line 896 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -942,13 +945,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 306 )
+				if ( yy_current_state >= 310 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 411 );
+		while ( yy_base[yy_current_state] != 424 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -985,320 +988,342 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+#line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
 return COMMENT;
 	YY_BREAK
+
 case 2:
 YY_RULE_SETUP
-#line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-{ BEGIN(MULTI_COMMENT); }
+#line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+numBegComments++; BEGIN(MULTI_COMMENT);
 	YY_BREAK
+
+
 case 3:
 YY_RULE_SETUP
-#line 24 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-{ BEGIN(INITIAL); }
+#line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+numBegComments--; if (numBegComments == 0){ BEGIN(INITIAL); };
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-{}
+#line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+// eat comment in chunks
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-nomlval.string=nomtext; return NUMBER;
+#line 30 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+numBegComments++;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 27 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-nomlval.string=strdup(nomtext); return BANK_EXPR;
+#line 31 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+// eat the lone star
 	YY_BREAK
 case 7:
+/* rule 7 can match eol */
 YY_RULE_SETUP
-#line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return EXPR;
+#line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+;
 	YY_BREAK
+
 case 8:
 YY_RULE_SETUP
-#line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-nomlval.intNumber = std::stoi(std::string(nomtext).substr (7)); return BSPLINE;
+#line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+nomlval.string=nomtext; return NUMBER;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 30 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-nomlval.intNumber = std::stoi(std::string(nomtext).substr (10)); return END_BSPLINE;
+#line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+nomlval.string=strdup(nomtext); return BANK_EXPR;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 31 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return CLOSED;
+#line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return EXPR;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return SLICES;
+#line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+nomlval.intNumber = std::stoi(std::string(nomtext).substr (7)); return BSPLINE;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 33 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return BEZIERCURVE;
+#line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+nomlval.intNumber = std::stoi(std::string(nomtext).substr (10)); return END_BSPLINE;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_BEZIERCURVE;
+#line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return CLOSED;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return OFFSET;
+#line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return SLICES;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_OFFSET;
+#line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return BEZIERCURVE;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return MIN;
+#line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_BEZIERCURVE;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return MAX;
+#line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return OFFSET;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return STEP;
+#line 44 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_OFFSET;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return SURFACE;
+#line 45 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return MIN;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_SURFACE;
+#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return MAX;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return BEG_POINT;
+#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return STEP;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return COLOR;
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return SURFACE;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 44 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_POINT;
+#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_SURFACE;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 45 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return BANK;
+#line 50 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return BEG_POINT;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_BANK;
+#line 51 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return COLOR;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return SET;
+#line 52 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_POINT;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return FACE;
+#line 53 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return BANK;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_FACE;
+#line 54 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_BANK;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 50 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return OBJECT;
+#line 55 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return SET;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 51 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_OBJECT;
+#line 56 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return FACE;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 52 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return MESH;
+#line 57 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_FACE;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 53 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_MESH;
+#line 58 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return OBJECT;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 54 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return TUNNEL;
+#line 59 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_OBJECT;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 55 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_TUNNEL;
+#line 60 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return MESH;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 56 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return FUNNEL;
+#line 61 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_MESH;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 57 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_FUNNEL;
+#line 62 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return TUNNEL;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 58 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return POLYLINE;
+#line 63 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_TUNNEL;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 59 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return CIRCLE;
+#line 64 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return FUNNEL;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 60 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_CIRCLE;
+#line 65 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_FUNNEL;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 61 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return SCALE;
+#line 66 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return POLYLINE;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 62 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_POLYLINE;
+#line 67 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return CIRCLE;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 63 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return INSTANCE;
+#line 68 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_CIRCLE;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 64 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_INSTANCE;
+#line 69 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return SCALE;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 65 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return TRANSLATE;
+#line 70 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_POLYLINE;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 66 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return ROTATE;
+#line 71 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return INSTANCE;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 67 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return MIRROR;
+#line 72 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_INSTANCE;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 68 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return BEG_DELETE;
+#line 73 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return TRANSLATE;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 69 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_DELETE;
+#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return ROTATE;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 70 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return GROUP;
+#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return MIRROR;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 71 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_GROUP;
+#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return BEG_DELETE;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 72 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return SUBDIVISION;
+#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_DELETE;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 73 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return END_SUBDIVISION;
+#line 78 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return GROUP;
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return SUBDIVISIONS;
+#line 79 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_GROUP;
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return TYPE;
+#line 80 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return SUBDIVISION;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return OBRACE;
+#line 81 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return END_SUBDIVISION;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return EBRACE;
+#line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return SUBDIVISIONS;
 	YY_BREAK
 case 57:
-/* rule 57 can match eol */
 YY_RULE_SETUP
-#line 78 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
+#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return TYPE;
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 79 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-nomlval.string=strdup(nomtext); return VARIABLE;
+#line 84 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return OBRACE;
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 80 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return OPARENTHESES;
+#line 85 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return EBRACE;
 	YY_BREAK
 case 60:
+/* rule 60 can match eol */
 YY_RULE_SETUP
-#line 81 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-return EPARENTHESES;
+#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
 	YY_BREAK
 case 61:
-/* rule 61 can match eol */
 YY_RULE_SETUP
-#line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-/* ignore whitespace */;
+#line 87 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+nomlval.string=strdup(nomtext); return VARIABLE;
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
-ECHO;
+#line 88 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return OPARENTHESES;
 	YY_BREAK
-#line 1299 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.cpp"
+case 63:
+YY_RULE_SETUP
+#line 89 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+return EPARENTHESES;
+	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(MULTI_COMMENT):
-	yyterminate();
+#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+if (numBegComments != 0){std::cout << "Error: Missing *) of multiline comment." << std::endl;} return 0;
+	YY_BREAK
+case 64:
+/* rule 64 can match eol */
+YY_RULE_SETUP
+#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+/* ignore whitespace */;
+	YY_BREAK
+case 65:
+YY_RULE_SETUP
+#line 92 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+ECHO;
+	YY_BREAK
+#line 1327 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1588,7 +1613,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 306 )
+			if ( yy_current_state >= 310 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1616,11 +1641,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 306 )
+		if ( yy_current_state >= 310 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 305);
+	yy_is_jam = (yy_current_state == 309);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2302,7 +2327,7 @@ void nomfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
+#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\lexer.l"
 
 
 

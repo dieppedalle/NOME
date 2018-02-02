@@ -225,6 +225,7 @@ bool MeshNew::draw(double offset)
     std::list<Vert*> listInVert;
     Vert* lastVertSeen;
     for(auto f : faces) {
+        //std::cout << "F" << std::endl;
         listOutVert.clear();
         listInVert.clear();
         for(Vert* v : f->verts) {
@@ -244,6 +245,7 @@ bool MeshNew::draw(double offset)
         }
 
         if (offset != 0){
+            //listInVert.reverse();
             FaceNew* newFace = createOffsetFace(listOutVert);
             outFaces.push_back(newFace);
 
@@ -252,13 +254,16 @@ bool MeshNew::draw(double offset)
 
             drawFace(newFace, NULL);
             drawFace(newInFace, NULL);
+        } else {
+            drawFace(f, NULL);
         }
 
-        drawFace(f, NULL);
+        //drawFace(f, NULL);
     }
 
     for(EdgeNew* e : edges) {
         //if (e->f0 != NULL && e->f1 != NULL){
+        if (e->isBorder()){
             int numberMobiusVert = 0;
             if (e->f0 != NULL){
                 if (dotProductNormal(e->f0->getNormal(), e->v0->normal) < 0){
@@ -299,16 +304,20 @@ bool MeshNew::draw(double offset)
                 listInVert.push_back(e->v0->normalOutVert);
             }
 
+
+
             if (offset != 0){
+                //listInVert.reverse();
                 FaceNew* newFace = createOffsetFace(listOutVert);
                 FaceNew* newInFace = createOffsetFace(listInVert);
                 inFaces.push_back(newInFace);
                 outFaces.push_back(newFace);
 
-                drawFace(newFace, NULL);
-                drawFace(newInFace, NULL);
+                //drawFace(newFace, NULL);
+                //drawFace(newInFace, NULL);
             }
         //}
+        }
     }
     return true;
 }

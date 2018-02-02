@@ -6,6 +6,7 @@
 #include "parser.hpp"
 
 int nomcolumn = 0;
+int numBegComments = 0;
 #define YY_USER_ACTION nomlloc.first_line = nomlloc.last_line = nomlineno; \
     nomlloc.first_column = nomcolumn; nomlloc.last_column = nomcolumn + nomleng - 1; \
     nomcolumn += nomleng;
@@ -20,9 +21,16 @@ int nomcolumn = 0;
 
 %%
 (\#(.)*(.|\n))           return COMMENT;
-"(*"                     { BEGIN(MULTI_COMMENT); }
-<MULTI_COMMENT>"*)"      { BEGIN(INITIAL); }
-<MULTI_COMMENT>.         {}
+<INITIAL>{
+"(*"              numBegComments++; BEGIN(MULTI_COMMENT);
+}
+<MULTI_COMMENT>{
+"*)"      numBegComments--; if (numBegComments == 0){ BEGIN(INITIAL); };
+[^*\n]+   // eat comment in chunks
+"(*"      numBegComments++;
+"*"       // eat the lone star
+\n        ;
+}
 [+-]?([0-9]*[.])?[0-9]+  nomlval.string=nomtext; return NUMBER;
 \$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  nomlval.string=strdup(nomtext); return BANK_EXPR;
 expr                     return EXPR;
@@ -79,5 +87,6 @@ type                    return TYPE;
 [a-zA-Z][a-zA-Z0-9_\.]* nomlval.string=strdup(nomtext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
+<<EOF>>                 if (numBegComments != 0){std::cout << "Error: Missing *) of multiline comment." << std::endl;} return 0;
 [ \t\n]+                /* ignore whitespace */;
 %%
