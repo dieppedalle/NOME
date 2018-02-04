@@ -261,7 +261,7 @@ bool MeshNew::draw(double offset)
         //drawFace(f, NULL);
     }
 
-    for(EdgeNew* e : edges) {
+    /*for(EdgeNew* e : edges) {
         //if (e->f0 != NULL && e->f1 != NULL){
         if (e->isBorder()){
             int numberMobiusVert = 0;
@@ -318,7 +318,7 @@ bool MeshNew::draw(double offset)
             }
         //}
         }
-    }
+    }*/
     return true;
 }
 
@@ -459,6 +459,7 @@ void MeshNew::calculateNormal(){
     }
 
     for (Vert* currVert : this->verts){
+        std::cout << currVert->edges.size() << std::endl;
         double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]);
         currVert->normal[0] = currVert->normal[0] / magnitude;
         currVert->normal[1] = currVert->normal[1] / magnitude;
