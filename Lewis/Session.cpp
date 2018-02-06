@@ -500,7 +500,9 @@ void Session::SaveSessionStl(std::string outputFile){
     file<< "endsolid convertedFile";
 }
 
-void parseGetBankVal(const char* input, Session* sessionParse, double* output){
-    BankCompiler* bankCompilerSession = new BankCompiler (input, sessionParse, output);
+void parseGetBankVal(const char* input, Session* sessionParse, double* output, int lineNumber){
+    //std::cout << "AAA" << std::endl;
+    BankCompiler* bankCompilerSession = new BankCompiler (input, sessionParse, output, lineNumber);
+    //std::cout << "BBB" << std::endl;
     //*output = bankCompilerSession->getResult();
 }

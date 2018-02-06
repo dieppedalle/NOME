@@ -22,6 +22,7 @@ extern char* banktext;
 
 extern int bankcolumn;
 
+int lineNumberG;
 double result = 0;
 
 int banklex(void);
@@ -106,23 +107,25 @@ parenth:
 number:
     E { $<number>$ = M_E;}
     | NUM {$<number>$ = $<number>1;};
-    | BANK_EXPR {$<number>$ = *getBankValue($<string>1, currSession);}
+    | BANK_EXPR {double* bankVal = getBankValue($<string>1, currSession); std::string nameBank($<string>1); if (bankVal == NULL && lineNumberG != 0){std::cout << "Bank " + nameBank + " not found on line "; return -1;} else{$<number>$ = *bankVal;} }
 
 %%
 /* Declarations */
-void set_input_string(const char* in);
+void set_input_string(const char* in, int lineNumber);
 void end_lexical_scan(void);
 
 
 /* This function parses a string */
-double parse_string(const char* in, Session* sessionParse) {
+double parse_string(const char* in, Session* sessionParse, int lineNumber) {
   result = 0;
-  //std::cout << "CAL" << std::endl;
-  //std::cout << *in << std::endl;
-  set_input_string(in);
-
+  set_input_string(in, lineNumber);
+  lineNumberG = lineNumber;
 
   int rv = bankparse(sessionParse);
+  if (rv == -1 && lineNumber != 0){
+    std::cout << lineNumber;
+    std::cout << "." << std::endl;
+  }
   end_lexical_scan();
 
   return result;

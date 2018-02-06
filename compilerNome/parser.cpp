@@ -1731,13 +1731,13 @@ yyreduce:
         double *angle = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-6].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-6].string), currSession, currentValSet, nomlineno);
         *x = *currentValSet;
-        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet, nomlineno);
         *y = *currentValSet;
-        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
         *z = *currentValSet;
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         *angle = *currentValSet;
 
         Rotate* currRotate = createRotate(x, y, z, angle);
@@ -1760,11 +1760,11 @@ yyreduce:
         double *z = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *x = *currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *y = *currentValSet;
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         *z = *currentValSet;
 
         Translate* currTranslate = createTranslate(x, y, z);
@@ -1785,11 +1785,11 @@ yyreduce:
         double *z = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *x = *currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *y = *currentValSet;
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         *z = *currentValSet;
 
         Scale* currScale = createScale(x, y, z);
@@ -1806,13 +1806,13 @@ yyreduce:
 #line 245 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
         double x = *currentValSet;
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         double y = *currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         double z = *currentValSet;
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         double w = *currentValSet;
 
     }
@@ -1878,7 +1878,7 @@ yyreduce:
         double *subdivision = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         *subdivision = *currentValSet;
 
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
@@ -1895,11 +1895,11 @@ yyreduce:
         double *step = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet, nomlineno);
         *min = *currentValSet;
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *max = *currentValSet;
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         *step = *currentValSet;
 
         OffsetNew* currOffset = createOffset(strdup((yyvsp[-7].string)), min, max, step);
@@ -1968,11 +1968,11 @@ yyreduce:
         string currentSetName = (yyvsp[-4].string);
         double currentSetValue = (double)atof((yyvsp[-3].numPos).string);
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         double currentSetStart = *currentValSet;
-        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-1].string), currSession, currentValSet, nomlineno);
         double currentSetEnd = *currentValSet;
-        parseGetBankVal((yyvsp[0].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[0].string), currSession, currentValSet, nomlineno);
         double currentSetStepSize = *currentValSet;
         string currentSetValueString = (yyvsp[-3].numPos).string;
 
@@ -2061,10 +2061,10 @@ yyreduce:
         double *rad = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *num = *currentValSet;
 
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *rad = *currentValSet;
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -2091,13 +2091,13 @@ yyreduce:
         double *h = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet, nomlineno);
         *n = *currentValSet;
-        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
         *ro = *currentValSet;
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *ratio = *currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *h = *currentValSet;
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
@@ -2125,13 +2125,13 @@ yyreduce:
         double *h = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-5].string), currSession, currentValSet, nomlineno);
         *n = *currentValSet;
-        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
         *ro = *currentValSet;
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *ratio = *currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *h = *currentValSet;
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
@@ -2269,7 +2269,7 @@ yyreduce:
     currBSpline->setName(strdup((yyvsp[-6].string)));
     currBSpline->set_order((yyvsp[-7].intNumber));
     double *currentValSet = (double*) malloc(sizeof(double));
-    parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+    parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
     currBSpline->segments = -1;
     currBSpline->currSession = currSession;
 
@@ -2371,7 +2371,7 @@ yyreduce:
         string lookFor = strdup((yyvsp[-3].string));
 
         MeshNew * currentMesh = currReader->getMesh((yyvsp[-3].string));
-        
+
         InstanceNew* newInstance = NULL;
         bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
@@ -2464,11 +2464,11 @@ yyreduce:
         double *b = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
         *r = *currentValSet;
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *g = *currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *b = *currentValSet;
 
         Surface* currSurface = createSurface(r, g, b, strdup((yyvsp[-7].string)));
@@ -2491,11 +2491,11 @@ yyreduce:
         double *z = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
         *x =*currentValSet;
-        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-3].string), currSession, currentValSet, nomlineno);
         *y =*currentValSet;
-        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet);
+        parseGetBankVal((yyvsp[-2].string), currSession, currentValSet, nomlineno);
         *z =*currentValSet;
 
         Vert * newVertex = createVert (x, y, z);

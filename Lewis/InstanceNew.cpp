@@ -616,48 +616,48 @@ void InstanceNew::updateTransformations(){
             Scale* scale = dynamic_cast<Scale*>(t);
 
             double *xValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(scale->xStr.c_str(), currSession, xValSet);
+            parseGetBankVal(scale->xStr.c_str(), currSession, xValSet, 0);
             *(scale->x) = *xValSet;
 
             double *yValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(scale->yStr.c_str(), currSession, yValSet);
+            parseGetBankVal(scale->yStr.c_str(), currSession, yValSet, 0);
             *(scale->y) = *yValSet;
 
             double *zValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(scale->zStr.c_str(), currSession, zValSet);
+            parseGetBankVal(scale->zStr.c_str(), currSession, zValSet, 0);
             *(scale->z) = *zValSet;
         } else if (dynamic_cast<Translate*>(t)){
             Translate* translate = dynamic_cast<Translate*>(t);
 
             double *xValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(translate->xStr.c_str(), currSession, xValSet);
+            parseGetBankVal(translate->xStr.c_str(), currSession, xValSet, 0);
             *(translate->x) = *xValSet;
 
             double *yValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(translate->yStr.c_str(), currSession, yValSet);
+            parseGetBankVal(translate->yStr.c_str(), currSession, yValSet, 0);
             *(translate->y) = *yValSet;
 
             double *zValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(translate->zStr.c_str(), currSession, zValSet);
+            parseGetBankVal(translate->zStr.c_str(), currSession, zValSet, 0);
             *(translate->z) = *zValSet;
 
         } else if (dynamic_cast<Rotate*>(t)){
             Rotate* rotate = dynamic_cast<Rotate*>(t);
 
             double *xValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(rotate->xStr.c_str(), currSession, xValSet);
+            parseGetBankVal(rotate->xStr.c_str(), currSession, xValSet, 0);
             *(rotate->x) = *xValSet;
 
             double *yValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(rotate->yStr.c_str(), currSession, yValSet);
+            parseGetBankVal(rotate->yStr.c_str(), currSession, yValSet, 0);
             *(rotate->y) = *yValSet;
 
             double *zValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(rotate->zStr.c_str(), currSession, zValSet);
+            parseGetBankVal(rotate->zStr.c_str(), currSession, zValSet, 0);
             *(rotate->z) = *zValSet;
 
             double *angleValSet = (double*) malloc(sizeof(double));
-            parseGetBankVal(rotate->angleStr.c_str(), currSession, angleValSet);
+            parseGetBankVal(rotate->angleStr.c_str(), currSession, angleValSet, 0);
             *(rotate->angle) = *angleValSet;
         }
     }

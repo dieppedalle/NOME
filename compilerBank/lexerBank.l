@@ -5,6 +5,7 @@
 #include "parserBank.hpp"
 
 int bankcolumn = 0;
+
 #define bank_USER_ACTION banklloc.first_line = banklloc.last_line = banklineno; \
     banklloc.first_column = bankcolumn; banklloc.last_column = bankcolumn + bankleng - 1; \
     bankcolumn += bankleng;
@@ -46,7 +47,7 @@ ln                       return LN;
 [ \t\n]+                /* ignore whitespace */;
 %%
 
-void set_input_string(const char* in) {
+void set_input_string(const char* in, int lineNumber) {
   bank_scan_string(in);
 }
 

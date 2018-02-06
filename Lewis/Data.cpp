@@ -45,6 +45,7 @@ double *getBankValue(std::string str, Session* currSession){
             }
         }
     }
+
     //std::cout << "END BANK" << std::endl;
     return NULL;
 }
@@ -1041,11 +1042,11 @@ void Vert::calculateVertPoint(){
 
 void Vert::update(){
     double *currentValSet = (double*) malloc(sizeof(double));
-    parseGetBankVal(xStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(xStr.c_str(), this->currSession, currentValSet, 0);
     *x = *currentValSet;
-    parseGetBankVal(yStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(yStr.c_str(), this->currSession, currentValSet, 0);
     *y = *currentValSet;
-    parseGetBankVal(zStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(zStr.c_str(), this->currSession, currentValSet, 0);
     *z = *currentValSet;
 }
 
@@ -1103,10 +1104,10 @@ void Vert::applyTransformation(TransformationNew * t){
 
 void Surface::update(){
     double *currentValSet = (double*) malloc(sizeof(double));
-    parseGetBankVal(rStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(rStr.c_str(), this->currSession, currentValSet, 0);
     *r = *currentValSet;
-    parseGetBankVal(gStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(gStr.c_str(), this->currSession, currentValSet, 0);
     *g = *currentValSet;
-    parseGetBankVal(bStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(bStr.c_str(), this->currSession, currentValSet, 0);
     *b = *currentValSet;
 }

@@ -45,10 +45,10 @@ bool CircleNew::setName(std::string n)
 
 int CircleNew::updateCircle() {
     double *currentValNum = (double*) malloc(sizeof(double));
-    parseGetBankVal(numStr.c_str(), this->currSession, currentValNum);
+    parseGetBankVal(numStr.c_str(), this->currSession, currentValNum, 0);
 
     double *currentValRad = (double*) malloc(sizeof(double));
-    parseGetBankVal(radStr.c_str(), this->currSession, currentValRad);
+    parseGetBankVal(radStr.c_str(), this->currSession, currentValRad, 0);
 
     // Check if we need to create new vertices (if the number of vertices has changed).
     if (*num != *currentValNum){

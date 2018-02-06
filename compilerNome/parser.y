@@ -172,13 +172,13 @@ rotateArgs:
         double *angle = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>3, currSession, currentValSet);
+        parseGetBankVal($<string>3, currSession, currentValSet, nomlineno);
         *x = *currentValSet;
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *y = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *z = *currentValSet;
-        parseGetBankVal($<string>8, currSession, currentValSet);
+        parseGetBankVal($<string>8, currSession, currentValSet, nomlineno);
         *angle = *currentValSet;
 
         Rotate* currRotate = createRotate(x, y, z, angle);
@@ -200,11 +200,11 @@ translateArgs:
         double *z = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>3, currSession, currentValSet);
+        parseGetBankVal($<string>3, currSession, currentValSet, nomlineno);
         *x = *currentValSet;
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *y = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *z = *currentValSet;
 
         Translate* currTranslate = createTranslate(x, y, z);
@@ -224,11 +224,11 @@ scaleArgs:
         double *z = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>3, currSession, currentValSet);
+        parseGetBankVal($<string>3, currSession, currentValSet, nomlineno);
         *x = *currentValSet;
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *y = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *z = *currentValSet;
 
         Scale* currScale = createScale(x, y, z);
@@ -244,13 +244,13 @@ mirrorArgs:
     MIRROR OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
     {
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>3, currSession, currentValSet);
+        parseGetBankVal($<string>3, currSession, currentValSet, nomlineno);
         double x = *currentValSet;
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         double y = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         double z = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         double w = *currentValSet;
 
     }
@@ -328,7 +328,7 @@ subdivision:
         double *subdivision = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>7, currSession, currentValSet);
+        parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *subdivision = *currentValSet;
 
         SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
@@ -343,11 +343,11 @@ offset:
         double *step = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *min = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         *max = *currentValSet;
-        parseGetBankVal($<string>8, currSession, currentValSet);
+        parseGetBankVal($<string>8, currSession, currentValSet, nomlineno);
         *step = *currentValSet;
 
         OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
@@ -417,11 +417,11 @@ set:
         string currentSetName = $<string>2;
         double currentSetValue = (double)atof($<numPos>3.string);
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         double currentSetStart = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         double currentSetEnd = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         double currentSetStepSize = *currentValSet;
         string currentSetValueString = $<numPos>3.string;
 
@@ -511,10 +511,10 @@ circle:
         double *rad = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *num = *currentValSet;
 
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *rad = *currentValSet;
 
         CircleNew* currCircle = createCircle(num, rad);
@@ -540,13 +540,13 @@ tunnel:
         double *h = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *n = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *ro = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         *ratio = *currentValSet;
-        parseGetBankVal($<string>7, currSession, currentValSet);
+        parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *h = *currentValSet;
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
@@ -574,13 +574,13 @@ funnel:
         double *h = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *n = *currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *ro = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         *ratio = *currentValSet;
-        parseGetBankVal($<string>7, currSession, currentValSet);
+        parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *h = *currentValSet;
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
@@ -711,7 +711,7 @@ bspline:
     currBSpline->setName(strdup($<string>2));
     currBSpline->set_order($<intNumber>1);
     double *currentValSet = (double*) malloc(sizeof(double));
-    parseGetBankVal($<string>6, currSession, currentValSet);
+    parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
     currBSpline->segments = -1;
     currBSpline->currSession = currSession;
 
@@ -810,7 +810,7 @@ instance:
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->getMesh($<string>3);
-        
+
         InstanceNew* newInstance = NULL;
         bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
@@ -901,11 +901,11 @@ surface:
         double *b = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *r = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         *g = *currentValSet;
-        parseGetBankVal($<string>7, currSession, currentValSet);
+        parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *b = *currentValSet;
 
         Surface* currSurface = createSurface(r, g, b, strdup($<string>2));
@@ -927,11 +927,11 @@ point:
         double *z = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet);
+        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
         *x =*currentValSet;
-        parseGetBankVal($<string>5, currSession, currentValSet);
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
         *y =*currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet);
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
         *z =*currentValSet;
 
         Vert * newVertex = createVert (x, y, z);

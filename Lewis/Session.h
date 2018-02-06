@@ -92,6 +92,6 @@ private:
 Session* createSession();
 Session* createSession(Session*);
 void saveFaceSTL(FaceNew* currFace, std::ofstream& file);
-void parseGetBankVal(const char* input, Session* sessionParse, double* output);
+void parseGetBankVal(const char* input, Session* sessionParse, double* output, int lineNumber);
 
 #endif /* Session_h */

@@ -156,16 +156,16 @@ void TunnelNew::createVertEdgeTunnel(){
 
 int TunnelNew::updateTunnel() {
     double *currentValN = (double*) malloc(sizeof(double));
-    parseGetBankVal(nStr.c_str(), this->currSession, currentValN);
+    parseGetBankVal(nStr.c_str(), this->currSession, currentValN, 0);
 
     double *currentValRo = (double*) malloc(sizeof(double));
-    parseGetBankVal(roStr.c_str(), this->currSession, currentValRo);
+    parseGetBankVal(roStr.c_str(), this->currSession, currentValRo, 0);
 
     double *currentValRatio = (double*) malloc(sizeof(double));
-    parseGetBankVal(ratioStr.c_str(), this->currSession, currentValRatio);
+    parseGetBankVal(ratioStr.c_str(), this->currSession, currentValRatio, 0);
 
     double *currentValH = (double*) malloc(sizeof(double));
-    parseGetBankVal(hStr.c_str(), this->currSession, currentValH);
+    parseGetBankVal(hStr.c_str(), this->currSession, currentValH, 0);
 
 
     // Used when the sliders are changing values.

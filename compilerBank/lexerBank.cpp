@@ -551,12 +551,13 @@ char *banktext;
 #include "parserBank.hpp"
 
 int bankcolumn = 0;
+
 #define bank_USER_ACTION banklloc.first_line = banklloc.last_line = banklineno; \
     banklloc.first_column = bankcolumn; banklloc.last_column = bankcolumn + bankleng - 1; \
     bankcolumn += bankleng;
 
 
-#line 560 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.cpp"
+#line 561 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.cpp"
 
 #define INITIAL 0
 #define MULTI_COMMENT 1
@@ -739,9 +740,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 20 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 21 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 
-#line 745 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.cpp"
+#line 746 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -836,141 +837,141 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 21 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return SQRT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 22 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return COS;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 24 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return SIN;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return TAN;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 26 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return SEC;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 26 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 27 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return COT;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 27 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return CSC;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 28 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ARCCOS;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 29 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 30 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ARCSIN;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 30 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 31 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ARCTAN;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 31 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ARCSEC;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 32 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 33 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ARCCOT;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 33 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ARCCSC;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 34 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return LOG;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 35 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return E;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 36 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return LN;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 37 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return ADD;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 38 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return SUBTRACT;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 39 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return MULTIPLY;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 40 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return DIVIDE;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 41 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return EXP;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 42 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return LPAREN;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 43 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 44 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 return RPAREN;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 44 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 45 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 banklval.string=strdup(banktext); return BANK_EXPR;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 45 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 banklval.number=(double)atof(banktext); return NUM;
 	YY_BREAK
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 /* ignore whitespace */;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 ECHO;
 	YY_BREAK
-#line 974 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.cpp"
+#line 975 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(MULTI_COMMENT):
 	yyterminate();
@@ -1977,11 +1978,11 @@ void bankfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 46 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
+#line 47 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\lexerBank.l"
 
 
 
-void set_input_string(const char* in) {
+void set_input_string(const char* in, int lineNumber) {
   bank_scan_string(in);
 }
 

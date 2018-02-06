@@ -14,7 +14,7 @@
 bool BSplineNew::updateBSpline()
 {
     double *currentValSet = (double*) malloc(sizeof(double));
-    parseGetBankVal(segmentsStr.c_str(), currSession, currentValSet);
+    parseGetBankVal(segmentsStr.c_str(), currSession, currentValSet, 0);
 
     if (*currentValSet != segments){
         segments = *currentValSet;

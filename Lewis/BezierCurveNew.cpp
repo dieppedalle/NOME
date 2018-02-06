@@ -53,7 +53,7 @@ void BezierCurveNew::calculateBezierVertex(std::vector<Vert*> interpolatedPoints
 
 void BezierCurveNew::updateBezierCurve(){
     double *currentValSet = (double*) malloc(sizeof(double));
-    parseGetBankVal(segmentsStr.c_str(), this->currSession, currentValSet);
+    parseGetBankVal(segmentsStr.c_str(), this->currSession, currentValSet, 0);
     if (*currentValSet != *segments){
         *segments = *currentValSet;
         verts.clear();

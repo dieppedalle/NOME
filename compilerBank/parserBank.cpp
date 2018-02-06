@@ -92,6 +92,7 @@ extern char* banktext;
 
 extern int bankcolumn;
 
+int lineNumberG;
 double result = 0;
 
 int banklex(void);
@@ -104,7 +105,7 @@ int bankwrap() {
 }
 
 
-#line 108 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:339  */
+#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULL
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -138,7 +139,7 @@ extern int bankdebug;
 
 #include <Lewis/Session.h>
 
-#line 142 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:355  */
+#line 143 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -204,12 +205,12 @@ extern int bankdebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:355  */
+#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:355  */
 
     double number;
     char *string;
 
-#line 213 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:355  */
+#line 214 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -238,7 +239,7 @@ int bankparse (Session* currSession);
 
 /* Copy the second part of user declarations.  */
 
-#line 242 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:358  */
+#line 243 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -521,10 +522,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    56,    61,    66,    68,    70,    74,    75,
-      76,    79,    80,    83,    84,    85,    86,    87,    88,    89,
-      90,    91,    92,    93,    94,    95,    96,    97,    98,    99,
-     100,   103,   104,   107,   108,   109
+       0,    56,    56,    57,    62,    67,    69,    71,    75,    76,
+      77,    80,    81,    84,    85,    86,    87,    88,    89,    90,
+      91,    92,    93,    94,    95,    96,    97,    98,    99,   100,
+     101,   104,   105,   108,   109,   110
 };
 #endif
 
@@ -1429,201 +1430,201 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 61 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 62 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {
     result = (yyvsp[0].number);
     }
-#line 1437 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1438 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 67 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 68 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[-2].number) + (yyvsp[0].number);}
-#line 1443 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1444 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 69 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 70 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[-2].number) - (yyvsp[0].number);}
-#line 1449 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1450 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 71 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 72 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1455 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1456 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[-2].number) * (yyvsp[0].number);}
-#line 1461 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1462 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[-2].number) / (yyvsp[0].number);}
-#line 1467 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1468 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1473 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1474 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 79 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 80 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = pow((yyvsp[-2].number), (yyvsp[0].number));}
-#line 1479 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1480 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 80 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 81 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     { (yyval.number) = (yyvsp[0].number); }
-#line 1485 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1486 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 84 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = sqrt((yyvsp[0].number));}
-#line 1491 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1492 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 84 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 85 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = cos((yyvsp[0].number));}
-#line 1497 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1498 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 85 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = sin((yyvsp[0].number));}
-#line 1503 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1504 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 87 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = tan((yyvsp[0].number));}
-#line 1509 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1510 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 87 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 88 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = 1/(cos((yyvsp[0].number)));}
-#line 1515 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1516 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 88 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 89 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = 1/(sin((yyvsp[0].number)));}
-#line 1521 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1522 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 89 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = tan((yyvsp[0].number));}
-#line 1527 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1528 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = acos((yyvsp[0].number));}
-#line 1533 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1534 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 92 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = asin((yyvsp[0].number));}
-#line 1539 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1540 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 92 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 93 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = atan((yyvsp[0].number));}
-#line 1545 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1546 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 93 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 94 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = 1/(acos((yyvsp[0].number)));}
-#line 1551 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1552 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 94 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = 1/(asin((yyvsp[0].number)));}
-#line 1557 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1558 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 96 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = 1/(atan((yyvsp[0].number)));}
-#line 1563 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1564 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 96 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 97 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = log10((yyvsp[0].number));}
-#line 1569 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1570 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 97 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 98 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = log((yyvsp[0].number));}
-#line 1575 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1576 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 98 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 99 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = -1 * (yyvsp[0].number);}
-#line 1581 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1582 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 99 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 100 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[-1].number) *(yyvsp[0].number);}
-#line 1587 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1588 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 100 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 101 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1593 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1594 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 103 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 104 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[-1].number);}
-#line 1599 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1600 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 104 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 105 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1605 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1606 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 107 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 108 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     { (yyval.number) = M_E;}
-#line 1611 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1612 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 108 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1617 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1618 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
-    {(yyval.number) = *getBankValue((yyvsp[0].string), currSession);}
-#line 1623 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 110 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+    {double* bankVal = getBankValue((yyvsp[0].string), currSession); std::string nameBank((yyvsp[0].string)); if (bankVal == NULL && lineNumberG != 0){std::cout << "Bank " + nameBank + " not found on line "; return -1;} else{(yyval.number) = *bankVal;} }
+#line 1624 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1627 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1628 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1858,22 +1859,24 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 111 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1906  */
+#line 112 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1906  */
 
 /* Declarations */
-void set_input_string(const char* in);
+void set_input_string(const char* in, int lineNumber);
 void end_lexical_scan(void);
 
 
 /* This function parses a string */
-double parse_string(const char* in, Session* sessionParse) {
+double parse_string(const char* in, Session* sessionParse, int lineNumber) {
   result = 0;
-  //std::cout << "CAL" << std::endl;
-  //std::cout << *in << std::endl;
-  set_input_string(in);
-
+  set_input_string(in, lineNumber);
+  lineNumberG = lineNumber;
 
   int rv = bankparse(sessionParse);
+  if (rv == -1 && lineNumber != 0){
+    std::cout << lineNumber;
+    std::cout << "." << std::endl;
+  }
   end_lexical_scan();
 
   return result;
