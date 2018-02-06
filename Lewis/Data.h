@@ -74,6 +74,11 @@ public:
     double *zTransformed;
     double weight;
     bool selected;
+
+    bool mobius;
+
+    std::vector<std::tuple<Vert*,Vert*>> edgesSeen;
+
     VertI index;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
@@ -126,7 +131,7 @@ public:
     bool selected;
     // Used for subdivision
     Vert* facePoint;
-
+    bool mobius = false;
     void calculateFacePoint();
 
     std::vector<double> getNormal();

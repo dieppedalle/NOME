@@ -102,6 +102,7 @@ Vert* createVert(double *x, double *y, double *z, double w)
     v0->x = x;
     v0->y = y;
     v0->z = z;
+    v0->mobius = false;
 
     double *xTr = (double*) malloc(sizeof(double));
     double *yTr = (double*) malloc(sizeof(double));
@@ -112,6 +113,9 @@ Vert* createVert(double *x, double *y, double *z, double w)
     v0->xTransformed = xTr;
     v0->yTransformed = yTr;
     v0->zTransformed = zTr;
+
+    v0->normalInVert = NULL;
+    v0->normalOutVert = NULL;
 
     v0->weight = w;
     std::list<EdgeNew*> edges; std::list<FaceNew*> faces;
@@ -135,27 +139,47 @@ Vert* createVert(Vert* toBeCopied){
 
 
 void Vert::updateOutOffsetVertex(double offset){
-    double *x = (double*) malloc(sizeof(double));
-    double *y = (double*) malloc(sizeof(double));
-    double *z = (double*) malloc(sizeof(double));
+    if (this->normalOutVert == NULL){
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
 
-    *x = *this->xTransformed + this->normal[0] * (offset / 2);
-    *y = *this->yTransformed + this->normal[1] * (offset / 2);
-    *z = *this->zTransformed + this->normal[2] * (offset / 2);
+        *x = *this->xTransformed + this->normal[0] * (offset / 2);
+        *y = *this->yTransformed + this->normal[1] * (offset / 2);
+        *z = *this->zTransformed + this->normal[2] * (offset / 2);
 
-    this->normalOutVert = createVert(x, y, z, 1.0);
+        this->normalOutVert = createVert(x, y, z, 1.0);
+    } else{
+        *this->normalOutVert->x = *this->xTransformed + this->normal[0] * (offset / 2);
+        *this->normalOutVert->y = *this->yTransformed + this->normal[1] * (offset / 2);
+        *this->normalOutVert->z = *this->zTransformed + this->normal[2] * (offset / 2);
+        *this->normalOutVert->xTransformed = *this->normalOutVert->x;
+        *this->normalOutVert->yTransformed = *this->normalOutVert->y;
+        *this->normalOutVert->zTransformed = *this->normalOutVert->z;
+    }
+
 }
 
 void Vert::updateInOffsetVertex(double offset){
-    double *x = (double*) malloc(sizeof(double));
-    double *y = (double*) malloc(sizeof(double));
-    double *z = (double*) malloc(sizeof(double));
+    if (this->normalInVert == NULL){
+        double *x = (double*) malloc(sizeof(double));
+        double *y = (double*) malloc(sizeof(double));
+        double *z = (double*) malloc(sizeof(double));
 
-    *x = *this->xTransformed - this->normal[0] * (offset / 2);
-    *y = *this->yTransformed - this->normal[1] * (offset / 2);
-    *z = *this->zTransformed - this->normal[2] * (offset / 2);
+        *x = *this->xTransformed - this->normal[0] * (offset / 2);
+        *y = *this->yTransformed - this->normal[1] * (offset / 2);
+        *z = *this->zTransformed - this->normal[2] * (offset / 2);
 
-    this->normalInVert = createVert(x, y, z, 1.0);
+        this->normalInVert = createVert(x, y, z, 1.0);
+    } else{
+        *this->normalInVert->x = *this->xTransformed - this->normal[0] * (offset / 2);
+        *this->normalInVert->y = *this->yTransformed - this->normal[1] * (offset / 2);
+        *this->normalInVert->z = *this->zTransformed - this->normal[2] * (offset / 2);
+
+        *this->normalInVert->xTransformed = *this->normalInVert->x;
+        *this->normalInVert->yTransformed = *this->normalInVert->y;
+        *this->normalInVert->zTransformed = *this->normalInVert->z;
+    }
 }
 
 bool EdgeNew::isBorder(){

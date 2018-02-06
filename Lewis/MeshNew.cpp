@@ -7,6 +7,7 @@
 //
 
 #include "MeshNew.h"
+#include "Data.h"
 
 static int mIndex = 0;
 
@@ -224,15 +225,26 @@ bool MeshNew::draw(double offset)
     std::list<Vert*> listOutVert;
     std::list<Vert*> listInVert;
     Vert* lastVertSeen;
-    for(auto f : faces) {
-        //std::cout << "F" << std::endl;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+    *r = 1.0;
+    *g = 0.64;
+    *b = 0.0;
+    Surface* s = createSurface(r, g, b, "orange");
+
+    for(FaceNew* f : faces) {
         listOutVert.clear();
         listInVert.clear();
+        //std::cout << "DONE" << std::endl;
         for(Vert* v : f->verts) {
+            //std::cout << v->mobius << std::endl;
             v->updateOutOffsetVertex(offset);
             v->updateInOffsetVertex(offset);
 
-            if (dotProductNormal(f->getNormal(), v->normal)>= 0){
+            //if (dotProductNormal(f->getNormal(), v->normal)>= 0){
+             if (f->mobius == true && v->mobius == true){
                 listOutVert.push_back(v->normalOutVert);
                 listInVert.push_back(v->normalInVert);
             }
@@ -243,17 +255,144 @@ bool MeshNew::draw(double offset)
 
 
         }
+        bool wasReversed = false;
+        if (f->mobius){
+            listInVert.swap(listOutVert);
+            std::reverse(listInVert.begin(), listInVert.end());
+            std::reverse(listOutVert.begin(), listOutVert.end());
+            wasReversed = true;
+        }
+        std::reverse(listOutVert.begin(), listOutVert.end());
+
 
         if (offset != 0){
             //listInVert.reverse();
             FaceNew* newFace = createOffsetFace(listOutVert);
             outFaces.push_back(newFace);
 
+
             FaceNew* newInFace = createOffsetFace(listInVert);
             inFaces.push_back(newInFace);
 
+            double *r = (double*) malloc(sizeof(double));
+            double *g = (double*) malloc(sizeof(double));
+            double *b = (double*) malloc(sizeof(double));
+            *r = 0.0;
+            *g = 0.0;
+            *b = 1.0;
+            newInFace->surface = createSurface(r, g, b, "HELLO");
             drawFace(newFace, NULL);
             drawFace(newInFace, NULL);
+
+            Vert* startInVert;
+            Vert* endInVert;
+            Vert* startOutVert;
+            Vert* endOutVert;
+            int posStartIn = -1;
+            int posEndIn = -1;
+            int posStartOut = -1;
+            int posEndOut = -1;
+            /*std::cout << "----" << std::endl;
+            for (Vert* v : listInVert){
+                std::cout << v->index << std::endl;
+            }
+            std::cout << "++++" << std::endl;
+            for (Vert* v : listOutVert){
+                std::cout << v->index << std::endl;
+            }*/
+
+
+            // CREATE EDGE FACE
+            //std::cout << "====" << std::endl;
+            for (EdgeNew* e : f->edges){
+                //std::cout << e->v0->normalInVert->index << std::endl;
+                //std::cout << e->v1->normalInVert->index << std::endl;
+                if (e->isBorder()){
+                    startInVert = e->v0->normalInVert;
+                    endInVert = e->v1->normalInVert;
+                    startOutVert = e->v0->normalOutVert;
+                    endOutVert = e->v1->normalOutVert;
+                    int index = 0;
+                    for (Vert* vIn : listInVert){
+                        if (startInVert->index==vIn->index){
+                            posStartIn = index;
+                        }
+                        if (endInVert->index==vIn->index){
+                            posEndIn = index;
+                        }
+                        if (startOutVert->index==vIn->index){
+                            posStartOut = index;
+                        }
+                        if (endOutVert->index==vIn->index){
+                            posEndOut = index;
+                        }
+                        index++;
+                    }
+
+                    for (Vert* vIn : listOutVert){
+                        if (startInVert->index==vIn->index){
+                            posStartIn = index;
+                        }
+                        if (endInVert->index==vIn->index){
+                            posEndIn = index;
+                        }
+                        if (startOutVert->index==vIn->index){
+                            posStartOut = index;
+                        }
+                        if (endOutVert->index==vIn->index){
+                            posEndOut = index;
+                        }
+                        index++;
+                    }
+                }
+                std::list<Vert*> listEdgeVert;
+                if (posStartIn != -1 || posEndIn != -1 || posStartOut != -1 || posEndOut != -1){
+                    if (wasReversed == true){
+                        // MAYBE BUG WITH THIS PART NEED TO CHECK
+                        // THIS PART IS FOR MOBIUS EDGES
+                        if (posStartIn < posEndIn){
+                            listEdgeVert.push_back(startInVert);
+                            listEdgeVert.push_back(endOutVert);
+                            listEdgeVert.push_back(endInVert);
+                            listEdgeVert.push_back(startOutVert);
+                        } else{
+                            listEdgeVert.push_back(startInVert);
+                            listEdgeVert.push_back(startOutVert);
+                            listEdgeVert.push_back(endInVert);
+                            listEdgeVert.push_back(endOutVert);
+                        }
+                    } else{
+                        if (posStartIn < posEndIn){
+                            listEdgeVert.push_back(endInVert);
+                            listEdgeVert.push_back(startInVert);
+                        } else{
+                            listEdgeVert.push_back(startInVert);
+                            listEdgeVert.push_back(endInVert);
+                        }
+
+                        if (posStartOut < posEndOut){
+                            listEdgeVert.push_back(endOutVert);
+                            listEdgeVert.push_back(startOutVert);
+                        } else{
+                            listEdgeVert.push_back(startOutVert);
+                            listEdgeVert.push_back(endOutVert);
+                        }
+
+                    }
+                    FaceNew* testFace = createOffsetFace(listEdgeVert);
+                    testFace->surface = s;
+                    outFaces.push_back(testFace);
+
+                    drawFace(testFace, NULL);
+
+
+
+                    }
+                }
+
+            //}
+
+
         } else {
             drawFace(f, NULL);
         }
@@ -261,64 +400,35 @@ bool MeshNew::draw(double offset)
         //drawFace(f, NULL);
     }
 
+
+
     /*for(EdgeNew* e : edges) {
-        //if (e->f0 != NULL && e->f1 != NULL){
         if (e->isBorder()){
-            int numberMobiusVert = 0;
-            if (e->f0 != NULL){
-                if (dotProductNormal(e->f0->getNormal(), e->v0->normal) < 0){
-                    numberMobiusVert++;
-                }
-                if (dotProductNormal(e->f0->getNormal(), e->v1->normal) < 0){
-                    numberMobiusVert++;
-                }
-            }
-            if (e->f1 != NULL){
-                if (dotProductNormal(e->f1->getNormal(), e->v0->normal) < 0){
-                    numberMobiusVert++;
-                }
-                if (dotProductNormal(e->f1->getNormal(), e->v1->normal) < 0){
-                    numberMobiusVert++;
-                }
-            }
-
-
-            listOutVert.clear();
-            listOutVert.push_back(e->v0);
-            listOutVert.push_back(e->v1);
-            listOutVert.push_back(e->v1->normalOutVert);
-            if (numberMobiusVert != 1){
+            if (e->f0->mobius){
+                listOutVert.clear();
                 listOutVert.push_back(e->v0->normalOutVert);
-            } else {
                 listOutVert.push_back(e->v0->normalInVert);
+                listOutVert.push_back(e->v1->normalOutVert);
+                listOutVert.push_back(e->v1->normalInVert);
+                FaceNew* newInFace = createOffsetFace(listOutVert);
+                newInFace->surface = s;
+                drawFace(newInFace, NULL);
+                outFaces.push_back(newInFace);
+            } else{
+                listOutVert.clear();
+
+                listOutVert.push_back(e->v0->normalOutVert);
+                listOutVert.push_back(e->v0->normalInVert);
+                listOutVert.push_back(e->v1->normalInVert);
+                listOutVert.push_back(e->v1->normalOutVert);
+                FaceNew* newInFace = createOffsetFace(listOutVert);
+                newInFace->surface = s;
+                drawFace(newInFace, NULL);
+                outFaces.push_back(newInFace);
             }
-
-            listInVert.clear();
-            listInVert.push_back(e->v0);
-            listInVert.push_back(e->v1);
-            listInVert.push_back(e->v1->normalInVert);
-            if (numberMobiusVert != 1){
-                listInVert.push_back(e->v0->normalInVert);
-            }
-            else{
-                listInVert.push_back(e->v0->normalOutVert);
-            }
-
-
-
-            if (offset != 0){
-                //listInVert.reverse();
-                FaceNew* newFace = createOffsetFace(listOutVert);
-                FaceNew* newInFace = createOffsetFace(listInVert);
-                inFaces.push_back(newInFace);
-                outFaces.push_back(newFace);
-
-                //drawFace(newFace, NULL);
-                //drawFace(newInFace, NULL);
-            }
-        //}
         }
     }*/
+
     return true;
 }
 
@@ -407,11 +517,13 @@ MeshNew* MeshNew::subdivideMesh(){
 void MeshNew::calculateNormal(){
     for (Vert* currVert : this->verts){
         currVert->normal = {0, 0, 0};
+        currVert->edgesSeen.clear();
     }
 
     for (FaceNew* currFace : this->faces){
         std::list<Vert*>::iterator it = currFace->verts.begin();
         std::vector<Vert*> firstVerts;
+
 
         int i = -1;
         while (it != currFace->verts.end()){
@@ -420,23 +532,60 @@ void MeshNew::calculateNormal(){
             }
 
             if (firstVerts.size() == 3){
-                /*std::cout << "======" << std::endl;
-                for (Vert* vertexNum : firstVerts){
-                    std::cout << vertexNum->name << std::endl;
-                }*/
+
+                // FOUND TWO EDGES
+                // 0 not found
+                // 1 good
+                // 2 wrong order
+                int foundE0 = 0;
+                int foundE1 = 0;
+
+                for (std::tuple<Vert*,Vert*> vertTuple : firstVerts[1]->edgesSeen){
+                    if  (std::get<0>(vertTuple) == firstVerts[0] && std::get<1>(vertTuple) == firstVerts[1]){
+                        // EDGE IS FOUND WE ARE GOOD
+                        foundE0 = 2;
+                    } else if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[0]){
+                        // WRONG ORDER BUT GOOD AS CLOCKWISE
+                        foundE0 = 1;
+                    }
+
+                    if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[2]){
+                        // EDGE IS FOUND WRONG ORDER
+                        foundE1 = 2;
+                    } else if  (std::get<0>(vertTuple) == firstVerts[2] && std::get<1>(vertTuple) == firstVerts[1]){
+                        // WRONG ORDER BUT GOOD AS CLOCKWISE
+                        foundE1 = 1;
+                    }
+                }
+                if (foundE0 == 0){
+                    firstVerts[1]->edgesSeen.push_back(std::make_tuple (firstVerts[0], firstVerts[1]));
+                }
+                if (foundE1 == 0){
+                    firstVerts[1]->edgesSeen.push_back(std::make_tuple (firstVerts[1], firstVerts[2]));
+                }
+                std::vector<Vert*> firstVertsOrder;
+                for (Vert* v : firstVerts){
+                    firstVertsOrder.push_back(v);
+                }
+                if (foundE0 == 2 || foundE1 == 2){
+                    std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
+                    firstVerts[1]->mobius = true;
+                    currFace->mobius = true;
+                }
+
                 std::vector<double> normalVector;
                 //normalVector = getNormalFromVerts(firstVerts);
-                normalVector = getNormalFromVertsForOffset(firstVerts, this);
+                normalVector = getNormalFromVertsForOffset(firstVertsOrder, this);
 
                 double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
-                double new_magnitude = getAngleFromVerts(firstVerts);
+                double new_magnitude = abs(getAngleFromVerts(firstVertsOrder));
 
                 normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
                 normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
                 normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
-                firstVerts[1] -> normal[0] += normalVector[0];
-                firstVerts[1] -> normal[1] += normalVector[1];
-                firstVerts[1] -> normal[2] += normalVector[2];
+                firstVertsOrder[1] -> normal[0] += normalVector[0];
+                firstVertsOrder[1] -> normal[1] += normalVector[1];
+                firstVertsOrder[1] -> normal[2] += normalVector[2];
 
                 firstVerts.erase(firstVerts.begin());
             }
@@ -457,14 +606,20 @@ void MeshNew::calculateNormal(){
 
         //std::cout << "Face" << std::endl;
     }
-
+    //std::cout << "========" << std::endl;
     for (Vert* currVert : this->verts){
-        std::cout << currVert->edges.size() << std::endl;
+        //std::cout << currVert->faces.size() << std::endl;
         double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]);
         currVert->normal[0] = currVert->normal[0] / magnitude;
         currVert->normal[1] = currVert->normal[1] / magnitude;
         currVert->normal[2] = currVert->normal[2] / magnitude;
     }
+
+    /*for (Vert* currVert : this->verts){
+        for (FaceNew* currFace : currVert->faces){
+            std::cout << currFace->verts << std::endl;
+        }
+    }*/
 }
 
 bool MeshNew::setSurface(Surface* surface){
