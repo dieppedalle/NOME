@@ -47,6 +47,7 @@ std::list<FaceNew *> currentMeshFaces2;
 std::list<Vert *> currentMeshVertices2;
 std::list<EdgeNew *> currentMeshEdges2;
 std::list<TransformationNew *> currentTransformations2;
+std::string surfaceFromArg;
 
 %}
 
@@ -146,21 +147,20 @@ variables:
         ;
 
 surfaceArgs:
-    {$<string>$ = "";}
-    | SURFACE VARIABLE {
-        $<string>$ = $<string>2;
-    }
-        ;
+    SURFACE VARIABLE {
+        if (surfaceFromArg.length() == 0){
+          surfaceFromArg = strdup($<string>2);
+        }
+    };
 
 closedArgs:
     {$<boolean>$ = false;}
     | CLOSED {
         $<boolean>$ = true;
-    }
-        ;
+    };
 
 transformArgs:
-    | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs
+    | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
     ;
 
 rotateArgs:
@@ -265,7 +265,7 @@ instanceArgs:
         ;
 
 instanceGroup:
-    INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
+    INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE
     {
         Reader* currReader = createReader(currSession);
         string instanceName = strdup($<string>2);
@@ -291,10 +291,10 @@ instanceGroup:
             newInstance->applyTransformation(t);
         }
 
-        string surfaceName = $<string>4;
+        string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf($<string>4);
+            Surface * currentSurface = currReader->surf(surfaceFromArg);
             if (currentSurface != NULL) {
                 setSurface(newInstance, currentSurface);
             }
@@ -303,8 +303,8 @@ instanceGroup:
                 YYABORT;
             }
         }
-
         currentGroup2.push_back(newInstance);
+        surfaceFromArg = "";
     }
     ;
 
@@ -440,7 +440,7 @@ setArgs:
         ;
 
 faceMesh:
-    FACE VARIABLE parenthesisName surfaceArgs END_FACE
+    FACE VARIABLE parenthesisName transformArgs END_FACE
     {
         Reader* currReader = createReader(currSession);
 
@@ -473,10 +473,10 @@ faceMesh:
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges2, currReader, false);
         setName(newFace, strdup($<string>2));
 
-        string surfaceName = $<string>4;
+        string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf($<string>4);
+            Surface * currentSurface = currReader->surf(surfaceFromArg);
             if (currentSurface != NULL) {
                 setSurface(newFace, currentSurface);
             }
@@ -489,6 +489,7 @@ faceMesh:
         currentMeshFaces2.push_back(newFace);
 
         tempVariables2.clear();
+        surfaceFromArg = "";
     }
     ;
 
@@ -603,7 +604,7 @@ parenthesisName:
         ;
 
 face:
-        FACE VARIABLE parenthesisName surfaceArgs END_FACE
+        FACE VARIABLE parenthesisName transformArgs END_FACE
     {
         Reader* currReader = createReader(currSession);
 
@@ -624,10 +625,10 @@ face:
         setName(newFace, strdup($<string>2));
 
 
-        string surfaceName = $<string>4;
+        string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf($<string>4);
+            Surface * currentSurface = currReader->surf(surfaceFromArg);
             if (currentSurface != NULL) {
                 setSurface(newFace, currentSurface);
             }
@@ -640,6 +641,7 @@ face:
         currSession->faces.push_back(newFace);
 
         tempVariables2.clear();
+        surfaceFromArg = "";
         }
         ;
 
@@ -651,7 +653,7 @@ faceDelete:
         ;
 
 beziercurve:
-  BEZIERCURVE VARIABLE parenthesisName SLICES numberValue surfaceArgs END_BEZIERCURVE{
+  BEZIERCURVE VARIABLE parenthesisName SLICES numberValue transformArgs END_BEZIERCURVE{
     double *slices = (double*) malloc(sizeof(double));
     Reader* currReader = createReader(currSession);
 
@@ -680,10 +682,10 @@ beziercurve:
 
     currBezierCurve->updateBezierCurve();
 
-    string surfaceName = $<string>6;
+    string surfaceName = surfaceFromArg;
     // Check if a surface has been applied.
     if (surfaceName.length() != 0){
-        Surface * currentSurface = currReader->surf($<string>6);
+        Surface * currentSurface = currReader->surf(surfaceFromArg);
         if (currentSurface != NULL) {
             currBezierCurve->setSurface(currentSurface);
         }
@@ -695,11 +697,12 @@ beziercurve:
 
     currSession->bezierCurves.push_back(currBezierCurve);
     tempVariables2.clear();
+    surfaceFromArg = "";
 };
 
 
 bspline:
-        BSPLINE VARIABLE parenthesisName closedArgs SLICES numberValue surfaceArgs END_BSPLINE{
+        BSPLINE VARIABLE parenthesisName closedArgs SLICES numberValue transformArgs END_BSPLINE{
     if ($<intNumber>1 != $<intNumber>8) {
         nomerror(currSession, "bspline and endbspline do not have the same number.");
         YYABORT;
@@ -744,10 +747,10 @@ bspline:
 
     currBSpline->updateBSpline();
 
-    string surfaceName = $<string>7;
+    string surfaceName = surfaceFromArg;
     // Check if a surface has been applied.
     if (surfaceName.length() != 0){
-        Surface * currentSurface = currReader->surf($<string>7);
+        Surface * currentSurface = currReader->surf(surfaceFromArg);
         if (currentSurface != NULL) {
             currBSpline->setSurface(currentSurface);
         }
@@ -761,10 +764,11 @@ bspline:
     currSession->bsplines.push_back(currBSpline);
 
     tempVariables2.clear();
+    surfaceFromArg = "";
   };
 
 polyline:
-        POLYLINE VARIABLE parenthesisName surfaceArgs END_POLYLINE
+        POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
         {
         Reader* currReader = createReader(currSession);
 
@@ -784,10 +788,10 @@ polyline:
         PolylineNew* currPolyline = createPolylineNew(verticesPolyline);
         currPolyline->setName(strdup($<string>2));
 
-        string surfaceName = $<string>4;
+        string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf($<string>4);
+            Surface * currentSurface = currReader->surf(surfaceFromArg);
             if (currentSurface != NULL) {
                 currPolyline->setSurface(currentSurface);
             }
@@ -798,11 +802,12 @@ polyline:
         }
         currSession->polylines.push_back(currPolyline);
         tempVariables2.clear();
+        surfaceFromArg = "";
         }
         ;
 
 instance:
-    INSTANCE VARIABLE VARIABLE surfaceArgs transformArgs END_INSTANCE
+    INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE
     {
         Reader* currReader = createReader(currSession);
 
@@ -840,10 +845,10 @@ instance:
             newInstance->applyTransformation(t);
         }
 
-        string surfaceName = $<string>4;
+        string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
         if (surfaceName.length() != 0){
-            Surface * currentSurface = currReader->surf($<string>4);
+            Surface * currentSurface = currReader->surf(surfaceFromArg);
             if (currentSurface != NULL) {
                 setSurface(newInstance, currentSurface);
             }
@@ -854,6 +859,7 @@ instance:
         }
 
         currSession->instances.push_back(newInstance);
+        surfaceFromArg = "";
         }
         ;
 
