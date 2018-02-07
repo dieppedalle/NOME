@@ -346,46 +346,63 @@ bool MeshNew::draw(double offset)
                     }
                 }
                 std::list<Vert*> listEdgeVert;
+                std::list<Vert*> listEdgeVertOne;
+                std::list<Vert*> listEdgeVertTwo;
                 if (posStartIn != -1 || posEndIn != -1 || posStartOut != -1 || posEndOut != -1){
                     if (wasReversed == true){
                         // MAYBE BUG WITH THIS PART NEED TO CHECK
                         // THIS PART IS FOR MOBIUS EDGES
                         if (posStartIn < posEndIn){
-                            listEdgeVert.push_back(startInVert);
-                            listEdgeVert.push_back(endOutVert);
-                            listEdgeVert.push_back(endInVert);
-                            listEdgeVert.push_back(startOutVert);
+                            listEdgeVertOne.push_back(startInVert);
+                            listEdgeVertOne.push_back(endOutVert);
+                            listEdgeVertOne.push_back(endInVert);
+                            listEdgeVertTwo.push_back(endInVert);
+                            listEdgeVertTwo.push_back(startOutVert);
+                            listEdgeVertTwo.push_back(startInVert);
                         } else{
-                            listEdgeVert.push_back(startInVert);
-                            listEdgeVert.push_back(startOutVert);
-                            listEdgeVert.push_back(endInVert);
-                            listEdgeVert.push_back(endOutVert);
+                            listEdgeVertOne.push_back(startInVert);
+                            listEdgeVertOne.push_back(startOutVert);
+                            listEdgeVertOne.push_back(endInVert);
+                            listEdgeVertTwo.push_back(endInVert);
+                            listEdgeVertTwo.push_back(endOutVert);
+                            listEdgeVertTwo.push_back(startInVert);
                         }
                     } else{
+                        Vert* firstV;
                         if (posStartIn < posEndIn){
-                            listEdgeVert.push_back(endInVert);
-                            listEdgeVert.push_back(startInVert);
+                            firstV = endInVert;
+                            listEdgeVertOne.push_back(endInVert);
+                            listEdgeVertOne.push_back(startInVert);
                         } else{
-                            listEdgeVert.push_back(startInVert);
-                            listEdgeVert.push_back(endInVert);
+                            firstV = startInVert;
+                            listEdgeVertOne.push_back(startInVert);
+                            listEdgeVertOne.push_back(endInVert);
                         }
 
                         if (posStartOut < posEndOut){
-                            listEdgeVert.push_back(endOutVert);
-                            listEdgeVert.push_back(startOutVert);
+                            listEdgeVertOne.push_back(endOutVert);
+                            listEdgeVertTwo.push_back(endOutVert);
+                            listEdgeVertTwo.push_back(startOutVert);
+                            listEdgeVertTwo.push_back(firstV);
                         } else{
-                            listEdgeVert.push_back(startOutVert);
-                            listEdgeVert.push_back(endOutVert);
+                            listEdgeVertOne.push_back(startOutVert);
+                            listEdgeVertTwo.push_back(startOutVert);
+                            listEdgeVertTwo.push_back(endOutVert);
+                            listEdgeVertTwo.push_back(firstV);
                         }
 
                     }
-                    FaceNew* testFace = createOffsetFace(listEdgeVert);
+                    FaceNew* testFace = createOffsetFace(listEdgeVertOne);
                     testFace->surface = s;
                     outFaces.push_back(testFace);
 
                     drawFace(testFace, NULL);
 
+                    FaceNew* testFace2 = createOffsetFace(listEdgeVertTwo);
+                    testFace2->surface = s;
+                    outFaces.push_back(testFace2);
 
+                    drawFace(testFace2, NULL);
 
                     }
                 }

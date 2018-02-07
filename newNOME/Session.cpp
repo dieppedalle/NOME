@@ -442,6 +442,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
         for (int i = 0; i < subdivision; i++){
             createFlattenMesh(false);
             flattenMesh = flattenMesh->subdivideMesh();
+            //std::cout << "LEVEL" << std::endl;
         }
 
         subdivisionLevel = subdivision;
@@ -487,19 +488,20 @@ void Session::SaveSessionStl(std::string outputFile){
     }
 
     file << "solid convertedFile\n";
-    for (FaceNew * currFace : flattenMesh->faces){
-        saveFaceSTL(currFace, file);
+    if (flattenMesh->inFaces.size() == 0){
+        for (FaceNew * currFace : flattenMesh->faces){
+            saveFaceSTL(currFace, file);
+        }
     }
+    else{
+        for (FaceNew * currFace : flattenMesh->inFaces){
+            saveFaceSTL(currFace, file);
+        }
 
-    for (FaceNew * currFace : flattenMesh->inFaces){
-        saveFaceSTL(currFace, file);
+        for (FaceNew * currFace : flattenMesh->outFaces){
+            saveFaceSTL(currFace, file);
+        }
     }
-
-    for (FaceNew * currFace : flattenMesh->outFaces){
-        saveFaceSTL(currFace, file);
-    }
-
-
 
     file<< "endsolid convertedFile";
 }
