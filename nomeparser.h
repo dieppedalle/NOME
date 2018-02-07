@@ -13,7 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include "bspline.h"
-#include "Lewis/Session.h"
+#include "newNOME/Session.h"
 
 class NomeParser
 {

@@ -42,7 +42,7 @@ extern int stldebug;
 /* "%code requires" blocks.  */
 #line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.y" /* yacc.c:1909  */
 
-#include <Lewis/Session.h>
+#include <newNOME/Session.h>
 
 #line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerStl\\parserStl.hpp" /* yacc.c:1909  */
 

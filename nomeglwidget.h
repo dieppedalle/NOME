@@ -42,8 +42,8 @@
 #include <QMessageBox>
 #include <QColor>
 #include <QString>
-#include "Lewis/Session.h"
-#include "Lewis/ConsolidateWindow.h"
+#include "newNOME/Session.h"
+#include "newNOME/ConsolidateWindow.h"
 
 class SlideGLWidget: public QGLWidget
 {

@@ -8,8 +8,8 @@
 #include "nomeparser.h"
 
 #include "nomeglwidget.h"
-#include "Lewis/ConsolidateWindow.h"
-#include "Lewis/Reader.h"
+#include "newNOME/ConsolidateWindow.h"
+#include "newNOME/Reader.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
     QGLWidget(parent)

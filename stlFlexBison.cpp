@@ -1,6 +1,6 @@
 // Wrapper class over the STL file parser.
 
-#include "Lewis/Session.h"
+#include "newNOME/Session.h"
 #include "compilerStl\parserStl.hpp"
 
 using namespace std;

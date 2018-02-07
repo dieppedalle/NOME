@@ -77,18 +77,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <list>
-#include <Lewis/Data.h>
-#include <Lewis/MeshNew.h>
-#include <Lewis/Session.h>
-#include <Lewis/Reader.h>
-#include <Lewis/TransformationNew.h>
-#include <Lewis/PolylineNew.h>
-#include <Lewis/CircleNew.h>
-#include <Lewis/FunnelNew.h>
-#include <Lewis/TunnelNew.h>
-#include <Lewis/InstanceNew.h>
-#include <Lewis/BSplineNew.h>
-#include <Lewis/BezierCurveNew.h>
+#include <newNOME/Data.h>
+#include <newNOME/MeshNew.h>
+#include <newNOME/Session.h>
+#include <newNOME/Reader.h>
+#include <newNOME/TransformationNew.h>
+#include <newNOME/PolylineNew.h>
+#include <newNOME/CircleNew.h>
+#include <newNOME/FunnelNew.h>
+#include <newNOME/TunnelNew.h>
+#include <newNOME/InstanceNew.h>
+#include <newNOME/BSplineNew.h>
+#include <newNOME/BezierCurveNew.h>
 
 extern int nomlineno;
 extern char* nomtext;
@@ -151,7 +151,7 @@ extern int nomdebug;
 /* "%code requires" blocks.  */
 #line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:355  */
 
-#include <Lewis/Session.h>
+#include <newNOME/Session.h>
 
 
 #line 158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:355  */

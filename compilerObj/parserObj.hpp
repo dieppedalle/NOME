@@ -42,7 +42,7 @@ extern int objdebug;
 /* "%code requires" blocks.  */
 #line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1909  */
 
-#include <Lewis/Session.h>
+#include <newNOME/Session.h>
 
 #line 48 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.hpp" /* yacc.c:1909  */
 

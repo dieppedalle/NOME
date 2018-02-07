@@ -1,5 +1,5 @@
 // Wrapper class over the STL file parser.
-#include <Lewis/Session.h>
+#include <newNOME/Session.h>
 #include "compilerBank\parserBank.hpp"
 
 using namespace std;

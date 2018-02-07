@@ -6,9 +6,9 @@
  */
 
 #include "mainwindow.h"
-#include "Lewis/SliderNew.h"
-#include "Lewis/SliderSubdivisionNew.h"
-#include "Lewis/SliderOffsetNew.h"
+#include "newNOME/SliderNew.h"
+#include "newNOME/SliderSubdivisionNew.h"
+#include "newNOME/SliderOffsetNew.h"
 
 MainWindow::MainWindow()
 {

@@ -41,35 +41,35 @@ SOURCES += main.cpp\
     nomeparser.cpp \
     nomeglwidget.cpp \
     bspline.cpp \
-    Lewis/Data.cpp \
-    Lewis/IO.cpp \
-    Lewis/Reader.cpp \
-    Lewis/Session.cpp \
+    newNOME/Data.cpp \
+    newNOME/IO.cpp \
+    newNOME/Reader.cpp \
+    newNOME/Session.cpp \
     testpolyline.cpp \
-    Lewis/GroupNew.cpp \
-    Lewis/InstanceNew.cpp \
-    Lewis/MeshNew.cpp \
-    Lewis/Node.cpp \
-    Lewis/TransformationNew.cpp \
-    Lewis/BankNew.cpp \
-    Lewis/SliderNew.cpp \
-    Lewis/PolylineNew.cpp \
-    Lewis/CircleNew.cpp \
-    Lewis/FunnelNew.cpp \
-    Lewis/TunnelNew.cpp \
-    Lewis/ConsolidateWindow.cpp \
-    Lewis/SubdivisionNew.cpp \
-    Lewis/SliderSubdivisionNew.cpp \
-    Lewis/OffsetNew.cpp \
-    Lewis/SliderOffsetNew.cpp \
+    newNOME/GroupNew.cpp \
+    newNOME/InstanceNew.cpp \
+    newNOME/MeshNew.cpp \
+    newNOME/Node.cpp \
+    newNOME/TransformationNew.cpp \
+    newNOME/BankNew.cpp \
+    newNOME/SliderNew.cpp \
+    newNOME/PolylineNew.cpp \
+    newNOME/CircleNew.cpp \
+    newNOME/FunnelNew.cpp \
+    newNOME/TunnelNew.cpp \
+    newNOME/ConsolidateWindow.cpp \
+    newNOME/SubdivisionNew.cpp \
+    newNOME/SliderSubdivisionNew.cpp \
+    newNOME/OffsetNew.cpp \
+    newNOME/SliderOffsetNew.cpp \
     nomeFlexBison.cpp \
     compilerNome/parser.cpp \
     compilerNome/lexer.cpp \
     stlFlexBison.cpp \
     compilerStl/parserStl.cpp \
     compilerStl/lexerStl.cpp \
-    Lewis/BSplineNew.cpp \
-    Lewis/BezierCurveNew.cpp \
+    newNOME/BSplineNew.cpp \
+    newNOME/BezierCurveNew.cpp \
     objFlexBison.cpp \
     compilerObj/parserObj.cpp \
     compilerObj/lexerObj.cpp \
@@ -105,31 +105,31 @@ HEADERS  += \
     nomeparser.h \
     nomeglwidget.h \
     bspline.h \
-    Lewis/Data.h \
-    Lewis/IO.h \
-    Lewis/Reader.h \
-    Lewis/Session.h \
+    newNOME/Data.h \
+    newNOME/IO.h \
+    newNOME/Reader.h \
+    newNOME/Session.h \
     testpolyline.h \
-    Lewis/GroupNew.h \
-    Lewis/InstanceNew.h \
-    Lewis/MeshNew.h \
-    Lewis/Node.h \
-    Lewis/TransformationNew.h \
-    Lewis/BankNew.h \
-    Lewis/SliderNew.h \
-    Lewis/PolylineNew.h \
-    Lewis/CircleNew.h \
-    Lewis/FunnelNew.h \
-    Lewis/TunnelNew.h \
-    Lewis/ConsolidateWindow.h \
-    Lewis/SubdivisionNew.h \
-    Lewis/SliderSubdivisionNew.h \
-    Lewis/OffsetNew.h \
-    Lewis/SliderOffsetNew.h \
+    newNOME/GroupNew.h \
+    newNOME/InstanceNew.h \
+    newNOME/MeshNew.h \
+    newNOME/Node.h \
+    newNOME/TransformationNew.h \
+    newNOME/BankNew.h \
+    newNOME/SliderNew.h \
+    newNOME/PolylineNew.h \
+    newNOME/CircleNew.h \
+    newNOME/FunnelNew.h \
+    newNOME/TunnelNew.h \
+    newNOME/ConsolidateWindow.h \
+    newNOME/SubdivisionNew.h \
+    newNOME/SliderSubdivisionNew.h \
+    newNOME/OffsetNew.h \
+    newNOME/SliderOffsetNew.h \
     compilerNome/parser.hpp \
     compilerStl/parserStl.hpp \
-    Lewis/BSplineNew.h \
-    Lewis/BezierCurveNew.h \
+    newNOME/BSplineNew.h \
+    newNOME/BezierCurveNew.h \
     compilerObj/parserObj.hpp \
     compilerBank/parserBank.hpp
 

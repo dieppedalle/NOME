@@ -42,7 +42,7 @@ extern int nomdebug;
 /* "%code requires" blocks.  */
 #line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
-#include <Lewis/Session.h>
+#include <newNOME/Session.h>
 
 
 #line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */

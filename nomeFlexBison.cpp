@@ -1,6 +1,6 @@
 // Wrapper class over the NOME parser.
 
-#include "Lewis/Session.h"
+#include "newNOME/Session.h"
 #include "compilerNome\parser.hpp"
 
 using namespace std;
