@@ -246,36 +246,40 @@ void Session::SaveSessionNom(std::string outputFile){
 }
 
 void Session::addTmpFace(){
-    if (tmpMesh == NULL){
-        tmpMesh = createMesh();
-        tmpFaceIndex = 0;
+    if (selectedVerts.size() != 0){
+        if (tmpMesh == NULL){
+            tmpMesh = createMesh();
+            tmpFaceIndex = 0;
+        }
+        Reader* currReader = createReader(this);
+        FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader, false);
+
+        setTmpSurface(newFace);
+
+        newFace->setName("f" + std::to_string(tmpFaceIndex));
+
+        tmpMesh->faces.push_back(newFace);
+        for (Vert * selectedVert: selectedVerts){
+            tmpMesh->verts.push_back(selectedVert);
+        }
+        tmpMesh->setName("tmpMesh");
+
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance->setName("tmpInstance");
+        clearSelection();
+        tmpFaceIndex += 1;
     }
-    Reader* currReader = createReader(this);
-    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader, false);
-
-    setTmpSurface(newFace);
-
-    newFace->setName("f" + std::to_string(tmpFaceIndex));
-
-    tmpMesh->faces.push_back(newFace);
-    for (Vert * selectedVert: selectedVerts){
-        tmpMesh->verts.push_back(selectedVert);
-    }
-    tmpMesh->setName("tmpMesh");
-
-    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
-    tmpInstance->setName("tmpInstance");
-    clearSelection();
-    tmpFaceIndex += 1;
 }
 
 void Session::addTmpPolyline(){
-    Reader* currReader = createReader(this);
-    tmpPolyline = createPolylineNew(selectedVerts);
-    tmpPolyline->setName("tmpPolyline");
-    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true, false, this);
-    tmpInstance->setName("tmpInstance");
-    clearSelection();
+    if (selectedVerts.size() != 0){
+        Reader* currReader = createReader(this);
+        tmpPolyline = createPolylineNew(selectedVerts);
+        tmpPolyline->setName("tmpPolyline");
+        tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true, false, this);
+        tmpInstance->setName("tmpInstance");
+        clearSelection();
+    }
 }
 
 void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName){

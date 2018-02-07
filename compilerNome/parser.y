@@ -160,7 +160,7 @@ closedArgs:
     };
 
 transformArgs:
-    | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
+    | faceArgs comment | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
     ;
 
 rotateArgs:
@@ -257,7 +257,7 @@ mirrorArgs:
     ;
 
 faceArgs:
-    | faceArgs faceMesh
+    | faceArgs faceMesh | faceArgs comment
         ;
 
 instanceArgs:

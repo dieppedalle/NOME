@@ -835,7 +835,27 @@ void SlideGLWidget::wholeBorderSelectionChecked(bool checked)
 
 void SlideGLWidget::addToPolylineCalled(bool)
 {
-    currSession->addTmpPolyline();
+    if (currSession->tmpPolyline != NULL || currSession->tmpMesh != NULL){
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Add Polyline");
+        msgBox.setText("Are you sure you want to overwrite the faces or polyline and create a new polyline?");
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        if(msgBox.exec() == QMessageBox::Yes){
+            currSession->tmpMesh = NULL;
+            currSession->tmpPolyline = NULL;
+            currSession->tmpInstance =  NULL;
+            currSession->addTmpPolyline();
+        }
+    }
+    else{
+        currSession->tmpMesh = NULL;
+        currSession->tmpPolyline = NULL;
+        currSession->tmpInstance =  NULL;
+        currSession->addTmpPolyline();
+    }
+
     //mySelect.addSelectedToMesh(temp_mesh);
     //updateGlobalIndexList();
     //std::cout << "OOOPS" << std::endl;
@@ -845,10 +865,25 @@ void SlideGLWidget::addToPolylineCalled(bool)
 
 void SlideGLWidget::addToTempCalled(bool)
 {
-    currSession->addTmpFace();
-    //mySelect.addSelectedToMesh(temp_mesh);
-    //updateGlobalIndexList();
-    //std::cout << "OOOPS" << std::endl;
+    if (currSession->tmpPolyline != NULL){
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Add Polygon");
+        msgBox.setText("Are you sure you want to overwrite the polyline and create a new face?");
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        if(msgBox.exec() == QMessageBox::Yes){
+            currSession->tmpMesh = NULL;
+            currSession->tmpPolyline = NULL;
+            currSession->tmpInstance =  NULL;
+            currSession->addTmpFace();
+        }
+    }
+    else{
+        currSession->addTmpFace();
+    }
+    //currSession->addTmpFace();
+
     repaint();
 }
 

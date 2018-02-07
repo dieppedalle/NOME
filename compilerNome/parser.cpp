@@ -579,16 +579,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   196
+#define YYLAST   200
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  75
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  42
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  74
+#define YYNRULES  76
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  201
+#define YYNSTATES  204
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -644,11 +644,11 @@ static const yytype_uint16 yyrline[] =
        0,    97,    97,    98,   103,   103,   103,   103,   103,   103,
      103,   104,   104,   104,   104,   104,   104,   104,   105,   105,
      105,   105,   108,   110,   128,   136,   142,   144,   150,   157,
-     158,   162,   163,   163,   163,   163,   163,   167,   196,   220,
-     244,   259,   260,   263,   264,   268,   311,   312,   316,   321,
-     322,   326,   339,   359,   386,   402,   415,   438,   439,   439,
-     443,   497,   508,   532,   566,   601,   607,   649,   656,   705,
-     771,   810,   867,   903,   929
+     158,   162,   163,   163,   163,   163,   163,   163,   167,   196,
+     220,   244,   259,   260,   260,   263,   264,   268,   311,   312,
+     316,   321,   322,   326,   339,   359,   386,   402,   415,   438,
+     439,   439,   443,   497,   508,   532,   566,   601,   607,   649,
+     656,   705,   771,   810,   867,   903,   929
 };
 #endif
 
@@ -702,7 +702,7 @@ static const yytype_uint16 yytoknum[] =
 #define yypact_value_is_default(Yystate) \
   (!!((Yystate) == (-65)))
 
-#define YYTABLE_NINF -1
+#define YYTABLE_NINF -45
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -711,27 +711,27 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -65,   107,   -65,   -65,    16,    25,    36,    37,    45,    47,
-      50,    51,    52,    60,    61,   -65,    62,    64,    67,    69,
-      70,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,
+     -65,   110,   -65,   -65,    -2,    16,    36,    39,    52,    54,
+      63,    64,    66,    67,    70,   -65,    72,    79,    87,    88,
+      89,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,
      -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,
-       6,   -65,   -29,    42,   -29,   -65,    43,    53,   -29,    80,
-      54,    -6,   -65,   -65,    33,   -29,   -29,    59,    15,   -65,
-     -65,   -24,    73,    17,   -24,   -24,   -65,   -65,   -24,    94,
-     -65,   -65,   -13,     5,   -24,    40,    44,   -24,   -65,    97,
-     -65,    -2,    11,   -65,   -65,   -24,   -65,   -65,   100,   -65,
-     -65,   -24,   -24,   118,   114,   -24,   103,   102,   -65,   -65,
-     113,   115,   -65,    71,   -65,    68,   -24,   -24,   -29,   -65,
-     -65,   127,   -65,    98,   104,   106,   109,   -65,   -65,   -65,
-     -65,   -65,   -24,    63,   -24,   -24,   -65,   -65,   101,   -65,
-     140,   -65,   108,   -24,   -24,   -65,   -24,   -65,   -65,   -24,
-     -24,   -24,   -24,   116,   -65,   -24,   -24,   -24,   129,   -65,
-     -24,   110,   -65,    -1,   120,   138,   -24,   -24,   -24,   -24,
-     147,   -24,   125,   126,   -65,   148,   128,   -24,     4,   -65,
-     160,   -65,   -24,   -24,   -24,   -24,   -65,   -24,   150,   153,
-     -65,   -65,   122,   -65,   -65,   139,   141,   -24,   142,   -65,
-     -65,   -65,   -65,   -65,   151,   146,   -65,   -24,   -65,   149,
-     -65
+       3,   -65,    57,    62,    57,   -65,    81,    83,    57,    97,
+      85,    -3,   -65,   -65,   -24,    57,    57,    93,    49,   -65,
+       7,   -17,    91,     6,   -17,   -17,     7,     7,   -17,    99,
+     -65,   -65,     9,    -6,   -17,    44,    48,   -17,   -65,   128,
+     -65,   -65,     1,    14,    17,   -65,   -65,   -17,   -65,   -65,
+     130,   -65,   -65,   -17,   -17,   121,   117,   -17,   126,   136,
+     -65,   -65,   138,   140,   -65,    90,   -65,    86,   -17,   -17,
+      57,   -65,   -65,   145,   -65,   120,   123,   124,   125,   -65,
+     -65,   -65,   -65,   -65,    27,   -17,    92,   -17,   -17,   -65,
+     -65,   129,   -65,   160,   -65,   119,   -17,   -17,     7,   -17,
+       7,   -65,   -17,   -17,   -17,   -17,   133,   -65,   -17,   -17,
+     -17,   150,     7,   -17,   116,     7,     2,   142,   141,   -17,
+     -17,   -17,   -17,   165,   -17,   143,   144,   -65,   151,   137,
+     -17,    18,   -65,   175,   -65,   -17,   -17,   -17,   -17,   -65,
+     -17,   168,   169,   -65,   -65,   139,   -65,   -65,   152,   154,
+     -17,   156,   -65,   -65,   -65,   -65,   -65,   158,   159,   -65,
+     -17,   -65,   162,   -65
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -740,33 +740,33 @@ static const yytype_int16 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        2,     0,     1,    25,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,    46,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    48,     0,     0,     0,     0,
        0,     3,     4,    18,    19,     5,    16,    15,    10,    17,
       11,    12,     8,    21,    20,    13,    14,     9,     6,     7,
-       0,    41,     0,     0,     0,    57,     0,     0,     0,     0,
-       0,     0,    43,    49,     0,     0,     0,     0,     0,    26,
+       0,    42,     0,     0,     0,    59,     0,     0,     0,     0,
+       0,     0,    45,    51,     0,     0,     0,     0,     0,    26,
       31,     0,     0,     0,     0,     0,    31,    31,     0,     0,
-      55,    47,     0,     0,     0,    29,     0,     0,    53,     0,
-      42,     0,     0,    23,    22,     0,    72,    61,     0,    59,
-      58,     0,     0,     0,     0,     0,     0,     0,    54,    44,
-       0,     0,    50,     0,    30,     0,     0,     0,     0,    27,
-      65,     0,    66,     0,     0,     0,     0,    36,    32,    33,
-      34,    35,     0,     0,     0,     0,    70,    71,     0,    67,
-       0,    48,     0,     0,     0,    31,     0,    31,    28,     0,
-       0,     0,     0,     0,    24,     0,     0,     0,     0,    31,
-       0,     0,    31,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    62,     0,     0,     0,     0,    68,
-       0,    60,     0,     0,     0,     0,    74,     0,     0,     0,
-      45,    51,     0,    69,    73,     0,     0,     0,     0,    56,
-      63,    64,    52,    38,     0,     0,    39,     0,    40,     0,
-      37
+      57,    49,     0,     0,     0,    29,     0,     0,    55,     0,
+      44,    43,     0,     0,     0,    23,    22,     0,    74,    63,
+       0,    61,    60,     0,     0,     0,     0,     0,     0,     0,
+      56,    46,     0,     0,    52,     0,    30,     0,     0,     0,
+       0,    27,    67,     0,    68,     0,     0,     0,     0,    37,
+      33,    34,    35,    36,    32,     0,     0,     0,     0,    72,
+      73,     0,    69,     0,    50,     0,     0,     0,    31,     0,
+      31,    28,     0,     0,     0,     0,     0,    24,     0,     0,
+       0,     0,    31,     0,     0,    31,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    64,     0,     0,
+       0,     0,    70,     0,    62,     0,     0,     0,     0,    76,
+       0,     0,     0,    47,    53,     0,    71,    75,     0,     0,
+       0,     0,    58,    65,    66,    54,    39,     0,     0,    40,
+       0,    41,     0,    38
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -65,   -65,   -65,   -64,   -65,   130,   -65,   -65,   -65,   -50,
-     -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,
+     -65,   -65,   -65,   -64,   -65,    24,   -65,   -65,   -65,   -50,
+     -65,   -65,   -65,   -65,   155,   -65,   -65,   -65,   -65,   -65,
      -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,   -65,
      -65,   -65,   -41,   -65,   -65,   -65,   -65,   -65,   -65,   -65,
      -65,   -65
@@ -775,9 +775,9 @@ static const yytype_int16 yypgoto[] =
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,     1,    21,    85,   145,    22,    81,   117,   105,    82,
-     118,   119,   120,   121,    58,    72,    99,    51,   102,    73,
-      23,    24,    25,    26,    27,    90,    63,    80,    28,    29,
+      -1,     1,    21,    87,   148,    22,    82,   119,   107,    83,
+     120,   121,   122,   123,    84,    72,   101,    51,   104,    73,
+      23,    24,    25,    26,    27,    92,    63,    81,    28,    29,
       30,    31,    60,    32,    71,    33,    34,    35,    36,    37,
       38,    39
 };
@@ -785,52 +785,54 @@ static const yytype_int16 yydefgoto[] =
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_uint8 yytable[] =
+static const yytype_int16 yytable[] =
 {
-      91,    92,   109,    62,    95,    69,   111,    66,    59,    57,
-     103,   111,    97,   107,    75,    76,    93,    94,   111,    98,
-      40,   122,     3,   112,    70,    78,    79,   124,   125,    41,
-     100,   128,   113,   114,   115,    87,   110,   113,   114,   115,
-      42,    43,   135,   136,   113,   114,   115,   116,    83,    44,
-      84,    45,   116,    88,    46,    47,    48,   101,   143,   116,
-     146,   147,   169,   183,    49,    50,    52,   137,    53,   151,
-     152,    54,   154,    55,    56,   156,   157,   158,   159,    61,
-      64,   161,   162,   163,    67,   153,   166,   155,    74,    86,
-      65,    68,   172,   173,   174,   175,    77,   177,    96,   165,
-     104,   108,   168,   182,   123,   106,   130,     2,   185,   186,
-     187,   188,     3,   189,     4,   129,     5,   131,     6,   132,
-       7,   111,     8,   195,     9,   111,    10,   133,    11,   134,
-      12,   138,    13,   199,    14,   139,    15,   144,    16,   148,
-     127,   140,   126,   141,   149,   111,   142,   113,   114,   115,
-     171,   113,   114,   115,   160,   111,    17,   164,   170,   150,
-      18,   176,   116,   178,   179,    19,   116,   167,   184,    20,
-     190,   113,   114,   115,   180,   191,   192,   193,   181,   194,
-     196,   113,   114,   115,   198,     0,   116,   200,   197,     0,
-       0,     0,     0,    89,     0,     0,   116
+      93,    94,    40,    62,    97,   111,    57,    66,    69,   113,
+     105,     3,   -42,   109,    75,    76,    95,    96,   -42,   102,
+      41,   113,     3,   125,    89,   113,   114,    70,    79,   127,
+     128,    74,   -44,   131,    99,   115,   116,   117,   -44,   112,
+      42,   100,    90,    43,   138,   139,   103,   115,   116,   117,
+     118,   115,   116,   117,     3,    85,    44,    86,    45,    78,
+      79,   146,   118,   149,   150,   172,   118,    46,    47,   140,
+      48,    49,   154,   155,    50,   157,    52,   186,   159,   160,
+     161,   162,    80,    53,   164,   165,   166,    91,   156,   169,
+     158,    54,    55,    56,    59,   175,   176,   177,   178,    61,
+     180,    67,   168,    98,   106,   171,   185,    88,   124,   108,
+       2,   188,   189,   190,   191,     3,   192,     4,    64,     5,
+      65,     6,    68,     7,   113,     8,   198,     9,   113,    10,
+      77,    11,   110,    12,   126,    13,   202,    14,   132,    15,
+     133,    16,   134,   130,   135,   129,   136,   137,   113,   141,
+     115,   116,   117,   174,   115,   116,   117,   142,   113,    17,
+     143,   144,   145,    18,   152,   118,   147,   151,    19,   118,
+     153,   163,    20,   170,   115,   116,   117,   183,   167,   179,
+     173,   181,   182,   187,   115,   116,   117,   184,   193,   118,
+     196,   194,   197,   195,   199,   200,    58,   201,     0,   118,
+     203
 };
 
 static const yytype_int16 yycheck[] =
 {
-      64,    65,     4,    44,    68,    11,     7,    48,    37,     3,
-      74,     7,    25,    77,    55,    56,    66,    67,     7,    32,
-       4,    85,     5,    12,    30,    10,    11,    91,    92,     4,
-      25,    95,    33,    34,    35,    18,    38,    33,    34,    35,
-       4,     4,   106,   107,    33,    34,    35,    48,    72,     4,
-      74,     4,    48,    36,     4,     4,     4,    52,   122,    48,
-     124,   125,    63,    59,     4,     4,     4,   108,     4,   133,
-     134,     4,   136,     4,     4,   139,   140,   141,   142,    37,
-      37,   145,   146,   147,     4,   135,   150,   137,    55,    16,
-      37,    37,   156,   157,   158,   159,    37,   161,     4,   149,
-      60,     4,   152,   167,     4,    61,     4,     0,   172,   173,
-     174,   175,     5,   177,     7,    12,     9,     4,    11,     4,
-      13,     7,    15,   187,    17,     7,    19,    56,    21,    61,
-      23,     4,    25,   197,    27,    37,    29,    74,    31,    38,
-      26,    37,    24,    37,     4,     7,    37,    33,    34,    35,
-      12,    33,    34,    35,    38,     7,    49,    28,    38,    51,
-      53,    14,    48,    38,    38,    58,    48,    57,     8,    62,
-      20,    33,    34,    35,    26,    22,    54,    38,    50,    38,
-      38,    33,    34,    35,    38,    -1,    48,    38,    37,    -1,
-      -1,    -1,    -1,    63,    -1,    -1,    48
+      64,    65,     4,    44,    68,     4,     3,    48,    11,     7,
+      74,     5,     5,    77,    55,    56,    66,    67,    11,    25,
+       4,     7,     5,    87,    18,     7,    12,    30,    11,    93,
+      94,    55,     5,    97,    25,    33,    34,    35,    11,    38,
+       4,    32,    36,     4,   108,   109,    52,    33,    34,    35,
+      48,    33,    34,    35,     5,    72,     4,    74,     4,    10,
+      11,   125,    48,   127,   128,    63,    48,     4,     4,   110,
+       4,     4,   136,   137,     4,   139,     4,    59,   142,   143,
+     144,   145,    58,     4,   148,   149,   150,    63,   138,   153,
+     140,     4,     4,     4,    37,   159,   160,   161,   162,    37,
+     164,     4,   152,     4,    60,   155,   170,    16,    84,    61,
+       0,   175,   176,   177,   178,     5,   180,     7,    37,     9,
+      37,    11,    37,    13,     7,    15,   190,    17,     7,    19,
+      37,    21,     4,    23,     4,    25,   200,    27,    12,    29,
+       4,    31,     4,    26,     4,    24,    56,    61,     7,     4,
+      33,    34,    35,    12,    33,    34,    35,    37,     7,    49,
+      37,    37,    37,    53,     4,    48,    74,    38,    58,    48,
+      51,    38,    62,    57,    33,    34,    35,    26,    28,    14,
+      38,    38,    38,     8,    33,    34,    35,    50,    20,    48,
+      38,    22,    38,    54,    38,    37,    41,    38,    -1,    48,
+      38
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -845,19 +847,19 @@ static const yytype_uint8 yystos[] =
        4,    92,     4,     4,     4,     4,     4,     3,    89,    37,
      107,    37,   107,   101,    37,    37,   107,     4,    37,    11,
       30,   109,    90,    94,    55,   107,   107,    37,    10,    11,
-     102,    81,    84,    72,    74,    78,    16,    18,    36,    80,
-     100,    78,    78,    84,    84,    78,     4,    25,    32,    91,
-      25,    52,    93,    78,    60,    83,    61,    78,     4,     4,
-      38,     7,    12,    33,    34,    35,    48,    82,    85,    86,
-      87,    88,    78,     4,    78,    78,    24,    26,    78,    12,
-       4,     4,     4,    56,    61,    78,    78,   107,     4,    37,
-      37,    37,    37,    78,    74,    79,    78,    78,    38,     4,
-      51,    78,    78,    84,    78,    84,    78,    78,    78,    78,
-      38,    78,    78,    78,    28,    84,    78,    57,    84,    63,
-      38,    12,    78,    78,    78,    78,    14,    78,    38,    38,
-      26,    50,    78,    59,     8,    78,    78,    78,    78,    78,
-      20,    22,    54,    38,    38,    78,    38,    37,    38,    78,
-      38
+      80,   102,    81,    84,    89,    72,    74,    78,    16,    18,
+      36,    80,   100,    78,    78,    84,    84,    78,     4,    25,
+      32,    91,    25,    52,    93,    78,    60,    83,    61,    78,
+       4,     4,    38,     7,    12,    33,    34,    35,    48,    82,
+      85,    86,    87,    88,    80,    78,     4,    78,    78,    24,
+      26,    78,    12,     4,     4,     4,    56,    61,    78,    78,
+     107,     4,    37,    37,    37,    37,    78,    74,    79,    78,
+      78,    38,     4,    51,    78,    78,    84,    78,    84,    78,
+      78,    78,    78,    38,    78,    78,    78,    28,    84,    78,
+      57,    84,    63,    38,    12,    78,    78,    78,    78,    14,
+      78,    38,    38,    26,    50,    78,    59,     8,    78,    78,
+      78,    78,    78,    20,    22,    54,    38,    38,    78,    38,
+      37,    38,    78,    38
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -866,11 +868,11 @@ static const yytype_uint8 yyr1[] =
        0,    75,    76,    76,    77,    77,    77,    77,    77,    77,
       77,    77,    77,    77,    77,    77,    77,    77,    77,    77,
       77,    77,    78,    78,    79,    80,    81,    81,    82,    83,
-      83,    84,    84,    84,    84,    84,    84,    85,    86,    87,
-      88,    89,    89,    90,    90,    91,    92,    92,    93,    94,
-      94,    95,    96,    97,    98,    99,   100,   101,   101,   101,
-     102,   103,   104,   105,   106,   107,   108,   109,   110,   111,
-     112,   113,   114,   115,   116
+      83,    84,    84,    84,    84,    84,    84,    84,    85,    86,
+      87,    88,    89,    89,    89,    90,    90,    91,    92,    92,
+      93,    94,    94,    95,    96,    97,    98,    99,   100,   101,
+     101,   101,   102,   103,   104,   105,   106,   107,   108,   109,
+     110,   111,   112,   113,   114,   115,   116
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -879,11 +881,11 @@ static const yytype_uint8 yyr2[] =
        0,     2,     0,     2,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     1,     1,     1,     1,     0,     2,     2,     0,
-       1,     0,     2,     2,     2,     2,     2,     9,     6,     6,
-       7,     0,     2,     0,     2,     5,     0,     2,     2,     0,
-       2,     8,     9,     4,     4,     3,     6,     0,     2,     2,
-       5,     4,     7,     9,     9,     3,     5,     3,     7,     8,
-       5,     5,     4,     9,     8
+       1,     0,     2,     2,     2,     2,     2,     2,     9,     6,
+       6,     7,     0,     2,     2,     0,     2,     5,     0,     2,
+       2,     0,     2,     8,     9,     4,     4,     3,     6,     0,
+       2,     2,     5,     4,     7,     9,     9,     3,     5,     3,
+       7,     8,     5,     5,     4,     9,     8
 };
 
 
@@ -1659,7 +1661,7 @@ yyreduce:
     {
         (yyval.string) = strdup((yyvsp[0].string));
     }
-#line 1663 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1665 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1670,7 +1672,7 @@ yyreduce:
         exprStr.erase(exprStr.size() - 1);
         (yyval.string) = strdup(exprStr.c_str());
     }
-#line 1674 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1676 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
@@ -1679,14 +1681,14 @@ yyreduce:
         (yyval.numPos).string = strdup((yyvsp[0].string));
         (yyval.numPos).number = nomcolumn;
     }
-#line 1683 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1685 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 137 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
     }
-#line 1690 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1692 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
@@ -1694,7 +1696,7 @@ yyreduce:
     {
         tempVariables2.push_back((yyvsp[0].string));
     }
-#line 1698 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1700 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1704,13 +1706,13 @@ yyreduce:
           surfaceFromArg = strdup((yyvsp[0].string));
         }
     }
-#line 1708 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1710 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 157 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {(yyval.boolean) = false;}
-#line 1714 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1716 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
@@ -1718,10 +1720,10 @@ yyreduce:
     {
         (yyval.boolean) = true;
     }
-#line 1722 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1724 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 37:
+  case 38:
 #line 168 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
@@ -1748,10 +1750,10 @@ yyreduce:
         currentTransformations2.push_back(currRotate);
 
     }
-#line 1752 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1754 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 38:
+  case 39:
 #line 197 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
@@ -1773,10 +1775,10 @@ yyreduce:
 
         currentTransformations2.push_back(currTranslate);
     }
-#line 1777 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1779 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 39:
+  case 40:
 #line 221 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
@@ -1798,10 +1800,10 @@ yyreduce:
 
         currentTransformations2.push_back(currScale);
     }
-#line 1802 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1804 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 40:
+  case 41:
 #line 245 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *currentValSet = (double*) malloc(sizeof(double));
@@ -1815,10 +1817,10 @@ yyreduce:
         double w = *currentValSet;
 
     }
-#line 1819 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1821 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 45:
+  case 47:
 #line 269 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -1860,18 +1862,18 @@ yyreduce:
         currentGroup2.push_back(newInstance);
         surfaceFromArg = "";
     }
-#line 1864 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1866 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 48:
+  case 50:
 #line 317 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         string instanceName = strdup((yyvsp[0].string));
     }
-#line 1872 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1874 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 51:
+  case 53:
 #line 327 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *subdivision = (double*) malloc(sizeof(double));
@@ -1883,10 +1885,10 @@ yyreduce:
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     }
-#line 1887 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1889 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 52:
+  case 54:
 #line 340 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *min = (double*) malloc(sizeof(double));
@@ -1905,10 +1907,10 @@ yyreduce:
 
         currSession->offsets.push_back(currOffset);
     }
-#line 1909 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1911 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 53:
+  case 55:
 #line 360 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
 
@@ -1933,10 +1935,10 @@ yyreduce:
         currentMeshEdges2.clear();
         currentMeshVertices2.clear();
         }
-#line 1937 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1939 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 54:
+  case 56:
 #line 387 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         GroupNew* currGroup = createGroup(currentGroup2);
@@ -1944,10 +1946,10 @@ yyreduce:
         currSession->groups.push_back(currGroup);
         currentGroup2.clear();
         }
-#line 1948 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1950 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 55:
+  case 57:
 #line 403 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -1958,10 +1960,10 @@ yyreduce:
 
         tempFaceDelete2.clear();
         }
-#line 1962 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1964 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 56:
+  case 58:
 #line 416 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         string currentSetName = (yyvsp[-4].string);
@@ -1983,10 +1985,10 @@ yyreduce:
 
         currentSetList2.push_back(currentSet);
         }
-#line 1987 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1989 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 60:
+  case 62:
 #line 444 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -2038,10 +2040,10 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
     }
-#line 2042 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2044 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 61:
+  case 63:
 #line 498 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         BankNew * currentBank2 = createBank();
@@ -2050,10 +2052,10 @@ yyreduce:
         currSession->banks.push_back(currentBank2);
         currentSetList2.clear();
         }
-#line 2054 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2056 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 62:
+  case 64:
 #line 509 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         string name = (yyvsp[-5].string);
@@ -2076,10 +2078,10 @@ yyreduce:
 
         currSession->circles.push_back(currCircle);
     }
-#line 2080 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2082 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 63:
+  case 65:
 #line 534 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -2110,10 +2112,10 @@ yyreduce:
 
         currSession->tunnels.push_back(currTunnel);
         }
-#line 2114 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2116 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 64:
+  case 66:
 #line 568 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -2145,17 +2147,17 @@ yyreduce:
 
         currSession->funnels.push_back(currFunnel);
         }
-#line 2149 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2151 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 65:
+  case 67:
 #line 602 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         }
-#line 2156 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 66:
+  case 68:
 #line 608 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -2195,18 +2197,18 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
         }
-#line 2199 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2201 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 67:
+  case 69:
 #line 650 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         tempFaceDelete2.push_back((yyvsp[-1].string));
         }
-#line 2207 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2209 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 68:
+  case 70:
 #line 656 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
     double *slices = (double*) malloc(sizeof(double));
@@ -2254,10 +2256,10 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
 }
-#line 2258 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2260 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 69:
+  case 71:
 #line 705 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
     if ((yyvsp[-7].intNumber) != (yyvsp[0].intNumber)) {
@@ -2323,10 +2325,10 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
   }
-#line 2327 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2329 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 70:
+  case 72:
 #line 772 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -2363,10 +2365,10 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
         }
-#line 2367 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2369 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 71:
+  case 73:
 #line 811 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
@@ -2421,10 +2423,10 @@ yyreduce:
         currSession->instances.push_back(newInstance);
         surfaceFromArg = "";
         }
-#line 2425 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2427 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 72:
+  case 74:
 #line 868 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
           Reader* currReader = createReader(currSession);
@@ -2458,10 +2460,10 @@ yyreduce:
 
           tempVariables2.clear();
         }
-#line 2462 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2464 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 73:
+  case 75:
 #line 904 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *r = (double*) malloc(sizeof(double));
@@ -2485,10 +2487,10 @@ yyreduce:
 
         currSession->surfaces.push_back(currSurface);
         }
-#line 2489 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2491 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
-  case 74:
+  case 76:
 #line 930 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
@@ -2513,11 +2515,11 @@ yyreduce:
 
         currSession->verts.push_back(newVertex);
         }
-#line 2517 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2519 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2521 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2523 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
