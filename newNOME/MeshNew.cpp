@@ -234,6 +234,7 @@ bool MeshNew::draw(double offset)
     *b = 0.0;
     Surface* s = createSurface(r, g, b, "orange");
 
+    //std::cout << faces.size() << std::endl;
     for(FaceNew* f : faces) {
         listOutVert.clear();
         listInVert.clear();
@@ -344,69 +345,54 @@ bool MeshNew::draw(double offset)
                         }
                         index++;
                     }
-                }
+
                 std::list<Vert*> listEdgeVert;
-                std::list<Vert*> listEdgeVertOne;
-                std::list<Vert*> listEdgeVertTwo;
+
                 if (posStartIn != -1 || posEndIn != -1 || posStartOut != -1 || posEndOut != -1){
                     if (wasReversed == true){
                         // MAYBE BUG WITH THIS PART NEED TO CHECK
                         // THIS PART IS FOR MOBIUS EDGES
                         if (posStartIn < posEndIn){
-                            listEdgeVertOne.push_back(startInVert);
-                            listEdgeVertOne.push_back(endOutVert);
-                            listEdgeVertOne.push_back(endInVert);
-                            listEdgeVertTwo.push_back(endInVert);
-                            listEdgeVertTwo.push_back(startOutVert);
-                            listEdgeVertTwo.push_back(startInVert);
+                            listEdgeVert.push_back(startInVert);
+                            listEdgeVert.push_back(endOutVert);
+                            listEdgeVert.push_back(endInVert);
+                            listEdgeVert.push_back(startOutVert);
                         } else{
-                            listEdgeVertOne.push_back(startInVert);
-                            listEdgeVertOne.push_back(startOutVert);
-                            listEdgeVertOne.push_back(endInVert);
-                            listEdgeVertTwo.push_back(endInVert);
-                            listEdgeVertTwo.push_back(endOutVert);
-                            listEdgeVertTwo.push_back(startInVert);
+                            listEdgeVert.push_back(startInVert);
+                            listEdgeVert.push_back(startOutVert);
+                            listEdgeVert.push_back(endInVert);
+                            listEdgeVert.push_back(endOutVert);
                         }
                     } else{
                         Vert* firstV;
                         if (posStartIn < posEndIn){
-                            firstV = endInVert;
-                            listEdgeVertOne.push_back(endInVert);
-                            listEdgeVertOne.push_back(startInVert);
+                            listEdgeVert.push_back(endInVert);
+                            listEdgeVert.push_back(startInVert);
                         } else{
-                            firstV = startInVert;
-                            listEdgeVertOne.push_back(startInVert);
-                            listEdgeVertOne.push_back(endInVert);
+                            listEdgeVert.push_back(startInVert);
+                            listEdgeVert.push_back(endInVert);
                         }
 
                         if (posStartOut < posEndOut){
-                            listEdgeVertOne.push_back(endOutVert);
-                            listEdgeVertTwo.push_back(endOutVert);
-                            listEdgeVertTwo.push_back(startOutVert);
-                            listEdgeVertTwo.push_back(firstV);
+                            listEdgeVert.push_back(endOutVert);
+                            listEdgeVert.push_back(startOutVert);
                         } else{
-                            listEdgeVertOne.push_back(startOutVert);
-                            listEdgeVertTwo.push_back(startOutVert);
-                            listEdgeVertTwo.push_back(endOutVert);
-                            listEdgeVertTwo.push_back(firstV);
+                            listEdgeVert.push_back(startOutVert);
+                            listEdgeVert.push_back(endOutVert);
                         }
 
                     }
-                    FaceNew* testFace = createOffsetFace(listEdgeVertOne);
+                    FaceNew* testFace = createOffsetFace(listEdgeVert);
                     testFace->surface = s;
                     outFaces.push_back(testFace);
 
+                    //std::cout << "HHH" << std::endl;
+                    //std::cout << f->name << std::endl;
                     drawFace(testFace, NULL);
-
-                    FaceNew* testFace2 = createOffsetFace(listEdgeVertTwo);
-                    testFace2->surface = s;
-                    outFaces.push_back(testFace2);
-
-                    drawFace(testFace2, NULL);
 
                     }
                 }
-
+            }
             //}
 
 
@@ -462,9 +448,11 @@ bool isInList(Vert* vert, std::list<Vert*> listOfStrs){
 MeshNew* MeshNew::subdivideMesh(){
     MeshNew* newMesh = createMesh();
 
+    // Iterating over all faces.
     for (FaceNew* currFace: this->faces){
         std::list<Vert*>::iterator vertIt = currFace->verts.begin();
         Vert * previousEdgePoint = NULL;
+        // Iterating over all edges.
         for (EdgeNew* currEdge: currFace->edges){
             if (previousEdgePoint == NULL){
                 previousEdgePoint = currEdge->edgePoint;
@@ -474,26 +462,29 @@ MeshNew* MeshNew::subdivideMesh(){
                 listFace.clear();
 
                 listFace.push_back(previousEdgePoint);
-                //std::cout << "VERT POINT" << std::endl;
                 listFace.push_back((*vertIt)->vertPoint);
                 listFace.push_back(currEdge->edgePoint);
                 listFace.push_back(currFace->facePoint);
-                //std::cout << "START CREATE FACE" << std::endl;
-                FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
-                //std::cout << "END CREATE FACE" << std::endl;
 
-                if(!isInList(previousEdgePoint, newMesh->verts)){
+                FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
+
+                if(previousEdgePoint->inList == false){
                     newMesh->verts.push_back(previousEdgePoint);
                 }
-                if(!isInList((*vertIt)->vertPoint, newMesh->verts)){
+                if((*vertIt)->vertPoint->inList == false){
                     newMesh->verts.push_back((*vertIt)->vertPoint);
                 }
-                if(!isInList(currEdge->edgePoint, newMesh->verts)){
+                if(currEdge->edgePoint->inList == false){
                     newMesh->verts.push_back(currEdge->edgePoint);
                 }
-                if(!isInList(currFace->facePoint, newMesh->verts)){
+                if(currFace->facePoint->inList == false){
                     newMesh->verts.push_back(currFace->facePoint);
                 }
+
+                previousEdgePoint->inList = true;
+                (*vertIt)->vertPoint->inList = true;
+                currEdge->edgePoint->inList = true;
+                currFace->facePoint->inList = true;
 
                 newMesh->faces.push_back(f0);
 
@@ -511,22 +502,26 @@ MeshNew* MeshNew::subdivideMesh(){
         listFace.push_back((*edgeIt)->edgePoint);
         listFace.push_back(currFace->facePoint);
 
-        if(!isInList(previousEdgePoint, newMesh->verts)){
+        if (previousEdgePoint->inList == false){
             newMesh->verts.push_back(previousEdgePoint);
         }
-        if(!isInList((*vertIt)->vertPoint, newMesh->verts)){
+        if((*vertIt)->vertPoint->inList == false){
             newMesh->verts.push_back((*vertIt)->vertPoint);
         }
-        if(!isInList((*edgeIt)->edgePoint, newMesh->verts)){
+        if((*edgeIt)->edgePoint->inList == false){
             newMesh->verts.push_back((*edgeIt)->edgePoint);
         }
-        if(!isInList(currFace->facePoint, newMesh->verts)){
+        if(currFace->facePoint->inList == false){
             newMesh->verts.push_back(currFace->facePoint);
         }
 
+        previousEdgePoint->inList = true;
+        (*vertIt)->vertPoint->inList = true;
+        (*edgeIt)->edgePoint->inList = true;
+        currFace->facePoint->inList = true;
+
         FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
         newMesh->faces.push_back(f0);
-
     }
     return newMesh;
 }

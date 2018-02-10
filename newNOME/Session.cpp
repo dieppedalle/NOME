@@ -397,6 +397,7 @@ void Session::draw(){
 void Session::createFlattenMesh(bool instance){
     MeshNew* tmpflattenMesh = createMesh();
     if (instance){
+        //std::cout << "INSTANCE" << std::endl;
         for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
             (*itMesh)->flattenInstance(tmpflattenMesh);
         }
@@ -441,8 +442,9 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
         createFlattenMesh(true);
         for (int i = 0; i < subdivision; i++){
             createFlattenMesh(false);
+            //std::cout << "SLOW" << std::endl;
             flattenMesh = flattenMesh->subdivideMesh();
-            //std::cout << "LEVEL" << std::endl;
+            //std::cout << "FAST" << std::endl;
         }
 
         subdivisionLevel = subdivision;
@@ -460,18 +462,27 @@ void saveFaceSTL(FaceNew* currFace, std::ofstream& file){
 
     Vert* initVertex = *itVert;
     itVert++;
-    Vert* lastVert = *itVert;
+    Vert* currVertex = *itVert;
     itVert++;
+    Vert* lastVert = *itVert;
+
     while (itVert != currFace->verts.end()){
-        file << "  facet normal " + dbl2str(normalVector[0]) + " " + dbl2str(normalVector[1]) + " " + dbl2str(normalVector[2]) + "\n";
+
+        lastVert = *itVert;
+        std::vector<Vert *> vL;
+        vL.push_back(initVertex);
+        vL.push_back(currVertex);
+        vL.push_back(lastVert);
+        std::vector<double> nV = getNormalFromVerts(vL);
+        file << "  facet normal " + dbl2str(nV[0]) + " " + dbl2str(nV[1]) + " " + dbl2str(nV[2]) + "\n";
         file << "    outer loop\n";
-        file << "      vertex " + dbl2str(*(initVertex->xTransformed)) + " " + dbl2str(*(initVertex->yTransformed)) + " " + dbl2str(*(initVertex->zTransformed)) + "\n";
-        file << "      vertex " + dbl2str(*(lastVert->xTransformed)) + " " + dbl2str(*(lastVert->yTransformed)) + " " + dbl2str(*(lastVert->zTransformed)) + "\n";
-        file << "      vertex " + dbl2str(*((*itVert)->xTransformed)) + " " + dbl2str(*((*itVert)->yTransformed)) + " " + dbl2str(*((*itVert)->zTransformed)) + "\n";
+        file << "      vertex " + dbl2str(roundf(*(initVertex->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(initVertex->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(initVertex->zTransformed) * 10000) / 10000) + "\n";
+        file << "      vertex " + dbl2str(roundf(*(currVertex->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(currVertex->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(currVertex->zTransformed) * 10000) / 10000) + "\n";
+        file << "      vertex " + dbl2str(roundf(*(lastVert->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(lastVert->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(lastVert->zTransformed) * 10000) / 10000) + "\n";
         file << "    endloop\n";
         file << "  endfacet\n";
-        lastVert = *itVert;
 
+        currVertex = lastVert;
         itVert++;
     }
 }

@@ -76,6 +76,7 @@ public:
     bool selected;
 
     bool mobius;
+    bool inList = false;
 
     std::vector<std::tuple<Vert*,Vert*>> edgesSeen;
 
