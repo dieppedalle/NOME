@@ -485,7 +485,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
             }
 
             for (int i = startIndex; i < subdivision; i++){
-                std::cout << "SUBDIVDING" << std::endl;
+                //std::cout << "SUBDIVDING" << std::endl;
                 createFlattenMesh(false);
                 flattenMesh = flattenMesh->subdivideMesh();
                 flattenMeshList.push_back(flattenMesh);
