@@ -850,10 +850,10 @@ void SlideGLWidget::addToPolylineCalled(bool)
         }
     }
     else{
-        currSession->tmpMesh = NULL;
+        /*currSession->tmpMesh = NULL;
         currSession->tmpPolyline = NULL;
         currSession->tmpInstance =  NULL;
-        currSession->addTmpPolyline();
+        currSession->addTmpPolyline();*/
     }
 
     //currSession->addTmpPolyline();
@@ -879,7 +879,7 @@ void SlideGLWidget::addToTempCalled(bool)
         }
     }
     else{
-        currSession->addTmpFace();
+        //currSession->addTmpFace();
     }
     //currSession->addTmpFace();
 
@@ -1044,7 +1044,6 @@ void SlideGLWidget::clearSelectionCalled(bool)
     currSession->clearSelection();
     currSession->tmpMesh = NULL;
     currSession->tmpInstance = NULL;
-    currSession->tmpPolyline = NULL;
     repaint();
 }
 

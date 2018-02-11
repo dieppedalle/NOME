@@ -293,21 +293,9 @@ bool MeshNew::draw(double offset)
             int posEndIn = -1;
             int posStartOut = -1;
             int posEndOut = -1;
-            /*std::cout << "----" << std::endl;
-            for (Vert* v : listInVert){
-                std::cout << v->index << std::endl;
-            }
-            std::cout << "++++" << std::endl;
-            for (Vert* v : listOutVert){
-                std::cout << v->index << std::endl;
-            }*/
-
 
             // CREATE EDGE FACE
-            //std::cout << "====" << std::endl;
             for (EdgeNew* e : f->edges){
-                //std::cout << e->v0->normalInVert->index << std::endl;
-                //std::cout << e->v1->normalInVert->index << std::endl;
                 if (e->isBorder()){
                     startInVert = e->v0->normalInVert;
                     endInVert = e->v1->normalInVert;
@@ -386,51 +374,19 @@ bool MeshNew::draw(double offset)
                     testFace->surface = s;
                     outFaces.push_back(testFace);
 
-                    //std::cout << "HHH" << std::endl;
-                    //std::cout << f->name << std::endl;
                     drawFace(testFace, NULL);
 
                     }
                 }
             }
-            //}
 
 
         } else {
             drawFace(f, NULL);
         }
 
-        //drawFace(f, NULL);
     }
 
-
-
-    /*for(EdgeNew* e : edges) {
-        if (e->isBorder()){
-            if (e->f0->mobius){
-                listOutVert.clear();
-                listOutVert.push_back(e->v0->normalOutVert);
-                listOutVert.push_back(e->v0->normalInVert);
-                listOutVert.push_back(e->v1->normalOutVert);
-                listOutVert.push_back(e->v1->normalInVert);
-                FaceNew* newInFace = createOffsetFace(listOutVert);
-                newInFace->surface = s;
-                drawFace(newInFace, NULL);
-                outFaces.push_back(newInFace);
-            } else{
-                listOutVert.clear();
-
-                listOutVert.push_back(e->v0->normalOutVert);
-                listOutVert.push_back(e->v0->normalInVert);
-                listOutVert.push_back(e->v1->normalInVert);
-                listOutVert.push_back(e->v1->normalOutVert);
-                FaceNew* newInFace = createOffsetFace(listOutVert);
-                newInFace->surface = s;
-                drawFace(newInFace, NULL);
-                outFaces.push_back(newInFace);
-            }
-        }
-    }*/
 
     return true;
 }

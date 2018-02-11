@@ -43,6 +43,7 @@ void SliderNew::sliderValueChanged(int value)
     canvas->currSession->recalculateSlider = true;
     canvas->currSession->recalculateSubdivision = true;
     canvas->currSession->recalculateOffset = true;
+    canvas->currSession->flattenMeshList.clear();
 
     //std::cout << "HI" << std::endl;
     canvas -> updateGL();

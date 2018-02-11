@@ -52,7 +52,7 @@ public:
 
     int subdivisionLevel = 0;
     MeshNew* flattenMesh;
-    std::vector<MeshNew*> flattenMeshList;
+    std::vector<MeshNew*> flattenMeshList = std::vector<MeshNew*>();
 
     int tmpFaceIndex = 0;
 

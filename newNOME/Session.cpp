@@ -269,9 +269,35 @@ void Session::addTmpFace(){
         clearSelection();
         tmpFaceIndex += 1;
     }
+
+    /*if (tmpMesh == NULL){
+        tmpMesh = createMesh();
+        tmpFaceIndex = 0;
+    }
+    Reader* currReader = createReader(this);
+    FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader, false);
+
+    setTmpSurface(newFace);
+    newFace->setName("f" + std::to_string(tmpFaceIndex));
+    tmpMesh->faces.push_back(newFace);
+
+    for (Vert * selectedVert: selectedVerts){
+        tmpMesh->verts.push_back(selectedVert);
+    }
+    tmpMesh->setName("tmpMesh");
+    tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+    tmpInstance->setName("tmpInstance");
+    clearSelection();
+    tmpFaceIndex += 1;*/
 }
 
 void Session::addTmpPolyline(){
+    /*Reader* currReader = createReader(this);
+    tmpPolyline = createPolylineNew(selectedVerts);
+    tmpPolyline->setName("tmpPolyline");
+    tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true, false, this);
+    tmpInstance->setName("tmpInstance");
+    clearSelection();*/
     if (selectedVerts.size() != 0){
         Reader* currReader = createReader(this);
         tmpPolyline = createPolylineNew(selectedVerts);
@@ -317,7 +343,13 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
     if (tmpInstance != NULL){
         tmpInstance->setName(consolidateInstanceName);
 
-        InstanceNew* newInstance = createInstance(tmpMesh, this->verts, currReader, true, true, false, this);
+        InstanceNew* newInstance;
+        if (tmpMesh != NULL){
+            newInstance = createInstance(tmpMesh, this->verts, currReader, true, true, false, this);
+        } else{
+            newInstance = createInstance(tmpPolyline, this->verts, currReader, true, true, false, this);
+        }
+
         newInstance->setName(consolidateInstanceName);
         for (FaceNew * tmpFace: newInstance->faces){
             setSurface(tmpFace, NULL);
@@ -438,13 +470,26 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
     }*/
 
 
+
     if (calculateSubdivide){
-        createFlattenMesh(true);
-        for (int i = 0; i < subdivision; i++){
-            createFlattenMesh(false);
-            //std::cout << "SLOW" << std::endl;
-            flattenMesh = flattenMesh->subdivideMesh();
-            //std::cout << "FAST" << std::endl;
+        if ((flattenMeshList.size() != 0) && (flattenMeshList.size() >= subdivision + 1)){
+            flattenMesh = flattenMeshList[subdivision];
+        } else{
+            int startIndex = 0;
+            if ((flattenMeshList.size() != 0)){
+                std::cout << flattenMeshList.size() - 1 << std::endl;
+                startIndex = flattenMeshList.size() - 1;
+            } else{
+                createFlattenMesh(true);
+                flattenMeshList.push_back(flattenMesh);
+            }
+
+            for (int i = startIndex; i < subdivision; i++){
+                std::cout << "SUBDIVDING" << std::endl;
+                createFlattenMesh(false);
+                flattenMesh = flattenMesh->subdivideMesh();
+                flattenMeshList.push_back(flattenMesh);
+            }
         }
 
         subdivisionLevel = subdivision;
