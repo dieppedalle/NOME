@@ -470,14 +470,14 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
     }*/
 
 
-
+    bool computeOffset = false;
     if (calculateSubdivide){
         if ((flattenMeshList.size() != 0) && (flattenMeshList.size() >= subdivision + 1)){
             flattenMesh = flattenMeshList[subdivision];
         } else{
+            computeOffset = true;
             int startIndex = 0;
             if ((flattenMeshList.size() != 0)){
-                std::cout << flattenMeshList.size() - 1 << std::endl;
                 startIndex = flattenMeshList.size() - 1;
             } else{
                 createFlattenMesh(true);
@@ -489,15 +489,13 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
                 flattenMesh = flattenMesh->subdivideMesh();
                 flattenMeshList.push_back(flattenMesh);
             }
+            flattenMesh->calculateNormal();
         }
 
         subdivisionLevel = subdivision;
     }
 
-    flattenMesh->calculateNormal();
-
-    flattenMesh->draw(offset);
-
+    flattenMesh->draw(offset, (computeOffset || calculateOffset));
 }
 
 void saveFaceSTL(FaceNew* currFace, std::ofstream& file){

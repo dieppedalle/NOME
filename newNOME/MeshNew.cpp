@@ -217,174 +217,188 @@ double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
     return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
-bool MeshNew::draw(double offset)
+bool MeshNew::draw(double offset, bool computeOffset)
 {
-    inFaces.clear();
-    outFaces.clear();
-
-    std::list<Vert*> listOutVert;
-    std::list<Vert*> listInVert;
-    Vert* lastVertSeen;
-
-    double *r = (double*) malloc(sizeof(double));
-    double *g = (double*) malloc(sizeof(double));
-    double *b = (double*) malloc(sizeof(double));
-    *r = 1.0;
-    *g = 0.64;
-    *b = 0.0;
-    Surface* s = createSurface(r, g, b, "orange");
-
-    //std::cout << faces.size() << std::endl;
-    for(FaceNew* f : faces) {
-        listOutVert.clear();
-        listInVert.clear();
-        //std::cout << "DONE" << std::endl;
-        for(Vert* v : f->verts) {
-            //std::cout << v->mobius << std::endl;
-            v->updateOutOffsetVertex(offset);
-            v->updateInOffsetVertex(offset);
-
-            //if (dotProductNormal(f->getNormal(), v->normal)>= 0){
-             if (f->mobius == true && v->mobius == true){
-                listOutVert.push_back(v->normalOutVert);
-                listInVert.push_back(v->normalInVert);
+    if (computeOffset == false){
+        if (offset == 0){
+            for (FaceNew* f0: faces){
+                drawFace(f0, NULL);
             }
-            else{
-                listOutVert.push_back(v->normalInVert);
-                listInVert.push_back(v->normalOutVert);
+        } else{
+            for (FaceNew* f0: inFaces){
+                drawFace(f0, NULL);
             }
-
-
+            for (FaceNew* f0: outFaces){
+                drawFace(f0, NULL);
+            }
         }
-        bool wasReversed = false;
-        if (f->mobius){
-            listInVert.swap(listOutVert);
-            std::reverse(listInVert.begin(), listInVert.end());
+    } else{
+        inFaces.clear();
+        outFaces.clear();
+
+        std::list<Vert*> listOutVert;
+        std::list<Vert*> listInVert;
+        Vert* lastVertSeen;
+
+        double *r = (double*) malloc(sizeof(double));
+        double *g = (double*) malloc(sizeof(double));
+        double *b = (double*) malloc(sizeof(double));
+        *r = 1.0;
+        *g = 0.64;
+        *b = 0.0;
+        Surface* s = createSurface(r, g, b, "orange");
+
+        for(FaceNew* f : faces) {
+            listOutVert.clear();
+            listInVert.clear();
+            //std::cout << "DONE" << std::endl;
+            for(Vert* v : f->verts) {
+                //std::cout << v->mobius << std::endl;
+                v->updateOutOffsetVertex(offset);
+                v->updateInOffsetVertex(offset);
+
+                //if (dotProductNormal(f->getNormal(), v->normal)>= 0){
+                 if (f->mobius == true && v->mobius == true){
+                    listOutVert.push_back(v->normalOutVert);
+                    listInVert.push_back(v->normalInVert);
+                }
+                else{
+                    listOutVert.push_back(v->normalInVert);
+                    listInVert.push_back(v->normalOutVert);
+                }
+
+
+            }
+            bool wasReversed = false;
+            if (f->mobius){
+                listInVert.swap(listOutVert);
+                std::reverse(listInVert.begin(), listInVert.end());
+                std::reverse(listOutVert.begin(), listOutVert.end());
+                wasReversed = true;
+            }
             std::reverse(listOutVert.begin(), listOutVert.end());
-            wasReversed = true;
-        }
-        std::reverse(listOutVert.begin(), listOutVert.end());
 
 
-        if (offset != 0){
-            //listInVert.reverse();
-            FaceNew* newFace = createOffsetFace(listOutVert);
-            outFaces.push_back(newFace);
+            if (offset != 0){
+                //listInVert.reverse();
+                FaceNew* newFace = createOffsetFace(listOutVert);
+                outFaces.push_back(newFace);
 
 
-            FaceNew* newInFace = createOffsetFace(listInVert);
-            inFaces.push_back(newInFace);
+                FaceNew* newInFace = createOffsetFace(listInVert);
+                inFaces.push_back(newInFace);
 
-            double *r = (double*) malloc(sizeof(double));
-            double *g = (double*) malloc(sizeof(double));
-            double *b = (double*) malloc(sizeof(double));
-            *r = 0.0;
-            *g = 0.0;
-            *b = 1.0;
-            newInFace->surface = createSurface(r, g, b, "HELLO");
-            drawFace(newFace, NULL);
-            drawFace(newInFace, NULL);
+                double *r = (double*) malloc(sizeof(double));
+                double *g = (double*) malloc(sizeof(double));
+                double *b = (double*) malloc(sizeof(double));
+                *r = 0.0;
+                *g = 0.0;
+                *b = 1.0;
+                newInFace->surface = createSurface(r, g, b, "HELLO");
+                drawFace(newFace, NULL);
+                drawFace(newInFace, NULL);
 
-            Vert* startInVert;
-            Vert* endInVert;
-            Vert* startOutVert;
-            Vert* endOutVert;
-            int posStartIn = -1;
-            int posEndIn = -1;
-            int posStartOut = -1;
-            int posEndOut = -1;
+                Vert* startInVert;
+                Vert* endInVert;
+                Vert* startOutVert;
+                Vert* endOutVert;
+                int posStartIn = -1;
+                int posEndIn = -1;
+                int posStartOut = -1;
+                int posEndOut = -1;
 
-            // CREATE EDGE FACE
-            for (EdgeNew* e : f->edges){
-                if (e->isBorder()){
-                    startInVert = e->v0->normalInVert;
-                    endInVert = e->v1->normalInVert;
-                    startOutVert = e->v0->normalOutVert;
-                    endOutVert = e->v1->normalOutVert;
-                    int index = 0;
-                    for (Vert* vIn : listInVert){
-                        if (startInVert->index==vIn->index){
-                            posStartIn = index;
+                // CREATE EDGE FACE
+                for (EdgeNew* e : f->edges){
+                    if (e->isBorder()){
+                        startInVert = e->v0->normalInVert;
+                        endInVert = e->v1->normalInVert;
+                        startOutVert = e->v0->normalOutVert;
+                        endOutVert = e->v1->normalOutVert;
+                        int index = 0;
+                        for (Vert* vIn : listInVert){
+                            if (startInVert->index==vIn->index){
+                                posStartIn = index;
+                            }
+                            if (endInVert->index==vIn->index){
+                                posEndIn = index;
+                            }
+                            if (startOutVert->index==vIn->index){
+                                posStartOut = index;
+                            }
+                            if (endOutVert->index==vIn->index){
+                                posEndOut = index;
+                            }
+                            index++;
                         }
-                        if (endInVert->index==vIn->index){
-                            posEndIn = index;
-                        }
-                        if (startOutVert->index==vIn->index){
-                            posStartOut = index;
-                        }
-                        if (endOutVert->index==vIn->index){
-                            posEndOut = index;
-                        }
-                        index++;
-                    }
 
-                    for (Vert* vIn : listOutVert){
-                        if (startInVert->index==vIn->index){
-                            posStartIn = index;
+                        for (Vert* vIn : listOutVert){
+                            if (startInVert->index==vIn->index){
+                                posStartIn = index;
+                            }
+                            if (endInVert->index==vIn->index){
+                                posEndIn = index;
+                            }
+                            if (startOutVert->index==vIn->index){
+                                posStartOut = index;
+                            }
+                            if (endOutVert->index==vIn->index){
+                                posEndOut = index;
+                            }
+                            index++;
                         }
-                        if (endInVert->index==vIn->index){
-                            posEndIn = index;
-                        }
-                        if (startOutVert->index==vIn->index){
-                            posStartOut = index;
-                        }
-                        if (endOutVert->index==vIn->index){
-                            posEndOut = index;
-                        }
-                        index++;
-                    }
 
-                std::list<Vert*> listEdgeVert;
+                    std::list<Vert*> listEdgeVert;
 
-                if (posStartIn != -1 || posEndIn != -1 || posStartOut != -1 || posEndOut != -1){
-                    if (wasReversed == true){
-                        // MAYBE BUG WITH THIS PART NEED TO CHECK
-                        // THIS PART IS FOR MOBIUS EDGES
-                        if (posStartIn < posEndIn){
-                            listEdgeVert.push_back(startInVert);
-                            listEdgeVert.push_back(endOutVert);
-                            listEdgeVert.push_back(endInVert);
-                            listEdgeVert.push_back(startOutVert);
+                    if (posStartIn != -1 || posEndIn != -1 || posStartOut != -1 || posEndOut != -1){
+                        if (wasReversed == true){
+                            // MAYBE BUG WITH THIS PART NEED TO CHECK
+                            // THIS PART IS FOR MOBIUS EDGES
+                            if (posStartIn < posEndIn){
+                                listEdgeVert.push_back(startInVert);
+                                listEdgeVert.push_back(endOutVert);
+                                listEdgeVert.push_back(endInVert);
+                                listEdgeVert.push_back(startOutVert);
+                            } else{
+                                listEdgeVert.push_back(startInVert);
+                                listEdgeVert.push_back(startOutVert);
+                                listEdgeVert.push_back(endInVert);
+                                listEdgeVert.push_back(endOutVert);
+                            }
                         } else{
-                            listEdgeVert.push_back(startInVert);
-                            listEdgeVert.push_back(startOutVert);
-                            listEdgeVert.push_back(endInVert);
-                            listEdgeVert.push_back(endOutVert);
+                            Vert* firstV;
+                            if (posStartIn < posEndIn){
+                                listEdgeVert.push_back(endInVert);
+                                listEdgeVert.push_back(startInVert);
+                            } else{
+                                listEdgeVert.push_back(startInVert);
+                                listEdgeVert.push_back(endInVert);
+                            }
+
+                            if (posStartOut < posEndOut){
+                                listEdgeVert.push_back(endOutVert);
+                                listEdgeVert.push_back(startOutVert);
+                            } else{
+                                listEdgeVert.push_back(startOutVert);
+                                listEdgeVert.push_back(endOutVert);
+                            }
+
                         }
-                    } else{
-                        Vert* firstV;
-                        if (posStartIn < posEndIn){
-                            listEdgeVert.push_back(endInVert);
-                            listEdgeVert.push_back(startInVert);
-                        } else{
-                            listEdgeVert.push_back(startInVert);
-                            listEdgeVert.push_back(endInVert);
+                        FaceNew* testFace = createOffsetFace(listEdgeVert);
+                        testFace->surface = s;
+                        outFaces.push_back(testFace);
+
+                        drawFace(testFace, NULL);
+
                         }
-
-                        if (posStartOut < posEndOut){
-                            listEdgeVert.push_back(endOutVert);
-                            listEdgeVert.push_back(startOutVert);
-                        } else{
-                            listEdgeVert.push_back(startOutVert);
-                            listEdgeVert.push_back(endOutVert);
-                        }
-
-                    }
-                    FaceNew* testFace = createOffsetFace(listEdgeVert);
-                    testFace->surface = s;
-                    outFaces.push_back(testFace);
-
-                    drawFace(testFace, NULL);
-
                     }
                 }
+
+
+            } else {
+                drawFace(f, NULL);
             }
 
-
-        } else {
-            drawFace(f, NULL);
         }
-
     }
 
 
@@ -403,8 +417,6 @@ bool isInList(Vert* vert, std::list<Vert*> listOfStrs){
 
 MeshNew* MeshNew::subdivideMesh(){
     MeshNew* newMesh = createMesh();
-    std::cout << "START SUB" << std::endl;
-    std::cout << this->faces.size() << std::endl;
     // Iterating over all faces.
     for (FaceNew* currFace: this->faces){
         std::list<Vert*>::iterator vertIt = currFace->verts.begin();
@@ -424,7 +436,7 @@ MeshNew* MeshNew::subdivideMesh(){
                 listFace.push_back(currFace->facePoint);
 
                 FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
-                std::cout << newMesh->edges.size() << std::endl;
+
                 if(previousEdgePoint->inList == false){
                     newMesh->verts.push_back(previousEdgePoint);
                 }
@@ -481,7 +493,6 @@ MeshNew* MeshNew::subdivideMesh(){
 
         newMesh->faces.push_back(f0);
     }
-    std::cout << "END SUB" << std::endl;
     return newMesh;
 }
 

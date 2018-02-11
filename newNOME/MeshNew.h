@@ -46,7 +46,7 @@ public:
     bool deleteFace(FaceNew*);
 
     bool drawFaces();
-    bool draw(double offset);
+    bool draw(double offset, bool computeOffset);
     MeshNew* subdivideMesh();
     Surface * surface;
 
