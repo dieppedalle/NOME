@@ -403,7 +403,8 @@ bool isInList(Vert* vert, std::list<Vert*> listOfStrs){
 
 MeshNew* MeshNew::subdivideMesh(){
     MeshNew* newMesh = createMesh();
-
+    std::cout << "START SUB" << std::endl;
+    std::cout << this->faces.size() << std::endl;
     // Iterating over all faces.
     for (FaceNew* currFace: this->faces){
         std::list<Vert*>::iterator vertIt = currFace->verts.begin();
@@ -477,8 +478,10 @@ MeshNew* MeshNew::subdivideMesh(){
         currFace->facePoint->inList = true;
 
         FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
+
         newMesh->faces.push_back(f0);
     }
+    std::cout << "END SUB" << std::endl;
     return newMesh;
 }
 

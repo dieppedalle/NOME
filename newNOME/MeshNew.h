@@ -25,6 +25,8 @@ public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
     std::list<FaceNew*> faces;
+    std::list<FaceNew*> facesSubdivide;
+
 
     std::list<FaceNew*> inFaces;
     std::list<FaceNew*> outFaces;

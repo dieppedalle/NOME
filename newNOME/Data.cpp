@@ -283,8 +283,6 @@ FaceNew* createOffsetFace(std::list<Vert*> verts)
 }
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect){
-
-
     /*std::cout << "FACE NAME" << std::endl;
     for (Vert* cV : vertices){
         std::cout << "VERTEX NAME" << std::endl;
