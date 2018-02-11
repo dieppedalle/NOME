@@ -424,7 +424,7 @@ MeshNew* MeshNew::subdivideMesh(){
                 listFace.push_back(currFace->facePoint);
 
                 FaceNew* f0 = createFace(listFace, &(newMesh->edges), NULL, true);
-
+                std::cout << newMesh->edges.size() << std::endl;
                 if(previousEdgePoint->inList == false){
                     newMesh->verts.push_back(previousEdgePoint);
                 }

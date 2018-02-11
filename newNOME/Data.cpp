@@ -303,6 +303,10 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
     while (it != vertices.end()){
         if (it2 != vertices.end()){
             currentEdge = NULL;
+
+            /*for (auto e0 : *it->edges){
+
+            }*/
             for( auto e0 : *edges ) {
                 if ((e0->v0->index == (*it)->index && e0->v1->index == (*it2)->index) || (e0->v0->index == (*it2)->index && e0->v1->index == (*it)->index)){
                     currentEdge = e0;
