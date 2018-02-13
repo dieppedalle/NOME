@@ -21,6 +21,7 @@ ControlPanel::ControlPanel(SlideGLWidget * canvas)
     resize(700, 600);
 }
 
+
 void ControlPanel::buildConnection()
 {
     /* Build our connections. */
@@ -45,6 +46,7 @@ void ControlPanel::buildConnection()
     connect(borderModeButton, SIGNAL(clicked(bool)), canvas, SLOT(borderModeChecked(bool)));
     connect(faceModeButton, SIGNAL(clicked(bool)), canvas, SLOT(faceModeChecked(bool)));
     connect(addFaceButton, SIGNAL(clicked(bool)), canvas, SLOT(addToTempCalled(bool)));
+    connect(undoAddButton, SIGNAL(clicked(bool)), canvas, SLOT(undoFaceCalled(bool)));
     connect(addPolylineButton, SIGNAL(clicked(bool)), canvas, SLOT(addToPolylineCalled(bool)));
     connect(deleteFaceButton, SIGNAL(clicked(bool)), canvas, SLOT(deleteFaceCalled(bool)));
     connect(addBorderButton, SIGNAL(clicked(bool)), canvas, SLOT(addBorderCalled(bool)));
@@ -87,6 +89,7 @@ void ControlPanel::setupLayout()
     modeLayout -> addLayout(selectionLayout = new QHBoxLayout);
     modeLayout -> addLayout(editLayout = new QHBoxLayout);
     modeLayout -> addLayout(editLayout2 = new QHBoxLayout);
+    modeLayout -> addLayout(undoLayout = new QHBoxLayout);
     modeLayout -> addLayout(editLayout3 = new QHBoxLayout);
     modeLayout -> addLayout(zipOptionsLayout = new QHBoxLayout);
     selectionLayout -> addWidget(vertexModeButton = new QRadioButton(tr("Select Vertex")));
@@ -100,6 +103,7 @@ void ControlPanel::setupLayout()
     editLayout2 -> addWidget(addFaceButton = new QPushButton(tr("Add Polygon")));
     editLayout2 -> addWidget(zipButton = new QPushButton(tr("Zip 2 Mesh Borders")));
     editLayout2 -> addWidget(groupFacesButton = new QPushButton(tr("Group Faces")));
+    undoLayout -> addWidget(undoAddButton = new QPushButton(tr("Undo Last Addition")));
     editLayout3 -> addWidget(groupFacesEdit = new QLineEdit(tr("meshName")));
     zipOptionsLayout -> addWidget(new QLabel(tr("Triangle Panelty")));
     zipOptionsLayout -> addWidget(trianglePaneltyEdit = new QLineEdit(tr("1.3")));

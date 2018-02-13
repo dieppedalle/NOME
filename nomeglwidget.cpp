@@ -861,6 +861,10 @@ void SlideGLWidget::addToPolylineCalled(bool)
     repaint();
 }
 
+void SlideGLWidget::undoFaceCalled(bool){
+    currSession->deleteTmpFace();
+    repaint();
+}
 
 void SlideGLWidget::addToTempCalled(bool)
 {

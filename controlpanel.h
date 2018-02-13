@@ -57,6 +57,7 @@ private:
     QHBoxLayout *editLayout;
     QHBoxLayout *editLayout2;
     QHBoxLayout *editLayout3;
+    QHBoxLayout *undoLayout;
     QRadioButton *vertexModeButton;
     QRadioButton *faceModeButton;
     QRadioButton *borderModeButton;
@@ -65,6 +66,7 @@ private:
     QPushButton *addBorderButton;
     QPushButton *addPolylineButton;
     QPushButton *groupFacesButton;
+    QPushButton *undoAddButton;
     QPushButton *zipButton;
     QCheckBox *autoCorrectCheck;
     QCheckBox *wholeBorderCheck;

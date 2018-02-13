@@ -69,6 +69,7 @@ public:
     std::string getName();
     bool updateNames();
     void addTmpFace();
+    void deleteTmpFace();
     void addTmpPolyline();
     void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
     void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);

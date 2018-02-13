@@ -245,6 +245,25 @@ void Session::SaveSessionNom(std::string outputFile){
     file<< this->fileContent;
 }
 
+void Session::deleteTmpFace(){
+    if (tmpMesh != NULL){
+        tmpMesh->faces.pop_back();
+        tmpMesh->edges.clear();
+        for (FaceNew* f: tmpMesh->faces){
+            for (EdgeNew* e : f->edges){
+                bool found = (std::find(tmpMesh->edges.begin(), tmpMesh->edges.end(), e) != tmpMesh->edges.end());
+                if (!found){
+                    tmpMesh->edges.push_back(e);
+                }
+            }
+        }
+        Reader* currReader = createReader(this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance->setName("tmpInstance");
+        tmpFaceIndex -= 1;
+    }
+}
+
 void Session::addTmpFace(){
     if (selectedVerts.size() != 0){
         if (tmpMesh == NULL){
