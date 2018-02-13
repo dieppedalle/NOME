@@ -685,6 +685,7 @@ bool drawVert(Vert* v0, Surface * instSurface){
         glVertex3f(x - 0.1 / 2, y - 0.1 / 2, z);
         glVertex3f(x + 0.1 / 2, y - 0.1 / 2, z);
     glEnd();
+    glLoadName(v0->index);
     glBegin(GL_QUADS);
         glNormal3f(1, 0, 0);
         glVertex3f(x, y + 0.1 / 2, z + 0.1 / 2);
@@ -692,6 +693,7 @@ bool drawVert(Vert* v0, Surface * instSurface){
         glVertex3f(x, y - 0.1 / 2, z - 0.1 / 2);
         glVertex3f(x, y + 0.1 / 2, z - 0.1 / 2);
     glEnd();
+    glLoadName(v0->index);
     glBegin(GL_QUADS);
         glNormal3f(0, 1, 0);
         glVertex3f(x + 0.1 / 2, y, z - 0.1 / 2);

@@ -429,10 +429,31 @@ void InstanceNew::applyTransformation(TransformationNew* t){
         if (dynamic_cast<Rotate*>(t)){
             Rotate* rotate = dynamic_cast<Rotate*>(t);
             for (Vert* v0 : verts){
+                // https://en.wikipedia.org/wiki/Rotation_matrix#Non-standard_orientation_of_the_coordinate_system
                 double *x = (double*) malloc(sizeof(double));
                 double *y = (double*) malloc(sizeof(double));
                 double *z = (double*) malloc(sizeof(double));
 
+                double normalizeLength = sqrt(((*rotate->x) * (*rotate->x)) + ((*rotate->y) * (*rotate->y)) + ((*rotate->z) * (*rotate->z)));
+                double normalizeX = (*rotate->x) / normalizeLength;
+                double normalizeY = (*rotate->y) / normalizeLength;
+                double normalizeZ = (*rotate->z) / normalizeLength;
+
+                double radAngle = *rotate->angle * (3.141592f/180.0f);
+
+                double x1 = glm::cos(radAngle) + (normalizeX * normalizeX) * (1 - glm::cos(radAngle));
+                double x2 = normalizeX * normalizeY * (1 - glm::cos(radAngle)) - normalizeZ * glm::sin(radAngle);
+                double x3 = normalizeX * normalizeZ * (1 - glm::cos(radAngle)) + normalizeY * glm::sin(radAngle);
+                double y1 = normalizeY * normalizeX * (1 - glm::cos(radAngle)) + normalizeZ * glm::sin(radAngle);
+                double y2 = glm::cos(radAngle) + normalizeY * normalizeY * (1 - glm::cos(radAngle));
+                double y3 = normalizeY * normalizeZ * (1 - glm::cos(radAngle)) - normalizeX * glm::sin(radAngle);
+                double z1 = normalizeZ * normalizeX * (1 - glm::cos(radAngle)) - normalizeY * glm::sin(radAngle);
+                double z2 = normalizeZ * normalizeY * (1 - glm::cos(radAngle)) + normalizeX * glm::sin(radAngle);
+                double z3 = glm::cos(radAngle) + normalizeZ * normalizeZ * (1 - glm::cos(radAngle));
+                *x = *v0->xTransformed * x1 + *v0->yTransformed * x2 + *v0->zTransformed * x3;
+                *y = *v0->xTransformed * y1 + *v0->yTransformed * y2 + *v0->zTransformed * y3;
+                *z = *v0->xTransformed * z1 + *v0->yTransformed * z2 + *v0->zTransformed * z3;
+                /*
                 // Rotation around an axis
                 // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
                 double radAngle = *rotate->angle * (3.141592f/180.0f);
@@ -458,7 +479,7 @@ void InstanceNew::applyTransformation(TransformationNew* t){
 
                 *x = ax;
                 *y = ay;
-                *z = az;
+                *z = az;*/
 
                 /*v0->xTransformed = x;
                 v0->yTransformed = y;
