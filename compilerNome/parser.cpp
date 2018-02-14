@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -71,9 +71,8 @@
 #define yylloc          nomlloc
 
 /* Copy the first part of user declarations.  */
-#line 6 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:339  */
+#line 6 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:339  */
 
-#include <FlexLexer.h>
 #include <stdio.h>
 #include <string.h>
 #include <list>
@@ -95,7 +94,7 @@ extern char* nomtext;
 extern int nomcolumn;
 
 int nomlex(void);
-int nomerror(Session* currSession, const char *s) {
+void nomerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, nomlineno, nomtext);
 }
 
@@ -119,13 +118,13 @@ std::list<TransformationNew *> currentTransformations2;
 std::string surfaceFromArg;
 
 
-#line 123 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:339  */
+#line 122 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:339  */
 
-# ifndef YY_NULL
+# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -139,8 +138,8 @@ std::string surfaceFromArg;
 
 /* In a future release of Bison, this section will be replaced
    by #include "parser.hpp".  */
-#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
-# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
+#ifndef YY_NOM_VOLUMES_MACDATA_DEV_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
+# define YY_NOM_VOLUMES_MACDATA_DEV_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -149,12 +148,12 @@ std::string surfaceFromArg;
 extern int nomdebug;
 #endif
 /* "%code requires" blocks.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:355  */
+#line 1 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:355  */
 
 #include <newNOME/Session.h>
 
 
-#line 158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:355  */
+#line 157 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -311,10 +310,10 @@ extern int nomdebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
-#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:355  */
+#line 73 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:355  */
 
     double intNumber;
     double number;
@@ -325,8 +324,10 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 329 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:355  */
+#line 328 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -350,11 +351,11 @@ extern YYSTYPE nomlval;
 extern YYLTYPE nomlloc;
 int nomparse (Session* currSession);
 
-#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED  */
+#endif /* !YY_NOM_VOLUMES_MACDATA_DEV_NOME_COMPILERNOME_PARSER_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 358 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:358  */
+#line 359 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -411,11 +412,30 @@ typedef short int yytype_int16;
 # endif
 #endif
 
-#ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-# if (! defined __GNUC__ || __GNUC__ < 2 \
-      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#  define __attribute__(Spec) /* empty */
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
+# else
+#  define YY_ATTRIBUTE(Spec) /* empty */
+# endif
+#endif
+
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
+#ifndef YY_ATTRIBUTE_UNUSED
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -641,14 +661,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    97,    97,    98,   103,   103,   103,   103,   103,   103,
-     103,   104,   104,   104,   104,   104,   104,   104,   105,   105,
-     105,   105,   108,   110,   128,   136,   142,   144,   150,   157,
-     158,   162,   163,   163,   163,   163,   163,   163,   167,   196,
-     220,   244,   259,   260,   260,   263,   264,   268,   311,   312,
-     316,   321,   322,   326,   339,   359,   386,   402,   415,   438,
-     439,   439,   443,   497,   508,   532,   566,   601,   607,   649,
-     656,   705,   771,   810,   867,   903,   929
+       0,    96,    96,    97,   102,   102,   102,   102,   102,   102,
+     102,   103,   103,   103,   103,   103,   103,   103,   104,   104,
+     104,   104,   107,   109,   127,   135,   141,   143,   149,   156,
+     157,   161,   162,   162,   162,   162,   162,   162,   166,   195,
+     219,   243,   258,   259,   259,   262,   263,   267,   310,   311,
+     315,   320,   321,   325,   338,   358,   385,   401,   414,   437,
+     438,   438,   442,   496,   507,   531,   565,   600,   606,   648,
+     655,   704,   770,   809,   866,   902,   928
 };
 #endif
 
@@ -677,7 +697,7 @@ static const char *const yytname[] =
   "instanceOffseSubdivideArgs", "subdivision", "offset", "mesh", "group",
   "delete", "set", "setArgs", "faceMesh", "bank", "circle", "tunnel",
   "funnel", "parenthesisName", "face", "faceDelete", "beziercurve",
-  "bspline", "polyline", "instance", "object", "surface", "point", YY_NULL
+  "bspline", "polyline", "instance", "object", "surface", "point", YY_NULLPTR
 };
 #endif
 
@@ -974,7 +994,7 @@ do {                                            \
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
-__attribute__((__unused__))
+YY_ATTRIBUTE_UNUSED
 static unsigned
 yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
 {
@@ -1238,11 +1258,11 @@ static int
 yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yytype_int16 *yyssp, int yytoken)
 {
-  YYSIZE_T yysize0 = yytnamerr (YY_NULL, yytname[yytoken]);
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
   YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
-  const char *yyformat = YY_NULL;
+  const char *yyformat = YY_NULLPTR;
   /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
@@ -1299,7 +1319,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULL, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
                   if (! (yysize <= yysize1
                          && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
@@ -1657,74 +1677,74 @@ yyreduce:
   switch (yyn)
     {
         case 22:
-#line 108 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 107 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         (yyval.string) = strdup((yyvsp[0].string));
     }
-#line 1665 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1685 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 23:
-#line 111 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 110 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         std::string exprStr = strdup((yyvsp[0].string));
         exprStr.erase(0, 6);
         exprStr.erase(exprStr.size() - 1);
         (yyval.string) = strdup(exprStr.c_str());
     }
-#line 1676 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1696 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 24:
-#line 129 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 128 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         (yyval.numPos).string = strdup((yyvsp[0].string));
         (yyval.numPos).number = nomcolumn;
     }
-#line 1685 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1705 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 25:
-#line 137 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 136 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
     }
-#line 1692 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1712 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 27:
-#line 144 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 143 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         tempVariables2.push_back((yyvsp[0].string));
     }
-#line 1700 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1720 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 28:
-#line 150 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 149 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         if (surfaceFromArg.length() == 0){
           surfaceFromArg = strdup((yyvsp[0].string));
         }
     }
-#line 1710 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1730 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 29:
-#line 157 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 156 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {(yyval.boolean) = false;}
-#line 1716 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1736 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 30:
-#line 158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 157 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         (yyval.boolean) = true;
     }
-#line 1724 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1744 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 38:
-#line 168 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 167 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1750,11 +1770,11 @@ yyreduce:
         currentTransformations2.push_back(currRotate);
 
     }
-#line 1754 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1774 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 39:
-#line 197 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 196 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1775,11 +1795,11 @@ yyreduce:
 
         currentTransformations2.push_back(currTranslate);
     }
-#line 1779 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1799 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 40:
-#line 221 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 220 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1800,11 +1820,11 @@ yyreduce:
 
         currentTransformations2.push_back(currScale);
     }
-#line 1804 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1824 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 41:
-#line 245 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 244 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *currentValSet = (double*) malloc(sizeof(double));
         parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
@@ -1817,11 +1837,11 @@ yyreduce:
         double w = *currentValSet;
 
     }
-#line 1821 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1841 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 47:
-#line 269 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 268 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
         string instanceName = strdup((yyvsp[-3].string));
@@ -1862,19 +1882,19 @@ yyreduce:
         currentGroup2.push_back(newInstance);
         surfaceFromArg = "";
     }
-#line 1866 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1886 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 50:
-#line 317 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 316 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         string instanceName = strdup((yyvsp[0].string));
     }
-#line 1874 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1894 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 53:
-#line 327 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 326 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *subdivision = (double*) malloc(sizeof(double));
 
@@ -1885,11 +1905,11 @@ yyreduce:
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     }
-#line 1889 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1909 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 54:
-#line 340 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 339 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *min = (double*) malloc(sizeof(double));
         double *max = (double*) malloc(sizeof(double));
@@ -1907,11 +1927,11 @@ yyreduce:
 
         currSession->offsets.push_back(currOffset);
     }
-#line 1911 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1931 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 55:
-#line 360 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 359 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
 
         MeshNew* currMesh = createMesh();
@@ -1935,22 +1955,22 @@ yyreduce:
         currentMeshEdges2.clear();
         currentMeshVertices2.clear();
         }
-#line 1939 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1959 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 56:
-#line 387 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 386 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         GroupNew* currGroup = createGroup(currentGroup2);
         currGroup->setName(strdup((yyvsp[-2].string)));
         currSession->groups.push_back(currGroup);
         currentGroup2.clear();
         }
-#line 1950 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1970 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 57:
-#line 403 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 402 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -1960,11 +1980,11 @@ yyreduce:
 
         tempFaceDelete2.clear();
         }
-#line 1964 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 1984 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 58:
-#line 416 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 415 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         string currentSetName = (yyvsp[-4].string);
         double currentSetValue = (double)atof((yyvsp[-3].numPos).string);
@@ -1985,11 +2005,11 @@ yyreduce:
 
         currentSetList2.push_back(currentSet);
         }
-#line 1989 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2009 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 62:
-#line 444 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 443 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2040,11 +2060,11 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
     }
-#line 2044 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2064 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 63:
-#line 498 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 497 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         BankNew * currentBank2 = createBank();
         currentBank2->name = strdup((yyvsp[-2].string));
@@ -2052,11 +2072,11 @@ yyreduce:
         currSession->banks.push_back(currentBank2);
         currentSetList2.clear();
         }
-#line 2056 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2076 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 64:
-#line 509 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 508 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         string name = (yyvsp[-5].string);
         double *num = (double*) malloc(sizeof(double));
@@ -2078,11 +2098,11 @@ yyreduce:
 
         currSession->circles.push_back(currCircle);
     }
-#line 2082 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2102 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 65:
-#line 534 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 533 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2112,11 +2132,11 @@ yyreduce:
 
         currSession->tunnels.push_back(currTunnel);
         }
-#line 2116 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2136 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 66:
-#line 568 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 567 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2147,18 +2167,18 @@ yyreduce:
 
         currSession->funnels.push_back(currFunnel);
         }
-#line 2151 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2171 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 67:
-#line 602 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 601 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         }
-#line 2158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2178 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 68:
-#line 608 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 607 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2197,19 +2217,19 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
         }
-#line 2201 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2221 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 69:
-#line 650 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 649 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         tempFaceDelete2.push_back((yyvsp[-1].string));
         }
-#line 2209 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2229 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 70:
-#line 656 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 655 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
     double *slices = (double*) malloc(sizeof(double));
     Reader* currReader = createReader(currSession);
@@ -2256,11 +2276,11 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
 }
-#line 2260 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2280 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 71:
-#line 705 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 704 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
     if ((yyvsp[-7].intNumber) != (yyvsp[0].intNumber)) {
         nomerror(currSession, "bspline and endbspline do not have the same number.");
@@ -2325,11 +2345,11 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
   }
-#line 2329 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2349 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 72:
-#line 772 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 771 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2365,11 +2385,11 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
         }
-#line 2369 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2389 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 73:
-#line 811 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 810 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2423,11 +2443,11 @@ yyreduce:
         currSession->instances.push_back(newInstance);
         surfaceFromArg = "";
         }
-#line 2427 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2447 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 74:
-#line 868 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 867 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
           Reader* currReader = createReader(currSession);
 
@@ -2460,11 +2480,11 @@ yyreduce:
 
           tempVariables2.clear();
         }
-#line 2464 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2484 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 75:
-#line 904 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 903 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -2487,11 +2507,11 @@ yyreduce:
 
         currSession->surfaces.push_back(currSurface);
         }
-#line 2491 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2511 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
   case 76:
-#line 930 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1646  */
+#line 929 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1661  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -2515,11 +2535,11 @@ yyreduce:
 
         currSession->verts.push_back(newVertex);
         }
-#line 2519 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2539 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
     break;
 
 
-#line 2523 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.cpp" /* yacc.c:1646  */
+#line 2543 "/Volumes/macData/Dev/nome/compilerNome/parser.cpp" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

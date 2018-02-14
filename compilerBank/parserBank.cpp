@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -71,7 +71,7 @@
 #define yylloc          banklloc
 
 /* Copy the first part of user declarations.  */
-#line 5 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:339  */
+#line 5 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:339  */
 
 #include <stdio.h>
 #include <string.h>
@@ -96,7 +96,7 @@ int lineNumberG;
 double result = 0;
 
 int banklex(void);
-int bankerror(Session* currSession, const char *s) {
+void bankerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, banklineno, banktext);
 }
 
@@ -105,13 +105,13 @@ int bankwrap() {
 }
 
 
-#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:339  */
+#line 109 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:339  */
 
-# ifndef YY_NULL
+# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -125,8 +125,8 @@ int bankwrap() {
 
 /* In a future release of Bison, this section will be replaced
    by #include "parserBank.hpp".  */
-#ifndef YY_BANK_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED
-# define YY_BANK_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED
+#ifndef YY_BANK_VOLUMES_MACDATA_DEV_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED
+# define YY_BANK_VOLUMES_MACDATA_DEV_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -135,11 +135,11 @@ int bankwrap() {
 extern int bankdebug;
 #endif
 /* "%code requires" blocks.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:355  */
+#line 1 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:355  */
 
 #include <newNOME/Session.h>
 
-#line 143 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:355  */
+#line 143 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -202,16 +202,18 @@ extern int bankdebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
-#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:355  */
+#line 49 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:355  */
 
     double number;
     char *string;
 
-#line 214 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:355  */
+#line 214 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -235,11 +237,11 @@ extern YYSTYPE banklval;
 extern YYLTYPE banklloc;
 int bankparse (Session* currSession);
 
-#endif /* !YY_BANK_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED  */
+#endif /* !YY_BANK_VOLUMES_MACDATA_DEV_NOME_COMPILERBANK_PARSERBANK_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 243 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:358  */
+#line 245 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -296,11 +298,30 @@ typedef short int yytype_int16;
 # endif
 #endif
 
-#ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-# if (! defined __GNUC__ || __GNUC__ < 2 \
-      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#  define __attribute__(Spec) /* empty */
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
+# else
+#  define YY_ATTRIBUTE(Spec) /* empty */
+# endif
+#endif
+
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
+#ifndef YY_ATTRIBUTE_UNUSED
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -538,7 +559,7 @@ static const char *const yytname[] =
   "E", "LN", "LOG", "SQRT", "LPAREN", "RPAREN", "EXP", "MULTIPLY",
   "DIVIDE", "ADD", "SUBTRACT", "NUM", "ARCCOS", "ARCCOT", "ARCCSC",
   "ARCSEC", "ARCSIN", "ARCTAN", "BANK_EXPR", "$accept", "commands",
-  "command", "calc", "priority", "exp", "function", "parenth", "number", YY_NULL
+  "command", "calc", "priority", "exp", "function", "parenth", "number", YY_NULLPTR
 };
 #endif
 
@@ -747,7 +768,7 @@ do {                                            \
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
-__attribute__((__unused__))
+YY_ATTRIBUTE_UNUSED
 static unsigned
 yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
 {
@@ -1011,11 +1032,11 @@ static int
 yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yytype_int16 *yyssp, int yytoken)
 {
-  YYSIZE_T yysize0 = yytnamerr (YY_NULL, yytname[yytoken]);
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
   YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
-  const char *yyformat = YY_NULL;
+  const char *yyformat = YY_NULLPTR;
   /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
@@ -1072,7 +1093,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULL, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
                   if (! (yysize <= yysize1
                          && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
@@ -1430,201 +1451,201 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 62 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 62 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {
     result = (yyvsp[0].number);
     }
-#line 1438 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1459 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 5:
-#line 68 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 68 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[-2].number) + (yyvsp[0].number);}
-#line 1444 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1465 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 6:
-#line 70 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 70 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[-2].number) - (yyvsp[0].number);}
-#line 1450 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1471 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 7:
-#line 72 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 72 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1456 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1477 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 8:
-#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 75 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[-2].number) * (yyvsp[0].number);}
-#line 1462 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1483 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 9:
-#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 76 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[-2].number) / (yyvsp[0].number);}
-#line 1468 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1489 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 10:
-#line 77 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 77 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1474 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1495 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 11:
-#line 80 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 80 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = pow((yyvsp[-2].number), (yyvsp[0].number));}
-#line 1480 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1501 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 12:
-#line 81 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 81 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     { (yyval.number) = (yyvsp[0].number); }
-#line 1486 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1507 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 13:
-#line 84 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 84 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = sqrt((yyvsp[0].number));}
-#line 1492 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1513 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 14:
-#line 85 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 85 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = cos((yyvsp[0].number));}
-#line 1498 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1519 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 15:
-#line 86 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 86 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = sin((yyvsp[0].number));}
-#line 1504 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1525 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 16:
-#line 87 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 87 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = tan((yyvsp[0].number));}
-#line 1510 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1531 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 17:
-#line 88 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 88 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = 1/(cos((yyvsp[0].number)));}
-#line 1516 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1537 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 18:
-#line 89 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 89 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = 1/(sin((yyvsp[0].number)));}
-#line 1522 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1543 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 19:
-#line 90 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 90 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = tan((yyvsp[0].number));}
-#line 1528 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1549 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 20:
-#line 91 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 91 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = acos((yyvsp[0].number));}
-#line 1534 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1555 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 21:
-#line 92 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 92 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = asin((yyvsp[0].number));}
-#line 1540 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1561 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 22:
-#line 93 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 93 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = atan((yyvsp[0].number));}
-#line 1546 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1567 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 23:
-#line 94 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 94 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = 1/(acos((yyvsp[0].number)));}
-#line 1552 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1573 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 24:
-#line 95 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 95 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = 1/(asin((yyvsp[0].number)));}
-#line 1558 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1579 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 25:
-#line 96 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 96 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = 1/(atan((yyvsp[0].number)));}
-#line 1564 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1585 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 26:
-#line 97 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 97 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = log10((yyvsp[0].number));}
-#line 1570 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1591 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 27:
-#line 98 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 98 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = log((yyvsp[0].number));}
-#line 1576 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1597 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 28:
-#line 99 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 99 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = -1 * (yyvsp[0].number);}
-#line 1582 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1603 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 29:
-#line 100 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 100 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[-1].number) *(yyvsp[0].number);}
-#line 1588 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1609 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 30:
-#line 101 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 101 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1594 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1615 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 31:
-#line 104 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 104 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[-1].number);}
-#line 1600 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1621 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 32:
-#line 105 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 105 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1606 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1627 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 33:
-#line 108 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 108 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     { (yyval.number) = M_E;}
-#line 1612 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1633 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 34:
-#line 109 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 109 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {(yyval.number) = (yyvsp[0].number);}
-#line 1618 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1639 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
   case 35:
-#line 110 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1646  */
+#line 110 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1661  */
     {double* bankVal = getBankValue((yyvsp[0].string), currSession); std::string nameBank((yyvsp[0].string)); if (bankVal == NULL && lineNumberG != 0){std::cout << "Bank " + nameBank + " not found on line "; return -1;} else{(yyval.number) = *bankVal;} }
-#line 1624 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1645 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
     break;
 
 
-#line 1628 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.cpp" /* yacc.c:1646  */
+#line 1649 "/Volumes/macData/Dev/nome/compilerBank/parserBank.cpp" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1859,7 +1880,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 112 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerBank\\parserBank.y" /* yacc.c:1906  */
+#line 112 "/Volumes/macData/Dev/nome/compilerBank/parserBank.y" /* yacc.c:1906  */
 
 /* Declarations */
 void set_input_string(const char* in, int lineNumber);

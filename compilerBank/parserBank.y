@@ -26,7 +26,7 @@ int lineNumberG;
 double result = 0;
 
 int banklex(void);
-int bankerror(Session* currSession, const char *s) {
+void bankerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, banklineno, banktext);
 }
 
