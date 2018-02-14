@@ -1,6 +1,6 @@
 // Wrapper class over the STL file parser.
 #include <newNOME/Session.h>
-#include "compilerBank\parserBank.hpp"
+#include "compilerBank/parserBank.hpp"
 
 using namespace std;
 

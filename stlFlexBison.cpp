@@ -1,7 +1,7 @@
 // Wrapper class over the STL file parser.
 
 #include "newNOME/Session.h"
-#include "compilerStl\parserStl.hpp"
+#include "compilerStl/parserStl.hpp"
 
 using namespace std;
 
