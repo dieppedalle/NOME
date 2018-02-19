@@ -157,6 +157,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
 
    }
+   //std::cout << i0->edges.size() << std::endl;
 
    for (FaceNew* f0 : m0->faces){
        std::list<EdgeNew*> edgesFace;
@@ -243,7 +244,9 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
           flattenedMesh->verts.push_back(v);
       }
     }
+
     for(EdgeNew* e : edges) {
+
         bool contains = false;
         for (EdgeNew* ef : flattenedMesh->edges){
             if (e->index == ef->index){
@@ -259,10 +262,33 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
                     }
                 }
             } else{
+                // ADDED TUESDAY
+                /*std::cout << "T" << std::endl;
+                for (EdgeNew* ef : flattenedMesh->edges){
+                    if ((abs(*(e->v0->xTransformed) - *(ef->v0->xTransformed)) < 0.01
+                        && abs(*(e->v0->yTransformed) - *(ef->v0->yTransformed)) < 0.01
+                        && abs(*(e->v0->zTransformed) - *(ef->v0->zTransformed)) < 0.01
+                        && abs(*(e->v1->xTransformed) - *(ef->v1->xTransformed)) < 0.01
+                        && abs(*(e->v1->yTransformed) - *(ef->v1->yTransformed)) < 0.01
+                        && abs(*(e->v1->zTransformed) - *(ef->v1->zTransformed)) < 0.01)
+                        || (abs(*(e->v0->xTransformed) - *(ef->v1->xTransformed)) < 0.01
+                            && abs(*(e->v0->yTransformed) - *(ef->v1->yTransformed)) < 0.01
+                            && abs(*(e->v0->zTransformed) - *(ef->v1->zTransformed)) < 0.01
+                            && abs(*(e->v1->xTransformed) - *(ef->v0->xTransformed)) < 0.01
+                            && abs(*(e->v1->yTransformed) - *(ef->v0->yTransformed)) < 0.01
+                            && abs(*(e->v1->zTransformed) - *(ef->v0->zTransformed)) < 0.01)){
+                        std::cout << "ALERT" << std::endl;
+                        //if (ef->f)
+                    }
+                }*/
+                //==========
+
                 flattenedMesh->edges.push_back(e);
             }
 
         }
+
+
     }
     for(FaceNew* f : faces) {
         bool contains = false;

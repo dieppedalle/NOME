@@ -138,6 +138,24 @@ Vert* createVert(Vert* toBeCopied){
     return createVert(x, y, z, 1.0);
 }
 
+Vert* createVertSameId(Vert* toBeCopied){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    x = toBeCopied->x;
+    y = toBeCopied->y;
+    z = toBeCopied->z;
+    
+    Vert* copiedV = createVert(x, y, z, 1.0);
+
+    /*copiedV->xStr = strcpy(toBeCopied->xStr);
+    copiedV->yStr = strcpy(toBeCopied->yStr);
+    copiedV->zStr = strcpy(toBeCopied->zStr);*/
+    
+    return copiedV;
+}
+
 
 void Vert::updateOutOffsetVertex(double offset){
     if (this->normalOutVert == NULL){
@@ -379,7 +397,12 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
         }
         it++;
 
-        edges->push_back(currentEdge);
+        bool found = (std::find(edges->begin(), edges->end(), currentEdge) != edges->end());
+
+        if (!found){
+            edges->push_back(currentEdge);
+        }
+
         currentEdges.push_back(currentEdge);
         currentEdge = NULL;
     }
