@@ -104,8 +104,6 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
             //std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             //std::cout << selectedVertex->faces.size() << std::endl;
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
-            /*std::cout << selectedVertex->faces.size() << std::endl;
-            std::cout << selectedVertex->edges.size() << std::endl;*/
 
             selectedVertex -> selected = !selectedVertex -> selected;
 
@@ -203,7 +201,6 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         if (selectedFace != NULL){
             selectedFace -> selected = !selectedFace -> selected;
             if (selectedFace -> selected == true){
-                std::cout << selectedFace->name << std::endl;
                 selectedFaces.push_back(selectedFace);
             }
             else{
@@ -459,11 +456,8 @@ void mergeEdges(MeshNew* flattenMesh){
     {
         std::list<EdgeNew*>::iterator checkD = flattenMesh->edges.begin();
         std::advance(checkD, position + 1);
-        double epsilonPos = 0.05;
+        int epsilonPos = 0.05;
         while (checkD != flattenMesh->edges.end()){
-
-            //std::cout << abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) + abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) + abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) << std::endl;
-            //std::cout << abs(*((*i)->v1->xTransformed) - *((*checkD)->v0->xTransformed)) + abs(*((*i)->v1->yTransformed) - *((*checkD)->v0->yTransformed)) + abs(*((*i)->v1->zTransformed) - *((*checkD)->v0->zTransformed)) << std::endl;
             if ((abs(*((*i)->v0->xTransformed) - *((*checkD)->v0->xTransformed)) < epsilonPos
                 && abs(*((*i)->v0->yTransformed) - *((*checkD)->v0->yTransformed)) < epsilonPos
                 && abs(*((*i)->v0->zTransformed) - *((*checkD)->v0->zTransformed)) < epsilonPos
@@ -487,11 +481,6 @@ void mergeEdges(MeshNew* flattenMesh){
         position++;
         i++;
     }
-    /*for (EdgeNew* e : flattenMesh->edges){
-        std::cout << "e->f0" << std::endl;
-        std::cout << e->f0 << std::endl;
-        std::cout << e->f1 << std::endl;
-    }*/
     /*for (EdgeNew* e : flattenMesh->edges){
         std::cout << e->index << std::endl;
     }*/
@@ -570,6 +559,15 @@ void mergeEdges(MeshNew* flattenMesh){
 
         for (Vert* f0 : flattenMesh->verts){
             std::replace (f0->edges.begin(), f0->edges.end(), std::get<1>(e), std::get<0>(e));
+        }
+    }
+    std::cout << "START" << std::endl;
+    for (Vert* v0 : flattenMesh->verts){
+        for (EdgeNew* e0 : v0->edges){
+            bool found = (std::find(flattenMesh->edges.begin(), flattenMesh->edges.end(), e0) != flattenMesh->edges.end());
+            if (!found){
+                std::cout << "NOPE" << std::endl;
+            }
         }
     }
 }
