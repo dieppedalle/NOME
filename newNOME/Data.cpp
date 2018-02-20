@@ -138,6 +138,57 @@ Vert* createVert(Vert* toBeCopied){
     return createVert(x, y, z, 1.0);
 }
 
+Vert* createDupVert(Vert* toBeCopied){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    x = toBeCopied->x;
+    y = toBeCopied->y;
+    z = toBeCopied->z;
+
+    Vert* dupVert = createVert(x, y, z, 1.0);
+    dupVert->xStr = toBeCopied->xStr;
+    dupVert->yStr = toBeCopied->yStr;
+    dupVert->zStr = toBeCopied->zStr;
+    for (TransformationNew* t : toBeCopied->transformations){
+        dupVert->transformations.push_back(t);
+    }
+    //dupVert->transformations = std::list();
+    //dupVert->transformations = std::list(toBeCopied->transformations);
+    dupVert->x = toBeCopied->x;
+    dupVert->y = toBeCopied->y;
+    dupVert->z = toBeCopied->z;
+
+    dupVert->xTransformed = toBeCopied->xTransformed;
+    dupVert->yTransformed = toBeCopied->yTransformed;
+    dupVert->zTransformed = toBeCopied->zTransformed;
+
+    dupVert->weight = toBeCopied->weight;
+    dupVert->selected = toBeCopied->selected;
+    dupVert->mobius = toBeCopied->mobius;
+    dupVert->inList = toBeCopied->inList;
+    dupVert->edgesSeen = toBeCopied->edgesSeen;
+
+    dupVert->index = toBeCopied->index;
+    for (EdgeNew* t : toBeCopied->edges){
+        dupVert->edges.push_back(t);
+    }
+    //dupVert->edges = std::list(toBeCopied->edges);
+    for (FaceNew* t : toBeCopied->faces){
+        dupVert->faces.push_back(t);
+    }
+    //dupVert->faces = std::list(toBeCopied->faces);
+    dupVert->normal = toBeCopied->normal;
+    dupVert->surface = toBeCopied->surface;
+    dupVert->currSession = toBeCopied->currSession;
+    dupVert->copyOfVert = toBeCopied->copyOfVert;
+    dupVert->vertPoint = toBeCopied->vertPoint;
+    dupVert->normalInVert = toBeCopied->normalInVert;
+    dupVert->normalOutVert = toBeCopied->normalOutVert;
+    return dupVert;
+}
+
 Vert* createVertSameId(Vert* toBeCopied){
     double *x = (double*) malloc(sizeof(double));
     double *y = (double*) malloc(sizeof(double));
@@ -286,6 +337,37 @@ FaceNew* createFace()
     
     f0->index = index;
     f0->setName("f:" + std::to_string(index));
+    return f0;
+}
+
+EdgeNew* createDupEdge(EdgeNew* toBeCopied){
+    EdgeNew* e0 = new EdgeNew();
+    e0->interval = toBeCopied->interval;
+    e0->v0 = toBeCopied->v0;
+    e0->v1 = toBeCopied->v1;
+    e0->faceCount = toBeCopied->faceCount;
+    e0->vertCount = toBeCopied->vertCount;
+    e0->f0 = toBeCopied->f0;
+    e0->f1 = toBeCopied->f1;
+    e0->index = toBeCopied->index;
+    e0->surface = toBeCopied->surface;
+    e0->edgePoint = toBeCopied->edgePoint;
+    return e0;
+}
+
+FaceNew* createDupFace(FaceNew* toBeCopied){
+    FaceNew* f0 = new FaceNew();
+    for (EdgeNew* t : toBeCopied->edges){
+        f0->edges.push_back(t);
+    }
+    for (Vert* t : toBeCopied->verts){
+        f0->verts.push_back(t);
+    }
+    f0->index = toBeCopied->index;
+    f0->surface = toBeCopied->surface;
+    f0->selected = toBeCopied->selected;
+    f0->facePoint = toBeCopied->facePoint;
+    f0->mobius = toBeCopied->mobius;
     return f0;
 }
 

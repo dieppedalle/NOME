@@ -241,7 +241,7 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
           }
       }
       if (!contains){
-          flattenedMesh->verts.push_back(v);
+          flattenedMesh->verts.push_back(createDupVert(v));
       }
     }
 
@@ -283,13 +283,14 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
                 }*/
                 //==========
 
-                flattenedMesh->edges.push_back(e);
+                flattenedMesh->edges.push_back(createDupEdge(e));
             }
 
         }
 
 
     }
+
     for(FaceNew* f : faces) {
         bool contains = false;
         for (FaceNew* ff : flattenedMesh->faces){
@@ -299,8 +300,95 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
             }
         }
         if (!contains){
-            flattenedMesh->faces.push_back(f);
+            flattenedMesh->faces.push_back(createDupFace(f));
         }
+    }
+    list<EdgeNew*> newListEdges = list<EdgeNew*>();
+    list<FaceNew*> newListFaces = list<FaceNew*>();
+    for (Vert* v0 : flattenedMesh->verts){
+        for (EdgeNew* oldEdge : v0->edges){
+            for (EdgeNew* newEdge : flattenedMesh->edges){
+                if (oldEdge->index == newEdge->index){
+                    newListEdges.push_back(newEdge);
+                    break;
+                }
+            }
+        }
+
+        for (FaceNew* oldFace : v0->faces){
+            for (FaceNew* newFace : flattenedMesh->faces){
+                if (oldFace->index == newFace->index){
+                    newListFaces.push_back(newFace);
+                    break;
+                }
+            }
+        }
+        v0->edges = newListEdges;
+        v0->faces = newListFaces;
+
+        newListEdges.clear();
+        newListFaces.clear();
+    }
+
+    for (EdgeNew* e0 : flattenedMesh->edges){
+        for (Vert* newVert : flattenedMesh->verts){
+            if (e0->v0->index == newVert->index){
+                e0->v0 = newVert;
+                break;
+            }
+        }
+
+        for (Vert* newVert : flattenedMesh->verts){
+            if (e0->v1->index == newVert->index){
+                e0->v1 = newVert;
+                break;
+            }
+        }
+
+        if (e0->f0 != NULL){
+            for (FaceNew* newFace : flattenedMesh->faces){
+                if (e0->f0->index == newFace->index){
+                    e0->f0 = newFace;
+                    break;
+                }
+            }
+        }
+
+        if (e0->f1 != NULL){
+            for (FaceNew* newFace : flattenedMesh->faces){
+                if (e0->f1->index == newFace->index){
+                    e0->f1 = newFace;
+                    break;
+                }
+            }
+        }
+    }
+
+    list<EdgeNew*> newListEdgesF = list<EdgeNew*>();
+    list<Vert*> newListVertsF = list<Vert*>();
+    for (FaceNew* f0 : flattenedMesh->faces){
+        for (EdgeNew* oldEdge : f0->edges){
+            for (EdgeNew* newEdge : flattenedMesh->edges){
+                if (oldEdge->index == newEdge->index){
+                    newListEdgesF.push_back(newEdge);
+                    break;
+                }
+            }
+        }
+
+        for (Vert* oldVert : f0->verts){
+            for (Vert* newVert : flattenedMesh->verts){
+                if (oldVert->index == newVert->index){
+                    newListVertsF.push_back(newVert);
+                    break;
+                }
+            }
+        }
+        f0->edges = newListEdgesF;
+        f0->verts = newListVertsF;
+
+        newListEdgesF.clear();
+        newListVertsF.clear();
     }
 
     for (InstanceNew* i : listInstances) {

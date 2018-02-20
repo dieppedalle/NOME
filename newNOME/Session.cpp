@@ -445,6 +445,124 @@ void Session::draw(){
     }
 }
 
+void mergeEdges(MeshNew* flattenMesh){
+    // NEED TO MERGE EDGES NOW
+    std::vector<std::tuple<EdgeNew*, EdgeNew*>> toBeMerged = std::vector<std::tuple<EdgeNew*, EdgeNew*>>();
+    toBeMerged.clear();
+
+    std::list<EdgeNew*>::iterator i = flattenMesh->edges.begin();
+    int position = 0;
+    while (i != flattenMesh->edges.end())
+    {
+        std::list<EdgeNew*>::iterator checkD = flattenMesh->edges.begin();
+        std::advance(checkD, position + 1);
+
+        while (checkD != flattenMesh->edges.end()){
+            if ((abs(*((*i)->v0->xTransformed) - *((*checkD)->v0->xTransformed)) < 0.01
+                && abs(*((*i)->v0->yTransformed) - *((*checkD)->v0->yTransformed)) < 0.01
+                && abs(*((*i)->v0->zTransformed) - *((*checkD)->v0->zTransformed)) < 0.01
+                && abs(*((*i)->v1->xTransformed) - *((*checkD)->v1->xTransformed)) < 0.01
+                && abs(*((*i)->v1->yTransformed) - *((*checkD)->v1->yTransformed)) < 0.01
+                && abs(*((*i)->v1->zTransformed) - *((*checkD)->v1->zTransformed)) < 0.01)
+                || (abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) < 0.01
+                    && abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) < 0.01
+                    && abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) < 0.01
+                    && abs(*((*i)->v1->xTransformed) - *((*checkD)->v0->xTransformed)) < 0.01
+                    && abs(*((*i)->v1->yTransformed) - *((*checkD)->v0->yTransformed)) < 0.01
+                    && abs(*((*i)->v1->zTransformed) - *((*checkD)->v0->zTransformed)) < 0.01)){
+                std::cout << "ALERT" << std::endl;
+                toBeMerged.push_back(std::make_tuple(*i, *checkD));
+                //if (ef->f)
+            }
+
+            checkD++;
+        }
+
+        position++;
+        i++;
+    }
+    /*for (EdgeNew* e : flattenMesh->edges){
+        std::cout << e->index << std::endl;
+    }*/
+    //std::cout << flattenMesh->edges.size() << std::endl;
+    for (std::tuple<EdgeNew*, EdgeNew*> e : toBeMerged){
+        // a map where the keys are integers and the values are strings
+        std::map<Vert*, Vert*> newVertexDict;
+        newVertexDict.clear();
+        if (abs(*(std::get<0>(e)->v0->xTransformed) - *(std::get<1>(e)->v0->xTransformed)) < 0.01
+                        && abs(*(std::get<0>(e)->v0->yTransformed) - *(std::get<1>(e)->v0->yTransformed)) < 0.01
+                        && abs(*(std::get<0>(e)->v0->zTransformed) - *(std::get<1>(e)->v0->zTransformed)) < 0.01
+                        && abs(*(std::get<0>(e)->v1->xTransformed) - *(std::get<1>(e)->v1->xTransformed)) < 0.01
+                        && abs(*(std::get<0>(e)->v1->yTransformed) - *(std::get<1>(e)->v1->yTransformed)) < 0.01
+                        && abs(*(std::get<0>(e)->v1->zTransformed) - *(std::get<1>(e)->v1->zTransformed)) < 0.01){
+            newVertexDict[std::get<1>(e)->v0] = std::get<0>(e)->v0;
+            newVertexDict[std::get<1>(e)->v1] = std::get<0>(e)->v1;
+        } else{
+            newVertexDict[std::get<1>(e)->v1] = std::get<0>(e)->v0;
+            newVertexDict[std::get<1>(e)->v0] = std::get<0>(e)->v1;
+        }
+
+        // Remove second edge from edge list
+
+        // UPDATE THE VERTICES FOR NEIGHBOR EDGES
+        for (EdgeNew* edgeM : std::get<1>(e)->v1->edges){
+            newVertexDict[std::get<1>(e)->v1]->edges.push_back(edgeM);
+        }
+        newVertexDict[std::get<1>(e)->v1]->edges.remove(std::get<1>(e));
+
+        for (EdgeNew* edgeM : std::get<1>(e)->v0->edges){
+            newVertexDict[std::get<1>(e)->v0]->edges.push_back(edgeM);
+        }
+        newVertexDict[std::get<1>(e)->v0]->edges.remove(std::get<1>(e));
+
+        // UPDATE THE EDGES FOR NEIGHBOR FACES.
+        FaceNew* faceToAppend0;
+        if (std::get<1>(e)->f0 != NULL){
+            faceToAppend0 = std::get<1>(e)->f0;
+        } else{
+            faceToAppend0 = std::get<1>(e)->f1;
+        }
+
+        if (std::get<0>(e)->f0 != NULL){
+            std::get<0>(e)->f0 = faceToAppend0;
+        } else{
+            std::get<0>(e)->f1 = faceToAppend0;
+        }
+
+        /*for (FaceNew* f0 : flattenMesh->edges){
+
+        }*/
+        flattenMesh->edges.remove(std::get<1>(e));
+
+        for (EdgeNew* ff : flattenMesh->edges){
+            if (ff->v0->index == std::get<1>(e)->v1->index){
+                ff->v0 = newVertexDict[std::get<1>(e)->v1];
+            } else if (ff->v0->index == std::get<1>(e)->v0->index){
+                ff->v0 = newVertexDict[std::get<1>(e)->v0];
+            } else if (ff->v1->index == std::get<1>(e)->v1->index){
+                ff->v1 = newVertexDict[std::get<1>(e)->v1];
+            } else if (ff->v1->index == std::get<1>(e)->v0->index){
+                ff->v1 = newVertexDict[std::get<1>(e)->v0];
+            }
+        }
+
+        // NOW NEED TO UPDATE THE FACE DATA STRUCTURE
+        for (FaceNew* f0 : flattenMesh->faces){
+            std::replace (f0->edges.begin(), f0->edges.end(), std::get<1>(e), std::get<0>(e));
+            std::replace (f0->verts.begin(), f0->verts.end(), std::get<1>(e)->v0, newVertexDict[std::get<1>(e)->v0]);
+            std::replace (f0->verts.begin(), f0->verts.end(), std::get<1>(e)->v1, newVertexDict[std::get<1>(e)->v1]);
+        }
+        /*for (FaceNew* f0 : flattenMesh->faces){
+            std::replace (f0->edges.begin(), f0->edges.end(), std::get<1>(e), std::get<0>(e));
+            std::replace (f0->verts.begin(), f0->verts.end(), std::get<1>(e)->v0, newVertexDict[std::get<1>(e)->v0]);
+            std::replace (f0->verts.begin(), f0->verts.end(), std::get<1>(e)->v1, newVertexDict[std::get<1>(e)->v1]);
+        }*/
+        //std::replace (flattenMesh->edges.begin(), flattenMesh->edges.end(), std::get<1>(e), std::get<0>(e));
+    }
+
+    //std::cout << flattenMesh->edges.size() << std::endl;
+}
+
 void Session::createFlattenMesh(bool instance){
     MeshNew* tmpflattenMesh = createMesh();
     if (instance){
@@ -452,6 +570,7 @@ void Session::createFlattenMesh(bool instance){
         for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
             (*itMesh)->flattenInstance(tmpflattenMesh);
         }
+        //mergeEdges(tmpflattenMesh);
     }
     else{
         tmpflattenMesh = flattenMesh;
@@ -492,6 +611,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
     bool computeOffset = false;
     if (calculateSubdivide){
         if ((flattenMeshList.size() != 0) && (flattenMeshList.size() >= subdivision + 1)){
+            computeOffset = true;
             flattenMesh = flattenMeshList[subdivision];
         } else{
             computeOffset = true;
