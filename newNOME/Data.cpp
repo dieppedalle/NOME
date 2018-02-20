@@ -275,6 +275,10 @@ EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect)
 
     e0->v0 = v0;
     e0->v1 = v1;
+
+    e0->f0 = NULL;
+    e0->f1 = NULL;
+
     e0->index = index;
     e0->setName("e:" + std::to_string(index));
     e0->faceCount = 0;
@@ -644,7 +648,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         std::cout << edge->f1 << std::endl;
         std::cout << edge->faceCount << std::endl;
     }*/
-
 
     return f0;
 }
@@ -1121,17 +1124,21 @@ void Vert::calculateVertPoint(){
         Ry = 0;
         Rz = 0;
         for (EdgeNew* currEdge : edges){
-            if (currEdge->f1 == NULL){
+            if (currEdge->f1 == NULL || currEdge->f0 == NULL){
                 Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
                 Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
                 Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
+
                 n++;
             }
         }
-
         *xVertPoint = (Sx + Rx) / (n+1);
         *yVertPoint = (Sy + Ry) / (n+1);
         *zVertPoint = (Sz + Rz) / (n+1);
+        /*std::cout << Sy << std::endl;
+        std::cout << Ry << std::endl;
+        std::cout << n << std::endl;
+        std::cout << *yVertPoint << std::endl;*/
     }
     else{
         //(Q/n) + (2R/n) + (S(n-3)/n)

@@ -59,6 +59,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    i0->verts = {};
    i0->currSession = currSession;
 
+   //std::cout << m0->name << std::endl;
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        //GAUTHIER ADDED THAT ON 1/29
@@ -69,6 +70,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        //std::cout << dynamic_cast<TunnelNew*>(m0) << std::endl;
        //std::cout << (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) || doNotCreateVertices == false)) << std::endl;
        if (onlyCreateNewVertices == true){
+           //std::cout << "CREATING VERTEX1" << std::endl;
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            // MAYBE CHECK TRANSFORMATIONS.
@@ -85,7 +87,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            i0->verts.push_back(newVertex);
        }
        else{
-           //std::cout << "USING VERTEX" << std::endl;
            v0->copyOfVert = v0;
            i0->verts.push_back(v0);
        }
@@ -149,7 +150,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        }
 
        if (newEdge == NULL){
-            //std::cout << "NEW EDGE" << std::endl;
             newEdge = createEdge(firstVert, secondVert, connect);
             setSurface(newEdge, m0->surface);
             i0->edges.push_back(newEdge);
@@ -178,6 +178,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            //std::cout << firstVert->name << std::endl;
            vertFace.push_back(firstVert);
        }
+
        FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader, connect);
 
        setName(newFace, f0->name);
