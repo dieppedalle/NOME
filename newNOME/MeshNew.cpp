@@ -565,6 +565,7 @@ void MeshNew::calculateNormal(){
                 normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
                 normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
                 normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+
                 firstVertsOrder[1] -> normal[0] += normalVector[0];
                 firstVertsOrder[1] -> normal[1] += normalVector[1];
                 firstVertsOrder[1] -> normal[2] += normalVector[2];

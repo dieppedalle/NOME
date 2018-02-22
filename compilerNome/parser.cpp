@@ -2381,9 +2381,9 @@ yyreduce:
         InstanceNew* newInstance = NULL;
         bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
-            if (currentTransformations2.size() > 0){
+            //if (currentTransformations2.size() > 0){
               onlyCreateNewVertices = true;
-            }
+            //}
             newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
             newInstance->currSession = currSession;
         }
