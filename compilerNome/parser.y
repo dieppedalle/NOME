@@ -445,10 +445,11 @@ faceMesh:
         Reader* currReader = createReader(currSession);
 
         std::list<Vert*> verticesFace;
-
+        //std::cout << "FACE MESH" << std::endl;
         for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
             Vert * currentVertex = currReader->getVert(*it);
-
+            //std::cout << currReader->getVertName(currentVertex->index) << std::endl;
+            //std::cout << currentVertex->index << std::endl;
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
                 bool found = false;

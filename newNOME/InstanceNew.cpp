@@ -59,7 +59,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    i0->verts = {};
    i0->currSession = currSession;
 
-   //std::cout << m0->name << std::endl;
+   //std::cout << m0->verts.size() << std::endl;
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        //GAUTHIER ADDED THAT ON 1/29
@@ -70,7 +70,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        //std::cout << dynamic_cast<TunnelNew*>(m0) << std::endl;
        //std::cout << (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) || doNotCreateVertices == false)) << std::endl;
        if (onlyCreateNewVertices == true){
-           //std::cout << "CREATING VERTEX1" << std::endl;
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
            // MAYBE CHECK TRANSFORMATIONS.
@@ -94,19 +93,25 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
    // Copy all the edges from the mesh to the instance.
    for (EdgeNew* e0 : m0->edges){
+       //std::cout << "e0->v0->index" << std::endl;
+       //std::cout << e0->v0->name << std::endl;
+       //std::cout << e0->v1->name << std::endl;
        Vert* firstVert = NULL;
        Vert* secondVert = NULL;
 
        // Check if vertex is a vertex already in the scene.
        for (Vert* v0 : i0->verts){
-           if(v0->index == e0->v0->index)
+           if(v0->index == e0->v0->index){
                firstVert = v0;
+           }
        }
 
        // Otherwise it must be a vertex definition which has a unique name.
        if (!firstVert){
            for (Vert* v0 : i0->verts){
-               if(v0->name.compare(e0->v0->name) == 0){
+               if (v0->copyOfVert->index == e0->v0->index){
+               //if(v0->name.compare(e0->v0->name) == 0){
+                   //std::cout << "ALREADY" << std::endl;
                    firstVert = v0;
                }
            }
@@ -120,7 +125,8 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
        if (!secondVert){
            for (Vert* v1 : i0->verts){
-               if(v1->name.compare(e0->v1->name) == 0){
+               if (v1->copyOfVert->index == e0->v1->index){
+               //if(v1->name.compare(e0->v1->name) == 0){
                    secondVert = v1;
                }
            }
@@ -157,7 +163,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
 
    }
-   //std::cout << i0->edges.size() << std::endl;
 
    for (FaceNew* f0 : m0->faces){
        std::list<EdgeNew*> edgesFace;

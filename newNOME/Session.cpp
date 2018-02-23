@@ -104,6 +104,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
             //std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             //std::cout << selectedVertex->faces.size() << std::endl;
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
+            std::cout << selectedVertex->index << std::endl;
             /*std::cout << selectedVertex->faces.size() << std::endl;
             std::cout << selectedVertex->edges.size() << std::endl;*/
 
@@ -479,7 +480,7 @@ void mergeEdges(MeshNew* flattenMesh){
                     && abs(*((*i)->v1->xTransformed) - *((*checkD)->v0->xTransformed)) < epsilonPos
                     && abs(*((*i)->v1->yTransformed) - *((*checkD)->v0->yTransformed)) < epsilonPos
                     && abs(*((*i)->v1->zTransformed) - *((*checkD)->v0->zTransformed)) < epsilonPos)){
-                std::cout << "MERGED EDGES" << std::endl;
+                //std::cout << "MERGED EDGES" << std::endl;
                 /*std::cout << (*i)->index << std::endl;
                 std::cout << (*checkD)->index << std::endl;
                 std::cout << (*checkD)->f0 << std::endl;
@@ -506,6 +507,10 @@ void mergeEdges(MeshNew* flattenMesh){
     }*/
     /*for (EdgeNew* e : flattenMesh->edges){
         std::cout << e->index << std::endl;
+    }*/
+    /*for (EdgeNew* e : flattenMesh->edges){
+        std::cout << e->v0->index << std::endl;
+        std::cout << e->v1->index << std::endl;
     }*/
 
     for (std::vector<std::tuple<EdgeNew*, EdgeNew*>>::iterator it = toBeMerged.begin() ; it != toBeMerged.end(); ++it){
@@ -559,8 +564,10 @@ void mergeEdges(MeshNew* flattenMesh){
 
         if (std::get<0>((*it))->f0 == NULL){
             std::get<0>((*it))->f0 = faceToAppend0;
-        } else{
+        } else if (std::get<0>((*it))->f1 == NULL){
             std::get<0>((*it))->f1 = faceToAppend0;
+        } else{
+            continue;
         }
 
         /*for (FaceNew* f0 : flattenMesh->edges){
@@ -616,6 +623,8 @@ void mergeEdges(MeshNew* flattenMesh){
         }
         std::cout << "====" << std::endl;*/
 
+
+
         if (std::get<1>((*it))->v1->index != newVertexDict[std::get<1>((*it))->v1]->index){
             flattenMesh->verts.remove(std::get<1>((*it))->v1);
         }
@@ -623,6 +632,8 @@ void mergeEdges(MeshNew* flattenMesh){
         if (std::get<1>((*it))->v0->index != newVertexDict[std::get<1>((*it))->v0]->index){
             flattenMesh->verts.remove(std::get<1>((*it))->v0);
         }
+
+
 
         for (Vert* f0 : flattenMesh->verts){
             if (!(std::find(f0->edges.begin(), f0->edges.end(), std::get<0>((*it))) != f0->edges.end())){
@@ -632,7 +643,10 @@ void mergeEdges(MeshNew* flattenMesh){
             }
         }
 
+
+        flattenMesh->edges.remove(std::get<1>((*it)));
         for (EdgeNew* ff : flattenMesh->edges){
+            //if (ff->index != std::get<1>(*it)->index){
             if (ff->v0->index == std::get<1>((*it))->v1->index){
                 ff->v0 = newVertexDict[std::get<1>((*it))->v1];
             } else if (ff->v0->index == std::get<1>((*it))->v0->index){
@@ -643,10 +657,19 @@ void mergeEdges(MeshNew* flattenMesh){
                 ff->v1 = newVertexDict[std::get<1>((*it))->v0];
             }
         }
+        /*std::cout << newVertexDict[std::get<1>((*it))->v0] << std::endl;
+        std::cout << newVertexDict[std::get<1>((*it))->v1] << std::endl;
+        std::cout << "TEST" << std::endl;*/
 
         //std::cout << "DONE" << std::endl;
     }
     //std::cout << "DONE" << std::endl;
+
+    /*for (EdgeNew* e : flattenMesh->edges){
+        std::cout << e->v0->index << std::endl;
+        std::cout << e->v1->index << std::endl;
+    }
+    std::cout << "DONE" << std::endl;*/
 }
 
 void Session::createFlattenMesh(bool instance){

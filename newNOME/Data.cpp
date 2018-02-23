@@ -387,15 +387,11 @@ FaceNew* createOffsetFace(std::list<Vert*> verts)
 }
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect){
-    /*std::cout << "FACE NAME" << std::endl;
-    for (Vert* cV : vertices){
+    //std::cout << "FACE NAME" << std::endl;
+    /*for (Vert* cV : vertices){
         std::cout << "VERTEX NAME" << std::endl;
         std::cout << cV->name << std::endl;
-        for (EdgeNew* cE : cV->edges){
-            std::cout << cE->v0->name << std::endl;
-            std::cout << cE->v1->name << std::endl;
-            std::cout << cE->f0 << std::endl;
-        }
+        std::cout << cV->index << std::endl;
     }*/
 
     EdgeNew * currentEdge;
@@ -406,6 +402,11 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
     //std::cout << "START CREATE FACE" << std::endl;
     while (it != vertices.end()){
         if (it2 != vertices.end()){
+            /*std::cout << (*it)->index << std::endl;
+            std::cout << (*it)->name << std::endl;
+            std::cout << (*it2)->index << std::endl;
+            std::cout << (*it2)->name << std::endl;
+            std::cout << "MM" << std::endl;*/
             currentEdge = NULL;
 
             for (auto e0 : (*it)->edges){
@@ -421,11 +422,6 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
                 }
             }
 
-            /*for( auto e0 : *edges ) {
-                if ((e0->v0->index == (*it)->index && e0->v1->index == (*it2)->index) || (e0->v0->index == (*it2)->index && e0->v1->index == (*it)->index)){
-                    currentEdge = e0;
-                }
-            }*/
             if (currentEdge == NULL && currReader != NULL){
                 currentEdge = currReader->getEdge((*it)->index, (*it2)->index);
                 if (currentEdge != NULL){
@@ -435,7 +431,6 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
                         //currentEdge->faceCount += 1;
                     }
                 }
-
             }
 
             if (currentEdge == NULL){
@@ -477,7 +472,7 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
             }
 
             if (currentEdge == NULL){
-
+                //std::cout << "CREATE" << std::endl;
                 currentEdge = createEdge(vertices.back(), vertices.front(), connect);
             }
         }
@@ -492,12 +487,15 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
         currentEdges.push_back(currentEdge);
         currentEdge = NULL;
     }
+    //std::cout << currentEdges.size() << std::endl;
     //std::cout << "END CREATE FACE" << std::endl;
     FaceNew* newFace;
     if (connect){
+        //std::cout << "NEW" << std::endl;
         newFace = createFace(currentEdges, vertices);
     }
     else{
+        //std::cout << "NOT" << std::endl;
         newFace = createFace();
         newFace->selected = false;
         newFace->verts = vertices;
@@ -509,6 +507,20 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
 
     for (Vert* vert : vertices){
         newFace->verts.push_back(vert);
+    }*/
+    /*std::cout << "EDGES" << std::endl;
+    for (EdgeNew* e : newFace->edges){
+        std::cout << e->v0->index << std::endl;
+        std::cout << e->v1->index << std::endl;
+    }*/
+
+
+    /*std::cout << "VERTS" << std::endl;
+    for (Vert* e : newFace->verts){
+        std::cout << e->index << std::endl;
+        std::cout << e->name << std::endl;
+        std::cout << "NUMBER OF EDGES" << std::endl;
+        std::cout << e->edges.size() << std::endl;
     }*/
 
     return newFace;
