@@ -55,6 +55,7 @@ public:
     std::vector<MeshNew*> flattenMeshList = std::vector<MeshNew*>();
 
     int tmpFaceIndex = 0;
+    int tmpPolylineIndex = 0;
 
     std::list<EdgeNew*> selectedEdges;
     std::list<Vert*> selectedVerts;

@@ -273,6 +273,7 @@ void Session::addTmpFace(){
         if (tmpMesh == NULL){
             tmpMesh = createMesh();
             tmpFaceIndex = 0;
+            tmpPolylineIndex = 0;
         }
         Reader* currReader = createReader(this);
         FaceNew * newFace = createFace(selectedVerts, &(tmpMesh->edges), currReader, false);
@@ -322,11 +323,30 @@ void Session::addTmpPolyline(){
     tmpInstance->setName("tmpInstance");
     clearSelection();*/
     if (selectedVerts.size() != 0){
+        if (tmpMesh == NULL){
+            tmpMesh = createMesh();
+            tmpFaceIndex = 0;
+            tmpPolylineIndex = 0;
+        }
+
+
         Reader* currReader = createReader(this);
         tmpPolyline = createPolylineNew(selectedVerts);
-        tmpPolyline->setName("tmpPolyline");
-        tmpInstance = createInstance(tmpPolyline, this->verts, currReader, false, true, false, this);
+        tmpPolyline->setName("poly" + std::to_string(tmpPolylineIndex));
+
+        for (EdgeNew * e: tmpPolyline->edges){
+            tmpMesh->edges.push_back(e);
+        }
+
+        for (Vert * v: tmpPolyline->verts){
+            tmpMesh->verts.push_back(v);
+        }
+
+        tmpMesh->polylines.push_back(tmpPolyline);
+
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
         tmpInstance->setName("tmpInstance");
+        tmpPolylineIndex += 1;
         clearSelection();
     }
 }
@@ -338,7 +358,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
             setSurface(tmpFace, NULL);
         }
     }
-    if (tmpPolyline != NULL){
+    /*if (tmpPolyline != NULL){
         tmpPolyline->setName(consolidateMeshName);
         polylines.push_back(tmpPolyline);
         this->fileContent += "\npolyline " + consolidateMeshName + " (";
@@ -348,7 +368,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
         }
 
         this->fileContent += ") endpolyline\n";
-    }
+    }*/
     if (tmpMesh != NULL){
         tmpMesh->setName(consolidateMeshName);
         meshes.push_back(tmpMesh);
@@ -361,6 +381,15 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
             this->fileContent += ") endface\n";
         }
 
+        for (PolylineNew * currPoly : tmpMesh->polylines){
+            this->fileContent += "polyline " + (currPoly->name.substr(5)) + " (";
+            for (Vert* currVert : tmpPolyline->verts){
+                this->fileContent += currReader->getVertName(currVert->index) + " ";
+            }
+
+            this->fileContent += ") endpolyline\n";
+        }
+
         this->fileContent += "endmesh\n";
     }
     if (tmpInstance != NULL){
@@ -368,9 +397,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
 
         InstanceNew* newInstance;
         if (tmpMesh != NULL){
-            newInstance = createInstance(tmpMesh, this->verts, currReader, true, true, false, this);
-        } else{
-            newInstance = createInstance(tmpPolyline, this->verts, currReader, true, true, false, this);
+            newInstance = createInstance(tmpMesh, this->verts, currReader, true, false, true, this);
         }
 
         newInstance->setName(consolidateInstanceName);

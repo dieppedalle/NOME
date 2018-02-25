@@ -835,7 +835,7 @@ void SlideGLWidget::wholeBorderSelectionChecked(bool checked)
 
 void SlideGLWidget::addToPolylineCalled(bool)
 {
-    if (currSession->tmpPolyline != NULL || currSession->tmpMesh != NULL){
+    /*if (currSession->tmpPolyline != NULL || currSession->tmpMesh != NULL){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Add Polyline");
         msgBox.setText("Are you sure you want to overwrite the faces or polyline and create a new polyline?");
@@ -854,9 +854,9 @@ void SlideGLWidget::addToPolylineCalled(bool)
         currSession->tmpPolyline = NULL;
         currSession->tmpInstance =  NULL;
         currSession->addTmpPolyline();
-    }
+    }*/
 
-    //currSession->addTmpPolyline();
+    currSession->addTmpPolyline();
 
     repaint();
 }
@@ -868,7 +868,7 @@ void SlideGLWidget::undoFaceCalled(bool){
 
 void SlideGLWidget::addToTempCalled(bool)
 {
-    if (currSession->tmpPolyline != NULL){
+    /*if (currSession->tmpPolyline != NULL){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Add Polygon");
         msgBox.setText("Are you sure you want to overwrite the polyline and create a new face?");
@@ -884,8 +884,8 @@ void SlideGLWidget::addToTempCalled(bool)
     }
     else{
         currSession->addTmpFace();
-    }
-    //currSession->addTmpFace();
+    }*/
+    currSession->addTmpFace();
 
     repaint();
 }

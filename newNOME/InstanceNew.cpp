@@ -63,13 +63,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    //std::cout << m0->verts.size() << std::endl;
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
-       //GAUTHIER ADDED THAT ON 1/29
-       //std::cout << currReader->getVert(v0->index) << std::endl;
-       //std::cout << (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()) << std::endl;
-       //std::cout << dynamic_cast<FunnelNew*>(m0) << std::endl;
-       //std::cout << doNotCreateVertices << std::endl;
-       //std::cout << dynamic_cast<TunnelNew*>(m0) << std::endl;
-       //std::cout << (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) || doNotCreateVertices == false)) << std::endl;
        if (onlyCreateNewVertices == true){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
