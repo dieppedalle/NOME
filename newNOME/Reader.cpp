@@ -539,6 +539,18 @@ bool Reader::deleteFace(FaceNew * searchFace){
     for (InstanceNew* i0 : session->instances){
         i0->faces.remove(searchFace);
     }
+    for (EdgeNew* e : searchFace->edges){
+        if (e->f0 == searchFace){
+            e->f0 = NULL;
+            e->f0 = e->f1;
+            e->f1 = NULL;
+        } else if (e->f1 == searchFace){
+            e->f1 = NULL;
+        }
+    }
+    for (Vert* v : searchFace->verts){
+        v->faces.remove(searchFace);
+    }
     return false;
 }
 

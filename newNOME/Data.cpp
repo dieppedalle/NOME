@@ -976,6 +976,16 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     }
     glEnd();
 
+
+    glLoadName(f0->index);
+    glBegin(GL_POLYGON);
+    glNormal3f(-normalVector[0], -normalVector[1], -normalVector[2]);
+    //for(auto v0 : f0->verts) {
+    for (std::list<Vert*>::reverse_iterator rit=f0->verts.rbegin(); rit!=f0->verts.rend(); ++rit){
+      glVertex3f(*(*rit)->xTransformed, *(*rit)->yTransformed, *(*rit)->zTransformed);
+    }
+    glEnd();
+
     return true;
 }
 
