@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SlideGLWidget_t {
-    QByteArrayData data[29];
-    char stringdata0[510];
+    QByteArrayData data[30];
+    char stringdata0[525];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,17 +49,18 @@ QT_MOC_LITERAL(14, 229, 15), // "faceModeChecked"
 QT_MOC_LITERAL(15, 245, 18), // "autoCorrectChecked"
 QT_MOC_LITERAL(16, 264, 27), // "wholeBorderSelectionChecked"
 QT_MOC_LITERAL(17, 292, 15), // "addToTempCalled"
-QT_MOC_LITERAL(18, 308, 19), // "addToPolylineCalled"
-QT_MOC_LITERAL(19, 328, 15), // "zipToTempCalled"
-QT_MOC_LITERAL(20, 344, 21), // "addTempToMasterCalled"
-QT_MOC_LITERAL(21, 366, 22), // "popUpConsolidateWindow"
-QT_MOC_LITERAL(22, 389, 15), // "addTempToMaster"
-QT_MOC_LITERAL(23, 405, 15), // "addBorderCalled"
-QT_MOC_LITERAL(24, 421, 20), // "clearSelectionCalled"
-QT_MOC_LITERAL(25, 442, 20), // "resetTrianglePanelty"
-QT_MOC_LITERAL(26, 463, 11), // "mergeCalled"
-QT_MOC_LITERAL(27, 475, 17), // "paramValueChanged"
-QT_MOC_LITERAL(28, 493, 16) // "deleteFaceCalled"
+QT_MOC_LITERAL(18, 308, 14), // "undoFaceCalled"
+QT_MOC_LITERAL(19, 323, 19), // "addToPolylineCalled"
+QT_MOC_LITERAL(20, 343, 15), // "zipToTempCalled"
+QT_MOC_LITERAL(21, 359, 21), // "addTempToMasterCalled"
+QT_MOC_LITERAL(22, 381, 22), // "popUpConsolidateWindow"
+QT_MOC_LITERAL(23, 404, 15), // "addTempToMaster"
+QT_MOC_LITERAL(24, 420, 15), // "addBorderCalled"
+QT_MOC_LITERAL(25, 436, 20), // "clearSelectionCalled"
+QT_MOC_LITERAL(26, 457, 20), // "resetTrianglePanelty"
+QT_MOC_LITERAL(27, 478, 11), // "mergeCalled"
+QT_MOC_LITERAL(28, 490, 17), // "paramValueChanged"
+QT_MOC_LITERAL(29, 508, 16) // "deleteFaceCalled"
 
     },
     "SlideGLWidget\0feedback_status_bar\0\0"
@@ -70,12 +71,13 @@ QT_MOC_LITERAL(28, 493, 16) // "deleteFaceCalled"
     "offsetValueChanged\0vertexModeChecked\0"
     "borderModeChecked\0faceModeChecked\0"
     "autoCorrectChecked\0wholeBorderSelectionChecked\0"
-    "addToTempCalled\0addToPolylineCalled\0"
-    "zipToTempCalled\0addTempToMasterCalled\0"
-    "popUpConsolidateWindow\0addTempToMaster\0"
-    "addBorderCalled\0clearSelectionCalled\0"
-    "resetTrianglePanelty\0mergeCalled\0"
-    "paramValueChanged\0deleteFaceCalled"
+    "addToTempCalled\0undoFaceCalled\0"
+    "addToPolylineCalled\0zipToTempCalled\0"
+    "addTempToMasterCalled\0popUpConsolidateWindow\0"
+    "addTempToMaster\0addBorderCalled\0"
+    "clearSelectionCalled\0resetTrianglePanelty\0"
+    "mergeCalled\0paramValueChanged\0"
+    "deleteFaceCalled"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,7 +87,7 @@ static const uint qt_meta_data_SlideGLWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      25,   14, // methods
+      26,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -93,33 +95,34 @@ static const uint qt_meta_data_SlideGLWidget[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,  139,    2, 0x06 /* Public */,
+       1,    2,  144,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,  144,    2, 0x0a /* Public */,
-       4,    1,  147,    2, 0x0a /* Public */,
-       6,    1,  150,    2, 0x0a /* Public */,
-       7,    1,  153,    2, 0x0a /* Public */,
-       9,    1,  156,    2, 0x0a /* Public */,
-      10,    1,  159,    2, 0x0a /* Public */,
-      11,    1,  162,    2, 0x0a /* Public */,
-      12,    1,  165,    2, 0x0a /* Public */,
-      13,    1,  168,    2, 0x0a /* Public */,
-      14,    1,  171,    2, 0x0a /* Public */,
-      15,    1,  174,    2, 0x0a /* Public */,
-      16,    1,  177,    2, 0x0a /* Public */,
-      17,    1,  180,    2, 0x0a /* Public */,
-      18,    1,  183,    2, 0x0a /* Public */,
-      19,    1,  186,    2, 0x0a /* Public */,
-      20,    1,  189,    2, 0x0a /* Public */,
-      21,    1,  192,    2, 0x0a /* Public */,
-      22,    0,  195,    2, 0x0a /* Public */,
-      23,    1,  196,    2, 0x0a /* Public */,
-      24,    1,  199,    2, 0x0a /* Public */,
-      25,    1,  202,    2, 0x0a /* Public */,
-      26,    1,  205,    2, 0x0a /* Public */,
-      27,    1,  208,    2, 0x0a /* Public */,
-      28,    1,  211,    2, 0x0a /* Public */,
+       3,    1,  149,    2, 0x0a /* Public */,
+       4,    1,  152,    2, 0x0a /* Public */,
+       6,    1,  155,    2, 0x0a /* Public */,
+       7,    1,  158,    2, 0x0a /* Public */,
+       9,    1,  161,    2, 0x0a /* Public */,
+      10,    1,  164,    2, 0x0a /* Public */,
+      11,    1,  167,    2, 0x0a /* Public */,
+      12,    1,  170,    2, 0x0a /* Public */,
+      13,    1,  173,    2, 0x0a /* Public */,
+      14,    1,  176,    2, 0x0a /* Public */,
+      15,    1,  179,    2, 0x0a /* Public */,
+      16,    1,  182,    2, 0x0a /* Public */,
+      17,    1,  185,    2, 0x0a /* Public */,
+      18,    1,  188,    2, 0x0a /* Public */,
+      19,    1,  191,    2, 0x0a /* Public */,
+      20,    1,  194,    2, 0x0a /* Public */,
+      21,    1,  197,    2, 0x0a /* Public */,
+      22,    1,  200,    2, 0x0a /* Public */,
+      23,    0,  203,    2, 0x0a /* Public */,
+      24,    1,  204,    2, 0x0a /* Public */,
+      25,    1,  207,    2, 0x0a /* Public */,
+      26,    1,  210,    2, 0x0a /* Public */,
+      27,    1,  213,    2, 0x0a /* Public */,
+      28,    1,  216,    2, 0x0a /* Public */,
+      29,    1,  219,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, QMetaType::Int,    2,    2,
@@ -132,6 +135,7 @@ static const uint qt_meta_data_SlideGLWidget[] = {
     QMetaType::Void, QMetaType::Int,    2,
     QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void, QMetaType::Float,    2,
+    QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void, QMetaType::Bool,    2,
@@ -173,17 +177,18 @@ void SlideGLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 11: _t->autoCorrectChecked((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 12: _t->wholeBorderSelectionChecked((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 13: _t->addToTempCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 14: _t->addToPolylineCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 15: _t->zipToTempCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 16: _t->addTempToMasterCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 17: _t->popUpConsolidateWindow((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 18: _t->addTempToMaster(); break;
-        case 19: _t->addBorderCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 20: _t->clearSelectionCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 21: _t->resetTrianglePanelty((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 22: _t->mergeCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 23: _t->paramValueChanged((*reinterpret_cast< float(*)>(_a[1]))); break;
-        case 24: _t->deleteFaceCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 14: _t->undoFaceCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 15: _t->addToPolylineCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 16: _t->zipToTempCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 17: _t->addTempToMasterCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 18: _t->popUpConsolidateWindow((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 19: _t->addTempToMaster(); break;
+        case 20: _t->addBorderCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 21: _t->clearSelectionCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 22: _t->resetTrianglePanelty((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 23: _t->mergeCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 24: _t->paramValueChanged((*reinterpret_cast< float(*)>(_a[1]))); break;
+        case 25: _t->deleteFaceCalled((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -224,13 +229,13 @@ int SlideGLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 25)
+        if (_id < 26)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 25;
+        _id -= 26;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 25)
+        if (_id < 26)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 25;
+        _id -= 26;
     }
     return _id;
 }

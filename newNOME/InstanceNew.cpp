@@ -45,6 +45,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
+           newInstance->surface = instanceNest->surface;
            i0->listInstances.push_back(newInstance);
        }
    }
@@ -215,7 +216,6 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
-    //std::cout << this->name << std::endl;
     for(auto v : verts) {
       drawVert(v, surface);
     }
