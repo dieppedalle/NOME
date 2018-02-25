@@ -104,7 +104,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
             //std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             //std::cout << selectedVertex->faces.size() << std::endl;
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
-            std::cout << selectedVertex->index << std::endl;
+            //std::cout << selectedVertex->index << std::endl;
             /*std::cout << selectedVertex->faces.size() << std::endl;
             std::cout << selectedVertex->edges.size() << std::endl;*/
 
@@ -331,12 +331,8 @@ void Session::addTmpPolyline(){
 
 
         Reader* currReader = createReader(this);
-        tmpPolyline = createPolylineNew(selectedVerts);
+        tmpPolyline = createPolylineNew(selectedVerts, &tmpMesh->edges);
         tmpPolyline->setName("poly" + std::to_string(tmpPolylineIndex));
-
-        for (EdgeNew * e: tmpPolyline->edges){
-            tmpMesh->edges.push_back(e);
-        }
 
         for (Vert * v: tmpPolyline->verts){
             tmpMesh->verts.push_back(v);

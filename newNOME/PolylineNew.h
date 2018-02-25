@@ -19,6 +19,7 @@ public:
 
 ///Instance functions
 PolylineNew* createPolylineNew(std::list<Vert*> verticesPolyline);
+PolylineNew* createPolylineNew(std::list<Vert*> verticesPolyline, std::list<EdgeNew*> *edgeList);
 PolylineNew* createPolylineNew(PolylineNew*);
 
 #endif /* PolylineNew_h */
