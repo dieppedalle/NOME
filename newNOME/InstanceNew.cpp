@@ -231,7 +231,7 @@ bool InstanceNew::draw()
 
 void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
 {
-    for(Vert* v : verts) {
+    /*for(Vert* v : verts) {
       bool contains = false;
       for (Vert* vf : flattenedMesh->verts){
           if (v->index == vf->index){
@@ -242,10 +242,9 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
       if (!contains){
           flattenedMesh->verts.push_back(createDupVert(v));
       }
-    }
+    }*/
 
-    for(EdgeNew* e : edges) {
-
+    /*for(EdgeNew* e : edges) {
         bool contains = false;
         for (EdgeNew* ef : flattenedMesh->edges){
             if (e->index == ef->index){
@@ -261,36 +260,47 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
                     }
                 }
             } else{
-                // ADDED TUESDAY
-                /*std::cout << "T" << std::endl;
-                for (EdgeNew* ef : flattenedMesh->edges){
-                    if ((abs(*(e->v0->xTransformed) - *(ef->v0->xTransformed)) < 0.01
-                        && abs(*(e->v0->yTransformed) - *(ef->v0->yTransformed)) < 0.01
-                        && abs(*(e->v0->zTransformed) - *(ef->v0->zTransformed)) < 0.01
-                        && abs(*(e->v1->xTransformed) - *(ef->v1->xTransformed)) < 0.01
-                        && abs(*(e->v1->yTransformed) - *(ef->v1->yTransformed)) < 0.01
-                        && abs(*(e->v1->zTransformed) - *(ef->v1->zTransformed)) < 0.01)
-                        || (abs(*(e->v0->xTransformed) - *(ef->v1->xTransformed)) < 0.01
-                            && abs(*(e->v0->yTransformed) - *(ef->v1->yTransformed)) < 0.01
-                            && abs(*(e->v0->zTransformed) - *(ef->v1->zTransformed)) < 0.01
-                            && abs(*(e->v1->xTransformed) - *(ef->v0->xTransformed)) < 0.01
-                            && abs(*(e->v1->yTransformed) - *(ef->v0->yTransformed)) < 0.01
-                            && abs(*(e->v1->zTransformed) - *(ef->v0->zTransformed)) < 0.01)){
-                        std::cout << "ALERT" << std::endl;
-                        //if (ef->f)
-                    }
-                }*/
-                //==========
-
                 flattenedMesh->edges.push_back(createDupEdge(e));
             }
 
         }
-
-
-    }
+    }*/
 
     for(FaceNew* f : faces) {
+        for(Vert* v : f->verts) {
+          bool contains = false;
+          for (Vert* vf : flattenedMesh->verts){
+              if (v->index == vf->index){
+                  contains = true;
+                  break;
+              }
+          }
+          if (!contains){
+              flattenedMesh->verts.push_back(createDupVert(v));
+          }
+        }
+
+        for(EdgeNew* e : edges) {
+            bool contains = false;
+            for (EdgeNew* ef : flattenedMesh->edges){
+                if (e->index == ef->index){
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains){
+                if (e->f0 == NULL && e->f1 == NULL){
+                    for (Vert* v : flattenedMesh->verts){
+                        if ((v->index == e->v0->index) || (v->index == e->v1->index)){
+                            v->edges.remove(e);
+                        }
+                    }
+                } else{
+                    flattenedMesh->edges.push_back(createDupEdge(e));
+                }
+            }
+        }
+
         bool contains = false;
         for (FaceNew* ff : flattenedMesh->faces){
             if (f->index == ff->index){
