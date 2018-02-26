@@ -46,6 +46,7 @@ void ControlPanel::buildConnection()
     connect(borderModeButton, SIGNAL(clicked(bool)), canvas, SLOT(borderModeChecked(bool)));
     connect(faceModeButton, SIGNAL(clicked(bool)), canvas, SLOT(faceModeChecked(bool)));
     connect(addFaceButton, SIGNAL(clicked(bool)), canvas, SLOT(addToTempCalled(bool)));
+    connect(groupFacesButton, SIGNAL(clicked(bool)), canvas, SLOT(popUpGroupWindow(bool)));
     connect(undoAddButton, SIGNAL(clicked(bool)), canvas, SLOT(undoFaceCalled(bool)));
     connect(addPolylineButton, SIGNAL(clicked(bool)), canvas, SLOT(addToPolylineCalled(bool)));
     connect(deleteFaceButton, SIGNAL(clicked(bool)), canvas, SLOT(deleteFaceCalled(bool)));

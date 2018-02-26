@@ -404,8 +404,9 @@ std::string Reader::getFaceName(int id)
 {
     // Check for definitions first
     for (FaceNew* f0 : session->faces){
-        if(f0->index == id)
+        if(f0->index == id){
             return f0->name;
+        }
     }
 
     for (InstanceNew* i0 : session->instances){

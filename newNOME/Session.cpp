@@ -204,7 +204,7 @@ void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         if (selectedFace != NULL){
             selectedFace -> selected = !selectedFace -> selected;
             if (selectedFace -> selected == true){
-                std::cout << selectedFace->name << std::endl;
+                std::cout << currReader->getFaceName(selectedFace->index) << std::endl;
                 selectedFaces.push_back(selectedFace);
             }
             else{
@@ -265,6 +265,44 @@ void Session::deleteTmpFace(){
         tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
         tmpInstance->setName("tmpInstance");
         tmpFaceIndex -= 1;
+    }
+}
+
+void Session::groupFaces(std::string consolidateInstanceName, std::string consolidateMeshName){
+    if (selectedFaces.size() != 0){
+        Reader* currReader = createReader(this);
+        tmpMesh = createMesh();
+        tmpMesh->setName(consolidateMeshName);
+        for (FaceNew* f : selectedFaces){
+            tmpMesh->faces.push_back(f);
+            for (EdgeNew* e : f->edges){
+                if (!(std::find(tmpMesh->edges.begin(), tmpMesh->edges.end(), e) != tmpMesh->edges.end())){
+                    tmpMesh->edges.push_back(e);
+                }
+            }
+            for (Vert* v : f->verts){
+                if (!(std::find(tmpMesh->verts.begin(), tmpMesh->verts.end(), v) != tmpMesh->verts.end())){
+                    tmpMesh->verts.push_back(v);
+                }
+            }
+        }
+
+        meshes.push_back(tmpMesh);
+
+        InstanceNew* newInstance;
+        newInstance = createInstance(tmpMesh, this->verts, currReader, true, false, true, this);
+        newInstance->setName(consolidateInstanceName);
+        instances.push_back(newInstance);
+
+        this->fileContent += "object ";
+        this->fileContent += consolidateMeshName;
+        this->fileContent += " (";
+        for (FaceNew * currFace : selectedFaces){
+            this->fileContent += currReader->getFaceName(currFace->index) + " ";
+        }
+        this->fileContent += ") endobject\n";
+        this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance\n\n";
+
     }
 }
 
@@ -404,7 +442,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
         instances.push_back(newInstance);
 
         //instances.push_back(tmpInstance);
-        this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance";
+        this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance\n";
     }
 
     tmpMesh = NULL;

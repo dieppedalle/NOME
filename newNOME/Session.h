@@ -69,6 +69,7 @@ public:
     bool setName(std::string n);
     std::string getName();
     bool updateNames();
+    void groupFaces(std::string consolidateInstanceName, std::string consolidateMeshName);
     void addTmpFace();
     void deleteTmpFace();
     void addTmpPolyline();

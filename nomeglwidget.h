@@ -44,6 +44,7 @@
 #include <QString>
 #include "newNOME/Session.h"
 #include "newNOME/ConsolidateWindow.h"
+#include "newNOME/GroupWindow.h"
 
 class SlideGLWidget: public QGLWidget
 {
@@ -55,6 +56,7 @@ public:
     SlideGLWidget(Group &group, Session *currSession, QWidget *parent = 0);
     ~SlideGLWidget();
     ConsolidateWindow *conWindow;
+    GroupWindow *groupWindow;
     void consolidateTempMesh();
     /**
      * Save the current master_mesh in a STL file.
@@ -313,6 +315,7 @@ public slots:
     void wholeBorderSelectionChecked(bool);
     /* Receive the signal to add a polygon to temp_mesh. */
     void addToTempCalled(bool);
+    void groupFacesMsg(bool);
     void undoFaceCalled(bool);
     void addToPolylineCalled(bool);
     /* Receive the signal to zip two borders.
@@ -322,6 +325,8 @@ public slots:
     void addTempToMasterCalled(bool);
     /* Recieve signal to add the temp_mesh to consolidated_mesh. */
     void popUpConsolidateWindow(bool);
+
+    void popUpGroupWindow(bool);
     /* Add temp_mesh to master_mesh. */
     void addTempToMaster();
     /* Receive the signal to add a border. Add border1 first*/

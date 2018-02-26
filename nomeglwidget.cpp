@@ -9,6 +9,7 @@
 
 #include "nomeglwidget.h"
 #include "newNOME/ConsolidateWindow.h"
+#include "newNOME/GroupWindow.h"
 #include "newNOME/Reader.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
@@ -866,6 +867,23 @@ void SlideGLWidget::undoFaceCalled(bool){
     repaint();
 }
 
+void SlideGLWidget::groupFacesMsg(bool)
+{
+    if (consolidateMeshName.length() == 0){
+        std::cout << "Enter a mesh name." << std::endl;
+    }
+    else if (consolidateInstanceName.length() == 0){
+        std::cout << "Enter an instance name." << std::endl;
+    }
+    else{
+        currSession->groupFaces(consolidateInstanceName, consolidateMeshName);
+
+        groupWindow->window->close();
+    }
+
+    repaint();
+}
+
 void SlideGLWidget::addToTempCalled(bool)
 {
     /*if (currSession->tmpPolyline != NULL){
@@ -910,6 +928,10 @@ void SlideGLWidget::zipToTempCalled(bool)
 
 void SlideGLWidget::popUpConsolidateWindow(bool){
     conWindow = new ConsolidateWindow(this);
+}
+
+void SlideGLWidget::popUpGroupWindow(bool){
+    groupWindow = new GroupWindow(this);
 }
 
 
