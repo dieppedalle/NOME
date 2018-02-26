@@ -185,6 +185,8 @@ bool drawVert(Vert* v0, Surface * instSurface);
 bool drawEdge(EdgeNew* e0, Surface * instSurface);
 bool drawFace(FaceNew* f0, Surface * instSurface);
 
+bool drawNormal(Vert* v0, Surface * instSurface);
+
 double *getBankValue(std::string str, Session* currSession);
 
 #endif /* Data_h */

@@ -219,6 +219,11 @@ double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
 
 bool MeshNew::draw(double offset, bool computeOffset)
 {
+    if (offset == 0){
+        for (Vert* currVert : this->verts){
+            drawNormal(currVert, NULL);
+        }
+    }
     if (computeOffset == false){
         if (offset == 0){
             for (FaceNew* f0: faces){
@@ -399,6 +404,9 @@ bool MeshNew::draw(double offset, bool computeOffset)
             }
 
         }
+
+
+
     }
 
 
@@ -591,11 +599,18 @@ void MeshNew::calculateNormal(){
     }
     //std::cout << "========" << std::endl;
     for (Vert* currVert : this->verts){
-        //std::cout << currVert->faces.size() << std::endl;
         double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]);
-        currVert->normal[0] = currVert->normal[0] / magnitude;
-        currVert->normal[1] = currVert->normal[1] / magnitude;
-        currVert->normal[2] = currVert->normal[2] / magnitude;
+        if (magnitude == 0){
+            currVert->normal[0] = 0.0;
+            currVert->normal[1] = 0.0;
+            currVert->normal[2] = 0.0;
+        } else{
+            currVert->normal[0] = currVert->normal[0] / magnitude;
+            currVert->normal[1] = currVert->normal[1] / magnitude;
+            currVert->normal[2] = currVert->normal[2] / magnitude;
+        }
+
+        //std::cout << sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]) << std::endl;
     }
 
     /*for (Vert* currVert : this->verts){

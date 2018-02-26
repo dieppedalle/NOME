@@ -11,6 +11,8 @@
 #include "Reader.h"
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/glm.hpp>
+#include <gl/glu.h>
+
 #include <math.h>
 #define PI 3.14159265
 
@@ -937,6 +939,78 @@ std::vector<double> FaceNew::getNormal(){
     return getNormalFromVerts(vert1);
 }
 
+
+
+
+bool drawNormal(Vert* v0, Surface * instSurface){
+    QColor color;
+    if (instSurface != NULL){
+        color = instSurface->color;
+    } else if (v0->surface != NULL){
+        color = v0->surface->getColor();
+    } else {
+        color = defaultColor;
+    }
+
+
+    GLfloat fcolor[4] = {0,0,0,0};
+    if (v0->selected){
+        fcolor[0] = 0;
+        fcolor[1] = 1;
+        fcolor[2] = 1;
+        fcolor[3] = 0;
+    } else {
+        fcolor[0] = 1.0f * color.red() / 255;
+        fcolor[1] = 1.0f * color.green() / 255;
+        fcolor[2] = 1.0f * color.blue() / 255;
+        fcolor[3] = 1.0f * color.alpha() /255;
+    }
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
+
+    glLoadName(v0->index);
+
+    float radius = 0.15;
+    float height = 0.2;
+
+    float x0 = *v0->xTransformed;
+    float y0 = *v0->yTransformed;
+    float z0 = *v0->zTransformed;
+
+    float deltax = v0->normal[0] / 2.0;
+    float deltay = v0->normal[1] / 2.0;
+    float deltaz = v0->normal[2] / 2.0;
+
+    float x1 = *v0->xTransformed + deltax;
+    float y1 = *v0->yTransformed + deltay;
+    float z1 = *v0->zTransformed + deltaz;
+
+
+    glLineWidth(2.5);
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex3f(x0, y0, z0);
+    glVertex3f(x1, y1, z1);
+    glEnd();
+
+
+    glPushMatrix();
+    glTranslatef(x1, y1, z1);
+
+    if((deltax != 0.)||(deltay != 0.)) {
+        glRotated(atan2(deltay, deltax) * 180 / PI, 0., 0., 1.);
+        glRotated(atan2(sqrt(deltax * deltax + deltay * deltay),deltaz) * 180 / PI, 0., 1., 0.);
+    } else if (deltaz < 0){
+        glRotated(180, 1., 0., 0.);
+    }
+
+    GLUquadricObj *quadObj = gluNewQuadric();
+    gluCylinder(quadObj, radius, 0, height, 10, 10);
+    glPopMatrix();
+
+    return true;
+}
 
 bool drawFace(FaceNew* f0, Surface * instSurface)
 {
