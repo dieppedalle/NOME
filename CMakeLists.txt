@@ -83,6 +83,7 @@ set(SOURCES
     compilerBank/parserBank.cpp
     compilerBank/lexerBank.cpp
     bankFlexBison.cpp
+    newNOME/GroupWindow.cpp
 )
 
 set(HEADERS
@@ -139,6 +140,7 @@ set(HEADERS
     newNOME/BezierCurveNew.h
     compilerObj/parserObj.hpp
     compilerBank/parserBank.hpp
+    newNOME/GroupWindow.h
 )
 
 add_executable(Nome ${SOURCES} ${HEADERS})
