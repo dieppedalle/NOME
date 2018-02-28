@@ -147,6 +147,7 @@ Vert* createVert();
 Vert* createVert(Vert*);
 Vert* createVert(double *x, double *y, double *z);
 Vert* createVert(double *x, double *y, double *z, double w);
+Vert* createDupVert(Vert*);
 
 
 ///Edge Instantiation
@@ -154,6 +155,7 @@ EdgeNew* createEdge(EdgeNew*);
 EdgeNew* createEdge(Vert* v0, Vert* v1, bool connect);
 EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect);
 EdgeNew* createEdge(double x0, double y0, double z0, double x1, double y1, double z1, double interval);
+EdgeNew* createDupEdge(EdgeNew*);
 
 ///Face Instantiation
 FaceNew* createFace();
@@ -161,6 +163,7 @@ FaceNew* createFace(FaceNew*);
 FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts);
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect);
 FaceNew* createOffsetFace(std::list<Vert*> verts);
+FaceNew* createDupFace(FaceNew*);
 
 
 ///Naming functions
@@ -181,6 +184,8 @@ bool deleteFace(FaceNew* face);
 bool drawVert(Vert* v0, Surface * instSurface);
 bool drawEdge(EdgeNew* e0, Surface * instSurface);
 bool drawFace(FaceNew* f0, Surface * instSurface);
+
+bool drawNormal(Vert* v0, Surface * instSurface);
 
 double *getBankValue(std::string str, Session* currSession);
 

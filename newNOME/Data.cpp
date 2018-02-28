@@ -11,6 +11,8 @@
 #include "Reader.h"
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/glm.hpp>
+#include <gl/glu.h>
+
 #include <math.h>
 #define PI 3.14159265
 
@@ -138,6 +140,75 @@ Vert* createVert(Vert* toBeCopied){
     return createVert(x, y, z, 1.0);
 }
 
+Vert* createDupVert(Vert* toBeCopied){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    x = toBeCopied->x;
+    y = toBeCopied->y;
+    z = toBeCopied->z;
+
+    Vert* dupVert = createVert(x, y, z, 1.0);
+    dupVert->xStr = toBeCopied->xStr;
+    dupVert->yStr = toBeCopied->yStr;
+    dupVert->zStr = toBeCopied->zStr;
+    for (TransformationNew* t : toBeCopied->transformations){
+        dupVert->transformations.push_back(t);
+    }
+    //dupVert->transformations = std::list();
+    //dupVert->transformations = std::list(toBeCopied->transformations);
+    dupVert->x = toBeCopied->x;
+    dupVert->y = toBeCopied->y;
+    dupVert->z = toBeCopied->z;
+
+    dupVert->xTransformed = toBeCopied->xTransformed;
+    dupVert->yTransformed = toBeCopied->yTransformed;
+    dupVert->zTransformed = toBeCopied->zTransformed;
+
+    dupVert->weight = toBeCopied->weight;
+    dupVert->selected = toBeCopied->selected;
+    dupVert->mobius = toBeCopied->mobius;
+    dupVert->inList = toBeCopied->inList;
+    dupVert->edgesSeen = toBeCopied->edgesSeen;
+
+    dupVert->index = toBeCopied->index;
+    for (EdgeNew* t : toBeCopied->edges){
+        dupVert->edges.push_back(t);
+    }
+    //dupVert->edges = std::list(toBeCopied->edges);
+    for (FaceNew* t : toBeCopied->faces){
+        dupVert->faces.push_back(t);
+    }
+    //dupVert->faces = std::list(toBeCopied->faces);
+    dupVert->normal = toBeCopied->normal;
+    dupVert->surface = toBeCopied->surface;
+    dupVert->currSession = toBeCopied->currSession;
+    dupVert->copyOfVert = toBeCopied->copyOfVert;
+    dupVert->vertPoint = toBeCopied->vertPoint;
+    dupVert->normalInVert = toBeCopied->normalInVert;
+    dupVert->normalOutVert = toBeCopied->normalOutVert;
+    return dupVert;
+}
+
+Vert* createVertSameId(Vert* toBeCopied){
+    double *x = (double*) malloc(sizeof(double));
+    double *y = (double*) malloc(sizeof(double));
+    double *z = (double*) malloc(sizeof(double));
+
+    x = toBeCopied->x;
+    y = toBeCopied->y;
+    z = toBeCopied->z;
+    
+    Vert* copiedV = createVert(x, y, z, 1.0);
+
+    /*copiedV->xStr = strcpy(toBeCopied->xStr);
+    copiedV->yStr = strcpy(toBeCopied->yStr);
+    copiedV->zStr = strcpy(toBeCopied->zStr);*/
+    
+    return copiedV;
+}
+
 
 void Vert::updateOutOffsetVertex(double offset){
     if (this->normalOutVert == NULL){
@@ -206,6 +277,10 @@ EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect)
 
     e0->v0 = v0;
     e0->v1 = v1;
+
+    e0->f0 = NULL;
+    e0->f1 = NULL;
+
     e0->index = index;
     e0->setName("e:" + std::to_string(index));
     e0->faceCount = 0;
@@ -271,6 +346,37 @@ FaceNew* createFace()
     return f0;
 }
 
+EdgeNew* createDupEdge(EdgeNew* toBeCopied){
+    EdgeNew* e0 = new EdgeNew();
+    e0->interval = toBeCopied->interval;
+    e0->v0 = toBeCopied->v0;
+    e0->v1 = toBeCopied->v1;
+    e0->faceCount = toBeCopied->faceCount;
+    e0->vertCount = toBeCopied->vertCount;
+    e0->f0 = toBeCopied->f0;
+    e0->f1 = toBeCopied->f1;
+    e0->index = toBeCopied->index;
+    e0->surface = toBeCopied->surface;
+    e0->edgePoint = toBeCopied->edgePoint;
+    return e0;
+}
+
+FaceNew* createDupFace(FaceNew* toBeCopied){
+    FaceNew* f0 = new FaceNew();
+    for (EdgeNew* t : toBeCopied->edges){
+        f0->edges.push_back(t);
+    }
+    for (Vert* t : toBeCopied->verts){
+        f0->verts.push_back(t);
+    }
+    f0->index = toBeCopied->index;
+    f0->surface = toBeCopied->surface;
+    f0->selected = toBeCopied->selected;
+    f0->facePoint = toBeCopied->facePoint;
+    f0->mobius = toBeCopied->mobius;
+    return f0;
+}
+
 FaceNew* createOffsetFace(std::list<Vert*> verts)
 {
     FaceNew* f0 = createFace();
@@ -283,15 +389,11 @@ FaceNew* createOffsetFace(std::list<Vert*> verts)
 }
 
 FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reader * currReader, bool connect){
-    /*std::cout << "FACE NAME" << std::endl;
-    for (Vert* cV : vertices){
+    //std::cout << "FACE NAME" << std::endl;
+    /*for (Vert* cV : vertices){
         std::cout << "VERTEX NAME" << std::endl;
         std::cout << cV->name << std::endl;
-        for (EdgeNew* cE : cV->edges){
-            std::cout << cE->v0->name << std::endl;
-            std::cout << cE->v1->name << std::endl;
-            std::cout << cE->f0 << std::endl;
-        }
+        std::cout << cV->index << std::endl;
     }*/
 
     EdgeNew * currentEdge;
@@ -302,6 +404,11 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
     //std::cout << "START CREATE FACE" << std::endl;
     while (it != vertices.end()){
         if (it2 != vertices.end()){
+            /*std::cout << (*it)->index << std::endl;
+            std::cout << (*it)->name << std::endl;
+            std::cout << (*it2)->index << std::endl;
+            std::cout << (*it2)->name << std::endl;
+            std::cout << "MM" << std::endl;*/
             currentEdge = NULL;
 
             for (auto e0 : (*it)->edges){
@@ -317,11 +424,6 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
                 }
             }
 
-            /*for( auto e0 : *edges ) {
-                if ((e0->v0->index == (*it)->index && e0->v1->index == (*it2)->index) || (e0->v0->index == (*it2)->index && e0->v1->index == (*it)->index)){
-                    currentEdge = e0;
-                }
-            }*/
             if (currentEdge == NULL && currReader != NULL){
                 currentEdge = currReader->getEdge((*it)->index, (*it2)->index);
                 if (currentEdge != NULL){
@@ -331,7 +433,6 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
                         //currentEdge->faceCount += 1;
                     }
                 }
-
             }
 
             if (currentEdge == NULL){
@@ -373,22 +474,30 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
             }
 
             if (currentEdge == NULL){
-
+                //std::cout << "CREATE" << std::endl;
                 currentEdge = createEdge(vertices.back(), vertices.front(), connect);
             }
         }
         it++;
 
-        edges->push_back(currentEdge);
+        bool found = (std::find(edges->begin(), edges->end(), currentEdge) != edges->end());
+
+        if (!found){
+            edges->push_back(currentEdge);
+        }
+
         currentEdges.push_back(currentEdge);
         currentEdge = NULL;
     }
+    //std::cout << currentEdges.size() << std::endl;
     //std::cout << "END CREATE FACE" << std::endl;
     FaceNew* newFace;
     if (connect){
+        //std::cout << "NEW" << std::endl;
         newFace = createFace(currentEdges, vertices);
     }
     else{
+        //std::cout << "NOT" << std::endl;
         newFace = createFace();
         newFace->selected = false;
         newFace->verts = vertices;
@@ -400,6 +509,20 @@ FaceNew* createFace(std::list<Vert*> vertices, std::list<EdgeNew*> *edges, Reade
 
     for (Vert* vert : vertices){
         newFace->verts.push_back(vert);
+    }*/
+    /*std::cout << "EDGES" << std::endl;
+    for (EdgeNew* e : newFace->edges){
+        std::cout << e->v0->index << std::endl;
+        std::cout << e->v1->index << std::endl;
+    }*/
+
+
+    /*std::cout << "VERTS" << std::endl;
+    for (Vert* e : newFace->verts){
+        std::cout << e->index << std::endl;
+        std::cout << e->name << std::endl;
+        std::cout << "NUMBER OF EDGES" << std::endl;
+        std::cout << e->edges.size() << std::endl;
     }*/
 
     return newFace;
@@ -539,7 +662,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         std::cout << edge->f1 << std::endl;
         std::cout << edge->faceCount << std::endl;
     }*/
-
 
     return f0;
 }
@@ -818,6 +940,70 @@ std::vector<double> FaceNew::getNormal(){
 }
 
 
+
+
+bool drawNormal(Vert* v0, Surface * instSurface){
+    QColor color;
+    if (instSurface != NULL){
+        color = instSurface->color;
+    } else if (v0->surface != NULL){
+        color = v0->surface->getColor();
+    } else {
+        color = defaultColor;
+    }
+
+    GLfloat fcolor[4] = {0,0,0,0};
+    fcolor[0] = 1.0f * color.red() / 255;
+    fcolor[1] = 1.0f * color.green() / 255;
+    fcolor[2] = 1.0f * color.blue() / 255;
+    fcolor[3] = 1.0f * color.alpha() /255;
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
+
+    glLoadName(v0->index);
+
+    float radius = 0.15;
+    float height = 0.2;
+
+    float x0 = *v0->xTransformed;
+    float y0 = *v0->yTransformed;
+    float z0 = *v0->zTransformed;
+
+    float deltax = v0->normal[0] / 2.0;
+    float deltay = v0->normal[1] / 2.0;
+    float deltaz = v0->normal[2] / 2.0;
+
+    float x1 = *v0->xTransformed + deltax;
+    float y1 = *v0->yTransformed + deltay;
+    float z1 = *v0->zTransformed + deltaz;
+
+
+    glLineWidth(2.5);
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex3f(x0, y0, z0);
+    glVertex3f(x1, y1, z1);
+    glEnd();
+
+
+    glPushMatrix();
+    glTranslatef(x1, y1, z1);
+
+    if((deltax != 0.)||(deltay != 0.)) {
+        glRotated(atan2(deltay, deltax) * 180 / PI, 0., 0., 1.);
+        glRotated(atan2(sqrt(deltax * deltax + deltay * deltay),deltaz) * 180 / PI, 0., 1., 0.);
+    } else if (deltaz < 0){
+        glRotated(180, 1., 0., 0.);
+    }
+
+    GLUquadricObj *quadObj = gluNewQuadric();
+    gluCylinder(quadObj, radius, 0, height, 10, 10);
+    glPopMatrix();
+
+    return true;
+}
+
 bool drawFace(FaceNew* f0, Surface * instSurface)
 {
     QColor color;
@@ -853,6 +1039,16 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glNormal3f(normalVector[0], normalVector[1], normalVector[2]);
     for(auto v0 : f0->verts) {
       glVertex3f(*v0->xTransformed, *v0->yTransformed, *v0->zTransformed);
+    }
+    glEnd();
+
+
+    glLoadName(f0->index);
+    glBegin(GL_POLYGON);
+    glNormal3f(-normalVector[0], -normalVector[1], -normalVector[2]);
+    //for(auto v0 : f0->verts) {
+    for (std::list<Vert*>::reverse_iterator rit=f0->verts.rbegin(); rit!=f0->verts.rend(); ++rit){
+      glVertex3f(*(*rit)->xTransformed, *(*rit)->yTransformed, *(*rit)->zTransformed);
     }
     glEnd();
 
@@ -1016,17 +1212,21 @@ void Vert::calculateVertPoint(){
         Ry = 0;
         Rz = 0;
         for (EdgeNew* currEdge : edges){
-            if (currEdge->f1 == NULL){
+            if (currEdge->f1 == NULL || currEdge->f0 == NULL){
                 Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
                 Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
                 Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
+
                 n++;
             }
         }
-
         *xVertPoint = (Sx + Rx) / (n+1);
         *yVertPoint = (Sy + Ry) / (n+1);
         *zVertPoint = (Sz + Rz) / (n+1);
+        /*std::cout << Sy << std::endl;
+        std::cout << Ry << std::endl;
+        std::cout << n << std::endl;
+        std::cout << *yVertPoint << std::endl;*/
     }
     else{
         //(Q/n) + (2R/n) + (S(n-3)/n)

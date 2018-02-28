@@ -75,7 +75,8 @@ SOURCES += main.cpp\
     compilerObj/lexerObj.cpp \
     compilerBank/parserBank.cpp \
     compilerBank/lexerBank.cpp \
-    bankFlexBison.cpp
+    bankFlexBison.cpp \
+    newNOME/GroupWindow.cpp
 
 
 HEADERS  += \
@@ -131,7 +132,8 @@ HEADERS  += \
     newNOME/BSplineNew.h \
     newNOME/BezierCurveNew.h \
     compilerObj/parserObj.hpp \
-    compilerBank/parserBank.hpp
+    compilerBank/parserBank.hpp \
+    newNOME/GroupWindow.h
 
 linux{
     LIBS += -lglut -lGLU

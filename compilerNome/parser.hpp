@@ -205,7 +205,7 @@ extern int nomdebug;
 
 union YYSTYPE
 {
-#line 73 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1915  */
+#line 74 "/Volumes/macData/Dev/nome/compilerNome/parser.y" /* yacc.c:1915  */
 
     double intNumber;
     double number;

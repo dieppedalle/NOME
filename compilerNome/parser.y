@@ -43,6 +43,7 @@ map<string,std::vector<double>> currentBank2;
 std::vector<string> currentInstanceList2;
 std::list<InstanceNew *> currentGroup2;
 std::list<FaceNew *> currentMeshFaces2;
+std::list<PolylineNew *> currentMeshPolyline;
 std::list<Vert *> currentMeshVertices2;
 std::list<EdgeNew *> currentMeshEdges2;
 std::list<TransformationNew *> currentTransformations2;
@@ -256,7 +257,7 @@ mirrorArgs:
     ;
 
 faceArgs:
-    | faceArgs faceMesh | faceArgs comment
+    | faceArgs faceMesh | faceArgs comment | faceArgs polylineMesh
         ;
 
 instanceArgs:
@@ -438,16 +439,60 @@ setArgs:
     | setArgs set |  setArgs comment
         ;
 
+polylineMesh:
+POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
+{
+    Reader* currReader = createReader(currSession);
+
+    // Create list of vertices of face.
+    std::list<Vert*> verticesPolyline;
+    for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
+        Vert * currentVertex = currReader->getVert(*it);
+        if (currentVertex != NULL) {
+            verticesPolyline.push_back(currentVertex);
+            currentMeshVertices2.push_back(currentVertex);
+        }
+        else{
+            nomerror(currSession, "Incorrect vertex name");
+            YYABORT;
+        }
+    }
+
+    PolylineNew* currPolyline = createPolylineNew(verticesPolyline);
+    for (EdgeNew* e : currPolyline->edges){
+      currentMeshEdges2.push_back(e);
+    }
+
+    currPolyline->setName(strdup($<string>2));
+
+    string surfaceName = surfaceFromArg;
+    // Check if a surface has been applied.
+    if (surfaceName.length() != 0){
+        Surface * currentSurface = currReader->surf(surfaceFromArg);
+        if (currentSurface != NULL) {
+            currPolyline->setSurface(currentSurface);
+        }
+        else{
+            nomerror(currSession, "Incorrect surface name");
+            YYABORT;
+        }
+    }
+    currentMeshPolyline.push_back(currPolyline);
+
+    tempVariables2.clear();
+    surfaceFromArg = "";
+}
+;
+
 faceMesh:
     FACE VARIABLE parenthesisName transformArgs END_FACE
     {
         Reader* currReader = createReader(currSession);
 
         std::list<Vert*> verticesFace;
-
+        //std::cout << "FACE MESH" << std::endl;
         for (std::vector<string>::iterator it = tempVariables2.begin() ; it != tempVariables2.end(); ++it){
             Vert * currentVertex = currReader->getVert(*it);
-
             if (currentVertex != NULL) {
                 verticesFace.push_back(currentVertex);
                 bool found = false;
@@ -818,9 +863,9 @@ instance:
         InstanceNew* newInstance = NULL;
         bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
-            if (currentTransformations2.size() > 0){
+            //if (currentTransformations2.size() > 0){
               onlyCreateNewVertices = true;
-            }
+            //}
             newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
             newInstance->currSession = currSession;
         }

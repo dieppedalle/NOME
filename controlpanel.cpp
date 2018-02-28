@@ -38,6 +38,9 @@ void ControlPanel::buildConnection()
     connect(this, SIGNAL(makeOffsetMesh(float)), canvas, SLOT(offsetValueChanged(float)));
     connect(foreColorButton, SIGNAL(clicked(bool)), this, SLOT(resetForeColor(bool)));
     connect(backColorButton, SIGNAL(clicked(bool)), this, SLOT(resetBackColor(bool)));
+    connect(outsideFacesColorButton, SIGNAL(clicked(bool)), this, SLOT(resetOutsideFacesColor(bool)));
+    connect(insideFacesColorButton, SIGNAL(clicked(bool)), this, SLOT(resetInsideFacesColor(bool)));
+    connect(offsetFacesColorButton, SIGNAL(clicked(bool)), this, SLOT(resetOffsetFacesColor(bool)));
     connect(vertexModeButton, SIGNAL(clicked(bool)), this, SLOT(vertexModeChecked(bool)));
     connect(borderModeButton, SIGNAL(clicked(bool)), this, SLOT(borderModeChecked(bool)));
     connect(faceModeButton, SIGNAL(clicked(bool)), this, SLOT(faceModeChecked(bool)));
@@ -46,6 +49,7 @@ void ControlPanel::buildConnection()
     connect(borderModeButton, SIGNAL(clicked(bool)), canvas, SLOT(borderModeChecked(bool)));
     connect(faceModeButton, SIGNAL(clicked(bool)), canvas, SLOT(faceModeChecked(bool)));
     connect(addFaceButton, SIGNAL(clicked(bool)), canvas, SLOT(addToTempCalled(bool)));
+    connect(groupFacesButton, SIGNAL(clicked(bool)), canvas, SLOT(popUpGroupWindow(bool)));
     connect(undoAddButton, SIGNAL(clicked(bool)), canvas, SLOT(undoFaceCalled(bool)));
     connect(addPolylineButton, SIGNAL(clicked(bool)), canvas, SLOT(addToPolylineCalled(bool)));
     connect(deleteFaceButton, SIGNAL(clicked(bool)), canvas, SLOT(deleteFaceCalled(bool)));
@@ -147,6 +151,9 @@ void ControlPanel::setupLayout()
     /* Color Layout. */
     colorLayout -> addLayout(foreColorLayout = new QHBoxLayout);
     colorLayout -> addLayout(backColorLayout = new QHBoxLayout);
+    colorLayout -> addLayout(outsideFacesColorLayout = new QHBoxLayout);
+    colorLayout -> addLayout(insideFacesColorLayout = new QHBoxLayout);
+    colorLayout -> addLayout(offsetFacesColorLayout = new QHBoxLayout);
     colorLayout -> setSpacing(2);
     foreColorLayout -> addWidget(foreColorButton = new QPushButton(tr("Foreground Color")));
     foreColorLayout -> addWidget(foreColorBox = new QWidget());
@@ -162,6 +169,31 @@ void ControlPanel::setupLayout()
     backColorBox->setPalette(backPal);
     backColorBox -> setAutoFillBackground(true);
     backColorBox -> resize(5,5);
+    //
+    outsideFacesColorLayout -> addWidget(outsideFacesColorButton = new QPushButton(tr("Outside Faces Color")));
+    outsideFacesColorLayout -> addWidget(outsideFacesColorBox = new QWidget());
+    QPalette outsideFacesPal = foreColorBox->palette();
+    backPal.setColor(outsideFacesColorBox->backgroundRole(), QColor(255,0,0));
+    outsideFacesColorBox->setPalette(backPal);
+    outsideFacesColorBox -> setAutoFillBackground(true);
+    outsideFacesColorBox -> resize(5,5);
+    //
+    insideFacesColorLayout -> addWidget(insideFacesColorButton = new QPushButton(tr("Inside Faces Color")));
+    insideFacesColorLayout -> addWidget(insideFacesColorBox = new QWidget());
+    QPalette insideFacesPal = foreColorBox->palette();
+    backPal.setColor(insideFacesColorBox->backgroundRole(), QColor(0,0,255));
+    insideFacesColorBox->setPalette(backPal);
+    insideFacesColorBox -> setAutoFillBackground(true);
+    insideFacesColorBox -> resize(5,5);
+    //
+    offsetFacesColorLayout -> addWidget(offsetFacesColorButton = new QPushButton(tr("Offset Faces Color")));
+    offsetFacesColorLayout -> addWidget(offsetFacesColorBox = new QWidget());
+    QPalette offsetFacesPal = foreColorBox->palette();
+    backPal.setColor(offsetFacesColorBox->backgroundRole(), QColor(255,163,0));
+    offsetFacesColorBox->setPalette(backPal);
+    offsetFacesColorBox -> setAutoFillBackground(true);
+    offsetFacesColorBox -> resize(5,5);
+
     mainLayout -> addWidget(statusBar = new QStatusBar);
 }
 
@@ -234,6 +266,34 @@ void ControlPanel::resetBackColor(bool)
     backPal.setColor(backColorBox->backgroundRole(), newColor);
     backColorBox->setPalette(backPal);
     canvas -> setBackColor(newColor);
+}
+
+void ControlPanel::resetInsideFacesColor(bool)
+{
+    QColor newColor = QColorDialog::getColor();
+    QPalette insideFacesPal = insideFacesColorBox->palette();
+    insideFacesPal.setColor(insideFacesColorBox->backgroundRole(), newColor);
+    insideFacesColorBox->setPalette(insideFacesPal);
+    canvas -> setInsideColor(newColor);
+}
+
+void ControlPanel::resetOffsetFacesColor(bool)
+{
+    QColor newColor = QColorDialog::getColor();
+    QPalette offsetFacesPal = offsetFacesColorBox->palette();
+    offsetFacesPal.setColor(offsetFacesColorBox->backgroundRole(), newColor);
+    offsetFacesColorBox->setPalette(offsetFacesPal);
+    canvas -> setOffsetColor(newColor);
+}
+
+
+void ControlPanel::resetOutsideFacesColor(bool)
+{
+    QColor newColor = QColorDialog::getColor();
+    QPalette outsideFacesPal = outsideFacesColorBox->palette();
+    outsideFacesPal.setColor(outsideFacesColorBox->backgroundRole(), newColor);
+    outsideFacesColorBox->setPalette(outsideFacesPal);
+    canvas -> setOutsideColor(newColor);
 }
 
 void ControlPanel::vertexModeChecked(bool checked)

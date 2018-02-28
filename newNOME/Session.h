@@ -55,6 +55,7 @@ public:
     std::vector<MeshNew*> flattenMeshList = std::vector<MeshNew*>();
 
     int tmpFaceIndex = 0;
+    int tmpPolylineIndex = 0;
 
     std::list<EdgeNew*> selectedEdges;
     std::list<Vert*> selectedVerts;
@@ -64,10 +65,16 @@ public:
     PolylineNew* tmpPolyline;
     InstanceNew* tmpInstance;
 
+    QColor foreColor = QColor(255, 0, 0);
+    QColor outsideColor = QColor(255, 0, 0);
+    QColor insideColor = QColor(0, 0, 255);
+    QColor offsetColor = QColor(255, 163, 0);
+
     //Naming functions
     bool setName(std::string n);
     std::string getName();
     bool updateNames();
+    void groupFaces(std::string consolidateInstanceName, std::string consolidateMeshName);
     void addTmpFace();
     void deleteTmpFace();
     void addTmpPolyline();

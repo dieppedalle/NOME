@@ -404,8 +404,9 @@ std::string Reader::getFaceName(int id)
 {
     // Check for definitions first
     for (FaceNew* f0 : session->faces){
-        if(f0->index == id)
+        if(f0->index == id){
             return f0->name;
+        }
     }
 
     for (InstanceNew* i0 : session->instances){
@@ -538,6 +539,18 @@ FaceNew* Reader::getFace(std::string name)
 bool Reader::deleteFace(FaceNew * searchFace){
     for (InstanceNew* i0 : session->instances){
         i0->faces.remove(searchFace);
+    }
+    for (EdgeNew* e : searchFace->edges){
+        if (e->f0 == searchFace){
+            e->f0 = NULL;
+            e->f0 = e->f1;
+            e->f1 = NULL;
+        } else if (e->f1 == searchFace){
+            e->f1 = NULL;
+        }
+    }
+    for (Vert* v : searchFace->verts){
+        v->faces.remove(searchFace);
     }
     return false;
 }

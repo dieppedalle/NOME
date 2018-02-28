@@ -9,6 +9,7 @@
 
 #include "nomeglwidget.h"
 #include "newNOME/ConsolidateWindow.h"
+#include "newNOME/GroupWindow.h"
 #include "newNOME/Reader.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
@@ -52,6 +53,10 @@ void SlideGLWidget::generalSetup()
     object2world = mat4(1);
     foreColor = QColor(255,0,0);
     backColor = QColor(0,0,0);
+    outsideColor = QColor(255,0,0);
+    insideColor = QColor(0,0,255);
+    currSession->outsideColor = outsideColor;
+    currSession->insideColor = insideColor;
     tempColor = QColor(255, 255, 0);
     whole_border = true;
     errorMsg = new QMessageBox();
@@ -784,6 +789,31 @@ void SlideGLWidget::setBackColor(QColor color)
     backColor = color;
     repaint();
 }
+
+void SlideGLWidget::setInsideColor(QColor color)
+{
+    insideColor = color;
+    currSession->recalculateOffset = true;
+    currSession->insideColor = insideColor;
+    repaint();
+}
+
+void SlideGLWidget::setOffsetColor(QColor color)
+{
+    offsetColor = color;
+    currSession->recalculateOffset = true;
+    currSession->offsetColor = offsetColor;
+    repaint();
+}
+
+void SlideGLWidget::setOutsideColor(QColor color)
+{
+    outsideColor = color;
+    currSession->recalculateOffset = true;
+    currSession->outsideColor = outsideColor;
+    repaint();
+}
+
 void SlideGLWidget::vertexModeChecked(bool checked)
 {
     if(checked)
@@ -835,7 +865,7 @@ void SlideGLWidget::wholeBorderSelectionChecked(bool checked)
 
 void SlideGLWidget::addToPolylineCalled(bool)
 {
-    if (currSession->tmpPolyline != NULL || currSession->tmpMesh != NULL){
+    /*if (currSession->tmpPolyline != NULL || currSession->tmpMesh != NULL){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Add Polyline");
         msgBox.setText("Are you sure you want to overwrite the faces or polyline and create a new polyline?");
@@ -854,9 +884,9 @@ void SlideGLWidget::addToPolylineCalled(bool)
         currSession->tmpPolyline = NULL;
         currSession->tmpInstance =  NULL;
         currSession->addTmpPolyline();
-    }
+    }*/
 
-    //currSession->addTmpPolyline();
+    currSession->addTmpPolyline();
 
     repaint();
 }
@@ -866,9 +896,26 @@ void SlideGLWidget::undoFaceCalled(bool){
     repaint();
 }
 
+void SlideGLWidget::groupFacesMsg(bool)
+{
+    if (consolidateMeshName.length() == 0){
+        std::cout << "Enter a mesh name." << std::endl;
+    }
+    else if (consolidateInstanceName.length() == 0){
+        std::cout << "Enter an instance name." << std::endl;
+    }
+    else{
+        currSession->groupFaces(consolidateInstanceName, consolidateMeshName);
+
+        groupWindow->window->close();
+    }
+
+    repaint();
+}
+
 void SlideGLWidget::addToTempCalled(bool)
 {
-    if (currSession->tmpPolyline != NULL){
+    /*if (currSession->tmpPolyline != NULL){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Add Polygon");
         msgBox.setText("Are you sure you want to overwrite the polyline and create a new face?");
@@ -884,8 +931,8 @@ void SlideGLWidget::addToTempCalled(bool)
     }
     else{
         currSession->addTmpFace();
-    }
-    //currSession->addTmpFace();
+    }*/
+    currSession->addTmpFace();
 
     repaint();
 }
@@ -910,6 +957,10 @@ void SlideGLWidget::zipToTempCalled(bool)
 
 void SlideGLWidget::popUpConsolidateWindow(bool){
     conWindow = new ConsolidateWindow(this);
+}
+
+void SlideGLWidget::popUpGroupWindow(bool){
+    groupWindow = new GroupWindow(this);
 }
 
 

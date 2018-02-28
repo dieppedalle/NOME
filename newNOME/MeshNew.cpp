@@ -8,6 +8,7 @@
 
 #include "MeshNew.h"
 #include "Data.h"
+#include "Session.h"
 
 static int mIndex = 0;
 
@@ -217,8 +218,38 @@ double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
     return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
-bool MeshNew::draw(double offset, bool computeOffset)
+bool MeshNew::draw(double offset, bool computeOffset, QColor outsideColor, QColor insideColor, QColor offsetColor, Session* currSession)
 {
+    double *rIn = (double*) malloc(sizeof(double));
+    double *gIn = (double*) malloc(sizeof(double));
+    double *bIn = (double*) malloc(sizeof(double));
+    *rIn = currSession->insideColor.red() / 255.0;
+    *gIn = currSession->insideColor.green() / 255.0;
+    *bIn = currSession->insideColor.blue() / 255.0;
+
+    double *rOut = (double*) malloc(sizeof(double));
+    double *gOut = (double*) malloc(sizeof(double));
+    double *bOut = (double*) malloc(sizeof(double));
+    *rOut = currSession->outsideColor.red() / 255.0;
+    *gOut = currSession->outsideColor.green() / 255.0;
+    *bOut = currSession->outsideColor.blue() / 255.0;
+
+    double *rOffset = (double*) malloc(sizeof(double));
+    double *gOffset = (double*) malloc(sizeof(double));
+    double *bOffset = (double*) malloc(sizeof(double));
+    *rOffset = currSession->offsetColor.red() / 255.0;
+    *gOffset = currSession->offsetColor.green() / 255.0;
+    *bOffset = currSession->offsetColor.blue() / 255.0;
+
+    Surface* inSurf = createSurface(rIn, gIn, bIn, "inSurf");
+    Surface* outSurf = createSurface(rOut, gOut, bOut, "outSurf");
+    Surface* offsetSurf = createSurface(rOffset, gOffset, bOffset, "offsetSurf");
+
+    if (offset == 0){
+        for (Vert* currVert : this->verts){
+            drawNormal(currVert, NULL);
+        }
+    }
     if (computeOffset == false){
         if (offset == 0){
             for (FaceNew* f0: faces){
@@ -240,13 +271,13 @@ bool MeshNew::draw(double offset, bool computeOffset)
         std::list<Vert*> listInVert;
         Vert* lastVertSeen;
 
-        double *r = (double*) malloc(sizeof(double));
+        /*double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
         double *b = (double*) malloc(sizeof(double));
         *r = 1.0;
         *g = 0.64;
         *b = 0.0;
-        Surface* s = createSurface(r, g, b, "orange");
+        Surface* s = createSurface(r, g, b, "orange");*/
 
         for(FaceNew* f : faces) {
             listOutVert.clear();
@@ -288,13 +319,15 @@ bool MeshNew::draw(double offset, bool computeOffset)
                 FaceNew* newInFace = createOffsetFace(listInVert);
                 inFaces.push_back(newInFace);
 
-                double *r = (double*) malloc(sizeof(double));
+                /*double *r = (double*) malloc(sizeof(double));
                 double *g = (double*) malloc(sizeof(double));
                 double *b = (double*) malloc(sizeof(double));
                 *r = 0.0;
                 *g = 0.0;
-                *b = 1.0;
-                newInFace->surface = createSurface(r, g, b, "HELLO");
+                *b = 1.0;*/
+                //newInFace->surface = createSurface(r, g, b, "HELLO");
+                newInFace->surface = inSurf;
+                newFace->surface = outSurf;
                 drawFace(newFace, NULL);
                 drawFace(newInFace, NULL);
 
@@ -384,7 +417,7 @@ bool MeshNew::draw(double offset, bool computeOffset)
 
                         }
                         FaceNew* testFace = createOffsetFace(listEdgeVert);
-                        testFace->surface = s;
+                        testFace->surface = offsetSurf;
                         outFaces.push_back(testFace);
 
                         drawFace(testFace, NULL);
@@ -399,6 +432,9 @@ bool MeshNew::draw(double offset, bool computeOffset)
             }
 
         }
+
+
+
     }
 
 
@@ -565,6 +601,7 @@ void MeshNew::calculateNormal(){
                 normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
                 normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
                 normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+
                 firstVertsOrder[1] -> normal[0] += normalVector[0];
                 firstVertsOrder[1] -> normal[1] += normalVector[1];
                 firstVertsOrder[1] -> normal[2] += normalVector[2];
@@ -590,11 +627,18 @@ void MeshNew::calculateNormal(){
     }
     //std::cout << "========" << std::endl;
     for (Vert* currVert : this->verts){
-        //std::cout << currVert->faces.size() << std::endl;
         double magnitude = sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]);
-        currVert->normal[0] = currVert->normal[0] / magnitude;
-        currVert->normal[1] = currVert->normal[1] / magnitude;
-        currVert->normal[2] = currVert->normal[2] / magnitude;
+        if (magnitude == 0){
+            currVert->normal[0] = 0.0;
+            currVert->normal[1] = 0.0;
+            currVert->normal[2] = 0.0;
+        } else{
+            currVert->normal[0] = currVert->normal[0] / magnitude;
+            currVert->normal[1] = currVert->normal[1] / magnitude;
+            currVert->normal[2] = currVert->normal[2] / magnitude;
+        }
+
+        //std::cout << sqrt(currVert->normal[0] * currVert->normal[0] + currVert->normal[1] * currVert->normal[1] + currVert->normal[2] * currVert->normal[2]) << std::endl;
     }
 
     /*for (Vert* currVert : this->verts){

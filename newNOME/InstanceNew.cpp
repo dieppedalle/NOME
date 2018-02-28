@@ -45,6 +45,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
+           newInstance->surface = instanceNest->surface;
            i0->listInstances.push_back(newInstance);
        }
    }
@@ -59,15 +60,9 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    i0->verts = {};
    i0->currSession = currSession;
 
+   //std::cout << m0->verts.size() << std::endl;
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
-       //GAUTHIER ADDED THAT ON 1/29
-       //std::cout << currReader->getVert(v0->index) << std::endl;
-       //std::cout << (std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end()) << std::endl;
-       //std::cout << dynamic_cast<FunnelNew*>(m0) << std::endl;
-       //std::cout << doNotCreateVertices << std::endl;
-       //std::cout << dynamic_cast<TunnelNew*>(m0) << std::endl;
-       //std::cout << (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) || doNotCreateVertices == false)) << std::endl;
        if (onlyCreateNewVertices == true){
            Vert* newVertex = createVert(v0);
            newVertex->name = v0->name;
@@ -85,7 +80,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            i0->verts.push_back(newVertex);
        }
        else{
-           //std::cout << "USING VERTEX" << std::endl;
            v0->copyOfVert = v0;
            i0->verts.push_back(v0);
        }
@@ -93,19 +87,25 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
    // Copy all the edges from the mesh to the instance.
    for (EdgeNew* e0 : m0->edges){
+       //std::cout << "e0->v0->index" << std::endl;
+       //std::cout << e0->v0->name << std::endl;
+       //std::cout << e0->v1->name << std::endl;
        Vert* firstVert = NULL;
        Vert* secondVert = NULL;
 
        // Check if vertex is a vertex already in the scene.
        for (Vert* v0 : i0->verts){
-           if(v0->index == e0->v0->index)
+           if(v0->index == e0->v0->index){
                firstVert = v0;
+           }
        }
 
        // Otherwise it must be a vertex definition which has a unique name.
        if (!firstVert){
            for (Vert* v0 : i0->verts){
-               if(v0->name.compare(e0->v0->name) == 0){
+               if (v0->copyOfVert->index == e0->v0->index){
+               //if(v0->name.compare(e0->v0->name) == 0){
+                   //std::cout << "ALREADY" << std::endl;
                    firstVert = v0;
                }
            }
@@ -119,7 +119,8 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
 
        if (!secondVert){
            for (Vert* v1 : i0->verts){
-               if(v1->name.compare(e0->v1->name) == 0){
+               if (v1->copyOfVert->index == e0->v1->index){
+               //if(v1->name.compare(e0->v1->name) == 0){
                    secondVert = v1;
                }
            }
@@ -149,7 +150,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
        }
 
        if (newEdge == NULL){
-            //std::cout << "NEW EDGE" << std::endl;
             newEdge = createEdge(firstVert, secondVert, connect);
             setSurface(newEdge, m0->surface);
             i0->edges.push_back(newEdge);
@@ -177,6 +177,7 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            //std::cout << firstVert->name << std::endl;
            vertFace.push_back(firstVert);
        }
+
        FaceNew* newFace = createFace(vertFace, &(i0->edges), currReader, connect);
 
        setName(newFace, f0->name);
@@ -208,7 +209,6 @@ bool InstanceNew::updateNames()
 
 bool InstanceNew::draw()
 {
-    //std::cout << this->name << std::endl;
     for(auto v : verts) {
       drawVert(v, surface);
     }
@@ -231,7 +231,7 @@ bool InstanceNew::draw()
 
 void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
 {
-    for(Vert* v : verts) {
+    /*for(Vert* v : verts) {
       bool contains = false;
       for (Vert* vf : flattenedMesh->verts){
           if (v->index == vf->index){
@@ -240,10 +240,11 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
           }
       }
       if (!contains){
-          flattenedMesh->verts.push_back(v);
+          flattenedMesh->verts.push_back(createDupVert(v));
       }
-    }
-    for(EdgeNew* e : edges) {
+    }*/
+
+    /*for(EdgeNew* e : edges) {
         bool contains = false;
         for (EdgeNew* ef : flattenedMesh->edges){
             if (e->index == ef->index){
@@ -259,12 +260,47 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
                     }
                 }
             } else{
-                flattenedMesh->edges.push_back(e);
+                flattenedMesh->edges.push_back(createDupEdge(e));
             }
 
         }
-    }
+    }*/
+
     for(FaceNew* f : faces) {
+        for(Vert* v : f->verts) {
+          bool contains = false;
+          for (Vert* vf : flattenedMesh->verts){
+              if (v->index == vf->index){
+                  contains = true;
+                  break;
+              }
+          }
+          if (!contains){
+              flattenedMesh->verts.push_back(createDupVert(v));
+          }
+        }
+
+        for(EdgeNew* e : edges) {
+            bool contains = false;
+            for (EdgeNew* ef : flattenedMesh->edges){
+                if (e->index == ef->index){
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains){
+                if (e->f0 == NULL && e->f1 == NULL){
+                    for (Vert* v : flattenedMesh->verts){
+                        if ((v->index == e->v0->index) || (v->index == e->v1->index)){
+                            v->edges.remove(e);
+                        }
+                    }
+                } else{
+                    flattenedMesh->edges.push_back(createDupEdge(e));
+                }
+            }
+        }
+
         bool contains = false;
         for (FaceNew* ff : flattenedMesh->faces){
             if (f->index == ff->index){
@@ -273,8 +309,95 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
             }
         }
         if (!contains){
-            flattenedMesh->faces.push_back(f);
+            flattenedMesh->faces.push_back(createDupFace(f));
         }
+    }
+    list<EdgeNew*> newListEdges = list<EdgeNew*>();
+    list<FaceNew*> newListFaces = list<FaceNew*>();
+    for (Vert* v0 : flattenedMesh->verts){
+        for (EdgeNew* oldEdge : v0->edges){
+            for (EdgeNew* newEdge : flattenedMesh->edges){
+                if (oldEdge->index == newEdge->index){
+                    newListEdges.push_back(newEdge);
+                    break;
+                }
+            }
+        }
+
+        for (FaceNew* oldFace : v0->faces){
+            for (FaceNew* newFace : flattenedMesh->faces){
+                if (oldFace->index == newFace->index){
+                    newListFaces.push_back(newFace);
+                    break;
+                }
+            }
+        }
+        v0->edges = newListEdges;
+        v0->faces = newListFaces;
+
+        newListEdges.clear();
+        newListFaces.clear();
+    }
+
+    for (EdgeNew* e0 : flattenedMesh->edges){
+        for (Vert* newVert : flattenedMesh->verts){
+            if (e0->v0->index == newVert->index){
+                e0->v0 = newVert;
+                break;
+            }
+        }
+
+        for (Vert* newVert : flattenedMesh->verts){
+            if (e0->v1->index == newVert->index){
+                e0->v1 = newVert;
+                break;
+            }
+        }
+
+        if (e0->f0 != NULL){
+            for (FaceNew* newFace : flattenedMesh->faces){
+                if (e0->f0->index == newFace->index){
+                    e0->f0 = newFace;
+                    break;
+                }
+            }
+        }
+
+        if (e0->f1 != NULL){
+            for (FaceNew* newFace : flattenedMesh->faces){
+                if (e0->f1->index == newFace->index){
+                    e0->f1 = newFace;
+                    break;
+                }
+            }
+        }
+    }
+
+    list<EdgeNew*> newListEdgesF = list<EdgeNew*>();
+    list<Vert*> newListVertsF = list<Vert*>();
+    for (FaceNew* f0 : flattenedMesh->faces){
+        for (EdgeNew* oldEdge : f0->edges){
+            for (EdgeNew* newEdge : flattenedMesh->edges){
+                if (oldEdge->index == newEdge->index){
+                    newListEdgesF.push_back(newEdge);
+                    break;
+                }
+            }
+        }
+
+        for (Vert* oldVert : f0->verts){
+            for (Vert* newVert : flattenedMesh->verts){
+                if (oldVert->index == newVert->index){
+                    newListVertsF.push_back(newVert);
+                    break;
+                }
+            }
+        }
+        f0->edges = newListEdgesF;
+        f0->verts = newListVertsF;
+
+        newListEdgesF.clear();
+        newListVertsF.clear();
     }
 
     for (InstanceNew* i : listInstances) {

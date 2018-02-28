@@ -11,6 +11,7 @@
 #include "Data.h"
 
 typedef int MeshI;
+class PolylineNew;
 
 ///Mesh class, formed by faces, primarily quad faces, valence four vertices
 typedef class MeshNew : public Node
@@ -27,6 +28,7 @@ public:
     std::list<FaceNew*> faces;
     std::list<FaceNew*> facesSubdivide;
 
+    std::list<PolylineNew*> polylines;
 
     std::list<FaceNew*> inFaces;
     std::list<FaceNew*> outFaces;
@@ -46,7 +48,7 @@ public:
     bool deleteFace(FaceNew*);
 
     bool drawFaces();
-    bool draw(double offset, bool computeOffset);
+    bool draw(double offset, bool computeOffset, QColor outsideColor, QColor insideColor, QColor offsetColor, Session* currSession);
     MeshNew* subdivideMesh();
     Surface * surface;
 
