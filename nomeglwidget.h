@@ -82,6 +82,10 @@ public:
      * @param color, the color to be set.
      */
     void setBackColor(QColor color);
+
+    void setOutsideColor(QColor color);
+    void setInsideColor(QColor color);
+    void setOffsetColor(QColor color);
     /* The master mesh. As a result of SIF parser. */
     Mesh master_mesh;
     /* The mesh that contains temporary added meshes.*/
@@ -197,6 +201,9 @@ public:
      * The background color.
      */
     QColor backColor;
+    QColor outsideColor;
+    QColor insideColor;
+    QColor offsetColor;
     /*
      * The temp mesh color.
      */

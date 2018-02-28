@@ -808,7 +808,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
 
         subdivisionLevel = subdivision;
     }
-    flattenMesh->draw(offset, (computeOffset || calculateOffset));
+    flattenMesh->draw(offset, (computeOffset || calculateOffset), outsideColor, insideColor, offsetColor, this);
 
     /*for (Vert* hello : flattenMesh->verts){
         drawVert(hello->vertPoint, NULL);

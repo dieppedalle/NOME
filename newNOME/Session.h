@@ -65,6 +65,11 @@ public:
     PolylineNew* tmpPolyline;
     InstanceNew* tmpInstance;
 
+    QColor foreColor = QColor(255, 0, 0);
+    QColor outsideColor = QColor(255, 0, 0);
+    QColor insideColor = QColor(0, 0, 255);
+    QColor offsetColor = QColor(255, 163, 0);
+
     //Naming functions
     bool setName(std::string n);
     std::string getName();

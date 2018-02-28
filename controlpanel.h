@@ -92,9 +92,18 @@ private:
     QLabel *currentOffsetValueLabel;
     QHBoxLayout *foreColorLayout;
     QHBoxLayout *backColorLayout;
+    QHBoxLayout *outsideFacesColorLayout;
+    QHBoxLayout *insideFacesColorLayout;
+    QHBoxLayout *offsetFacesColorLayout;
     QPushButton *foreColorButton;
     QWidget *foreColorBox;
     QPushButton *backColorButton;
+    QPushButton *outsideFacesColorButton;
+    QWidget *outsideFacesColorBox;
+    QPushButton *insideFacesColorButton;
+    QWidget *insideFacesColorBox;
+    QPushButton *offsetFacesColorButton;
+    QWidget *offsetFacesColorBox;
     QWidget *backColorBox;
     float minOffset;
     float maxOffset;
@@ -115,6 +124,9 @@ public slots:
     void offSetSliderMoved();
     void resetForeColor(bool);
     void resetBackColor(bool);
+    void resetInsideFacesColor(bool);
+    void resetOutsideFacesColor(bool);
+    void resetOffsetFacesColor(bool);
     void vertexModeChecked(bool);
     void borderModeChecked(bool);
     void faceModeChecked(bool);

@@ -53,6 +53,10 @@ void SlideGLWidget::generalSetup()
     object2world = mat4(1);
     foreColor = QColor(255,0,0);
     backColor = QColor(0,0,0);
+    outsideColor = QColor(255,0,0);
+    insideColor = QColor(0,0,255);
+    currSession->outsideColor = outsideColor;
+    currSession->insideColor = insideColor;
     tempColor = QColor(255, 255, 0);
     whole_border = true;
     errorMsg = new QMessageBox();
@@ -785,6 +789,31 @@ void SlideGLWidget::setBackColor(QColor color)
     backColor = color;
     repaint();
 }
+
+void SlideGLWidget::setInsideColor(QColor color)
+{
+    insideColor = color;
+    currSession->recalculateOffset = true;
+    currSession->insideColor = insideColor;
+    repaint();
+}
+
+void SlideGLWidget::setOffsetColor(QColor color)
+{
+    offsetColor = color;
+    currSession->recalculateOffset = true;
+    currSession->offsetColor = offsetColor;
+    repaint();
+}
+
+void SlideGLWidget::setOutsideColor(QColor color)
+{
+    outsideColor = color;
+    currSession->recalculateOffset = true;
+    currSession->outsideColor = outsideColor;
+    repaint();
+}
+
 void SlideGLWidget::vertexModeChecked(bool checked)
 {
     if(checked)
