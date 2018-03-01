@@ -10,11 +10,13 @@ int bankcolumn = 0;
     banklloc.first_column = bankcolumn; banklloc.last_column = bankcolumn + bankleng - 1; \
     bankcolumn += bankleng;
 
+static int isatty(int) {return 0;}
 %}
 
 %option prefix="bank"
 %option noyywrap
 
+%option nounistd
 %option yylineno
 %x MULTI_COMMENT
 

@@ -11,11 +11,13 @@ int numBegComments = 0;
     nomlloc.first_column = nomcolumn; nomlloc.last_column = nomcolumn + nomleng - 1; \
     nomcolumn += nomleng;
 
+static int isatty(int) {return 0;}
 %}
 
 %option prefix="nom"
 %option noyywrap
 
+%option nounistd
 %option yylineno
 %x MULTI_COMMENT
 

@@ -11,11 +11,13 @@ int objcolumn = 0;
     objlloc.first_column = objcolumn; objlloc.last_column = objcolumn + objleng - 1; \
     objcolumn += objleng;
 
+static int isatty(int) {return 0;}
 %}
 
 %option prefix="obj"
 %option noyywrap
 
+%option nounistd
 %option yylineno
 %x MULTI_COMMENT
 

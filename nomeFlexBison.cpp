@@ -1,7 +1,7 @@
 // Wrapper class over the NOME parser.
 
 #include "newNOME/Session.h"
-#include "compilerNome\parser.hpp"
+#include "compilerNome/parser.hpp"
 
 using namespace std;
 

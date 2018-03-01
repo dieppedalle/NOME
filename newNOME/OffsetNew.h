@@ -2,8 +2,7 @@
 //  SubdivisionNew.h
 //
 
-#ifndef Offset_h
-#define OffsetNew_h
+#pragma once
 
 #include <stdio.h>
 #include <list>
@@ -22,5 +21,3 @@ public:
 
 //Instantiation
 OffsetNew* createOffset(std::string name, double *  min, double *  max, double *  step);
-
-#endif /* OffsetNew_h */

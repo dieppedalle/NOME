@@ -2,8 +2,7 @@
 //  SubdivisionNew.h
 //
 
-#ifndef Subdivision_h
-#define SubdivisionNew_h
+#pragma once
 
 #include <stdio.h>
 #include <list>
@@ -22,5 +21,3 @@ public:
 
 //Instantiation
 SubdivisionNew* createSubdivision(std::string name, std::string type, double * subdivisions);
-
-#endif /* SubdivisionNew_h */

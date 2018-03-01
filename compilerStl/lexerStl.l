@@ -9,11 +9,13 @@ int stlcolumn = 0;
     stllloc.first_column = stlcolumn; stllloc.last_column = stlcolumn + stlleng - 1; \
     stlcolumn += stlleng;
 
+static int isatty(int) {return 0;}
 %}
 
 %option prefix="stl"
 %option noyywrap
 
+%option nounistd
 %option yylineno
 %x MULTI_COMMENT
 

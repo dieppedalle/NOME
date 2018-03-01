@@ -206,7 +206,7 @@ void SlideGLWidget::mouse_select(int x, int y)
     gluPickMatrix(x, view[3] - y, 1.0, 1.0, view);
     gluPerspective(45, (float) this -> width() / this -> height(), 0.1, 100);
     glMatrixMode(GL_MODELVIEW);
-    repaint();
+    paintGLImpl();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     hits = glRenderMode(GL_RENDER);
@@ -349,6 +349,11 @@ void SlideGLWidget::draw_scene()
 }
 
 void SlideGLWidget::paintGL()
+{
+    paintGLImpl();
+}
+
+void SlideGLWidget::paintGLImpl()
 {
     glClearColor(1.0f * backColor.red() / 255,
                  1.0f * backColor.green() / 255,
@@ -541,7 +546,6 @@ void SlideGLWidget::paintGL()
     currSession->recalculateSubdivision = false;
     currSession->recalculateSlider = false;
 }
-
 
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)
 {

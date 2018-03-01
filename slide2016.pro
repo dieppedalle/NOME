@@ -140,12 +140,12 @@ linux{
 }
 
 mac{
-    INCLUDEPATH = /usr/local/include
+    INCLUDEPATH += /usr/local/include
     LIBS += -framework GLUT -framework OpenGL
 }
 
 win32{
     LIBS += -lopengl32 -lglu32 -lglut32
-    INCLUDEPATH = $$PWD/../include
+    INCLUDEPATH += $$PWD/../include
     RC_ICONS += nomeIcon.ico
 }

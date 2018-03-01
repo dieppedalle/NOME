@@ -23,7 +23,7 @@ extern char* stltext;
 extern int stlcolumn;
 
 int stllex(void);
-int stlerror(Session* currSession, const char *s) {
+void stlerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, stllineno, stltext);
 }
 

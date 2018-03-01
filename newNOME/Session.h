@@ -21,7 +21,7 @@
 #include "SubdivisionNew.h"
 #include "OffsetNew.h"
 
-typedef struct Session
+class Session
 {
 private:
     int accesses;
@@ -95,7 +95,7 @@ public:
 private:
     QPushButton * consolidateButton;
 
-} Session;
+};
 
 //Instantiation
 Session* createSession();

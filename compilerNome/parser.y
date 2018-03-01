@@ -4,7 +4,6 @@
 }
 
 %{
-#include <FlexLexer.h>
 #include <stdio.h>
 #include <string.h>
 #include <list>
@@ -26,7 +25,7 @@ extern char* nomtext;
 extern int nomcolumn;
 
 int nomlex(void);
-int nomerror(Session* currSession, const char *s) {
+void nomerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, nomlineno, nomtext);
 }
 

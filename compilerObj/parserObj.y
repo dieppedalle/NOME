@@ -23,7 +23,7 @@ extern char* objtext;
 extern int objcolumn;
 
 int objlex(void);
-int objerror(Session* currSession, const char *s) {
+void objerror(Session* currSession, const char *s) {
   printf("%s on line %d - %s\n", s, objlineno, objtext);
 }
 
