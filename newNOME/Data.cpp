@@ -11,7 +11,11 @@
 #include "Reader.h"
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/glm.hpp>
+#ifdef __APPLE__
+#include <OpenGL/glu.h>
+#else
 #include <gl/glu.h>
+#endif
 
 #include <math.h>
 #define PI 3.14159265
