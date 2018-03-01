@@ -1,0 +1,11 @@
+set(MODULE_NAME Math)
+
+file(GLOB URHO3DMATH_PRIVATE_SOURCES *.cpp)
+file(GLOB URHO3DMATH_PUBLIC_SOURCES *.h)
+
+add_library(${MODULE_NAME} STATIC ${URHO3DMATH_PRIVATE_SOURCES} ${URHO3DMATH_PUBLIC_SOURCES})
+if(WIN32)
+    target_compile_definitions(${MODULE_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
+target_include_directories(${MODULE_NAME} PUBLIC .)
+target_compile_definitions(${MODULE_NAME} PUBLIC TC_USE_SSE)

@@ -10,6 +10,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
+add_subdirectory(Math)
+
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -141,9 +143,12 @@ set(HEADERS
     compilerObj/parserObj.hpp
     compilerBank/parserBank.hpp
     newNOME/GroupWindow.h
+    newNOME/Octree.h
 )
 
 add_executable(Nome ${SOURCES} ${HEADERS})
+
+target_link_libraries(Nome PRIVATE Math)
 
 target_link_libraries(Nome PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets Qt5::OpenGL)
 
