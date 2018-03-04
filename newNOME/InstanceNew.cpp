@@ -71,6 +71,9 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            newVertex->copyOfVert = v0;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
+
+           newVertex->initOctreeProxy();
+           newVertex->updateOctreeProxy();
        }
        else if (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false)){
            Vert* newVertex = createVert(v0);
@@ -78,6 +81,9 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            newVertex->copyOfVert = v0;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
+
+           newVertex->initOctreeProxy();
+           newVertex->updateOctreeProxy();
        }
        else{
            v0->copyOfVert = v0;
@@ -508,10 +514,7 @@ void InstanceNew::updateVerts(){
             v0->yTransformed = y;
             v0->zTransformed = z;*/
 
-            *(v0->xTransformed) = *(v0->x);
-            *(v0->yTransformed) = *(v0->y);
-            *(v0->zTransformed) = *(v0->z);
-
+            v0->setWorldPos(*v0->x, *v0->y, *v0->z);
         }
     }
     else if (group != NULL){
@@ -529,9 +532,7 @@ void InstanceNew::updateVerts(){
                 v0->yTransformed = y;
                 v0->zTransformed = z;*/
 
-                *(v0->xTransformed) = *(v0->x);
-                *(v0->yTransformed) = *(v0->y);
-                *(v0->zTransformed) = *(v0->z);
+                v0->setWorldPos(*v0->x, *v0->y, *v0->z);
             }
         }
     }
@@ -553,9 +554,7 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             Rotate* rotate = dynamic_cast<Rotate*>(t);
             for (Vert* v0 : verts){
                 // https://en.wikipedia.org/wiki/Rotation_matrix#Non-standard_orientation_of_the_coordinate_system
-                double *x = (double*) malloc(sizeof(double));
-                double *y = (double*) malloc(sizeof(double));
-                double *z = (double*) malloc(sizeof(double));
+                double x, y, z;
 
                 double normalizeLength = sqrt(((*rotate->x) * (*rotate->x)) + ((*rotate->y) * (*rotate->y)) + ((*rotate->z) * (*rotate->z)));
                 double normalizeX = (*rotate->x) / normalizeLength;
@@ -573,9 +572,9 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 double z1 = normalizeZ * normalizeX * (1 - glm::cos(radAngle)) - normalizeY * glm::sin(radAngle);
                 double z2 = normalizeZ * normalizeY * (1 - glm::cos(radAngle)) + normalizeX * glm::sin(radAngle);
                 double z3 = glm::cos(radAngle) + normalizeZ * normalizeZ * (1 - glm::cos(radAngle));
-                *x = *v0->xTransformed * x1 + *v0->yTransformed * x2 + *v0->zTransformed * x3;
-                *y = *v0->xTransformed * y1 + *v0->yTransformed * y2 + *v0->zTransformed * y3;
-                *z = *v0->xTransformed * z1 + *v0->yTransformed * z2 + *v0->zTransformed * z3;
+                x = v0->xTransformed * x1 + v0->yTransformed * x2 + v0->zTransformed * x3;
+                y = v0->xTransformed * y1 + v0->yTransformed * y2 + v0->zTransformed * y3;
+                z = v0->xTransformed * z1 + v0->yTransformed * z2 + v0->zTransformed * z3;
                 /*
                 // Rotation around an axis
                 // http://ksuweb.kennesaw.edu/~plaval//math4490/rotgen.pdf
@@ -607,10 +606,7 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 /*v0->xTransformed = x;
                 v0->yTransformed = y;
                 v0->zTransformed = z;*/
-                *v0->xTransformed = *x;
-                *v0->yTransformed = *y;
-                *v0->zTransformed = *z;
-
+                v0->setWorldPos(x, y, z);
             }
         }
         else if (dynamic_cast<Scale*>(t)){
@@ -627,9 +623,10 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 v0->yTransformed = y;
                 v0->zTransformed = z;*/
 
-                *v0->xTransformed = *v0->xTransformed * *scale->x;
-                *v0->yTransformed = *v0->yTransformed * *scale->y;
-                *v0->zTransformed = *v0->zTransformed * *scale->z;
+                double x = v0->xTransformed * *scale->x;
+                double y = v0->yTransformed * *scale->y;
+                double z = v0->zTransformed * *scale->z;
+                v0->setWorldPos(x, y, z);
             }
         }
         else if (dynamic_cast<Translate*>(t)){
@@ -647,10 +644,10 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 v0->yTransformed = y;
                 v0->zTransformed = z;*/
 
-                *v0->xTransformed = *v0->xTransformed + *translate->x;
-                *v0->yTransformed = *v0->yTransformed + *translate->y;
-                *v0->zTransformed = *v0->zTransformed + *translate->z;
-
+                double x = v0->xTransformed + *translate->x;
+                double y = v0->yTransformed + *translate->y;
+                double z = v0->zTransformed + *translate->z;
+                v0->setWorldPos(x, y, z);
             }
         }
     }

@@ -117,9 +117,7 @@ Vert* createVert(double *x, double *y, double *z, double w)
     *xTr = *x;
     *yTr = *y;
     *zTr = *z;
-    v0->xTransformed = xTr;
-    v0->yTransformed = yTr;
-    v0->zTransformed = zTr;
+    v0->setWorldPos(*xTr, *yTr, *zTr);
 
     v0->normalInVert = NULL;
     v0->normalOutVert = NULL;
@@ -220,18 +218,16 @@ void Vert::updateOutOffsetVertex(double offset){
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
-        *x = *this->xTransformed + this->normal[0] * (offset / 2);
-        *y = *this->yTransformed + this->normal[1] * (offset / 2);
-        *z = *this->zTransformed + this->normal[2] * (offset / 2);
+        *x = this->xTransformed + this->normal[0] * (offset / 2);
+        *y = this->yTransformed + this->normal[1] * (offset / 2);
+        *z = this->zTransformed + this->normal[2] * (offset / 2);
 
         this->normalOutVert = createVert(x, y, z, 1.0);
     } else{
-        *this->normalOutVert->x = *this->xTransformed + this->normal[0] * (offset / 2);
-        *this->normalOutVert->y = *this->yTransformed + this->normal[1] * (offset / 2);
-        *this->normalOutVert->z = *this->zTransformed + this->normal[2] * (offset / 2);
-        *this->normalOutVert->xTransformed = *this->normalOutVert->x;
-        *this->normalOutVert->yTransformed = *this->normalOutVert->y;
-        *this->normalOutVert->zTransformed = *this->normalOutVert->z;
+        *this->normalOutVert->x = this->xTransformed + this->normal[0] * (offset / 2);
+        *this->normalOutVert->y = this->yTransformed + this->normal[1] * (offset / 2);
+        *this->normalOutVert->z = this->zTransformed + this->normal[2] * (offset / 2);
+        this->normalOutVert->setWorldPos(*this->normalOutVert->x, *this->normalOutVert->y, *this->normalOutVert->z);
     }
 
 }
@@ -242,19 +238,17 @@ void Vert::updateInOffsetVertex(double offset){
         double *y = (double*) malloc(sizeof(double));
         double *z = (double*) malloc(sizeof(double));
 
-        *x = *this->xTransformed - this->normal[0] * (offset / 2);
-        *y = *this->yTransformed - this->normal[1] * (offset / 2);
-        *z = *this->zTransformed - this->normal[2] * (offset / 2);
+        *x = this->xTransformed - this->normal[0] * (offset / 2);
+        *y = this->yTransformed - this->normal[1] * (offset / 2);
+        *z = this->zTransformed - this->normal[2] * (offset / 2);
 
         this->normalInVert = createVert(x, y, z, 1.0);
     } else{
-        *this->normalInVert->x = *this->xTransformed - this->normal[0] * (offset / 2);
-        *this->normalInVert->y = *this->yTransformed - this->normal[1] * (offset / 2);
-        *this->normalInVert->z = *this->zTransformed - this->normal[2] * (offset / 2);
+        *this->normalInVert->x = this->xTransformed - this->normal[0] * (offset / 2);
+        *this->normalInVert->y = this->yTransformed - this->normal[1] * (offset / 2);
+        *this->normalInVert->z = this->zTransformed - this->normal[2] * (offset / 2);
 
-        *this->normalInVert->xTransformed = *this->normalInVert->x;
-        *this->normalInVert->yTransformed = *this->normalInVert->y;
-        *this->normalInVert->zTransformed = *this->normalInVert->z;
+        this->normalInVert->setWorldPos(*this->normalInVert->x, *this->normalInVert->y, *this->normalInVert->z);
     }
 }
 
@@ -801,9 +795,9 @@ bool drawVert(Vert* v0, Surface * instSurface){
 
     glLoadName(v0->index);
 
-    float x = *v0->xTransformed;
-    float y = *v0->yTransformed;
-    float z = *v0->zTransformed;
+    float x = v0->xTransformed;
+    float y = v0->yTransformed;
+    float z = v0->zTransformed;
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
         glVertex3f(x + 0.1 / 2, y + 0.1 / 2, z);
@@ -851,22 +845,22 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
     glLoadName(e0->index);
     glBegin(GL_LINE_STRIP);
-        glVertex3f(*e0->v0->xTransformed, *e0->v0->yTransformed, *e0->v0->zTransformed);
-        glVertex3f(*e0->v1->xTransformed, *e0->v1->yTransformed, *e0->v1->zTransformed);
+        glVertex3f(e0->v0->xTransformed, e0->v0->yTransformed, e0->v0->zTransformed);
+        glVertex3f(e0->v1->xTransformed, e0->v1->yTransformed, e0->v1->zTransformed);
     glEnd();
     return true;
 }
 
 double getAngleFromVerts(std::vector<Vert*> vert1){
     std::vector<double> a;
-    a.push_back(*(vert1[0]->xTransformed) - *(vert1[1]->xTransformed));
-    a.push_back(*(vert1[0]->yTransformed) - *(vert1[1]->yTransformed));
-    a.push_back(*(vert1[0]->zTransformed) - *(vert1[1]->zTransformed));
+    a.push_back((vert1[0]->xTransformed) - (vert1[1]->xTransformed));
+    a.push_back((vert1[0]->yTransformed) - (vert1[1]->yTransformed));
+    a.push_back((vert1[0]->zTransformed) - (vert1[1]->zTransformed));
 
     std::vector<double> b;
-    b.push_back(*(vert1[2]->xTransformed) - *(vert1[1]->xTransformed));
-    b.push_back(*(vert1[2]->yTransformed) - *(vert1[1]->yTransformed));
-    b.push_back(*(vert1[2]->zTransformed) - *(vert1[1]->zTransformed));
+    b.push_back((vert1[2]->xTransformed) - (vert1[1]->xTransformed));
+    b.push_back((vert1[2]->yTransformed) - (vert1[1]->yTransformed));
+    b.push_back((vert1[2]->zTransformed) - (vert1[1]->zTransformed));
 
     double dotProduct = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
     double magnitudeA = sqrt(pow(a[0], 2) + pow(a[1], 2) + pow(a[2], 2));
@@ -880,14 +874,14 @@ double getAngleFromVerts(std::vector<Vert*> vert1){
 
 std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1){
     std::vector<double> a;
-    a.push_back((*(vert1[0]->xTransformed) - *(vert1[1]->xTransformed)));
-    a.push_back((*(vert1[0]->yTransformed) - *(vert1[1]->yTransformed)));
-    a.push_back((*(vert1[0]->zTransformed) - *(vert1[1]->zTransformed)));
+    a.push_back(((vert1[0]->xTransformed) - (vert1[1]->xTransformed)));
+    a.push_back(((vert1[0]->yTransformed) - (vert1[1]->yTransformed)));
+    a.push_back(((vert1[0]->zTransformed) - (vert1[1]->zTransformed)));
 
     std::vector<double> b;
-    b.push_back((*(vert1[2]->xTransformed) - *(vert1[1]->xTransformed)));
-    b.push_back((*(vert1[2]->yTransformed) - *(vert1[1]->yTransformed)));
-    b.push_back((*(vert1[2]->zTransformed) - *(vert1[1]->zTransformed)));
+    b.push_back(((vert1[2]->xTransformed) - (vert1[1]->xTransformed)));
+    b.push_back(((vert1[2]->yTransformed) - (vert1[1]->yTransformed)));
+    b.push_back(((vert1[2]->zTransformed) - (vert1[1]->zTransformed)));
 
     double xCross = (b[1]*a[2] - b[2]*a[1]);
     double yCross = (b[2]*a[0] - b[0]*a[2]);
@@ -908,14 +902,14 @@ std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNe
     //std::cout << vert1[0]->index << std::endl;
 
     std::vector<double> a;
-    a.push_back(*(vert1[0]->xTransformed) - *(vert1[1]->xTransformed));
-    a.push_back(*(vert1[0]->yTransformed) - *(vert1[1]->yTransformed));
-    a.push_back(*(vert1[0]->zTransformed) - *(vert1[1]->zTransformed));
+    a.push_back((vert1[0]->xTransformed) - (vert1[1]->xTransformed));
+    a.push_back((vert1[0]->yTransformed) - (vert1[1]->yTransformed));
+    a.push_back((vert1[0]->zTransformed) - (vert1[1]->zTransformed));
 
     std::vector<double> b;
-    b.push_back(*(vert1[2]->xTransformed) - *(vert1[1]->xTransformed));
-    b.push_back(*(vert1[2]->yTransformed) - *(vert1[1]->yTransformed));
-    b.push_back(*(vert1[2]->zTransformed) - *(vert1[1]->zTransformed));
+    b.push_back((vert1[2]->xTransformed) - (vert1[1]->xTransformed));
+    b.push_back((vert1[2]->yTransformed) - (vert1[1]->yTransformed));
+    b.push_back((vert1[2]->zTransformed) - (vert1[1]->zTransformed));
 
     double xCross = (b[1]*a[2] - b[2]*a[1]);
     double yCross = (b[2]*a[0] - b[0]*a[2]);
@@ -970,17 +964,17 @@ bool drawNormal(Vert* v0, Surface * instSurface){
     float radius = 0.15;
     float height = 0.2;
 
-    float x0 = *v0->xTransformed;
-    float y0 = *v0->yTransformed;
-    float z0 = *v0->zTransformed;
+    float x0 = v0->xTransformed;
+    float y0 = v0->yTransformed;
+    float z0 = v0->zTransformed;
 
     float deltax = v0->normal[0] / 2.0;
     float deltay = v0->normal[1] / 2.0;
     float deltaz = v0->normal[2] / 2.0;
 
-    float x1 = *v0->xTransformed + deltax;
-    float y1 = *v0->yTransformed + deltay;
-    float z1 = *v0->zTransformed + deltaz;
+    float x1 = v0->xTransformed + deltax;
+    float y1 = v0->yTransformed + deltay;
+    float z1 = v0->zTransformed + deltaz;
 
 
     glLineWidth(2.5);
@@ -1042,7 +1036,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glBegin(GL_POLYGON);
     glNormal3f(normalVector[0], normalVector[1], normalVector[2]);
     for(auto v0 : f0->verts) {
-      glVertex3f(*v0->xTransformed, *v0->yTransformed, *v0->zTransformed);
+      glVertex3f(v0->xTransformed, v0->yTransformed, v0->zTransformed);
     }
     glEnd();
 
@@ -1052,7 +1046,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glNormal3f(-normalVector[0], -normalVector[1], -normalVector[2]);
     //for(auto v0 : f0->verts) {
     for (std::list<Vert*>::reverse_iterator rit=f0->verts.rbegin(); rit!=f0->verts.rend(); ++rit){
-      glVertex3f(*(*rit)->xTransformed, *(*rit)->yTransformed, *(*rit)->zTransformed);
+      glVertex3f((*rit)->xTransformed, (*rit)->yTransformed, (*rit)->zTransformed);
     }
     glEnd();
 
@@ -1158,14 +1152,14 @@ void EdgeNew::calculateEdgePoint(){
 
     //Check if it is on a border.
     if (this->f1 != NULL){
-        *xEdgePoint = (*this->f0->facePoint->xTransformed + *this->f1->facePoint->xTransformed + *this->v0->xTransformed + *this->v1->xTransformed) / 4.0;
-        *yEdgePoint = (*this->f0->facePoint->yTransformed + *this->f1->facePoint->yTransformed + *this->v0->yTransformed + *this->v1->yTransformed) / 4.0;
-        *zEdgePoint = (*this->f0->facePoint->zTransformed + *this->f1->facePoint->zTransformed + *this->v0->zTransformed + *this->v1->zTransformed) / 4.0;
+        *xEdgePoint = (this->f0->facePoint->xTransformed + this->f1->facePoint->xTransformed + this->v0->xTransformed + this->v1->xTransformed) / 4.0;
+        *yEdgePoint = (this->f0->facePoint->yTransformed + this->f1->facePoint->yTransformed + this->v0->yTransformed + this->v1->yTransformed) / 4.0;
+        *zEdgePoint = (this->f0->facePoint->zTransformed + this->f1->facePoint->zTransformed + this->v0->zTransformed + this->v1->zTransformed) / 4.0;
     }
     else{
-        *xEdgePoint = (*this->v0->xTransformed + *this->v1->xTransformed) / 2.0;
-        *yEdgePoint = (*this->v0->yTransformed + *this->v1->yTransformed) / 2.0;
-        *zEdgePoint = (*this->v0->zTransformed + *this->v1->zTransformed) / 2.0;
+        *xEdgePoint = (this->v0->xTransformed + this->v1->xTransformed) / 2.0;
+        *yEdgePoint = (this->v0->yTransformed + this->v1->yTransformed) / 2.0;
+        *zEdgePoint = (this->v0->zTransformed + this->v1->zTransformed) / 2.0;
     }
 
     this->edgePoint = createVert (xEdgePoint, yEdgePoint, zEdgePoint);
@@ -1182,9 +1176,9 @@ void FaceNew::calculateFacePoint(){
 
 
     for (Vert * currVert : this->verts){
-        *xFacePoint += *currVert->xTransformed;
-        *yFacePoint += *currVert->yTransformed;
-        *zFacePoint += *currVert->zTransformed;
+        *xFacePoint += currVert->xTransformed;
+        *yFacePoint += currVert->yTransformed;
+        *zFacePoint += currVert->zTransformed;
     }
 
     *xFacePoint = *xFacePoint / this->verts.size();
@@ -1196,6 +1190,26 @@ void FaceNew::calculateFacePoint(){
     this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
 }
 
+void Vert::initOctreeProxy()
+{
+    if (!octreeProxy)
+        octreeProxy = new VertOctreeProxy(Session::getSingleton().getOctreeRoot(), this, xTransformed, yTransformed, zTransformed);
+}
+
+void Vert::destroyOctreeProxy()
+{
+    delete octreeProxy;
+}
+
+void Vert::updateOctreeProxy()
+{
+    if (octreeProxy)
+    {
+        printf("Vert %s updated: %f, %f, %f\n", getFullName().c_str(), xTransformed, yTransformed, zTransformed);
+        octreeProxy->updateWorldPosition(xTransformed, yTransformed, zTransformed);
+    }
+}
+
 void Vert::calculateVertPoint(){
     double Rx = 0;
     double Ry = 0;
@@ -1203,9 +1217,9 @@ void Vert::calculateVertPoint(){
 
     double n;
 
-    double Sx = *xTransformed;
-    double Sy = *yTransformed;
-    double Sz = *zTransformed;
+    double Sx = xTransformed;
+    double Sy = yTransformed;
+    double Sz = zTransformed;
 
     double *xVertPoint = (double*) malloc(sizeof(double));
     double *yVertPoint = (double*) malloc(sizeof(double));
@@ -1217,9 +1231,9 @@ void Vert::calculateVertPoint(){
         Rz = 0;
         for (EdgeNew* currEdge : edges){
             if (currEdge->f1 == NULL || currEdge->f0 == NULL){
-                Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
-                Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
-                Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
+                Rx += (currEdge->v0->xTransformed + currEdge->v1->xTransformed) / 2.0;
+                Ry += (currEdge->v0->yTransformed + currEdge->v1->yTransformed) / 2.0;
+                Rz += (currEdge->v0->zTransformed + currEdge->v1->zTransformed) / 2.0;
 
                 n++;
             }
@@ -1243,9 +1257,9 @@ void Vert::calculateVertPoint(){
         double Qz = 0;
         // Q is the average of the surrounding face points
         for (FaceNew* currFace : faces){
-            Qx += *currFace->facePoint->xTransformed;
-            Qy += *currFace->facePoint->yTransformed;
-            Qz += *currFace->facePoint->zTransformed;
+            Qx += currFace->facePoint->xTransformed;
+            Qy += currFace->facePoint->yTransformed;
+            Qz += currFace->facePoint->zTransformed;
         }
 
         Qx = Qx / faces.size();
@@ -1255,9 +1269,9 @@ void Vert::calculateVertPoint(){
         // R is the average of all surround edge midpoints
 
         for (EdgeNew* currEdge : edges){
-            Rx += (*currEdge->v0->xTransformed + *currEdge->v1->xTransformed) / 2.0;
-            Ry += (*currEdge->v0->yTransformed + *currEdge->v1->yTransformed) / 2.0;
-            Rz += (*currEdge->v0->zTransformed + *currEdge->v1->zTransformed) / 2.0;
+            Rx += (currEdge->v0->xTransformed + currEdge->v1->xTransformed) / 2.0;
+            Ry += (currEdge->v0->yTransformed + currEdge->v1->yTransformed) / 2.0;
+            Rz += (currEdge->v0->zTransformed + currEdge->v1->zTransformed) / 2.0;
         }
         Rx = Rx / edges.size();
         Ry = Ry / edges.size();
@@ -1281,6 +1295,14 @@ void Vert::update(){
     *y = *currentValSet;
     parseGetBankVal(zStr.c_str(), this->currSession, currentValSet, 0);
     *z = *currentValSet;
+}
+
+void Vert::setWorldPos(double x, double y, double z)
+{
+    xTransformed = x;
+    yTransformed = y;
+    zTransformed = z;
+    updateOctreeProxy();
 }
 
 void Vert::applyTransformation(TransformationNew * t){
@@ -1310,29 +1332,19 @@ void Vert::applyTransformation(TransformationNew * t){
 
         // Matrix multiplication
         // https://i.ytimg.com/vi/r-WlZLV0E0s/hqdefault.jpg
-        double ax = *this->xTransformed * x1 + *this->yTransformed * x2 + *this->zTransformed * x3;
-        double ay = *this->xTransformed * y1 + *this->yTransformed * y2 + *this->zTransformed * y3;
-        double az = *this->xTransformed * z1 + *this->yTransformed * z2 + *this->zTransformed * z3;
+        double ax = this->xTransformed * x1 + this->yTransformed * x2 + this->zTransformed * x3;
+        double ay = this->xTransformed * y1 + this->yTransformed * y2 + this->zTransformed * y3;
+        double az = this->xTransformed * z1 + this->yTransformed * z2 + this->zTransformed * z3;
 
-        *xTmp = ax;
-        *yTmp = ay;
-        *zTmp = az;
-
-        *this->xTransformed = *xTmp;
-        *this->yTransformed = *yTmp;
-        *this->zTransformed = *zTmp;
+        this->setWorldPos(ax, ay, az);
     } else if (dynamic_cast<Scale*>(t)){
         Scale* scale = dynamic_cast<Scale*>(t);
-
-        *this->xTransformed = *this->xTransformed * *scale->x;
-        *this->yTransformed = *this->yTransformed * *scale->y;
-        *this->zTransformed = *this->zTransformed * *scale->z;
+        this->setWorldPos(this->xTransformed * *scale->x, this->yTransformed * *scale->y, this->zTransformed * *scale->z);
     } else if (dynamic_cast<Translate*>(t)){
         Translate* translate = dynamic_cast<Translate*>(t);
-        *this->xTransformed = *this->xTransformed + *translate->x;
-        *this->yTransformed = *this->yTransformed + *translate->y;
-        *this->zTransformed = *this->zTransformed + *translate->z;
+        this->setWorldPos(this->xTransformed + *translate->x, this->yTransformed + *translate->y, this->zTransformed + *translate->z);
     }
+    updateOctreeProxy();
 }
 
 void Surface::update(){

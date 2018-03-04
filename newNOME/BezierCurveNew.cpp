@@ -16,9 +16,9 @@ Vert* BezierCurveNew::interpolatePoint(double t, Vert* pt1, Vert* pt2){
     double *y = (double*) malloc(sizeof(double));
     double *z = (double*) malloc(sizeof(double));
 
-    *x = *pt1->xTransformed * (1 - t) + *pt2->xTransformed * t;
-    *y = *pt1->yTransformed * (1 - t) + *pt2->yTransformed * t;
-    *z = *pt1->zTransformed * (1 - t) + *pt2->zTransformed * t;
+    *x = pt1->xTransformed * (1 - t) + pt2->xTransformed * t;
+    *y = pt1->yTransformed * (1 - t) + pt2->yTransformed * t;
+    *z = pt1->zTransformed * (1 - t) + pt2->zTransformed * t;
 
     Vert * newVert = createVert(x, y, z);
 

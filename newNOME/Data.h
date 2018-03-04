@@ -5,6 +5,12 @@
 #ifndef Data_h
 #define Data_h
 
+#include "IO.h"
+#include "Node.h"
+#include "TransformationNew.h"
+#include "Octree.h"
+#include "OctreeProxy.h"
+
 #include <stdio.h>
 #include <list>
 #include <vector>
@@ -16,10 +22,6 @@
 #include <QtOpenGL>
 #include <set>
 #include <unordered_set>
-
-#include "IO.h"
-#include "Node.h"
-#include "TransformationNew.h"
 
 class Reader;
 class MeshNew;
@@ -69,9 +71,9 @@ public:
     double *x;
     double *y;
     double *z;
-    double *xTransformed;
-    double *yTransformed;
-    double *zTransformed;
+    double xTransformed;
+    double yTransformed;
+    double zTransformed;
     double weight;
     bool selected;
 
@@ -88,6 +90,17 @@ public:
     Session* currSession;
     Vert* copyOfVert;
 
+    VertOctreeProxy* octreeProxy = nullptr;
+
+    ~Vert()
+    {
+        destroyOctreeProxy();
+    }
+
+    void initOctreeProxy();
+    void destroyOctreeProxy();
+    void updateOctreeProxy();
+
     // Used for subdivision
     Vert* vertPoint;
     void calculateVertPoint();
@@ -98,6 +111,8 @@ public:
     void applyTransformation(TransformationNew * t);
 
     void update();
+
+    void setWorldPos(double x, double y, double z);
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links

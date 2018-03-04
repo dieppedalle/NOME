@@ -20,12 +20,11 @@
 #include "TunnelNew.h"
 #include "SubdivisionNew.h"
 #include "OffsetNew.h"
+#include "Octree.h"
+#include "OctreeProxy.h"
 
 class Session
 {
-private:
-    int accesses;
-
 public:
     std::list<Vert*> verts;
     std::list<EdgeNew*> edges;
@@ -61,14 +60,17 @@ public:
     std::list<Vert*> selectedVerts;
 
     std::list<FaceNew*> selectedFaces;
-    MeshNew* tmpMesh;
-    PolylineNew* tmpPolyline;
-    InstanceNew* tmpInstance;
+    MeshNew* tmpMesh = nullptr;
+    PolylineNew* tmpPolyline = nullptr;
+    InstanceNew* tmpInstance = nullptr;
 
     QColor foreColor = QColor(255, 0, 0);
     QColor outsideColor = QColor(255, 0, 0);
     QColor insideColor = QColor(0, 0, 255);
     QColor offsetColor = QColor(255, 163, 0);
+
+    Session();
+    ~Session();
 
     //Naming functions
     bool setName(std::string n);
@@ -92,9 +94,15 @@ public:
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
     void createFlattenMesh(bool instance);
     std::vector<Vert*> findLoop(Vert* startVert, std::vector<Vert*> selectedVertsLoop);
-private:
-    QPushButton * consolidateButton;
 
+    OctantNew* getOctreeRoot() const { return OctreeRoot; }
+
+    static Session& getSingleton();
+
+private:
+    int accesses;
+
+    OctantNew* OctreeRoot;
 };
 
 //Instantiation

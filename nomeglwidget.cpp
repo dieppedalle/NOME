@@ -178,14 +178,16 @@ void SlideGLWidget::mouse_select(int x, int y)
     if(viewer_mode != 0) {
         return;
     }
-    set_to_editing_mode(true);
+
     GLuint buff[64] = {0};
     GLint hits, view[4];
     GLdouble modelview[16];
     GLdouble projection[16];
     GLfloat winX, winY, winZ;
     GLdouble posX, posY, posZ;
-    glSelectBuffer(64, buff);
+    GLdouble camX, camY, camZ;
+
+    set_to_editing_mode(true);
     glGetIntegerv(GL_VIEWPORT, view);
     // Find the 3D points of the current clicked point
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview );
@@ -194,7 +196,54 @@ void SlideGLWidget::mouse_select(int x, int y)
     winY = (double) view[3] - (double)y;
     glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
     gluUnProject( winX, winY, winZ, modelview, projection,
-     view, &posX, &posY, &posZ);
+                  view, &posX, &posY, &posZ);
+    gluUnProject(winX, winY, -1.0f, modelview, projection, view, &camX, &camY, &camZ);
+
+    if (selection_mode == 1)
+    {
+        Vector3 camPos = Vector3(camX, camY, camZ);
+        Vector3 targetPos = Vector3(posX, posY, posZ);
+        Vector3 dir = targetPos - camPos;
+        dir.Normalize();
+
+        printf("Origin:%s Target:%s Dir:%s\n", camPos.ToString().c_str(), targetPos.ToString().c_str(), dir.ToString().c_str());
+
+        float distMax = FLT_MAX;
+        Vert* selectedVertex = nullptr;
+
+        Ray mouseRay = Ray(camPos, dir);
+        vector<OctreeProxy*> rayIntersectResults;
+        currSession->getOctreeRoot()->findNodes(mouseRay, rayIntersectResults);
+        for (OctreeProxy* proxy : rayIntersectResults)
+        {
+            cout << proxy->toString() << endl;
+            auto* vertProxy = dynamic_cast<VertOctreeProxy*>(proxy);
+            if (vertProxy)
+            {
+                float hitDistance = mouseRay.HitDistance(vertProxy->getWorldAABB());
+                if (hitDistance < distMax)
+                {
+                    distMax = hitDistance;
+                    selectedVertex = vertProxy->getOwner();
+                }
+            }
+        }
+
+        if (selectedVertex)
+        {
+            selectedVertex->selected = !selectedVertex->selected;
+            if (selectedVertex -> selected == true) {
+                currSession->selectedVerts.push_back(selectedVertex);
+            }
+            else {
+                currSession->selectedVerts.remove(selectedVertex);
+            }
+            update();
+        }
+        return;
+    }
+
+    glSelectBuffer(64, buff);
     // Find the face selected.
     glRenderMode(GL_SELECT);
     //glClearColor(0, 0, 0, 1);
