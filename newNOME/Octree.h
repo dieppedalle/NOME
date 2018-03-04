@@ -1,18 +1,31 @@
+/**
+ * Copyright 2018 Toby Chen
+ * All rights reserved
+ */
+
 #pragma once
 #include <BoundingBox.h>
+#include <Ray.h>
 #include <set>
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <vector>
 
 using std::set;
+using std::vector;
 
 class FOctreeBase
 {
 public:
-    const BoundingBox& GetExtent() const
+    BoundingBox getLooseExtent() const;
+
+    const BoundingBox& getExtent() const
     {
         return Extent;
     }
 
-    void SetExtent(const BoundingBox& value)
+    void setExtent(const BoundingBox& value)
     {
         Extent = value;
     }
@@ -23,7 +36,9 @@ protected:
 
     ~FOctreeBase() = default;
 
-    bool CanFitInChild(const BoundingBox& box) const;
+    bool canFitInChild(const BoundingBox& box) const;
+
+    bool isInside(const BoundingBox& box) const;
 
 private:
     BoundingBox Extent;
@@ -32,9 +47,9 @@ private:
 /**
  * FOctree is both the octree class and the octant class (recursive DS)
  * Member class must implement:
- *  SetOctant
- *  GetOctant
- *  GetWorldAABB
+ *  setOctant
+ *  getOctant
+ *  getWorldAABB
  */
 template <typename T, unsigned int MaxDepth = 8>
 class FOctree : public FOctreeBase
@@ -52,45 +67,133 @@ public:
                     delete Children[x][y][z];
     }
 
-    FOctree* GetParent() const
+    FOctree* getParent() const
     {
         return Parent;
     }
 
-    void AddHere(T* node)
+    void addHere(T* node)
     {
         Members.insert(node);
-        node->SetOctant(this);
+        node->setOctant(this);
     }
 
-    void EraseHere(T* node)
+    void eraseHere(T* node)
     {
         if (node == nullptr)
             return;
         Members.erase(node);
-        node->SetOctant(nullptr);
+        node->setOctant(nullptr);
     }
 
-    void Insert(T* member, int currDepth = 0)
+    void insert(T* member, int currDepth = 0)
     {
-        if (currDepth < MaxDepth && CanFitInChild(member->GetWorldAABB()))
+        if (currDepth < MaxDepth && canFitInChild(member->getWorldAABB()))
         {
-            auto childOctant = DetermineAndCreateOctant(member->GetWorldAABB());
-            childOctant->Insert(member, currDepth + 1);
+            auto childOctant = determineAndCreateOctant(member->getWorldAABB());
+            childOctant->insert(member, currDepth + 1);
         }
         else
         {
-            AddHere(member);
+            addHere(member);
         }
     }
 
-    void Remove(T* member)
+    void remove(T* member)
     {
-        auto* octant = member->GetOctant();
+        auto* octant = member->getOctant();
         if (octant)
-            octant->EraseHere(member);
+            octant->eraseHere(member);
 
-        member->SetOctant(nullptr);
+        member->setOctant(nullptr);
+    }
+
+    //Only call this at the root level
+    void updateNode(T* member)
+    {
+        assert(Parent == nullptr);
+
+        const BoundingBox& boundingBox = member->getWorldAABB();
+
+        //Undefined boundingbox -> remove from octree
+        if (!boundingBox.Defined())
+        {
+            remove(member);
+        }
+        else
+        {
+            //Not in tree -> insertion
+            if (!member->getOctant())
+            {
+                if (getLooseExtent().IsInside(boundingBox) != INSIDE)
+                    addHere(member);
+                else
+                    insert(member);
+            }
+            else
+            {
+                FOctree* currOctant = member->getOctant();
+                if (!currOctant->isInside(boundingBox))
+                {
+                    remove(member);
+                    if (getLooseExtent().IsInside(boundingBox) != INSIDE)
+                        addHere(member);
+                    else
+                        insert(member);
+                }
+            }
+        }
+    }
+
+    const set<T*>& getMembers() const
+    {
+        return Members;
+    }
+
+    void printTree(int level = 0) const
+    {
+        printf("Level: %d\n", level);
+        for (T* member : Members)
+        {
+            std::cout << member->toString() << std::endl;
+        }
+        for (int x = 0; x < 2; x++)
+            for (int y = 0; y < 2; y++)
+                for (int z = 0; z < 2; z++)
+                    if (Children[x][y][z])
+                    {
+                        printf("Child: %d %d %d\n", x, y, z);
+                        Children[x][y][z]->printTree(level + 1);
+                    }
+    }
+
+    void findNodes(const Ray& ray, vector<T*>& result, bool individualTesting = true)
+    {
+        BoundingBox extent = getLooseExtent();
+        if (ray.HitDistance(extent) == M_INFINITY)
+            return;
+        if (individualTesting)
+        {
+            for (T* m : Members)
+            {
+                const BoundingBox& memberBox = m->getWorldAABB();
+                if (ray.HitDistance(memberBox) != M_INFINITY)
+                    result.push_back(m);
+            }
+        }
+        else
+        {
+            for (T* m : Members)
+                result.push_back(m);
+        }
+
+        for (int x = 0; x < 2; x++)
+            for (int y = 0; y < 2; y++)
+                for (int z = 0; z < 2; z++)
+                    if (Children[x][y][z])
+                    {
+                        Children[x][y][z]->findNodes(ray, result, individualTesting);
+                    }
     }
 
 private:
@@ -99,9 +202,9 @@ private:
 
     set<T*> Members;
 
-    FOctree* DetermineAndCreateOctant(const BoundingBox& box)
+    FOctree* determineAndCreateOctant(const BoundingBox& box)
     {
-        auto center = GetExtent().Center();
+        auto center = getExtent().Center();
         auto boxCenter = box.Center();
         int x = 0, y = 0, z = 0;
         if (boxCenter.x_ > center.x_)
@@ -114,7 +217,7 @@ private:
         if (Children[x][y][z] == nullptr)
         {
             //Create child Octree and calculate its extent
-            auto& extent = GetExtent();
+            auto& extent = getExtent();
             auto extentMiddle = extent.Center();
             Vector3 min, max;
             if (x == 0)
@@ -150,9 +253,13 @@ private:
                 max.z_ = extent.max_.z_;
             }
             Children[x][y][z] = new FOctree(this);
-            Children[x][y][z]->SetExtent({min, max});
+            Children[x][y][z]->setExtent({min, max});
         }
 
         return Children[x][y][z];
     }
 };
+
+//Convenient definition here
+class OctreeProxy;
+typedef FOctree<OctreeProxy, 8> OctantNew;

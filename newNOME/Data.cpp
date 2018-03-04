@@ -1196,6 +1196,26 @@ void FaceNew::calculateFacePoint(){
     this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
 }
 
+void Vert::initOctreeProxy()
+{
+    if (!octreeProxy)
+        octreeProxy = new VertOctreeProxy(Session::getSingleton().getOctreeRoot(), this, *xTransformed, *yTransformed, *zTransformed);
+}
+
+void Vert::destroyOctreeProxy()
+{
+    delete octreeProxy;
+}
+
+void Vert::updateOctreeProxy()
+{
+    if (octreeProxy)
+    {
+        printf("Vert %s updated: %f, %f, %f\n", getFullName().c_str(), *xTransformed, *yTransformed, *zTransformed);
+        octreeProxy->updateWorldPosition(*xTransformed, *yTransformed, *zTransformed);
+    }
+}
+
 void Vert::calculateVertPoint(){
     double Rx = 0;
     double Ry = 0;
@@ -1333,6 +1353,7 @@ void Vert::applyTransformation(TransformationNew * t){
         *this->yTransformed = *this->yTransformed + *translate->y;
         *this->zTransformed = *this->zTransformed + *translate->z;
     }
+    updateOctreeProxy();
 }
 
 void Surface::update(){

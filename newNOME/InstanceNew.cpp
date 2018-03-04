@@ -71,6 +71,9 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            newVertex->copyOfVert = v0;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
+
+           newVertex->initOctreeProxy();
+           newVertex->updateOctreeProxy();
        }
        else if (((std::find(vertsDef.begin(), vertsDef.end(), v0) != vertsDef.end() || dynamic_cast<FunnelNew*>(m0) || dynamic_cast<TunnelNew*>(m0) || dynamic_cast<CircleNew*>(m0)  || dynamic_cast<BezierCurveNew*>(m0)  || dynamic_cast<BSplineNew*>(m0)) && doNotCreateVertices == false)){
            Vert* newVertex = createVert(v0);
@@ -78,6 +81,9 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
            newVertex->copyOfVert = v0;
            setSurface(newVertex, m0->surface);
            i0->verts.push_back(newVertex);
+
+           newVertex->initOctreeProxy();
+           newVertex->updateOctreeProxy();
        }
        else{
            v0->copyOfVert = v0;

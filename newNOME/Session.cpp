@@ -15,11 +15,14 @@
 
 #include "bankFlexBison.cpp"
 
+static Session* singletonPtr = nullptr;
 static int sIndex = 0;
 
 Session* createSession()
 {
+    assert(!singletonPtr);
     Session* session0 = new Session();
+    singletonPtr = session0;
 
     session0->setName("s:" + std::to_string(sIndex));
     sIndex++;
@@ -30,6 +33,22 @@ Session* createSession()
 Session* createSession(Session* s0)
 {
     return NULL;
+}
+
+Session::Session()
+{
+    OctreeRoot = new OctantNew();
+    OctreeRoot->setExtent(BoundingBox(-100.0f, 100.0f));
+}
+
+Session::~Session()
+{
+    delete OctreeRoot;
+}
+
+Session& Session::getSingleton()
+{
+    return *singletonPtr;
 }
 
 bool Session::setName(std::string n)

@@ -5,6 +5,12 @@
 #ifndef Data_h
 #define Data_h
 
+#include "IO.h"
+#include "Node.h"
+#include "TransformationNew.h"
+#include "Octree.h"
+#include "OctreeProxy.h"
+
 #include <stdio.h>
 #include <list>
 #include <vector>
@@ -16,10 +22,6 @@
 #include <QtOpenGL>
 #include <set>
 #include <unordered_set>
-
-#include "IO.h"
-#include "Node.h"
-#include "TransformationNew.h"
 
 class Reader;
 class MeshNew;
@@ -87,6 +89,17 @@ public:
     Surface* surface;
     Session* currSession;
     Vert* copyOfVert;
+
+    VertOctreeProxy* octreeProxy = nullptr;
+
+    ~Vert()
+    {
+        destroyOctreeProxy();
+    }
+
+    void initOctreeProxy();
+    void destroyOctreeProxy();
+    void updateOctreeProxy();
 
     // Used for subdivision
     Vert* vertPoint;
