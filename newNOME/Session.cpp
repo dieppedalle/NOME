@@ -548,18 +548,18 @@ void mergeEdges(MeshNew* flattenMesh){
 
             //std::cout << abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) + abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) + abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) << std::endl;
             //std::cout << abs(*((*i)->v1->xTransformed) - *((*checkD)->v0->xTransformed)) + abs(*((*i)->v1->yTransformed) - *((*checkD)->v0->yTransformed)) + abs(*((*i)->v1->zTransformed) - *((*checkD)->v0->zTransformed)) << std::endl;
-            if ((abs(*((*i)->v0->xTransformed) - *((*checkD)->v0->xTransformed)) < epsilonPos
-                && abs(*((*i)->v0->yTransformed) - *((*checkD)->v0->yTransformed)) < epsilonPos
-                && abs(*((*i)->v0->zTransformed) - *((*checkD)->v0->zTransformed)) < epsilonPos
-                && abs(*((*i)->v1->xTransformed) - *((*checkD)->v1->xTransformed)) < epsilonPos
-                && abs(*((*i)->v1->yTransformed) - *((*checkD)->v1->yTransformed)) < epsilonPos
-                && abs(*((*i)->v1->zTransformed) - *((*checkD)->v1->zTransformed)) < epsilonPos)
-                || (abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) < epsilonPos
-                    && abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) < epsilonPos
-                    && abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) < epsilonPos
-                    && abs(*((*i)->v1->xTransformed) - *((*checkD)->v0->xTransformed)) < epsilonPos
-                    && abs(*((*i)->v1->yTransformed) - *((*checkD)->v0->yTransformed)) < epsilonPos
-                    && abs(*((*i)->v1->zTransformed) - *((*checkD)->v0->zTransformed)) < epsilonPos)){
+            if ((abs(((*i)->v0->xTransformed) - ((*checkD)->v0->xTransformed)) < epsilonPos
+                && abs(((*i)->v0->yTransformed) - ((*checkD)->v0->yTransformed)) < epsilonPos
+                && abs(((*i)->v0->zTransformed) - ((*checkD)->v0->zTransformed)) < epsilonPos
+                && abs(((*i)->v1->xTransformed) - ((*checkD)->v1->xTransformed)) < epsilonPos
+                && abs(((*i)->v1->yTransformed) - ((*checkD)->v1->yTransformed)) < epsilonPos
+                && abs(((*i)->v1->zTransformed) - ((*checkD)->v1->zTransformed)) < epsilonPos)
+                || (abs(((*i)->v0->xTransformed) - ((*checkD)->v1->xTransformed)) < epsilonPos
+                    && abs(((*i)->v0->yTransformed) - ((*checkD)->v1->yTransformed)) < epsilonPos
+                    && abs(((*i)->v0->zTransformed) - ((*checkD)->v1->zTransformed)) < epsilonPos
+                    && abs(((*i)->v1->xTransformed) - ((*checkD)->v0->xTransformed)) < epsilonPos
+                    && abs(((*i)->v1->yTransformed) - ((*checkD)->v0->yTransformed)) < epsilonPos
+                    && abs(((*i)->v1->zTransformed) - ((*checkD)->v0->zTransformed)) < epsilonPos)){
                 //std::cout << "MERGED EDGES" << std::endl;
                 /*std::cout << (*i)->index << std::endl;
                 std::cout << (*checkD)->index << std::endl;
@@ -597,12 +597,12 @@ void mergeEdges(MeshNew* flattenMesh){
         // a map where the keys are integers and the values are strings
         std::map<Vert*, Vert*> newVertexDict;
         newVertexDict.clear();
-        if (abs(*(std::get<0>((*it))->v0->xTransformed) - *(std::get<1>((*it))->v0->xTransformed)) < 0.01
-                        && abs(*(std::get<0>((*it))->v0->yTransformed) - *(std::get<1>((*it))->v0->yTransformed)) < 0.01
-                        && abs(*(std::get<0>((*it))->v0->zTransformed) - *(std::get<1>((*it))->v0->zTransformed)) < 0.01
-                        && abs(*(std::get<0>((*it))->v1->xTransformed) - *(std::get<1>((*it))->v1->xTransformed)) < 0.01
-                        && abs(*(std::get<0>((*it))->v1->yTransformed) - *(std::get<1>((*it))->v1->yTransformed)) < 0.01
-                        && abs(*(std::get<0>((*it))->v1->zTransformed) - *(std::get<1>((*it))->v1->zTransformed)) < 0.01){
+        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < 0.01
+                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < 0.01
+                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < 0.01
+                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < 0.01
+                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < 0.01
+                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < 0.01){
             newVertexDict[std::get<1>((*it))->v0] = std::get<0>((*it))->v0;
             newVertexDict[std::get<1>((*it))->v1] = std::get<0>((*it))->v1;
         } else{
@@ -860,9 +860,9 @@ void saveFaceSTL(FaceNew* currFace, std::ofstream& file){
         std::vector<double> nV = getNormalFromVerts(vL);
         file << "  facet normal " + dbl2str(nV[0]) + " " + dbl2str(nV[1]) + " " + dbl2str(nV[2]) + "\n";
         file << "    outer loop\n";
-        file << "      vertex " + dbl2str(roundf(*(initVertex->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(initVertex->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(initVertex->zTransformed) * 10000) / 10000) + "\n";
-        file << "      vertex " + dbl2str(roundf(*(currVertex->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(currVertex->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(currVertex->zTransformed) * 10000) / 10000) + "\n";
-        file << "      vertex " + dbl2str(roundf(*(lastVert->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(lastVert->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf(*(lastVert->zTransformed) * 10000) / 10000) + "\n";
+        file << "      vertex " + dbl2str(roundf((initVertex->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf((initVertex->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf((initVertex->zTransformed) * 10000) / 10000) + "\n";
+        file << "      vertex " + dbl2str(roundf((currVertex->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf((currVertex->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf((currVertex->zTransformed) * 10000) / 10000) + "\n";
+        file << "      vertex " + dbl2str(roundf((lastVert->xTransformed) * 10000) / 10000) + " " + dbl2str(roundf((lastVert->yTransformed) * 10000) / 10000) + " " + dbl2str(roundf((lastVert->zTransformed) * 10000) / 10000) + "\n";
         file << "    endloop\n";
         file << "  endfacet\n";
 

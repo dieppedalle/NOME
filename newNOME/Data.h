@@ -71,9 +71,9 @@ public:
     double *x;
     double *y;
     double *z;
-    double *xTransformed;
-    double *yTransformed;
-    double *zTransformed;
+    double xTransformed;
+    double yTransformed;
+    double zTransformed;
     double weight;
     bool selected;
 
@@ -111,6 +111,8 @@ public:
     void applyTransformation(TransformationNew * t);
 
     void update();
+
+    void setWorldPos(double x, double y, double z);
 } Vert;
 
 ///Edge - normal edge construct as defined in 3d space, must have at least two links
