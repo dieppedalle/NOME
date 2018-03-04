@@ -76,7 +76,29 @@ SOURCES += main.cpp\
     compilerBank/parserBank.cpp \
     compilerBank/lexerBank.cpp \
     bankFlexBison.cpp \
-    newNOME/GroupWindow.cpp
+    newNOME/GroupWindow.cpp \
+    Math/AreaAllocator.cpp \
+    Math/BoundingBox.cpp \
+    Math/Color.cpp \
+    Math/Frustum.cpp \
+    Math/MathDefs.cpp \
+    Math/Matrix2.cpp \
+    Math/Matrix3.cpp \
+    Math/Matrix3x4.cpp \
+    Math/Matrix4.cpp \
+    Math/Plane.cpp \
+    Math/Polyhedron.cpp \
+    Math/Quaternion.cpp \
+    Math/Random.cpp \
+    Math/Ray.cpp \
+    Math/Rect.cpp \
+    Math/Sphere.cpp \
+    Math/StringHash.cpp \
+    Math/Vector2.cpp \
+    Math/Vector3.cpp \
+    Math/Vector4.cpp \
+    newNOME/Octree.cpp \
+    newNOME/OctreeProxy.cpp
 
 
 HEADERS  += \
@@ -133,7 +155,34 @@ HEADERS  += \
     newNOME/BezierCurveNew.h \
     compilerObj/parserObj.hpp \
     compilerBank/parserBank.hpp \
-    newNOME/GroupWindow.h
+    newNOME/GroupWindow.h \
+    Math/AreaAllocator.h \
+    Math/BoundingBox.h \
+    Math/Color.h \
+    Math/Frustum.h \
+    Math/MathAPI.h \
+    Math/MathDefs.h \
+    Math/Matrix2.h \
+    Math/Matrix3.h \
+    Math/Matrix3x4.h \
+    Math/Matrix4.h \
+    Math/Plane.h \
+    Math/PODVector.h \
+    Math/Polyhedron.h \
+    Math/Quaternion.h \
+    Math/Random.h \
+    Math/Ray.h \
+    Math/Rect.h \
+    Math/Sphere.h \
+    Math/StringHash.h \
+    Math/Vector2.h \
+    Math/Vector3.h \
+    Math/Vector4.h \
+    newNOME/Octree.h \
+    newNOME/OctreeProxy.h
+
+INCLUDEPATH += ./Math
+DEFINES += TC_USE_SSE
 
 linux{
     LIBS += -lglut -lGLU

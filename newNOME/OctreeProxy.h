@@ -57,6 +57,8 @@ public:
 
     int getIndex(EProxyType type) const override;
 
+    Vert* getOwner() { return Owner; }
+
 private:
     static constexpr float HALF_RADIUS = 0.05f;
 

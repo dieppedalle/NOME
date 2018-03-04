@@ -208,19 +208,38 @@ void SlideGLWidget::mouse_select(int x, int y)
 
         printf("Origin:%s Target:%s Dir:%s\n", camPos.ToString().c_str(), targetPos.ToString().c_str(), dir.ToString().c_str());
 
+        float distMax = FLT_MAX;
+        Vert* selectedVertex = nullptr;
+
         Ray mouseRay = Ray(camPos, dir);
         vector<OctreeProxy*> rayIntersectResults;
         currSession->getOctreeRoot()->findNodes(mouseRay, rayIntersectResults);
-        int i = 0;
         for (OctreeProxy* proxy : rayIntersectResults)
         {
             cout << proxy->toString() << endl;
-            if (proxy->getIndex(EProxyType::Vert) != -1)
-                buff[i++] = proxy->getIndex(EProxyType::Vert);
+            auto* vertProxy = dynamic_cast<VertOctreeProxy*>(proxy);
+            if (vertProxy)
+            {
+                float hitDistance = mouseRay.HitDistance(vertProxy->getWorldAABB());
+                if (hitDistance < distMax)
+                {
+                    distMax = hitDistance;
+                    selectedVertex = vertProxy->getOwner();
+                }
+            }
         }
 
-        currSession->selectVert(i, buff, posX, posY, posZ);
-
+        if (selectedVertex)
+        {
+            selectedVertex->selected = !selectedVertex->selected;
+            if (selectedVertex -> selected == true) {
+                currSession->selectedVerts.push_back(selectedVertex);
+            }
+            else {
+                currSession->selectedVerts.remove(selectedVertex);
+            }
+            update();
+        }
         return;
     }
 
