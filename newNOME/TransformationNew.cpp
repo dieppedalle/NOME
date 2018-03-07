@@ -20,6 +20,12 @@ Rotate* createRotate(double *x, double *y, double *z, double *angle)
     return rotate;
 }
 
+Reverse* createReverse()
+{
+    Reverse * reverse = new Reverse();
+    return reverse;
+}
+
 Scale* createScale(double *x, double *y, double *z)
 {
     Scale * scale = new Scale();
@@ -53,6 +59,11 @@ void copyStateTransformation(TransformationNew * t, std::list<TransformationNew*
         *angle = *rotate->angle;
 
         Rotate* transformNew = createRotate(x, y, z, angle);
+        transformations->push_back(transformNew);
+    } else if (dynamic_cast<Reverse*>(t)){
+        Reverse* reverse = dynamic_cast<Reverse*>(t);
+
+        Reverse* transformNew = createReverse();
         transformations->push_back(transformNew);
     }
     else if (dynamic_cast<Scale*>(t)){

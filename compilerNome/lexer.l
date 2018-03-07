@@ -74,6 +74,7 @@ instance                return INSTANCE;
 endinstance             return END_INSTANCE;
 translate               return TRANSLATE;
 rotate                  return ROTATE;
+reverse                 return REVERSE;
 mirror                  return MIRROR;
 delete                  return BEG_DELETE;
 enddelete               return END_DELETE;

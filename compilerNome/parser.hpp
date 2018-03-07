@@ -122,8 +122,9 @@ extern int nomdebug;
     ADD = 325,
     SUBTRACT = 326,
     SLIDEREXPRESSION = 327,
-    BANK_EXPR = 328,
-    NUMBER = 329
+    REVERSE = 328,
+    BANK_EXPR = 329,
+    NUMBER = 330
   };
 #endif
 /* Tokens.  */
@@ -197,8 +198,9 @@ extern int nomdebug;
 #define ADD 325
 #define SUBTRACT 326
 #define SLIDEREXPRESSION 327
-#define BANK_EXPR 328
-#define NUMBER 329
+#define REVERSE 328
+#define BANK_EXPR 329
+#define NUMBER 330
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -216,7 +218,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 220 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 222 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

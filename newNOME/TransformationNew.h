@@ -53,9 +53,15 @@ public:
     std::string angleStr;
 };
 
+class Reverse : public TransformationNew
+{
+public:
+};
+
 Rotate* createRotate(double *x, double *y, double *z, double *angle);
 Scale* createScale(double *x, double *y, double *z);
 Translate* createTranslate(double *x, double *y, double *z);
+Reverse* createReverse();
 void copyStateTransformation(TransformationNew * t, std::list<TransformationNew*> *transformations);
 
 #endif /* TransformationNew_h */

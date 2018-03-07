@@ -64,7 +64,7 @@ GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
 BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE COS SIN TAN EXPONENT
-MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION;
+MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION REVERSE;
 
 %error-verbose
 %locations
@@ -160,8 +160,15 @@ closedArgs:
     };
 
 transformArgs:
-    | faceArgs comment | transformArgs rotateArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
+    | faceArgs comment | transformArgs rotateArgs | transformArgs reverseArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
     ;
+
+reverseArgs:
+    REVERSE
+    {
+      Reverse* currReverse = createReverse();
+      currentTransformations2.push_back(currReverse);
+    };
 
 rotateArgs:
     ROTATE OPARENTHESES numberValue numberValue numberValue EPARENTHESES OPARENTHESES numberValue EPARENTHESES

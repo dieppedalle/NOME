@@ -609,6 +609,13 @@ void InstanceNew::applyTransformation(TransformationNew* t){
                 v0->setWorldPos(x, y, z);
             }
         }
+        else if (dynamic_cast<Reverse*>(t)){
+            Reverse* scale = dynamic_cast<Reverse*>(t);
+            for (FaceNew* f0 : faces){
+                f0->verts.reverse();
+                f0->edges.reverse();
+            }
+        }
         else if (dynamic_cast<Scale*>(t)){
             Scale* scale = dynamic_cast<Scale*>(t);
             for (Vert* v0 : verts){
