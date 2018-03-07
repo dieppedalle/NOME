@@ -52,6 +52,8 @@ public:
 
     void update();
     void updateTransformations();
+
+    bool transformationApplied = false;
 };
 
 bool setSurface(InstanceNew* i0, Surface* surface);

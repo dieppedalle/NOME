@@ -549,6 +549,7 @@ void InstanceNew::applyTransformationGroup(){
 }
 
 void InstanceNew::applyTransformation(TransformationNew* t){
+
     if (mesh != NULL){
         if (dynamic_cast<Rotate*>(t)){
             Rotate* rotate = dynamic_cast<Rotate*>(t);
@@ -610,10 +611,12 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             }
         }
         else if (dynamic_cast<Reverse*>(t)){
-            Reverse* scale = dynamic_cast<Reverse*>(t);
-            for (FaceNew* f0 : faces){
-                f0->verts.reverse();
-                f0->edges.reverse();
+            if (transformationApplied == false){
+                Reverse* scale = dynamic_cast<Reverse*>(t);
+                for (FaceNew* f0 : faces){
+                    f0->verts.reverse();
+                    f0->edges.reverse();
+                }
             }
         }
         else if (dynamic_cast<Scale*>(t)){
@@ -663,6 +666,7 @@ void InstanceNew::applyTransformation(TransformationNew* t){
             i0->applyTransformation(t);
         }
     }
+    this->transformationApplied = true;
 }
 
 void InstanceNew::undoTransformation(TransformationNew* t){
