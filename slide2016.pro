@@ -197,4 +197,5 @@ win32{
     LIBS += -lopengl32 -lglu32 -lglut32
     INCLUDEPATH += $$PWD/../include
     RC_ICONS += nomeIcon.ico
+    QMAKE_CXXFLAGS +=-msse3
 }
