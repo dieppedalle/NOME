@@ -985,7 +985,7 @@ bool drawNormal(Vert* v0, Surface * instSurface){
     glEnd();
 
 
-    glPushMatrix();
+    /*glPushMatrix();
     glTranslatef(x1, y1, z1);
 
     if((deltax != 0.)||(deltay != 0.)) {
@@ -997,7 +997,7 @@ bool drawNormal(Vert* v0, Surface * instSurface){
 
     GLUquadricObj *quadObj = gluNewQuadric();
     gluCylinder(quadObj, radius, 0, height, 10, 10);
-    glPopMatrix();
+    glPopMatrix();*/
 
     return true;
 }

@@ -613,10 +613,15 @@ void InstanceNew::applyTransformation(TransformationNew* t){
         else if (dynamic_cast<Reverse*>(t)){
             if (transformationApplied == false){
                 Reverse* scale = dynamic_cast<Reverse*>(t);
+
                 for (FaceNew* f0 : faces){
                     f0->verts.reverse();
                     f0->edges.reverse();
+                    EdgeNew* currEdge = f0->edges.front();
+                    f0->edges.pop_front();
+                    f0->edges.push_back(currEdge);
                 }
+
             }
         }
         else if (dynamic_cast<Scale*>(t)){
