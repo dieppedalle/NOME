@@ -1205,7 +1205,7 @@ void Vert::updateOctreeProxy()
 {
     if (octreeProxy)
     {
-        printf("Vert %s updated: %f, %f, %f\n", getFullName().c_str(), xTransformed, yTransformed, zTransformed);
+        //printf("Vert %s updated: %f, %f, %f\n", getFullName().c_str(), xTransformed, yTransformed, zTransformed);
         octreeProxy->updateWorldPosition(xTransformed, yTransformed, zTransformed);
     }
 }

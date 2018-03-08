@@ -64,7 +64,8 @@ GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
 BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE COS SIN TAN EXPONENT
-MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION REVERSE;
+MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION REVERSE FOREGROUND END_FOREGROUND BACKGROUND
+END_BACKGROUND INSIDEFACES END_INSIDEFACES OUTSIDEFACES END_OUTSIDEFACES OFFSETFACES END_OFFSETFACES;
 
 %error-verbose
 %locations
@@ -102,7 +103,8 @@ commands: /* empty */
 command:
     comment | mesh | surface | point | face | object | bank |
   tunnel | funnel | polyline | instance | delete | group | circle |
-  subdivision | offset | bspline | beziercurve;
+  subdivision | offset | bspline | beziercurve | foreground | background |
+  insidefaces | outsidefaces | offsetfaces;
 
 numberValue:
     NUMBER {
@@ -856,6 +858,101 @@ polyline:
         surfaceFromArg = "";
         }
         ;
+
+foreground:
+    FOREGROUND transformArgs END_FOREGROUND
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> foreColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+background:
+    BACKGROUND transformArgs END_BACKGROUND
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> backColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+insidefaces:
+    INSIDEFACES transformArgs END_INSIDEFACES
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> insideColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+outsidefaces:
+    OUTSIDEFACES transformArgs END_OUTSIDEFACES
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> outsideColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+offsetfaces:
+    OFFSETFACES transformArgs END_OFFSETFACES
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> offsetColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
 
 instance:
     INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE

@@ -51,12 +51,12 @@ void SlideGLWidget::generalSetup()
     smoothshading = false;
     selection_mode = 1;
     object2world = mat4(1);
-    foreColor = QColor(255,0,0);
+    /*foreColor = QColor(255,0,0);
     backColor = QColor(0,0,0);
     outsideColor = QColor(255,0,0);
-    insideColor = QColor(0,0,255);
-    currSession->outsideColor = outsideColor;
-    currSession->insideColor = insideColor;
+    insideColor = QColor(0,0,255);*/
+    //currSession->outsideColor = outsideColor;
+    //currSession->insideColor = insideColor;
     tempColor = QColor(255, 255, 0);
     whole_border = true;
     errorMsg = new QMessageBox();
@@ -404,10 +404,10 @@ void SlideGLWidget::paintGL()
 
 void SlideGLWidget::paintGLImpl()
 {
-    glClearColor(1.0f * backColor.red() / 255,
-                 1.0f * backColor.green() / 255,
-                 1.0f * backColor.blue() / 255,
-                 1.0f * backColor.alpha() / 255);
+    glClearColor(1.0f * *currSession->backColor->r,
+                 1.0f * *currSession->backColor->g,
+                 1.0f * *currSession->backColor->b,
+                 1.0f * 255 / 255);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
@@ -832,14 +832,38 @@ void SlideGLWidget::setForeColor(QColor color)
     merged_mesh.color = foreColor;
     subdiv_mesh.color = foreColor;
     offset_mesh.color = foreColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->backColor = createSurface(r, g, b, "foreColor");
+
     hierarchical_scene_transformed.setColor(foreColor);
     hierarchical_scene_transformed.assignColor();
+
+
     repaint();
 }
 
 void SlideGLWidget::setBackColor(QColor color)
 {
-    backColor = color;
+
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->backColor = createSurface(r, g, b, "backColor");
+
     repaint();
 }
 
@@ -847,7 +871,16 @@ void SlideGLWidget::setInsideColor(QColor color)
 {
     insideColor = color;
     currSession->recalculateOffset = true;
-    currSession->insideColor = insideColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->insideColor = createSurface(r, g, b, "insideColor");
     repaint();
 }
 
@@ -855,7 +888,16 @@ void SlideGLWidget::setOffsetColor(QColor color)
 {
     offsetColor = color;
     currSession->recalculateOffset = true;
-    currSession->offsetColor = offsetColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->offsetColor = createSurface(r, g, b, "offsetColor");
     repaint();
 }
 
@@ -863,7 +905,17 @@ void SlideGLWidget::setOutsideColor(QColor color)
 {
     outsideColor = color;
     currSession->recalculateOffset = true;
-    currSession->outsideColor = outsideColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->outsideColor = createSurface(r, g, b, "outsideColor");
+
     repaint();
 }
 

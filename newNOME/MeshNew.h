@@ -48,7 +48,7 @@ public:
     bool deleteFace(FaceNew*);
 
     bool drawFaces();
-    bool draw(double offset, bool computeOffset, QColor outsideColor, QColor insideColor, QColor offsetColor, Session* currSession);
+    bool draw(double offset, bool computeOffset, Surface* outsideColor, Surface* insideColor, Surface* offsetColor, Session* currSession);
     MeshNew* subdivideMesh();
     Surface * surface;
 

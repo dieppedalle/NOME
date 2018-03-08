@@ -64,10 +64,11 @@ public:
     PolylineNew* tmpPolyline = nullptr;
     InstanceNew* tmpInstance = nullptr;
 
-    QColor foreColor = QColor(255, 0, 0);
-    QColor outsideColor = QColor(255, 0, 0);
-    QColor insideColor = QColor(0, 0, 255);
-    QColor offsetColor = QColor(255, 163, 0);
+    Surface* foreColor;
+    Surface* backColor;
+    Surface* outsideColor;
+    Surface* insideColor;
+    Surface* offsetColor;
 
     Session();
     ~Session();

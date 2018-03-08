@@ -218,9 +218,9 @@ double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
     return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
-bool MeshNew::draw(double offset, bool computeOffset, QColor outsideColor, QColor insideColor, QColor offsetColor, Session* currSession)
+bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Surface* insideColor, Surface* offsetColor, Session* currSession)
 {
-    double *rIn = (double*) malloc(sizeof(double));
+    /*double *rIn = (double*) malloc(sizeof(double));
     double *gIn = (double*) malloc(sizeof(double));
     double *bIn = (double*) malloc(sizeof(double));
     *rIn = currSession->insideColor.red() / 255.0;
@@ -243,7 +243,11 @@ bool MeshNew::draw(double offset, bool computeOffset, QColor outsideColor, QColo
 
     Surface* inSurf = createSurface(rIn, gIn, bIn, "inSurf");
     Surface* outSurf = createSurface(rOut, gOut, bOut, "outSurf");
-    Surface* offsetSurf = createSurface(rOffset, gOffset, bOffset, "offsetSurf");
+    Surface* offsetSurf = createSurface(rOffset, gOffset, bOffset, "offsetSurf");*/
+
+    Surface* inSurf = currSession->insideColor;
+    Surface* outSurf = currSession->outsideColor;
+    Surface* offsetSurf = currSession->offsetColor;
 
     if (offset == 0){
         for (Vert* currVert : this->verts){

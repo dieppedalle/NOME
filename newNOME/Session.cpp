@@ -25,6 +25,47 @@ Session* createSession()
     singletonPtr = session0;
 
     session0->setName("s:" + std::to_string(sIndex));
+
+    double *rF = (double*) malloc(sizeof(double));
+    double *gF = (double*) malloc(sizeof(double));
+    double *bF = (double*) malloc(sizeof(double));
+
+    *rF = 255.0/255.0;
+    *gF = 0.0;
+    *bF = 0.0;
+
+    session0->foreColor = createSurface(rF, gF, bF, "foreColor");
+
+    double *rOut = (double*) malloc(sizeof(double));
+    double *gOut = (double*) malloc(sizeof(double));
+    double *bOut = (double*) malloc(sizeof(double));
+
+    *rOut = 255.0/255.0;
+    *gOut = 0.0;
+    *bOut = 0.0;
+
+    session0->outsideColor = createSurface(rOut, gOut, bOut, "outsideColor");
+
+    double *rIn = (double*) malloc(sizeof(double));
+    double *gIn = (double*) malloc(sizeof(double));
+    double *bIn = (double*) malloc(sizeof(double));
+
+    *rIn = 0.0;
+    *gIn = 0.0;
+    *bIn = 255.0/255.0;
+
+    session0->insideColor = createSurface(rIn, gIn, bIn, "insideColor");
+
+    double *rOff = (double*) malloc(sizeof(double));
+    double *gOff = (double*) malloc(sizeof(double));
+    double *bOff = (double*) malloc(sizeof(double));
+
+    *rOff = 255.0/255.0;
+    *gOff = 163.0/255.0;
+    *bOff = 0.0;
+
+    session0->offsetColor = createSurface(rOff, gOff, bOff, "offsetColor");
+
     sIndex++;
 
     return session0;

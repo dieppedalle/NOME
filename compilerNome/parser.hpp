@@ -123,8 +123,18 @@ extern int nomdebug;
     SUBTRACT = 326,
     SLIDEREXPRESSION = 327,
     REVERSE = 328,
-    BANK_EXPR = 329,
-    NUMBER = 330
+    FOREGROUND = 329,
+    END_FOREGROUND = 330,
+    BACKGROUND = 331,
+    END_BACKGROUND = 332,
+    INSIDEFACES = 333,
+    END_INSIDEFACES = 334,
+    OUTSIDEFACES = 335,
+    END_OUTSIDEFACES = 336,
+    OFFSETFACES = 337,
+    END_OFFSETFACES = 338,
+    BANK_EXPR = 339,
+    NUMBER = 340
   };
 #endif
 /* Tokens.  */
@@ -199,15 +209,25 @@ extern int nomdebug;
 #define SUBTRACT 326
 #define SLIDEREXPRESSION 327
 #define REVERSE 328
-#define BANK_EXPR 329
-#define NUMBER 330
+#define FOREGROUND 329
+#define END_FOREGROUND 330
+#define BACKGROUND 331
+#define END_BACKGROUND 332
+#define INSIDEFACES 333
+#define END_INSIDEFACES 334
+#define OUTSIDEFACES 335
+#define END_OUTSIDEFACES 336
+#define OFFSETFACES 337
+#define END_OFFSETFACES 338
+#define BANK_EXPR 339
+#define NUMBER 340
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 74 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double intNumber;
     double number;
@@ -218,7 +238,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 222 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 242 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
