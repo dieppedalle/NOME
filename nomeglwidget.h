@@ -319,6 +319,7 @@ public slots:
     void faceModeChecked(bool);
     /* Receive the signal auto correct orientation in adding mode. */
     void autoCorrectChecked(bool);
+    void repaintCanvas();
     /* Receive the signal whole border selection in zipping mode. */
     void wholeBorderSelectionChecked(bool);
     /* Receive the signal to add a polygon to temp_mesh. */

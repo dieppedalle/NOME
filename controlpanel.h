@@ -70,6 +70,7 @@ private:
     QPushButton *undoAddButton;
     QPushButton *zipButton;
     QCheckBox *autoCorrectCheck;
+    QCheckBox *normalVect;
     QCheckBox *wholeBorderCheck;
     QHBoxLayout *zipOptionsLayout;
     QLineEdit *trianglePaneltyEdit;
@@ -129,6 +130,7 @@ public slots:
     void resetOutsideFacesColor(bool);
     void resetOffsetFacesColor(bool);
     void vertexModeChecked(bool);
+    void normalVectChecked(bool);
     void borderModeChecked(bool);
     void faceModeChecked(bool);
     void pushMerge(bool);

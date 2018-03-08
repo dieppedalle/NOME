@@ -919,6 +919,11 @@ void SlideGLWidget::setOutsideColor(QColor color)
     repaint();
 }
 
+void SlideGLWidget::repaintCanvas()
+{
+    repaint();
+}
+
 void SlideGLWidget::vertexModeChecked(bool checked)
 {
     if(checked)

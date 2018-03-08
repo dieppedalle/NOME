@@ -64,6 +64,8 @@ public:
     PolylineNew* tmpPolyline = nullptr;
     InstanceNew* tmpInstance = nullptr;
 
+    bool normalVectShow = true;
+
     Surface* foreColor;
     Surface* backColor;
     Surface* outsideColor;

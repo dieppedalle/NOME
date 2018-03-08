@@ -44,6 +44,7 @@ void ControlPanel::buildConnection()
     connect(offsetFacesColorButton, SIGNAL(clicked(bool)), this, SLOT(resetOffsetFacesColor(bool)));
     connect(vertexModeButton, SIGNAL(clicked(bool)), this, SLOT(vertexModeChecked(bool)));
     connect(borderModeButton, SIGNAL(clicked(bool)), this, SLOT(borderModeChecked(bool)));
+    connect(normalVect, SIGNAL(clicked(bool)), this, SLOT(normalVectChecked(bool)));
     connect(faceModeButton, SIGNAL(clicked(bool)), this, SLOT(faceModeChecked(bool)));
     connect(canvas, SIGNAL(feedback_status_bar(QString, int)), statusBar, SLOT(showMessage(QString,int)));
     connect(vertexModeButton, SIGNAL(clicked(bool)), canvas, SLOT(vertexModeChecked(bool)));
@@ -115,7 +116,9 @@ void ControlPanel::setupLayout()
 
     modeLayout -> addLayout(addOrClearLayout = new QHBoxLayout);
     modeLayout-> addWidget(autoCorrectCheck = new QCheckBox(tr("Auto Correct Adding Face Oreinataion")));
+    modeLayout-> addWidget(normalVect = new QCheckBox(tr("Show Normal Vector")));
     autoCorrectCheck -> setChecked(true);
+    normalVect->setChecked(true);
     modeLayout-> addWidget(wholeBorderCheck = new QCheckBox(tr("Zip Whole Border Loop")));
     wholeBorderCheck -> setChecked(true);
     wholeBorderCheck -> setEnabled(false);
@@ -303,6 +306,16 @@ void ControlPanel::vertexModeChecked(bool checked)
     wholeBorderCheck->setEnabled(!checked);
     statusBar -> showMessage(tr("Switch to Vertex Selection Mode"));
 }
+
+void ControlPanel::normalVectChecked(bool checked)
+{
+    currSession->normalVectShow = checked;
+    canvas->repaintCanvas();
+    //autoCorrectCheck->setEnabled(checked);
+    //wholeBorderCheck->setEnabled(!checked);
+    //statusBar -> showMessage(tr("Switch to Vertex Selection Mode"));
+}
+
 
 void ControlPanel::borderModeChecked(bool checked)
 {

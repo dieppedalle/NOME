@@ -250,8 +250,10 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
     Surface* offsetSurf = currSession->offsetColor;
 
     if (offset == 0){
-        for (Vert* currVert : this->verts){
-            drawNormal(currVert, NULL);
+        if (currSession->normalVectShow){
+            for (Vert* currVert : this->verts){
+                drawNormal(currVert, NULL);
+            }
         }
     }
     if (computeOffset == false){
