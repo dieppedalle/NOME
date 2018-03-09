@@ -598,6 +598,7 @@ void SlideGLWidget::paintGLImpl()
 
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)
 {
+    int pixelRatio = this->devicePixelRatio();
     if (event->buttons() & Qt::LeftButton)
     {
         arcball_on = true;
@@ -610,7 +611,7 @@ void SlideGLWidget::mousePressEvent(QMouseEvent* event)
     }
     if (event->buttons() & Qt::RightButton)
     {
-        mouse_select(event -> x(), event -> y());
+        mouse_select(event -> x() * pixelRatio, event -> y() * pixelRatio);
     }
 }
 
