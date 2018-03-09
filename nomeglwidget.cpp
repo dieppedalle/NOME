@@ -206,7 +206,7 @@ void SlideGLWidget::mouse_select(int x, int y)
         Vector3 dir = targetPos - camPos;
         dir.Normalize();
 
-        printf("Origin:%s Target:%s Dir:%s\n", camPos.ToString().c_str(), targetPos.ToString().c_str(), dir.ToString().c_str());
+        //printf("Origin:%s Target:%s Dir:%s\n", camPos.ToString().c_str(), targetPos.ToString().c_str(), dir.ToString().c_str());
 
         float distMax = FLT_MAX;
         Vert* selectedVertex = nullptr;
@@ -216,7 +216,7 @@ void SlideGLWidget::mouse_select(int x, int y)
         currSession->getOctreeRoot()->findNodes(mouseRay, rayIntersectResults);
         for (OctreeProxy* proxy : rayIntersectResults)
         {
-            cout << proxy->toString() << endl;
+            //cout << proxy->toString() << endl;
             auto* vertProxy = dynamic_cast<VertOctreeProxy*>(proxy);
             if (vertProxy)
             {

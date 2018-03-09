@@ -36,6 +36,16 @@ Session* createSession()
 
     session0->foreColor = createSurface(rF, gF, bF, "foreColor");
 
+    double *rB = (double*) malloc(sizeof(double));
+    double *gB = (double*) malloc(sizeof(double));
+    double *bB = (double*) malloc(sizeof(double));
+
+    *rB = 0.0;
+    *gB = 0.0;
+    *bB = 0.0;
+
+    session0->backColor = createSurface(rB, gB, bB, "backColor");
+
     double *rOut = (double*) malloc(sizeof(double));
     double *gOut = (double*) malloc(sizeof(double));
     double *bOut = (double*) malloc(sizeof(double));
