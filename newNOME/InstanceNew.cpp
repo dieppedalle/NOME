@@ -41,7 +41,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
 
        if (currentMesh != NULL){
            InstanceNew* newInstance;
-           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, false, currSession);
+           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, true, currSession);
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
@@ -60,7 +60,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    i0->verts = {};
    i0->currSession = currSession;
 
-   //std::cout << m0->verts.size() << std::endl;
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        if (onlyCreateNewVertices == true){
@@ -541,6 +540,12 @@ void InstanceNew::updateVerts(){
 void InstanceNew::applyTransformationGroup(){
     if (group != NULL){
         for (InstanceNew* currInstance : listInstances){
+            for (Vert* v : currInstance->verts){
+                for (TransformationNew * t : v->transformations){
+                    v->applyTransformation(t);
+                }
+
+            }
             for (TransformationNew * t : currInstance->transformations){
                 currInstance->applyTransformation(t);
             }

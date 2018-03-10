@@ -332,8 +332,8 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                 *g = 0.0;
                 *b = 1.0;*/
                 //newInFace->surface = createSurface(r, g, b, "HELLO");
-                newInFace->surface = inSurf;
-                newFace->surface = outSurf;
+                newInFace->surface = outSurf;
+                newFace->surface = inSurf;
                 drawFace(newFace, NULL);
                 drawFace(newInFace, NULL);
 
