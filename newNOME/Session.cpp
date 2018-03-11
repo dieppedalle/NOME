@@ -332,7 +332,7 @@ void Session::deleteTmpFace(){
             }
         }
         Reader* currReader = createReader(this);
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
         tmpInstance->setName("tmpInstance");
         tmpFaceIndex -= 1;
     }
@@ -396,7 +396,7 @@ void Session::addTmpFace(){
         }
         tmpMesh->setName("tmpMesh");
 
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
         tmpInstance->setName("tmpInstance");
         clearSelection();
         tmpFaceIndex += 1;
@@ -448,7 +448,7 @@ void Session::addTmpPolyline(){
 
         tmpMesh->polylines.push_back(tmpPolyline);
 
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
         tmpInstance->setName("tmpInstance");
         tmpPolylineIndex += 1;
         clearSelection();
@@ -513,11 +513,18 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
 
         //instances.push_back(tmpInstance);
         this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance\n";
+        for (Vert * v : newInstance->verts){
+            for (TransformationNew * t : v->transformations){
+                v->applyTransformation(t);
+            }
+        }
+
     }
 
     tmpMesh = NULL;
     tmpInstance = NULL;
     tmpPolyline = NULL;
+
 
 
     clearSelection();
