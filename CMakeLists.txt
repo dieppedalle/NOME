@@ -161,5 +161,5 @@ target_link_libraries(Nome PRIVATE ${OPENGL_LIBRARIES})
 
 target_link_libraries(Nome PRIVATE glm)
 
-install(TARGETS Nome RUNTIME BUNDLE DESTINATION .)
+install(TARGETS Nome RUNTIME DESTINATION . BUNDLE DESTINATION .)
 install(DIRECTORY examples DESTINATION .)
