@@ -149,6 +149,7 @@ public:
     Vert* facePoint;
     bool mobius = false;
     void calculateFacePoint();
+    std::vector<double> normal = {0,0,0};
 
     std::vector<double> getNormal();
 } FaceNew;

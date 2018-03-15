@@ -912,6 +912,7 @@ std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNe
     double yCross = (a[2]*b[0] - a[0]*b[2]);
     double zCross = (a[0]*b[1] - a[1]*b[0]);
 
+
     double norm = sqrt(pow(xCross, 2) + pow(yCross, 2) + pow(zCross, 2));
 
     std::vector<double> aCrossb;
