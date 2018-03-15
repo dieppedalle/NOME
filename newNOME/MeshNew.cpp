@@ -548,11 +548,6 @@ void MeshNew::calculateNormal(){
         std::list<Vert*>::iterator it = currFace->verts.begin();
         std::vector<Vert*> firstVerts;
 
-        std::cout << "VERTICES" << std::endl;
-        for (Vert* vv : currFace->verts){
-            std::cout << vv->name << std::endl;
-        }
-        std::cout << "=====" << std::endl;
 
         int i = -1;
         while (it != currFace->verts.end()){
@@ -604,10 +599,6 @@ void MeshNew::calculateNormal(){
                 }
 
                 std::vector<double> normalVector;
-                //normalVector = getNormalFromVerts(firstVerts);
-                std::cout << "CURRENT VERTEX" << std::endl;
-                std::cout << firstVertsOrder[1]->name << std::endl;
-                std::cout << ":::" << std::endl;
                 normalVector = getNormalFromVertsForOffset(firstVertsOrder, this);
 
                 double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
