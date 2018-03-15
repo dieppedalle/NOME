@@ -658,6 +658,7 @@ void SlideGLWidget::keyPressEvent(QKeyEvent* event)
         break;
     case Qt::Key_X:
         backface = !backface;
+
         if (backface)
         {
             glPolygonMode( GL_BACK, GL_FILL );
@@ -700,6 +701,7 @@ void SlideGLWidget::keyPressEvent(QKeyEvent* event)
         event->ignore();
         break;
     }
+
     repaint();
 }
 
@@ -842,7 +844,7 @@ void SlideGLWidget::setForeColor(QColor color)
     *g = color.green() / 255.0;
     *b = color.blue() / 255.0;
 
-    currSession->backColor = createSurface(r, g, b, "foreColor");
+    currSession->foreColor = createSurface(r, g, b, "foreColor");
 
     hierarchical_scene_transformed.setColor(foreColor);
     hierarchical_scene_transformed.assignColor();

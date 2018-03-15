@@ -207,9 +207,9 @@ Node* MeshNew::face(int i)
 
 bool MeshNew::drawFaces()
 {
-    for(FaceNew* f : faces) {
+    /*for(FaceNew* f : faces) {
       drawFace(f, NULL);
-    }
+    }*/
 
     return true;
 }
@@ -259,14 +259,14 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
     if (computeOffset == false){
         if (offset == 0){
             for (FaceNew* f0: faces){
-                drawFace(f0, NULL);
+                drawFace(f0, NULL, currSession);
             }
         } else{
             for (FaceNew* f0: inFaces){
-                drawFace(f0, NULL);
+                drawFace(f0, NULL, currSession);
             }
             for (FaceNew* f0: outFaces){
-                drawFace(f0, NULL);
+                drawFace(f0, NULL, currSession);
             }
         }
     } else{
@@ -334,8 +334,8 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                 //newInFace->surface = createSurface(r, g, b, "HELLO");
                 newInFace->surface = outSurf;
                 newFace->surface = inSurf;
-                drawFace(newFace, NULL);
-                drawFace(newInFace, NULL);
+                drawFace(newFace, NULL, currSession);
+                drawFace(newInFace, NULL, currSession);
 
                 Vert* startInVert;
                 Vert* endInVert;
@@ -426,7 +426,7 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                         testFace->surface = offsetSurf;
                         outFaces.push_back(testFace);
 
-                        drawFace(testFace, NULL);
+                        drawFace(testFace, NULL, currSession);
 
                         }
                     }
@@ -434,7 +434,7 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
 
 
             } else {
-                drawFace(f, NULL);
+                drawFace(f, NULL, currSession);
             }
 
         }
@@ -635,8 +635,6 @@ void MeshNew::calculateNormal(){
             v->edgesSeen.clear();
         }
     }
-
-
 
     // Calulcate Vertex Normal
     for (FaceNew* currFace : this->faces){

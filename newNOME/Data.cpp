@@ -764,7 +764,7 @@ bool deleteFace(FaceNew* face)
 }
 
 
-bool drawVert(Vert* v0, Surface * instSurface){
+bool drawVert(Vert* v0, Surface * instSurface, Session* currSession){
     //std::cout << v0->index << std::endl;
 
     QColor color;
@@ -773,7 +773,7 @@ bool drawVert(Vert* v0, Surface * instSurface){
     } else if (v0->surface != NULL){
         color = v0->surface->getColor();
     } else {
-        color = defaultColor;
+        color = currSession->foreColor->getColor();
     }
 
 
@@ -824,7 +824,7 @@ bool drawVert(Vert* v0, Surface * instSurface){
     return true;
 }
 
-bool drawEdge(EdgeNew* e0, Surface * instSurface)
+bool drawEdge(EdgeNew* e0, Surface * instSurface, Session* currSession)
 {
     QColor color;
     if (instSurface != NULL){
@@ -832,7 +832,7 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     } else if (e0->surface != NULL){
         color = e0->surface->getColor();
     } else{
-        color = defaultColor;
+        color = currSession->foreColor->getColor();;
     }
 
     GLfloat fcolor[] = {1.0f * color.red() / 255,
@@ -946,7 +946,7 @@ bool drawNormal(Vert* v0, Surface * instSurface){
     } else if (v0->surface != NULL){
         color = v0->surface->getColor();
     } else {
-        color = defaultColor;
+        color = QColor(255, 0, 0);
     }
 
     GLfloat fcolor[4] = {0,0,0,0};
@@ -1001,7 +1001,7 @@ bool drawNormal(Vert* v0, Surface * instSurface){
     return true;
 }
 
-bool drawFace(FaceNew* f0, Surface * instSurface)
+bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession)
 {
     QColor color;
     if (instSurface != NULL){
@@ -1010,7 +1010,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     else if (f0->surface != NULL){
         color = f0->surface->getColor();
     } else{
-        color = defaultColor;
+        color = currSession->foreColor->getColor();;
     }
 
     GLfloat fcolor[4] = {0,0,0,0};
@@ -1036,16 +1036,6 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glNormal3f(normalVector[0], normalVector[1], normalVector[2]);
     for(auto v0 : f0->verts) {
       glVertex3f(v0->xTransformed, v0->yTransformed, v0->zTransformed);
-    }
-    glEnd();
-
-
-    glLoadName(f0->index);
-    glBegin(GL_POLYGON);
-    glNormal3f(-normalVector[0], -normalVector[1], -normalVector[2]);
-    //for(auto v0 : f0->verts) {
-    for (std::list<Vert*>::reverse_iterator rit=f0->verts.rbegin(); rit!=f0->verts.rend(); ++rit){
-      glVertex3f((*rit)->xTransformed, (*rit)->yTransformed, (*rit)->zTransformed);
     }
     glEnd();
 
@@ -1169,10 +1159,10 @@ void FaceNew::calculateFacePoint(){
     double *xFacePoint = (double*) malloc(sizeof(double));
     double *yFacePoint = (double*) malloc(sizeof(double));
     double *zFacePoint = (double*) malloc(sizeof(double));
+
     *xFacePoint = 0;
     *yFacePoint = 0;
     *zFacePoint = 0;
-
 
     for (Vert * currVert : this->verts){
         *xFacePoint += currVert->xTransformed;
@@ -1184,8 +1174,36 @@ void FaceNew::calculateFacePoint(){
     *yFacePoint = *yFacePoint / this->verts.size();
     *zFacePoint = *zFacePoint / this->verts.size();
 
-    //std::cout << name << std::endl;
-    //std::cout << index << std::endl;
+    this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
+}
+
+void FaceNew::calculateWeightedFacePoint(){
+    // Takes the average of all the point on the face.
+    double *xFacePoint = (double*) malloc(sizeof(double));
+    double *yFacePoint = (double*) malloc(sizeof(double));
+    double *zFacePoint = (double*) malloc(sizeof(double));
+    *xFacePoint = 0;
+    *yFacePoint = 0;
+    *zFacePoint = 0;
+    double totalLength = 0.0;
+    for (Vert * currVert : this->verts){
+        // Need to weight vertex according to length edge.
+        double length = 0.0;
+        for (EdgeNew* e : this->edges){
+            if (e->v0->index == currVert->index || e->v1->index == currVert->index){
+                length += sqrt(pow(e->v1->xTransformed - e->v0->xTransformed, 2) + pow(e->v1->yTransformed - e->v0->yTransformed, 2) + pow(e->v1->zTransformed - e->v0->zTransformed, 2));
+            }
+        }
+        *xFacePoint += currVert->xTransformed * length;
+        *yFacePoint += currVert->yTransformed * length;
+        *zFacePoint += currVert->zTransformed * length;
+        totalLength += length;
+    }
+
+    *xFacePoint = *xFacePoint / (totalLength);
+    *yFacePoint = *yFacePoint / (totalLength);
+    *zFacePoint = *zFacePoint / (totalLength);
+
     this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
 }
 

@@ -45,6 +45,8 @@ public:
     std::string name;
     std::string fileContent;
 
+    int subdivisionType = 0;
+
     bool recalculateOffset = true;
     bool recalculateSubdivision = true;
     bool recalculateSlider = true;

@@ -222,16 +222,16 @@ bool InstanceNew::updateNames()
 bool InstanceNew::draw()
 {
     for(auto v : verts) {
-      drawVert(v, surface);
+      drawVert(v, surface, currSession);
     }
     for(auto e : edges) {
-      drawEdge(e, surface);
+      drawEdge(e, surface, currSession);
     }
     for(auto f : faces) {
       /*for(auto v : f->verts) {
           std::cout << v->name << std::endl;
       }*/
-      drawFace(f, surface);
+      drawFace(f, surface, currSession);
     }
 
     for (auto i : listInstances) {
@@ -422,7 +422,7 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
 bool InstanceNew::drawFaces()
 {
     for(auto f : faces) {
-      drawFace(f, surface);
+      drawFace(f, surface, currSession);
     }
 
     for (auto i : listInstances) {

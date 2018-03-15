@@ -823,14 +823,17 @@ void Session::createFlattenMesh(bool instance){
     else{
         tmpflattenMesh = flattenMesh;
     }
-    /*std::cout << "===" << std::endl;
-    std::cout << tmpflattenMesh->faces.size() << std::endl;
-    std::cout << tmpflattenMesh->edges.size() << std::endl;
-    std::cout << tmpflattenMesh->verts.size() << std::endl;*/
+
     // http://www.rorydriscoll.com/2008/08/01/catmull-clark-subdivision-the-basics/
     // STEP 1: Calculate face points.
-    for (FaceNew* currFace : tmpflattenMesh->faces){
-        currFace->calculateFacePoint();
+    if (this->subdivisionType == 0){
+        for (FaceNew* currFace : tmpflattenMesh->faces){
+            currFace->calculateFacePoint();
+        }
+    } else if (this->subdivisionType == 1){
+        for (FaceNew* currFace : tmpflattenMesh->faces){
+            currFace->calculateWeightedFacePoint();
+        }
     }
 
     for (EdgeNew* currEdge : tmpflattenMesh->edges){
@@ -845,19 +848,6 @@ void Session::createFlattenMesh(bool instance){
 }
 
 void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
-
-    /*if (!calculateOffset && !calculateSubdivide){
-        for (FaceNew* f : flattenMesh->inFaces){
-            drawFace(f, NULL);
-        }
-        for (FaceNew* f : flattenMesh->outFaces){
-            drawFace(f, NULL);
-        }
-        for (FaceNew* f : flattenMesh->faces){
-            drawFace(f, NULL);
-        }
-        return;
-    }*/
 
 
     bool computeOffset = false;
@@ -885,6 +875,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
 
         subdivisionLevel = subdivision;
     }
+
     flattenMesh->draw(offset, (computeOffset || calculateOffset), outsideColor, insideColor, offsetColor, this);
 
     /*for (Vert* hello : flattenMesh->verts){

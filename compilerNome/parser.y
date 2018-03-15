@@ -340,6 +340,13 @@ subdivision:
         parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *subdivision = *currentValSet;
 
+        std::string subdivType(strdup($<string>5));
+        if (subdivType.compare("SLF_CATMULL_CLARK") == 0){
+          currSession->subdivisionType = 0;
+        } else if (subdivType.compare("WEIGHTED_FACEPOINT_SLF_CATMULL_CLARK") == 0){
+          currSession->subdivisionType = 1;
+        }
+
         SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     };

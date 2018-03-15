@@ -149,6 +149,7 @@ public:
     Vert* facePoint;
     bool mobius = false;
     void calculateFacePoint();
+    void calculateWeightedFacePoint();
     std::vector<double> normal = {0,0,0};
 
     std::vector<double> getNormal();
@@ -197,9 +198,9 @@ bool deleteVert(Vert* vert);
 bool deleteEdge(EdgeNew* edge);
 bool deleteFace(FaceNew* face);
 
-bool drawVert(Vert* v0, Surface * instSurface);
-bool drawEdge(EdgeNew* e0, Surface * instSurface);
-bool drawFace(FaceNew* f0, Surface * instSurface);
+bool drawVert(Vert* v0, Surface * instSurface, Session* currSession);
+bool drawEdge(EdgeNew* e0, Surface * instSurface, Session* currSession);
+bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession);
 
 bool drawNormal(Vert* v0, Surface * instSurface);
 
