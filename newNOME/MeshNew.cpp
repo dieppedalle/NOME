@@ -548,9 +548,15 @@ void MeshNew::calculateNormal(){
         std::list<Vert*>::iterator it = currFace->verts.begin();
         std::vector<Vert*> firstVerts;
 
+        std::cout << "VERTICES" << std::endl;
+        for (Vert* vv : currFace->verts){
+            std::cout << vv->name << std::endl;
+        }
+        std::cout << "=====" << std::endl;
 
         int i = -1;
         while (it != currFace->verts.end()){
+
             if (i == 3){
                 break;
             }
@@ -599,6 +605,9 @@ void MeshNew::calculateNormal(){
 
                 std::vector<double> normalVector;
                 //normalVector = getNormalFromVerts(firstVerts);
+                std::cout << "CURRENT VERTEX" << std::endl;
+                std::cout << firstVertsOrder[1]->name << std::endl;
+                std::cout << ":::" << std::endl;
                 normalVector = getNormalFromVertsForOffset(firstVertsOrder, this);
 
                 double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
@@ -608,9 +617,17 @@ void MeshNew::calculateNormal(){
                 normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
                 normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
 
+                /*std::cout << firstVertsOrder[1]->name << std::endl;
+                std::cout << "NORMAL" << std::endl;
+                std::cout << normalVector[2] << std::endl;
+                std::cout << "WEIGHTED" << std::endl;
+                std::cout << (new_magnitude / magnitude) << std::endl;
+                std::cout << "MAGNITUDE" << std::endl;
+                std::cout << (magnitude) << std::endl;*/
                 firstVertsOrder[1] -> normal[0] += normalVector[0];
                 firstVertsOrder[1] -> normal[1] += normalVector[1];
                 firstVertsOrder[1] -> normal[2] += normalVector[2];
+                //std::cout << (firstVertsOrder[1] -> normal[2]) << std::endl;
 
                 firstVerts.erase(firstVerts.begin());
             }

@@ -38,7 +38,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
        MeshNew* currentMesh = instanceNest->mesh;
        std::string currentName = instanceNest->name;
        std::list<TransformationNew*> currentTransformations = instanceNest->transformations;
-
+        //std::cout << currentTransformations.size() << std::endl;
        if (currentMesh != NULL){
            InstanceNew* newInstance;
            newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, true, currSession);
