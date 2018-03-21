@@ -44,7 +44,9 @@ public:
     std::list<OffsetNew*> offsets;
     std::string name;
     std::string fileContent;
-    std::vector<std::vector<Vert*>> borders;
+    std::vector<std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>>> borders = std::vector<std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>>>();
+    std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> tmpBorder;
+    bool isBorderSelected = false;
 
     int subdivisionType = 0;
 
@@ -100,8 +102,8 @@ public:
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
     void createFlattenMesh(bool instance);
     std::vector<Vert*> findLoop(Vert* startVert, std::vector<Vert*> selectedVertsLoop);
-    std::vector<Vert*> findBorder(Vert* startVert);
-    std::vector<Vert*> findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges);
+    std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> findBorder(Vert* startVert);
+    std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges);
 
     OctantNew* getOctreeRoot() const { return OctreeRoot; }
 

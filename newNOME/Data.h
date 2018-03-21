@@ -126,6 +126,7 @@ public:
     FaceNew* f0; FaceNew* f1;
     EdgeI index;
     Surface* surface;
+    bool selected = false;
 
     // Used for subdivision
     Vert* edgePoint;

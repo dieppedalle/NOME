@@ -835,11 +835,18 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface, Session* currSession)
         color = currSession->foreColor->getColor();;
     }
 
-    GLfloat fcolor[] = {1.0f * color.red() / 255,
-                        1.0f * color.green() / 255,
-                        1.0f * color.blue() / 255,
-                        1.0f * color.alpha() /255};
-
+    GLfloat fcolor[4] = {0,0,0,0};
+    if (e0->selected){
+        fcolor[0] = 255 - currSession->foreColor->getColor().red();
+        fcolor[1] = 255 - currSession->foreColor->getColor().green();
+        fcolor[2] = 255 - currSession->foreColor->getColor().blue();
+        fcolor[3] = 0;
+    } else {
+        fcolor[0] = 1.0f * color.red() / 255;
+        fcolor[1] = 1.0f * color.green() / 255;
+        fcolor[2] = 1.0f * color.blue() / 255;
+        fcolor[3] = 1.0f * color.alpha() /255;
+    }
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);

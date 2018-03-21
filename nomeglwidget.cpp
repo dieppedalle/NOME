@@ -268,30 +268,42 @@ void SlideGLWidget::mouse_select(int x, int y)
 
         if (selectedVertex)
         {
-            /*selectedVertex->selected = !selectedVertex->selected;
-            if (selectedVertex -> selected == true) {
-                currSession->selectedVerts.push_back(selectedVertex);
-            }
-            else {
-                currSession->selectedVerts.remove(selectedVertex);
-            }*/
 
-            std::vector<Vert*> loop = currSession->findBorder(selectedVertex);
+            std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> loopInfo = currSession->findBorder(selectedVertex);
+            std::vector<Vert*> loop = std::get<0>(loopInfo);
 
             set<Vert*> s( loop.begin(), loop.end() );
             loop.assign( s.begin(), s.end() );
 
-            for (Vert* v : loop){
-                v->selected = !v->selected;
-                if (v -> selected == true) {
-                    currSession->selectedVerts.push_back(v);
+            std::vector<EdgeNew*> eloop = std::get<1>(loopInfo);
+            set<EdgeNew*> es( eloop.begin(), eloop.end() );
+            eloop.assign( es.begin(), es.end() );
+
+            if (currSession->isBorderSelected == true){
+                for (Vert* v : std::get<0>(currSession->tmpBorder)){
+                    v->selected = false;
+                }
+                for (EdgeNew* e : std::get<1>(currSession->tmpBorder)){
+                    e->selected = false;
                 }
             }
 
+            for (Vert* v : loop){
+                v->selected = true;
+                /*if (v -> selected == true) {
+                    currSession->selectedVerts.push_back(v);
+                }*/
+            }
+            for (EdgeNew* e : eloop){
+                e->selected = true;
+            }
+
+
+
+            currSession->tmpBorder = std::make_tuple(loop, eloop);
+            currSession->isBorderSelected = true;
             update();
         }
-
-
 
         return;
     }
@@ -1222,7 +1234,14 @@ void SlideGLWidget::addTempToMasterCalled(bool) {
 
 void SlideGLWidget::addBorderCalled(bool)
 {
+    if (currSession->isBorderSelected == true){
+        currSession->borders.push_back(currSession->tmpBorder);
+        for (Vert* v : std::get<0>(currSession->tmpBorder)){
+            v->selected = false;
+        }
+    }
 
+    currSession->isBorderSelected = false;
     repaint();
 }
 

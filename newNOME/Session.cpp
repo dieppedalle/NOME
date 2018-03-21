@@ -550,6 +550,16 @@ void Session::clearSelection(){
     selectedVerts.clear();
     selectedEdges.clear();
 
+    if (isBorderSelected){
+        for (Vert * selectedVert: std::get<0>(tmpBorder)){
+            selectedVert->selected = false;
+        }
+        for (EdgeNew * selectedEdge: std::get<1>(tmpBorder)){
+            selectedEdge->selected = false;
+        }
+        isBorderSelected = false;
+    }
+
 }
 
 void Session::saveFileToStr(string fileName){
@@ -847,7 +857,7 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
-std::vector<Vert*> Session::findBorder(Vert* startVert){
+std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> Session::findBorder(Vert* startVert){
     std::vector<Vert*> borderVerts = std::vector<Vert*>();
     std::vector<EdgeNew*> seenEdges = std::vector<EdgeNew*>();
 
@@ -856,16 +866,16 @@ std::vector<Vert*> Session::findBorder(Vert* startVert){
     return findBorderRec(startVert, borderVerts, seenEdges);
 }
 
-std::vector<Vert*> Session::findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges){
+std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> Session::findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges){
     if ((startVert->index == borderVerts.front()->index) && (borderVerts.size() != 1)){
-        return borderVerts;
+        return std::make_tuple(borderVerts, seenEdges);
     }
 
     for (EdgeNew* edge : startVert->edges){
         if (std::find(seenEdges.begin(), seenEdges.end(), edge) == seenEdges.end()){
             if ((edge->f0 == NULL) || (edge->f1 == NULL)){
                 seenEdges.push_back(edge);
-                std::vector<Vert*> borderRet;
+                std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> borderRet;
                 if (startVert->index == edge->v0->index){
                     borderVerts.push_back(edge->v1);
                     borderRet = findBorderRec(edge->v1, borderVerts, seenEdges);
@@ -874,15 +884,14 @@ std::vector<Vert*> Session::findBorderRec(Vert* startVert, std::vector<Vert*> bo
                     borderRet = findBorderRec(edge->v0, borderVerts, seenEdges);
                 }
 
-                if (borderRet.size() != 0){
+                if (std::get<0>(borderRet).size() != 0){
                     return borderRet;
                 }
 
             }
         }
     }
-
-    return std::vector<Vert*>();
+    return std::make_tuple(std::vector<Vert*>(), std::vector<EdgeNew*>());
 }
 
 void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
