@@ -847,6 +847,44 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
+std::vector<Vert*> Session::findBorder(Vert* startVert){
+    std::vector<Vert*> borderVerts = std::vector<Vert*>();
+    std::vector<EdgeNew*> seenEdges = std::vector<EdgeNew*>();
+
+    borderVerts.push_back(startVert);
+
+    return findBorderRec(startVert, borderVerts, seenEdges);
+}
+
+std::vector<Vert*> Session::findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges){
+    if ((startVert->index == borderVerts.front()->index) && (borderVerts.size() != 1)){
+        return borderVerts;
+    }
+
+    for (EdgeNew* edge : startVert->edges){
+        if (std::find(seenEdges.begin(), seenEdges.end(), edge) == seenEdges.end()){
+            if ((edge->f0 == NULL) || (edge->f1 == NULL)){
+                seenEdges.push_back(edge);
+                std::vector<Vert*> borderRet;
+                if (startVert->index == edge->v0->index){
+                    borderVerts.push_back(edge->v1);
+                    borderRet = findBorderRec(edge->v1, borderVerts, seenEdges);
+                } else {
+                    borderVerts.push_back(edge->v0);
+                    borderRet = findBorderRec(edge->v0, borderVerts, seenEdges);
+                }
+
+                if (borderRet.size() != 0){
+                    return borderRet;
+                }
+
+            }
+        }
+    }
+
+    return std::vector<Vert*>();
+}
+
 void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
 
 

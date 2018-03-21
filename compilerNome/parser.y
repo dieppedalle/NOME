@@ -277,28 +277,46 @@ instanceGroup:
     INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE
     {
         Reader* currReader = createReader(currSession);
+
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->getMesh($<string>3);
 
-        InstanceNew* newInstance;
+        InstanceNew* newInstance = NULL;
+        bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false, false, currSession);
+            //if (currentTransformations2.size() > 0){
+              onlyCreateNewVertices = true;
+            //}
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
             newInstance->currSession = currSession;
-            newInstance->setName(strdup($<string>2));
         }
         else{
-            nomerror(currSession, "Incorrect vertex, face, or mesh name");
-            YYABORT;
+            GroupNew * currentGroup2 = currReader->getGroup($<string>3);
+            if (currentGroup2 != NULL) {
+                newInstance = createInstance(currentGroup2, currSession->verts, currReader, currSession);
+                newInstance->currSession = currSession;
+            }
+            else{
+                nomerror(currSession, "Incorrect vertex, face, or mesh name");
+                YYABORT;
+            }
         }
 
+        newInstance->setName(strdup($<string>2));
         newInstance->transformations = currentTransformations2;
         currentTransformations2.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
         }
+
+        /*for (InstanceNew * i : newInstance->listInstances){
+          for (TransformationNew * t : i->transformations){
+              i->applyTransformation(t);
+          }
+        }*/
 
         string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.

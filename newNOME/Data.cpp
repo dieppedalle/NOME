@@ -779,9 +779,9 @@ bool drawVert(Vert* v0, Surface * instSurface, Session* currSession){
 
     GLfloat fcolor[4] = {0,0,0,0};
     if (v0->selected){
-        fcolor[0] = 0;
-        fcolor[1] = 1;
-        fcolor[2] = 1;
+        fcolor[0] = 255 - currSession->foreColor->getColor().red();
+        fcolor[1] = 255 - currSession->foreColor->getColor().green();
+        fcolor[2] = 255 - currSession->foreColor->getColor().blue();
         fcolor[3] = 0;
     } else {
         fcolor[0] = 1.0f * color.red() / 255;
@@ -899,11 +899,12 @@ std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1){
 std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNew* mesh){
     // Takes into account the mobius edges
     std::vector<double> a;
+    std::vector<double> b;
     a.push_back((vert1[0]->xTransformed) - (vert1[1]->xTransformed));
     a.push_back((vert1[0]->yTransformed) - (vert1[1]->yTransformed));
     a.push_back((vert1[0]->zTransformed) - (vert1[1]->zTransformed));
 
-    std::vector<double> b;
+
     b.push_back((vert1[2]->xTransformed) - (vert1[1]->xTransformed));
     b.push_back((vert1[2]->yTransformed) - (vert1[1]->yTransformed));
     b.push_back((vert1[2]->zTransformed) - (vert1[1]->zTransformed));

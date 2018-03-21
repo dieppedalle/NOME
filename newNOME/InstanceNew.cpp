@@ -54,6 +54,14 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
            newInstance->transformations = currentTransformations;
            newInstance->surface = instanceNest->surface;
            i0->listInstances.push_back(newInstance);
+       } else if (instanceNest->group != NULL){
+           InstanceNew* newInstance;
+           newInstance = createInstance(instanceNest->group, vertsDef, currReader, currSession);
+           currentName = currentName.substr(currentName.find(":") + 1);
+           newInstance->setName(currentName);
+           newInstance->transformations = currentTransformations;
+           newInstance->surface = instanceNest->surface;
+           i0->listInstances.push_back(newInstance);
        }
    }
 

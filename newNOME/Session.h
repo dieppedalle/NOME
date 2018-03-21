@@ -44,6 +44,7 @@ public:
     std::list<OffsetNew*> offsets;
     std::string name;
     std::string fileContent;
+    std::vector<std::vector<Vert*>> borders;
 
     int subdivisionType = 0;
 
@@ -99,6 +100,8 @@ public:
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
     void createFlattenMesh(bool instance);
     std::vector<Vert*> findLoop(Vert* startVert, std::vector<Vert*> selectedVertsLoop);
+    std::vector<Vert*> findBorder(Vert* startVert);
+    std::vector<Vert*> findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges);
 
     OctantNew* getOctreeRoot() const { return OctreeRoot; }
 

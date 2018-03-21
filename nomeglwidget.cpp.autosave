@@ -268,14 +268,6 @@ void SlideGLWidget::mouse_select(int x, int y)
 
         if (selectedVertex)
         {
-            /*selectedVertex->selected = !selectedVertex->selected;
-            if (selectedVertex -> selected == true) {
-                currSession->selectedVerts.push_back(selectedVertex);
-            }
-            else {
-                currSession->selectedVerts.remove(selectedVertex);
-            }*/
-
             std::vector<Vert*> loop = currSession->findBorder(selectedVertex);
 
             set<Vert*> s( loop.begin(), loop.end() );
