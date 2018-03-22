@@ -147,7 +147,9 @@ set(HEADERS
         newNOME/Octree.h
         newNOME/OctreeProxy.h)
 
-add_executable(Nome ${SOURCES} ${HEADERS})
+add_executable(Nome MACOSX_BUNDLE ${SOURCES} ${HEADERS})
+
+set_target_properties(Nome PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME Nome MACOSX_BUNDLE_BUNDLE_VERSION 1.0)
 
 target_link_libraries(Nome PRIVATE Math)
 
@@ -159,5 +161,5 @@ target_link_libraries(Nome PRIVATE ${OPENGL_LIBRARIES})
 
 target_link_libraries(Nome PRIVATE glm)
 
-install(TARGETS Nome RUNTIME DESTINATION .)
+install(TARGETS Nome RUNTIME DESTINATION . BUNDLE DESTINATION .)
 install(DIRECTORY examples DESTINATION .)
