@@ -289,13 +289,15 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
             listOutVert.clear();
             listInVert.clear();
             //std::cout << "DONE" << std::endl;
+            //std::cout << f->mobius << std::endl;
             for(Vert* v : f->verts) {
-                //std::cout << v->mobius << std::endl;
                 v->updateOutOffsetVertex(offset);
                 v->updateInOffsetVertex(offset);
+                //std::cout << v->mobius << std::endl;
+
 
                 //if (dotProductNormal(f->getNormal(), v->normal)>= 0){
-                 if (f->mobius == true && v->mobius == true){
+                 if (v->mobius == true && f->mobius){
                     listOutVert.push_back(v->normalOutVert);
                     listInVert.push_back(v->normalInVert);
                 }
@@ -538,7 +540,7 @@ MeshNew* MeshNew::subdivideMesh(){
     return newMesh;
 }
 
-void MeshNew::calculateNormal(){
+void MeshNew::calculateNormal(Session* currSession){
     for (Vert* currVert : this->verts){
         currVert->normal = {0, 0, 0};
         currVert->edgesSeen.clear();
@@ -603,9 +605,22 @@ void MeshNew::calculateNormal(){
                 std::vector<double> normalVector;
                 normalVector = getNormalFromVertsForOffset(firstVertsOrder, this);
 
-                currFace->normal[0] += normalVector[0];
-                currFace->normal[1] += normalVector[1];
-                currFace->normal[2] += normalVector[2];
+                if (currSession->offsetType == 1){
+                    currFace->normal[0] += normalVector[0];
+                    currFace->normal[1] += normalVector[1];
+                    currFace->normal[2] += normalVector[2];
+                } else if (currSession->offsetType == 0){
+                    double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
+                    double new_magnitude = abs(getAngleFromVerts(firstVertsOrder));
+
+                    normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
+                    normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
+                    normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+
+                    firstVertsOrder[1] -> normal[0] += normalVector[0];
+                    firstVertsOrder[1] -> normal[1] += normalVector[1];
+                    firstVertsOrder[1] -> normal[2] += normalVector[2];
+                }
 
                 firstVerts.erase(firstVerts.begin());
             }
@@ -630,98 +645,100 @@ void MeshNew::calculateNormal(){
         currFace->normal[1] /= currFace->verts.size();
         currFace->normal[2] /= currFace->verts.size();
     }
-    for (FaceNew* currFace : this->faces){
-        for (Vert* v : currFace->verts){
-            v->edgesSeen.clear();
+
+    if (currSession->offsetType == 1){
+        for (FaceNew* currFace : this->faces){
+            for (Vert* v : currFace->verts){
+                v->edgesSeen.clear();
+            }
         }
-    }
 
-    // Calulcate Vertex Normal
-    for (FaceNew* currFace : this->faces){
-        std::list<Vert*>::iterator it = currFace->verts.begin();
-        std::vector<Vert*> firstVerts;
+        // Calulcate Vertex Normal
+        for (FaceNew* currFace : this->faces){
+            std::list<Vert*>::iterator it = currFace->verts.begin();
+            std::vector<Vert*> firstVerts;
 
 
-        int i = -1;
-        while (it != currFace->verts.end()){
+            int i = -1;
+            while (it != currFace->verts.end()){
 
-            if (i == 3){
-                break;
-            }
+                if (i == 3){
+                    break;
+                }
 
-            if (firstVerts.size() == 3){
+                if (firstVerts.size() == 3){
 
-                // FOUND TWO EDGES
-                // 0 not found
-                // 1 good
-                // 2 wrong order
-                int foundE0 = 0;
-                int foundE1 = 0;
+                    // FOUND TWO EDGES
+                    // 0 not found
+                    // 1 good
+                    // 2 wrong order
+                    int foundE0 = 0;
+                    int foundE1 = 0;
 
-                for (std::tuple<Vert*,Vert*> vertTuple : firstVerts[1]->edgesSeen){
-                    if  (std::get<0>(vertTuple) == firstVerts[0] && std::get<1>(vertTuple) == firstVerts[1]){
-                        // EDGE IS FOUND WE ARE GOOD
-                        foundE0 = 2;
-                    } else if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[0]){
-                        // WRONG ORDER BUT GOOD AS CLOCKWISE
-                        foundE0 = 1;
+                    for (std::tuple<Vert*,Vert*> vertTuple : firstVerts[1]->edgesSeen){
+                        if  (std::get<0>(vertTuple) == firstVerts[0] && std::get<1>(vertTuple) == firstVerts[1]){
+                            // EDGE IS FOUND WE ARE GOOD
+                            foundE0 = 2;
+                        } else if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[0]){
+                            // WRONG ORDER BUT GOOD AS CLOCKWISE
+                            foundE0 = 1;
+                        }
+
+                        if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[2]){
+                            // EDGE IS FOUND WRONG ORDER
+                            foundE1 = 2;
+                        } else if  (std::get<0>(vertTuple) == firstVerts[2] && std::get<1>(vertTuple) == firstVerts[1]){
+                            // WRONG ORDER BUT GOOD AS CLOCKWISE
+                            foundE1 = 1;
+                        }
+                    }
+                    if (foundE0 == 0){
+                        firstVerts[1]->edgesSeen.push_back(std::make_tuple (firstVerts[0], firstVerts[1]));
+                    }
+                    if (foundE1 == 0){
+                        firstVerts[1]->edgesSeen.push_back(std::make_tuple (firstVerts[1], firstVerts[2]));
+                    }
+                    std::vector<Vert*> firstVertsOrder;
+                    for (Vert* v : firstVerts){
+                        firstVertsOrder.push_back(v);
+                    }
+                    if (foundE0 == 2 || foundE1 == 2){
+                        std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
+                        firstVerts[1]->mobius = true;
+                        currFace->mobius = true;
                     }
 
-                    if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[2]){
-                        // EDGE IS FOUND WRONG ORDER
-                        foundE1 = 2;
-                    } else if  (std::get<0>(vertTuple) == firstVerts[2] && std::get<1>(vertTuple) == firstVerts[1]){
-                        // WRONG ORDER BUT GOOD AS CLOCKWISE
-                        foundE1 = 1;
-                    }
+                    std::vector<double> normalVector;
+
+                    normalVector = currFace->normal;
+
+                    double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
+                    double new_magnitude = abs(getAngleFromVerts(firstVertsOrder));
+
+                    normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
+                    normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
+                    normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+
+
+                    firstVertsOrder[1] -> normal[0] += normalVector[0];
+                    firstVertsOrder[1] -> normal[1] += normalVector[1];
+                    firstVertsOrder[1] -> normal[2] += normalVector[2];
+
+                    firstVerts.erase(firstVerts.begin());
                 }
-                if (foundE0 == 0){
-                    firstVerts[1]->edgesSeen.push_back(std::make_tuple (firstVerts[0], firstVerts[1]));
-                }
-                if (foundE1 == 0){
-                    firstVerts[1]->edgesSeen.push_back(std::make_tuple (firstVerts[1], firstVerts[2]));
-                }
-                std::vector<Vert*> firstVertsOrder;
-                for (Vert* v : firstVerts){
-                    firstVertsOrder.push_back(v);
-                }
-                if (foundE0 == 2 || foundE1 == 2){
-                    std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
-                    firstVerts[1]->mobius = true;
-                    currFace->mobius = true;
+                firstVerts.push_back((*it));
+
+                it++;
+
+                if (i != -1){
+                    i++;
                 }
 
-                std::vector<double> normalVector;
-
-                normalVector = currFace->normal;
-
-                double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
-                double new_magnitude = abs(getAngleFromVerts(firstVertsOrder));
-
-                normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
-                normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
-                normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
-
-
-                firstVertsOrder[1] -> normal[0] += normalVector[0];
-                firstVertsOrder[1] -> normal[1] += normalVector[1];
-                firstVertsOrder[1] -> normal[2] += normalVector[2];
-
-                firstVerts.erase(firstVerts.begin());
+                if ((i == -1) && (it == currFace->verts.end())){
+                    it = currFace->verts.begin();
+                    i++;
+                }
             }
-            firstVerts.push_back((*it));
-
-            it++;
-
-            if (i != -1){
-                i++;
-            }
-
-            if ((i == -1) && (it == currFace->verts.end())){
-                it = currFace->verts.begin();
-                i++;
-            }
-
         }
     }
     for (Vert* currVert : this->verts){
@@ -736,6 +753,8 @@ void MeshNew::calculateNormal(){
             currVert->normal[2] = currVert->normal[2] / magnitude;
         }
     }
+
+
 }
 
 bool MeshNew::setSurface(Surface* surface){

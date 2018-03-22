@@ -385,10 +385,10 @@ offset:
         *step = *currentValSet;
 
         std::string offsetType(strdup($<string>5));
-        if (subdivType.compare("SLF_CATMULL_CLARK") == 0){
-          currSession->subdivisionType = 0;
-        } else if (subdivType.compare("WEIGHTED_FACEPOINT_SLF_CATMULL_CLARK") == 0){
-          currSession->subdivisionType = 1;
+        if (offsetType.compare("REGULAR") == 0){
+          currSession->offsetType = 0;
+        } else if (offsetType.compare("WEIGHTED") == 0){
+          currSession->offsetType = 1;
         }
 
         OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);

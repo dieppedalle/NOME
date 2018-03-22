@@ -55,7 +55,7 @@ public:
     bool setName(std::string n);
     bool updateNames();
 
-    void calculateNormal();
+    void calculateNormal(Session* currSession);
 
     Node* vert(std::string);
     Node* edge(std::string);

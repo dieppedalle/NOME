@@ -659,7 +659,7 @@ void Session::zipBorders(){
             for (Vert * selectedVert: currentVertsList){
                 tmpMesh->verts.push_back(selectedVert);
             }
-            tmpFaceIndex++;
+            tmpFaceIndex+=1;
             //==============
             Vert* vert2a = std::get<1>(*vv);
             Vert* vert2b;
@@ -684,7 +684,7 @@ void Session::zipBorders(){
 
             setTmpSurface(newFace2);
 
-            newFace->setName("f" + std::to_string(tmpFaceIndex));
+            newFace2->setName("f" + std::to_string(tmpFaceIndex));
 
             tmpMesh->faces.push_back(newFace2);
             for (Vert * selectedVert: currentVertsList2){
@@ -1027,7 +1027,7 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
                 flattenMesh = flattenMesh->subdivideMesh();
                 flattenMeshList.push_back(flattenMesh);
             }
-            flattenMesh->calculateNormal();
+            flattenMesh->calculateNormal(this);
         }
 
         subdivisionLevel = subdivision;
