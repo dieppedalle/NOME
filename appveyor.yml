@@ -1,15 +1,10 @@
 version: 0.1.{build}
 image: Visual Studio 2017
 shallow_clone: true
-environment:
-  APPVEYOR_RDP_PASSWORD:
-    secure: qokfKeg1HYunzNRW1y6fGg==
 
 install:
 - cmd: >-
-    choco upgrade git -y
-
-    set PATH=C:\Qt\5.10.0\msvc2017_64\bin;%PATH%
+    set PATH=C:\Qt\5.10\msvc2017_64\bin;%PATH%
 
     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 

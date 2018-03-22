@@ -475,6 +475,7 @@ void SlideGLWidget::paintGLImpl()
                  1.0f * *currSession->backColor->g,
                  1.0f * *currSession->backColor->b,
                  1.0f * 255 / 255);
+    glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
