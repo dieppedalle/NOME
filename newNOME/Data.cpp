@@ -777,6 +777,7 @@ bool drawVert(Vert* v0, Surface * instSurface, Session* currSession){
         fcolor[1] = 255 - currSession->foreColor->getColor().green();
         fcolor[2] = 255 - currSession->foreColor->getColor().blue();
         fcolor[3] = 0;
+        glDepthRange(0.0, 0.9);
     } else {
         fcolor[0] = 1.0f * color.red() / 255;
         fcolor[1] = 1.0f * color.green() / 255;
@@ -1025,7 +1026,6 @@ bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession)
         fcolor[1] = 1;
         fcolor[2] = 1;
         fcolor[3] = 0;
-        glDepthRange(0.0, 0.9);
     } else {
         fcolor[0] = 1.0f * color.red() / 255;
         fcolor[1] = 1.0f * color.green() / 255;
