@@ -309,6 +309,7 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
 
             }
             bool wasReversed = false;
+
             if (f->mobius){
                 listInVert.swap(listOutVert);
                 std::reverse(listInVert.begin(), listInVert.end());
@@ -322,7 +323,6 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                 //listInVert.reverse();
                 FaceNew* newFace = createOffsetFace(listOutVert);
                 outFaces.push_back(newFace);
-
 
                 FaceNew* newInFace = createOffsetFace(listInVert);
                 inFaces.push_back(newInFace);
@@ -391,6 +391,7 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                     std::list<Vert*> listEdgeVert;
 
                     if (posStartIn != -1 || posEndIn != -1 || posStartOut != -1 || posEndOut != -1){
+                        //std::cout << "TEST" << std::endl;
                         if (wasReversed == true){
                             // MAYBE BUG WITH THIS PART NEED TO CHECK
                             // THIS PART IS FOR MOBIUS EDGES

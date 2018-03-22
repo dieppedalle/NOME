@@ -229,6 +229,8 @@ void SlideGLWidget::mouse_select(int x, int y)
 
         if (selectedVertex)
         {
+            Reader* currReader = createReader(currSession);
+            std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             selectedVertex->selected = !selectedVertex->selected;
             if (selectedVertex -> selected == true) {
                 currSession->selectedVerts.push_back(selectedVertex);

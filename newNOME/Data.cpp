@@ -907,9 +907,9 @@ std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNe
     a.push_back((vert1[0]->zTransformed) - (vert1[1]->zTransformed));
 
 
-    b.push_back((vert1[2]->xTransformed) - (vert1[1]->xTransformed));
-    b.push_back((vert1[2]->yTransformed) - (vert1[1]->yTransformed));
-    b.push_back((vert1[2]->zTransformed) - (vert1[1]->zTransformed));
+    b.push_back((vert1[1]->xTransformed) - (vert1[2]->xTransformed));
+    b.push_back((vert1[1]->yTransformed) - (vert1[2]->yTransformed));
+    b.push_back((vert1[1]->zTransformed) - (vert1[2]->zTransformed));
 
     double xCross = (a[1]*b[2] - a[2]*b[1]);
     double yCross = (a[2]*b[0] - a[0]*b[2]);
