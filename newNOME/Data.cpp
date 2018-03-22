@@ -549,9 +549,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
     std::list<Vert*>::iterator vertsIt = verts.begin();
     for( EdgeNew* edge : edges )
     {
-        //std::cout << "EDGE NUMBER" << std::endl;
-        //std::cout << edge->v0->name << std::endl;
-        //std::cout << edge->v1->name << std::endl;
         if (edge->f0 == NULL){
             edge->f0 = f0;
         }
@@ -614,9 +611,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         vertsIt++;
 
         f0->edges.push_back(edge);
-
-        //std::cout << "NAME" << std::endl;
-        //std::cout << f0->name << std::endl;
 
         //Check if an edge has more than two adjacent faces
         if( edge->faceCount == 0 )
@@ -847,6 +841,7 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface, Session* currSession)
         fcolor[2] = 1.0f * color.blue() / 255;
         fcolor[3] = 1.0f * color.alpha() /255;
     }
+    //glLineWidth(2.5);
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);

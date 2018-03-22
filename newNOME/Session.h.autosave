@@ -49,6 +49,7 @@ public:
     bool isBorderSelected = false;
 
     int subdivisionType = 0;
+    int offsetType = 0;
 
     bool recalculateOffset = true;
     bool recalculateSubdivision = true;

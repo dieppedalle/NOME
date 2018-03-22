@@ -11,6 +11,7 @@
 #include "newNOME/ConsolidateWindow.h"
 #include "newNOME/GroupWindow.h"
 #include "newNOME/Reader.h"
+#include "newNOME/Data.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -268,16 +269,15 @@ void SlideGLWidget::mouse_select(int x, int y)
 
         if (selectedVertex)
         {
-
             std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> loopInfo = currSession->findBorder(selectedVertex);
             std::vector<Vert*> loop = std::get<0>(loopInfo);
 
-            set<Vert*> s( loop.begin(), loop.end() );
-            loop.assign( s.begin(), s.end() );
+            //set<Vert*> s( loop.begin(), loop.end() );
+            //loop.assign( s.begin(), s.end() );
 
             std::vector<EdgeNew*> eloop = std::get<1>(loopInfo);
-            set<EdgeNew*> es( eloop.begin(), eloop.end() );
-            eloop.assign( es.begin(), es.end() );
+            //set<EdgeNew*> es( eloop.begin(), eloop.end() );
+            //eloop.assign( es.begin(), es.end() );
 
             if (currSession->isBorderSelected == true){
                 for (Vert* v : std::get<0>(currSession->tmpBorder)){
@@ -1117,19 +1117,9 @@ void SlideGLWidget::addToTempCalled(bool)
 
 void SlideGLWidget::zipToTempCalled(bool)
 {
-    if(border1.isEmpty() || border2.isEmpty()) {
-        emit feedback_status_bar(tr("Please select two borders to zip!"), 0);
-        return;
-    }
-    zipper->zip(&border1, &border2, temp_mesh, 1.3);
-    //new_temp_mesh.color = temp_mesh.color;
-    //temp_mesh = merge(temp_mesh, new_temp_mesh);
-    temp_mesh.computeNormals();
-    //temp_mesh.color = new_temp_mesh.color;
-    updateGlobalIndexList();
-    mySelect.clearSelection();
-    border1.clear();
-    border2.clear();
+
+    currSession->zipBorders();
+
     repaint();
 }
 

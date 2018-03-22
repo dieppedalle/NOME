@@ -370,19 +370,26 @@ subdivision:
     };
 
 offset:
-    OFFSET VARIABLE MIN numberValue MAX numberValue STEP numberValue END_OFFSET
+    OFFSET VARIABLE instanceOffseSubdivideArgs TYPE VARIABLE MIN numberValue MAX numberValue STEP numberValue END_OFFSET
     {
         double *min = (double*) malloc(sizeof(double));
         double *max = (double*) malloc(sizeof(double));
         double *step = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
+        parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *min = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
+        parseGetBankVal($<string>9, currSession, currentValSet, nomlineno);
         *max = *currentValSet;
-        parseGetBankVal($<string>8, currSession, currentValSet, nomlineno);
+        parseGetBankVal($<string>11, currSession, currentValSet, nomlineno);
         *step = *currentValSet;
+
+        std::string offsetType(strdup($<string>5));
+        if (subdivType.compare("SLF_CATMULL_CLARK") == 0){
+          currSession->subdivisionType = 0;
+        } else if (subdivType.compare("WEIGHTED_FACEPOINT_SLF_CATMULL_CLARK") == 0){
+          currSession->subdivisionType = 1;
+        }
 
         OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
 

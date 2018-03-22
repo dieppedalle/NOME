@@ -550,15 +550,20 @@ void Session::clearSelection(){
     selectedVerts.clear();
     selectedEdges.clear();
 
-    if (isBorderSelected){
-        for (Vert * selectedVert: std::get<0>(tmpBorder)){
-            selectedVert->selected = false;
-        }
-        for (EdgeNew * selectedEdge: std::get<1>(tmpBorder)){
+    for (Vert * selectedVert: std::get<0>(tmpBorder)){
+        selectedVert->selected = false;
+    }
+    for (EdgeNew * selectedEdge: std::get<1>(tmpBorder)){
+        selectedEdge->selected = false;
+    }
+    isBorderSelected = false;
+
+    for (std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border : borders){
+        for (EdgeNew * selectedEdge: std::get<1>(border)){
             selectedEdge->selected = false;
         }
-        isBorderSelected = false;
     }
+    borders.clear();
 
 }
 
@@ -594,6 +599,111 @@ void Session::draw(){
     if (tmpInstance != NULL){
         //std::cout << "TMP INSTANCE" << std::endl;
         tmpInstance->draw();
+    }
+}
+
+void Session::zipBorders(){
+    if (this->borders.size() == 2){
+        std::cout << "Zippering borders." << std::endl;
+        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border0 = borders[0];
+        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border1 = borders[1];
+
+        std::vector<std::tuple<Vert*, Vert*>> closeVertices;
+
+        double minDistance = DBL_MAX;
+        Vert* closestVert = NULL;
+        std::tuple<Vert*, Vert*> tupleList;
+        for (Vert* vB0 : std::get<0>(border0)){
+            minDistance = DBL_MAX;
+            for (Vert* vB1 : std::get<0>(border1)){
+                double distance = sqrt(pow((vB1->xTransformed - vB0->xTransformed), 2) + pow((vB1->yTransformed - vB0->yTransformed), 2) + pow((vB1->zTransformed - vB0->zTransformed), 2));
+                if (distance < minDistance){
+                    minDistance = distance;
+                    //closestVert = vB1;
+                    tupleList = std::make_tuple(vB0, vB1);
+                }
+            }
+            closeVertices.push_back(tupleList);
+        }
+        if (tmpMesh == NULL){
+            tmpMesh = createMesh();
+            tmpFaceIndex = 0;
+            tmpPolylineIndex = 0;
+        }
+
+        Reader* currReader = createReader(this);
+        std::vector<std::tuple<Vert*, Vert*>>::iterator vv = closeVertices.begin();
+        while (vv+1 != closeVertices.end()){
+            //std::cout <<
+            Vert* vert0a = std::get<0>(*vv);
+            Vert* vert0b;
+            if (vv+1 != closeVertices.end()){
+                vert0b = std::get<0>(*(vv+1));
+            } else{
+                vert0b = std::get<0>(*(closeVertices.begin()));
+            }
+            Vert* vert1 = std::get<1>(*vv);
+
+            std::list<Vert*> currentVertsList;
+            currentVertsList.push_back(vert0a);
+            currentVertsList.push_back(vert0b);
+            currentVertsList.push_back(vert1);
+
+            FaceNew * newFace = createFace(currentVertsList, &(tmpMesh->edges), currReader, false);
+
+            setTmpSurface(newFace);
+
+            newFace->setName("f" + std::to_string(tmpFaceIndex));
+
+            tmpMesh->faces.push_back(newFace);
+            for (Vert * selectedVert: currentVertsList){
+                tmpMesh->verts.push_back(selectedVert);
+            }
+            tmpFaceIndex++;
+            //==============
+            Vert* vert2a = std::get<1>(*vv);
+            Vert* vert2b;
+            Vert* vert3;
+            if (vv+1 != closeVertices.end()){
+                vert2b = std::get<1>(*(vv+1));
+                vert3 = std::get<0>(*(vv+1));
+            } else{
+                vert2b = std::get<1>(*(closeVertices.begin()));
+                vert3 = std::get<0>(*(closeVertices.begin()));
+            }
+
+
+            //Vert* vert3 = std::get<0>(*vv);
+
+            std::list<Vert*> currentVertsList2;
+            currentVertsList2.push_back(vert3);
+            currentVertsList2.push_back(vert2b);
+            currentVertsList2.push_back(vert2a);
+
+            FaceNew * newFace2 = createFace(currentVertsList2, &(tmpMesh->edges), currReader, false);
+
+            setTmpSurface(newFace2);
+
+            newFace->setName("f" + std::to_string(tmpFaceIndex));
+
+            tmpMesh->faces.push_back(newFace2);
+            for (Vert * selectedVert: currentVertsList2){
+                tmpMesh->verts.push_back(selectedVert);
+            }
+
+            tmpFaceIndex += 1;
+
+
+
+            vv++;
+        }
+        tmpMesh->setName("tmpMesh");
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
+        tmpInstance->setName("tmpInstance");
+        clearSelection();
+
+    } else{
+        std::cout << "2 borders must be selected to zip." << std::endl;
     }
 }
 
