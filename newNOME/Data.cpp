@@ -110,6 +110,7 @@ Vert* createVert(double *x, double *y, double *z, double w)
     v0->y = y;
     v0->z = z;
     v0->mobius = false;
+    v0->mobiusFaces = std::vector<FaceNew*>();
 
     double *xTr = (double*) malloc(sizeof(double));
     double *yTr = (double*) malloc(sizeof(double));

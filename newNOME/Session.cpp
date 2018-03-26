@@ -1028,6 +1028,11 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
                 flattenMeshList.push_back(flattenMesh);
             }
             flattenMesh->calculateNormal(this);
+
+            std::cout << "+++++" << std::endl;
+            for (Vert* v : flattenMesh->verts){
+                std::cout << v->mobiusFaces.size() << std::endl;
+            }
         }
 
         subdivisionLevel = subdivision;

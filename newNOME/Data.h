@@ -78,6 +78,7 @@ public:
     bool selected;
 
     bool mobius;
+    std::vector<FaceNew*> mobiusFaces;
     bool inList = false;
 
     std::vector<std::tuple<Vert*,Vert*>> edgesSeen;

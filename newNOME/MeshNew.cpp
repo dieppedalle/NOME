@@ -545,6 +545,7 @@ void MeshNew::calculateNormal(Session* currSession){
     for (Vert* currVert : this->verts){
         currVert->normal = {0, 0, 0};
         currVert->edgesSeen.clear();
+        currVert->mobiusFaces.clear();
     }
 
     // Calculate Face Normal
@@ -601,6 +602,7 @@ void MeshNew::calculateNormal(Session* currSession){
                     std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
                     firstVerts[1]->mobius = true;
                     currFace->mobius = true;
+                    firstVerts[1]->mobiusFaces.push_back(currFace);
                 }
 
                 std::vector<double> normalVector;
@@ -707,6 +709,7 @@ void MeshNew::calculateNormal(Session* currSession){
                         std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
                         firstVerts[1]->mobius = true;
                         currFace->mobius = true;
+                        firstVerts[1]->mobiusFaces.push_back(currFace);
                     }
 
                     std::vector<double> normalVector;
