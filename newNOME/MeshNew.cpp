@@ -220,6 +220,7 @@ double dotProductNormal(std::vector<double> v1, std::vector<double> v2){
 
 bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Surface* insideColor, Surface* offsetColor, Session* currSession)
 {
+    //std::cout << "DRAW" << std::endl;
     /*double *rIn = (double*) malloc(sizeof(double));
     double *gIn = (double*) malloc(sizeof(double));
     double *bIn = (double*) malloc(sizeof(double));
@@ -289,7 +290,6 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
             listOutVert.clear();
             listInVert.clear();
             //std::cout << "DONE" << std::endl;
-            //std::cout << f->mobius << std::endl;
             for(Vert* v : f->verts) {
                 v->updateOutOffsetVertex(offset);
                 v->updateInOffsetVertex(offset);
@@ -297,7 +297,10 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
 
 
                 //if (dotProductNormal(f->getNormal(), v->normal)>= 0){
-                 if (v->mobius == true && f->mobius){
+                //if (v->mobius == true && f->mobius){
+                if (v->mobius == true && (std::find(v->mobiusFaces.begin(), v->mobiusFaces.end(), f) != v->mobiusFaces.end())){
+                    //std::cout << v->mobiusFaces.size() << std::endl;
+
                     listOutVert.push_back(v->normalOutVert);
                     listInVert.push_back(v->normalInVert);
                 }
@@ -310,12 +313,12 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
             }
             bool wasReversed = false;
 
-            if (f->mobius){
+            /*if (f->mobius){
                 listInVert.swap(listOutVert);
                 std::reverse(listInVert.begin(), listInVert.end());
                 std::reverse(listOutVert.begin(), listOutVert.end());
                 wasReversed = true;
-            }
+            }*/
             std::reverse(listOutVert.begin(), listOutVert.end());
 
 
@@ -608,6 +611,13 @@ void MeshNew::calculateNormal(Session* currSession){
                 std::vector<double> normalVector;
                 normalVector = getNormalFromVertsForOffset(firstVertsOrder, this);
 
+                /*if (firstVertsOrder[1]->name.compare("v:26") == 0){
+                    std::cout << "============================" << std::endl;
+                    std::cout << normalVector[0] << std::endl;
+                    std::cout << normalVector[1] << std::endl;
+                    std::cout << normalVector[2] << std::endl;
+                }*/
+
                 if (currSession->offsetType == 1){
                     currFace->normal[0] += normalVector[0];
                     currFace->normal[1] += normalVector[1];
@@ -615,6 +625,15 @@ void MeshNew::calculateNormal(Session* currSession){
                 } else if (currSession->offsetType == 0){
                     double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
                     double new_magnitude = abs(getAngleFromVerts(firstVertsOrder));
+
+                    /*if (firstVertsOrder[1]->name.compare("v:26") == 0){
+                        std::cout << "============================" << std::endl;
+                        std::cout << magnitude << std::endl;
+                        std::cout << new_magnitude << std::endl;
+                        std::cout << normalVector[0] << std::endl;
+                        std::cout << normalVector[1] << std::endl;
+                        std::cout << normalVector[2] << std::endl;
+                    }*/
 
                     normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
                     normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
@@ -624,6 +643,19 @@ void MeshNew::calculateNormal(Session* currSession){
                     firstVertsOrder[1] -> normal[1] += normalVector[1];
                     firstVertsOrder[1] -> normal[2] += normalVector[2];
                 }
+
+                /*if (firstVertsOrder[1]->name.compare("v:26") == 0){
+                    std::cout << "=============" << std::endl;
+                    std::cout << currFace->mobius << std::endl;
+                    std::cout << firstVertsOrder[1]->name << std::endl;
+                    std::cout << normalVector[0] << std::endl;
+                    std::cout << normalVector[1] << std::endl;
+                    std::cout << normalVector[2] << std::endl;
+                    std::cout << firstVertsOrder[1] -> normal[0] << std::endl;
+                    std::cout << firstVertsOrder[1] -> normal[1] << std::endl;
+                    std::cout << firstVertsOrder[1] -> normal[2] << std::endl;
+
+                }*/
 
                 firstVerts.erase(firstVerts.begin());
             }
@@ -648,6 +680,14 @@ void MeshNew::calculateNormal(Session* currSession){
         currFace->normal[1] /= currFace->verts.size();
         currFace->normal[2] /= currFace->verts.size();
     }
+
+    for (Vert* v : this->verts){
+        if (v->mobius){
+            std::cout << v->edges.size() << std::endl;
+            std::cout << v->faces.size() << std::endl;
+        }
+    }
+
 
     if (currSession->offsetType == 1){
         for (FaceNew* currFace : this->faces){
