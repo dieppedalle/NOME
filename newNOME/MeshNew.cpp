@@ -749,6 +749,52 @@ void MeshNew::calculateNormal(Session* currSession){
                 }
             }
 
+            v->normal = {0, 0, 0};
+
+            for (FaceNew* f : v->faces){
+                std::vector<Vert*> vv = std::vector<Vert*>();
+                for (std::list<Vert*>::iterator it=f->verts.begin(); it != f->verts.end(); ++it){
+                    if ((*f->verts.begin())->index == v->index){
+                        vv.push_back(f->verts.back());
+                        vv.push_back(*f->verts.begin());
+                        vv.push_back(*(std::next(it, 1)));
+                        break;
+                    }
+
+                    if (std::next(it, 1) != f->verts.end() && (*(std::next(it, 1)))->index == v->index){
+                        vv.push_back(*it);
+                        vv.push_back(*(std::next(it, 1)));
+                        if (std::next(it, 2) != f->verts.end()){
+                            vv.push_back(*(std::next(it, 2)));
+                        } else{
+                            vv.push_back(*(f->verts.begin()));
+                        }
+                    }
+
+                }
+
+                if ((std::find(faceToReverse.begin(), faceToReverse.end(), f) != faceToReverse.end())){
+                    std::reverse(vv.begin(), vv.end());
+                }
+
+                std::vector<double> normalVector;
+                normalVector = getNormalFromVertsForOffset(vv, this);
+
+
+
+                if (currSession->offsetType == 0){
+                    double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
+                    double new_magnitude = abs(getAngleFromVerts(vv));
+
+                    normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
+                    normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
+                    normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
+
+                    v -> normal[0] += normalVector[0];
+                    v -> normal[1] += normalVector[1];
+                    v -> normal[2] += normalVector[2];
+                }
+            }
 
             //std::cout << edgesToSee.size() << std::endl;
             //std::cout << faceToReverse.size() << std::endl;
