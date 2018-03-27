@@ -128,6 +128,7 @@ public:
     EdgeI index;
     Surface* surface;
     bool selected = false;
+    bool mobius = false;
 
     // Used for subdivision
     Vert* edgePoint;

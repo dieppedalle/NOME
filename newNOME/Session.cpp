@@ -788,6 +788,30 @@ void mergeEdges(MeshNew* flattenMesh){
             newVertexDict[std::get<1>((*it))->v1] = std::get<0>((*it))->v0;
             newVertexDict[std::get<1>((*it))->v0] = std::get<0>((*it))->v1;
         }
+
+        for (EdgeNew* e : std::get<1>((*it))->v1->edges){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v1]->edges.begin(), newVertexDict[std::get<1>((*it))->v1]->edges.end(), e) != newVertexDict[std::get<1>((*it))->v1]->edges.end())){
+                newVertexDict[std::get<1>((*it))->v1]->edges.push_back(e);
+            }
+        }
+
+        for (FaceNew* f : std::get<1>((*it))->v1->faces){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v1]->faces.begin(), newVertexDict[std::get<1>((*it))->v1]->faces.end(), f) != newVertexDict[std::get<1>((*it))->v1]->faces.end())){
+                newVertexDict[std::get<1>((*it))->v1]->faces.push_back(f);
+            }
+        }
+
+        for (EdgeNew* e : std::get<1>((*it))->v0->edges){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v0]->edges.begin(), newVertexDict[std::get<1>((*it))->v0]->edges.end(), e) != newVertexDict[std::get<1>((*it))->v0]->edges.end())){
+                newVertexDict[std::get<1>((*it))->v0]->edges.push_back(e);
+            }
+        }
+
+        for (FaceNew* f : std::get<1>((*it))->v0->faces){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v0]->faces.begin(), newVertexDict[std::get<1>((*it))->v0]->faces.end(), f) != newVertexDict[std::get<1>((*it))->v0]->faces.end())){
+                newVertexDict[std::get<1>((*it))->v0]->faces.push_back(f);
+            }
+        }
         // Remove second edge from edge list
 
         /*std::cout << "||||||||" << std::endl;

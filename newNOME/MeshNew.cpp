@@ -9,6 +9,7 @@
 #include "MeshNew.h"
 #include "Data.h"
 #include "Session.h"
+#include <unordered_map>
 
 static int mIndex = 0;
 
@@ -550,6 +551,7 @@ void MeshNew::calculateNormal(Session* currSession){
         currVert->edgesSeen.clear();
         currVert->mobiusFaces.clear();
     }
+    std::cout <<"NN" << std::endl;
 
     // Calculate Face Normal
     for (FaceNew* currFace : this->faces){
@@ -577,6 +579,11 @@ void MeshNew::calculateNormal(Session* currSession){
                 for (std::tuple<Vert*,Vert*> vertTuple : firstVerts[1]->edgesSeen){
                     if  (std::get<0>(vertTuple) == firstVerts[0] && std::get<1>(vertTuple) == firstVerts[1]){
                         // EDGE IS FOUND WE ARE GOOD
+                        for (EdgeNew* e : currFace->edges){
+                            if ((e->v0->index == firstVerts[0]->index && e->v1->index == firstVerts[1]->index) || (e->v1->index == firstVerts[0]->index && e->v0->index == firstVerts[1]->index)){
+                                e->mobius = true;
+                            }
+                        }
                         foundE0 = 2;
                     } else if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[0]){
                         // WRONG ORDER BUT GOOD AS CLOCKWISE
@@ -585,9 +592,17 @@ void MeshNew::calculateNormal(Session* currSession){
 
                     if  (std::get<0>(vertTuple) == firstVerts[1] && std::get<1>(vertTuple) == firstVerts[2]){
                         // EDGE IS FOUND WRONG ORDER
+                        for (EdgeNew* e : currFace->edges){
+                            if ((e->v0->index == firstVerts[1]->index && e->v1->index == firstVerts[2]->index) || (e->v1->index == firstVerts[1]->index && e->v0->index == firstVerts[2]->index)){
+                                e->mobius = true;
+                            }
+                        }
+
                         foundE1 = 2;
                     } else if  (std::get<0>(vertTuple) == firstVerts[2] && std::get<1>(vertTuple) == firstVerts[1]){
                         // WRONG ORDER BUT GOOD AS CLOCKWISE
+
+
                         foundE1 = 1;
                     }
                 }
@@ -602,7 +617,7 @@ void MeshNew::calculateNormal(Session* currSession){
                     firstVertsOrder.push_back(v);
                 }
                 if (foundE0 == 2 || foundE1 == 2){
-                    std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
+                    //std::reverse(firstVertsOrder.begin(), firstVertsOrder.end());
                     firstVerts[1]->mobius = true;
                     currFace->mobius = true;
                     firstVerts[1]->mobiusFaces.push_back(currFace);
@@ -644,19 +659,6 @@ void MeshNew::calculateNormal(Session* currSession){
                     firstVertsOrder[1] -> normal[2] += normalVector[2];
                 }
 
-                /*if (firstVertsOrder[1]->name.compare("v:26") == 0){
-                    std::cout << "=============" << std::endl;
-                    std::cout << currFace->mobius << std::endl;
-                    std::cout << firstVertsOrder[1]->name << std::endl;
-                    std::cout << normalVector[0] << std::endl;
-                    std::cout << normalVector[1] << std::endl;
-                    std::cout << normalVector[2] << std::endl;
-                    std::cout << firstVertsOrder[1] -> normal[0] << std::endl;
-                    std::cout << firstVertsOrder[1] -> normal[1] << std::endl;
-                    std::cout << firstVertsOrder[1] -> normal[2] << std::endl;
-
-                }*/
-
                 firstVerts.erase(firstVerts.begin());
             }
             firstVerts.push_back((*it));
@@ -674,19 +676,120 @@ void MeshNew::calculateNormal(Session* currSession){
 
         }
 
-
-
         currFace->normal[0] /= currFace->verts.size();
         currFace->normal[1] /= currFace->verts.size();
         currFace->normal[2] /= currFace->verts.size();
     }
 
+
+
     for (Vert* v : this->verts){
+        std::vector<EdgeNew*> edgesToSee = std::vector<EdgeNew*>();
+        std::vector<FaceNew*> faceToReverse = std::vector<FaceNew*>();
+
         if (v->mobius){
-            std::cout << v->edges.size() << std::endl;
-            std::cout << v->faces.size() << std::endl;
+            int numMobius = 0;
+            for (EdgeNew* e : v->edges){
+                if (e->mobius){
+                    if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f0) != faceToReverse.end())
+                        && !(std::find(faceToReverse.begin(), faceToReverse.end(), e->f1) != faceToReverse.end())){
+                        // Red
+                        bool didAddFace = false;
+                        if (e->f0 != NULL){
+                            if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f0) != faceToReverse.end())){
+                                faceToReverse.push_back(e->f0);
+                                didAddFace = true;
+                            }
+                        } else if (e->f1 != NULL){
+                            if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f1) != faceToReverse.end())){
+                                faceToReverse.push_back(e->f1);
+                                didAddFace = true;
+                            }
+                        }
+
+                        // Green
+                        if (didAddFace == true){
+                            for (EdgeNew* e1 : faceToReverse.back()->edges){
+                                if ((e1->v0->index == v->index || e1->v1->index == v->index) && e->index != e1->index){
+                                    edgesToSee.push_back(e1);
+                                }
+                            }
+
+                            // Blue If it is a mobius then stop or if the face has already been reversed then stop
+                            while (didAddFace && edgesToSee.back()->mobius != true
+                                   && !((std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f0) != faceToReverse.end())
+                                   || (std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f1) != faceToReverse.end()))){
+
+                                didAddFace = false;
+                                if (e->f0 != NULL){
+                                    if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f0) != faceToReverse.end())){
+                                        faceToReverse.push_back(e->f0);
+                                        didAddFace = true;
+                                    }
+                                } else if (e->f1 != NULL){
+                                    if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f1) != faceToReverse.end())){
+                                        faceToReverse.push_back(e->f1);
+                                        didAddFace = true;
+                                    }
+                                }
+
+                                if (didAddFace == true){
+                                    for (EdgeNew* e1 : faceToReverse.back()->edges){
+                                        if ((e1->v0->index == v->index || e1->v1->index == v->index) && e->index != e1->index){
+                                            edgesToSee.push_back(e1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
+
+
+            //std::cout << edgesToSee.size() << std::endl;
+            //std::cout << faceToReverse.size() << std::endl;
+
+            //std::cout << numMobius << std::endl;
+            //std::cout << v->edges.size() << std::endl;
         }
     }
+
+    /*for (Vert* v : this->verts){
+        if (v->mobius){
+            std::unordered_map<FaceNew*, std::vector<std::tuple<Vert*, Vert*>>> mymap;
+
+            for (FaceNew* f : v->faces){
+                std::vector<std::tuple<Vert*, Vert*>> vv = std::vector<std::tuple<Vert*, Vert*>>();
+                for (std::list<Vert*>::iterator it=f->verts.begin(); it != f->verts.end(); ++it){
+                    if ((*f->verts.begin())->index == v->index){
+                        vv.push_back(std::make_tuple(*(f->verts.end()), *(f->verts.begin())));
+                        vv.push_back(std::make_tuple(*(f->verts.begin()), *(std::next(it, 1))));
+                        break;
+                    }
+
+                    if (std::next(it, 1) != f->verts.end() && (*(std::next(it, 1)))->index == v->index){
+                        vv.push_back(std::make_tuple(*it, *(std::next(it, 1))));
+                        if (std::next(it, 2) != f->verts.end()){
+                            vv.push_back(std::make_tuple(*(std::next(it, 1)), *(std::next(it, 2))));
+                        } else{
+                            vv.push_back(std::make_tuple(*(std::next(it, 1)), *(f->verts.begin())));
+                        }
+                    }
+                }
+                mymap[f] = vv;
+            }
+            std::cout << "mymap.size()" << std::endl;
+            for ( auto it = mymap.begin(); it != mymap.end(); ++it ){
+
+                std::cout << " " << it->first->index << ":" << it->second.size() << "\n";
+            }
+            std::cout << "DONE" << std::endl;
+        }
+    }*/
 
 
     if (currSession->offsetType == 1){
