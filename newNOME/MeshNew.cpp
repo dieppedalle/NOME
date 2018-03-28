@@ -937,14 +937,19 @@ void MeshNew::calculateNormal(Session* currSession){
                     double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);
                     double new_magnitude = abs(getAngleFromVerts(firstVertsOrder));
 
+                    int sign = 1;
+                    if ((std::find(firstVertsOrder[1]->facesReversed.begin(), firstVertsOrder[1]->facesReversed.end(), currFace) != firstVertsOrder[1]->facesReversed.end())){
+                        sign = -1;
+                    }
+
                     normalVector[0] = normalVector[0] * (new_magnitude / magnitude);
                     normalVector[1] = normalVector[1] * (new_magnitude / magnitude);
                     normalVector[2] = normalVector[2] * (new_magnitude / magnitude);
 
 
-                    firstVertsOrder[1] -> normal[0] += normalVector[0];
-                    firstVertsOrder[1] -> normal[1] += normalVector[1];
-                    firstVertsOrder[1] -> normal[2] += normalVector[2];
+                    firstVertsOrder[1] -> normal[0] += sign * normalVector[0];
+                    firstVertsOrder[1] -> normal[1] += sign * normalVector[1];
+                    firstVertsOrder[1] -> normal[2] += sign * normalVector[2];
 
                     firstVerts.erase(firstVerts.begin());
                 }
