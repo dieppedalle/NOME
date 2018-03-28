@@ -605,8 +605,16 @@ void Session::draw(){
 void Session::zipBorders(){
     if (this->borders.size() == 2){
         std::cout << "Zippering borders." << std::endl;
-        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border0 = borders[0];
-        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border1 = borders[1];
+        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border0;
+        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border1;
+
+        if (std::get<0>(borders[0]).size() <= std::get<0>(borders[1]).size()){
+            border0 = borders[1];
+            border1 = borders[0];
+        } else{
+            border0 = borders[0];
+            border1 = borders[1];
+        }
 
         std::vector<std::tuple<Vert*, Vert*>> closeVertices;
 
@@ -633,6 +641,7 @@ void Session::zipBorders(){
 
         Reader* currReader = createReader(this);
         std::vector<std::tuple<Vert*, Vert*>>::iterator vv = closeVertices.begin();
+
         while (vv+1 != closeVertices.end()){
             //std::cout <<
             Vert* vert0a = std::get<0>(*vv);
@@ -650,17 +659,16 @@ void Session::zipBorders(){
             currentVertsList.push_back(vert1);
 
             FaceNew * newFace = createFace(currentVertsList, &(tmpMesh->edges), currReader, false);
-
             setTmpSurface(newFace);
-
             newFace->setName("f" + std::to_string(tmpFaceIndex));
-
             tmpMesh->faces.push_back(newFace);
+
             for (Vert * selectedVert: currentVertsList){
                 tmpMesh->verts.push_back(selectedVert);
             }
             tmpFaceIndex+=1;
             //==============
+
             Vert* vert2a = std::get<1>(*vv);
             Vert* vert2b;
             Vert* vert3;
@@ -671,29 +679,28 @@ void Session::zipBorders(){
                 vert2b = std::get<1>(*(closeVertices.begin()));
                 vert3 = std::get<0>(*(closeVertices.begin()));
             }
+            //std::cout << std::get<1>(*(vv+1))->name << std::endl;
+            //std::cout << std::get<0>(*(vv+1))->name << std::endl;
 
+            if (!((vert2a->index == vert2b->index) || (vert2a->index == vert3->index))){
+                std::list<Vert*> currentVertsList2;
+                currentVertsList2.push_back(vert3);
+                currentVertsList2.push_back(vert2b);
+                currentVertsList2.push_back(vert2a);
 
-            //Vert* vert3 = std::get<0>(*vv);
+                FaceNew * newFace2 = createFace(currentVertsList2, &(tmpMesh->edges), currReader, false);
 
-            std::list<Vert*> currentVertsList2;
-            currentVertsList2.push_back(vert3);
-            currentVertsList2.push_back(vert2b);
-            currentVertsList2.push_back(vert2a);
+                setTmpSurface(newFace2);
 
-            FaceNew * newFace2 = createFace(currentVertsList2, &(tmpMesh->edges), currReader, false);
+                newFace2->setName("f" + std::to_string(tmpFaceIndex));
 
-            setTmpSurface(newFace2);
+                tmpMesh->faces.push_back(newFace2);
+                for (Vert * selectedVert: currentVertsList2){
+                    tmpMesh->verts.push_back(selectedVert);
+                }
 
-            newFace2->setName("f" + std::to_string(tmpFaceIndex));
-
-            tmpMesh->faces.push_back(newFace2);
-            for (Vert * selectedVert: currentVertsList2){
-                tmpMesh->verts.push_back(selectedVert);
+                tmpFaceIndex += 1;
             }
-
-            tmpFaceIndex += 1;
-
-
 
             vv++;
         }

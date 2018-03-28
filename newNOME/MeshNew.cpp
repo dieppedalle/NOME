@@ -354,7 +354,36 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                 // CREATE EDGE FACE
                 for (EdgeNew* e : f->edges){
                     if (e->isBorder()){
-                        startInVert = e->v0->normalInVert;
+                        std::list<Vert*> listEdgeVert;
+
+                        if (e->v1->mobius == true
+                                && (((e->f0 != NULL) && (std::find(e->v1->facesReversed.begin(), e->v1->facesReversed.end(), e->f0) != e->v1->facesReversed.end())) ||
+                                ((e->f1 != NULL) && (std::find(e->v1->facesReversed.begin(), e->v1->facesReversed.end(), e->f1) != e->v1->facesReversed.end())))){
+
+                            listEdgeVert.push_back(e->v1->normalOutVert);
+                            listEdgeVert.push_back(e->v1->normalInVert);
+                        } else{
+                            listEdgeVert.push_back(e->v1->normalInVert);
+                            listEdgeVert.push_back(e->v1->normalOutVert);
+                        }
+
+                        if ((e->v0->mobius == true)
+                                && (((e->f0 != NULL) && (std::find(e->v0->facesReversed.begin(), e->v0->facesReversed.end(), e->f0) != e->v0->facesReversed.end())) ||
+                                ((e->f1 != NULL) && (std::find(e->v0->facesReversed.begin(), e->v0->facesReversed.end(), e->f1) != e->v0->facesReversed.end())))){
+
+                            listEdgeVert.push_back(e->v0->normalInVert);
+                            listEdgeVert.push_back(e->v0->normalOutVert);
+                        } else{
+                            listEdgeVert.push_back(e->v0->normalOutVert);
+                            listEdgeVert.push_back(e->v0->normalInVert);
+                        }
+
+                        FaceNew* testFace = createOffsetFace(listEdgeVert);
+                        testFace->surface = offsetSurf;
+                        outFaces.push_back(testFace);
+
+                        drawFace(testFace, NULL, currSession);
+                        /*startInVert = e->v0->normalInVert;
                         endInVert = e->v1->normalInVert;
                         startOutVert = e->v0->normalOutVert;
                         endOutVert = e->v1->normalOutVert;
@@ -434,7 +463,7 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
 
                         drawFace(testFace, NULL, currSession);
 
-                        }
+                        }*/
                     }
                 }
 
