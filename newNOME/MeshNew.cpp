@@ -299,9 +299,8 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
 
                 //if (dotProductNormal(f->getNormal(), v->normal)>= 0){
                 //if (v->mobius == true && f->mobius){
-                if (v->mobius == true && (std::find(v->mobiusFaces.begin(), v->mobiusFaces.end(), f) != v->mobiusFaces.end())){
-                    //std::cout << v->mobiusFaces.size() << std::endl;
-
+                //if (v->mobius == true && (std::find(v->mobiusFaces.begin(), v->mobiusFaces.end(), f) != v->mobiusFaces.end())){
+                if (v->mobius == true && (std::find(v->facesReversed.begin(), v->facesReversed.end(), f) != v->facesReversed.end())){
                     listOutVert.push_back(v->normalOutVert);
                     listInVert.push_back(v->normalInVert);
                 }
@@ -551,7 +550,7 @@ void MeshNew::calculateNormal(Session* currSession){
         currVert->edgesSeen.clear();
         currVert->mobiusFaces.clear();
     }
-    std::cout <<"NN" << std::endl;
+    //std::cout <<"NN" << std::endl;
 
     // Calculate Face Normal
     for (FaceNew* currFace : this->faces){
@@ -718,19 +717,20 @@ void MeshNew::calculateNormal(Session* currSession){
                             // Blue If it is a mobius then stop or if the face has already been reversed then stop
                             while (didAddFace && edgesToSee.back()->mobius != true
                                    && !((std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f0) != faceToReverse.end())
-                                   || (std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f1) != faceToReverse.end()))){
+                                   && (std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f1) != faceToReverse.end()))){
 
+                                //std::cout << "PPP" << std::endl;
                                 didAddFace = false;
-                                if (e->f0 != NULL){
-                                    if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f0) != faceToReverse.end())){
-                                        faceToReverse.push_back(e->f0);
+                                if (edgesToSee.back()->f0 != NULL && !(std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f0) != faceToReverse.end())){
+                                    //if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f0) != faceToReverse.end())){
+                                        faceToReverse.push_back(edgesToSee.back()->f0);
                                         didAddFace = true;
-                                    }
-                                } else if (e->f1 != NULL){
-                                    if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f1) != faceToReverse.end())){
-                                        faceToReverse.push_back(e->f1);
+                                    //}
+                                } else if (edgesToSee.back()->f1 != NULL && !(std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f1) != faceToReverse.end())){
+                                    //if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f1) != faceToReverse.end())){
+                                        faceToReverse.push_back(edgesToSee.back()->f1);
                                         didAddFace = true;
-                                    }
+                                    //}
                                 }
 
                                 if (didAddFace == true){
@@ -748,6 +748,8 @@ void MeshNew::calculateNormal(Session* currSession){
 
                 }
             }
+
+            v->facesReversed = faceToReverse;
 
             v->normal = {0, 0, 0};
 
@@ -779,8 +781,6 @@ void MeshNew::calculateNormal(Session* currSession){
 
                 std::vector<double> normalVector;
                 normalVector = getNormalFromVertsForOffset(vv, this);
-
-
 
                 if (currSession->offsetType == 0){
                     double magnitude = sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1] + normalVector[2] * normalVector[2]);

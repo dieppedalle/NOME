@@ -91,6 +91,8 @@ public:
     Session* currSession;
     Vert* copyOfVert;
 
+    std::vector<FaceNew*> facesReversed = std::vector<FaceNew*>();
+
     VertOctreeProxy* octreeProxy = nullptr;
 
     ~Vert()
