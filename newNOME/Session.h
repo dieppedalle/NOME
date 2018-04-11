@@ -13,6 +13,7 @@
 #include "ObjectNew.h"
 #include "BankNew.h"
 #include "PolylineNew.h"
+#include "SweepNew.h"
 #include "BSplineNew.h"
 #include "BezierCurveNew.h"
 #include "CircleNew.h"
@@ -34,6 +35,7 @@ public:
     std::list<GroupNew*> groups;
     std::list<InstanceNew*> instances;
     std::list<PolylineNew*> polylines;
+    std::list<SweepNew*> sweeps;
     std::list<BSplineNew*> bsplines;
     std::list<BezierCurveNew*> bezierCurves;
     std::list<CircleNew*> circles;

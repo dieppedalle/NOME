@@ -1,0 +1,13 @@
+
+sourceDir = ./
+
+
+parser:
+	bison -pbank -dy -o%{sourceDir}/compilerBank/parserBank.cpp %{sourceDir}/compilerBank/parserBank.y
+	flex -o%{sourceDir}/compilerBank/lexerBank.cpp %{sourceDir}/compilerBank/lexerBank.l
+	bison -pnom -dy -o%{sourceDir}/compilerNome/parser.cpp %{sourceDir}/compilerNome/parser.y
+	flex -o%{sourceDir}/compilerNome/lexer.cpp  %{sourceDir}/compilerNome/lexer.l
+	bison -pstl -dy -o%{sourceDir}/compilerStl/parserStl.cpp %{sourceDir}/compilerStl/parserStl.y
+	flex -o%{sourceDir}/compilerStl/lexerStl.cpp %{sourceDir}/compilerStl/lexerStl.l
+	bison -pobj -dy -o%{sourceDir}/compilerObj/parserObj.cpp %{sourceDir}/compilerObj/parserObj.y
+	flex -o%{sourceDir}/compilerObj/lexerObj.cpp %{sourceDir}/compilerObj/lexerObj.l

@@ -217,6 +217,12 @@ MeshNew* Reader::getMesh(std::string name)
             return m0;
     }
 
+    for (SweepNew* m0 : session->sweeps){
+        std::string currentName = "m:sw:" + name;
+        if(m0->name.compare(currentName) == 0)
+            return m0;
+    }
+
     for (BSplineNew* m0 : session->bsplines){
         std::string currentName = "m:bs:" + name;
         if(m0->name.compare(currentName) == 0)
