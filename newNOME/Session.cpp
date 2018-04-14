@@ -716,19 +716,17 @@ void Session::zipBorders(){
 
 void mergeEdges(MeshNew* flattenMesh){
 
-
-
     // NEED TO MERGE EDGES NOW
     std::vector<std::tuple<EdgeNew*, EdgeNew*>> toBeMerged = std::vector<std::tuple<EdgeNew*, EdgeNew*>>();
     toBeMerged.clear();
 
+    double epsilonPos = 0.05;
     std::list<EdgeNew*>::iterator i = flattenMesh->edges.begin();
     int position = 0;
     while (i != flattenMesh->edges.end())
     {
         std::list<EdgeNew*>::iterator checkD = flattenMesh->edges.begin();
         std::advance(checkD, position + 1);
-        double epsilonPos = 0.05;
         while (checkD != flattenMesh->edges.end()){
 
             //std::cout << abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) + abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) + abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) << std::endl;
@@ -778,16 +776,19 @@ void mergeEdges(MeshNew* flattenMesh){
         std::cout << e->v1->index << std::endl;
     }*/
 
+    int count = 1;
     for (std::vector<std::tuple<EdgeNew*, EdgeNew*>>::iterator it = toBeMerged.begin() ; it != toBeMerged.end(); ++it){
         // a map where the keys are integers and the values are strings
         std::map<Vert*, Vert*> newVertexDict;
         newVertexDict.clear();
-        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < 0.01){
+
+
+        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < epsilonPos){
             newVertexDict[std::get<1>((*it))->v0] = std::get<0>((*it))->v0;
             newVertexDict[std::get<1>((*it))->v1] = std::get<0>((*it))->v1;
         } else{
@@ -820,7 +821,7 @@ void mergeEdges(MeshNew* flattenMesh){
             }
         }
         // Remove second edge from edge list
-
+        //std::cout << newVertexDict.size() <<  std::endl;
         /*std::cout << "||||||||" << std::endl;
         std::cout << std::get<0>((*it))->v0->index << std::endl;
         std::cout << std::get<0>((*it))->v1->index << std::endl;

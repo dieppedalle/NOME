@@ -301,6 +301,7 @@ bool MeshNew::draw(double offset, bool computeOffset, Surface* outsideColor, Sur
                 //if (v->mobius == true && f->mobius){
                 //if (v->mobius == true && (std::find(v->mobiusFaces.begin(), v->mobiusFaces.end(), f) != v->mobiusFaces.end())){
                 if (v->mobius == true && (std::find(v->facesReversed.begin(), v->facesReversed.end(), f) != v->facesReversed.end())){
+                    //std::cout << v->facesReversed.size() << std::endl;
                     listOutVert.push_back(v->normalOutVert);
                     listInVert.push_back(v->normalInVert);
                 }
@@ -737,6 +738,7 @@ void MeshNew::calculateNormal(Session* currSession){
 
                         // Green
                         if (didAddFace == true){
+
                             for (EdgeNew* e1 : faceToReverse.back()->edges){
                                 if ((e1->v0->index == v->index || e1->v1->index == v->index) && e->index != e1->index){
                                     edgesToSee.push_back(e1);
@@ -745,10 +747,9 @@ void MeshNew::calculateNormal(Session* currSession){
 
                             // Blue If it is a mobius then stop or if the face has already been reversed then stop
                             while (didAddFace && edgesToSee.back()->mobius != true
-                                   && !((std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f0) != faceToReverse.end())
-                                   && (std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f1) != faceToReverse.end()))){
+                                   && (!(std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f0) != faceToReverse.end())
+                                   || !(std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f1) != faceToReverse.end()))){
 
-                                //std::cout << "PPP" << std::endl;
                                 didAddFace = false;
                                 if (edgesToSee.back()->f0 != NULL && !(std::find(faceToReverse.begin(), faceToReverse.end(), edgesToSee.back()->f0) != faceToReverse.end())){
                                     //if (!(std::find(faceToReverse.begin(), faceToReverse.end(), e->f0) != faceToReverse.end())){
@@ -764,7 +765,7 @@ void MeshNew::calculateNormal(Session* currSession){
 
                                 if (didAddFace == true){
                                     for (EdgeNew* e1 : faceToReverse.back()->edges){
-                                        if ((e1->v0->index == v->index || e1->v1->index == v->index) && e->index != e1->index){
+                                        if (((e1->v0->index == v->index || e1->v1->index == v->index) && e->index != e1->index) && (std::find(edgesToSee.begin(), edgesToSee.end(), e1) == edgesToSee.end())){
                                             edgesToSee.push_back(e1);
                                         }
                                     }
@@ -830,7 +831,10 @@ void MeshNew::calculateNormal(Session* currSession){
 
             //std::cout << numMobius << std::endl;
             //std::cout << v->edges.size() << std::endl;
+        } else{
+            v->facesReversed = faceToReverse;
         }
+
     }
 
     /*for (Vert* v : this->verts){
