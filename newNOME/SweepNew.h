@@ -19,7 +19,7 @@ public:
 } SweepNew;
 
 ///Instance functions
-SweepNew* createSweepNew(std::list<Vert*> verticesSweep, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist);
+SweepNew* createSweepNew(std::list<Vert*> verticesSweep, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist, Reader* reader);
 //SweepNew* createSweepNew(std::list<Vert*> verticesSweep, std::list<EdgeNew*> *edgeList);
 SweepNew* createSweepNew(SweepNew*);
 

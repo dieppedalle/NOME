@@ -2482,7 +2482,7 @@ yyreduce:
         *twist = *currentValSet;
 
 
-        SweepNew* currPolyline = createSweepNew(verticesPolyline, crosssectionPolyline, width, azimuth, twist);
+        SweepNew* currPolyline = createSweepNew(verticesPolyline, crosssectionPolyline, width, azimuth, twist, currReader);
         currPolyline->setName(strdup((yyvsp[-6].string)));
 
         string surfaceName = surfaceFromArg;

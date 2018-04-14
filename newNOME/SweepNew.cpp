@@ -7,6 +7,7 @@
 //
 
 #include "SweepNew.h"
+#include "SweepNew.h"
 
 static int pIndex = 0;
 
@@ -214,29 +215,17 @@ void standardMode(SweepNew* sw, std::list<Vert*> crosssection, double* width, do
   }
 }
 
-FaceNew* makeFace(Vert* x, Vert* y, Vert* z/*, Vert* w*/) {
-  EdgeNew* first = createEdge(x, y, false);
-  EdgeNew* second = createEdge(z, y, false);
-  EdgeNew* third = createEdge(z, x, false);
-  //EdgeNew* third = createEdge(z, w, false);
-  //EdgeNew* fourth = createEdge(w, x, false);
-
+FaceNew* makeFace(MeshNew* mesh,Vert* x, Vert* y, Vert* z, Vert* w, Reader* reader) {
   std::list<Vert*> verts;
   verts.push_back(x);
-  verts.push_back(y);    
+  verts.push_back(y);
   verts.push_back(z);
-  //verts.push_back(w);
-
-  std::list<EdgeNew*> edges;
-  edges.push_back(first);
-  edges.push_back(second);
-  edges.push_back(third);  
-  //edges.push_back(fourth);
+  verts.push_back(w);
   
-  return createFace(edges, verts);
+  return createFace(verts, &mesh->edges, reader, false);
 }
 
-Vert* getFrenetFrameVertex(Vert* prev, Vert* curr, Vert* next, double azimuth, double twist) {
+Vert* getFrenetFrameVertex(Vert* prev, Vert* curr, Vert* next, double azimuth, double twist, Reader* reader) {
   double px = *prev->x;
   double py = *prev->y;
   double pz = *prev->z;
@@ -284,7 +273,7 @@ Vert* getFrenetFrameVertex(Vert* prev, Vert* curr, Vert* next, double azimuth, d
   return newVertex("dsad", x + xVector1, y + xVector2, z + xVector3);
 }
 
-void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist) {
+void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist, Reader* reader) {
   int sz = sw->verts.size();
   int sz2 = crosssection.size();
   std::list<Vert*>::iterator it = sw->verts.begin();
@@ -297,11 +286,16 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
   std::vector<Vert*> prevCrosssection;
   for (int i = 0; i < sz; ++i) {
     Vert* currVert = *it;
-    Vert* nextVert = *it2;
+    Vert* nextVert;
+    if (i == sz - 1) {
+      nextVert = *sw->verts.begin();
+    } else {
+      nextVert = *it2;
+    }
     
     if (i == 0) {
       for (Vert* v: crosssection) {
-	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz));
+	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader);
 	prevCrosssection.push_back(nv);
       }
     } else {
@@ -309,22 +303,25 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
       std::vector<Vert*> currCrosssection;      
       for (Vert* v: crosssection) {
 	auto vv = *it;
-	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz));
+	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader);
 	if (j > 0) {
-	  sw->faces.push_back(makeFace(nv, currCrosssection[j-1], prevCrosssection[j-1]));
+	  sw->faces.push_back(makeFace(sw, nv, currCrosssection[j-1], prevCrosssection[j-1], prevCrosssection[j], reader));
 	}
 	++j;
 	currCrosssection.push_back(nv);
-      }
+	}
+
       prevCrosssection = currCrosssection;
     }
-
     
+    prevVert = currVert;
+    ++it;
+    ++it2;
   }
 }
 
 ///Sweep functions
-SweepNew* createSweepNew(std::list<Vert*> verticesPolyline, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist)
+SweepNew* createSweepNew(std::list<Vert*> verticesPolyline, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist, Reader* reader)
 {
   SweepNew* p0 = new SweepNew();
   //This behaviour depends on the parser
@@ -348,7 +345,7 @@ SweepNew* createSweepNew(std::list<Vert*> verticesPolyline, std::list<Vert*> cro
 
   }
 
-  frenetFrame(p0, crosssection, width, azimuth, twist);
+  frenetFrame(p0, crosssection, width, azimuth, twist, reader);
   
   pIndex++;
 

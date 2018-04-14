@@ -868,7 +868,7 @@ sweep:
         *twist = *currentValSet;
 
 
-        SweepNew* currPolyline = createSweepNew(verticesPolyline, crosssectionPolyline, width, azimuth, twist);
+        SweepNew* currPolyline = createSweepNew(verticesPolyline, crosssectionPolyline, width, azimuth, twist, currReader);
         currPolyline->setName(strdup($<string>2));
 
         string surfaceName = surfaceFromArg;
