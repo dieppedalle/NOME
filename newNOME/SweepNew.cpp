@@ -67,6 +67,18 @@ double rotateZ(double angle,
     + (cost + uz * uz * (1 - cost)) * z;
 }
 
+void rotate(double angle,
+	    double* x, double* y, double* z,
+	    double ux, double uy, double uz)
+{
+  double xn = rotateX(angle, *x, *y, *z, ux, uy, uz);
+  double yn = rotateY(angle, *x, *y, *z, ux, uy, uz);
+  double zn = rotateZ(angle, *x, *y, *z, ux, uy, uz);
+  *x = xn;
+  *y = xn;
+  *z = xn;
+}
+
 Vert* nextVertex(int order, Vert* target,
 		 double px, double py, double pz,
 		 double x, double y, double z,
@@ -202,6 +214,115 @@ void standardMode(SweepNew* sw, std::list<Vert*> crosssection, double* width, do
   }
 }
 
+FaceNew* makeFace(Vert* x, Vert* y, Vert* z/*, Vert* w*/) {
+  EdgeNew* first = createEdge(x, y, false);
+  EdgeNew* second = createEdge(z, y, false);
+  EdgeNew* third = createEdge(z, x, false);
+  //EdgeNew* third = createEdge(z, w, false);
+  //EdgeNew* fourth = createEdge(w, x, false);
+
+  std::list<Vert*> verts;
+  verts.push_back(x);
+  verts.push_back(y);    
+  verts.push_back(z);
+  //verts.push_back(w);
+
+  std::list<EdgeNew*> edges;
+  edges.push_back(first);
+  edges.push_back(second);
+  edges.push_back(third);  
+  //edges.push_back(fourth);
+  
+  return createFace(edges, verts);
+}
+
+Vert* getFrenetFrameVertex(Vert* prev, Vert* curr, Vert* next, double azimuth, double twist) {
+  double px = *prev->x;
+  double py = *prev->y;
+  double pz = *prev->z;
+
+  double x = *curr->x;
+  double y = *curr->y;
+  double z = *curr->z;
+
+  double nx = *next->x;
+  double ny = *next->y;
+  double nz = *next->z;
+  
+  double u1 = px - x;
+  double u2 = py - y;
+  double u3 = pz - z;
+
+  double v1 = nx - x;
+  double v2 = ny - y;
+  double v3 = nz - z;
+
+  double yVector1 = u2 * v3 - u3 * v2;
+  double yVector2 = u3 * v1 - u1 * v3;
+  double yVector3 = u1 * v2 - u2 * v1;
+
+  double d1 = v1 - u1;
+  double d2 = v2 - u2;
+  double d3 = v3 - u3;
+
+  double dnorm = std::sqrt(d1*d1+d2*d2+d3*d3);
+
+  d1 = d1 / dnorm;
+  d2 = d2 / dnorm;
+  d3 = d3 / dnorm;
+
+  double angle = azimuth + twist;
+  
+  rotate(angle, &yVector1, &yVector2, &yVector3, d1, d2, d3);
+
+  double xVector1 = yVector1;
+  double xVector2 = yVector2;
+  double xVector3 = yVector3;
+
+  rotate(1.57, &xVector1, &xVector2, &xVector3, d1, d2, d3);
+
+  return newVertex("dsad", x + xVector1, y + xVector2, z + xVector3);
+}
+
+void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist) {
+  int sz = sw->verts.size();
+  int sz2 = crosssection.size();
+  std::list<Vert*>::iterator it = sw->verts.begin();
+  //std::list<EdgeNew*>::iterator edgeIt = sw->edges.begin();
+  std::list<Vert*>::iterator it2 = sw->verts.begin();
+  ++it2;
+  Vert* prevVert = *(sw->verts.rbegin());
+  Vert* prevV = 0;
+  EdgeNew* prevEdge = 0;
+  std::vector<Vert*> prevCrosssection;
+  for (int i = 0; i < sz; ++i) {
+    Vert* currVert = *it;
+    Vert* nextVert = *it2;
+    
+    if (i == 0) {
+      for (Vert* v: crosssection) {
+	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz));
+	prevCrosssection.push_back(nv);
+      }
+    } else {
+      int j = 0;
+      std::vector<Vert*> currCrosssection;      
+      for (Vert* v: crosssection) {
+	auto vv = *it;
+	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz));
+	if (j > 0) {
+	  sw->faces.push_back(makeFace(nv, currCrosssection[j-1], prevCrosssection[j-1]));
+	}
+	++j;
+	currCrosssection.push_back(nv);
+      }
+      prevCrosssection = currCrosssection;
+    }
+
+    
+  }
+}
+
 ///Sweep functions
 SweepNew* createSweepNew(std::list<Vert*> verticesPolyline, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist)
 {
@@ -215,6 +336,8 @@ SweepNew* createSweepNew(std::list<Vert*> verticesPolyline, std::list<Vert*> cro
   std::list<Vert*>::iterator it2 = verticesPolyline.begin();
   std::list<EdgeNew*> currentEdges;
   ++it2;
+  std::cerr << verticesPolyline.size() << std::endl;
+  std::cerr << crosssection.size() << std::endl;
   while (it != verticesPolyline.end()){
     if (it2 != verticesPolyline.end()){
       //currentEdge = createEdge(*it2, *it, false);
@@ -225,7 +348,7 @@ SweepNew* createSweepNew(std::list<Vert*> verticesPolyline, std::list<Vert*> cro
 
   }
 
-  standardMode(p0, crosssection, width, azimuth, twist);
+  frenetFrame(p0, crosssection, width, azimuth, twist);
   
   pIndex++;
 

@@ -369,6 +369,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designer_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designercomponents_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_devicediscovery_support_private.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_dtkcore.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_dtkwidget.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_edid_support_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_egl_support_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri \
@@ -816,6 +818,8 @@ Makefile.linux: slide2016.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/
 		/usr/lib/qt/mkspecs/modules/qt_lib_designer_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_designercomponents_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_devicediscovery_support_private.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_dtkcore.pri \
+		/usr/lib/qt/mkspecs/modules/qt_lib_dtkwidget.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_edid_support_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_egl_support_private.pri \
 		/usr/lib/qt/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri \
@@ -1098,6 +1102,8 @@ Makefile.linux: slide2016.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/
 /usr/lib/qt/mkspecs/modules/qt_lib_designer_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_designercomponents_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_devicediscovery_support_private.pri:
+/usr/lib/qt/mkspecs/modules/qt_lib_dtkcore.pri:
+/usr/lib/qt/mkspecs/modules/qt_lib_dtkwidget.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_edid_support_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_egl_support_private.pri:
 /usr/lib/qt/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri:
@@ -2714,7 +2720,27 @@ PolylineNew.o: newNOME/PolylineNew.cpp newNOME/PolylineNew.h \
 		newNOME/MeshNew.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PolylineNew.o newNOME/PolylineNew.cpp
 
-SweepNew.o: newNOME/SweepNew.cpp 
+SweepNew.o: newNOME/SweepNew.cpp newNOME/SweepNew.h \
+		newNOME/Data.h \
+		newNOME/IO.h \
+		newNOME/Node.h \
+		newNOME/TransformationNew.h \
+		newNOME/Octree.h \
+		Math/BoundingBox.h \
+		Math/Rect.h \
+		Math/Vector4.h \
+		Math/Vector3.h \
+		Math/Vector2.h \
+		Math/MathDefs.h \
+		Math/Random.h \
+		Math/MathAPI.h \
+		Math/Ray.h \
+		Math/Matrix3x4.h \
+		Math/Matrix4.h \
+		Math/Quaternion.h \
+		Math/Matrix3.h \
+		newNOME/OctreeProxy.h \
+		newNOME/MeshNew.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SweepNew.o newNOME/SweepNew.cpp
 
 CircleNew.o: newNOME/CircleNew.cpp newNOME/CircleNew.h \
