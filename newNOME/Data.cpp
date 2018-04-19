@@ -13,6 +13,8 @@
 #include <glm/glm.hpp>
 #ifdef __APPLE__
 #include <OpenGL/glu.h>
+#elif __linux__
+#include <GL/glu.h>
 #else
 #include <gl/glu.h>
 #endif

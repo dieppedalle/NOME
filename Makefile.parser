@@ -1,0 +1,11 @@
+
+
+parser:
+	bison -pbank -dy -ocompilerBank/parserBank.cpp compilerBank/parserBank.y
+	flex -ocompilerBank/lexerBank.cpp compilerBank/lexerBank.l
+	bison -pnom -dy -ocompilerNome/parser.cpp compilerNome/parser.y
+	flex -ocompilerNome/lexer.cpp  compilerNome/lexer.l
+	bison -pstl -dy -ocompilerStl/parserStl.cpp compilerStl/parserStl.y
+	flex -ocompilerStl/lexerStl.cpp compilerStl/lexerStl.l
+	bison -pobj -dy -ocompilerObj/parserObj.cpp compilerObj/parserObj.y
+	flex -ocompilerObj/lexerObj.cpp compilerObj/lexerObj.l

@@ -54,6 +54,7 @@ SOURCES += main.cpp\
     newNOME/BankNew.cpp \
     newNOME/SliderNew.cpp \
     newNOME/PolylineNew.cpp \
+    newNOME/SweepNew.cpp \
     newNOME/CircleNew.cpp \
     newNOME/FunnelNew.cpp \
     newNOME/TunnelNew.cpp \
@@ -141,6 +142,7 @@ HEADERS  += \
     newNOME/BankNew.h \
     newNOME/SliderNew.h \
     newNOME/PolylineNew.h \
+    newNOME/SweepNew.h \
     newNOME/CircleNew.h \
     newNOME/FunnelNew.h \
     newNOME/TunnelNew.h \

@@ -13,6 +13,7 @@
 #include <newNOME/Reader.h>
 #include <newNOME/TransformationNew.h>
 #include <newNOME/PolylineNew.h>
+#include <newNOME/SweepNew.h>
 #include <newNOME/CircleNew.h>
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
@@ -59,7 +60,7 @@ std::string surfaceFromArg;
 
 %token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
-POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
+POLYLINE SWEEP END_SWEEP END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
@@ -73,6 +74,7 @@ END_BACKGROUND INSIDEFACES END_INSIDEFACES OUTSIDEFACES END_OUTSIDEFACES OFFSETF
 
 %union
 {
+    std::vector<std::string>* strings;
     double intNumber;
     double number;
     const char *string;
@@ -91,6 +93,8 @@ END_BACKGROUND INSIDEFACES END_INSIDEFACES OUTSIDEFACES END_OUTSIDEFACES OFFSETF
 %type <number> num
 %type <string> expr
 %type <numPos> numberValue
+%type <strings> variables
+%type <strings> parenthesisName
 
 
 %%
@@ -102,10 +106,9 @@ commands: /* empty */
 
 command:
     comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | instance | delete | group | circle |
+  tunnel | funnel | polyline | sweep instance | delete | group | circle |
   subdivision | offset | bspline | beziercurve | foreground | background |
   insidefaces | outsidefaces | offsetfaces;
-
 numberValue:
     NUMBER {
         $<string>$ = strdup($<string>1);
@@ -141,9 +144,10 @@ comment:
     ;
 
 
-variables:
+variables: { $$ = new std::vector<std::string>(); }
   |
     variables VARIABLE {
+	$$->push_back($<string>2);
         tempVariables2.push_back($<string>2);
     }
         ;
@@ -684,7 +688,7 @@ funnel:
 
 parenthesisName:
         OPARENTHESES variables EPARENTHESES
-    {
+    { $$ = $2;
         }
         ;
 
@@ -851,6 +855,72 @@ bspline:
     tempVariables2.clear();
     surfaceFromArg = "";
   };
+
+sweep:
+        SWEEP VARIABLE parenthesisName parenthesisName numberValue numberValue transformArgs END_SWEEP
+        {
+        Reader* currReader = createReader(currSession);
+
+        // Create list of vertices of face.
+        std::list<Vert*> verticesPolyline;
+        for (std::vector<string>::iterator it = $3->begin() ; it != $3->end(); ++it){
+            Vert * currentVertex = currReader->getVert(*it);
+            if (currentVertex != NULL) {
+                verticesPolyline.push_back(currentVertex);
+            }
+            else{
+                nomerror(currSession, "Incorrect vertex name");
+                YYABORT;
+            }
+        }
+
+        // Create list of vertices of face.
+        std::list<Vert*> crosssectionPolyline;
+        for (std::vector<string>::iterator it = $4->begin() ; it != $4->end(); ++it){
+            Vert * currentVertex = currReader->getVert(*it);
+            if (currentVertex != NULL) {
+               crosssectionPolyline.push_back(currentVertex);
+            }
+            else{
+                nomerror(currSession, "Incorrect vertex name");
+                YYABORT;
+            }
+        }
+
+
+        double *width = (double*) malloc(sizeof(double));
+        double *azimuth = (double*) malloc(sizeof(double));
+        double *twist = (double*) malloc(sizeof(double));
+
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
+        *width = *currentValSet;
+        parseGetBankVal($<string>5, currSession, currentValSet, nomlineno);
+        *azimuth = *currentValSet;
+        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
+        *twist = *currentValSet;
+
+
+        SweepNew* currPolyline = createSweepNew(verticesPolyline, crosssectionPolyline, width, azimuth, twist, currReader);
+        currPolyline->setName(strdup($<string>2));
+
+        string surfaceName = surfaceFromArg;
+        // Check if a surface has been applied.
+        if (surfaceName.length() != 0){
+            Surface * currentSurface = currReader->surf(surfaceFromArg);
+            if (currentSurface != NULL) {
+                currPolyline->setSurface(currentSurface);
+            }
+            else{
+                nomerror(currSession, "Incorrect surface name");
+                YYABORT;
+            }
+        }
+        currSession->sweeps.push_back(currPolyline);
+        tempVariables2.clear();
+        surfaceFromArg = "";
+        }
+        ;
 
 polyline:
         POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
