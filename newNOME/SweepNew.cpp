@@ -399,10 +399,10 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
       prevCrosssection = currCrosssection;
     }
 
-    sw->verts.remove(currVert);
-    prevVert = currVert;
     ++it;
     ++it2;
+    sw->verts.remove(currVert);
+    prevVert = currVert;
   }
 }
 
