@@ -42,5 +42,3 @@ polyline pol2 (p8 p10) endpolyline
 sweep pol (p0 p1 p2) (p8 p11) 1.57 10.99 endsweep
 #polyline pol (p0 p1 p2 p3 p4 p5 p6 p7) endpolyline
 instance polA pol surface R endinstance
-
-

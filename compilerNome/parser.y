@@ -106,7 +106,7 @@ commands: /* empty */
 
 command:
     comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | sweep instance | delete | group | circle |
+  tunnel | funnel | polyline | sweep | instance | delete | group | circle |
   subdivision | offset | bspline | beziercurve | foreground | background |
   insidefaces | outsidefaces | offsetfaces;
 numberValue:

@@ -343,7 +343,7 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
   std::vector<Vert*> prevCrosssection;
   for (int i = 0; i < sz; ++i) {
     Vert* currVert = *it;
-    Vert* nextVert;
+    Vert* nextVert = NULL;
     if (i == sz - 1) {
       nextVert = *sw->verts.begin();
     } else {
@@ -356,49 +356,50 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
       
     if (i == 0) {
       for (Vert* v: crosssection) {
-	Vert* nv = getFrenetFrameVertex(v, prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader, i == sz - 1);
-	//EdgeNew* edge = createEdge(currVert, nv, false);
-	sw->verts.push_back(nv);
-	//sw->verts.remove(currVert);
-	//sw->edges.push_back(edge);
-	prevCrosssection.push_back(nv);
+        Vert* nv = getFrenetFrameVertex(v, prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader, i == sz - 1);
+        //EdgeNew* edge = createEdge(currVert, nv, false);
+        sw->verts.push_back(nv);
+        //sw->verts.remove(currVert);
+        //sw->edges.push_back(edge);
+        prevCrosssection.push_back(nv);
       }
     } else {
       int j = 0;
       std::vector<Vert*> currCrosssection;      
       for (Vert* v: crosssection) {
-	Vert* nv = getFrenetFrameVertex(v, prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader, i == sz - 1);
-	//sw->verts.remove(currVert);	
-	//EdgeNew* edge = createEdge(currVert, nv, false);
-	sw->verts.push_back(nv);	  		
-	//sw->edges.push_back(edge);
-	if (j > 0) {
-	  if (nv == 0) {
-	    std::cerr << "New vertex is null" << std::endl;
-	    exit(1);
-	  }
-	  if (currCrosssection[j-1] == 0) {
-	    std::cerr << "currCrosssection[j-1] is null" << std::endl;
-	    exit(1);
-	  }
-	  if (prevCrosssection[j-1] == 0) {
-	    std::cerr << "prevCrosssection[j-1] is null" << std::endl;
-	    exit(1);
-	  }
-	  if (prevCrosssection[j] == 0) {
-	    std::cerr << "prevCrosssection[j] is null" << std::endl;
-	    exit(1);
-	  }
-	  makeFace(sw, nv, currCrosssection[j-1], prevCrosssection[j-1], prevCrosssection[j], reader);
-	}
-	++j;
-	currCrosssection.push_back(nv);
+        std::cout << currVert << std::endl;
+        Vert* nv = getFrenetFrameVertex(v, prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader, i == sz - 1);
+        //sw->verts.remove(currVert);
+        //EdgeNew* edge = createEdge(currVert, nv, false);
+        sw->verts.push_back(nv);
+        //sw->edges.push_back(edge);
+        if (j > 0) {
+          if (nv == 0) {
+            std::cerr << "New vertex is null" << std::endl;
+            exit(1);
+          }
+          if (currCrosssection[j-1] == 0) {
+            std::cerr << "currCrosssection[j-1] is null" << std::endl;
+            exit(1);
+          }
+          if (prevCrosssection[j-1] == 0) {
+            std::cerr << "prevCrosssection[j-1] is null" << std::endl;
+            exit(1);
+          }
+          if (prevCrosssection[j] == 0) {
+            std::cerr << "prevCrosssection[j] is null" << std::endl;
+            exit(1);
+          }
+          makeFace(sw, nv, currCrosssection[j-1], prevCrosssection[j-1], prevCrosssection[j], reader);
+        }
+        ++j;
+        currCrosssection.push_back(nv);
 	}
 
       prevCrosssection = currCrosssection;
     }
 
-    //sw->verts.remove(currVert);
+    sw->verts.remove(currVert);
     prevVert = currVert;
     ++it;
     ++it2;

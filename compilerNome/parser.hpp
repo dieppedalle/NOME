@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.0.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_NOM_COMPILERNOME_PARSER_HPP_INCLUDED
-# define YY_NOM_COMPILERNOME_PARSER_HPP_INCLUDED
+#ifndef YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
+# define YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -40,12 +40,12 @@
 extern int nomdebug;
 #endif
 /* "%code requires" blocks.  */
-#line 1 "compilerNome/parser.y" /* yacc.c:1909  */
+#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
 #include <newNOME/Session.h>
 
 
-#line 49 "compilerNome/parser.hpp" /* yacc.c:1909  */
+#line 49 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -73,70 +73,6 @@ extern int nomdebug;
     FUNNEL = 276,
     END_FUNNEL = 277,
     POLYLINE = 278,
-<<<<<<< HEAD
-    END_POLYLINE = 279,
-    INSTANCE = 280,
-    END_INSTANCE = 281,
-    CIRCLE = 282,
-    END_CIRCLE = 283,
-    BEG_DELETE = 284,
-    END_DELETE = 285,
-    GROUP = 286,
-    END_GROUP = 287,
-    TRANSLATE = 288,
-    ROTATE = 289,
-    MIRROR = 290,
-    SET = 291,
-    OPARENTHESES = 292,
-    EPARENTHESES = 293,
-    OBRACE = 294,
-    EXPR = 295,
-    DOLLAR = 296,
-    EBRACE = 297,
-    PERIOD = 298,
-    TOKHEAT = 299,
-    STATE = 300,
-    TOKTARGET = 301,
-    TOKTEMPERATURE = 302,
-    SCALE = 303,
-    SUBDIVISION = 304,
-    END_SUBDIVISION = 305,
-    SUBDIVISIONS = 306,
-    TYPE = 307,
-    OFFSET = 308,
-    END_OFFSET = 309,
-    MIN = 310,
-    MAX = 311,
-    STEP = 312,
-    BSPLINE = 313,
-    END_BSPLINE = 314,
-    CLOSED = 315,
-    SLICES = 316,
-    BEZIERCURVE = 317,
-    END_BEZIERCURVE = 318,
-    COS = 319,
-    SIN = 320,
-    TAN = 321,
-    EXPONENT = 322,
-    MULTIPLY = 323,
-    DIVIDE = 324,
-    ADD = 325,
-    SUBTRACT = 326,
-    SLIDEREXPRESSION = 327,
-    REVERSE = 328,
-    FOREGROUND = 329,
-    END_FOREGROUND = 330,
-    BACKGROUND = 331,
-    END_BACKGROUND = 332,
-    INSIDEFACES = 333,
-    END_INSIDEFACES = 334,
-    OUTSIDEFACES = 335,
-    END_OUTSIDEFACES = 336,
-    OFFSETFACES = 337,
-    END_OFFSETFACES = 338,
-    BANK_EXPR = 339,
-    NUMBER = 340
-=======
     SWEEP = 279,
     END_SWEEP = 280,
     END_POLYLINE = 281,
@@ -189,9 +125,18 @@ extern int nomdebug;
     SUBTRACT = 328,
     SLIDEREXPRESSION = 329,
     REVERSE = 330,
-    BANK_EXPR = 331,
-    NUMBER = 332
->>>>>>> ef9654e6da2610b0b80a7b6e9ee1cf3204860471
+    FOREGROUND = 331,
+    END_FOREGROUND = 332,
+    BACKGROUND = 333,
+    END_BACKGROUND = 334,
+    INSIDEFACES = 335,
+    END_INSIDEFACES = 336,
+    OUTSIDEFACES = 337,
+    END_OUTSIDEFACES = 338,
+    OFFSETFACES = 339,
+    END_OFFSETFACES = 340,
+    BANK_EXPR = 341,
+    NUMBER = 342
   };
 #endif
 /* Tokens.  */
@@ -216,70 +161,6 @@ extern int nomdebug;
 #define FUNNEL 276
 #define END_FUNNEL 277
 #define POLYLINE 278
-<<<<<<< HEAD
-#define END_POLYLINE 279
-#define INSTANCE 280
-#define END_INSTANCE 281
-#define CIRCLE 282
-#define END_CIRCLE 283
-#define BEG_DELETE 284
-#define END_DELETE 285
-#define GROUP 286
-#define END_GROUP 287
-#define TRANSLATE 288
-#define ROTATE 289
-#define MIRROR 290
-#define SET 291
-#define OPARENTHESES 292
-#define EPARENTHESES 293
-#define OBRACE 294
-#define EXPR 295
-#define DOLLAR 296
-#define EBRACE 297
-#define PERIOD 298
-#define TOKHEAT 299
-#define STATE 300
-#define TOKTARGET 301
-#define TOKTEMPERATURE 302
-#define SCALE 303
-#define SUBDIVISION 304
-#define END_SUBDIVISION 305
-#define SUBDIVISIONS 306
-#define TYPE 307
-#define OFFSET 308
-#define END_OFFSET 309
-#define MIN 310
-#define MAX 311
-#define STEP 312
-#define BSPLINE 313
-#define END_BSPLINE 314
-#define CLOSED 315
-#define SLICES 316
-#define BEZIERCURVE 317
-#define END_BEZIERCURVE 318
-#define COS 319
-#define SIN 320
-#define TAN 321
-#define EXPONENT 322
-#define MULTIPLY 323
-#define DIVIDE 324
-#define ADD 325
-#define SUBTRACT 326
-#define SLIDEREXPRESSION 327
-#define REVERSE 328
-#define FOREGROUND 329
-#define END_FOREGROUND 330
-#define BACKGROUND 331
-#define END_BACKGROUND 332
-#define INSIDEFACES 333
-#define END_INSIDEFACES 334
-#define OUTSIDEFACES 335
-#define END_OUTSIDEFACES 336
-#define OFFSETFACES 337
-#define END_OFFSETFACES 338
-#define BANK_EXPR 339
-#define NUMBER 340
-=======
 #define SWEEP 279
 #define END_SWEEP 280
 #define END_POLYLINE 281
@@ -332,20 +213,25 @@ extern int nomdebug;
 #define SUBTRACT 328
 #define SLIDEREXPRESSION 329
 #define REVERSE 330
-#define BANK_EXPR 331
-#define NUMBER 332
->>>>>>> ef9654e6da2610b0b80a7b6e9ee1cf3204860471
+#define FOREGROUND 331
+#define END_FOREGROUND 332
+#define BACKGROUND 333
+#define END_BACKGROUND 334
+#define INSIDEFACES 335
+#define END_INSIDEFACES 336
+#define OUTSIDEFACES 337
+#define END_OUTSIDEFACES 338
+#define OFFSETFACES 339
+#define END_OFFSETFACES 340
+#define BANK_EXPR 341
+#define NUMBER 342
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-
+typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-<<<<<<< HEAD
-#line 75 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
-=======
-#line 75 "compilerNome/parser.y" /* yacc.c:1909  */
->>>>>>> ef9654e6da2610b0b80a7b6e9ee1cf3204860471
+#line 76 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     std::vector<std::string>* strings;
     double intNumber;
@@ -357,14 +243,8 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-<<<<<<< HEAD
-#line 242 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
-=======
-#line 227 "compilerNome/parser.hpp" /* yacc.c:1909  */
->>>>>>> ef9654e6da2610b0b80a7b6e9ee1cf3204860471
+#line 247 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
-
-typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -388,4 +268,4 @@ extern YYSTYPE nomlval;
 extern YYLTYPE nomlloc;
 int nomparse (Session* currSession);
 
-#endif /* !YY_NOM_COMPILERNOME_PARSER_HPP_INCLUDED  */
+#endif /* !YY_NOM_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILERNOME_PARSER_HPP_INCLUDED  */
