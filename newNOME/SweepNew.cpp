@@ -222,10 +222,12 @@ FaceNew* makeFace(MeshNew* mesh,Vert* x, Vert* y, Vert* z, Vert* w, Reader* read
   verts.push_back(z);
   verts.push_back(w);
   
-  return createFace(verts, &mesh->edges, reader, false);
+  auto face = createFace(verts, &mesh->edges, reader, false);
+  mesh->faces.push_back(face);
+  return face;
 }
 
-Vert* getFrenetFrameVertex(Vert* prev, Vert* curr, Vert* next, double azimuth, double twist, Reader* reader) {
+Vert* getFrenetFrameVertex(Vert* target, Vert* prev, Vert* curr, Vert* next, double azimuth, double twist, Reader* reader, bool flipZAxis) {
   double px = *prev->x;
   double py = *prev->y;
   double pz = *prev->z;
@@ -246,31 +248,86 @@ Vert* getFrenetFrameVertex(Vert* prev, Vert* curr, Vert* next, double azimuth, d
   double v2 = ny - y;
   double v3 = nz - z;
 
+  if (false){//flipZAxis) {
+    double t1 = u1;
+    double t2 = u2;
+    double t3 = u3;
+    u1 = v1;
+    u2 = v2;
+    u3 = v3;
+    v1 = t1;
+    v2 = t2;
+    v3 = t3;
+  }
+
+  // Cross product
+  // Find y
   double yVector1 = u2 * v3 - u3 * v2;
   double yVector2 = u3 * v1 - u1 * v3;
   double yVector3 = u1 * v2 - u2 * v1;
 
-  double d1 = v1 - u1;
-  double d2 = v2 - u2;
-  double d3 = v3 - u3;
+  // Normalize y
+  double ynorm = std::sqrt(yVector1*yVector1+yVector2*yVector2+yVector3*yVector3);
+  yVector1 = yVector1 / ynorm;
+  yVector2 = yVector2 / ynorm;
+  yVector3 = yVector3 / ynorm;  
 
-  double dnorm = std::sqrt(d1*d1+d2*d2+d3*d3);
+  // Find x
+  //double flip = flipZAxis ? -1 : 1;  
+  double xVector1 = v2 * yVector3 - v3 * yVector2;
+  double xVector2 = v3 * yVector1 - v1 * yVector3;
+  double xVector3 = v1 * yVector2 - v2 * yVector1;
 
-  d1 = d1 / dnorm;
-  d2 = d2 / dnorm;
-  d3 = d3 / dnorm;
-
-  double angle = azimuth + twist;
+  // Normalize x
+  double xnorm = std::sqrt(xVector1*xVector1+xVector2*xVector2+xVector3*xVector3);
+  xVector1 = xVector1 / xnorm;
+  xVector2 = xVector2 / xnorm;
+  xVector3 = xVector3 / xnorm;
   
-  rotate(angle, &yVector1, &yVector2, &yVector3, d1, d2, d3);
+  // Find z
+  double zVector1 = xVector2 * yVector3 - xVector3 * yVector2;
+  double zVector2 = xVector3 * yVector1 - xVector1 * yVector3;
+  double zVector3 = xVector1 * yVector2 - xVector2 * yVector1;
 
-  double xVector1 = yVector1;
-  double xVector2 = yVector2;
-  double xVector3 = yVector3;
+  // Normalize z
+  double znorm = std::sqrt(zVector1*zVector1+zVector2*zVector2+zVector3*zVector3);
+  zVector1 = zVector1 / xnorm;
+  zVector2 = zVector2 / xnorm;
+  zVector3 = zVector3 / xnorm;
 
-  rotate(1.57, &xVector1, &xVector2, &xVector3, d1, d2, d3);
+  
+  // double angle = azimuth + twist;
+  
+  // rotate(angle, &yVector1, &yVector2, &yVector3, d1, d2, d3);
 
-  return newVertex("dsad", x + xVector1, y + xVector2, z + xVector3);
+
+  // rotate(1.57, &xVector1, &xVector2, &xVector3, d1, d2, d3);
+
+  // Bug?
+  // double temp1 = yVector1;
+  // double temp2 = yVector2;
+  // double temp3 = yVector3;
+  // yVector1 = xVector1;
+  // yVector2 = xVector2;
+  // yVector3 = xVector3;
+  // xVector1 = temp1;
+  // xVector2 = temp2;
+  // xVector3 = temp3;
+  
+  // Target
+  double tx = *target->x;
+  double ty = *target->y;
+  double tz = *target->z;
+
+  std::cerr << "xVector: (" << xVector1 << ", " << xVector3 << ", " << xVector3 << ")" << std::endl;
+  std::cerr << "yVector: (" << yVector1 << ", " << yVector3 << ", " << yVector3 << ")" << std::endl;
+  std::cerr << "zVector: (" << zVector1 << ", " << zVector3 << ", " << zVector3 << ")" << std::endl;
+  
+  // Change of basis
+  return newVertex("dsad",
+		   x + xVector1 * tx + yVector1 * ty + zVector1 * tz,
+		   y + xVector2 * tx + yVector2 * ty + zVector2 * tz,
+		   z + xVector3 * tx + yVector3 * ty + zVector3 * tz);
 }
 
 void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, double* azimuth, double* twist, Reader* reader) {
@@ -292,20 +349,47 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
     } else {
       nextVert = *it2;
     }
-    
+
+    if (i > 0) {
+      //sw->edges.push_back(createEdge(currVert, prevVert, false));
+    }
+      
     if (i == 0) {
       for (Vert* v: crosssection) {
-	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader);
+	Vert* nv = getFrenetFrameVertex(v, prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader, i == sz - 1);
+	//EdgeNew* edge = createEdge(currVert, nv, false);
+	sw->verts.push_back(nv);
+	//sw->verts.remove(currVert);
+	//sw->edges.push_back(edge);
 	prevCrosssection.push_back(nv);
       }
     } else {
       int j = 0;
       std::vector<Vert*> currCrosssection;      
       for (Vert* v: crosssection) {
-	auto vv = *it;
-	Vert* nv = getFrenetFrameVertex(prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader);
+	Vert* nv = getFrenetFrameVertex(v, prevVert, currVert, nextVert, *azimuth, *twist * (i / (double)sz), reader, i == sz - 1);
+	//sw->verts.remove(currVert);	
+	//EdgeNew* edge = createEdge(currVert, nv, false);
+	sw->verts.push_back(nv);	  		
+	//sw->edges.push_back(edge);
 	if (j > 0) {
-	  sw->faces.push_back(makeFace(sw, nv, currCrosssection[j-1], prevCrosssection[j-1], prevCrosssection[j], reader));
+	  if (nv == 0) {
+	    std::cerr << "New vertex is null" << std::endl;
+	    exit(1);
+	  }
+	  if (currCrosssection[j-1] == 0) {
+	    std::cerr << "currCrosssection[j-1] is null" << std::endl;
+	    exit(1);
+	  }
+	  if (prevCrosssection[j-1] == 0) {
+	    std::cerr << "prevCrosssection[j-1] is null" << std::endl;
+	    exit(1);
+	  }
+	  if (prevCrosssection[j] == 0) {
+	    std::cerr << "prevCrosssection[j] is null" << std::endl;
+	    exit(1);
+	  }
+	  makeFace(sw, nv, currCrosssection[j-1], prevCrosssection[j-1], prevCrosssection[j], reader);
 	}
 	++j;
 	currCrosssection.push_back(nv);
@@ -313,7 +397,8 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
 
       prevCrosssection = currCrosssection;
     }
-    
+
+    //sw->verts.remove(currVert);
     prevVert = currVert;
     ++it;
     ++it2;
