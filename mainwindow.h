@@ -30,7 +30,7 @@ private:
     void createActions();
     void createMenus();
     void createCanvas(QString name);
-    void createControlPanel(SlideGLWidget *canvas);
+    void createControlPanel(SlideGLWidget *canvas, Session * currSession);
     void createSliderPanel(SlideGLWidget * canvas);
     void drawSubdivisionSliders(SlideGLWidget * canvas, Session *currSession);
     void drawOffsetSliders(SlideGLWidget * canvas, Session *currSession);

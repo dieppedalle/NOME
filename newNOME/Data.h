@@ -78,6 +78,7 @@ public:
     bool selected;
 
     bool mobius;
+    std::vector<FaceNew*> mobiusFaces;
     bool inList = false;
 
     std::vector<std::tuple<Vert*,Vert*>> edgesSeen;
@@ -89,6 +90,8 @@ public:
     Surface* surface;
     Session* currSession;
     Vert* copyOfVert;
+
+    std::vector<FaceNew*> facesReversed = std::vector<FaceNew*>();
 
     VertOctreeProxy* octreeProxy = nullptr;
 
@@ -126,6 +129,8 @@ public:
     FaceNew* f0; FaceNew* f1;
     EdgeI index;
     Surface* surface;
+    bool selected = false;
+    bool mobius = false;
 
     // Used for subdivision
     Vert* edgePoint;
@@ -149,6 +154,8 @@ public:
     Vert* facePoint;
     bool mobius = false;
     void calculateFacePoint();
+    void calculateWeightedFacePoint();
+    std::vector<double> normal = {0,0,0};
 
     std::vector<double> getNormal();
 } FaceNew;
@@ -196,9 +203,9 @@ bool deleteVert(Vert* vert);
 bool deleteEdge(EdgeNew* edge);
 bool deleteFace(FaceNew* face);
 
-bool drawVert(Vert* v0, Surface * instSurface);
-bool drawEdge(EdgeNew* e0, Surface * instSurface);
-bool drawFace(FaceNew* f0, Surface * instSurface);
+bool drawVert(Vert* v0, Surface * instSurface, Session* currSession);
+bool drawEdge(EdgeNew* e0, Surface * instSurface, Session* currSession);
+bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession);
 
 bool drawNormal(Vert* v0, Surface * instSurface);
 

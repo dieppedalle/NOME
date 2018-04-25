@@ -65,7 +65,8 @@ GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
 EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
 BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE COS SIN TAN EXPONENT
-MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION REVERSE;
+MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION REVERSE FOREGROUND END_FOREGROUND BACKGROUND
+END_BACKGROUND INSIDEFACES END_INSIDEFACES OUTSIDEFACES END_OUTSIDEFACES OFFSETFACES END_OFFSETFACES;
 
 %error-verbose
 %locations
@@ -104,9 +105,10 @@ commands: /* empty */
 
 
 command:
-    comment | mesh | surface | point | face | object | bank |
-  tunnel | funnel | polyline | sweep | instance | delete | group | circle |
-  subdivision | offset | bspline | beziercurve;
+    comment | mesh | surface | point | face | object | bank | sweep |
+    tunnel | funnel | polyline | instance | delete | group | circle |
+    subdivision | offset | bspline | beziercurve | foreground | background |
+    insidefaces | outsidefaces | offsetfaces;
 
 numberValue:
     NUMBER {
@@ -280,28 +282,46 @@ instanceGroup:
     INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE
     {
         Reader* currReader = createReader(currSession);
+
         string instanceName = strdup($<string>2);
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->getMesh($<string>3);
 
-        InstanceNew* newInstance;
+        InstanceNew* newInstance = NULL;
+        bool onlyCreateNewVertices = false;
         if (currentMesh != NULL) {
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, false, false, false, currSession);
+            //if (currentTransformations2.size() > 0){
+              onlyCreateNewVertices = true;
+            //}
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
             newInstance->currSession = currSession;
-            newInstance->setName(strdup($<string>2));
         }
         else{
-            nomerror(currSession, "Incorrect vertex, face, or mesh name");
-            YYABORT;
+            GroupNew * currentGroup2 = currReader->getGroup($<string>3);
+            if (currentGroup2 != NULL) {
+                newInstance = createInstance(currentGroup2, currSession->verts, currReader, currSession);
+                newInstance->currSession = currSession;
+            }
+            else{
+                nomerror(currSession, "Incorrect vertex, face, or mesh name");
+                YYABORT;
+            }
         }
 
+        newInstance->setName(strdup($<string>2));
         newInstance->transformations = currentTransformations2;
         currentTransformations2.clear();
 
         for (TransformationNew * t : newInstance->transformations){
             newInstance->applyTransformation(t);
         }
+
+        /*for (InstanceNew * i : newInstance->listInstances){
+          for (TransformationNew * t : i->transformations){
+              i->applyTransformation(t);
+          }
+        }*/
 
         string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
@@ -343,24 +363,38 @@ subdivision:
         parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *subdivision = *currentValSet;
 
+        std::string subdivType(strdup($<string>5));
+        if (subdivType.compare("SLF_CATMULL_CLARK") == 0){
+          currSession->subdivisionType = 0;
+        } else if (subdivType.compare("WEIGHTED_FACEPOINT_SLF_CATMULL_CLARK") == 0){
+          currSession->subdivisionType = 1;
+        }
+
         SubdivisionNew* currSubdivision = createSubdivision(strdup($<string>3), strdup($<string>5), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     };
 
 offset:
-    OFFSET VARIABLE MIN numberValue MAX numberValue STEP numberValue END_OFFSET
+    OFFSET VARIABLE instanceOffseSubdivideArgs TYPE VARIABLE MIN numberValue MAX numberValue STEP numberValue END_OFFSET
     {
         double *min = (double*) malloc(sizeof(double));
         double *max = (double*) malloc(sizeof(double));
         double *step = (double*) malloc(sizeof(double));
 
         double *currentValSet = (double*) malloc(sizeof(double));
-        parseGetBankVal($<string>4, currSession, currentValSet, nomlineno);
+        parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *min = *currentValSet;
-        parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
+        parseGetBankVal($<string>9, currSession, currentValSet, nomlineno);
         *max = *currentValSet;
-        parseGetBankVal($<string>8, currSession, currentValSet, nomlineno);
+        parseGetBankVal($<string>11, currSession, currentValSet, nomlineno);
         *step = *currentValSet;
+
+        std::string offsetType(strdup($<string>5));
+        if (offsetType.compare("REGULAR") == 0){
+          currSession->offsetType = 0;
+        } else if (offsetType.compare("WEIGHTED") == 0){
+          currSession->offsetType = 1;
+        }
 
         OffsetNew* currOffset = createOffset(strdup($<string>2), min, max, step);
 
@@ -927,6 +961,101 @@ polyline:
         surfaceFromArg = "";
         }
         ;
+
+foreground:
+    FOREGROUND transformArgs END_FOREGROUND
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> foreColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+background:
+    BACKGROUND transformArgs END_BACKGROUND
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> backColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+insidefaces:
+    INSIDEFACES transformArgs END_INSIDEFACES
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> insideColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+outsidefaces:
+    OUTSIDEFACES transformArgs END_OUTSIDEFACES
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> outsideColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
+
+offsetfaces:
+    OFFSETFACES transformArgs END_OFFSETFACES
+    {
+      Reader* currReader = createReader(currSession);
+      string surfaceName = surfaceFromArg;
+      // Check if a surface has been applied.
+      if (surfaceName.length() != 0){
+          Surface * currentSurface = currReader->surf(surfaceFromArg);
+          if (currentSurface != NULL) {
+              currSession-> offsetColor = currentSurface;
+          }
+          else{
+              nomerror(currSession, "Incorrect surface name");
+              YYABORT;
+          }
+      }
+      surfaceFromArg = "";
+    };
 
 instance:
     INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE

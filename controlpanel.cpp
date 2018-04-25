@@ -13,8 +13,9 @@ ControlPanel::ControlPanel()
     //buildConnection();
 }
 
-ControlPanel::ControlPanel(SlideGLWidget * canvas)
+ControlPanel::ControlPanel(SlideGLWidget * canvas, Session* currSession)
 {
+    this -> currSession = currSession;
     setupLayout();
     this -> canvas = canvas;
     buildConnection();
@@ -43,6 +44,7 @@ void ControlPanel::buildConnection()
     connect(offsetFacesColorButton, SIGNAL(clicked(bool)), this, SLOT(resetOffsetFacesColor(bool)));
     connect(vertexModeButton, SIGNAL(clicked(bool)), this, SLOT(vertexModeChecked(bool)));
     connect(borderModeButton, SIGNAL(clicked(bool)), this, SLOT(borderModeChecked(bool)));
+    connect(normalVect, SIGNAL(clicked(bool)), this, SLOT(normalVectChecked(bool)));
     connect(faceModeButton, SIGNAL(clicked(bool)), this, SLOT(faceModeChecked(bool)));
     connect(canvas, SIGNAL(feedback_status_bar(QString, int)), statusBar, SLOT(showMessage(QString,int)));
     connect(vertexModeButton, SIGNAL(clicked(bool)), canvas, SLOT(vertexModeChecked(bool)));
@@ -114,7 +116,9 @@ void ControlPanel::setupLayout()
 
     modeLayout -> addLayout(addOrClearLayout = new QHBoxLayout);
     modeLayout-> addWidget(autoCorrectCheck = new QCheckBox(tr("Auto Correct Adding Face Oreinataion")));
+    modeLayout-> addWidget(normalVect = new QCheckBox(tr("Show Normal Vector")));
     autoCorrectCheck -> setChecked(true);
+    normalVect->setChecked(true);
     modeLayout-> addWidget(wholeBorderCheck = new QCheckBox(tr("Zip Whole Border Loop")));
     wholeBorderCheck -> setChecked(true);
     wholeBorderCheck -> setEnabled(false);
@@ -159,13 +163,13 @@ void ControlPanel::setupLayout()
     foreColorLayout -> addWidget(foreColorBox = new QWidget());
     foreColorBox -> resize(5,5);
     QPalette forePal = foreColorBox->palette();
-    forePal.setColor(foreColorBox->backgroundRole(), QColor(255,0,0));
+    forePal.setColor(foreColorBox->backgroundRole(), QColor(*currSession->foreColor->r * 255.0,*currSession->foreColor->g * 255.0,*currSession->foreColor->b * 255.0));
     foreColorBox->setPalette(forePal);
     foreColorBox -> setAutoFillBackground(true);
     backColorLayout -> addWidget(backColorButton = new QPushButton(tr("Background Color")));
     backColorLayout -> addWidget(backColorBox = new QWidget());
     QPalette backPal = foreColorBox->palette();
-    backPal.setColor(backColorBox->backgroundRole(), QColor(0,0,0));
+    backPal.setColor(backColorBox->backgroundRole(), QColor(*currSession->backColor->r * 255.0,*currSession->backColor->g * 255.0,*currSession->backColor->b * 255.0));
     backColorBox->setPalette(backPal);
     backColorBox -> setAutoFillBackground(true);
     backColorBox -> resize(5,5);
@@ -173,7 +177,7 @@ void ControlPanel::setupLayout()
     outsideFacesColorLayout -> addWidget(outsideFacesColorButton = new QPushButton(tr("Outside Faces Color")));
     outsideFacesColorLayout -> addWidget(outsideFacesColorBox = new QWidget());
     QPalette outsideFacesPal = foreColorBox->palette();
-    backPal.setColor(outsideFacesColorBox->backgroundRole(), QColor(255,0,0));
+    backPal.setColor(outsideFacesColorBox->backgroundRole(), QColor(*currSession->outsideColor->r * 255.0,*currSession->outsideColor->g * 255.0,*currSession->outsideColor->b * 255.0));
     outsideFacesColorBox->setPalette(backPal);
     outsideFacesColorBox -> setAutoFillBackground(true);
     outsideFacesColorBox -> resize(5,5);
@@ -181,7 +185,7 @@ void ControlPanel::setupLayout()
     insideFacesColorLayout -> addWidget(insideFacesColorButton = new QPushButton(tr("Inside Faces Color")));
     insideFacesColorLayout -> addWidget(insideFacesColorBox = new QWidget());
     QPalette insideFacesPal = foreColorBox->palette();
-    backPal.setColor(insideFacesColorBox->backgroundRole(), QColor(0,0,255));
+    backPal.setColor(insideFacesColorBox->backgroundRole(), QColor(*currSession->insideColor->r * 255.0,*currSession->insideColor->g * 255.0,*currSession->insideColor->b * 255.0));
     insideFacesColorBox->setPalette(backPal);
     insideFacesColorBox -> setAutoFillBackground(true);
     insideFacesColorBox -> resize(5,5);
@@ -189,7 +193,7 @@ void ControlPanel::setupLayout()
     offsetFacesColorLayout -> addWidget(offsetFacesColorButton = new QPushButton(tr("Offset Faces Color")));
     offsetFacesColorLayout -> addWidget(offsetFacesColorBox = new QWidget());
     QPalette offsetFacesPal = foreColorBox->palette();
-    backPal.setColor(offsetFacesColorBox->backgroundRole(), QColor(255,163,0));
+    backPal.setColor(offsetFacesColorBox->backgroundRole(), QColor(*currSession->offsetColor->r * 255.0,*currSession->offsetColor->g * 255.0,*currSession->offsetColor->b * 255.0));
     offsetFacesColorBox->setPalette(backPal);
     offsetFacesColorBox -> setAutoFillBackground(true);
     offsetFacesColorBox -> resize(5,5);
@@ -302,6 +306,16 @@ void ControlPanel::vertexModeChecked(bool checked)
     wholeBorderCheck->setEnabled(!checked);
     statusBar -> showMessage(tr("Switch to Vertex Selection Mode"));
 }
+
+void ControlPanel::normalVectChecked(bool checked)
+{
+    currSession->normalVectShow = checked;
+    canvas->repaintCanvas();
+    //autoCorrectCheck->setEnabled(checked);
+    //wholeBorderCheck->setEnabled(!checked);
+    //statusBar -> showMessage(tr("Switch to Vertex Selection Mode"));
+}
+
 
 void ControlPanel::borderModeChecked(bool checked)
 {

@@ -11,6 +11,7 @@
 #include "newNOME/ConsolidateWindow.h"
 #include "newNOME/GroupWindow.h"
 #include "newNOME/Reader.h"
+#include "newNOME/Data.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -51,12 +52,12 @@ void SlideGLWidget::generalSetup()
     smoothshading = false;
     selection_mode = 1;
     object2world = mat4(1);
-    foreColor = QColor(255,0,0);
+    /*foreColor = QColor(255,0,0);
     backColor = QColor(0,0,0);
     outsideColor = QColor(255,0,0);
-    insideColor = QColor(0,0,255);
-    currSession->outsideColor = outsideColor;
-    currSession->insideColor = insideColor;
+    insideColor = QColor(0,0,255);*/
+    //currSession->outsideColor = outsideColor;
+    //currSession->insideColor = insideColor;
     tempColor = QColor(255, 255, 0);
     whole_border = true;
     errorMsg = new QMessageBox();
@@ -206,8 +207,6 @@ void SlideGLWidget::mouse_select(int x, int y)
         Vector3 dir = targetPos - camPos;
         dir.Normalize();
 
-        printf("Origin:%s Target:%s Dir:%s\n", camPos.ToString().c_str(), targetPos.ToString().c_str(), dir.ToString().c_str());
-
         float distMax = FLT_MAX;
         Vert* selectedVertex = nullptr;
 
@@ -216,7 +215,6 @@ void SlideGLWidget::mouse_select(int x, int y)
         currSession->getOctreeRoot()->findNodes(mouseRay, rayIntersectResults);
         for (OctreeProxy* proxy : rayIntersectResults)
         {
-            cout << proxy->toString() << endl;
             auto* vertProxy = dynamic_cast<VertOctreeProxy*>(proxy);
             if (vertProxy)
             {
@@ -231,6 +229,8 @@ void SlideGLWidget::mouse_select(int x, int y)
 
         if (selectedVertex)
         {
+            Reader* currReader = createReader(currSession);
+            std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             selectedVertex->selected = !selectedVertex->selected;
             if (selectedVertex -> selected == true) {
                 currSession->selectedVerts.push_back(selectedVertex);
@@ -240,6 +240,73 @@ void SlideGLWidget::mouse_select(int x, int y)
             }
             update();
         }
+        return;
+    } else if(selection_mode == 2){
+        // Select Border
+        Vector3 camPos = Vector3(camX, camY, camZ);
+        Vector3 targetPos = Vector3(posX, posY, posZ);
+        Vector3 dir = targetPos - camPos;
+        dir.Normalize();
+
+        float distMax = FLT_MAX;
+        Vert* selectedVertex = nullptr;
+
+        Ray mouseRay = Ray(camPos, dir);
+        vector<OctreeProxy*> rayIntersectResults;
+        currSession->getOctreeRoot()->findNodes(mouseRay, rayIntersectResults);
+        for (OctreeProxy* proxy : rayIntersectResults)
+        {
+            //cout << proxy->toString() << endl;
+            auto* vertProxy = dynamic_cast<VertOctreeProxy*>(proxy);
+            if (vertProxy)
+            {
+                float hitDistance = mouseRay.HitDistance(vertProxy->getWorldAABB());
+                if (hitDistance < distMax)
+                {
+                    distMax = hitDistance;
+                    selectedVertex = vertProxy->getOwner();
+                }
+            }
+        }
+
+        if (selectedVertex)
+        {
+            std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> loopInfo = currSession->findBorder(selectedVertex);
+            std::vector<Vert*> loop = std::get<0>(loopInfo);
+
+            //set<Vert*> s( loop.begin(), loop.end() );
+            //loop.assign( s.begin(), s.end() );
+
+            std::vector<EdgeNew*> eloop = std::get<1>(loopInfo);
+            //set<EdgeNew*> es( eloop.begin(), eloop.end() );
+            //eloop.assign( es.begin(), es.end() );
+
+            if (currSession->isBorderSelected == true){
+                for (Vert* v : std::get<0>(currSession->tmpBorder)){
+                    v->selected = false;
+                }
+                for (EdgeNew* e : std::get<1>(currSession->tmpBorder)){
+                    e->selected = false;
+                }
+            }
+
+            for (Vert* v : loop){
+                v->selected = true;
+                /*if (v -> selected == true) {
+                    currSession->selectedVerts.push_back(v);
+                }*/
+            }
+            for (EdgeNew* e : eloop){
+                e->selected = true;
+            }
+
+
+
+            currSession->tmpBorder = std::make_tuple(loop, eloop);
+            currSession->isBorderSelected = true;
+            update();
+        }
+
         return;
     }
 
@@ -404,10 +471,11 @@ void SlideGLWidget::paintGL()
 
 void SlideGLWidget::paintGLImpl()
 {
-    glClearColor(1.0f * backColor.red() / 255,
-                 1.0f * backColor.green() / 255,
-                 1.0f * backColor.blue() / 255,
-                 1.0f * backColor.alpha() / 255);
+    glClearColor(1.0f * *currSession->backColor->r,
+                 1.0f * *currSession->backColor->g,
+                 1.0f * *currSession->backColor->b,
+                 1.0f * 255 / 255);
+    glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0, 0, cameraDistance, centerX, centerY, centerZ, 0, 1, 0);
@@ -598,6 +666,7 @@ void SlideGLWidget::paintGLImpl()
 
 void SlideGLWidget::mousePressEvent(QMouseEvent* event)
 {
+    int pixelRatio = this->devicePixelRatio();
     if (event->buttons() & Qt::LeftButton)
     {
         arcball_on = true;
@@ -610,7 +679,7 @@ void SlideGLWidget::mousePressEvent(QMouseEvent* event)
     }
     if (event->buttons() & Qt::RightButton)
     {
-        mouse_select(event -> x(), event -> y());
+        mouse_select(event -> x() * pixelRatio, event -> y() * pixelRatio);
     }
 }
 
@@ -657,6 +726,7 @@ void SlideGLWidget::keyPressEvent(QKeyEvent* event)
         break;
     case Qt::Key_X:
         backface = !backface;
+
         if (backface)
         {
             glPolygonMode( GL_BACK, GL_FILL );
@@ -699,6 +769,7 @@ void SlideGLWidget::keyPressEvent(QKeyEvent* event)
         event->ignore();
         break;
     }
+
     repaint();
 }
 
@@ -832,14 +903,38 @@ void SlideGLWidget::setForeColor(QColor color)
     merged_mesh.color = foreColor;
     subdiv_mesh.color = foreColor;
     offset_mesh.color = foreColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->foreColor = createSurface(r, g, b, "foreColor");
+
     hierarchical_scene_transformed.setColor(foreColor);
     hierarchical_scene_transformed.assignColor();
+
+
     repaint();
 }
 
 void SlideGLWidget::setBackColor(QColor color)
 {
-    backColor = color;
+
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->backColor = createSurface(r, g, b, "backColor");
+
     repaint();
 }
 
@@ -847,7 +942,16 @@ void SlideGLWidget::setInsideColor(QColor color)
 {
     insideColor = color;
     currSession->recalculateOffset = true;
-    currSession->insideColor = insideColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->insideColor = createSurface(r, g, b, "insideColor");
     repaint();
 }
 
@@ -855,7 +959,16 @@ void SlideGLWidget::setOffsetColor(QColor color)
 {
     offsetColor = color;
     currSession->recalculateOffset = true;
-    currSession->offsetColor = offsetColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->offsetColor = createSurface(r, g, b, "offsetColor");
     repaint();
 }
 
@@ -863,7 +976,22 @@ void SlideGLWidget::setOutsideColor(QColor color)
 {
     outsideColor = color;
     currSession->recalculateOffset = true;
-    currSession->outsideColor = outsideColor;
+
+    double *r = (double*) malloc(sizeof(double));
+    double *g = (double*) malloc(sizeof(double));
+    double *b = (double*) malloc(sizeof(double));
+
+    *r = color.red() / 255.0;
+    *g = color.green() / 255.0;
+    *b = color.blue() / 255.0;
+
+    currSession->outsideColor = createSurface(r, g, b, "outsideColor");
+
+    repaint();
+}
+
+void SlideGLWidget::repaintCanvas()
+{
     repaint();
 }
 
@@ -992,19 +1120,9 @@ void SlideGLWidget::addToTempCalled(bool)
 
 void SlideGLWidget::zipToTempCalled(bool)
 {
-    if(border1.isEmpty() || border2.isEmpty()) {
-        emit feedback_status_bar(tr("Please select two borders to zip!"), 0);
-        return;
-    }
-    zipper->zip(&border1, &border2, temp_mesh, 1.3);
-    //new_temp_mesh.color = temp_mesh.color;
-    //temp_mesh = merge(temp_mesh, new_temp_mesh);
-    temp_mesh.computeNormals();
-    //temp_mesh.color = new_temp_mesh.color;
-    updateGlobalIndexList();
-    mySelect.clearSelection();
-    border1.clear();
-    border2.clear();
+
+    currSession->zipBorders();
+
     repaint();
 }
 
@@ -1109,21 +1227,14 @@ void SlideGLWidget::addTempToMasterCalled(bool) {
 
 void SlideGLWidget::addBorderCalled(bool)
 {
-    if(border1.isEmpty())
-    {
-        border1 = mySelect.addSelectedToPolyline(whole_border);
-        emit feedback_status_bar(tr("First border added."), 0);
+    if (currSession->isBorderSelected == true){
+        currSession->borders.push_back(currSession->tmpBorder);
+        for (Vert* v : std::get<0>(currSession->tmpBorder)){
+            v->selected = false;
+        }
     }
-    else if(border2.isEmpty())
-    {
-        border2 = mySelect.addSelectedToPolyline(whole_border);
-        emit feedback_status_bar(tr("Second border added."), 0);
-    }
-    else
-    {
-        emit feedback_status_bar(tr("The two borders are added."
-                                    "You are ready to zip."), 0);
-    }
+
+    currSession->isBorderSelected = false;
     repaint();
 }
 

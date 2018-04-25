@@ -48,14 +48,14 @@ public:
     bool deleteFace(FaceNew*);
 
     bool drawFaces();
-    bool draw(double offset, bool computeOffset, QColor outsideColor, QColor insideColor, QColor offsetColor, Session* currSession);
+    bool draw(double offset, bool computeOffset, Surface* outsideColor, Surface* insideColor, Surface* offsetColor, Session* currSession);
     MeshNew* subdivideMesh();
     Surface * surface;
 
     bool setName(std::string n);
     bool updateNames();
 
-    void calculateNormal();
+    void calculateNormal(Session* currSession);
 
     Node* vert(std::string);
     Node* edge(std::string);

@@ -25,6 +25,57 @@ Session* createSession()
     singletonPtr = session0;
 
     session0->setName("s:" + std::to_string(sIndex));
+
+    double *rF = (double*) malloc(sizeof(double));
+    double *gF = (double*) malloc(sizeof(double));
+    double *bF = (double*) malloc(sizeof(double));
+
+    *rF = 255.0/255.0;
+    *gF = 0.0;
+    *bF = 0.0;
+
+    session0->foreColor = createSurface(rF, gF, bF, "foreColor");
+
+    double *rB = (double*) malloc(sizeof(double));
+    double *gB = (double*) malloc(sizeof(double));
+    double *bB = (double*) malloc(sizeof(double));
+
+    *rB = 0.0;
+    *gB = 0.0;
+    *bB = 0.0;
+
+    session0->backColor = createSurface(rB, gB, bB, "backColor");
+
+    double *rOut = (double*) malloc(sizeof(double));
+    double *gOut = (double*) malloc(sizeof(double));
+    double *bOut = (double*) malloc(sizeof(double));
+
+    *rOut = 255.0/255.0;
+    *gOut = 0.0;
+    *bOut = 0.0;
+
+    session0->outsideColor = createSurface(rOut, gOut, bOut, "outsideColor");
+
+    double *rIn = (double*) malloc(sizeof(double));
+    double *gIn = (double*) malloc(sizeof(double));
+    double *bIn = (double*) malloc(sizeof(double));
+
+    *rIn = 0.0;
+    *gIn = 0.0;
+    *bIn = 255.0/255.0;
+
+    session0->insideColor = createSurface(rIn, gIn, bIn, "insideColor");
+
+    double *rOff = (double*) malloc(sizeof(double));
+    double *gOff = (double*) malloc(sizeof(double));
+    double *bOff = (double*) malloc(sizeof(double));
+
+    *rOff = 255.0/255.0;
+    *gOff = 163.0/255.0;
+    *bOff = 0.0;
+
+    session0->offsetColor = createSurface(rOff, gOff, bOff, "offsetColor");
+
     sIndex++;
 
     return session0;
@@ -281,7 +332,7 @@ void Session::deleteTmpFace(){
             }
         }
         Reader* currReader = createReader(this);
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
         tmpInstance->setName("tmpInstance");
         tmpFaceIndex -= 1;
     }
@@ -345,7 +396,7 @@ void Session::addTmpFace(){
         }
         tmpMesh->setName("tmpMesh");
 
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
         tmpInstance->setName("tmpInstance");
         clearSelection();
         tmpFaceIndex += 1;
@@ -397,7 +448,7 @@ void Session::addTmpPolyline(){
 
         tmpMesh->polylines.push_back(tmpPolyline);
 
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, true, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
         tmpInstance->setName("tmpInstance");
         tmpPolylineIndex += 1;
         clearSelection();
@@ -462,11 +513,18 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
 
         //instances.push_back(tmpInstance);
         this->fileContent += "instance " + consolidateInstanceName + " " + consolidateMeshName + " endinstance\n";
+        for (Vert * v : newInstance->verts){
+            for (TransformationNew * t : v->transformations){
+                v->applyTransformation(t);
+            }
+        }
+
     }
 
     tmpMesh = NULL;
     tmpInstance = NULL;
     tmpPolyline = NULL;
+
 
 
     clearSelection();
@@ -491,6 +549,21 @@ void Session::clearSelection(){
     selectedFaces.clear();
     selectedVerts.clear();
     selectedEdges.clear();
+
+    for (Vert * selectedVert: std::get<0>(tmpBorder)){
+        selectedVert->selected = false;
+    }
+    for (EdgeNew * selectedEdge: std::get<1>(tmpBorder)){
+        selectedEdge->selected = false;
+    }
+    isBorderSelected = false;
+
+    for (std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border : borders){
+        for (EdgeNew * selectedEdge: std::get<1>(border)){
+            selectedEdge->selected = false;
+        }
+    }
+    borders.clear();
 
 }
 
@@ -529,21 +602,131 @@ void Session::draw(){
     }
 }
 
+void Session::zipBorders(){
+    if (this->borders.size() == 2){
+        std::cout << "Zippering borders." << std::endl;
+        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border0;
+        std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> border1;
+
+        if (std::get<0>(borders[0]).size() <= std::get<0>(borders[1]).size()){
+            border0 = borders[1];
+            border1 = borders[0];
+        } else{
+            border0 = borders[0];
+            border1 = borders[1];
+        }
+
+        std::vector<std::tuple<Vert*, Vert*>> closeVertices;
+
+        double minDistance = DBL_MAX;
+        Vert* closestVert = NULL;
+        std::tuple<Vert*, Vert*> tupleList;
+        for (Vert* vB0 : std::get<0>(border0)){
+            minDistance = DBL_MAX;
+            for (Vert* vB1 : std::get<0>(border1)){
+                double distance = sqrt(pow((vB1->xTransformed - vB0->xTransformed), 2) + pow((vB1->yTransformed - vB0->yTransformed), 2) + pow((vB1->zTransformed - vB0->zTransformed), 2));
+                if (distance < minDistance){
+                    minDistance = distance;
+                    //closestVert = vB1;
+                    tupleList = std::make_tuple(vB0, vB1);
+                }
+            }
+            closeVertices.push_back(tupleList);
+        }
+        if (tmpMesh == NULL){
+            tmpMesh = createMesh();
+            tmpFaceIndex = 0;
+            tmpPolylineIndex = 0;
+        }
+
+        Reader* currReader = createReader(this);
+        std::vector<std::tuple<Vert*, Vert*>>::iterator vv = closeVertices.begin();
+
+        while (vv+1 != closeVertices.end()){
+            //std::cout <<
+            Vert* vert0a = std::get<0>(*vv);
+            Vert* vert0b;
+            if (vv+1 != closeVertices.end()){
+                vert0b = std::get<0>(*(vv+1));
+            } else{
+                vert0b = std::get<0>(*(closeVertices.begin()));
+            }
+            Vert* vert1 = std::get<1>(*vv);
+
+            std::list<Vert*> currentVertsList;
+            currentVertsList.push_back(vert0a);
+            currentVertsList.push_back(vert0b);
+            currentVertsList.push_back(vert1);
+
+            FaceNew * newFace = createFace(currentVertsList, &(tmpMesh->edges), currReader, false);
+            setTmpSurface(newFace);
+            newFace->setName("f" + std::to_string(tmpFaceIndex));
+            tmpMesh->faces.push_back(newFace);
+
+            for (Vert * selectedVert: currentVertsList){
+                tmpMesh->verts.push_back(selectedVert);
+            }
+            tmpFaceIndex+=1;
+            //==============
+
+            Vert* vert2a = std::get<1>(*vv);
+            Vert* vert2b;
+            Vert* vert3;
+            if (vv+1 != closeVertices.end()){
+                vert2b = std::get<1>(*(vv+1));
+                vert3 = std::get<0>(*(vv+1));
+            } else{
+                vert2b = std::get<1>(*(closeVertices.begin()));
+                vert3 = std::get<0>(*(closeVertices.begin()));
+            }
+            //std::cout << std::get<1>(*(vv+1))->name << std::endl;
+            //std::cout << std::get<0>(*(vv+1))->name << std::endl;
+
+            if (!((vert2a->index == vert2b->index) || (vert2a->index == vert3->index))){
+                std::list<Vert*> currentVertsList2;
+                currentVertsList2.push_back(vert3);
+                currentVertsList2.push_back(vert2b);
+                currentVertsList2.push_back(vert2a);
+
+                FaceNew * newFace2 = createFace(currentVertsList2, &(tmpMesh->edges), currReader, false);
+
+                setTmpSurface(newFace2);
+
+                newFace2->setName("f" + std::to_string(tmpFaceIndex));
+
+                tmpMesh->faces.push_back(newFace2);
+                for (Vert * selectedVert: currentVertsList2){
+                    tmpMesh->verts.push_back(selectedVert);
+                }
+
+                tmpFaceIndex += 1;
+            }
+
+            vv++;
+        }
+        tmpMesh->setName("tmpMesh");
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
+        tmpInstance->setName("tmpInstance");
+        clearSelection();
+
+    } else{
+        std::cout << "2 borders must be selected to zip." << std::endl;
+    }
+}
+
 void mergeEdges(MeshNew* flattenMesh){
-
-
 
     // NEED TO MERGE EDGES NOW
     std::vector<std::tuple<EdgeNew*, EdgeNew*>> toBeMerged = std::vector<std::tuple<EdgeNew*, EdgeNew*>>();
     toBeMerged.clear();
 
+    double epsilonPos = 0.05;
     std::list<EdgeNew*>::iterator i = flattenMesh->edges.begin();
     int position = 0;
     while (i != flattenMesh->edges.end())
     {
         std::list<EdgeNew*>::iterator checkD = flattenMesh->edges.begin();
         std::advance(checkD, position + 1);
-        double epsilonPos = 0.05;
         while (checkD != flattenMesh->edges.end()){
 
             //std::cout << abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) + abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) + abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) << std::endl;
@@ -593,16 +776,19 @@ void mergeEdges(MeshNew* flattenMesh){
         std::cout << e->v1->index << std::endl;
     }*/
 
+    int count = 1;
     for (std::vector<std::tuple<EdgeNew*, EdgeNew*>>::iterator it = toBeMerged.begin() ; it != toBeMerged.end(); ++it){
         // a map where the keys are integers and the values are strings
         std::map<Vert*, Vert*> newVertexDict;
         newVertexDict.clear();
-        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < 0.01
-                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < 0.01){
+
+
+        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < epsilonPos
+                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < epsilonPos){
             newVertexDict[std::get<1>((*it))->v0] = std::get<0>((*it))->v0;
             newVertexDict[std::get<1>((*it))->v1] = std::get<0>((*it))->v1;
         } else{
@@ -610,8 +796,32 @@ void mergeEdges(MeshNew* flattenMesh){
             newVertexDict[std::get<1>((*it))->v1] = std::get<0>((*it))->v0;
             newVertexDict[std::get<1>((*it))->v0] = std::get<0>((*it))->v1;
         }
-        // Remove second edge from edge list
 
+        for (EdgeNew* e : std::get<1>((*it))->v1->edges){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v1]->edges.begin(), newVertexDict[std::get<1>((*it))->v1]->edges.end(), e) != newVertexDict[std::get<1>((*it))->v1]->edges.end())){
+                newVertexDict[std::get<1>((*it))->v1]->edges.push_back(e);
+            }
+        }
+
+        for (FaceNew* f : std::get<1>((*it))->v1->faces){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v1]->faces.begin(), newVertexDict[std::get<1>((*it))->v1]->faces.end(), f) != newVertexDict[std::get<1>((*it))->v1]->faces.end())){
+                newVertexDict[std::get<1>((*it))->v1]->faces.push_back(f);
+            }
+        }
+
+        for (EdgeNew* e : std::get<1>((*it))->v0->edges){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v0]->edges.begin(), newVertexDict[std::get<1>((*it))->v0]->edges.end(), e) != newVertexDict[std::get<1>((*it))->v0]->edges.end())){
+                newVertexDict[std::get<1>((*it))->v0]->edges.push_back(e);
+            }
+        }
+
+        for (FaceNew* f : std::get<1>((*it))->v0->faces){
+            if (!(std::find(newVertexDict[std::get<1>((*it))->v0]->faces.begin(), newVertexDict[std::get<1>((*it))->v0]->faces.end(), f) != newVertexDict[std::get<1>((*it))->v0]->faces.end())){
+                newVertexDict[std::get<1>((*it))->v0]->faces.push_back(f);
+            }
+        }
+        // Remove second edge from edge list
+        //std::cout << newVertexDict.size() <<  std::endl;
         /*std::cout << "||||||||" << std::endl;
         std::cout << std::get<0>((*it))->v0->index << std::endl;
         std::cout << std::get<0>((*it))->v1->index << std::endl;
@@ -765,14 +975,17 @@ void Session::createFlattenMesh(bool instance){
     else{
         tmpflattenMesh = flattenMesh;
     }
-    /*std::cout << "===" << std::endl;
-    std::cout << tmpflattenMesh->faces.size() << std::endl;
-    std::cout << tmpflattenMesh->edges.size() << std::endl;
-    std::cout << tmpflattenMesh->verts.size() << std::endl;*/
+
     // http://www.rorydriscoll.com/2008/08/01/catmull-clark-subdivision-the-basics/
     // STEP 1: Calculate face points.
-    for (FaceNew* currFace : tmpflattenMesh->faces){
-        currFace->calculateFacePoint();
+    if (this->subdivisionType == 0){
+        for (FaceNew* currFace : tmpflattenMesh->faces){
+            currFace->calculateFacePoint();
+        }
+    } else if (this->subdivisionType == 1){
+        for (FaceNew* currFace : tmpflattenMesh->faces){
+            currFace->calculateWeightedFacePoint();
+        }
     }
 
     for (EdgeNew* currEdge : tmpflattenMesh->edges){
@@ -786,20 +999,44 @@ void Session::createFlattenMesh(bool instance){
     flattenMesh = tmpflattenMesh;
 }
 
-void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
+std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> Session::findBorder(Vert* startVert){
+    std::vector<Vert*> borderVerts = std::vector<Vert*>();
+    std::vector<EdgeNew*> seenEdges = std::vector<EdgeNew*>();
 
-    /*if (!calculateOffset && !calculateSubdivide){
-        for (FaceNew* f : flattenMesh->inFaces){
-            drawFace(f, NULL);
+    borderVerts.push_back(startVert);
+
+    return findBorderRec(startVert, borderVerts, seenEdges);
+}
+
+std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> Session::findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges){
+    if ((startVert->index == borderVerts.front()->index) && (borderVerts.size() != 1)){
+        return std::make_tuple(borderVerts, seenEdges);
+    }
+
+    for (EdgeNew* edge : startVert->edges){
+        if (std::find(seenEdges.begin(), seenEdges.end(), edge) == seenEdges.end()){
+            if ((edge->f0 == NULL) || (edge->f1 == NULL)){
+                seenEdges.push_back(edge);
+                std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> borderRet;
+                if (startVert->index == edge->v0->index){
+                    borderVerts.push_back(edge->v1);
+                    borderRet = findBorderRec(edge->v1, borderVerts, seenEdges);
+                } else {
+                    borderVerts.push_back(edge->v0);
+                    borderRet = findBorderRec(edge->v0, borderVerts, seenEdges);
+                }
+
+                if (std::get<0>(borderRet).size() != 0){
+                    return borderRet;
+                }
+
+            }
         }
-        for (FaceNew* f : flattenMesh->outFaces){
-            drawFace(f, NULL);
-        }
-        for (FaceNew* f : flattenMesh->faces){
-            drawFace(f, NULL);
-        }
-        return;
-    }*/
+    }
+    return std::make_tuple(std::vector<Vert*>(), std::vector<EdgeNew*>());
+}
+
+void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider){
 
 
     bool computeOffset = false;
@@ -822,11 +1059,23 @@ void Session::drawSubdivide(int subdivision, int previousSubdivisionLevel, doubl
                 flattenMesh = flattenMesh->subdivideMesh();
                 flattenMeshList.push_back(flattenMesh);
             }
-            flattenMesh->calculateNormal();
+            flattenMesh->calculateNormal(this);
+
+            /*std::cout << "+++++" << std::endl;
+            for (FaceNew* f : flattenMesh->faces){
+                if (f->mobius){
+                    std::cout << "MOBIUS" << std::endl;
+                    std::cout << f->verts.size() << std::endl;
+                }
+            }
+            for (Vert* v : flattenMesh->verts){
+                std::cout << v->mobiusFaces.size() << std::endl;
+            }*/
         }
 
         subdivisionLevel = subdivision;
     }
+
     flattenMesh->draw(offset, (computeOffset || calculateOffset), outsideColor, insideColor, offsetColor, this);
 
     /*for (Vert* hello : flattenMesh->verts){

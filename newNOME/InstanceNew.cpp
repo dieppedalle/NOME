@@ -38,10 +38,25 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
        MeshNew* currentMesh = instanceNest->mesh;
        std::string currentName = instanceNest->name;
        std::list<TransformationNew*> currentTransformations = instanceNest->transformations;
-
+        //std::cout << currentTransformations.size() << std::endl;
        if (currentMesh != NULL){
            InstanceNew* newInstance;
-           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, false, currSession);
+           newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, true, currSession);
+           currentName = currentName.substr(currentName.find(":") + 1);
+           newInstance->setName(currentName);
+
+           /*for (Vert* newVertex: newInstance->verts){
+               for (TransformationNew* t: currentTransformations){
+                newVertex->transformations.push_back(t);
+               }
+           }*/
+
+           newInstance->transformations = currentTransformations;
+           newInstance->surface = instanceNest->surface;
+           i0->listInstances.push_back(newInstance);
+       } else if (instanceNest->group != NULL){
+           InstanceNew* newInstance;
+           newInstance = createInstance(instanceNest->group, vertsDef, currReader, currSession);
            currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
@@ -60,7 +75,6 @@ InstanceNew* createInstance(MeshNew* m0, std::list<Vert*> vertsDef, Reader* curr
    i0->verts = {};
    i0->currSession = currSession;
 
-   //std::cout << m0->verts.size() << std::endl;
    // Copy all the vertices from the mesh to the instance.
    for (Vert* v0 : m0->verts){
        if (onlyCreateNewVertices == true){
@@ -216,16 +230,16 @@ bool InstanceNew::updateNames()
 bool InstanceNew::draw()
 {
     for(auto v : verts) {
-      drawVert(v, surface);
+      drawVert(v, surface, currSession);
     }
     for(auto e : edges) {
-      drawEdge(e, surface);
+      drawEdge(e, surface, currSession);
     }
     for(auto f : faces) {
       /*for(auto v : f->verts) {
           std::cout << v->name << std::endl;
       }*/
-      drawFace(f, surface);
+      drawFace(f, surface, currSession);
     }
 
     for (auto i : listInstances) {
@@ -416,7 +430,7 @@ void InstanceNew::flattenInstance(MeshNew* flattenedMesh)
 bool InstanceNew::drawFaces()
 {
     for(auto f : faces) {
-      drawFace(f, surface);
+      drawFace(f, surface, currSession);
     }
 
     for (auto i : listInstances) {
@@ -541,6 +555,12 @@ void InstanceNew::updateVerts(){
 void InstanceNew::applyTransformationGroup(){
     if (group != NULL){
         for (InstanceNew* currInstance : listInstances){
+            for (Vert* v : currInstance->verts){
+                for (TransformationNew * t : v->transformations){
+                    v->applyTransformation(t);
+                }
+
+            }
             for (TransformationNew * t : currInstance->transformations){
                 currInstance->applyTransformation(t);
             }
@@ -613,10 +633,15 @@ void InstanceNew::applyTransformation(TransformationNew* t){
         else if (dynamic_cast<Reverse*>(t)){
             if (transformationApplied == false){
                 Reverse* scale = dynamic_cast<Reverse*>(t);
+
                 for (FaceNew* f0 : faces){
                     f0->verts.reverse();
                     f0->edges.reverse();
+                    EdgeNew* currEdge = f0->edges.front();
+                    f0->edges.pop_front();
+                    f0->edges.push_back(currEdge);
                 }
+
             }
         }
         else if (dynamic_cast<Scale*>(t)){

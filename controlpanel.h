@@ -30,7 +30,7 @@ class ControlPanel : public QWidget
 public:
     ControlPanel();
     /* @param canvas, the canvas that this panel control.*/
-    ControlPanel(SlideGLWidget * canvas);
+    ControlPanel(SlideGLWidget * canvas, Session* currSession);
     /* Set up the layout and widgets.*/
     void setupLayout();
     /* Build the connections. */
@@ -45,6 +45,7 @@ public:
     int subdivLevel;
     /* Offset value. */
     float offsetValue;
+    Session* currSession;
 private:
     SlideGLWidget *canvas;
     /* Widgets and Layout in this Control Panel.*/
@@ -69,6 +70,7 @@ private:
     QPushButton *undoAddButton;
     QPushButton *zipButton;
     QCheckBox *autoCorrectCheck;
+    QCheckBox *normalVect;
     QCheckBox *wholeBorderCheck;
     QHBoxLayout *zipOptionsLayout;
     QLineEdit *trianglePaneltyEdit;
@@ -128,6 +130,7 @@ public slots:
     void resetOutsideFacesColor(bool);
     void resetOffsetFacesColor(bool);
     void vertexModeChecked(bool);
+    void normalVectChecked(bool);
     void borderModeChecked(bool);
     void faceModeChecked(bool);
     void pushMerge(bool);

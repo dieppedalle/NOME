@@ -129,7 +129,8 @@ void MainWindow::createCanvas(QString name)
         canvas = new SlideGLWidget(name.toStdString());
         canvas -> move(0, 50);
         canvas -> show();
-        createControlPanel(canvas);
+        Session* currSession = createSession();
+        createControlPanel(canvas, currSession);
     }
     else if(name.right(4).toLower() == "anom")
     {
@@ -178,7 +179,7 @@ void MainWindow::createCanvas(QString name)
 
         canvas -> move(0, 50);
         canvas -> show();
-        createControlPanel(canvas);
+        createControlPanel(canvas, currSession);
         canvas -> updateGL();
 
     }
@@ -244,9 +245,9 @@ void MainWindow::createSliderPanel(SlideGLWidget * canvas)
     }
 }
 
-void MainWindow::createControlPanel(SlideGLWidget * canvas)
+void MainWindow::createControlPanel(SlideGLWidget * canvas, Session * currSession)
 {
-    controls = new ControlPanel(canvas);
+    controls = new ControlPanel(canvas, currSession);
     controls -> move(900, 50);
     controls -> show();
 }

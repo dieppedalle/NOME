@@ -112,6 +112,7 @@ Vert* createVert(double *x, double *y, double *z, double w)
     v0->y = y;
     v0->z = z;
     v0->mobius = false;
+    v0->mobiusFaces = std::vector<FaceNew*>();
 
     double *xTr = (double*) malloc(sizeof(double));
     double *yTr = (double*) malloc(sizeof(double));
@@ -551,9 +552,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
     std::list<Vert*>::iterator vertsIt = verts.begin();
     for( EdgeNew* edge : edges )
     {
-        //std::cout << "EDGE NUMBER" << std::endl;
-        //std::cout << edge->v0->name << std::endl;
-        //std::cout << edge->v1->name << std::endl;
         if (edge->f0 == NULL){
             edge->f0 = f0;
         }
@@ -616,9 +614,6 @@ FaceNew* createFace(std::list<EdgeNew*> edges, std::list<Vert*> verts)
         vertsIt++;
 
         f0->edges.push_back(edge);
-
-        //std::cout << "NAME" << std::endl;
-        //std::cout << f0->name << std::endl;
 
         //Check if an edge has more than two adjacent faces
         if( edge->faceCount == 0 )
@@ -766,7 +761,7 @@ bool deleteFace(FaceNew* face)
 }
 
 
-bool drawVert(Vert* v0, Surface * instSurface){
+bool drawVert(Vert* v0, Surface * instSurface, Session* currSession){
     //std::cout << v0->index << std::endl;
 
     QColor color;
@@ -775,16 +770,17 @@ bool drawVert(Vert* v0, Surface * instSurface){
     } else if (v0->surface != NULL){
         color = v0->surface->getColor();
     } else {
-        color = defaultColor;
+        color = currSession->foreColor->getColor();
     }
 
 
     GLfloat fcolor[4] = {0,0,0,0};
     if (v0->selected){
-        fcolor[0] = 0;
-        fcolor[1] = 1;
-        fcolor[2] = 1;
+        fcolor[0] = 255 - currSession->foreColor->getColor().red();
+        fcolor[1] = 255 - currSession->foreColor->getColor().green();
+        fcolor[2] = 255 - currSession->foreColor->getColor().blue();
         fcolor[3] = 0;
+        glDepthRange(0.0, 0.999);
     } else {
         fcolor[0] = 1.0f * color.red() / 255;
         fcolor[1] = 1.0f * color.green() / 255;
@@ -823,10 +819,13 @@ bool drawVert(Vert* v0, Surface * instSurface){
         glVertex3f(x - 0.1 / 2, y, z + 0.1 / 2);
         glVertex3f(x - 0.1 / 2, y, z - 0.1 / 2);
     glEnd();
+
+    if (v0->selected)
+        glDepthRange(0.0, 1.0);
     return true;
 }
 
-bool drawEdge(EdgeNew* e0, Surface * instSurface)
+bool drawEdge(EdgeNew* e0, Surface * instSurface, Session* currSession)
 {
     QColor color;
     if (instSurface != NULL){
@@ -834,14 +833,22 @@ bool drawEdge(EdgeNew* e0, Surface * instSurface)
     } else if (e0->surface != NULL){
         color = e0->surface->getColor();
     } else{
-        color = defaultColor;
+        color = currSession->foreColor->getColor();;
     }
 
-    GLfloat fcolor[] = {1.0f * color.red() / 255,
-                        1.0f * color.green() / 255,
-                        1.0f * color.blue() / 255,
-                        1.0f * color.alpha() /255};
-
+    GLfloat fcolor[4] = {0,0,0,0};
+    if (e0->selected){
+        fcolor[0] = 255 - currSession->foreColor->getColor().red();
+        fcolor[1] = 255 - currSession->foreColor->getColor().green();
+        fcolor[2] = 255 - currSession->foreColor->getColor().blue();
+        fcolor[3] = 0;
+    } else {
+        fcolor[0] = 1.0f * color.red() / 255;
+        fcolor[1] = 1.0f * color.green() / 255;
+        fcolor[2] = 1.0f * color.blue() / 255;
+        fcolor[3] = 1.0f * color.alpha() /255;
+    }
+    //glLineWidth(2.5);
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, fcolor);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, fcolor);
@@ -900,22 +907,22 @@ std::vector<double> getNormalFromVerts(std::vector<Vert*> vert1){
 
 std::vector<double> getNormalFromVertsForOffset(std::vector<Vert*> vert1, MeshNew* mesh){
     // Takes into account the mobius edges
-    //std::cout <<  (*(mesh->getEdge(vert1[0]->index, vert1[1]->index))).isMobiusEdge() << std::endl;
-    //std::cout << vert1[0]->index << std::endl;
-
     std::vector<double> a;
+    std::vector<double> b;
     a.push_back((vert1[0]->xTransformed) - (vert1[1]->xTransformed));
     a.push_back((vert1[0]->yTransformed) - (vert1[1]->yTransformed));
     a.push_back((vert1[0]->zTransformed) - (vert1[1]->zTransformed));
 
-    std::vector<double> b;
-    b.push_back((vert1[2]->xTransformed) - (vert1[1]->xTransformed));
-    b.push_back((vert1[2]->yTransformed) - (vert1[1]->yTransformed));
-    b.push_back((vert1[2]->zTransformed) - (vert1[1]->zTransformed));
 
-    double xCross = (b[1]*a[2] - b[2]*a[1]);
-    double yCross = (b[2]*a[0] - b[0]*a[2]);
-    double zCross = (b[0]*a[1] - b[1]*a[0]);
+    b.push_back((vert1[1]->xTransformed) - (vert1[2]->xTransformed));
+    b.push_back((vert1[1]->yTransformed) - (vert1[2]->yTransformed));
+    b.push_back((vert1[1]->zTransformed) - (vert1[2]->zTransformed));
+
+    double xCross = (a[1]*b[2] - a[2]*b[1]);
+    double yCross = (a[2]*b[0] - a[0]*b[2]);
+    double zCross = (a[0]*b[1] - a[1]*b[0]);
+
+
     double norm = sqrt(pow(xCross, 2) + pow(yCross, 2) + pow(zCross, 2));
 
     std::vector<double> aCrossb;
@@ -949,7 +956,7 @@ bool drawNormal(Vert* v0, Surface * instSurface){
     } else if (v0->surface != NULL){
         color = v0->surface->getColor();
     } else {
-        color = defaultColor;
+        color = QColor(255, 0, 0);
     }
 
     GLfloat fcolor[4] = {0,0,0,0};
@@ -987,7 +994,7 @@ bool drawNormal(Vert* v0, Surface * instSurface){
     glEnd();
 
 
-    glPushMatrix();
+    /*glPushMatrix();
     glTranslatef(x1, y1, z1);
 
     if((deltax != 0.)||(deltay != 0.)) {
@@ -999,12 +1006,12 @@ bool drawNormal(Vert* v0, Surface * instSurface){
 
     GLUquadricObj *quadObj = gluNewQuadric();
     gluCylinder(quadObj, radius, 0, height, 10, 10);
-    glPopMatrix();
+    glPopMatrix();*/
 
     return true;
 }
 
-bool drawFace(FaceNew* f0, Surface * instSurface)
+bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession)
 {
     QColor color;
     if (instSurface != NULL){
@@ -1013,7 +1020,7 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     else if (f0->surface != NULL){
         color = f0->surface->getColor();
     } else{
-        color = defaultColor;
+        color = currSession->foreColor->getColor();;
     }
 
     GLfloat fcolor[4] = {0,0,0,0};
@@ -1039,16 +1046,6 @@ bool drawFace(FaceNew* f0, Surface * instSurface)
     glNormal3f(normalVector[0], normalVector[1], normalVector[2]);
     for(auto v0 : f0->verts) {
       glVertex3f(v0->xTransformed, v0->yTransformed, v0->zTransformed);
-    }
-    glEnd();
-
-
-    glLoadName(f0->index);
-    glBegin(GL_POLYGON);
-    glNormal3f(-normalVector[0], -normalVector[1], -normalVector[2]);
-    //for(auto v0 : f0->verts) {
-    for (std::list<Vert*>::reverse_iterator rit=f0->verts.rbegin(); rit!=f0->verts.rend(); ++rit){
-      glVertex3f((*rit)->xTransformed, (*rit)->yTransformed, (*rit)->zTransformed);
     }
     glEnd();
 
@@ -1172,10 +1169,10 @@ void FaceNew::calculateFacePoint(){
     double *xFacePoint = (double*) malloc(sizeof(double));
     double *yFacePoint = (double*) malloc(sizeof(double));
     double *zFacePoint = (double*) malloc(sizeof(double));
+
     *xFacePoint = 0;
     *yFacePoint = 0;
     *zFacePoint = 0;
-
 
     for (Vert * currVert : this->verts){
         *xFacePoint += currVert->xTransformed;
@@ -1187,8 +1184,36 @@ void FaceNew::calculateFacePoint(){
     *yFacePoint = *yFacePoint / this->verts.size();
     *zFacePoint = *zFacePoint / this->verts.size();
 
-    //std::cout << name << std::endl;
-    //std::cout << index << std::endl;
+    this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
+}
+
+void FaceNew::calculateWeightedFacePoint(){
+    // Takes the average of all the point on the face.
+    double *xFacePoint = (double*) malloc(sizeof(double));
+    double *yFacePoint = (double*) malloc(sizeof(double));
+    double *zFacePoint = (double*) malloc(sizeof(double));
+    *xFacePoint = 0;
+    *yFacePoint = 0;
+    *zFacePoint = 0;
+    double totalLength = 0.0;
+    for (Vert * currVert : this->verts){
+        // Need to weight vertex according to length edge.
+        double length = 0.0;
+        for (EdgeNew* e : this->edges){
+            if (e->v0->index == currVert->index || e->v1->index == currVert->index){
+                length += sqrt(pow(e->v1->xTransformed - e->v0->xTransformed, 2) + pow(e->v1->yTransformed - e->v0->yTransformed, 2) + pow(e->v1->zTransformed - e->v0->zTransformed, 2));
+            }
+        }
+        *xFacePoint += currVert->xTransformed * length;
+        *yFacePoint += currVert->yTransformed * length;
+        *zFacePoint += currVert->zTransformed * length;
+        totalLength += length;
+    }
+
+    *xFacePoint = *xFacePoint / (totalLength);
+    *yFacePoint = *yFacePoint / (totalLength);
+    *zFacePoint = *zFacePoint / (totalLength);
+
     this->facePoint = createVert (xFacePoint, yFacePoint, zFacePoint);
 }
 
@@ -1207,7 +1232,7 @@ void Vert::updateOctreeProxy()
 {
     if (octreeProxy)
     {
-        printf("Vert %s updated: %f, %f, %f\n", getFullName().c_str(), xTransformed, yTransformed, zTransformed);
+        //printf("Vert %s updated: %f, %f, %f\n", getFullName().c_str(), xTransformed, yTransformed, zTransformed);
         octreeProxy->updateWorldPosition(xTransformed, yTransformed, zTransformed);
     }
 }

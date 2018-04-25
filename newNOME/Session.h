@@ -46,6 +46,12 @@ public:
     std::list<OffsetNew*> offsets;
     std::string name;
     std::string fileContent;
+    std::vector<std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>>> borders = std::vector<std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>>>();
+    std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> tmpBorder;
+    bool isBorderSelected = false;
+
+    int subdivisionType = 0;
+    int offsetType = 0;
 
     bool recalculateOffset = true;
     bool recalculateSubdivision = true;
@@ -66,10 +72,13 @@ public:
     PolylineNew* tmpPolyline = nullptr;
     InstanceNew* tmpInstance = nullptr;
 
-    QColor foreColor = QColor(255, 0, 0);
-    QColor outsideColor = QColor(255, 0, 0);
-    QColor insideColor = QColor(0, 0, 255);
-    QColor offsetColor = QColor(255, 163, 0);
+    bool normalVectShow = true;
+
+    Surface* foreColor;
+    Surface* backColor;
+    Surface* outsideColor;
+    Surface* insideColor;
+    Surface* offsetColor;
 
     Session();
     ~Session();
@@ -96,6 +105,9 @@ public:
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
     void createFlattenMesh(bool instance);
     std::vector<Vert*> findLoop(Vert* startVert, std::vector<Vert*> selectedVertsLoop);
+    std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> findBorder(Vert* startVert);
+    std::tuple<std::vector<Vert*>, std::vector<EdgeNew*>> findBorderRec(Vert* startVert, std::vector<Vert*> borderVerts, std::vector<EdgeNew*> seenEdges);
+    void zipBorders();
 
     OctantNew* getOctreeRoot() const { return OctreeRoot; }
 

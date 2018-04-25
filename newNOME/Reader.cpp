@@ -329,6 +329,7 @@ std::list<TransformationNew*> Reader::getVertTransformations(int id){
         for (FaceNew* f0 : i0->faces){
             for (Vert* v0 : f0->verts){
                 if (v0->index == id){
+                    transformations.insert(transformations.end(), v0->transformations.begin(), v0->transformations.end());
                     transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
                     return transformations;
                 }
@@ -336,6 +337,7 @@ std::list<TransformationNew*> Reader::getVertTransformations(int id){
         }
         for (Vert* v0 : i0->verts){
             if (v0->index == id){
+                transformations.insert(transformations.end(), v0->transformations.begin(), v0->transformations.end());
                 transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
                 return transformations;
             }
@@ -346,6 +348,7 @@ std::list<TransformationNew*> Reader::getVertTransformations(int id){
             for (FaceNew* f0 : instanceElem->faces){
                 for (Vert* v0 : f0->verts){
                     if (v0->index == id){
+                        transformations.insert(transformations.end(), v0->transformations.begin(), v0->transformations.end());
                         transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
                         transformations.insert(transformations.end(), instanceElem->transformations.begin(), instanceElem->transformations.end());
                         return transformations;
@@ -354,6 +357,7 @@ std::list<TransformationNew*> Reader::getVertTransformations(int id){
             }
             for (Vert* v0 : i0->verts){
                 if (v0->index == id){
+                    transformations.insert(transformations.end(), v0->transformations.begin(), v0->transformations.end());
                     transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
                     transformations.insert(transformations.end(), instanceElem->transformations.begin(), instanceElem->transformations.end());
                     return transformations;
