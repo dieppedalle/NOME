@@ -8,6 +8,8 @@
 
 #include "SweepNew.h"
 #include "SweepNew.h"
+#include <Vector3.h>
+#include <Matrix3x4.h>
 
 static int pIndex = 0;
 
@@ -76,8 +78,8 @@ void rotate(double angle,
   double yn = rotateY(angle, *x, *y, *z, ux, uy, uz);
   double zn = rotateZ(angle, *x, *y, *z, ux, uy, uz);
   *x = xn;
-  *y = xn;
-  *z = xn;
+  *y = yn;
+  *z = zn;
 }
 
 Vert* nextVertex(int order, Vert* target,
@@ -313,11 +315,20 @@ Vert* getFrenetFrameVertex(Vert* target, Vert* prev, Vert* curr, Vert* next, dou
   // xVector1 = temp1;
   // xVector2 = temp2;
   // xVector3 = temp3;
+
+  double angle = azimuth + twist;
+  rotate(angle, &xVector1, &xVector2, &xVector3, 0, 0, 1);
+  rotate(angle, &yVector1, &yVector2, &yVector3, 0, 0, 1);
   
   // Target
   double tx = *target->x;
   double ty = *target->y;
   double tz = *target->z;
+
+  // auto quaternion = Quaternion(azimuth, Vector3)
+  // auto rotationMatrix = glm::rotate(glm::dmat4(), azimuth, glm::dvec3(0.0, 0.0, 1.0));
+  // auto targetVector = glm::vec3(tx, ty, tz);
+  // auto rc = rotationMatrix * targetVector;
 
   std::cerr << "xVector: (" << xVector1 << ", " << xVector3 << ", " << xVector3 << ")" << std::endl;
   std::cerr << "yVector: (" << yVector1 << ", " << yVector3 << ", " << yVector3 << ")" << std::endl;
@@ -341,6 +352,7 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
   Vert* prevV = 0;
   EdgeNew* prevEdge = 0;
   std::vector<Vert*> prevCrosssection;
+  std::vector<Vert*> toBeDeleted;
   for (int i = 0; i < sz; ++i) {
     Vert* currVert = *it;
     Vert* nextVert;
@@ -351,7 +363,7 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
     }
 
     if (i > 0) {
-      //sw->edges.push_back(createEdge(currVert, prevVert, false));
+      sw->edges.push_back(createEdge(currVert, prevVert, false));
     }
       
     if (i == 0) {
@@ -398,11 +410,16 @@ void frenetFrame(SweepNew* sw, std::list<Vert*> crosssection, double* width, dou
       prevCrosssection = currCrosssection;
     }
 
+    toBeDeleted.push_back(currVert);
     //sw->verts.remove(currVert);
     prevVert = currVert;
     ++it;
     ++it2;
   }
+
+  // for (Vert* v: toBeDeleted) {
+  //   sw->verts.remove(v);
+  // }
 }
 
 ///Sweep functions
