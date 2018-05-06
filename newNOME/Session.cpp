@@ -720,7 +720,7 @@ void mergeEdges(MeshNew* flattenMesh){
     std::vector<std::tuple<EdgeNew*, EdgeNew*>> toBeMerged = std::vector<std::tuple<EdgeNew*, EdgeNew*>>();
     toBeMerged.clear();
 
-    double epsilonPos = 0.05;
+    double epsilonPos = 0.2;
     std::list<EdgeNew*>::iterator i = flattenMesh->edges.begin();
     int position = 0;
     while (i != flattenMesh->edges.end())

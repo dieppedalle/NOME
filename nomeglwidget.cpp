@@ -226,7 +226,6 @@ void SlideGLWidget::mouse_select(int x, int y)
                 }
             }
         }
-
         if (selectedVertex)
         {
             Reader* currReader = createReader(currSession);
@@ -613,9 +612,9 @@ void SlideGLWidget::paintGLImpl()
         for (InstanceNew * newInstance: currSession->instances){
             newInstance->updateVerts();
         }
-
         std::list<Vert*> appliedVertTransformation = std::list<Vert*>();
         for (InstanceNew * newInstance: currSession->instances){
+
             for (Vert * v : newInstance->verts){
                 if (v->transformations.size() > 0 && !(std::find(appliedVertTransformation.begin(), appliedVertTransformation.end(), v) != appliedVertTransformation.end())){
                     appliedVertTransformation.push_back(v);
@@ -625,6 +624,7 @@ void SlideGLWidget::paintGLImpl()
                 }
             }
         }
+
 
         for (InstanceNew * newInstance: currSession->instances){
             newInstance->applyTransformationGroup();

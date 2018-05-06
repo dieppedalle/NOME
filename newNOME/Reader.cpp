@@ -323,8 +323,11 @@ std::list<TransformationNew*> Reader::getVertTransformations(int id){
         for (FaceNew* f0 : i0->faces){
             for (Vert* v0 : f0->verts){
                 if (v0->index == id){
+                    //std::cout << "TEST" << std::endl;
                     transformations.insert(transformations.end(), v0->transformations.begin(), v0->transformations.end());
+                    //std::cout << transformations.size() << std::endl;
                     transformations.insert(transformations.end(), i0->transformations.begin(), i0->transformations.end());
+                    //std::cout << transformations.size() << std::endl;
                     return transformations;
                 }
             }
@@ -384,6 +387,7 @@ std::string Reader::getVertName(int id)
                 return i0->name.substr(i0->name.find(":") + 1) + "." + v0->name;
             }
         }
+
 
         // Checking for groups
         for (InstanceNew* instanceElem : i0->listInstances){
@@ -472,7 +476,6 @@ Vert* Reader::getVert(int id)
         }
 
     }
-
     return NULL;
 }
 
