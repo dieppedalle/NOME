@@ -1316,10 +1316,13 @@ void Vert::update(){
     double *currentValSet = (double*) malloc(sizeof(double));
     parseGetBankVal(xStr.c_str(), this->currSession, currentValSet, 0);
     *x = *currentValSet;
+    xTransformed = *currentValSet;
     parseGetBankVal(yStr.c_str(), this->currSession, currentValSet, 0);
     *y = *currentValSet;
+    yTransformed = *currentValSet;
     parseGetBankVal(zStr.c_str(), this->currSession, currentValSet, 0);
     *z = *currentValSet;
+    zTransformed = *currentValSet;
 }
 
 void Vert::setWorldPos(double x, double y, double z)

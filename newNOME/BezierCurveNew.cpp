@@ -39,6 +39,8 @@ void BezierCurveNew::calculateBezierVertex(std::vector<Vert*> interpolatedPoints
             *((*it)->x) = *(interpolatedPoints.at(0)->x);
             *((*it)->y) = *(interpolatedPoints.at(0)->y);
             *((*it)->z) = *(interpolatedPoints.at(0)->z);
+
+
         }
     }
     else{
@@ -81,8 +83,17 @@ void BezierCurveNew::updateBezierCurve(){
 bool BezierCurveNew::calculate(bool createNewVertices){
     int numVertexCreated = 0;
     double t = 0;
+    /*std::cout << "+++++++++++" << std::endl;
+    for (int j = 0; j < proxy.size(); j += 1){
+        std::cout << "====" << std::endl;
+        std::cout << *proxy.at(j)->x << std::endl;
+        std::cout << *proxy.at(j)->y << std::endl;
+        std::cout << *proxy.at(j)->z << std::endl;
+    }*/
+
     for (int i = 0; i <= *segments; i += 1){
         std::vector<Vert*> controlPointsTmp = proxy;
+
         calculateBezierVertex(controlPointsTmp, t, createNewVertices, numVertexCreated);
         numVertexCreated += 1;
         t += 1 / *segments;
