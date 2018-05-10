@@ -229,7 +229,11 @@ void SlideGLWidget::mouse_select(int x, int y)
         if (selectedVertex)
         {
             Reader* currReader = createReader(currSession);
+            //std::cout << "hello" << std::endl;
+            //std::cout << distMax << std::endl;
+            //std::cout << selectedVertex->index << std::endl;
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
+            //std::cout << "bye" << std::endl;
             selectedVertex->selected = !selectedVertex->selected;
             if (selectedVertex -> selected == true) {
                 currSession->selectedVerts.push_back(selectedVertex);
@@ -499,7 +503,7 @@ void SlideGLWidget::paintGLImpl()
                 if ((*iterator)->mesh == bs){
                     if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                         Reader* currReader = createReader(currSession);
-                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                         newInstance->surface = (*iterator)->surface;
                         newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                         newInstance->transformations = (*iterator)->transformations;
@@ -518,7 +522,7 @@ void SlideGLWidget::paintGLImpl()
                 if ((*iterator)->mesh == bc){
                     if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                         Reader* currReader = createReader(currSession);
-                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
+                        InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                         newInstance->surface = (*iterator)->surface;
                         newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                         newInstance->transformations = (*iterator)->transformations;
@@ -537,7 +541,7 @@ void SlideGLWidget::paintGLImpl()
                     if ((*iterator)->mesh == c){
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                             Reader* currReader = createReader(currSession);
-                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
+                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                             newInstance->surface = (*iterator)->surface;
                             newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                             newInstance->transformations = (*iterator)->transformations;
@@ -557,7 +561,7 @@ void SlideGLWidget::paintGLImpl()
                     if ((*iterator)->mesh == f){
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                             Reader* currReader = createReader(currSession);
-                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
+                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                             newInstance->surface = (*iterator)->surface;
                             newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                             newInstance->transformations = (*iterator)->transformations;
@@ -576,7 +580,7 @@ void SlideGLWidget::paintGLImpl()
                     if ((*iterator)->mesh == t){
                         if ((*iterator)->edges.size() != (*iterator)->mesh->edges.size()){
                             Reader* currReader = createReader(currSession);
-                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession);
+                            InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                             newInstance->surface = (*iterator)->surface;
                             newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
                             newInstance->transformations = (*iterator)->transformations;

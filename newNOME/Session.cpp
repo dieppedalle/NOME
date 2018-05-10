@@ -141,7 +141,6 @@ bool Session::updateNames()
 }
 
 void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
-    //std::cout << hits << std::endl;
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -169,8 +168,8 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
         }
 
         if (selectedVertex != NULL){
-            /*std::cout << "GGGGG" << std::endl;
-            std::cout << selectedVertex->index << std::endl;*/
+            /*std::cout << "GGGGG" << std::endl;*/
+            std::cout << selectedVertex->index << std::endl;
             //std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
             //std::cout << selectedVertex->faces.size() << std::endl;
             std::cout << currReader->getVertName(selectedVertex->index) << std::endl;
@@ -332,7 +331,7 @@ void Session::deleteTmpFace(){
             }
         }
         Reader* currReader = createReader(this);
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this, true);
         tmpInstance->setName("tmpInstance");
         tmpFaceIndex -= 1;
     }
@@ -360,7 +359,7 @@ void Session::groupFaces(std::string consolidateInstanceName, std::string consol
         meshes.push_back(tmpMesh);
 
         InstanceNew* newInstance;
-        newInstance = createInstance(tmpMesh, this->verts, currReader, true, false, true, this);
+        newInstance = createInstance(tmpMesh, this->verts, currReader, true, false, true, this, true);
         newInstance->setName(consolidateInstanceName);
         instances.push_back(newInstance);
 
@@ -396,7 +395,7 @@ void Session::addTmpFace(){
         }
         tmpMesh->setName("tmpMesh");
 
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this, true);
         tmpInstance->setName("tmpInstance");
         clearSelection();
         tmpFaceIndex += 1;
@@ -448,7 +447,7 @@ void Session::addTmpPolyline(){
 
         tmpMesh->polylines.push_back(tmpPolyline);
 
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this, true);
         tmpInstance->setName("tmpInstance");
         tmpPolylineIndex += 1;
         clearSelection();
@@ -501,7 +500,7 @@ void Session::consolidateTmpMesh(std::string consolidateInstanceName, std::strin
 
         InstanceNew* newInstance;
         if (tmpMesh != NULL){
-            newInstance = createInstance(tmpMesh, this->verts, currReader, true, false, true, this);
+            newInstance = createInstance(tmpMesh, this->verts, currReader, true, false, true, this, true);
         }
 
         newInstance->setName(consolidateInstanceName);
@@ -705,7 +704,7 @@ void Session::zipBorders(){
             vv++;
         }
         tmpMesh->setName("tmpMesh");
-        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this);
+        tmpInstance = createInstance(tmpMesh, this->verts, currReader, false, false, false, this, true);
         tmpInstance->setName("tmpInstance");
         clearSelection();
 

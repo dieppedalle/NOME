@@ -1407,7 +1407,7 @@ yyreduce:
 
         currMesh->setName(strdup((yyvsp[-3].string)));
 
-        InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false, false, currSession);
+        InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false, false, currSession, true);
 
         newInstance->setName(strdup((yyvsp[-3].string)));
         currSession->instances.push_back(newInstance);

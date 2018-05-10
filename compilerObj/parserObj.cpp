@@ -1584,7 +1584,7 @@ yyreduce:
 
             currMesh->setName("mainMesh");
 
-            InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false, false, currSession);
+            InstanceNew* newInstance = createInstance(currMesh, currSession->verts, currReader, true, false, false, currSession, true);
 
             newInstance->setName("mainMesh");
             currSession->instances.push_back(newInstance);

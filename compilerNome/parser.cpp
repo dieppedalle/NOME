@@ -1920,7 +1920,7 @@ yyreduce:
             //if (currentTransformations2.size() > 0){
               onlyCreateNewVertices = true;
             //}
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession, false);
             newInstance->currSession = currSession;
         }
         else{
@@ -2650,7 +2650,7 @@ yyreduce:
             //if (currentTransformations2.size() > 0){
               onlyCreateNewVertices = true;
             //}
-            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession);
+            newInstance = createInstance(currentMesh, currSession->verts, currReader, true, false, onlyCreateNewVertices, currSession, true);
             newInstance->currSession = currSession;
         }
         else{
