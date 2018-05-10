@@ -54,173 +54,171 @@ extern int nomdebug;
   {
     COLOR = 258,
     VARIABLE = 259,
-    COMMENT = 260,
-    NEWLINE = 261,
-    SURFACE = 262,
-    END_SURFACE = 263,
-    MESH = 264,
-    END_MESH = 265,
-    FACE = 266,
-    END_FACE = 267,
-    BEG_POINT = 268,
-    END_POINT = 269,
-    OBJECT = 270,
-    END_OBJECT = 271,
-    BANK = 272,
-    END_BANK = 273,
-    TUNNEL = 274,
-    END_TUNNEL = 275,
-    FUNNEL = 276,
-    END_FUNNEL = 277,
-    POLYLINE = 278,
-    END_POLYLINE = 279,
-    INSTANCE = 280,
-    END_INSTANCE = 281,
-    CIRCLE = 282,
-    END_CIRCLE = 283,
-    BEG_DELETE = 284,
-    END_DELETE = 285,
-    GROUP = 286,
-    END_GROUP = 287,
-    TRANSLATE = 288,
-    ROTATE = 289,
-    MIRROR = 290,
-    SET = 291,
-    OPARENTHESES = 292,
-    EPARENTHESES = 293,
-    OBRACE = 294,
-    EXPR = 295,
-    DOLLAR = 296,
-    EBRACE = 297,
-    PERIOD = 298,
-    TOKHEAT = 299,
-    STATE = 300,
-    TOKTARGET = 301,
-    TOKTEMPERATURE = 302,
-    SCALE = 303,
-    SUBDIVISION = 304,
-    END_SUBDIVISION = 305,
-    SUBDIVISIONS = 306,
-    TYPE = 307,
-    OFFSET = 308,
-    END_OFFSET = 309,
-    MIN = 310,
-    MAX = 311,
-    STEP = 312,
-    BSPLINE = 313,
-    END_BSPLINE = 314,
-    CLOSED = 315,
-    SLICES = 316,
-    BEZIERCURVE = 317,
-    END_BEZIERCURVE = 318,
-    COS = 319,
-    SIN = 320,
-    TAN = 321,
-    EXPONENT = 322,
-    MULTIPLY = 323,
-    DIVIDE = 324,
-    ADD = 325,
-    SUBTRACT = 326,
-    SLIDEREXPRESSION = 327,
-    REVERSE = 328,
-    FOREGROUND = 329,
-    END_FOREGROUND = 330,
-    BACKGROUND = 331,
-    END_BACKGROUND = 332,
-    INSIDEFACES = 333,
-    END_INSIDEFACES = 334,
-    OUTSIDEFACES = 335,
-    END_OUTSIDEFACES = 336,
-    OFFSETFACES = 337,
-    END_OFFSETFACES = 338,
-    BANK_EXPR = 339,
-    NUMBER = 340
+    NEWLINE = 260,
+    SURFACE = 261,
+    END_SURFACE = 262,
+    MESH = 263,
+    END_MESH = 264,
+    FACE = 265,
+    END_FACE = 266,
+    BEG_POINT = 267,
+    END_POINT = 268,
+    OBJECT = 269,
+    END_OBJECT = 270,
+    BANK = 271,
+    END_BANK = 272,
+    TUNNEL = 273,
+    END_TUNNEL = 274,
+    FUNNEL = 275,
+    END_FUNNEL = 276,
+    POLYLINE = 277,
+    END_POLYLINE = 278,
+    INSTANCE = 279,
+    END_INSTANCE = 280,
+    CIRCLE = 281,
+    END_CIRCLE = 282,
+    BEG_DELETE = 283,
+    END_DELETE = 284,
+    GROUP = 285,
+    END_GROUP = 286,
+    TRANSLATE = 287,
+    ROTATE = 288,
+    MIRROR = 289,
+    SET = 290,
+    OPARENTHESES = 291,
+    EPARENTHESES = 292,
+    OBRACE = 293,
+    EXPR = 294,
+    DOLLAR = 295,
+    EBRACE = 296,
+    PERIOD = 297,
+    TOKHEAT = 298,
+    STATE = 299,
+    TOKTARGET = 300,
+    TOKTEMPERATURE = 301,
+    SCALE = 302,
+    SUBDIVISION = 303,
+    END_SUBDIVISION = 304,
+    SUBDIVISIONS = 305,
+    TYPE = 306,
+    OFFSET = 307,
+    END_OFFSET = 308,
+    MIN = 309,
+    MAX = 310,
+    STEP = 311,
+    BSPLINE = 312,
+    END_BSPLINE = 313,
+    CLOSED = 314,
+    SLICES = 315,
+    BEZIERCURVE = 316,
+    END_BEZIERCURVE = 317,
+    COS = 318,
+    SIN = 319,
+    TAN = 320,
+    EXPONENT = 321,
+    MULTIPLY = 322,
+    DIVIDE = 323,
+    ADD = 324,
+    SUBTRACT = 325,
+    SLIDEREXPRESSION = 326,
+    REVERSE = 327,
+    FOREGROUND = 328,
+    END_FOREGROUND = 329,
+    BACKGROUND = 330,
+    END_BACKGROUND = 331,
+    INSIDEFACES = 332,
+    END_INSIDEFACES = 333,
+    OUTSIDEFACES = 334,
+    END_OUTSIDEFACES = 335,
+    OFFSETFACES = 336,
+    END_OFFSETFACES = 337,
+    BANK_EXPR = 338,
+    NUMBER = 339
   };
 #endif
 /* Tokens.  */
 #define COLOR 258
 #define VARIABLE 259
-#define COMMENT 260
-#define NEWLINE 261
-#define SURFACE 262
-#define END_SURFACE 263
-#define MESH 264
-#define END_MESH 265
-#define FACE 266
-#define END_FACE 267
-#define BEG_POINT 268
-#define END_POINT 269
-#define OBJECT 270
-#define END_OBJECT 271
-#define BANK 272
-#define END_BANK 273
-#define TUNNEL 274
-#define END_TUNNEL 275
-#define FUNNEL 276
-#define END_FUNNEL 277
-#define POLYLINE 278
-#define END_POLYLINE 279
-#define INSTANCE 280
-#define END_INSTANCE 281
-#define CIRCLE 282
-#define END_CIRCLE 283
-#define BEG_DELETE 284
-#define END_DELETE 285
-#define GROUP 286
-#define END_GROUP 287
-#define TRANSLATE 288
-#define ROTATE 289
-#define MIRROR 290
-#define SET 291
-#define OPARENTHESES 292
-#define EPARENTHESES 293
-#define OBRACE 294
-#define EXPR 295
-#define DOLLAR 296
-#define EBRACE 297
-#define PERIOD 298
-#define TOKHEAT 299
-#define STATE 300
-#define TOKTARGET 301
-#define TOKTEMPERATURE 302
-#define SCALE 303
-#define SUBDIVISION 304
-#define END_SUBDIVISION 305
-#define SUBDIVISIONS 306
-#define TYPE 307
-#define OFFSET 308
-#define END_OFFSET 309
-#define MIN 310
-#define MAX 311
-#define STEP 312
-#define BSPLINE 313
-#define END_BSPLINE 314
-#define CLOSED 315
-#define SLICES 316
-#define BEZIERCURVE 317
-#define END_BEZIERCURVE 318
-#define COS 319
-#define SIN 320
-#define TAN 321
-#define EXPONENT 322
-#define MULTIPLY 323
-#define DIVIDE 324
-#define ADD 325
-#define SUBTRACT 326
-#define SLIDEREXPRESSION 327
-#define REVERSE 328
-#define FOREGROUND 329
-#define END_FOREGROUND 330
-#define BACKGROUND 331
-#define END_BACKGROUND 332
-#define INSIDEFACES 333
-#define END_INSIDEFACES 334
-#define OUTSIDEFACES 335
-#define END_OUTSIDEFACES 336
-#define OFFSETFACES 337
-#define END_OFFSETFACES 338
-#define BANK_EXPR 339
-#define NUMBER 340
+#define NEWLINE 260
+#define SURFACE 261
+#define END_SURFACE 262
+#define MESH 263
+#define END_MESH 264
+#define FACE 265
+#define END_FACE 266
+#define BEG_POINT 267
+#define END_POINT 268
+#define OBJECT 269
+#define END_OBJECT 270
+#define BANK 271
+#define END_BANK 272
+#define TUNNEL 273
+#define END_TUNNEL 274
+#define FUNNEL 275
+#define END_FUNNEL 276
+#define POLYLINE 277
+#define END_POLYLINE 278
+#define INSTANCE 279
+#define END_INSTANCE 280
+#define CIRCLE 281
+#define END_CIRCLE 282
+#define BEG_DELETE 283
+#define END_DELETE 284
+#define GROUP 285
+#define END_GROUP 286
+#define TRANSLATE 287
+#define ROTATE 288
+#define MIRROR 289
+#define SET 290
+#define OPARENTHESES 291
+#define EPARENTHESES 292
+#define OBRACE 293
+#define EXPR 294
+#define DOLLAR 295
+#define EBRACE 296
+#define PERIOD 297
+#define TOKHEAT 298
+#define STATE 299
+#define TOKTARGET 300
+#define TOKTEMPERATURE 301
+#define SCALE 302
+#define SUBDIVISION 303
+#define END_SUBDIVISION 304
+#define SUBDIVISIONS 305
+#define TYPE 306
+#define OFFSET 307
+#define END_OFFSET 308
+#define MIN 309
+#define MAX 310
+#define STEP 311
+#define BSPLINE 312
+#define END_BSPLINE 313
+#define CLOSED 314
+#define SLICES 315
+#define BEZIERCURVE 316
+#define END_BEZIERCURVE 317
+#define COS 318
+#define SIN 319
+#define TAN 320
+#define EXPONENT 321
+#define MULTIPLY 322
+#define DIVIDE 323
+#define ADD 324
+#define SUBTRACT 325
+#define SLIDEREXPRESSION 326
+#define REVERSE 327
+#define FOREGROUND 328
+#define END_FOREGROUND 329
+#define BACKGROUND 330
+#define END_BACKGROUND 331
+#define INSIDEFACES 332
+#define END_INSIDEFACES 333
+#define OUTSIDEFACES 334
+#define END_OUTSIDEFACES 335
+#define OFFSETFACES 336
+#define END_OFFSETFACES 337
+#define BANK_EXPR 338
+#define NUMBER 339
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -238,7 +236,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 242 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 240 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

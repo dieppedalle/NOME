@@ -20,9 +20,10 @@ static int isatty(int) {return 0;}
 %option nounistd
 %option yylineno
 %x MULTI_COMMENT
+%x LINE_COMMENT
+
 
 %%
-(\#(.)*(.|\n))           return COMMENT;
 <INITIAL>{
 "(*"              numBegComments++; BEGIN(MULTI_COMMENT);
 }
@@ -33,6 +34,9 @@ static int isatty(int) {return 0;}
 "*"       // eat the lone star
 \n        ;
 }
+"\#"            { BEGIN(LINE_COMMENT); }
+<LINE_COMMENT>\n   { BEGIN(INITIAL); }
+<LINE_COMMENT>.    { }
 [+-]?([0-9]*[.])?[0-9]+  nomlval.string=nomtext; return NUMBER;
 \$[a-zA-Z][a-zA-Z0-9]*.[a-zA-Z][a-zA-Z0-9]*  nomlval.string=strdup(nomtext); return BANK_EXPR;
 expr                     return EXPR;

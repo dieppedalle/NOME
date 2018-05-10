@@ -57,7 +57,7 @@ std::string surfaceFromArg;
 //%output "compilerNome/parser.cpp"
 //%define api.prefix {nom}
 
-%token COLOR VARIABLE COMMENT NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
+%token COLOR VARIABLE NEWLINE SURFACE END_SURFACE MESH END_MESH FACE END_FACE BEG_POINT
 END_POINT OBJECT END_OBJECT BANK END_BANK TUNNEL END_TUNNEL FUNNEL END_FUNNEL
 POLYLINE END_POLYLINE INSTANCE END_INSTANCE CIRCLE END_CIRCLE BEG_DELETE END_DELETE
 GROUP  END_GROUP TRANSLATE ROTATE MIRROR SET OPARENTHESES EPARENTHESES OBRACE
@@ -101,7 +101,7 @@ commands: /* empty */
 
 
 command:
-    comment | mesh | surface | point | face | object | bank |
+  mesh | surface | point | face | object | bank |
   tunnel | funnel | polyline | instance | delete | group | circle |
   subdivision | offset | bspline | beziercurve | foreground | background |
   insidefaces | outsidefaces | offsetfaces;
@@ -134,11 +134,7 @@ numPosTok:
     }
     ;
 
-comment:
-    COMMENT
-    {
-    }
-    ;
+
 
 
 variables:
@@ -162,7 +158,7 @@ closedArgs:
     };
 
 transformArgs:
-    | faceArgs comment | transformArgs rotateArgs | transformArgs reverseArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
+    | transformArgs rotateArgs | transformArgs reverseArgs |  transformArgs translateArgs | transformArgs scaleArgs | transformArgs mirrorArgs | transformArgs surfaceArgs
     ;
 
 reverseArgs:
@@ -266,7 +262,7 @@ mirrorArgs:
     ;
 
 faceArgs:
-    | faceArgs faceMesh | faceArgs comment | faceArgs polylineMesh
+    | faceArgs faceMesh | faceArgs polylineMesh
         ;
 
 instanceArgs:
@@ -477,7 +473,7 @@ set:
         ;
 
 setArgs:
-    | setArgs set |  setArgs comment
+    | setArgs set
         ;
 
 polylineMesh:
