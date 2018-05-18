@@ -22,6 +22,19 @@ find_package(glm REQUIRED)
 find_package(BISON 3)
 find_package(FLEX 2.6)
 
+if(BISON_FOUND AND FLEX_FOUND)
+    BISON_TARGET(bank compilerBank/parserBank.y ${CMAKE_CURRENT_SOURCE_DIR}/compilerBank/parserBank.cpp COMPILE_FLAGS "-pbank -dy")
+    FLEX_TARGET(bank compilerBank/lexerBank.l ${CMAKE_CURRENT_SOURCE_DIR}/compilerBank/lexerBank.cpp)
+    BISON_TARGET(nom compilerNome/parser.y ${CMAKE_CURRENT_SOURCE_DIR}/compilerNome/parser.cpp COMPILE_FLAGS "-pnom -dy")
+    FLEX_TARGET(nom compilerNome/lexer.l ${CMAKE_CURRENT_SOURCE_DIR}/compilerNome/lexer.cpp)
+    BISON_TARGET(stl compilerStl/parserStl.y ${CMAKE_CURRENT_SOURCE_DIR}/compilerStl/parserStl.cpp COMPILE_FLAGS "-pstl -dy")
+    FLEX_TARGET(stl compilerStl/lexerStl.l ${CMAKE_CURRENT_SOURCE_DIR}/compilerStl/lexerStl.cpp)
+    BISON_TARGET(obj compilerObj/parserObj.y ${CMAKE_CURRENT_SOURCE_DIR}/compilerObj/parserObj.cpp COMPILE_FLAGS "-pobj -dy")
+    FLEX_TARGET(obj compilerObj/lexerObj.l ${CMAKE_CURRENT_SOURCE_DIR}/compilerObj/lexerObj.cpp)
+else()
+    message(STATUS "Flex and Bison not found, skip regenerating parsers.")
+endif()
+
 set(SOURCES
         main.cpp
         edge.cpp

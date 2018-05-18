@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -71,7 +71,7 @@
 #define yylloc          objlloc
 
 /* Copy the first part of user declarations.  */
-#line 5 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:339  */
+#line 5 "compilerObj/parserObj.y" /* yacc.c:339  */
 
 #include <stdio.h>
 #include <string.h>
@@ -139,13 +139,13 @@ double *getBankValue3(std::string str, Session* currSession){
 
 
 
-#line 143 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:339  */
+#line 143 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:339  */
 
-# ifndef YY_NULL
+# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -159,8 +159,8 @@ double *getBankValue3(std::string str, Session* currSession){
 
 /* In a future release of Bison, this section will be replaced
    by #include "parserObj.hpp".  */
-#ifndef YY_OBJ_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILEROBJ_PARSEROBJ_HPP_INCLUDED
-# define YY_OBJ_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILEROBJ_PARSEROBJ_HPP_INCLUDED
+#ifndef YY_OBJ_E_DEVGRA_NOME_COMPILEROBJ_PARSEROBJ_HPP_INCLUDED
+# define YY_OBJ_E_DEVGRA_NOME_COMPILEROBJ_PARSEROBJ_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -169,11 +169,11 @@ double *getBankValue3(std::string str, Session* currSession){
 extern int objdebug;
 #endif
 /* "%code requires" blocks.  */
-#line 1 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:355  */
+#line 1 "compilerObj/parserObj.y" /* yacc.c:355  */
 
 #include <newNOME/Session.h>
 
-#line 177 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:355  */
+#line 177 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -218,10 +218,10 @@ extern int objdebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
-#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:355  */
+#line 83 "compilerObj/parserObj.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -230,8 +230,10 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 234 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:355  */
+#line 234 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -255,11 +257,11 @@ extern YYSTYPE objlval;
 extern YYLTYPE objlloc;
 int objparse (Session* currSession);
 
-#endif /* !YY_OBJ_C_USERS_DIEPPEDALLE_DOCUMENTS_NOMEPROJECT_NOME_COMPILEROBJ_PARSEROBJ_HPP_INCLUDED  */
+#endif /* !YY_OBJ_E_DEVGRA_NOME_COMPILEROBJ_PARSEROBJ_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 263 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:358  */
+#line 265 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -316,11 +318,30 @@ typedef short int yytype_int16;
 # endif
 #endif
 
-#ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-# if (! defined __GNUC__ || __GNUC__ < 2 \
-      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#  define __attribute__(Spec) /* empty */
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
+# else
+#  define YY_ATTRIBUTE(Spec) /* empty */
+# endif
+#endif
+
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
+#ifndef YY_ATTRIBUTE_UNUSED
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -557,7 +578,7 @@ static const char *const yytname[] =
   "VP", "F", "L", "O", "G", "S", "SLASH", "MTLLIB", "USEMTL", "VARIABLE",
   "BANK_EXPR", "$accept", "commands", "command", "vArgs", "comment", "vw",
   "f", "l", "v", "vt", "vn", "vp", "usemtl", "mtllib", "g", "gEmpty", "s",
-  "start", YY_NULL
+  "start", YY_NULLPTR
 };
 #endif
 
@@ -747,7 +768,7 @@ do {                                            \
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
-__attribute__((__unused__))
+YY_ATTRIBUTE_UNUSED
 static unsigned
 yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
 {
@@ -1011,11 +1032,11 @@ static int
 yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yytype_int16 *yyssp, int yytoken)
 {
-  YYSIZE_T yysize0 = yytnamerr (YY_NULL, yytname[yytoken]);
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
   YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
-  const char *yyformat = YY_NULL;
+  const char *yyformat = YY_NULLPTR;
   /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
@@ -1072,7 +1093,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULL, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
                   if (! (yysize <= yysize1
                          && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
@@ -1430,33 +1451,33 @@ yyreduce:
   switch (yyn)
     {
         case 18:
-#line 112 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 112 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
       std::list<Vert*>::iterator it = currentMeshVertices3.begin();
       std::advance(it, atof((yyvsp[0].string))-1);
       currentFaceVertices3.push_back((*it));
       currentMeshVertices3.push_back((*it));
     }
-#line 1441 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1462 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 122 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 122 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
 
   }
-#line 1449 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1470 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 128 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 128 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1456 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1477 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 139 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 139 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
        //std::cout << currentFaceVertices3.size() << std::endl;
        if (currentFaceVertices3.size() > 2){
@@ -1468,19 +1489,19 @@ yyreduce:
        currentFaceVertices3.clear();
 
    }
-#line 1472 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1493 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 152 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 152 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
 
   }
-#line 1480 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1501 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 158 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 158 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
       double *x = (double*) malloc(sizeof(double));
       double *y = (double*) malloc(sizeof(double));
@@ -1502,68 +1523,68 @@ yyreduce:
           currentMeshVertices3.push_back(newVertex);
       }
     }
-#line 1506 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1527 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 182 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 182 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1513 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1534 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 187 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 187 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1520 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1541 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 192 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 192 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1527 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1548 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 197 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 197 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1534 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1555 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 202 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 202 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1541 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1562 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 208 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 208 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1548 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1569 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 213 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 213 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1555 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1576 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 218 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 218 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
 
     }
-#line 1563 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1584 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 224 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.y" /* yacc.c:1646  */
+#line 224 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
         if (yychar == YYEOF) {
             /* Code to execute at the end of the parse */
@@ -1602,11 +1623,11 @@ yyreduce:
             currSession->offsets.push_back(currOffset);
         }
     }
-#line 1606 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1627 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1610 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerObj\\parserObj.cpp" /* yacc.c:1646  */
+#line 1631 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
