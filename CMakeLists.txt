@@ -22,6 +22,16 @@ find_package(glm REQUIRED)
 find_package(BISON 3)
 find_package(FLEX 2.6)
 
+set(PARSER_SOURCES
+    compilerBank/parserBank.y
+    compilerBank/lexerBank.l
+    compilerNome/parser.y
+    compilerNome/lexer.l
+    compilerStl/parserStl.y
+    compilerStl/lexerStl.l
+    compilerObj/parserObj.y
+    compilerObj/lexerObj.l)
+
 if(BISON_FOUND AND FLEX_FOUND)
     BISON_TARGET(bank compilerBank/parserBank.y ${CMAKE_CURRENT_SOURCE_DIR}/compilerBank/parserBank.cpp COMPILE_FLAGS "-pbank -dy")
     FLEX_TARGET(bank compilerBank/lexerBank.l ${CMAKE_CURRENT_SOURCE_DIR}/compilerBank/lexerBank.cpp)
@@ -160,7 +170,7 @@ set(HEADERS
         newNOME/Octree.h
         newNOME/OctreeProxy.h)
 
-add_executable(Nome MACOSX_BUNDLE ${SOURCES} ${HEADERS})
+add_executable(Nome MACOSX_BUNDLE ${SOURCES} ${HEADERS} ${PARSER_SOURCES} nome_resource.rc)
 
 set_target_properties(Nome PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME Nome MACOSX_BUNDLE_BUNDLE_VERSION 1.0)
 
