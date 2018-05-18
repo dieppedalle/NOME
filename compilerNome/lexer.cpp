@@ -986,6 +986,7 @@ char *yytext;
 #include <string.h>
 #include <string>
 #include "parser.hpp"
+#include "newNOME/Session.h"
 
 int nomcolumn = 0;
 int numBegComments = 0;
@@ -994,10 +995,10 @@ int numBegComments = 0;
     nomcolumn += nomleng;
 
 static int isatty(int) {return 0;}
-#line 997 "E:/DevGra/nome/compilerNome/lexer.cpp"
+#line 998 "E:/DevGra/nome/compilerNome/lexer.cpp"
 #define YY_NO_UNISTD_H 1
 
-#line 1000 "E:/DevGra/nome/compilerNome/lexer.cpp"
+#line 1001 "E:/DevGra/nome/compilerNome/lexer.cpp"
 
 #define INITIAL 0
 #define MULTI_COMMENT 1
@@ -1216,9 +1217,9 @@ YY_DECL
 		}
 
 	{
-#line 26 "compilerNome/lexer.l"
+#line 27 "compilerNome/lexer.l"
 
-#line 1221 "E:/DevGra/nome/compilerNome/lexer.cpp"
+#line 1222 "E:/DevGra/nome/compilerNome/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1287,408 +1288,408 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 28 "compilerNome/lexer.l"
+#line 29 "compilerNome/lexer.l"
 numBegComments++; BEGIN(MULTI_COMMENT);
 	YY_BREAK
 
 
 case 2:
 YY_RULE_SETUP
-#line 31 "compilerNome/lexer.l"
+#line 32 "compilerNome/lexer.l"
 numBegComments--; if (numBegComments == 0){ BEGIN(INITIAL); };
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 32 "compilerNome/lexer.l"
+#line 33 "compilerNome/lexer.l"
 // eat comment in chunks
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "compilerNome/lexer.l"
+#line 34 "compilerNome/lexer.l"
 numBegComments++;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "compilerNome/lexer.l"
+#line 35 "compilerNome/lexer.l"
 // eat the lone star
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 35 "compilerNome/lexer.l"
+#line 36 "compilerNome/lexer.l"
 ;
 	YY_BREAK
 
 case 7:
 YY_RULE_SETUP
-#line 37 "compilerNome/lexer.l"
+#line 38 "compilerNome/lexer.l"
 { BEGIN(LINE_COMMENT); }
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 38 "compilerNome/lexer.l"
+#line 39 "compilerNome/lexer.l"
 { BEGIN(INITIAL); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 39 "compilerNome/lexer.l"
+#line 40 "compilerNome/lexer.l"
 { }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 40 "compilerNome/lexer.l"
+#line 41 "compilerNome/lexer.l"
 nomlval.string=nomtext; return NUMBER;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 41 "compilerNome/lexer.l"
+#line 42 "compilerNome/lexer.l"
 nomlval.string=strdup(nomtext); return BANK_EXPR;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 42 "compilerNome/lexer.l"
+#line 43 "compilerNome/lexer.l"
 return EXPR;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 43 "compilerNome/lexer.l"
+#line 44 "compilerNome/lexer.l"
 nomlval.intNumber = std::stoi(std::string(nomtext).substr (7)); return BSPLINE;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 44 "compilerNome/lexer.l"
+#line 45 "compilerNome/lexer.l"
 nomlval.intNumber = std::stoi(std::string(nomtext).substr (10)); return END_BSPLINE;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 45 "compilerNome/lexer.l"
+#line 46 "compilerNome/lexer.l"
 return CLOSED;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 46 "compilerNome/lexer.l"
+#line 47 "compilerNome/lexer.l"
 return SLICES;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 47 "compilerNome/lexer.l"
+#line 48 "compilerNome/lexer.l"
 return BEZIERCURVE;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 48 "compilerNome/lexer.l"
+#line 49 "compilerNome/lexer.l"
 return END_BEZIERCURVE;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 49 "compilerNome/lexer.l"
+#line 50 "compilerNome/lexer.l"
 return OFFSET;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 50 "compilerNome/lexer.l"
+#line 51 "compilerNome/lexer.l"
 return END_OFFSET;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 51 "compilerNome/lexer.l"
+#line 52 "compilerNome/lexer.l"
 return MIN;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 52 "compilerNome/lexer.l"
+#line 53 "compilerNome/lexer.l"
 return MAX;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 53 "compilerNome/lexer.l"
+#line 54 "compilerNome/lexer.l"
 return STEP;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 54 "compilerNome/lexer.l"
+#line 55 "compilerNome/lexer.l"
 return SURFACE;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 55 "compilerNome/lexer.l"
+#line 56 "compilerNome/lexer.l"
 return END_SURFACE;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 56 "compilerNome/lexer.l"
+#line 57 "compilerNome/lexer.l"
 return BEG_POINT;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 57 "compilerNome/lexer.l"
+#line 58 "compilerNome/lexer.l"
 return COLOR;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 58 "compilerNome/lexer.l"
+#line 59 "compilerNome/lexer.l"
 return END_POINT;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 59 "compilerNome/lexer.l"
+#line 60 "compilerNome/lexer.l"
 return BANK;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 60 "compilerNome/lexer.l"
+#line 61 "compilerNome/lexer.l"
 return END_BANK;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 61 "compilerNome/lexer.l"
+#line 62 "compilerNome/lexer.l"
 return SET;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 62 "compilerNome/lexer.l"
+#line 63 "compilerNome/lexer.l"
 return FACE;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 63 "compilerNome/lexer.l"
+#line 64 "compilerNome/lexer.l"
 return END_FACE;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 64 "compilerNome/lexer.l"
+#line 65 "compilerNome/lexer.l"
 return OBJECT;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 65 "compilerNome/lexer.l"
+#line 66 "compilerNome/lexer.l"
 return END_OBJECT;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 66 "compilerNome/lexer.l"
+#line 67 "compilerNome/lexer.l"
 return MESH;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 67 "compilerNome/lexer.l"
+#line 68 "compilerNome/lexer.l"
 return END_MESH;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 68 "compilerNome/lexer.l"
+#line 69 "compilerNome/lexer.l"
 return TUNNEL;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 69 "compilerNome/lexer.l"
+#line 70 "compilerNome/lexer.l"
 return END_TUNNEL;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 70 "compilerNome/lexer.l"
+#line 71 "compilerNome/lexer.l"
 return FUNNEL;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 71 "compilerNome/lexer.l"
+#line 72 "compilerNome/lexer.l"
 return END_FUNNEL;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 72 "compilerNome/lexer.l"
+#line 73 "compilerNome/lexer.l"
 return POLYLINE;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 73 "compilerNome/lexer.l"
+#line 74 "compilerNome/lexer.l"
 return CIRCLE;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 74 "compilerNome/lexer.l"
+#line 75 "compilerNome/lexer.l"
 return END_CIRCLE;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 75 "compilerNome/lexer.l"
+#line 76 "compilerNome/lexer.l"
 return SCALE;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 76 "compilerNome/lexer.l"
+#line 77 "compilerNome/lexer.l"
 return END_POLYLINE;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 77 "compilerNome/lexer.l"
+#line 78 "compilerNome/lexer.l"
 return INSTANCE;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 78 "compilerNome/lexer.l"
+#line 79 "compilerNome/lexer.l"
 return END_INSTANCE;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 79 "compilerNome/lexer.l"
+#line 80 "compilerNome/lexer.l"
 return TRANSLATE;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 80 "compilerNome/lexer.l"
+#line 81 "compilerNome/lexer.l"
 return ROTATE;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 81 "compilerNome/lexer.l"
+#line 82 "compilerNome/lexer.l"
 return REVERSE;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 82 "compilerNome/lexer.l"
+#line 83 "compilerNome/lexer.l"
 return FOREGROUND;
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 83 "compilerNome/lexer.l"
+#line 84 "compilerNome/lexer.l"
 return END_FOREGROUND;
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 84 "compilerNome/lexer.l"
+#line 85 "compilerNome/lexer.l"
 return BACKGROUND;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 85 "compilerNome/lexer.l"
+#line 86 "compilerNome/lexer.l"
 return END_BACKGROUND;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 86 "compilerNome/lexer.l"
+#line 87 "compilerNome/lexer.l"
 return INSIDEFACES;
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 87 "compilerNome/lexer.l"
+#line 88 "compilerNome/lexer.l"
 return END_INSIDEFACES;
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 88 "compilerNome/lexer.l"
+#line 89 "compilerNome/lexer.l"
 return OUTSIDEFACES;
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 89 "compilerNome/lexer.l"
+#line 90 "compilerNome/lexer.l"
 return END_OUTSIDEFACES;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 90 "compilerNome/lexer.l"
+#line 91 "compilerNome/lexer.l"
 return OFFSETFACES;
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 91 "compilerNome/lexer.l"
+#line 92 "compilerNome/lexer.l"
 return END_OFFSETFACES;
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 92 "compilerNome/lexer.l"
+#line 93 "compilerNome/lexer.l"
 return MIRROR;
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 93 "compilerNome/lexer.l"
+#line 94 "compilerNome/lexer.l"
 return BEG_DELETE;
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 94 "compilerNome/lexer.l"
+#line 95 "compilerNome/lexer.l"
 return END_DELETE;
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 95 "compilerNome/lexer.l"
+#line 96 "compilerNome/lexer.l"
 return GROUP;
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 96 "compilerNome/lexer.l"
+#line 97 "compilerNome/lexer.l"
 return END_GROUP;
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 97 "compilerNome/lexer.l"
+#line 98 "compilerNome/lexer.l"
 return SUBDIVISION;
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 98 "compilerNome/lexer.l"
+#line 99 "compilerNome/lexer.l"
 return END_SUBDIVISION;
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 99 "compilerNome/lexer.l"
+#line 100 "compilerNome/lexer.l"
 return SUBDIVISIONS;
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 100 "compilerNome/lexer.l"
+#line 101 "compilerNome/lexer.l"
 return TYPE;
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 101 "compilerNome/lexer.l"
+#line 102 "compilerNome/lexer.l"
 return OBRACE;
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 102 "compilerNome/lexer.l"
+#line 103 "compilerNome/lexer.l"
 return EBRACE;
 	YY_BREAK
 case 73:
 /* rule 73 can match eol */
 YY_RULE_SETUP
-#line 103 "compilerNome/lexer.l"
+#line 104 "compilerNome/lexer.l"
 nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 104 "compilerNome/lexer.l"
+#line 105 "compilerNome/lexer.l"
 nomlval.string=strdup(nomtext); return VARIABLE;
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 105 "compilerNome/lexer.l"
+#line 106 "compilerNome/lexer.l"
 return OPARENTHESES;
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 106 "compilerNome/lexer.l"
+#line 107 "compilerNome/lexer.l"
 return EPARENTHESES;
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(MULTI_COMMENT):
 case YY_STATE_EOF(LINE_COMMENT):
-#line 107 "compilerNome/lexer.l"
+#line 108 "compilerNome/lexer.l"
 if (numBegComments != 0){std::cout << "Error: Missing *) of multiline comment." << std::endl;} return 0;
 	YY_BREAK
 case 77:
 /* rule 77 can match eol */
 YY_RULE_SETUP
-#line 108 "compilerNome/lexer.l"
+#line 109 "compilerNome/lexer.l"
 /* ignore whitespace */;
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 109 "compilerNome/lexer.l"
+#line 110 "compilerNome/lexer.l"
 ECHO;
 	YY_BREAK
-#line 1691 "E:/DevGra/nome/compilerNome/lexer.cpp"
+#line 1692 "E:/DevGra/nome/compilerNome/lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2703,6 +2704,16 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 109 "compilerNome/lexer.l"
+#line 110 "compilerNome/lexer.l"
 
+
+int scanFromSessionFileContent(Session* s)
+{
+	const char* buf = s->fileContent.data();
+	size_t sz = s->fileContent.size();
+	YY_BUFFER_STATE bufferState = nom_scan_bytes(buf, sz);
+	int ret = nomparse(s);
+	nom_delete_buffer(bufferState);
+	return ret;
+}
 

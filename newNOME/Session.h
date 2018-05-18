@@ -98,6 +98,7 @@ public:
     void consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName);
     void clearSelection();
     void saveFileToStr(std::string fileName);
+	void parseSavedStr();
     void deleteFace();
     void draw();
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
@@ -118,8 +119,6 @@ private:
 };
 
 //Instantiation
-Session* createSession();
-Session* createSession(Session*);
 void saveFaceSTL(FaceNew* currFace, std::ofstream& file);
 void parseGetBankVal(const char* input, Session* sessionParse, double* output, int lineNumber);
 

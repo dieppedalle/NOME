@@ -52,6 +52,8 @@ double *getBankValue(std::string str, Session* currSession){
         }
     }
 
+	std::cout << "Could not locate bank value: " << str << std::endl;
+
     //std::cout << "END BANK" << std::endl;
     return NULL;
 }

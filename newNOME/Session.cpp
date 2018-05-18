@@ -14,82 +14,71 @@
 #include <glm/glm.hpp>
 
 #include "bankFlexBison.cpp"
+#include "compilerNome/parser.hpp"
 
 static Session* singletonPtr = nullptr;
 static int sIndex = 0;
-
-Session* createSession()
-{
-    assert(!singletonPtr);
-    Session* session0 = new Session();
-    singletonPtr = session0;
-
-    session0->setName("s:" + std::to_string(sIndex));
-
-    double *rF = (double*) malloc(sizeof(double));
-    double *gF = (double*) malloc(sizeof(double));
-    double *bF = (double*) malloc(sizeof(double));
-
-    *rF = 255.0/255.0;
-    *gF = 0.0;
-    *bF = 0.0;
-
-    session0->foreColor = createSurface(rF, gF, bF, "foreColor");
-
-    double *rB = (double*) malloc(sizeof(double));
-    double *gB = (double*) malloc(sizeof(double));
-    double *bB = (double*) malloc(sizeof(double));
-
-    *rB = 0.0;
-    *gB = 0.0;
-    *bB = 0.0;
-
-    session0->backColor = createSurface(rB, gB, bB, "backColor");
-
-    double *rOut = (double*) malloc(sizeof(double));
-    double *gOut = (double*) malloc(sizeof(double));
-    double *bOut = (double*) malloc(sizeof(double));
-
-    *rOut = 255.0/255.0;
-    *gOut = 0.0;
-    *bOut = 0.0;
-
-    session0->outsideColor = createSurface(rOut, gOut, bOut, "outsideColor");
-
-    double *rIn = (double*) malloc(sizeof(double));
-    double *gIn = (double*) malloc(sizeof(double));
-    double *bIn = (double*) malloc(sizeof(double));
-
-    *rIn = 0.0;
-    *gIn = 0.0;
-    *bIn = 255.0/255.0;
-
-    session0->insideColor = createSurface(rIn, gIn, bIn, "insideColor");
-
-    double *rOff = (double*) malloc(sizeof(double));
-    double *gOff = (double*) malloc(sizeof(double));
-    double *bOff = (double*) malloc(sizeof(double));
-
-    *rOff = 255.0/255.0;
-    *gOff = 163.0/255.0;
-    *bOff = 0.0;
-
-    session0->offsetColor = createSurface(rOff, gOff, bOff, "offsetColor");
-
-    sIndex++;
-
-    return session0;
-}
-
-Session* createSession(Session* s0)
-{
-    return NULL;
-}
 
 Session::Session()
 {
     OctreeRoot = new OctantNew();
     OctreeRoot->setExtent(BoundingBox(-100.0f, 100.0f));
+
+	singletonPtr = this;
+
+	this->setName("s:" + std::to_string(sIndex));
+
+	double *rF = (double*)malloc(sizeof(double));
+	double *gF = (double*)malloc(sizeof(double));
+	double *bF = (double*)malloc(sizeof(double));
+
+	*rF = 255.0 / 255.0;
+	*gF = 0.0;
+	*bF = 0.0;
+
+	this->foreColor = createSurface(rF, gF, bF, "foreColor");
+
+	double *rB = (double*)malloc(sizeof(double));
+	double *gB = (double*)malloc(sizeof(double));
+	double *bB = (double*)malloc(sizeof(double));
+
+	*rB = 0.0;
+	*gB = 0.0;
+	*bB = 0.0;
+
+	this->backColor = createSurface(rB, gB, bB, "backColor");
+
+	double *rOut = (double*)malloc(sizeof(double));
+	double *gOut = (double*)malloc(sizeof(double));
+	double *bOut = (double*)malloc(sizeof(double));
+
+	*rOut = 255.0 / 255.0;
+	*gOut = 0.0;
+	*bOut = 0.0;
+
+	this->outsideColor = createSurface(rOut, gOut, bOut, "outsideColor");
+
+	double *rIn = (double*)malloc(sizeof(double));
+	double *gIn = (double*)malloc(sizeof(double));
+	double *bIn = (double*)malloc(sizeof(double));
+
+	*rIn = 0.0;
+	*gIn = 0.0;
+	*bIn = 255.0 / 255.0;
+
+	this->insideColor = createSurface(rIn, gIn, bIn, "insideColor");
+
+	double *rOff = (double*)malloc(sizeof(double));
+	double *gOff = (double*)malloc(sizeof(double));
+	double *bOff = (double*)malloc(sizeof(double));
+
+	*rOff = 255.0 / 255.0;
+	*gOff = 163.0 / 255.0;
+	*bOff = 0.0;
+
+	this->offsetColor = createSurface(rOff, gOff, bOff, "offsetColor");
+
+	sIndex++;
 }
 
 Session::~Session()
@@ -574,6 +563,12 @@ void Session::saveFileToStr(string fileName){
     strStream << inFile.rdbuf();//read the file
     string str = strStream.str();
     this->fileContent = str;
+}
+
+void Session::parseSavedStr()
+{
+	extern int scanFromSessionFileContent(Session* s);
+	scanFromSessionFileContent(this);
 }
 
 void Session::deleteFace(){

@@ -129,7 +129,7 @@ void MainWindow::createCanvas(QString name)
         canvas = new SlideGLWidget(name.toStdString());
         canvas -> move(0, 50);
         canvas -> show();
-        Session* currSession = createSession();
+        Session* currSession = new Session();
         createControlPanel(canvas, currSession);
     }
     else if(name.right(4).toLower() == "anom")

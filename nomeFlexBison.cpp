@@ -9,11 +9,9 @@ class NOMECompiler {
   Session* currSession;
   public:
     NOMECompiler (string input) {
-        extern FILE* nomin;
-        nomin = fopen(input.c_str(), "r");
-        currSession = createSession();
+        currSession = new Session();
         currSession->saveFileToStr(input);
-        nomparse(currSession);
+		currSession->parseSavedStr();
     };
 
     Session* getSession () {return currSession;}
