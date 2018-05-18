@@ -8,6 +8,7 @@
 
 
 #include "Data.h"
+#include "BankNew.h"
 #include "Reader.h"
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/glm.hpp>

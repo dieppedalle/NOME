@@ -16,6 +16,8 @@
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
 #include <newNOME/InstanceNew.h>
+#include <newNOME/BankNew.h>
+#include <newNOME/OffsetNew.h>
 
 extern int stllineno;
 extern char* stltext;

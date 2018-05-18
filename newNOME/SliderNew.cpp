@@ -46,7 +46,7 @@ void SliderNew::sliderValueChanged(int value)
     canvas->currSession->flattenMeshList.clear();
 
     //std::cout << "HI" << std::endl;
-    canvas -> updateGL();
+    canvas -> update();
 };
 
 

@@ -7,6 +7,7 @@
 #include <QSlider>
 #include <QLabel>
 #include "Data.h"
+#include "OffsetNew.h"
 
 SliderOffsetNew::SliderOffsetNew(OffsetNew* offset, SlideGLWidget * canvas)
 {

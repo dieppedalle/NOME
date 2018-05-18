@@ -86,6 +86,8 @@
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
 #include <newNOME/InstanceNew.h>
+#include <newNOME/BankNew.h>
+#include <newNOME/OffsetNew.h>
 
 extern int stllineno;
 extern char* stltext;
@@ -120,7 +122,7 @@ std::list<FaceNew *> currentSolidFace;
 std::list<TransformationNew *> currentTransformations;
 
 
-#line 124 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:339  */
+#line 126 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -154,7 +156,7 @@ extern int stldebug;
 
 #include <newNOME/Session.h>
 
-#line 158 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:355  */
+#line 160 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -194,7 +196,7 @@ extern int stldebug;
 
 union YYSTYPE
 {
-#line 64 "compilerStl/parserStl.y" /* yacc.c:355  */
+#line 66 "compilerStl/parserStl.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -203,7 +205,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 207 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:355  */
+#line 209 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -234,7 +236,7 @@ int stlparse (Session* currSession);
 
 /* Copy the second part of user declarations.  */
 
-#line 238 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:358  */
+#line 240 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -534,8 +536,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    81,    81,    82,    87,    92,   131,   156,   157,   159,
-     160,   163
+       0,    83,    83,    84,    89,    94,   133,   158,   159,   161,
+     162,   165
 };
 #endif
 
@@ -1409,7 +1411,7 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 93 "compilerStl/parserStl.y" /* yacc.c:1646  */
+#line 95 "compilerStl/parserStl.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
         MeshNew* currMesh = createMesh();
@@ -1446,11 +1448,11 @@ yyreduce:
         currSession->offsets.push_back(currOffset);
 
     }
-#line 1450 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
+#line 1452 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 132 "compilerStl/parserStl.y" /* yacc.c:1646  */
+#line 134 "compilerStl/parserStl.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1474,11 +1476,11 @@ yyreduce:
 
         currentFaceVertices.push_back(newVertex);
     }
-#line 1478 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
+#line 1480 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 164 "compilerStl/parserStl.y" /* yacc.c:1646  */
+#line 166 "compilerStl/parserStl.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
         double *x = (double*) malloc(sizeof(double));
@@ -1501,11 +1503,11 @@ yyreduce:
         currentSolidFace.push_back(newFace);
         currentFaceVertices.clear();
     }
-#line 1505 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
+#line 1507 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1509 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
+#line 1511 "E:/DevGra/nome/compilerStl/parserStl.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

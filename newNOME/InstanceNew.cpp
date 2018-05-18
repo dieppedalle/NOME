@@ -14,6 +14,8 @@
 #include "TunnelNew.h"
 #include "CircleNew.h"
 #include "GroupNew.h"
+#include "BezierCurveNew.h"
+#include "BSplineNew.h"
 #include "Reader.h"
 
 class Reader;

@@ -8,20 +8,21 @@
 #include <stdio.h>
 #include <fstream>
 #include "Data.h"
-#include "MeshNew.h"
-#include "GroupNew.h"
-#include "ObjectNew.h"
-#include "BankNew.h"
-#include "PolylineNew.h"
-#include "BSplineNew.h"
-#include "BezierCurveNew.h"
-#include "CircleNew.h"
-#include "FunnelNew.h"
-#include "TunnelNew.h"
-#include "SubdivisionNew.h"
-#include "OffsetNew.h"
 #include "Octree.h"
 #include "OctreeProxy.h"
+
+class MeshNew;
+class InstanceNew;
+class GroupNew;
+class BankNew;
+class PolylineNew;
+class BSplineNew;
+class BezierCurveNew;
+class CircleNew;
+class FunnelNew;
+class TunnelNew;
+class SubdivisionNew;
+class OffsetNew;
 
 class Session
 {

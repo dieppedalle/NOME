@@ -84,7 +84,7 @@ extern int stldebug;
 
 union YYSTYPE
 {
-#line 64 "compilerStl/parserStl.y" /* yacc.c:1909  */
+#line 66 "compilerStl/parserStl.y" /* yacc.c:1909  */
 
     double number;
     char *string;
