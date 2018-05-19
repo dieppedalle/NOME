@@ -6,7 +6,7 @@
  */
 
 #include "controlpanel.h"
-
+#include "mainwindow.h"
 #include "nomeglwidget.h"
 
 ControlPanel::ControlPanel()
@@ -15,8 +15,9 @@ ControlPanel::ControlPanel()
     //buildConnection();
 }
 
-ControlPanel::ControlPanel(SlideGLWidget * canvas, Session* currSession)
+ControlPanel::ControlPanel(MainWindow* parentWindow, SlideGLWidget * canvas, Session* currSession)
 {
+	mainWindow = parentWindow;
     this -> currSession = currSession;
     setupLayout();
     this -> canvas = canvas;
@@ -352,6 +353,7 @@ void ControlPanel::regenerateScene()
 
 	currSession->reset();
 	currSession->parseSavedStr();
+	mainWindow->recreateSliders();
 
 	canvas->update();
 }

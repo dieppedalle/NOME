@@ -25,6 +25,7 @@
 
 class SlideGLWidget;
 class Session;
+class MainWindow;
 
 class ControlPanel : public QWidget
 {
@@ -33,7 +34,7 @@ class ControlPanel : public QWidget
 public:
     ControlPanel();
     /* @param canvas, the canvas that this panel control.*/
-    ControlPanel(SlideGLWidget * canvas, Session* currSession);
+    ControlPanel(MainWindow* parentWindow, SlideGLWidget * canvas, Session* currSession);
     /* Set up the layout and widgets.*/
     void setupLayout();
     /* Build the connections. */
@@ -50,6 +51,7 @@ public:
     float offsetValue;
     Session* currSession;
 private:
+	MainWindow * mainWindow;
     SlideGLWidget *canvas;
     /* Widgets and Layout in this Control Panel.*/
     QVBoxLayout *mainLayout;

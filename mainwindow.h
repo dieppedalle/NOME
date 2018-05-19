@@ -13,6 +13,7 @@
 #include "controlpanel.h"
 #include "nomeparser.h"
 #include "sliderpanel.h"
+#include <vector>
 QT_BEGIN_NAMESPACE
 class QAction;
 class QActionGroup;
@@ -26,6 +27,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
+	void recreateSliders();
 private:
     void createActions();
     void createMenus();
@@ -56,6 +58,9 @@ private:
     vector<int> postProcessingLines;
     vector<string> postProcessingLinesString;
     Session * currSession;
+
+	std::vector<QWidget*> presentSliderWindows;
+
 private slots:
     void open();
     void save();
