@@ -7,6 +7,8 @@
 
 #include "controlpanel.h"
 
+#include "nomeglwidget.h"
+
 ControlPanel::ControlPanel()
 {
     setupLayout();
@@ -62,6 +64,7 @@ void ControlPanel::buildConnection()
     connect(wholeBorderCheck,SIGNAL(clicked(bool)), canvas, SLOT(wholeBorderSelectionChecked(bool)));
     connect(trianglePaneltyEdit, SIGNAL(textChanged(QString)), canvas, SLOT(resetTrianglePanelty(QString)));
     connect(consolidateButton, SIGNAL(clicked(bool)), canvas, SLOT(popUpConsolidateWindow(bool)));
+	connect(sceneRegenButton, &QPushButton::clicked, this, &ControlPanel::regenerateScene);
 }
 
 void ControlPanel::setupLayout()
@@ -81,6 +84,10 @@ void ControlPanel::setupLayout()
     //mainLayout -> addLayout(offsetLayout = new QVBoxLayout);
     mainLayout -> addWidget(new QLabel("COLOR"));
     mainLayout -> addLayout(colorLayout = new QVBoxLayout);
+
+	sceneRegenButton = new QPushButton("Reload Scene", this);
+	mainLayout->addWidget(sceneRegenButton);
+
     /* View layout. */
     viewLayout -> addWidget(viewContent = new QComboBox);
     viewContent -> addItem("Hirachical Scene");
@@ -136,8 +143,8 @@ void ControlPanel::setupLayout()
     //subdivLevelSlider -> setMaximum(5);
     //subdivLevelSlider -> setValue(0);
     /* Offset Layout. */
-    maxOffset = 0.005;
-    minOffset = 0.001;
+    maxOffset = 0.005f;
+    minOffset = 0.001f;
     offsetStep = 4;
     /*offsetLayout -> addLayout(offsetMinMaxLayout = new QHBoxLayout);
     offsetMinMaxLayout -> addWidget((new QLabel(tr("Min"))));
@@ -334,4 +341,17 @@ void ControlPanel::faceModeChecked(bool checked)
 void ControlPanel::pushMerge(bool)
 {
     viewContent -> setCurrentIndex(1);
+}
+
+void ControlPanel::regenerateScene()
+{
+	currSession->updateFileContentSliders();
+
+	std::cout << "***Debug*** Here is the updated file content:" << std::endl;
+	std::cout << currSession->fileContent << std::endl;
+
+	currSession->reset();
+	currSession->parseSavedStr();
+
+	canvas->update();
 }

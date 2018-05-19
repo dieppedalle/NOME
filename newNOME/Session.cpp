@@ -97,6 +97,46 @@ Session::~Session()
     delete OctreeRoot;
 }
 
+void Session::reset()
+{
+	delete OctreeRoot;
+
+	OctreeRoot = new OctantNew();
+	OctreeRoot->setExtent(BoundingBox(-100.0f, 100.0f));
+
+	verts.clear();
+	edges.clear();
+	faces.clear();
+	meshes.clear();
+	surfaces.clear();
+	groups.clear();
+	instances.clear();
+	polylines.clear();
+	bsplines.clear();
+	bezierCurves.clear();
+	circles.clear();
+	funnels.clear();
+	tunnels.clear();
+	banks.clear();
+	subdivisions.clear();
+	offsets.clear();
+
+	selectedEdges.clear();
+	selectedVerts.clear();
+	selectedFaces.clear();
+
+	tmpFaceIndex = 0;
+	tmpPolylineIndex = 0;
+	tmpMesh = nullptr;
+	tmpPolyline = nullptr;
+	tmpInstance = nullptr;
+
+	recalculateSlider = true;
+	recalculateSubdivision = true;
+	recalculateOffset = true;
+	flattenMeshList.clear();
+}
+
 Session& Session::getSingleton()
 {
     return *singletonPtr;

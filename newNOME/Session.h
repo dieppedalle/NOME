@@ -81,6 +81,7 @@ public:
 
     Session();
     ~Session();
+	void reset();
 
     //Naming functions
     bool setName(std::string n);
