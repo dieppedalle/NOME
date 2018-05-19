@@ -225,7 +225,7 @@ extern int nomdebug;
 
 union YYSTYPE
 {
-#line 75 "compilerNome/parser.y" /* yacc.c:1909  */
+#line 79 "compilerNome/parser.y" /* yacc.c:1909  */
 
     double intNumber;
     double number;

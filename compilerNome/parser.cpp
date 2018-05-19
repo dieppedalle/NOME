@@ -86,6 +86,10 @@
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
 #include <newNOME/InstanceNew.h>
+#include <newNOME/BankNew.h>
+#include <newNOME/OffsetNew.h>
+#include <newNOME/SubdivisionNew.h>
+#include <newNOME/GroupNew.h>
 #include <newNOME/BSplineNew.h>
 #include <newNOME/BezierCurveNew.h>
 
@@ -119,7 +123,7 @@ std::list<TransformationNew *> currentTransformations2;
 std::string surfaceFromArg;
 
 
-#line 123 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:339  */
+#line 127 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -154,7 +158,7 @@ extern int nomdebug;
 #include <newNOME/Session.h>
 
 
-#line 158 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:355  */
+#line 162 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -334,7 +338,7 @@ extern int nomdebug;
 
 union YYSTYPE
 {
-#line 75 "compilerNome/parser.y" /* yacc.c:355  */
+#line 79 "compilerNome/parser.y" /* yacc.c:355  */
 
     double intNumber;
     double number;
@@ -345,7 +349,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 349 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:355  */
+#line 353 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -376,7 +380,7 @@ int nomparse (Session* currSession);
 
 /* Copy the second part of user declarations.  */
 
-#line 380 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:358  */
+#line 384 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -683,15 +687,15 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    98,    98,    99,   104,   104,   104,   104,   104,   104,
-     105,   105,   105,   105,   105,   105,   105,   106,   106,   106,
-     106,   106,   106,   107,   107,   107,   110,   112,   130,   140,
-     142,   148,   155,   156,   160,   161,   161,   161,   161,   161,
-     161,   165,   172,   201,   225,   249,   264,   265,   265,   268,
-     269,   273,   334,   335,   339,   344,   345,   349,   369,   396,
-     423,   439,   452,   475,   476,   480,   525,   578,   589,   613,
-     647,   682,   688,   730,   737,   786,   852,   891,   910,   929,
-     948,   967,   986,  1043,  1079,  1105
+       0,   102,   102,   103,   108,   108,   108,   108,   108,   108,
+     109,   109,   109,   109,   109,   109,   109,   110,   110,   110,
+     110,   110,   110,   111,   111,   111,   114,   116,   134,   144,
+     146,   152,   159,   160,   164,   165,   165,   165,   165,   165,
+     165,   169,   176,   205,   229,   253,   268,   269,   269,   272,
+     273,   277,   338,   339,   343,   348,   349,   353,   373,   400,
+     427,   443,   456,   479,   480,   484,   529,   582,   593,   617,
+     651,   686,   692,   734,   741,   790,   856,   895,   914,   933,
+     952,   971,   990,  1047,  1083,  1109
 };
 #endif
 
@@ -1742,76 +1746,76 @@ yyreduce:
   switch (yyn)
     {
         case 26:
-#line 110 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 114 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         (yyval.string) = strdup((yyvsp[0].string));
     }
-#line 1750 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1754 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 113 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 117 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         std::string exprStr = strdup((yyvsp[0].string));
         exprStr.erase(0, 6);
         exprStr.erase(exprStr.size() - 1);
         (yyval.string) = strdup(exprStr.c_str());
     }
-#line 1761 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1765 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 131 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 135 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         (yyval.numPos).string = strdup((yyvsp[0].string));
         (yyval.numPos).number = nomcolumn;
     }
-#line 1770 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1774 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 142 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 146 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         tempVariables2.push_back((yyvsp[0].string));
     }
-#line 1778 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1782 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 148 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 152 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         if (surfaceFromArg.length() == 0){
           surfaceFromArg = strdup((yyvsp[0].string));
         }
     }
-#line 1788 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1792 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 155 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 159 "compilerNome/parser.y" /* yacc.c:1646  */
     {(yyval.boolean) = false;}
-#line 1794 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1798 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 156 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 160 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         (yyval.boolean) = true;
     }
-#line 1802 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1806 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 166 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 170 "compilerNome/parser.y" /* yacc.c:1646  */
     {
       Reverse* currReverse = createReverse();
       currentTransformations2.push_back(currReverse);
     }
-#line 1811 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1815 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 173 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 177 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1837,11 +1841,11 @@ yyreduce:
         currentTransformations2.push_back(currRotate);
 
     }
-#line 1841 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1845 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 202 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 206 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1862,11 +1866,11 @@ yyreduce:
 
         currentTransformations2.push_back(currTranslate);
     }
-#line 1866 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1870 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 226 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 230 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1887,11 +1891,11 @@ yyreduce:
 
         currentTransformations2.push_back(currScale);
     }
-#line 1891 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1895 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 250 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 254 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *currentValSet = (double*) malloc(sizeof(double));
         parseGetBankVal((yyvsp[-4].string), currSession, currentValSet, nomlineno);
@@ -1904,11 +1908,11 @@ yyreduce:
         double w = *currentValSet;
 
     }
-#line 1908 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1912 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 274 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 278 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -1967,19 +1971,19 @@ yyreduce:
         currentGroup2.push_back(newInstance);
         surfaceFromArg = "";
     }
-#line 1971 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1975 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 340 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 344 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         string instanceName = strdup((yyvsp[0].string));
     }
-#line 1979 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 1983 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 350 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 354 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *subdivision = (double*) malloc(sizeof(double));
 
@@ -1997,11 +2001,11 @@ yyreduce:
         SubdivisionNew* currSubdivision = createSubdivision(strdup((yyvsp[-5].string)), strdup((yyvsp[-3].string)), subdivision);
         currSession->subdivisions.push_back(currSubdivision);
     }
-#line 2001 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2005 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 370 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 374 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *min = (double*) malloc(sizeof(double));
         double *max = (double*) malloc(sizeof(double));
@@ -2026,11 +2030,11 @@ yyreduce:
 
         currSession->offsets.push_back(currOffset);
     }
-#line 2030 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2034 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 397 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 401 "compilerNome/parser.y" /* yacc.c:1646  */
     {
 
         MeshNew* currMesh = createMesh();
@@ -2054,22 +2058,22 @@ yyreduce:
         currentMeshEdges2.clear();
         currentMeshVertices2.clear();
         }
-#line 2058 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2062 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 424 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 428 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         GroupNew* currGroup = createGroup(currentGroup2);
         currGroup->setName(strdup((yyvsp[-2].string)));
         currSession->groups.push_back(currGroup);
         currentGroup2.clear();
         }
-#line 2069 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2073 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 440 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 444 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2079,11 +2083,11 @@ yyreduce:
 
         tempFaceDelete2.clear();
         }
-#line 2083 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2087 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 453 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 457 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         string currentSetName = (yyvsp[-4].string);
         double currentSetValue = (double)atof((yyvsp[-3].numPos).string);
@@ -2104,11 +2108,11 @@ yyreduce:
 
         currentSetList2.push_back(currentSet);
         }
-#line 2108 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2112 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 481 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 485 "compilerNome/parser.y" /* yacc.c:1646  */
     {
     Reader* currReader = createReader(currSession);
 
@@ -2150,11 +2154,11 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
 }
-#line 2154 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2158 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 526 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 530 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2204,11 +2208,11 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
     }
-#line 2208 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2212 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 579 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 583 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         BankNew * currentBank2 = createBank();
         currentBank2->name = strdup((yyvsp[-2].string));
@@ -2216,11 +2220,11 @@ yyreduce:
         currSession->banks.push_back(currentBank2);
         currentSetList2.clear();
         }
-#line 2220 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2224 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 590 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 594 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         string name = (yyvsp[-5].string);
         double *num = (double*) malloc(sizeof(double));
@@ -2242,11 +2246,11 @@ yyreduce:
 
         currSession->circles.push_back(currCircle);
     }
-#line 2246 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2250 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 615 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 619 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2276,11 +2280,11 @@ yyreduce:
 
         currSession->tunnels.push_back(currTunnel);
         }
-#line 2280 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2284 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 649 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 653 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2311,18 +2315,18 @@ yyreduce:
 
         currSession->funnels.push_back(currFunnel);
         }
-#line 2315 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2319 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 683 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 687 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         }
-#line 2322 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2326 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 689 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 693 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2361,19 +2365,19 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
         }
-#line 2365 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2369 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 731 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 735 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         tempFaceDelete2.push_back((yyvsp[-1].string));
         }
-#line 2373 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2377 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 737 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 741 "compilerNome/parser.y" /* yacc.c:1646  */
     {
     double *slices = (double*) malloc(sizeof(double));
     Reader* currReader = createReader(currSession);
@@ -2420,11 +2424,11 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
 }
-#line 2424 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2428 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 786 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 790 "compilerNome/parser.y" /* yacc.c:1646  */
     {
     if ((yyvsp[-7].intNumber) != (yyvsp[0].intNumber)) {
         nomerror(currSession, "bspline and endbspline do not have the same number.");
@@ -2489,11 +2493,11 @@ yyreduce:
     tempVariables2.clear();
     surfaceFromArg = "";
   }
-#line 2493 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2497 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 853 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 857 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2529,11 +2533,11 @@ yyreduce:
         tempVariables2.clear();
         surfaceFromArg = "";
         }
-#line 2533 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2537 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 892 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 896 "compilerNome/parser.y" /* yacc.c:1646  */
     {
       Reader* currReader = createReader(currSession);
       string surfaceName = surfaceFromArg;
@@ -2550,11 +2554,11 @@ yyreduce:
       }
       surfaceFromArg = "";
     }
-#line 2554 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2558 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 911 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 915 "compilerNome/parser.y" /* yacc.c:1646  */
     {
       Reader* currReader = createReader(currSession);
       string surfaceName = surfaceFromArg;
@@ -2571,11 +2575,11 @@ yyreduce:
       }
       surfaceFromArg = "";
     }
-#line 2575 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2579 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 930 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 934 "compilerNome/parser.y" /* yacc.c:1646  */
     {
       Reader* currReader = createReader(currSession);
       string surfaceName = surfaceFromArg;
@@ -2592,11 +2596,11 @@ yyreduce:
       }
       surfaceFromArg = "";
     }
-#line 2596 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2600 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 949 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 953 "compilerNome/parser.y" /* yacc.c:1646  */
     {
       Reader* currReader = createReader(currSession);
       string surfaceName = surfaceFromArg;
@@ -2613,11 +2617,11 @@ yyreduce:
       }
       surfaceFromArg = "";
     }
-#line 2617 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2621 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 968 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 972 "compilerNome/parser.y" /* yacc.c:1646  */
     {
       Reader* currReader = createReader(currSession);
       string surfaceName = surfaceFromArg;
@@ -2634,11 +2638,11 @@ yyreduce:
       }
       surfaceFromArg = "";
     }
-#line 2638 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2642 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 987 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 991 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         Reader* currReader = createReader(currSession);
 
@@ -2692,11 +2696,11 @@ yyreduce:
         currSession->instances.push_back(newInstance);
         surfaceFromArg = "";
         }
-#line 2696 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2700 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 1044 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 1048 "compilerNome/parser.y" /* yacc.c:1646  */
     {
           Reader* currReader = createReader(currSession);
 
@@ -2729,11 +2733,11 @@ yyreduce:
 
           tempVariables2.clear();
         }
-#line 2733 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2737 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 1080 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 1084 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -2756,11 +2760,11 @@ yyreduce:
 
         currSession->surfaces.push_back(currSurface);
         }
-#line 2760 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2764 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 1106 "compilerNome/parser.y" /* yacc.c:1646  */
+#line 1110 "compilerNome/parser.y" /* yacc.c:1646  */
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -2784,11 +2788,11 @@ yyreduce:
 
         currSession->verts.push_back(newVertex);
         }
-#line 2788 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2792 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 2792 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
+#line 2796 "E:/DevGra/nome/compilerNome/parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

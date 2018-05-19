@@ -17,6 +17,10 @@
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
 #include <newNOME/InstanceNew.h>
+#include <newNOME/BankNew.h>
+#include <newNOME/OffsetNew.h>
+#include <newNOME/SubdivisionNew.h>
+#include <newNOME/GroupNew.h>
 #include <newNOME/BSplineNew.h>
 #include <newNOME/BezierCurveNew.h>
 
