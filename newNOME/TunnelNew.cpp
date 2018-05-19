@@ -36,7 +36,7 @@ bool TunnelNew::setName(std::string n)
 {
     if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
         return false;
-    name = "m:tn:" + n;
+    name = n;
     bool error = updateNames();
     return error;
 }

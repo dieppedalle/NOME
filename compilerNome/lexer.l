@@ -102,7 +102,7 @@ type                    return TYPE;
 \{                      return OBRACE;
 \}                      return EBRACE;
 \{expr\ ([^\}]*)\}      nomlval.string=strdup(nomtext); return SLIDEREXPRESSION;
-[a-zA-Z][a-zA-Z0-9_\.]* nomlval.string=strdup(nomtext); return VARIABLE;
+[a-zA-Z\.][a-zA-Z0-9_\.]* nomlval.string=strdup(nomtext); return VARIABLE;
 \(                      return OPARENTHESES;
 \)                      return EPARENTHESES;
 <<EOF>>                 if (numBegComments != 0){std::cout << "Error: Missing *) of multiline comment." << std::endl;} return 0;

@@ -110,7 +110,7 @@ Vert* createVert(double *x, double *y, double *z, double w)
     vertLock.unlock();
 
     v0->index = index;
-    v0->setName("v:" + std::to_string(index));
+    v0->setName(std::to_string(index));
     v0->x = x;
     v0->y = y;
     v0->z = z;
@@ -286,7 +286,7 @@ EdgeNew* createEdge(Vert* v0, Vert* v1, double interval, bool connect)
     e0->f1 = NULL;
 
     e0->index = index;
-    e0->setName("e:" + std::to_string(index));
+    e0->setName(std::to_string(index));
     e0->faceCount = 0;
     e0->vertCount = 0;
     
@@ -346,7 +346,7 @@ FaceNew* createFace()
     faceLock.unlock();
     
     f0->index = index;
-    f0->setName("f:" + std::to_string(index));
+    f0->setName(std::to_string(index));
     return f0;
 }
 
@@ -1017,13 +1017,12 @@ bool drawNormal(Vert* v0, Surface * instSurface){
 bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession)
 {
     QColor color;
-    if (instSurface != NULL){
-        color = instSurface->getColor();
-    }
-    else if (f0->surface != NULL){
+    if (f0->surface != NULL){
         color = f0->surface->getColor();
+    } else if (instSurface != NULL){
+        color = instSurface->getColor();
     } else{
-        color = currSession->foreColor->getColor();;
+        color = currSession->foreColor->getColor();
     }
 
     GLfloat fcolor[4] = {0,0,0,0};

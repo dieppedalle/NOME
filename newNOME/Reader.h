@@ -49,6 +49,8 @@ public:
     EdgeNew* edge(std::string);
     FaceNew* face(std::string);
 
+    bool isUnique(std::string name);
+
     //Convenience functions
     MeshNew* getMesh(std::string);
     InstanceNew* getInstance(std::string);

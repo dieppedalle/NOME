@@ -44,7 +44,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
        if (currentMesh != NULL){
            InstanceNew* newInstance;
            newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, true, currSession, true);
-           currentName = currentName.substr(currentName.find(":") + 1);
+           //currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
 
            /*for (Vert* newVertex: newInstance->verts){
@@ -59,7 +59,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
        } else if (instanceNest->group != NULL){
            InstanceNew* newInstance;
            newInstance = createInstance(instanceNest->group, vertsDef, currReader, currSession);
-           currentName = currentName.substr(currentName.find(":") + 1);
+           //currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
            newInstance->surface = instanceNest->surface;
@@ -222,7 +222,7 @@ bool InstanceNew::setName(std::string n)
 {
     if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
         return false;
-    name = "i:" + n;
+    name = n;
     return updateNames();
 }
 
@@ -235,23 +235,30 @@ bool InstanceNew::updateNames()
     return false;
 }
 
-bool InstanceNew::draw()
+bool InstanceNew::draw(Surface *s)
 {
+    Surface *toUse;
+    if (surface == NULL){
+        toUse = s;
+    } else{
+        toUse = surface;
+    }
     for(auto v : verts) {
-      drawVert(v, surface, currSession);
+      drawVert(v, toUse, currSession);
     }
     for(auto e : edges) {
-      drawEdge(e, surface, currSession);
+      drawEdge(e, toUse, currSession);
     }
+
     for(auto f : faces) {
       /*for(auto v : f->verts) {
           std::cout << v->name << std::endl;
       }*/
-      drawFace(f, surface, currSession);
+      drawFace(f, toUse, currSession);
     }
 
     for (auto i : listInstances) {
-        i->draw();
+        i->draw(toUse);
     }
 
     return true;

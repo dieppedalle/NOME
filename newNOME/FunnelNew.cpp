@@ -36,7 +36,7 @@ bool FunnelNew::setName(std::string n)
 {
     if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
         return false;
-    name = "m:fn:" + n;
+    name = n;
     bool error = updateNames();
     return error;
 }

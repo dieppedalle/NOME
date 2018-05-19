@@ -20,7 +20,7 @@ bool GroupNew::setName(std::string n)
 {
     if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
         return false;
-    name = "g:" + n;
+    name = n;
     return updateNames();
 }
 
@@ -38,7 +38,7 @@ bool GroupNew::updateNames()
 bool GroupNew::draw()
 {
     for(InstanceNew* i0 : instances) {
-      i0->draw();
+      i0->draw(NULL);
     }
 
     return true;

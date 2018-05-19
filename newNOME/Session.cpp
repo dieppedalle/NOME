@@ -37,7 +37,7 @@ Session::Session()
 
 	singletonPtr = this;
 
-	this->setName("s:" + std::to_string(sIndex));
+	this->setName(std::to_string(sIndex));
 
 	double *rF = (double*)malloc(sizeof(double));
 	double *gF = (double*)malloc(sizeof(double));
@@ -644,12 +644,12 @@ void Session::draw(){
     for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
         //std::cout << "TRUE INSTANCE" << std::endl;
         //std::cout << (*itMesh)->name << std::endl;
-        (*itMesh)->draw();
+        (*itMesh)->draw(NULL);
     }
 
     if (tmpInstance != NULL){
         //std::cout << "TMP INSTANCE" << std::endl;
-        tmpInstance->draw();
+        tmpInstance->draw(NULL);
     }
 }
 
