@@ -42,7 +42,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
        if (currentMesh != NULL){
            InstanceNew* newInstance;
            newInstance = createInstance(currentMesh, vertsDef, currReader, true, false, true, currSession, true);
-           currentName = currentName.substr(currentName.find(":") + 1);
+           //currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
 
            /*for (Vert* newVertex: newInstance->verts){
@@ -57,7 +57,7 @@ InstanceNew* createInstance(GroupNew* g0, std::list<Vert*> vertsDef, Reader* cur
        } else if (instanceNest->group != NULL){
            InstanceNew* newInstance;
            newInstance = createInstance(instanceNest->group, vertsDef, currReader, currSession);
-           currentName = currentName.substr(currentName.find(":") + 1);
+           //currentName = currentName.substr(currentName.find(":") + 1);
            newInstance->setName(currentName);
            newInstance->transformations = currentTransformations;
            newInstance->surface = instanceNest->surface;
@@ -220,7 +220,7 @@ bool InstanceNew::setName(std::string n)
 {
     if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
         return false;
-    name = "i:" + n;
+    name = n;
     return updateNames();
 }
 

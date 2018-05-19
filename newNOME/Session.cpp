@@ -24,7 +24,7 @@ Session* createSession()
     Session* session0 = new Session();
     singletonPtr = session0;
 
-    session0->setName("s:" + std::to_string(sIndex));
+    session0->setName(std::to_string(sIndex));
 
     double *rF = (double*) malloc(sizeof(double));
     double *gF = (double*) malloc(sizeof(double));

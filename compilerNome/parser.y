@@ -48,6 +48,9 @@ std::list<Vert *> currentMeshVertices2;
 std::list<EdgeNew *> currentMeshEdges2;
 std::list<TransformationNew *> currentTransformations2;
 std::string surfaceFromArg;
+std::string nameUnique;
+std::string nameUniqueFaceMesh;
+std::string nameUniqueInstanceGroup;
 
 %}
 
@@ -117,6 +120,41 @@ numberValue:
         $<string>$ = strdup(exprStr.c_str());
     }
     ;
+
+uniqueName: VARIABLE
+    {
+        Reader* currReader = createReader(currSession);
+        if (!currReader->isUnique(strdup($<string>1))){
+          nomerror(currSession, "Duplicate construct name.");
+          YYABORT;
+        }
+        nameUnique = strdup($<string>1);
+    };
+
+uniqueNameFaceMesh: VARIABLE
+    {
+        for (FaceNew* fa : currentMeshFaces2){
+            string currentF = strdup($<string>1);
+          if(!currentF.compare(fa->name)){
+            nomerror(currSession, "Duplicate construct name.");
+            YYABORT;
+          }
+        }
+        nameUniqueFaceMesh = strdup($<string>1);
+    };
+
+uniqueNameInstanceGroup: VARIABLE
+    {
+        for (InstanceNew* fa : currentGroup2){
+            string currentF = strdup($<string>1);
+          if(!currentF.compare(fa->name)){
+            nomerror(currSession, "Duplicate construct name.");
+            YYABORT;
+          }
+        }
+        nameUniqueInstanceGroup= strdup($<string>1);
+    };
+
 
 
 num:
@@ -270,7 +308,7 @@ instanceArgs:
         ;
 
 instanceGroup:
-    INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE
+    INSTANCE uniqueNameInstanceGroup VARIABLE transformArgs END_INSTANCE
     {
         Reader* currReader = createReader(currSession);
 
@@ -300,7 +338,7 @@ instanceGroup:
             }
         }
 
-        newInstance->setName(strdup($<string>2));
+        newInstance->setName(nameUniqueInstanceGroup);
         newInstance->transformations = currentTransformations2;
         currentTransformations2.clear();
 
@@ -392,8 +430,10 @@ offset:
         currSession->offsets.push_back(currOffset);
     };
 
+
+
 mesh:
-        MESH VARIABLE faceArgs END_MESH
+        MESH uniqueName faceArgs END_MESH
     {
 
         MeshNew* currMesh = createMesh();
@@ -410,7 +450,7 @@ mesh:
             currMesh->edges.push_back(*it);
         }
 
-        currMesh->setName(strdup($<string>2));
+        currMesh->setName(nameUnique);
         currSession->meshes.push_back(currMesh);
 
         currentMeshFaces2.clear();
@@ -420,10 +460,10 @@ mesh:
         ;
 
 group:
-        GROUP VARIABLE instanceArgs END_GROUP
+        GROUP uniqueName instanceArgs END_GROUP
     {
         GroupNew* currGroup = createGroup(currentGroup2);
-        currGroup->setName(strdup($<string>2));
+        currGroup->setName(nameUnique);
         currSession->groups.push_back(currGroup);
         currentGroup2.clear();
         }
@@ -477,7 +517,7 @@ setArgs:
         ;
 
 polylineMesh:
-POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
+POLYLINE uniqueName parenthesisName transformArgs END_POLYLINE
 {
     Reader* currReader = createReader(currSession);
 
@@ -500,7 +540,7 @@ POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
       currentMeshEdges2.push_back(e);
     }
 
-    currPolyline->setName(strdup($<string>2));
+    currPolyline->setName(nameUnique);
 
     string surfaceName = surfaceFromArg;
     // Check if a surface has been applied.
@@ -522,7 +562,7 @@ POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
 ;
 
 faceMesh:
-    FACE VARIABLE parenthesisName transformArgs END_FACE
+    FACE uniqueNameFaceMesh parenthesisName transformArgs END_FACE
     {
         Reader* currReader = createReader(currSession);
 
@@ -552,7 +592,7 @@ faceMesh:
         }
 
         FaceNew * newFace = createFace(verticesFace, &currentMeshEdges2, currReader, false);
-        setName(newFace, strdup($<string>2));
+        setName(newFace, nameUniqueFaceMesh);
 
         string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
@@ -586,7 +626,7 @@ bank:
         ;
 
 circle:
-    CIRCLE VARIABLE OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE
+    CIRCLE uniqueName OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE
     {
         string name = $<string>2;
         double *num = (double*) malloc(sizeof(double));
@@ -600,7 +640,7 @@ circle:
         *rad = *currentValSet;
 
         CircleNew* currCircle = createCircle(num, rad);
-        currCircle->setName(strdup($<string>2));
+        currCircle->setName(nameUnique);
         currCircle->numStr = strdup($<string>4);
         currCircle->radStr = strdup($<string>5);
         currCircle->currSession = currSession;
@@ -610,7 +650,7 @@ circle:
     };
 
 tunnel:
-    TUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
+    TUNNEL uniqueName OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_TUNNEL
         {
         Reader* currReader = createReader(currSession);
@@ -632,7 +672,7 @@ tunnel:
         *h = *currentValSet;
 
         TunnelNew* currTunnel = createTunnel(n, ro, ratio, h, currReader);
-        currTunnel->setName(strdup($<string>2));
+        currTunnel->setName(nameUnique);
         currTunnel->nStr = strdup($<string>4);
         currTunnel->roStr = strdup($<string>5);
         currTunnel->ratioStr = strdup($<string>6);
@@ -644,7 +684,7 @@ tunnel:
         ;
 
 funnel:
-    FUNNEL VARIABLE OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
+    FUNNEL uniqueName OPARENTHESES numberValue numberValue numberValue numberValue EPARENTHESES
   END_FUNNEL
         {
         Reader* currReader = createReader(currSession);
@@ -666,7 +706,7 @@ funnel:
         *h = *currentValSet;
 
         FunnelNew* currFunnel = createFunnel(n, ro, ratio, h, currReader);
-        currFunnel->setName(strdup($<string>2));
+        currFunnel->setName(nameUnique);
 
         currFunnel->nStr = strdup($<string>4);
         currFunnel->roStr = strdup($<string>5);
@@ -685,7 +725,7 @@ parenthesisName:
         ;
 
 face:
-        FACE VARIABLE parenthesisName transformArgs END_FACE
+        FACE uniqueName parenthesisName transformArgs END_FACE
     {
         Reader* currReader = createReader(currSession);
 
@@ -703,7 +743,7 @@ face:
 
         FaceNew * newFace = createFace(verticesFace, &(currSession->edges), currReader, false);
 
-        setName(newFace, strdup($<string>2));
+        setName(newFace, nameUnique);
 
 
         string surfaceName = surfaceFromArg;
@@ -734,13 +774,13 @@ faceDelete:
         ;
 
 beziercurve:
-  BEZIERCURVE VARIABLE parenthesisName SLICES numberValue transformArgs END_BEZIERCURVE{
+  BEZIERCURVE uniqueName parenthesisName SLICES numberValue transformArgs END_BEZIERCURVE{
     double *slices = (double*) malloc(sizeof(double));
     Reader* currReader = createReader(currSession);
 
 
     BezierCurveNew* currBezierCurve = createBezierCurveNew();
-    currBezierCurve->setName(strdup($<string>2));
+    currBezierCurve->setName(nameUnique);
     double *currentValSet = (double*) malloc(sizeof(double));
     //parseGetBankVal($<string>5, currSession, currentValSet);
     //*slices = *currentValSet;
@@ -783,7 +823,7 @@ beziercurve:
 
 
 bspline:
-        BSPLINE VARIABLE parenthesisName closedArgs SLICES numberValue transformArgs END_BSPLINE{
+        BSPLINE uniqueName parenthesisName closedArgs SLICES numberValue transformArgs END_BSPLINE{
     if ($<intNumber>1 != $<intNumber>8) {
         nomerror(currSession, "bspline and endbspline do not have the same number.");
         YYABORT;
@@ -792,7 +832,7 @@ bspline:
     Reader* currReader = createReader(currSession);
 
     BSplineNew* currBSpline = createBSplineNew();
-    currBSpline->setName(strdup($<string>2));
+    currBSpline->setName(nameUnique);
     currBSpline->set_order($<intNumber>1);
     double *currentValSet = (double*) malloc(sizeof(double));
     parseGetBankVal($<string>6, currSession, currentValSet, nomlineno);
@@ -849,7 +889,7 @@ bspline:
   };
 
 polyline:
-        POLYLINE VARIABLE parenthesisName transformArgs END_POLYLINE
+        POLYLINE uniqueName parenthesisName transformArgs END_POLYLINE
         {
         Reader* currReader = createReader(currSession);
 
@@ -867,7 +907,7 @@ polyline:
         }
 
         PolylineNew* currPolyline = createPolylineNew(verticesPolyline);
-        currPolyline->setName(strdup($<string>2));
+        currPolyline->setName(nameUnique);
 
         string surfaceName = surfaceFromArg;
         // Check if a surface has been applied.
@@ -983,11 +1023,11 @@ offsetfaces:
     };
 
 instance:
-    INSTANCE VARIABLE VARIABLE transformArgs END_INSTANCE
+    INSTANCE uniqueName VARIABLE transformArgs END_INSTANCE
     {
         Reader* currReader = createReader(currSession);
 
-        string instanceName = strdup($<string>2);
+        string instanceName = nameUnique;
         string lookFor = strdup($<string>3);
 
         MeshNew * currentMesh = currReader->getMesh($<string>3);
@@ -1040,7 +1080,7 @@ instance:
         ;
 
 object:
-        OBJECT VARIABLE parenthesisName END_OBJECT
+        OBJECT uniqueName parenthesisName END_OBJECT
         {
           Reader* currReader = createReader(currSession);
 
@@ -1068,7 +1108,7 @@ object:
               }
           }
 
-          currMesh->setName(strdup($<string>2));
+          currMesh->setName(nameUnique);
           currSession->meshes.push_back(currMesh);
 
           tempVariables2.clear();
@@ -1076,7 +1116,7 @@ object:
         ;
 
 surface:
-    SURFACE VARIABLE COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
+    SURFACE uniqueName COLOR OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_SURFACE
     {
         double *r = (double*) malloc(sizeof(double));
         double *g = (double*) malloc(sizeof(double));
@@ -1090,7 +1130,7 @@ surface:
         parseGetBankVal($<string>7, currSession, currentValSet, nomlineno);
         *b = *currentValSet;
 
-        Surface* currSurface = createSurface(r, g, b, strdup($<string>2));
+        Surface* currSurface = createSurface(r, g, b, nameUnique);
 
         currSurface->rStr = strdup($<string>5);
         currSurface->gStr = strdup($<string>6);
@@ -1102,7 +1142,7 @@ surface:
         ;
 
 point:
-    BEG_POINT VARIABLE OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
+    BEG_POINT uniqueName OPARENTHESES numberValue numberValue numberValue EPARENTHESES END_POINT
     {
         double *x = (double*) malloc(sizeof(double));
         double *y = (double*) malloc(sizeof(double));
@@ -1117,7 +1157,7 @@ point:
         *z =*currentValSet;
 
         Vert * newVertex = createVert (x, y, z);
-        newVertex->setName(strdup($<string>2));
+        newVertex->setName(nameUnique);
 
         newVertex->currSession = currSession;
         newVertex->xStr = strdup($<string>4);

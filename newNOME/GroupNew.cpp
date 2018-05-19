@@ -20,7 +20,7 @@ bool GroupNew::setName(std::string n)
 {
     if(n.find(".") != std::string::npos && n.find(":") != std::string::npos)
         return false;
-    name = "g:" + n;
+    name = n;
     return updateNames();
 }
 

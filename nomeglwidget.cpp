@@ -505,7 +505,7 @@ void SlideGLWidget::paintGLImpl()
                         Reader* currReader = createReader(currSession);
                         InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                         newInstance->surface = (*iterator)->surface;
-                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->setName((*iterator)->name);
                         newInstance->transformations = (*iterator)->transformations;
                         (*iterator) = newInstance;
                     }
@@ -524,7 +524,7 @@ void SlideGLWidget::paintGLImpl()
                         Reader* currReader = createReader(currSession);
                         InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                         newInstance->surface = (*iterator)->surface;
-                        newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                        newInstance->setName((*iterator)->name);
                         newInstance->transformations = (*iterator)->transformations;
                         (*iterator) = newInstance;
                     }
@@ -543,7 +543,7 @@ void SlideGLWidget::paintGLImpl()
                             Reader* currReader = createReader(currSession);
                             InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                             newInstance->surface = (*iterator)->surface;
-                            newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                            newInstance->setName((*iterator)->name);
                             newInstance->transformations = (*iterator)->transformations;
                             (*iterator) = newInstance;
                         }
@@ -563,7 +563,7 @@ void SlideGLWidget::paintGLImpl()
                             Reader* currReader = createReader(currSession);
                             InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                             newInstance->surface = (*iterator)->surface;
-                            newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                            newInstance->setName((*iterator)->name);
                             newInstance->transformations = (*iterator)->transformations;
                             (*iterator) = newInstance;
                         }
@@ -582,7 +582,7 @@ void SlideGLWidget::paintGLImpl()
                             Reader* currReader = createReader(currSession);
                             InstanceNew * newInstance = createInstance((*iterator)->mesh, currSession->verts, currReader, true, false, false, currSession, true);
                             newInstance->surface = (*iterator)->surface;
-                            newInstance->setName((*iterator)->name.substr((*iterator)->name.find(":") + 1));
+                            newInstance->setName((*iterator)->name);
                             newInstance->transformations = (*iterator)->transformations;
                             (*iterator) = newInstance;
                         }

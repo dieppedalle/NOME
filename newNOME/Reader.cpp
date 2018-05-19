@@ -108,6 +108,89 @@ Surface* Reader::surf(std::string n)
         return NULL;
 }
 
+bool Reader::isUnique(std::string name)
+{
+    for(Vert* i0 : session->verts)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(FaceNew* i0 : session->faces)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(MeshNew* i0 : session->meshes)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(Surface* i0 : session->surfaces)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(GroupNew* i0 : session->groups)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(InstanceNew* i0 : session->instances)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(PolylineNew* i0 : session->polylines)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(BSplineNew* i0 : session->bsplines)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(BezierCurveNew* i0 : session->bezierCurves)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(CircleNew* i0 : session->circles)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(FunnelNew* i0 : session->funnels)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(TunnelNew* i0 : session->tunnels)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    for(BankNew* i0 : session->banks)
+    {
+        if(!name.compare(i0->name))
+            return false;
+    }
+
+    return true;
+}
+
 
 
 ///Low level reader functions
@@ -186,45 +269,45 @@ MeshNew* Reader::mesh(std::string name){
 MeshNew* Reader::getMesh(std::string name)
 {
     for (MeshNew* m0 : session->meshes){
-        std::string currentName = "m:" + name;
+        std::string currentName = name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
 
     for (CircleNew* c0 : session->circles){
-        std::string currentName = "m:cl:" + name;
+        std::string currentName = name;
         if(c0->name.compare(currentName) == 0)
             return c0;
     }
 
     for (TunnelNew* m0 : session->tunnels){
         //std::cout << m0->name << std::endl;
-        std::string currentName = "m:tn:" + name;
+        std::string currentName = name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
 
     for (FunnelNew* m0 : session->funnels){
         //std::cout << m0->name << std::endl;
-        std::string currentName = "m:fn:" + name;
+        std::string currentName = name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
 
     for (PolylineNew* m0 : session->polylines){
-        std::string currentName = "m:pl:" + name;
+        std::string currentName = name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
 
     for (BSplineNew* m0 : session->bsplines){
-        std::string currentName = "m:bs:" + name;
+        std::string currentName = name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
 
     for (BezierCurveNew* m0 : session->bezierCurves){
-        std::string currentName = "m:bc:" + name;
+        std::string currentName = name;
         if(m0->name.compare(currentName) == 0)
             return m0;
     }
@@ -238,7 +321,7 @@ MeshNew* Reader::getMesh(std::string name)
 GroupNew* Reader::getGroup(std::string name)
 {
     for (GroupNew* g0 : session->groups){
-        std::string currentName = "g:" + name;
+        std::string currentName = name;
         if(g0->name.compare(currentName) == 0)
             return g0;
     }
@@ -255,8 +338,11 @@ InstanceNew* Reader::getInstance(std::string name)
     return NULL;
 }
 
+
+
 Vert* Reader::getVert(std::string name)
 {
+
     // Check for definitions first
     for (Vert* v0 : session->verts){
         if(v0->name.compare(name) == 0)
@@ -265,9 +351,16 @@ Vert* Reader::getVert(std::string name)
 
 
     for (InstanceNew* i0 : session->instances){
-        string currentName = i0->getFullName().substr(i0->getFullName().find(":") + 1);
-        string argName = name.substr(0, name.find("."));
-        string argAfterName = name.substr(name.find(".") + 1);
+        string currentName = i0->getFullName();
+        string argName;
+        string argAfterName;
+        if (name[0] == '.'){
+            argName = name.substr(0,  name.substr(1).find(".") + 1);
+            argAfterName = name.substr(name.substr(1).find(".") + 2);
+        } else{
+            argName = name.substr(0, name.find("."));
+            argAfterName = name.substr(name.find(".") + 1);
+        }
 
         if (currentName.compare(argName) == 0){
             string faceName = argAfterName.substr(0, argAfterName.find("."));
@@ -281,15 +374,16 @@ Vert* Reader::getVert(std::string name)
                     }
                 }
             }
-
+//std::cout << "---" << std::endl;
             for (Vert* v0 : i0->verts){
+                //std::cout << faceName << std::endl;
                 if (v0->name.compare(faceName) == 0){
                     return v0;
                 }
             }
 
             for (InstanceNew* i1 : i0->listInstances){
-                string currentNameInstance = i1->getFullName().substr(i1->getFullName().find(":") + 1);
+                string currentNameInstance = i1->getFullName();
                 if (currentNameInstance.compare(faceName) == 0){
                     string afterfaceNameInstance = argAfterName.substr(argAfterName.find(".") + 1);
                     string faceNameInstance = afterfaceNameInstance.substr(0, afterfaceNameInstance.find("."));
@@ -378,13 +472,13 @@ std::string Reader::getVertName(int id)
         for (FaceNew* f0 : i0->faces){
             for (Vert* v0 : f0->verts){
                 if (v0->index == id){
-                    return i0->name.substr(i0->name.find(":") + 1) + "." + f0->name + "." + v0->name;
+                    return i0->name + "." + f0->name + "." + v0->name;
                 }
             }
         }
         for (Vert* v0 : i0->verts){
             if (v0->index == id){
-                return i0->name.substr(i0->name.find(":") + 1) + "." + v0->name;
+                return i0->name + "." + v0->name;
             }
         }
 
@@ -394,13 +488,13 @@ std::string Reader::getVertName(int id)
             for (FaceNew* f0 : instanceElem->faces){
                 for (Vert* v0 : f0->verts){
                     if (v0->index == id){
-                        return i0->name.substr(i0->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + f0->name + "." + v0->name;
+                        return i0->name + "." + instanceElem->name + "." + f0->name + "." + v0->name;
                     }
                 }
             }
             for (Vert* v0 : instanceElem->verts){
                 if (v0->index == id){
-                    return i0->name.substr(instanceElem->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + v0->name;
+                    return i0->name + "." + instanceElem->name + "." + v0->name;
                 }
             }
         }
@@ -420,14 +514,14 @@ std::string Reader::getFaceName(int id)
     for (InstanceNew* i0 : session->instances){
         for (FaceNew* f0 : i0->faces){
             if (f0->index == id){
-                return i0->name.substr(i0->name.find(":") + 1) + "." + f0->name;
+                return i0->name + "." + f0->name;
             }
         }
 
         for (InstanceNew* instanceElem : i0->listInstances){
             for (FaceNew* f0 : instanceElem->faces){
                 if (f0->index == id){
-                    return i0->name.substr(i0->name.find(":") + 1) + "." + instanceElem->name.substr(instanceElem->name.find(":") + 1) + "." + f0->name;
+                    return i0->name + "." + instanceElem->name + "." + f0->name;
                 }
             }
         }
@@ -522,7 +616,7 @@ FaceNew* Reader::getFace(std::string name)
 
     for (InstanceNew* i0 : session->instances){
 
-        string currentName = i0->getFullName().substr(i0->getFullName().find(":") + 1);
+        string currentName = i0->getFullName();
         string argName = name.substr(0, name.find("."));
         string argAfterName = name.substr(name.find(".") + 1);
 
