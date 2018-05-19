@@ -592,12 +592,12 @@ void Session::draw(){
     for (std::list<InstanceNew*>::iterator itMesh = instances.begin(); itMesh != instances.end(); itMesh++){
         //std::cout << "TRUE INSTANCE" << std::endl;
         //std::cout << (*itMesh)->name << std::endl;
-        (*itMesh)->draw();
+        (*itMesh)->draw(NULL);
     }
 
     if (tmpInstance != NULL){
         //std::cout << "TMP INSTANCE" << std::endl;
-        tmpInstance->draw();
+        tmpInstance->draw(NULL);
     }
 }
 

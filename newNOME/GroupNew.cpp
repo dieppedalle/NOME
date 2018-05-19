@@ -38,7 +38,7 @@ bool GroupNew::updateNames()
 bool GroupNew::draw()
 {
     for(InstanceNew* i0 : instances) {
-      i0->draw();
+      i0->draw(NULL);
     }
 
     return true;

@@ -32,7 +32,7 @@ public:
     std::list<FaceNew*> faces;
     bool setName(std::string n);
     bool updateNames();
-    bool draw();
+    bool draw(Surface *s);
     void applyTransformationGroup();
     void applyTransformation(TransformationNew* t);
     void undoTransformation(TransformationNew* t);

@@ -1012,13 +1012,12 @@ bool drawNormal(Vert* v0, Surface * instSurface){
 bool drawFace(FaceNew* f0, Surface * instSurface, Session* currSession)
 {
     QColor color;
-    if (instSurface != NULL){
-        color = instSurface->getColor();
-    }
-    else if (f0->surface != NULL){
+    if (f0->surface != NULL){
         color = f0->surface->getColor();
+    } else if (instSurface != NULL){
+        color = instSurface->getColor();
     } else{
-        color = currSession->foreColor->getColor();;
+        color = currSession->foreColor->getColor();
     }
 
     GLfloat fcolor[4] = {0,0,0,0};

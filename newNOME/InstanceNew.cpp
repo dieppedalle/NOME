@@ -233,23 +233,30 @@ bool InstanceNew::updateNames()
     return false;
 }
 
-bool InstanceNew::draw()
+bool InstanceNew::draw(Surface *s)
 {
+    Surface *toUse;
+    if (surface == NULL){
+        toUse = s;
+    } else{
+        toUse = surface;
+    }
     for(auto v : verts) {
-      drawVert(v, surface, currSession);
+      drawVert(v, toUse, currSession);
     }
     for(auto e : edges) {
-      drawEdge(e, surface, currSession);
+      drawEdge(e, toUse, currSession);
     }
+
     for(auto f : faces) {
       /*for(auto v : f->verts) {
           std::cout << v->name << std::endl;
       }*/
-      drawFace(f, surface, currSession);
+      drawFace(f, toUse, currSession);
     }
 
     for (auto i : listInstances) {
-        i->draw();
+        i->draw(toUse);
     }
 
     return true;
