@@ -140,7 +140,7 @@ bool Session::updateNames()
     return true;
 }
 
-void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectVert(int hits, unsigned int *names, double posX, double posY, double posZ){
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -191,7 +191,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
     std::cout << "CLICKED ON SCREEN!" << std::endl;
 }
 
-void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectEdge(int hits, unsigned int *names, double posX, double posY, double posZ){
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -215,7 +215,7 @@ void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
     }
 }
 
-void Session::selectBorder(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectBorder(int hits, unsigned int *names, double posX, double posY, double posZ){
     std::cout << "CLICKED" << std::endl;
     std::cout << hits << std::endl;
     vector<Vert*> selectedVertsLoop = vector<Vert*>();
@@ -253,7 +253,7 @@ std::vector<Vert*> Session::findLoop(Vert* startVert, std::vector<Vert*> selecte
     return selectedVertsLoop;
 }
 
-void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectFace(int hits, unsigned int *names, double posX, double posY, double posZ){
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -300,16 +300,22 @@ static std::string dbl2str(double d)
     return s;
 }
 
-void Session::SaveSessionNom(std::string outputFile){
-    int offset = 0;
-    for (BankNew * b0 : banks){
-        for (SetNew * s0 : b0->sets){
-            this->fileContent.replace(s0->begValPosFile + offset, s0->lengthValChar, dbl2str(s0->value));
-            offset += dbl2str(s0->value).length() - s0->lengthValChar;
-        }
-    }
+void Session::updateFileContentSliders()
+{
+	int offset = 0;
+	for (BankNew * b0 : banks) {
+		for (SetNew * s0 : b0->sets) {
+			this->fileContent.replace(s0->begValPosFile + offset, s0->lengthValChar, dbl2str(s0->value));
+			offset += dbl2str(s0->value).length() - s0->lengthValChar;
+		}
+	}
+}
 
-    ofstream file(outputFile);
+void Session::SaveSessionNom(std::string outputFile)
+{
+	updateFileContentSliders();
+
+	ofstream file(outputFile);
     if (!file.is_open())
     {
         cout <<"Error: COULD NOT OPEN THE FILE.\n";

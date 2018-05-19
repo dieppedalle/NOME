@@ -86,6 +86,8 @@
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
 #include <newNOME/InstanceNew.h>
+#include <newNOME/BankNew.h>
+#include <newNOME/OffsetNew.h>
 
 extern int objlineno;
 extern char* objtext;
@@ -139,7 +141,7 @@ double *getBankValue3(std::string str, Session* currSession){
 
 
 
-#line 143 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:339  */
+#line 145 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -173,7 +175,7 @@ extern int objdebug;
 
 #include <newNOME/Session.h>
 
-#line 177 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:355  */
+#line 179 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -221,7 +223,7 @@ extern int objdebug;
 
 union YYSTYPE
 {
-#line 83 "compilerObj/parserObj.y" /* yacc.c:355  */
+#line 85 "compilerObj/parserObj.y" /* yacc.c:355  */
 
     double number;
     char *string;
@@ -230,7 +232,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 234 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:355  */
+#line 236 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -261,7 +263,7 @@ int objparse (Session* currSession);
 
 /* Copy the second part of user declarations.  */
 
-#line 265 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:358  */
+#line 267 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -562,10 +564,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   100,   100,   101,   106,   106,   106,   106,   106,   106,
-     106,   106,   106,   106,   106,   106,   106,   110,   112,   122,
-     126,   128,   139,   152,   157,   181,   186,   191,   196,   201,
-     207,   212,   217,   217,   223
+       0,   102,   102,   103,   108,   108,   108,   108,   108,   108,
+     108,   108,   108,   108,   108,   108,   108,   112,   114,   124,
+     128,   130,   141,   154,   159,   183,   188,   193,   198,   203,
+     209,   214,   219,   219,   225
 };
 #endif
 
@@ -1451,33 +1453,33 @@ yyreduce:
   switch (yyn)
     {
         case 18:
-#line 112 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 114 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
       std::list<Vert*>::iterator it = currentMeshVertices3.begin();
       std::advance(it, atof((yyvsp[0].string))-1);
       currentFaceVertices3.push_back((*it));
       currentMeshVertices3.push_back((*it));
     }
-#line 1462 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1464 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 122 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 124 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
 
   }
-#line 1470 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1472 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 128 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 130 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1477 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1479 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 139 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 141 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
        //std::cout << currentFaceVertices3.size() << std::endl;
        if (currentFaceVertices3.size() > 2){
@@ -1489,19 +1491,19 @@ yyreduce:
        currentFaceVertices3.clear();
 
    }
-#line 1493 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1495 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 152 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 154 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
 
   }
-#line 1501 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1503 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 158 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 160 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
       double *x = (double*) malloc(sizeof(double));
       double *y = (double*) malloc(sizeof(double));
@@ -1523,68 +1525,68 @@ yyreduce:
           currentMeshVertices3.push_back(newVertex);
       }
     }
-#line 1527 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1529 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 182 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 184 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1534 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1536 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 187 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 189 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1541 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1543 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 192 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 194 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1548 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1550 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 197 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 199 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1555 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1557 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 202 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 204 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1562 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1564 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 208 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 210 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1569 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1571 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 213 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 215 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
     }
-#line 1576 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1578 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 218 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 220 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
 
     }
-#line 1584 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1586 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 224 "compilerObj/parserObj.y" /* yacc.c:1646  */
+#line 226 "compilerObj/parserObj.y" /* yacc.c:1646  */
     {
         if (yychar == YYEOF) {
             /* Code to execute at the end of the parse */
@@ -1623,11 +1625,11 @@ yyreduce:
             currSession->offsets.push_back(currOffset);
         }
     }
-#line 1627 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1629 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1631 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
+#line 1633 "E:/DevGra/nome/compilerObj/parserObj.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

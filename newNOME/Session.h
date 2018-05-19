@@ -90,10 +90,11 @@ public:
     void addTmpFace();
     void deleteTmpFace();
     void addTmpPolyline();
-    void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void selectBorder(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
+    void selectVert(int hits, unsigned int *names, double posX, double posY, double posZ);
+    void selectFace(int hits, unsigned int *names, double posX, double posY, double posZ);
+    void selectEdge(int hits, unsigned int *names, double posX, double posY, double posZ);
+    void selectBorder(int hits, unsigned int *names, double posX, double posY, double posZ);
+	void updateFileContentSliders();
     void SaveSessionNom(std::string outputFile);
     void SaveSessionStl(std::string outputFile);
     void consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName);

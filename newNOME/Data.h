@@ -18,8 +18,6 @@
 #include <string>
 #include <thread>
 #include <mutex>
-#include <QColor>
-#include <QtOpenGL>
 #include <set>
 #include <unordered_set>
 

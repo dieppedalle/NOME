@@ -92,7 +92,7 @@ extern int objdebug;
 
 union YYSTYPE
 {
-#line 83 "compilerObj/parserObj.y" /* yacc.c:1909  */
+#line 85 "compilerObj/parserObj.y" /* yacc.c:1909  */
 
     double number;
     char *string;
