@@ -389,6 +389,7 @@ Vert* Reader::getVert(std::string name)
                     string faceNameInstance = afterfaceNameInstance.substr(0, afterfaceNameInstance.find("."));
 
                     for (FaceNew* f0 : i1->faces){
+                        //std::cout << "faceNameInstance" << std::endl;
                         if (f0->name.compare(faceNameInstance) == 0){
                             string vertName = afterfaceNameInstance.substr(afterfaceNameInstance.find(".") + 1);
                             for (Vert* v0 : f0->verts){
@@ -472,13 +473,13 @@ std::string Reader::getVertName(int id)
         for (FaceNew* f0 : i0->faces){
             for (Vert* v0 : f0->verts){
                 if (v0->index == id){
-                    return i0->name + "." + f0->name + "." + v0->name;
+                    return i0->getFullName() + "." + f0->name + "." + v0->name;
                 }
             }
         }
         for (Vert* v0 : i0->verts){
             if (v0->index == id){
-                return i0->name + "." + v0->name;
+                return i0->getFullName() + "." + v0->name;
             }
         }
 
@@ -488,13 +489,13 @@ std::string Reader::getVertName(int id)
             for (FaceNew* f0 : instanceElem->faces){
                 for (Vert* v0 : f0->verts){
                     if (v0->index == id){
-                        return i0->name + "." + instanceElem->name + "." + f0->name + "." + v0->name;
+                        return i0->getFullName() + "." + instanceElem->name + "." + f0->name + "." + v0->name;
                     }
                 }
             }
             for (Vert* v0 : instanceElem->verts){
                 if (v0->index == id){
-                    return i0->name + "." + instanceElem->name + "." + v0->name;
+                    return i0->getFullName() + "." + instanceElem->name + "." + v0->name;
                 }
             }
         }
