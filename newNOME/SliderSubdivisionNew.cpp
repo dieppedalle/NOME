@@ -1,6 +1,7 @@
 //SliderWindow.cpp File
 
 #include "SliderSubdivisionNew.h"
+#include "SubdivisionNew.h"
 #include <QtGui>
 #include <QMainWindow>
 #include <QHBoxLayout>

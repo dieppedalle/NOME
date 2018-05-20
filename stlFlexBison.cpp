@@ -11,7 +11,7 @@ class StlCompiler {
     StlCompiler (string input) {
         extern FILE* stlin;
         stlin = fopen(input.c_str(), "r");
-        currSession = createSession();
+        currSession = new Session();
         //currSession->saveFileToStr(input);
         stlparse(currSession);
     };

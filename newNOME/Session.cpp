@@ -9,92 +9,132 @@
 #include "Session.h"
 #include "Reader.h"
 #include "Data.h"
+#include "MeshNew.h"
+#include "GroupNew.h"
+#include "BankNew.h"
+#include "PolylineNew.h"
+#include "BSplineNew.h"
+#include "BezierCurveNew.h"
+#include "CircleNew.h"
+#include "FunnelNew.h"
+#include "TunnelNew.h"
+#include "SubdivisionNew.h"
+#include "OffsetNew.h"
 #include <fstream>
 #include <sstream>
 #include <glm/glm.hpp>
 
 #include "bankFlexBison.cpp"
+#include "compilerNome/parser.hpp"
 
 static Session* singletonPtr = nullptr;
 static int sIndex = 0;
-
-Session* createSession()
-{
-    assert(!singletonPtr);
-    Session* session0 = new Session();
-    singletonPtr = session0;
-
-    session0->setName(std::to_string(sIndex));
-
-    double *rF = (double*) malloc(sizeof(double));
-    double *gF = (double*) malloc(sizeof(double));
-    double *bF = (double*) malloc(sizeof(double));
-
-    *rF = 255.0/255.0;
-    *gF = 0.0;
-    *bF = 0.0;
-
-    session0->foreColor = createSurface(rF, gF, bF, "foreColor");
-
-    double *rB = (double*) malloc(sizeof(double));
-    double *gB = (double*) malloc(sizeof(double));
-    double *bB = (double*) malloc(sizeof(double));
-
-    *rB = 0.0;
-    *gB = 0.0;
-    *bB = 0.0;
-
-    session0->backColor = createSurface(rB, gB, bB, "backColor");
-
-    double *rOut = (double*) malloc(sizeof(double));
-    double *gOut = (double*) malloc(sizeof(double));
-    double *bOut = (double*) malloc(sizeof(double));
-
-    *rOut = 255.0/255.0;
-    *gOut = 0.0;
-    *bOut = 0.0;
-
-    session0->outsideColor = createSurface(rOut, gOut, bOut, "outsideColor");
-
-    double *rIn = (double*) malloc(sizeof(double));
-    double *gIn = (double*) malloc(sizeof(double));
-    double *bIn = (double*) malloc(sizeof(double));
-
-    *rIn = 0.0;
-    *gIn = 0.0;
-    *bIn = 255.0/255.0;
-
-    session0->insideColor = createSurface(rIn, gIn, bIn, "insideColor");
-
-    double *rOff = (double*) malloc(sizeof(double));
-    double *gOff = (double*) malloc(sizeof(double));
-    double *bOff = (double*) malloc(sizeof(double));
-
-    *rOff = 255.0/255.0;
-    *gOff = 163.0/255.0;
-    *bOff = 0.0;
-
-    session0->offsetColor = createSurface(rOff, gOff, bOff, "offsetColor");
-
-    sIndex++;
-
-    return session0;
-}
-
-Session* createSession(Session* s0)
-{
-    return NULL;
-}
 
 Session::Session()
 {
     OctreeRoot = new OctantNew();
     OctreeRoot->setExtent(BoundingBox(-100.0f, 100.0f));
+
+	singletonPtr = this;
+
+	this->setName(std::to_string(sIndex));
+
+	double *rF = (double*)malloc(sizeof(double));
+	double *gF = (double*)malloc(sizeof(double));
+	double *bF = (double*)malloc(sizeof(double));
+
+	*rF = 255.0 / 255.0;
+	*gF = 0.0;
+	*bF = 0.0;
+
+	this->foreColor = createSurface(rF, gF, bF, "foreColor");
+
+	double *rB = (double*)malloc(sizeof(double));
+	double *gB = (double*)malloc(sizeof(double));
+	double *bB = (double*)malloc(sizeof(double));
+
+	*rB = 0.0;
+	*gB = 0.0;
+	*bB = 0.0;
+
+	this->backColor = createSurface(rB, gB, bB, "backColor");
+
+	double *rOut = (double*)malloc(sizeof(double));
+	double *gOut = (double*)malloc(sizeof(double));
+	double *bOut = (double*)malloc(sizeof(double));
+
+	*rOut = 255.0 / 255.0;
+	*gOut = 0.0;
+	*bOut = 0.0;
+
+	this->outsideColor = createSurface(rOut, gOut, bOut, "outsideColor");
+
+	double *rIn = (double*)malloc(sizeof(double));
+	double *gIn = (double*)malloc(sizeof(double));
+	double *bIn = (double*)malloc(sizeof(double));
+
+	*rIn = 0.0;
+	*gIn = 0.0;
+	*bIn = 255.0 / 255.0;
+
+	this->insideColor = createSurface(rIn, gIn, bIn, "insideColor");
+
+	double *rOff = (double*)malloc(sizeof(double));
+	double *gOff = (double*)malloc(sizeof(double));
+	double *bOff = (double*)malloc(sizeof(double));
+
+	*rOff = 255.0 / 255.0;
+	*gOff = 163.0 / 255.0;
+	*bOff = 0.0;
+
+	this->offsetColor = createSurface(rOff, gOff, bOff, "offsetColor");
+
+	sIndex++;
 }
 
 Session::~Session()
 {
     delete OctreeRoot;
+}
+
+void Session::reset()
+{
+	delete OctreeRoot;
+
+	OctreeRoot = new OctantNew();
+	OctreeRoot->setExtent(BoundingBox(-100.0f, 100.0f));
+
+	verts.clear();
+	edges.clear();
+	faces.clear();
+	meshes.clear();
+	surfaces.clear();
+	groups.clear();
+	instances.clear();
+	polylines.clear();
+	bsplines.clear();
+	bezierCurves.clear();
+	circles.clear();
+	funnels.clear();
+	tunnels.clear();
+	banks.clear();
+	subdivisions.clear();
+	offsets.clear();
+
+	selectedEdges.clear();
+	selectedVerts.clear();
+	selectedFaces.clear();
+
+	tmpFaceIndex = 0;
+	tmpPolylineIndex = 0;
+	tmpMesh = nullptr;
+	tmpPolyline = nullptr;
+	tmpInstance = nullptr;
+
+	recalculateSlider = true;
+	recalculateSubdivision = true;
+	recalculateOffset = true;
+	flattenMeshList.clear();
 }
 
 Session& Session::getSingleton()
@@ -140,7 +180,7 @@ bool Session::updateNames()
     return true;
 }
 
-void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectVert(int hits, unsigned int *names, double posX, double posY, double posZ){
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -191,7 +231,7 @@ void Session::selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
     std::cout << "CLICKED ON SCREEN!" << std::endl;
 }
 
-void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectEdge(int hits, unsigned int *names, double posX, double posY, double posZ){
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -215,7 +255,7 @@ void Session::selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY
     }
 }
 
-void Session::selectBorder(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectBorder(int hits, unsigned int *names, double posX, double posY, double posZ){
     std::cout << "CLICKED" << std::endl;
     std::cout << hits << std::endl;
     vector<Vert*> selectedVertsLoop = vector<Vert*>();
@@ -253,7 +293,7 @@ std::vector<Vert*> Session::findLoop(Vert* startVert, std::vector<Vert*> selecte
     return selectedVertsLoop;
 }
 
-void Session::selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ){
+void Session::selectFace(int hits, unsigned int *names, double posX, double posY, double posZ){
     if(hits > 0) {
         glm::vec3 hit_position = glm::vec3(posX, posY, posZ);
         float min_distance = std::numeric_limits<float>::max();
@@ -300,16 +340,22 @@ static std::string dbl2str(double d)
     return s;
 }
 
-void Session::SaveSessionNom(std::string outputFile){
-    int offset = 0;
-    for (BankNew * b0 : banks){
-        for (SetNew * s0 : b0->sets){
-            this->fileContent.replace(s0->begValPosFile + offset, s0->lengthValChar, dbl2str(s0->value));
-            offset += dbl2str(s0->value).length() - s0->lengthValChar;
-        }
-    }
+void Session::updateFileContentSliders()
+{
+	int offset = 0;
+	for (BankNew * b0 : banks) {
+		for (SetNew * s0 : b0->sets) {
+			this->fileContent.replace(s0->begValPosFile + offset, s0->lengthValChar, dbl2str(s0->value));
+			offset += dbl2str(s0->value).length() - s0->lengthValChar;
+		}
+	}
+}
 
-    ofstream file(outputFile);
+void Session::SaveSessionNom(std::string outputFile)
+{
+	updateFileContentSliders();
+
+	ofstream file(outputFile);
     if (!file.is_open())
     {
         cout <<"Error: COULD NOT OPEN THE FILE.\n";
@@ -574,6 +620,12 @@ void Session::saveFileToStr(string fileName){
     strStream << inFile.rdbuf();//read the file
     string str = strStream.str();
     this->fileContent = str;
+}
+
+void Session::parseSavedStr()
+{
+	extern int scanFromSessionFileContent(Session* s);
+	scanFromSessionFileContent(this);
 }
 
 void Session::deleteFace(){

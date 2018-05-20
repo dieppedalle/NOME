@@ -4,7 +4,6 @@
 #define CONSOLIDATEWINDOW_H
 
 #include <QtGui>
-#include "BankNew.h"
 #include <QMainWindow>
 #include <QHBoxLayout>
 #include <QSlider>

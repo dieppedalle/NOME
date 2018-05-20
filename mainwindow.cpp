@@ -16,6 +16,16 @@ MainWindow::MainWindow()
     createMenus();
 }
 
+void MainWindow::recreateSliders()
+{
+	for (auto* widget : presentSliderWindows)
+		delete widget;
+	presentSliderWindows.clear();
+	drawSliders(canvas, currSession);
+	drawSubdivisionSliders(canvas, currSession);
+	drawOffsetSliders(canvas, currSession);
+}
+
 void MainWindow::open()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
@@ -129,7 +139,7 @@ void MainWindow::createCanvas(QString name)
         canvas = new SlideGLWidget(name.toStdString());
         canvas -> move(0, 50);
         canvas -> show();
-        Session* currSession = createSession();
+        Session* currSession = new Session();
         createControlPanel(canvas, currSession);
     }
     else if(name.right(4).toLower() == "anom")
@@ -203,6 +213,8 @@ void MainWindow::drawSliders(SlideGLWidget * canvas, Session *currSession)
         }
         window->setLayout(layout);
         window->show();
+
+		presentSliderWindows.push_back(window);
     }
 }
 
@@ -218,6 +230,7 @@ void MainWindow::drawSubdivisionSliders(SlideGLWidget * canvas, Session *currSes
         window -> setLayout(layout);
     }
     window->show();
+	presentSliderWindows.push_back(window);
 }
 
 void MainWindow::drawOffsetSliders(SlideGLWidget * canvas, Session *currSession)
@@ -232,6 +245,7 @@ void MainWindow::drawOffsetSliders(SlideGLWidget * canvas, Session *currSession)
         window -> setLayout(layout);
     }
     window->show();
+	presentSliderWindows.push_back(window);
 }
 
 void MainWindow::createSliderPanel(SlideGLWidget * canvas)
@@ -247,7 +261,7 @@ void MainWindow::createSliderPanel(SlideGLWidget * canvas)
 
 void MainWindow::createControlPanel(SlideGLWidget * canvas, Session * currSession)
 {
-    controls = new ControlPanel(canvas, currSession);
+    controls = new ControlPanel(this, canvas, currSession);
     controls -> move(900, 50);
     controls -> show();
 }

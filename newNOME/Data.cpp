@@ -8,7 +8,10 @@
 
 
 #include "Data.h"
+#include "BankNew.h"
 #include "Reader.h"
+#include <QColor>
+#include <QtOpenGL>
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/glm.hpp>
 #ifdef __APPLE__
@@ -37,8 +40,8 @@ static std::mutex faceLock;
 
 double *getBankValue(std::string str, Session* currSession){
     //std::cout << "START BANK" << std::endl;
-    unsigned first = str.find("$") + 1;
-    unsigned last = str.find(".");
+    auto first = str.find("$") + 1;
+    auto last = str.find(".");
     string strNew = str.substr (first,last-first);
 
     for(auto b : currSession->banks) {
@@ -51,6 +54,8 @@ double *getBankValue(std::string str, Session* currSession){
             }
         }
     }
+
+	std::cout << "Could not locate bank value: " << str << std::endl;
 
     //std::cout << "END BANK" << std::endl;
     return NULL;
@@ -968,8 +973,8 @@ bool drawNormal(Vert* v0, Surface * instSurface){
 
     glLoadName(v0->index);
 
-    float radius = 0.15;
-    float height = 0.2;
+    float radius = 0.15f;
+    float height = 0.2f;
 
     float x0 = v0->xTransformed;
     float y0 = v0->yTransformed;

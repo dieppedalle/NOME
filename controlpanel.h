@@ -22,7 +22,11 @@
 #include <QLineEdit>
 #include <QStatusBar>
 #include <QCheckBox>
-#include "nomeglwidget.h"
+
+class SlideGLWidget;
+class Session;
+class MainWindow;
+
 class ControlPanel : public QWidget
 {
     Q_OBJECT
@@ -30,7 +34,7 @@ class ControlPanel : public QWidget
 public:
     ControlPanel();
     /* @param canvas, the canvas that this panel control.*/
-    ControlPanel(SlideGLWidget * canvas, Session* currSession);
+    ControlPanel(MainWindow* parentWindow, SlideGLWidget * canvas, Session* currSession);
     /* Set up the layout and widgets.*/
     void setupLayout();
     /* Build the connections. */
@@ -47,6 +51,7 @@ public:
     float offsetValue;
     Session* currSession;
 private:
+	MainWindow * mainWindow;
     SlideGLWidget *canvas;
     /* Widgets and Layout in this Control Panel.*/
     QVBoxLayout *mainLayout;
@@ -114,6 +119,8 @@ private:
     QLineEdit *maxOffsetBox;
     QLineEdit *offsetStepBox;
     QStatusBar *statusBar;
+
+	QPushButton *sceneRegenButton;
 public slots:
     void test(QString test);
     void test(bool);
@@ -134,6 +141,7 @@ public slots:
     void borderModeChecked(bool);
     void faceModeChecked(bool);
     void pushMerge(bool);
+	void regenerateScene();
 signals:
     void makeOffsetMesh(float);
 };

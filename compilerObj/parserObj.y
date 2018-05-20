@@ -16,6 +16,8 @@
 #include <newNOME/FunnelNew.h>
 #include <newNOME/TunnelNew.h>
 #include <newNOME/InstanceNew.h>
+#include <newNOME/BankNew.h>
+#include <newNOME/OffsetNew.h>
 
 extern int objlineno;
 extern char* objtext;

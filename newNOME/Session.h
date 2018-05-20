@@ -8,20 +8,21 @@
 #include <stdio.h>
 #include <fstream>
 #include "Data.h"
-#include "MeshNew.h"
-#include "GroupNew.h"
-#include "ObjectNew.h"
-#include "BankNew.h"
-#include "PolylineNew.h"
-#include "BSplineNew.h"
-#include "BezierCurveNew.h"
-#include "CircleNew.h"
-#include "FunnelNew.h"
-#include "TunnelNew.h"
-#include "SubdivisionNew.h"
-#include "OffsetNew.h"
 #include "Octree.h"
 #include "OctreeProxy.h"
+
+class MeshNew;
+class InstanceNew;
+class GroupNew;
+class BankNew;
+class PolylineNew;
+class BSplineNew;
+class BezierCurveNew;
+class CircleNew;
+class FunnelNew;
+class TunnelNew;
+class SubdivisionNew;
+class OffsetNew;
 
 class Session
 {
@@ -80,6 +81,7 @@ public:
 
     Session();
     ~Session();
+	void reset();
 
     //Naming functions
     bool setName(std::string n);
@@ -89,15 +91,17 @@ public:
     void addTmpFace();
     void deleteTmpFace();
     void addTmpPolyline();
-    void selectVert(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void selectFace(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void selectEdge(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
-    void selectBorder(GLint hits, GLuint *names, GLdouble posX, GLdouble posY, GLdouble posZ);
+    void selectVert(int hits, unsigned int *names, double posX, double posY, double posZ);
+    void selectFace(int hits, unsigned int *names, double posX, double posY, double posZ);
+    void selectEdge(int hits, unsigned int *names, double posX, double posY, double posZ);
+    void selectBorder(int hits, unsigned int *names, double posX, double posY, double posZ);
+	void updateFileContentSliders();
     void SaveSessionNom(std::string outputFile);
     void SaveSessionStl(std::string outputFile);
     void consolidateTmpMesh(std::string consolidateInstanceName, std::string consolidateMeshName);
     void clearSelection();
     void saveFileToStr(std::string fileName);
+	void parseSavedStr();
     void deleteFace();
     void draw();
     void drawSubdivide(int subdivision, int previousSubdivisionLevel, double offset, bool calculateOffset, bool calculateSubdivide, bool calculateSlider);
@@ -118,8 +122,6 @@ private:
 };
 
 //Instantiation
-Session* createSession();
-Session* createSession(Session*);
 void saveFaceSTL(FaceNew* currFace, std::ofstream& file);
 void parseGetBankVal(const char* input, Session* sessionParse, double* output, int lineNumber);
 

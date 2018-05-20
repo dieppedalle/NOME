@@ -11,7 +11,7 @@ class ObjCompiler {
     ObjCompiler (string input) {
         extern FILE* objin;
         objin = fopen(input.c_str(), "r");
-        currSession = createSession();
+        currSession = new Session();
         //currSession->saveFileToStr(input);
         objparse(currSession);
     };

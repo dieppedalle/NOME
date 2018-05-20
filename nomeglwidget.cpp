@@ -12,6 +12,17 @@
 #include "newNOME/GroupWindow.h"
 #include "newNOME/Reader.h"
 #include "newNOME/Data.h"
+#include "newNOME/MeshNew.h"
+#include "newNOME/GroupNew.h"
+#include "newNOME/BankNew.h"
+#include "newNOME/PolylineNew.h"
+#include "newNOME/BSplineNew.h"
+#include "newNOME/BezierCurveNew.h"
+#include "newNOME/CircleNew.h"
+#include "newNOME/FunnelNew.h"
+#include "newNOME/TunnelNew.h"
+#include "newNOME/SubdivisionNew.h"
+#include "newNOME/OffsetNew.h"
 
 SlideGLWidget::SlideGLWidget(QWidget *parent) :
     QGLWidget(parent)

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <string>
 #include "parser.hpp"
+#include "newNOME/Session.h"
 
 int nomcolumn = 0;
 int numBegComments = 0;
@@ -107,3 +108,17 @@ type                    return TYPE;
 <<EOF>>                 if (numBegComments != 0){std::cout << "Error: Missing *) of multiline comment." << std::endl;} return 0;
 [ \t\n]+                /* ignore whitespace */;
 %%
+
+int scanFromSessionFileContent(Session* s)
+{
+	const char* buf = s->fileContent.data();
+	size_t sz = s->fileContent.size();
+	YY_BUFFER_STATE bufferState = nom_scan_bytes(buf, sz);
+
+	nomlineno = 1;
+    nomcolumn = 0;
+
+	int ret = nomparse(s);
+	nom_delete_buffer(bufferState);
+	return ret;
+}

@@ -3,6 +3,18 @@
 //
 
 #include "Reader.h"
+#include "Data.h"
+#include "MeshNew.h"
+#include "GroupNew.h"
+#include "BankNew.h"
+#include "PolylineNew.h"
+#include "BSplineNew.h"
+#include "BezierCurveNew.h"
+#include "CircleNew.h"
+#include "FunnelNew.h"
+#include "TunnelNew.h"
+#include "SubdivisionNew.h"
+#include "OffsetNew.h"
 
 ///Reader instantiation with various fields
 //Instatiate reader with no treenode
