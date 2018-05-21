@@ -119,7 +119,7 @@ void ControlPanel::setupLayout()
     editLayout2 -> addWidget(groupFacesButton = new QPushButton(tr("Group Faces")));
     undoLayout -> addWidget(undoAddButton = new QPushButton(tr("Undo Last Addition")));
     editLayout3 -> addWidget(groupFacesEdit = new QLineEdit(tr("meshName")));
-    zipOptionsLayout -> addWidget(new QLabel(tr("Triangle Panelty")));
+    zipOptionsLayout -> addWidget(new QLabel(tr("Triangle Penalty")));
     zipOptionsLayout -> addWidget(trianglePaneltyEdit = new QLineEdit(tr("1.3")));
 
     modeLayout -> addLayout(addOrClearLayout = new QHBoxLayout);
@@ -348,8 +348,8 @@ void ControlPanel::regenerateScene()
 {
 	currSession->updateFileContentSliders();
 
-	std::cout << "***Debug*** Here is the updated file content:" << std::endl;
-	std::cout << currSession->fileContent << std::endl;
+    //std::cout << "***Debug*** Here is the updated file content:" << std::endl;
+    //std::cout << currSession->fileContent << std::endl;
 
 	currSession->reset();
 	currSession->parseSavedStr();

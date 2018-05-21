@@ -132,8 +132,11 @@ extern int nomdebug;
     END_OUTSIDEFACES = 335,
     OFFSETFACES = 336,
     END_OFFSETFACES = 337,
-    BANK_EXPR = 338,
-    NUMBER = 339
+    MERGE = 338,
+    END_MERGE = 339,
+    EPSILON = 340,
+    BANK_EXPR = 341,
+    NUMBER = 342
   };
 #endif
 /* Tokens.  */
@@ -217,15 +220,18 @@ extern int nomdebug;
 #define END_OUTSIDEFACES 335
 #define OFFSETFACES 336
 #define END_OFFSETFACES 337
-#define BANK_EXPR 338
-#define NUMBER 339
+#define MERGE 338
+#define END_MERGE 339
+#define EPSILON 340
+#define BANK_EXPR 341
+#define NUMBER 342
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 82 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
+#line 83 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.y" /* yacc.c:1909  */
 
     double intNumber;
     double number;
@@ -236,7 +242,7 @@ union YYSTYPE
         double number;   // int posVal;
     } numPos;
 
-#line 240 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
+#line 246 "C:\\Users\\dieppedalle\\Documents\\nomeProject\\nome\\compilerNome\\parser.hpp" /* yacc.c:1909  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

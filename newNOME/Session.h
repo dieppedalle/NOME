@@ -78,12 +78,17 @@ public:
     Surface* outsideColor;
     Surface* insideColor;
     Surface* offsetColor;
+    double epsilon = 0.1;
+    std::string epsilonStr = "0.1";
 
     Session();
     ~Session();
 	void reset();
 
     //Naming functions
+
+    void mergeEdges(MeshNew* flattenMesh);
+
     bool setName(std::string n);
     std::string getName();
     bool updateNames();

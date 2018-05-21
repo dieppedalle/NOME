@@ -72,7 +72,8 @@ EXPR DOLLAR EBRACE PERIOD TOKHEAT STATE TOKTARGET TOKTEMPERATURE
 SCALE SUBDIVISION END_SUBDIVISION SUBDIVISIONS TYPE OFFSET END_OFFSET MIN MAX STEP
 BSPLINE END_BSPLINE CLOSED SLICES BEZIERCURVE END_BEZIERCURVE COS SIN TAN EXPONENT
 MULTIPLY DIVIDE ADD SUBTRACT SLIDEREXPRESSION REVERSE FOREGROUND END_FOREGROUND BACKGROUND
-END_BACKGROUND INSIDEFACES END_INSIDEFACES OUTSIDEFACES END_OUTSIDEFACES OFFSETFACES END_OFFSETFACES;
+END_BACKGROUND INSIDEFACES END_INSIDEFACES OUTSIDEFACES END_OUTSIDEFACES OFFSETFACES END_OFFSETFACES
+MERGE END_MERGE EPSILON;
 
 %error-verbose
 %locations
@@ -111,7 +112,7 @@ command:
   mesh | surface | point | face | object | bank |
   tunnel | funnel | polyline | instance | delete | group | circle |
   subdivision | offset | bspline | beziercurve | foreground | background |
-  insidefaces | outsidefaces | offsetfaces;
+  insidefaces | outsidefaces | offsetfaces | merging;
 
 numberValue:
     NUMBER {
@@ -628,6 +629,18 @@ bank:
         currentSetList2.clear();
         }
         ;
+
+merging:
+    MERGE EPSILON numberValue END_MERGE
+    {
+        double *epsilonVal = (double*) malloc(sizeof(double));
+
+        double *currentValSet = (double*) malloc(sizeof(double));
+        parseGetBankVal($<string>3, currSession, currentValSet, nomlineno);
+        *epsilonVal = *currentValSet;
+        currSession->epsilon = *epsilonVal;
+        currSession->epsilonStr = strdup($<string>3);
+    };
 
 circle:
     CIRCLE uniqueName OPARENTHESES numberValue numberValue EPARENTHESES END_CIRCLE

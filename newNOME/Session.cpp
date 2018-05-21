@@ -765,13 +765,12 @@ void Session::zipBorders(){
     }
 }
 
-void mergeEdges(MeshNew* flattenMesh){
+void Session::mergeEdges(MeshNew* flattenMesh){
 
     // NEED TO MERGE EDGES NOW
     std::vector<std::tuple<EdgeNew*, EdgeNew*>> toBeMerged = std::vector<std::tuple<EdgeNew*, EdgeNew*>>();
     toBeMerged.clear();
 
-    double epsilonPos = 0.2;
     std::list<EdgeNew*>::iterator i = flattenMesh->edges.begin();
     int position = 0;
     while (i != flattenMesh->edges.end())
@@ -782,18 +781,18 @@ void mergeEdges(MeshNew* flattenMesh){
 
             //std::cout << abs(*((*i)->v0->xTransformed) - *((*checkD)->v1->xTransformed)) + abs(*((*i)->v0->yTransformed) - *((*checkD)->v1->yTransformed)) + abs(*((*i)->v0->zTransformed) - *((*checkD)->v1->zTransformed)) << std::endl;
             //std::cout << abs(*((*i)->v1->xTransformed) - *((*checkD)->v0->xTransformed)) + abs(*((*i)->v1->yTransformed) - *((*checkD)->v0->yTransformed)) + abs(*((*i)->v1->zTransformed) - *((*checkD)->v0->zTransformed)) << std::endl;
-            if ((abs(((*i)->v0->xTransformed) - ((*checkD)->v0->xTransformed)) < epsilonPos
-                && abs(((*i)->v0->yTransformed) - ((*checkD)->v0->yTransformed)) < epsilonPos
-                && abs(((*i)->v0->zTransformed) - ((*checkD)->v0->zTransformed)) < epsilonPos
-                && abs(((*i)->v1->xTransformed) - ((*checkD)->v1->xTransformed)) < epsilonPos
-                && abs(((*i)->v1->yTransformed) - ((*checkD)->v1->yTransformed)) < epsilonPos
-                && abs(((*i)->v1->zTransformed) - ((*checkD)->v1->zTransformed)) < epsilonPos)
-                || (abs(((*i)->v0->xTransformed) - ((*checkD)->v1->xTransformed)) < epsilonPos
-                    && abs(((*i)->v0->yTransformed) - ((*checkD)->v1->yTransformed)) < epsilonPos
-                    && abs(((*i)->v0->zTransformed) - ((*checkD)->v1->zTransformed)) < epsilonPos
-                    && abs(((*i)->v1->xTransformed) - ((*checkD)->v0->xTransformed)) < epsilonPos
-                    && abs(((*i)->v1->yTransformed) - ((*checkD)->v0->yTransformed)) < epsilonPos
-                    && abs(((*i)->v1->zTransformed) - ((*checkD)->v0->zTransformed)) < epsilonPos)){
+            if ((abs(((*i)->v0->xTransformed) - ((*checkD)->v0->xTransformed)) < epsilon
+                && abs(((*i)->v0->yTransformed) - ((*checkD)->v0->yTransformed)) < epsilon
+                && abs(((*i)->v0->zTransformed) - ((*checkD)->v0->zTransformed)) < epsilon
+                && abs(((*i)->v1->xTransformed) - ((*checkD)->v1->xTransformed)) < epsilon
+                && abs(((*i)->v1->yTransformed) - ((*checkD)->v1->yTransformed)) < epsilon
+                && abs(((*i)->v1->zTransformed) - ((*checkD)->v1->zTransformed)) < epsilon)
+                || (abs(((*i)->v0->xTransformed) - ((*checkD)->v1->xTransformed)) < epsilon
+                    && abs(((*i)->v0->yTransformed) - ((*checkD)->v1->yTransformed)) < epsilon
+                    && abs(((*i)->v0->zTransformed) - ((*checkD)->v1->zTransformed)) < epsilon
+                    && abs(((*i)->v1->xTransformed) - ((*checkD)->v0->xTransformed)) < epsilon
+                    && abs(((*i)->v1->yTransformed) - ((*checkD)->v0->yTransformed)) < epsilon
+                    && abs(((*i)->v1->zTransformed) - ((*checkD)->v0->zTransformed)) < epsilon)){
                 //std::cout << "MERGED EDGES" << std::endl;
                 /*std::cout << (*i)->index << std::endl;
                 std::cout << (*checkD)->index << std::endl;
@@ -834,12 +833,12 @@ void mergeEdges(MeshNew* flattenMesh){
         newVertexDict.clear();
 
 
-        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < epsilonPos
-                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < epsilonPos
-                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < epsilonPos
-                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < epsilonPos
-                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < epsilonPos
-                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < epsilonPos){
+        if (abs((std::get<0>((*it))->v0->xTransformed) - (std::get<1>((*it))->v0->xTransformed)) < epsilon
+                        && abs((std::get<0>((*it))->v0->yTransformed) - (std::get<1>((*it))->v0->yTransformed)) < epsilon
+                        && abs((std::get<0>((*it))->v0->zTransformed) - (std::get<1>((*it))->v0->zTransformed)) < epsilon
+                        && abs((std::get<0>((*it))->v1->xTransformed) - (std::get<1>((*it))->v1->xTransformed)) < epsilon
+                        && abs((std::get<0>((*it))->v1->yTransformed) - (std::get<1>((*it))->v1->yTransformed)) < epsilon
+                        && abs((std::get<0>((*it))->v1->zTransformed) - (std::get<1>((*it))->v1->zTransformed)) < epsilon){
             newVertexDict[std::get<1>((*it))->v0] = std::get<0>((*it))->v0;
             newVertexDict[std::get<1>((*it))->v1] = std::get<0>((*it))->v1;
         } else{

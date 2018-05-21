@@ -496,6 +496,11 @@ void SlideGLWidget::paintGLImpl()
     glMultMatrixf(&object2world[0][0]);
 
     if (currSession->recalculateSlider == true){
+        // Update Epsilon value of merging.
+        double *currentValNum = (double*) malloc(sizeof(double));
+        parseGetBankVal(currSession->epsilonStr.c_str(), this->currSession, currentValNum, 0);
+        currSession->epsilon = *currentValNum;
+
         for (Surface* s : currSession->surfaces){
             s->update();
         }
