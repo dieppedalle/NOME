@@ -89,6 +89,8 @@ public:
     Session* currSession;
     Vert* copyOfVert;
 
+    Vert* originalVert = NULL;
+
     std::vector<FaceNew*> facesReversed = std::vector<FaceNew*>();
 
     VertOctreeProxy* octreeProxy = nullptr;
